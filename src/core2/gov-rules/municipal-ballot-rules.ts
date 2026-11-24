@@ -24,6 +24,7 @@ import {
   MUNICIPAL_RULE_PACKS,
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
+import islandAreas from "../data/reference/island-area-governments.json" with { type: "json" };
 import type {
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
@@ -68,7 +69,10 @@ export function resolveMunicipalElectionTiming(
 ): ResolvedMunicipalElectionTiming | null {
   const usps = stateUsps.toUpperCase();
   const rule = municipalRulePackFor(usps)?.electionTiming;
-  if (!rule) return null;
+  // An Island Area, which no state pack covers, holds its governments'
+  // elections when its own law says (a Guam village's mayor every fourth
+  // November).
+  if (!rule) return islandAreaTiming(usps);
   if (rule.kind === "known")
     return { timing: rule.value, basis: "state-law-unverified" };
   if (rule.kind !== "locally-selectable") return null;
@@ -85,6 +89,28 @@ export function resolveMunicipalElectionTiming(
     ),
     basis: "local-choice-estimated",
   };
+}
+
+/**
+ * When an Island Area's own law holds its local governments' regular
+ * elections, for the whole territory (every Guam village votes on one law's
+ * calendar), or null where its governments are not read.
+ */
+function islandAreaTiming(
+  usps: string,
+): ResolvedMunicipalElectionTiming | null {
+  const row = (
+    islandAreas.territories as Record<
+      string,
+      { readonly electionTiming: string } | undefined
+    >
+  )[usps];
+  return row
+    ? {
+        timing: row.electionTiming as MunicipalElectionTiming,
+        basis: "state-law-unverified",
+      }
+    : null;
 }
 
 let timingCounts: ReadonlyMap<MunicipalElectionTiming, number> | null = null;

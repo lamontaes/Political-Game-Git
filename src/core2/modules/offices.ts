@@ -314,6 +314,20 @@ function seatingPlace(api: CoreAPI, office: object | null | undefined): string {
   ).townPlaceId;
 }
 
+/**
+ * Whether a serving term's holder has taken the seat: its first day is today
+ * or past. A holder seated for a start day in a warm-up's last days is
+ * serving on the record from the world's first day but takes office on the
+ * term's true first day, and nothing the office does (nominations, orders)
+ * runs before it.
+ */
+export function termHasBegun(
+  api: CoreAPI,
+  term: { readonly startDate: string },
+): boolean {
+  return term.startDate <= api.state.date;
+}
+
 /** A new mandate vacates only offices the law makes incompatible. */
 export function enforceIncompatibility(
   api: CoreAPI,
@@ -951,7 +965,11 @@ export function openOffices(
         party: null,
       }),
     );
-    putOffice(api, { office: { ...office, vacancyRule: rule }, seats });
+    // The government's own vacancy law, where read, before the state's.
+    putOffice(api, {
+      office: { ...office, vacancyRule: office.vacancyRule ?? rule },
+      seats,
+    });
     // A mayor the council chooses is seated from the council, once it sits.
     if (!office.elected) continue;
     const residents = suitedResidents(
@@ -1070,12 +1088,49 @@ function seatOutsideOffices(
 }
 
 /**
- * Inauguration Day (U.S. Const. amend. XX, § 1): when the world opens on the
- * day the president's and vice president's terms begin, their taking office
- * is a public record on day one. Nothing else follows from it.
+ * Inauguration Day (U.S. Const. amend. XX, § 1): the day the president's and
+ * vice president's terms begin, their taking office is a public record. A
+ * world that opens on that day records it at once; one that opens before it (a
+ * new game builds its world 31 days early) schedules it for the term's own
+ * first day, and the record is written when the world reaches it. Nothing
+ * else follows from it.
  */
 function recordInauguration(api: CoreAPI, townPlaceId: string): void {
   const date = api.state.date;
+  const terms = ["seat:US:president", "seat:US:vice-president"]
+    .map(
+      (seatId) =>
+        (
+          table(api, "terms").query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0],
+    )
+    .filter((term): term is TermRow => term !== undefined);
+  const first = terms.map((term) => term.startDate).sort()[0];
+  if (!first) return;
+  if (first === date) emitInauguration(api, townPlaceId, first);
+  else if (first > date)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `inauguration:${first}`,
+      date: first,
+      kind: "inauguration",
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
+        asOf: date,
+      },
+      sourceRecordIds: terms.map((term) => term.id),
+    });
+}
+
+/** The inauguration record of the president and vice president whose terms begin on `date`. */
+function emitInauguration(
+  api: CoreAPI,
+  townPlaceId: string,
+  date: string,
+): void {
   const began = ["seat:US:president", "seat:US:vice-president"]
     .map(
       (seatId) =>
@@ -1087,7 +1142,7 @@ function recordInauguration(api: CoreAPI, townPlaceId: string): void {
         )[0],
     )
     .filter((term): term is TermRow => term?.startDate === date);
-  if (!began.length) return;
+  if (!began.length || api.state.date !== date) return;
   api.emit({
     id: `inauguration:${date}`,
     date,
@@ -1224,7 +1279,7 @@ function pastTerms(
       table(api, "terms").put({
         ...term,
         ...elected,
-        startDate: start > api.state.date ? api.state.date : start,
+        startDate: start,
         serviceStart,
       } as unknown as ModuleRow);
     else if ("elected" in elected)
@@ -1374,10 +1429,11 @@ function pastTerms(
   }
   table(api, "terms").put({
     ...term,
-    // A term that begins after the world opened (a warm-up's last days) is
-    // held from the day the world opened by the person who takes it, so a
-    // death in between ends a term that had begun (`endDate` never before `startDate`).
-    startDate: start > api.state.date ? api.state.date : start,
+    // The term's true first day, also when it falls in a warm-up's last days
+    // (before the day the player starts): the holder takes the seat that day
+    // and not before (`termHasBegun`); a death in between ends a term that
+    // never began (`vacateSeat` keeps `endDate` from before `startDate`).
+    startDate: start,
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
@@ -1594,6 +1650,8 @@ export function vacateSeat(
   api: CoreAPI,
   seatId: string,
   cause: string,
+  /** The rule the law sets for this one vacancy (a Vice Mayor's seat left by one who rose to Mayor stays vacant), else the office's own. */
+  only?: VacancyRule,
 ): VacancyRow | null {
   const term = table(api, "terms").query("bySeatStatus", [
     seatId,
@@ -1604,13 +1662,14 @@ export function vacateSeat(
   table(api, "terms").put({
     ...term,
     status: "ended",
-    endDate: date,
+    endDate: date < term.startDate ? term.startDate : date,
     endEstimated: false,
     endedBy: cause,
   } as unknown as ModuleRow);
-  const office = table(api, "offices").get(
+  const kept = table(api, "offices").get(
     term.officeId,
   ) as unknown as OfficeInput & { vacancyRule: VacancyRule };
+  const office = only ? { ...kept, vacancyRule: only } : kept;
   const seat = table(api, "seats").get(seatId) as unknown as SeatInput;
   const vacancy: VacancyRow = {
     id: `vacancy:${seatId}:${date}`,
@@ -1849,6 +1908,59 @@ export type SuccessorProvider = (
 } | null;
 const successorProviders = new Map<string, SuccessorProvider>();
 
+/**
+ * A town's Vice Mayor takes its vacated Mayor's seat where the town's law
+ * says so (the mayor's rule names "vice-mayor"; a Guam village's, 5 GCA sec.
+ * 40110(b)), and the Vice Mayor's own seat then stays vacant until the term
+ * ends. Null where no one serves as Vice Mayor, so the appointing body fills
+ * it.
+ */
+function viceMayorSuccessor(
+  api: CoreAPI,
+  input: { readonly seatId: string; readonly previous: TermRow },
+): ReturnType<SuccessorProvider> {
+  const office = table(api, "offices").get(
+    input.previous.officeId,
+  ) as unknown as (OfficeInput & { vacancyRule: VacancyRule }) | undefined;
+  if (office?.vacancyRule.successor !== "vice-mayor") return null;
+  const viceOffice = `office:${office.jurisdiction}:vice-mayor`;
+  const vice = (
+    table(api, "terms").query("byOfficeStatus", [
+      viceOffice,
+      "serving",
+    ]) as unknown as TermRow[]
+  ).find((term) => term.personId && term.personId !== input.previous.personId);
+  if (!vice?.personId) return null;
+  const citation = office.vacancyRule.citation ?? office.source;
+  return {
+    personId: vice.personId,
+    party: vice.party,
+    reached: `succeeded as Vice Mayor (${citation})`,
+    then: () => {
+      vacateSeat(api, vice.seatId, "succeeded as Mayor", {
+        method: "remains-vacant",
+        citation,
+        estimate: false,
+      });
+      // The rise is a seating like any other: the took-office record the
+      // officials and elections engines read.
+      const seat = table(api, "seats").get(
+        input.seatId,
+      ) as unknown as SeatInput;
+      const term = (
+        table(api, "terms").query("bySeatStatus", [
+          input.seatId,
+          "serving",
+        ]) as unknown as TermRow[]
+      )[0];
+      const vacancy = (
+        table(api, "vacancies").rows() as unknown as VacancyRow[]
+      ).find((row) => row.seatId === input.seatId && row.filledBy === term?.id);
+      if (term && vacancy) recordFill(api, office, seat, term, vacancy);
+    },
+  };
+}
+
 /** The engine that names a successor for an office kind registers here. */
 export function registerSuccessorProvider(
   officeKind: string,
@@ -1856,6 +1968,7 @@ export function registerSuccessorProvider(
 ): void {
   successorProviders.set(officeKind, provider);
 }
+registerSuccessorProvider("mayor", viceMayorSuccessor);
 
 /**
  * A vacancy filled by appointment (or by the stand-in for a special election)
@@ -2023,8 +2136,14 @@ function fillVacancy(
     named.then?.();
     return filled;
   }
+  // With no one serving in the line the law names, the appointing body the
+  // law names fills it (a Guam village whose Vice Mayor's seat is empty).
   if (rule.method === "successor")
-    return appoint(`succeeded as ${rule.successor ?? "next in line"}`);
+    return appoint(
+      rule.appointedBy
+        ? `appointed by ${rule.appointedBy}`
+        : `succeeded as ${rule.successor ?? "next in line"}`,
+    );
   if (rule.method === "appointment") {
     const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
     // The body may offer the seat first to someone it would not seat unasked (the player): the seat
@@ -2404,6 +2523,12 @@ function officesCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
+  if (work.kind === "inauguration") {
+    const town = table(api, "loaded").get("town") as unknown as
+      { townPlaceId: string } | undefined;
+    if (town) emitInauguration(api, town.townPlaceId, api.state.date);
+    return;
+  }
   if (work.kind !== "special-election") return;
   const vacancy = table(api, "vacancies").get(
     work.sourceRecordIds[0]!,

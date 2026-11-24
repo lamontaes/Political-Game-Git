@@ -174,7 +174,10 @@ function stateAndFederal(
 }
 
 /** The timings that run on a multi-year cycle; the state's own cycle years are data. */
-type CycleTiming = "quadrennial-summer-june" | "quadrennial-late-summer-august";
+type CycleTiming =
+  | "quadrennial-summer-june"
+  | "quadrennial-late-summer-august"
+  | "quadrennial-november-general";
 
 interface CycleRow {
   readonly timing: string;
