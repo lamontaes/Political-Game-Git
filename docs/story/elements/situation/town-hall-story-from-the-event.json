@@ -1,0 +1,18 @@
+{
+  "id": "town-hall-story-from-the-event",
+  "kind": "situation",
+  "summary": "A town hall story: the body, the head count, the place, the topics raised, what the officials said.",
+  "realLife": "The story opens on the council holding its second town hall of the year, then the head count and room, then a menu of topics.",
+  "sources": [
+    "ALXnow (Alexandria, Virginia), 'Dozens attend second Alexandria City Council Town Hall of the year', June 13, 2025: https://www.alxnow.com/2025/06/13/dozens-attend-second-alexandria-city-council-town-hall-of-the-year/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office", "campaign"],
+  "slots": ["place", "date", "number", "area"],
+  "gates": [],
+  "weights": {
+    "town-hall": 1.0
+  },
+  "inGame": "record \"town-hall\" and \"public-action\" (place, date, size, question); the meetings engine's town halls for a body",
+  "usedBy": []
+}

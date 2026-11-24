@@ -1,0 +1,18 @@
+{
+  "id": "dissenter-from-the-winning-bloc",
+  "kind": "detail",
+  "summary": "A dissenter is quoted who had the same backing as the majority.",
+  "realLife": "A commissioner elected with the same group's support voted no and said the usual bidding was skipped.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8
+  },
+  "inGame": "roll-call voters and each member's party or backers; the member's `office.voted` rows",
+  "usedBy": []
+}

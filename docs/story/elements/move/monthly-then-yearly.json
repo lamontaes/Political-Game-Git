@@ -1,0 +1,18 @@
+{
+  "id": "monthly-then-yearly",
+  "kind": "move",
+  "summary": "The jobs picture runs in two parts: the month's changes, then the year's.",
+  "realLife": "A jobs story listed the month's gains and losses by sector, then the year's, largest to smallest.",
+  "sources": [
+    "10News (ABC 10News, San Diego, City News Service copy), 'San Diego County sees unemployment leap percentage point to 4.9% in June': https://www.10news.com/news/local-news/san-diego-county-sees-unemployment-leap-percentage-point-to-4-9-in-june-071825",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["percent", "number"],
+  "gates": [],
+  "weights": {
+    "conditions": 0.9
+  },
+  "inGame": "`economy.state-jobs-report`; needs: jobs by sector for a place",
+  "usedBy": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "hourly-rate-into-one-guaranteed-total",
+  "kind": "move",
+  "summary": "The contract terms are turned into one guaranteed total for the reader.",
+  "realLife": "An hourly rate times a minimum number of hours was added up into a single guaranteed sum.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["amount"],
+  "gates": [],
+  "weights": {
+    "exposed": 0.7
+  },
+  "inGame": "contract award amount; needs: a rate and hours on the award",
+  "usedBy": []
+}

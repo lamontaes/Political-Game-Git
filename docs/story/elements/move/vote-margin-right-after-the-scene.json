@@ -1,0 +1,18 @@
+{
+  "id": "vote-margin-right-after-the-scene",
+  "kind": "move",
+  "summary": "After the scene, the margin: it passed by one vote, with the count of those against.",
+  "realLife": "The vote was reported right after the abstain exchange, by one vote.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["count"],
+  "gates": [],
+  "weights": {
+    "vote": 1.0
+  },
+  "inGame": "roll-call record (`by-one`, `count`)",
+  "usedBy": []
+}

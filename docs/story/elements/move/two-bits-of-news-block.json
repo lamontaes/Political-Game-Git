@@ -1,0 +1,18 @@
+{
+  "id": "two-bits-of-news-block",
+  "kind": "move",
+  "summary": "Scattered announcements are gathered under one label so they do not clog the story.",
+  "realLife": "A labelled pair of announcements, a zoning review and a proposals deadline, sat after the quotes.",
+  "sources": [
+    "WCBU Peoria Public Radio, 'Pekin residents question council members about roads, home rule and more', Nov. 6, 2025: https://www.wcbu.org/local-news/2025-11-06/pekin-residents-question-council-members-about-roads-home-rule-and-more",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "meetings": 0.8
+  },
+  "inGame": "meetings-week side items; a body's next agenda items; needs: an agenda",
+  "usedBy": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "years-in-the-making",
+  "kind": "detail",
+  "summary": "The lede says how long the project took to get to this approval.",
+  "realLife": "The first sentence said the plat had been in the making for more than a decade.",
+  "sources": [
+    "Community Impact (San Antonio edition), 'Final plat for 55-lot single-family development approved in Fair Oaks Ranch', April 4, 2025: https://communityimpact.com/san-antonio/boerne-fair-oaks-ranch/government/2025/04/04/final-plat-for-55-lot-single-family-development-approved-in-fair-oaks-ranch",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.7
+  },
+  "inGame": "needs: the first date a project was filed; the contest and filing records keep dates",
+  "usedBy": []
+}
