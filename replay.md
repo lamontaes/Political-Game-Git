@@ -216,3 +216,11 @@ Draws: Laurel, Delaware 360d9fcc-3f4f-43eb-8668-be5bde7377c9; Sumner, Mississipp
 | --- | --- | --- | --- | --- |
 | C18 | #10309 | **pass** (Governor's address during the Week of Jan 22) | replay-c18b-2.png, replay-c18b-1.png | The painted TV set in the living room shows Governor Douglas Bradley's head and shoulders while his State of the State address plays; before the address (c18b-1) the set is dark. The LIVE corner shows the same Governor. The opening's President address cuts to the train-station America shot, and the home evening scene (replay-c18-open-6.png) shows the same TV dark (no broadcast then). |
 | N16-27 | #10316 (wanted-picture line) | **open, art** | replay-c18b-2.png | The set shows the Governor's bust, not a dedicated TV graphic. |
+
+## Lean batch on main 12e73cdc (#10383, #10395, #10402), Bloomsbury, New Jersey, seed 02cc879e-c3ac-4dbf-815d-432f26e0c575
+
+| Row | PR | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- |
+| N16-44 (a call stages the player alone) | #10383 | **pass** | replay-m11c-call-1.png | The reporter's call (Joseph Rowe, Bloomsbury Messenger, toward evening Jan 21) plays in the player's kitchen with no caller bust; the speaker's name is on the talk box only. |
+| Captions: refusal on a disabled button, no caption under it | #10395 | **pass** for "no caption under a race's buttons" (Announce and Sim to Jun 27 have nothing under them); **not reached** for the refusal on a disabled button (no race the player could not run for was on this ballot; no disabled button on the sheet) | replay-m11c-elections.png | The race pane ends at its buttons; "Filing opens June 27" shows only as the row's aside in the left list. |
+| C16 and the News catch (panel ends under its stories) | #10402 | **pass** | replay-m11c-news.png | The News panel ends under its last story with a small margin, no empty tail; the story body sits in one column. |
