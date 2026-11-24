@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n16-44-calls
-pr:
+pr: #10383
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: CTO send-back 4, Nov 24 (N16-44, calls)
+merged-at: 2026-11-24T12:41:47.276Z
 ---
 
 **What.** The owner's Nov 16 words: "A phone caller stands in the room." #10334 stopped the caller being staged on the scene's own strip for a call or a letter, but the reporter's call still shows the caller's bust standing in the player's kitchen: the talk box draws the speaker on its own strip by their card's face. A call is between two people who are not in one room, so the player should stand there alone.
