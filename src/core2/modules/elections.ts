@@ -2061,6 +2061,39 @@ export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
 }
 
 /**
+ * Whether a candidate is in the race for the press: a filing that stands, or
+ * an announced one whose race is still ahead (owner, Nov 17: "Run now, file on
+ * the date"). An announced candidate is already campaigning in the open, so
+ * the papers ask them and they can be asked.
+ */
+export function inTheRace(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  return (
+    standing(filing) ||
+    (filing.status === "announced" && raceAhead(api, filing))
+  );
+}
+
+/** The living candidates who announced for a contest and have not yet filed. */
+export function announcedIn(
+  api: CoreAPI,
+  contestId: string,
+): readonly FilingRow[] {
+  return (
+    table(api, "filings").query("byContest", [
+      contestId,
+    ]) as unknown as FilingRow[]
+  ).filter(
+    (f) =>
+      f.status === "announced" &&
+      raceAhead(api, f) &&
+      api.state.people.get(f.personId)?.alive !== false,
+  );
+}
+
+/**
  * Whether a filing's race is still ahead: the filing was not withdrawn and
  * its contest is decided on today or later (a petition the clerk found short
  * stays, for the player to see it left them off). A filing keeps "on-ballot"

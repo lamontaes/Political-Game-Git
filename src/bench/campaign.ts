@@ -1138,6 +1138,7 @@ export function campaignDay(
           id: result.interview.id,
           outletId: result.interview.outletId,
           status: result.interview.status,
+          reason: result.interview.reason ?? null,
         }
       : null,
   };

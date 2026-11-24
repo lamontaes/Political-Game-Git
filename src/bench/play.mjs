@@ -2120,6 +2120,18 @@ async function campaignParts() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // An outlet that said no says why, in the words the trail already has
+      // (a refusal with no label there shows the outing's name only).
+      const refusal = {
+        "already-interviewed": controls.campaignUnavailable.interviewed,
+        "no-room": controls.campaignUnavailable.outletsFull,
+      }[result.interview?.reason];
+      if (
+        outing === "interview" &&
+        result.interview?.status === "declined" &&
+        refusal
+      )
+        campaignResult = refusal;
       // A donor meeting is seen in the host's home, told by what the room gave.
       if (outing === "party" && result.callsLine)
         campaignResult = result.callsLine;
