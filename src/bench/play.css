@@ -3006,7 +3006,9 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .strip-name {
   line-height: 1.3;
 }
-.strip-screen.name-beside .sechead {
+.strip-screen.name-beside .sechead,
+.roster-screen.people .strip-screen .strip-name,
+.roster-screen.people .strip-screen .sechead {
   line-height: 1.3;
 }
 /* The story is one column read in one place, in order (owner, Nov 23, P17, P24,
