@@ -1,0 +1,43 @@
+{
+  "id": "pattern-a23-the-count-looks-wrong",
+  "kind": "situation",
+  "summary": "The count looks wrong: Word comes that in {county}, {chair} is telling voters how to vote and handling the ballots, and your race may turn on that count.",
+  "realLife": "On primary day in 1962 a cousin warned that something was wrong in Quitman County, Georgia. A friend saw the county boss telling voters how to vote; a judge later threw out the county's ballots, and Carter won his state senate seat.",
+  "sources": [
+    "https://www.atlantamagazine.com/news-culture-articles/the-first-campaign-an-excerpt-from-jimmy-carters-new-memoir-a-full-life/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["county", "chair", "messenger"],
+  "gates": [
+    "Candidate, on election day.",
+    "A recorded tie with someone in {county}.",
+    "{chair} runs the count there."
+  ],
+  "weights": [
+    "How close the race is.",
+    "How many years {chair} has run things.",
+    "Traits that fight or go by the book."
+  ],
+  "pattern": "A23",
+  "choices": [
+    "send a friend to watch",
+    "call a reporter",
+    "go there yourself",
+    "call a lawyer about the election contest law"
+  ],
+  "branches": [
+    {
+      "when": "you confront him",
+      "then": "He says this is how it has always been done. What you saw earns the sharp reply, and he remembers it."
+    },
+    {
+      "when": "the reporter runs it",
+      "then": "The story runs on the front page, and the reporter becomes a tie the press scenes read."
+    },
+    {
+      "when": "the challenge goes to a judge",
+      "then": "Ballots turn up somewhere they should not be, and the ruling is a record the whole district reads."
+    }
+  ],
+  "usedBy": []
+}

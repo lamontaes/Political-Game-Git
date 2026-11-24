@@ -1,0 +1,29 @@
+{
+  "id": "failed-voluntary-compliance-leads-to-hearing",
+  "kind": "consequence",
+  "summary": "An agency describes the hearing available to a facility if talks fail to resolve a compliance dispute.",
+  "realLife": "Federal officials assured Fountain that hospitals would have a chance to contest the issues if voluntary compliance proved impossible.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GPO-CRECB-1966-pt13/pdf/GPO-CRECB-1966-pt13-4.pdf"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{agency}", "{hospital}", "{hearing}"],
+  "gates": ["Voluntary resolution has proved impossible."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an agency compliance case with a notice, corrective agreement and hearing date.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The hospital signs a corrective agreement before the hearing opens.",
+      "pulledBy": "Both sides agree on the admissions changes and who will verify them.",
+      "writesBack": "The agency cancels the hearing and sets a follow-up visit."
+    },
+    {
+      "turn": "partial",
+      "what": "The hospital settles the admissions question and contests the room assignments.",
+      "pulledBy": "The parties agree on only one finding.",
+      "writesBack": "The hearing notice lists the remaining dispute."
+    }
+  ]
+}

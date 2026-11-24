@@ -1,0 +1,29 @@
+{
+  "id": "a-move-told-by-its-reason-and-how-they-went",
+  "kind": "move",
+  "summary": "A move is told with its reason and how the family traveled.",
+  "realLife": "Zola Stohldorf described her family's frequent moves, including a covered-wagon trip to Nebraska, and moving to Minnesota when she became engaged.",
+  "sources": [
+    "University of Minnesota Morris, Zola Stohldorf oral history, about 1977: https://digitalcommons.morris.umn.edu/kmrs/87"
+  ],
+  "fits": ["journal"],
+  "slots": ["moved_from", "moved_with"],
+  "gates": [],
+  "inGame": "`moved`, `event:person.moved-away`, `memoir-movedFrom`, `memoir-movedWith`, `memoir-movedAge`.",
+  "weights": {
+    "home": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The move was alone.",
+      "pulledBy": "no `moved_with` on the record",
+      "writesBack": "the entry says the writer went alone"
+    },
+    {
+      "turn": "The move was back.",
+      "pulledBy": "the writer returns to the earlier town",
+      "writesBack": "the entry says the writer came home"
+    }
+  ]
+}

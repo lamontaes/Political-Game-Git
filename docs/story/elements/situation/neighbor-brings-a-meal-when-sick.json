@@ -1,0 +1,35 @@
+{
+  "id": "neighbor-brings-a-meal-when-sick",
+  "kind": "situation",
+  "summary": "When someone is sick, a neighbor brings a meal; more people say they would give than expect to receive.",
+  "realLife": "About two thirds said they would bring a meal to a sick neighbor or friend, while fewer expected the same in return; older adults were more willing.",
+  "sources": [
+    "Pew Research Center, how connected Americans feel to neighbors (March 2025 survey): https://www.pewresearch.org/short-reads/2025/05/08/how-connected-do-americans-feel-to-their-neighbors/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "an illness record on a person with neighbor and friend ties; the neighbor's visit is a tie event",
+  "turns": [
+    {
+      "turn": "meal-arrives",
+      "summary": "A neighbor arrives with a meal and stays to talk.",
+      "pulledBy": ["warm tie", "older neighbor"],
+      "writesBack": "tie warms; the illness is shared knowledge"
+    },
+    {
+      "turn": "nobody-comes",
+      "summary": "The sick person gets no visitor and notices.",
+      "pulledBy": ["new in town", "weak ties"],
+      "writesBack": "lonely mood; later resentment"
+    },
+    {
+      "turn": "well-meant-late",
+      "summary": "A neighbor brings the meal only after hearing it from a third person.",
+      "pulledBy": ["busy neighbor"],
+      "writesBack": "partial warmth; word-of-mouth path recorded"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "private-meeting-then-outplacement-help",
+  "kind": "moment",
+  "summary": "Each person meets privately with their manager, and afterward a career-help provider explains services.",
+  "realLife": "HR guidance says managers meet affected employees one by one within a short window, with counselors on site and an outplacement provider meeting people afterward.",
+  "sources": [
+    "SHRM, Layoffs require communication, compassion, compliance: https://www.shrm.org/mena/topics-tools/news/talent-acquisition/layoffs-require-communication-compassion-compliance"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event written by the jobs module; outplacement does not exist, so it needs: an outplacement or help scene. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "group-meeting-instead",
+      "summary": "The employer tells everyone together in one big meeting.",
+      "pulledBy": ["a large employer", "a hurried layoff"],
+      "writesBack": "Everyone hears at once, and coworkers lean on each other."
+    },
+    {
+      "turn": "no-outplacement-help",
+      "summary": "The employer ends the meeting and offers no help finding work.",
+      "pulledBy": ["an employer short of money", "a short tenure"],
+      "writesBack": "The worker searches alone, and the tie cools."
+    },
+    {
+      "turn": "worker-skips-the-help",
+      "summary": "The worker hears the news but decides to look for work without the help provider.",
+      "pulledBy": ["a proud or guarded worker", "a worker with a work contact"],
+      "writesBack": "The search goes on a different path, and the journal notes the choice."
+    }
+  ]
+}

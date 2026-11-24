@@ -1,0 +1,35 @@
+{
+  "id": "deaconess-ready-to-visit-the-sick",
+  "kind": "voice",
+  "summary": "A deacon or deaconess describes the job as being ready to visit the sick and go where help is needed.",
+  "realLife": "A deaconess said deacons are expected to visit the sick and serve the community, and deaconesses also comfort families who have lost someone.",
+  "sources": [
+    "Orlando Memory, deaconess oral history interview: https://orlandomemory.org/people/deaconess-lillian-lancaster-mt-zion-missionary-baptist-institutional-church-oral-history-interview/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: a congregation role record and a visit event; sickness itself is carried by an illness record",
+  "turns": [
+    {
+      "turn": "visits-right-away",
+      "summary": "The deacon arrives the day the news comes.",
+      "pulledBy": ["dutiful trait", "close tie"],
+      "writesBack": "tie warms; the illness is shared knowledge"
+    },
+    {
+      "turn": "sends-a-card-instead",
+      "summary": "A card and a call stand in for a visit.",
+      "pulledBy": ["far away", "busy"],
+      "writesBack": "small warmth; no new tie"
+    },
+    {
+      "turn": "not-told-in-time",
+      "summary": "The deacon learns of the illness a week late.",
+      "pulledBy": ["thin congregation network"],
+      "writesBack": "apology; a missed chance"
+    }
+  ]
+}

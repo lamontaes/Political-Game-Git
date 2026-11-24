@@ -1,0 +1,35 @@
+{
+  "id": "pattern-c32-pick-your-opponent",
+  "kind": "situation",
+  "summary": "Pick your opponent: Your next opponent will come out of the other party's primary, and you could spend now to help the weaker one win it.",
+  "realLife": "In 2002 he spent millions on ads during the Republican primary against Los Angeles mayor Richard Riordan, and the weaker Bill Simon won it. Davis beat Simon in the lowest-turnout governor's race in modern state history.",
+  "sources": ["https://en.wikipedia.org/wiki/Gray_Davis"],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["strong rival", "weak rival"],
+  "gates": [
+    "You hold an office and are running again.",
+    "The other party's primary is contested on record."
+  ],
+  "weights": [
+    "How much money you have.",
+    "How much stronger one rival is.",
+    "Traits that scheme."
+  ],
+  "pattern": "C32",
+  "choices": [
+    "run ads against {strong rival}",
+    "stay out of it",
+    "attack both"
+  ],
+  "branches": [
+    {
+      "when": "{weak rival} wins it",
+      "then": "You beat them in a race so dull few vote, and the low turnout makes the next recall easy to qualify (C31)."
+    },
+    {
+      "when": "the ads are traced to you",
+      "then": "The other party calls it meddling, and it becomes an ad against you."
+    }
+  ],
+  "usedBy": []
+}

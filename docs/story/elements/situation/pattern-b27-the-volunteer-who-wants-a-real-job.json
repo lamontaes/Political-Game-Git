@@ -1,0 +1,31 @@
+{
+  "id": "pattern-b27-the-volunteer-who-wants-a-real-job",
+  "kind": "situation",
+  "summary": "The volunteer who wants a real job: {volunteer}, who has knocked doors for weeks, asks for a staff job over a hired professional.",
+  "realLife": "Her 1970 campaign office offered free drop-in child care, and she pushed to promote women from canvassers into staff jobs.",
+  "sources": [
+    "https://www.pbs.org/wnet/americanmasters/five-ways-bella-abzug-opened-up-politics-to-women-and-fought-for-social-change/37863"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["volunteer"],
+  "gates": ["Candidate.", "{volunteer}'s work is on record."],
+  "weights": ["How much they have done.", "Your money."],
+  "pattern": "B27",
+  "choices": [
+    "promote them",
+    "keep roles as they are",
+    "set up child care at the office so parents can volunteer",
+    "ask what job they want"
+  ],
+  "branches": [
+    {
+      "when": "many of your volunteers are parents",
+      "then": "Child care at the office changes who can come."
+    },
+    {
+      "when": "years later they run themselves",
+      "then": "They come back to ask for your endorsement."
+    }
+  ],
+  "usedBy": []
+}

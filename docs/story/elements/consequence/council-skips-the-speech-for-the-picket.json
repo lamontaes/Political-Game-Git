@@ -1,0 +1,35 @@
+{
+  "id": "council-skips-the-speech-for-the-picket",
+  "kind": "consequence",
+  "summary": "The whole council declines to cross a picket line to attend the mayor's speech.",
+  "realLife": "All eight Oakland council members skipped a state-of-the-city speech to honor a union's picket line; two joined the protesters outside.",
+  "sources": [
+    "East Bay Express, Oakland council and picket line: https://eastbayexpress.com/?p=12348"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "the public-action engine (protest record: what it is over, who is in it, how many came: few, group or crowd) with officials at its edge; a body's members' presence record and a mayor's speech event",
+  "turns": [
+    {
+      "turn": "half-the-council-goes",
+      "summary": "Some attend and some stay out.",
+      "pulledBy": ["split council"],
+      "writesBack": "visible rift; press note"
+    },
+    {
+      "turn": "everyone-attends",
+      "summary": "No one respects the line and the speech goes ahead.",
+      "pulledBy": ["management-friendly majority"],
+      "writesBack": "union anger; later talks harder"
+    },
+    {
+      "turn": "mayor-moves-the-speech",
+      "summary": "The mayor moves the speech to another place.",
+      "pulledBy": ["avoidant mayor"],
+      "writesBack": "news story of the dodge"
+    }
+  ]
+}

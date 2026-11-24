@@ -1,0 +1,31 @@
+{
+  "id": "pattern-a43-be-my-running-mate",
+  "kind": "situation",
+  "summary": "Be my running mate: {mentor}, now running for governor, asks you onto the ticket.",
+  "realLife": "In 1970 his former teacher and coach, Mike O'Callaghan, ran for governor of Nevada and chose Reid, then a young assemblyman, as his running mate; they won as underdogs.",
+  "sources": ["https://en.wikipedia.org/wiki/Harry_Reid"],
+  "fits": ["journal", "news", "office"],
+  "slots": ["mentor"],
+  "gates": [
+    "A mentor tie with someone running for governor.",
+    "You hold a seat in the legislature."
+  ],
+  "weights": ["How strong the tie is.", "How safe your own seat is."],
+  "pattern": "A43",
+  "choices": [
+    "join the ticket",
+    "say you would rather keep your seat",
+    "ask what the job would really be"
+  ],
+  "branches": [
+    {
+      "when": "underdogs",
+      "then": "The ticket is behind, and you work the small events the top of the ticket skips."
+    },
+    {
+      "when": "the office has little power",
+      "then": "If you win, {mentor} offers you a board to chair, with its own pressures."
+    }
+  ],
+  "usedBy": []
+}
