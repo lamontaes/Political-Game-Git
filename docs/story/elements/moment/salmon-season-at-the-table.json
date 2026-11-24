@@ -1,0 +1,32 @@
+{
+  "id": "salmon-season-at-the-table",
+  "kind": "moment",
+  "summary": "At the meeting about salmon in {place}, a commercial fisher, a recreational representative and a tribal representative each have a place on the agenda.",
+  "realLife": "California directed wildlife staff to develop a response to drought impacts on salmon fisheries with commercial, recreational and tribal representatives, particularly in the Klamath Basin.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "An actual meeting agenda or attendance record identifies the represented groups."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an actual meeting agenda or attendance record identifies the represented groups.",
+  "turns": [
+    {
+      "turn": "heard",
+      "pulledBy": "A participant gives an attributable response.",
+      "what": "Pass along a participant's documented concern with attribution.",
+      "writesBack": "Keep that response with the meeting record."
+    },
+    {
+      "turn": "absent",
+      "pulledBy": "The attendance record shows an invited group was absent.",
+      "what": "Ask the organizer how the missing group can contribute.",
+      "writesBack": "Track the invitation without assigning a position."
+    }
+  ]
+}

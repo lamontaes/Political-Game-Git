@@ -1,0 +1,30 @@
+{
+  "id": "sinking-ground-survey-date",
+  "kind": "detail",
+  "summary": "At the desk, {person} turns the map over to check when the ground last was measured for sinking.",
+  "realLife": "California ordered its water department to speed up updates to land subsidence data used in groundwater management.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": ["A subsidence survey has a footprint and measurement date."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a subsidence survey has a footprint and measurement date.",
+  "turns": [
+    {
+      "turn": "updated",
+      "pulledBy": "The new survey covers the area.",
+      "what": "Use the newer survey for the covered area.",
+      "writesBack": "Save its observation date with the map."
+    },
+    {
+      "turn": "gap",
+      "pulledBy": "The new survey lacks local coverage.",
+      "what": "Mark the area the new survey missed.",
+      "writesBack": "Retain the older observation date there."
+    }
+  ]
+}

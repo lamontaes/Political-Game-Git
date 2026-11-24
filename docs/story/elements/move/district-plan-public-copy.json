@@ -1,0 +1,32 @@
+{
+  "id": "district-plan-public-copy",
+  "kind": "move",
+  "summary": "A resident of {place} asks to see the district's shortage plan before the next round of water decisions.",
+  "realLife": "State officials were to encourage water suppliers to submit their plans on time and make urban shortage and agricultural drought plans publicly available.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "The supplier's plan register shows the plan type and publication status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the supplier's plan register shows the plan type and publication status.",
+  "turns": [
+    {
+      "turn": "posted",
+      "pulledBy": "The plan has a current public copy.",
+      "what": "Give the resident the dated public copy.",
+      "writesBack": "Record the version supplied."
+    },
+    {
+      "turn": "unpublished",
+      "pulledBy": "The register records no publication.",
+      "what": "Ask the district when residents can see the plan.",
+      "writesBack": "Keep the publication request open."
+    }
+  ]
+}

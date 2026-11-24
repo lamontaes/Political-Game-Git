@@ -1,0 +1,32 @@
+{
+  "id": "fallow-ground-payroll",
+  "kind": "consequence",
+  "summary": "The question from {place} is what happens to the people paid to work the acres that will sit idle.",
+  "realLife": "California called for a regional study of drought effects on farm jobs, land use and rural food economies, including other uses of fallowed land.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A regional agricultural study records the period and the employment evidence available."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a regional agricultural study records the period and the employment evidence available.",
+  "turns": [
+    {
+      "turn": "estimated",
+      "pulledBy": "The study supplies an employment estimate.",
+      "what": "Give the study's estimate with its area and period.",
+      "writesBack": "Keep the estimate tied to its source."
+    },
+    {
+      "turn": "pending",
+      "pulledBy": "The file still shows a pending decision or response.",
+      "what": "Bring the payroll question back to the researchers.",
+      "writesBack": "Keep the job effect unquantified."
+    }
+  ]
+}
