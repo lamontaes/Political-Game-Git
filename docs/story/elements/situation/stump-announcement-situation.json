@@ -17,5 +17,17 @@
     "campaign-speech": 1.0
   },
   "usedBy": [],
-  "inGame": "filing rows and the speech heard record"
+  "inGame": "filing rows and the speech heard record",
+  "turns": [
+    {
+      "way": "The announcement is a short statement, not a speech.",
+      "pulledBy": "a candidate with little to say",
+      "writes": "two lines in the press"
+    },
+    {
+      "way": "The announcement is a long rally.",
+      "pulledBy": "a well-funded campaign",
+      "writes": "a speech with a crowd"
+    }
+  ]
 }

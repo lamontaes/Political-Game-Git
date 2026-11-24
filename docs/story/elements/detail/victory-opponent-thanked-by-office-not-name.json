@@ -14,5 +14,17 @@
     "victory": 0.4
   },
   "usedBy": [],
-  "inGame": "offices module holds each person's current office; the person record holds past service"
+  "inGame": "offices module holds each person's current office; the person record holds past service",
+  "turns": [
+    {
+      "way": "The loser is thanked by name and nothing else.",
+      "pulledBy": "a loser with no office",
+      "writes": "a short name check"
+    },
+    {
+      "way": "The loser is not thanked at all.",
+      "pulledBy": "an unopposed or hostile race",
+      "writes": "the thanks go to supporters only"
+    }
+  ]
 }

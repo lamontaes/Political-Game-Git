@@ -16,5 +16,17 @@
     "concession": 0.5
   },
   "usedBy": [],
-  "inGame": "the speech heard record and door and donor records name people the candidate met"
+  "inGame": "the speech heard record and door and donor records name people the candidate met",
+  "turns": [
+    {
+      "way": "No story, only thanks.",
+      "pulledBy": "a loser who ran a short campaign",
+      "writes": "the speech stays general"
+    },
+    {
+      "way": "The story is about the winner's voters.",
+      "pulledBy": "a loser who knocked on many doors",
+      "writes": "a voter from the other side"
+    }
+  ]
 }

@@ -19,5 +19,17 @@
     "concession": 0.8
   },
   "usedBy": [],
-  "inGame": "contest result rows are final once certified; turnout is a contest field"
+  "inGame": "contest result rows are final once certified; turnout is a contest field",
+  "turns": [
+    {
+      "way": "The loser asks for a recount.",
+      "pulledBy": "a margin inside the recount rule",
+      "writes": "a recount request in the speech and a record"
+    },
+    {
+      "way": "The loser says the result is not final yet.",
+      "pulledBy": "a count still open",
+      "writes": "the speech waits for the count"
+    }
+  ]
 }

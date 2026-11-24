@@ -17,5 +17,17 @@
     "floor-speech": 0.9
   },
   "usedBy": [],
-  "inGame": "presiding officer from the legislature module and the bill's own name"
+  "inGame": "presiding officer from the legislature module and the bill's own name",
+  "turns": [
+    {
+      "way": "The member opens with a point of order.",
+      "pulledBy": "a procedural dispute",
+      "writes": "a point of order first"
+    },
+    {
+      "way": "The member opens by thanking the sponsor.",
+      "pulledBy": "a member who supports it",
+      "writes": "thanks to the sponsor"
+    }
+  ]
 }

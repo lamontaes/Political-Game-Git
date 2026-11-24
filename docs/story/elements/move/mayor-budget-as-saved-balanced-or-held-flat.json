@@ -17,5 +17,17 @@
     "town-address": 0.7
   },
   "usedBy": [],
-  "inGame": "budget engine: the year's balance and tax rate rows (no figures in the speech itself)"
+  "inGame": "budget engine: the year's balance and tax rate rows (no figures in the speech itself)",
+  "turns": [
+    {
+      "way": "The budget is a deficit, said plainly.",
+      "pulledBy": "a shortfall in the budget engine",
+      "writes": "the speech names the gap in words"
+    },
+    {
+      "way": "The budget is a surplus with a debate about its use.",
+      "pulledBy": "a surplus",
+      "writes": "the speech asks the council what to do with it"
+    }
+  ]
 }

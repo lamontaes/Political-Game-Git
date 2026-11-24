@@ -18,5 +18,17 @@
     "concession": 0.9
   },
   "usedBy": [],
-  "inGame": "the filing and office records show whether they hold another office or can run again"
+  "inGame": "the filing and office records show whether they hold another office or can run again",
+  "turns": [
+    {
+      "way": "The loser says they are done.",
+      "pulledBy": "an older loser; a bitter race",
+      "writes": "the speech closes the door; the town sees no more filings"
+    },
+    {
+      "way": "The loser says they will run again, by year.",
+      "pulledBy": "a young, ambitious loser",
+      "writes": "a date for the next race"
+    }
+  ]
 }

@@ -18,5 +18,17 @@
     "victory": 0.9
   },
   "usedBy": [],
-  "inGame": "people records (household, spouse, children, parents) the speaker already has; campaign staff and volunteers need: a record of who worked on the campaign (door and donor records may stand in)"
+  "inGame": "people records (household, spouse, children, parents) the speaker already has; campaign staff and volunteers need: a record of who worked on the campaign (door and donor records may stand in)",
+  "turns": [
+    {
+      "way": "Family is thanked before the campaign team.",
+      "pulledBy": "a speaker who is warm and family-centered; a spouse in the room",
+      "writes": "family opens the run of thanks"
+    },
+    {
+      "way": "Only one person is thanked.",
+      "pulledBy": "a small, quick race with no staff",
+      "writes": "a single thanks, and the speech moves on"
+    }
+  ]
 }

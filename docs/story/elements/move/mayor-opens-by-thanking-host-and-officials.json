@@ -18,5 +18,17 @@
     "town-address": 0.8
   },
   "usedBy": [],
-  "inGame": "offices module names the council and its members; the venue is a scene fact"
+  "inGame": "offices module names the council and its members; the venue is a scene fact",
+  "turns": [
+    {
+      "way": "The mayor opens on the year's news, not thanks.",
+      "pulledBy": "a disaster or crisis this year",
+      "writes": "the first lines name the crisis"
+    },
+    {
+      "way": "The mayor opens on a joke.",
+      "pulledBy": "a light-hearted mayor",
+      "writes": "a joke before the thanks"
+    }
+  ]
 }

@@ -17,5 +17,17 @@
     "floor-speech": 0.9
   },
   "usedBy": [],
-  "inGame": "the member's stance from the stance engine on the bill's question"
+  "inGame": "the member's stance from the stance engine on the bill's question",
+  "turns": [
+    {
+      "way": "The member holds the position back to the end.",
+      "pulledBy": "an undecided member",
+      "writes": "the position comes last"
+    },
+    {
+      "way": "The member says the position is not yet settled.",
+      "pulledBy": "a member who is torn",
+      "writes": "the speech weighs both sides"
+    }
+  ]
 }

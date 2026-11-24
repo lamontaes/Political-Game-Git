@@ -19,5 +19,17 @@
     "concession": 0.7
   },
   "usedBy": [],
-  "inGame": "personality-v1 facets on the person record (combative, proud, forgiving, humble) pull the tone"
+  "inGame": "personality-v1 facets on the person record (combative, proud, forgiving, humble) pull the tone",
+  "turns": [
+    {
+      "way": "A gracious loser is cut short by a hard night.",
+      "pulledBy": "a loss by a handful of votes",
+      "writes": "the graciousness thins"
+    },
+    {
+      "way": "A bitter loser softens at the end.",
+      "pulledBy": "a proud loser with family in the room",
+      "writes": "the last lines turn warm"
+    }
+  ]
 }

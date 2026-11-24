@@ -17,5 +17,17 @@
     "campaign-speech": 0.8
   },
   "usedBy": [],
-  "inGame": "outcome web and macro records of the town's conditions (crime, schools, rents) a candidate can point to"
+  "inGame": "outcome web and macro records of the town's conditions (crime, schools, rents) a candidate can point to",
+  "turns": [
+    {
+      "way": "The reason to run is that the incumbent failed.",
+      "pulledBy": "an incumbent with a scandal on record",
+      "writes": "the incumbent is named as the reason"
+    },
+    {
+      "way": "The reason to run is gratitude to the town.",
+      "pulledBy": "a loyal, long-time resident",
+      "writes": "the speech thanks the place"
+    }
+  ]
 }

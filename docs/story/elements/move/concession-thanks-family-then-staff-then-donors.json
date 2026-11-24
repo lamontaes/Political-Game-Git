@@ -18,5 +18,17 @@
     "concession": 0.8
   },
   "usedBy": [],
-  "inGame": "people records (household, spouse, children, parents) the speaker already has; donor records from the campaigns module can name donors"
+  "inGame": "people records (household, spouse, children, parents) the speaker already has; donor records from the campaigns module can name donors",
+  "turns": [
+    {
+      "way": "Only the staff are thanked.",
+      "pulledBy": "a loser with no household",
+      "writes": "a thanks to staff and volunteers"
+    },
+    {
+      "way": "Donors are thanked first.",
+      "pulledBy": "a loser who spent heavily",
+      "writes": "the donors lead the thanks"
+    }
+  ]
 }

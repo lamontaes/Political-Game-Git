@@ -19,5 +19,17 @@
     "victory": 0.8
   },
   "usedBy": [],
-  "inGame": "filings and contests give the opponent's name and office; needs: a record that the loser called or was called on election night"
+  "inGame": "filings and contests give the opponent's name and office; needs: a record that the loser called or was called on election night",
+  "turns": [
+    {
+      "way": "The winner never names the loser.",
+      "pulledBy": "a bitter race; the opponent was a rival of the winner's",
+      "writes": "no opponent in the speech; the loser notices at home"
+    },
+    {
+      "way": "The winner spends a paragraph on the loser, with praise.",
+      "pulledBy": "a loser who served long in town; a gracious, fair-minded winner",
+      "writes": "a longer thanks to the loser; the town hears it in the news"
+    }
+  ]
 }

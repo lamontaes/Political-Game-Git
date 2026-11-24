@@ -18,5 +18,17 @@
     "victory": 0.6
   },
   "usedBy": [],
-  "inGame": "offices module holds who held each office before, including the first of a kind; needs: a record of the place's notable past events"
+  "inGame": "offices module holds who held each office before, including the first of a kind; needs: a record of the place's notable past events",
+  "turns": [
+    {
+      "way": "The winner uses no history, only the present.",
+      "pulledBy": "a plain speaker; a new town",
+      "writes": "the speech stays on this year"
+    },
+    {
+      "way": "The winner uses the place's own history to warn, not to celebrate.",
+      "pulledBy": "a hard year or a recent disaster",
+      "writes": "the history is a caution"
+    }
+  ]
 }

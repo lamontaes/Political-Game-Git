@@ -16,5 +16,17 @@
     "victory": 0.6
   },
   "usedBy": [],
-  "inGame": "budget and macro modules carry prices, rents and utility rates; the executive engine carries a first act as an order or a proposed bill"
+  "inGame": "budget and macro modules carry prices, rents and utility rates; the executive engine carries a first act as an order or a proposed bill",
+  "turns": [
+    {
+      "way": "The first act is about safety or schools, not prices.",
+      "pulledBy": "a platform led by crime or school questions",
+      "writes": "the first act names that question"
+    },
+    {
+      "way": "The first act is a process, such as a review or a hearing.",
+      "pulledBy": "a seat whose powers are limited",
+      "writes": "the first act is to ask the body to study the question"
+    }
+  ]
 }

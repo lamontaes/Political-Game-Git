@@ -19,5 +19,17 @@
     "victory": 0.7
   },
   "usedBy": [],
-  "inGame": "the contest result row has the margin; the rule is that the speech does not say it (no figures in speeches)"
+  "inGame": "the contest result row has the margin; the rule is that the speech does not say it (no figures in speeches)",
+  "turns": [
+    {
+      "way": "A narrow win is named as narrow, in words.",
+      "pulledBy": "a margin under a few points; a humble speaker",
+      "writes": "the line says the race was close, never a number"
+    },
+    {
+      "way": "A landslide is named as a mandate.",
+      "pulledBy": "a wide margin; an ambitious speaker",
+      "writes": "the line says the voters spoke clearly"
+    }
+  ]
 }

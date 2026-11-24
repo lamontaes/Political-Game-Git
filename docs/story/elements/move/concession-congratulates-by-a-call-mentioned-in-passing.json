@@ -19,5 +19,17 @@
     "concession": 0.8
   },
   "usedBy": [],
-  "inGame": "contest result rows name the winner; needs: a record that the loser called the winner"
+  "inGame": "contest result rows name the winner; needs: a record that the loser called the winner",
+  "turns": [
+    {
+      "way": "No congratulation at all.",
+      "pulledBy": "a bitter loser; a race with a charge of unfairness",
+      "writes": "the speech skips the winner; the news may print that"
+    },
+    {
+      "way": "The winner is congratulated at length.",
+      "pulledBy": "a gracious, forgiving loser",
+      "writes": "a paragraph of praise for the winner"
+    }
+  ]
 }

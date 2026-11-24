@@ -17,5 +17,17 @@
     "victory": 0.8
   },
   "usedBy": [],
-  "inGame": "person histories (jobs, moves, family events) and the speech heard record; the people the player met can be named"
+  "inGame": "person histories (jobs, moves, family events) and the speech heard record; the people the player met can be named",
+  "turns": [
+    {
+      "way": "The speech carries no story, only points.",
+      "pulledBy": "an analytical or guarded speaker",
+      "writes": "the speech runs point by point"
+    },
+    {
+      "way": "The story is about the opponent's voters.",
+      "pulledBy": "a winner who ran on unity",
+      "writes": "the story names one voter who did not vote for them"
+    }
+  ]
 }

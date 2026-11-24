@@ -17,5 +17,17 @@
     "town-address": 0.6
   },
   "usedBy": [],
-  "inGame": "people the player has met (filled-in people) and the officials in the room"
+  "inGame": "people the player has met (filled-in people) and the officials in the room",
+  "turns": [
+    {
+      "way": "No one is named.",
+      "pulledBy": "an impersonal speaker",
+      "writes": "the speech names offices only"
+    },
+    {
+      "way": "A resident who disagrees is named.",
+      "pulledBy": "a mayor who is fair-minded",
+      "writes": "the disagreement is said aloud"
+    }
+  ]
 }

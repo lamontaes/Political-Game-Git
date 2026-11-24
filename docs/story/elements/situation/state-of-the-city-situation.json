@@ -19,5 +19,17 @@
     "town-address": 1.0
   },
   "usedBy": [],
-  "inGame": "offices module (mayor, council), budget engine, and the local address recorder in the director"
+  "inGame": "offices module (mayor, council), budget engine, and the local address recorder in the director",
+  "turns": [
+    {
+      "way": "The address is written, not spoken.",
+      "pulledBy": "a small town with no hall",
+      "writes": "a letter to residents"
+    },
+    {
+      "way": "The address is given at the council meeting.",
+      "pulledBy": "a mayor who reports to the council",
+      "writes": "the council is the audience"
+    }
+  ]
 }

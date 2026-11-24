@@ -18,5 +18,17 @@
     "town-address": 0.6
   },
   "usedBy": [],
-  "inGame": "the council's votes on the mayor's bills (legislature module) show whether they agree"
+  "inGame": "the council's votes on the mayor's bills (legislature module) show whether they agree",
+  "turns": [
+    {
+      "way": "The mayor praises a council that voted against them.",
+      "pulledBy": "a fair-minded mayor",
+      "writes": "praise for the opposing votes"
+    },
+    {
+      "way": "The mayor attacks the council by name.",
+      "pulledBy": "a combative mayor and a vetoed bill",
+      "writes": "an open ask for the council to change course"
+    }
+  ]
 }

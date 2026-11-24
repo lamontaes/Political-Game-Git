@@ -17,5 +17,17 @@
     "floor-speech": 1.0
   },
   "usedBy": [],
-  "inGame": "floor-debate scene and the bill before the body"
+  "inGame": "floor-debate scene and the bill before the body",
+  "turns": [
+    {
+      "way": "The speech is a one-minute remark.",
+      "pulledBy": "a short slot on the floor",
+      "writes": "one point and a yield"
+    },
+    {
+      "way": "The speech is a long reading of the bill.",
+      "pulledBy": "a long slot",
+      "writes": "the bill's sections read aloud"
+    }
+  ]
 }

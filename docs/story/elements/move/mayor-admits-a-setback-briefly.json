@@ -17,5 +17,17 @@
     "town-address": 0.6
   },
   "usedBy": [],
-  "inGame": "budget-condition facts from the budget engine (a gap, a shortfall)"
+  "inGame": "budget-condition facts from the budget engine (a gap, a shortfall)",
+  "turns": [
+    {
+      "way": "No setback is admitted.",
+      "pulledBy": "a proud mayor; a good year",
+      "writes": "the year is told as a run of wins"
+    },
+    {
+      "way": "The setback runs the whole speech.",
+      "pulledBy": "a bad year",
+      "writes": "the speech is about the miss and the fix"
+    }
+  ]
 }

@@ -17,5 +17,17 @@
     "floor-speech": 0.8
   },
   "usedBy": [],
-  "inGame": "the vote and the roll call (legislature module)"
+  "inGame": "the vote and the roll call (legislature module)",
+  "turns": [
+    {
+      "way": "The ask is to the chair, to delay the vote.",
+      "pulledBy": "a member who wants more time",
+      "writes": "a motion to table"
+    },
+    {
+      "way": "The ask is to the public in the gallery.",
+      "pulledBy": "a member at a public hearing",
+      "writes": "the gallery is addressed"
+    }
+  ]
 }

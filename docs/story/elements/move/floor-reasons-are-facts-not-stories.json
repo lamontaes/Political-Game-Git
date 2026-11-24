@@ -17,5 +17,17 @@
     "floor-speech": 0.7
   },
   "usedBy": [],
-  "inGame": "the bill's provisions and the outcome web records it touches"
+  "inGame": "the bill's provisions and the outcome web records it touches",
+  "turns": [
+    {
+      "way": "The reason is one story from a constituent.",
+      "pulledBy": "a member who knocked on doors",
+      "writes": "a constituent's story"
+    },
+    {
+      "way": "The reason is a past vote.",
+      "pulledBy": "a member with a long record",
+      "writes": "a vote named"
+    }
+  ]
 }

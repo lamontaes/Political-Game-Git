@@ -18,5 +18,17 @@
     "concession": 0.6
   },
   "usedBy": [],
-  "inGame": "religion on the person record, where it is set"
+  "inGame": "religion on the person record, where it is set",
+  "turns": [
+    {
+      "way": "The close is a joke.",
+      "pulledBy": "a light-hearted loser",
+      "writes": "a joke closes it"
+    },
+    {
+      "way": "The close is a thanks only.",
+      "pulledBy": "a secular, plain loser",
+      "writes": "a plain thank you"
+    }
+  ]
 }

@@ -18,5 +18,17 @@
     "victory": 0.9
   },
   "usedBy": [],
-  "inGame": "contest result rows give the margin and the opposing share; no record of what each voter picked, so only the fact of a contest with a second candidate is carried"
+  "inGame": "contest result rows give the margin and the opposing share; no record of what each voter picked, so only the fact of a contest with a second candidate is carried",
+  "turns": [
+    {
+      "way": "The winner thanks supporters first and only later says a word to the rest.",
+      "pulledBy": "a long campaign team and a close race; the speaker's loyal, proud facets",
+      "writes": "the thanks run first; the line to the other side comes mid-speech"
+    },
+    {
+      "way": "The winner says nothing to those who voted the other way.",
+      "pulledBy": "a rival the winner dislikes; a combative speaker; a lopsided result",
+      "writes": "the speech speaks only to supporters; the press desk may print the omission"
+    }
+  ]
 }

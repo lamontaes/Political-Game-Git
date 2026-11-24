@@ -16,5 +16,17 @@
     "town-address": 0.5
   },
   "usedBy": [],
-  "inGame": "needs: a record of a notable local place and its story"
+  "inGame": "needs: a record of a notable local place and its story",
+  "turns": [
+    {
+      "way": "The story is about a failure.",
+      "pulledBy": "a closed business or a lost building",
+      "writes": "the opening story is a loss"
+    },
+    {
+      "way": "There is no story.",
+      "pulledBy": "a plain speaker",
+      "writes": "the speech opens on thanks"
+    }
+  ]
 }

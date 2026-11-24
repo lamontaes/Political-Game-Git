@@ -18,5 +18,17 @@
     "town-address": 0.8
   },
   "usedBy": [],
-  "inGame": "the place record and the town's own civic bodies"
+  "inGame": "the place record and the town's own civic bodies",
+  "turns": [
+    {
+      "way": "The close is a list of next steps for staff.",
+      "pulledBy": "a mayor focused on work",
+      "writes": "the close assigns the work"
+    },
+    {
+      "way": "The close is a thank you only.",
+      "pulledBy": "a polite, reserved mayor",
+      "writes": "a plain thanks"
+    }
+  ]
 }

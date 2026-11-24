@@ -17,5 +17,17 @@
     "campaign-speech": 0.7
   },
   "usedBy": [],
-  "inGame": "the place record and the person's household"
+  "inGame": "the place record and the person's household",
+  "turns": [
+    {
+      "way": "The ending names the opponent.",
+      "pulledBy": "a combative candidate",
+      "writes": "a line against the opponent"
+    },
+    {
+      "way": "The ending names the voters' own street.",
+      "pulledBy": "a candidate at a neighborhood stop",
+      "writes": "the neighborhood is named"
+    }
+  ]
 }

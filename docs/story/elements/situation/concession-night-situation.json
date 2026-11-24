@@ -19,5 +19,17 @@
     "concession": 1.0
   },
   "usedBy": [],
-  "inGame": "elections module rows (contests, filings, results) and the speech heard record"
+  "inGame": "elections module rows (contests, filings, results) and the speech heard record",
+  "turns": [
+    {
+      "way": "The loser concedes by a statement, not a speech.",
+      "pulledBy": "a loser who avoids a crowd",
+      "writes": "a short written statement"
+    },
+    {
+      "way": "The loser waits and concedes the next day.",
+      "pulledBy": "a close count",
+      "writes": "the concession comes after the count"
+    }
+  ]
 }

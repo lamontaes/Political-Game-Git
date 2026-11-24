@@ -15,5 +15,17 @@
     "concession": 0.4
   },
   "usedBy": [],
-  "inGame": "traits of the speaker (proud, combative) from the personality record steer who says it"
+  "inGame": "traits of the speaker (proud, combative) from the personality record steer who says it",
+  "turns": [
+    {
+      "way": "The loser takes the loss as theirs, no reframe.",
+      "pulledBy": "a humble loser",
+      "writes": "the loss is owned"
+    },
+    {
+      "way": "The loser blames the turnout.",
+      "pulledBy": "a low-turnout race",
+      "writes": "the speech names the people who stayed home"
+    }
+  ]
 }

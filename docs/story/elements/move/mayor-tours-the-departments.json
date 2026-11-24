@@ -18,5 +18,17 @@
     "town-address": 0.7
   },
   "usedBy": [],
-  "inGame": "offices module lists local departments and heads; budget lines by department (budget engine)"
+  "inGame": "offices module lists local departments and heads; budget lines by department (budget engine)",
+  "turns": [
+    {
+      "way": "The mayor skips the departments and speaks of one project.",
+      "pulledBy": "one large project this year",
+      "writes": "the speech is that project"
+    },
+    {
+      "way": "The mayor reads only what went wrong.",
+      "pulledBy": "a hard budget year",
+      "writes": "a tour of the shortfalls"
+    }
+  ]
 }

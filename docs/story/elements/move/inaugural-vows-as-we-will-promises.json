@@ -14,5 +14,17 @@
     "town-address": 0.4
   },
   "usedBy": [],
-  "inGame": "candidate platform and the office's powers; the term start from offices"
+  "inGame": "candidate platform and the office's powers; the term start from offices",
+  "turns": [
+    {
+      "way": "The vows are \"I will\" instead of \"we will\".",
+      "pulledBy": "an assertive new mayor",
+      "writes": "the vows are the mayor's own"
+    },
+    {
+      "way": "There are no vows, only thanks.",
+      "pulledBy": "a modest new mayor",
+      "writes": "a short thank-you speech"
+    }
+  ]
 }

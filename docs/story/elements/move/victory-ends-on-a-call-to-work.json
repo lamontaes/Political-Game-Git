@@ -19,5 +19,17 @@
     "victory": 0.9
   },
   "usedBy": [],
-  "inGame": "term and swearing-in date from the offices module"
+  "inGame": "term and swearing-in date from the offices module",
+  "turns": [
+    {
+      "way": "The speech ends on thanks and no call.",
+      "pulledBy": "a polite, humble speaker",
+      "writes": "a plain thank you to close"
+    },
+    {
+      "way": "The speech ends on a blessing.",
+      "pulledBy": "a devout speaker",
+      "writes": "a blessing after the call"
+    }
+  ]
 }

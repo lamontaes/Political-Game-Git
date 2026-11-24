@@ -17,5 +17,17 @@
     "campaign-speech": 0.9
   },
   "usedBy": [],
-  "inGame": "candidate platform from the campaigns module (the questions a candidate holds most strongly) and the seat's own questions"
+  "inGame": "candidate platform from the campaigns module (the questions a candidate holds most strongly) and the seat's own questions",
+  "turns": [
+    {
+      "way": "One topic carries the speech.",
+      "pulledBy": "a single-issue candidate",
+      "writes": "one question, said three ways"
+    },
+    {
+      "way": "The platform is left vague on purpose.",
+      "pulledBy": "a guarded candidate",
+      "writes": "the speech names values, not acts"
+    }
+  ]
 }

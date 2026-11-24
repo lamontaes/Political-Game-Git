@@ -17,5 +17,17 @@
     "campaign-speech": 0.9
   },
   "usedBy": [],
-  "inGame": "candidate filing and office rows, and the person's current and past offices"
+  "inGame": "candidate filing and office rows, and the person's current and past offices",
+  "turns": [
+    {
+      "way": "The candidate opens on a problem, not themselves.",
+      "pulledBy": "a candidate with no office record",
+      "writes": "the problem comes before the name"
+    },
+    {
+      "way": "The candidate opens with the crowd's own place.",
+      "pulledBy": "a speaker at a local venue",
+      "writes": "the venue opens the speech"
+    }
+  ]
 }

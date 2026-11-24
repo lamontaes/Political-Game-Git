@@ -18,5 +18,17 @@
     "concession": 0.9
   },
   "usedBy": [],
-  "inGame": "contest result rows, with the race and the office lost"
+  "inGame": "contest result rows, with the race and the office lost",
+  "turns": [
+    {
+      "way": "The loss is never stated.",
+      "pulledBy": "a proud or combative loser",
+      "writes": "the speech talks around the loss; the town notices"
+    },
+    {
+      "way": "The loss is the first sentence.",
+      "pulledBy": "a blunt, honest loser",
+      "writes": "the loss opens the speech"
+    }
+  ]
 }

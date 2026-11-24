@@ -19,5 +19,17 @@
     "victory": 0.8
   },
   "usedBy": [],
-  "inGame": "the venue and crowd are scene facts; the town name comes from the place record"
+  "inGame": "the venue and crowd are scene facts; the town name comes from the place record",
+  "turns": [
+    {
+      "way": "The speech opens on a policy at once.",
+      "pulledBy": "an analytical or blunt speaker",
+      "writes": "the first sentence names the question"
+    },
+    {
+      "way": "The speech opens on a story.",
+      "pulledBy": "a dramatic speaker",
+      "writes": "the first sentence is a scene"
+    }
+  ]
 }

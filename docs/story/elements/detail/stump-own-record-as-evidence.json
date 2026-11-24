@@ -16,5 +16,17 @@
     "campaign-speech": 0.7
   },
   "usedBy": [],
-  "inGame": "votes cast and bills carried by the candidate in the legislature module"
+  "inGame": "votes cast and bills carried by the candidate in the legislature module",
+  "turns": [
+    {
+      "way": "The candidate has no record to cite.",
+      "pulledBy": "a first-time candidate",
+      "writes": "the speech cites a job or a cause instead"
+    },
+    {
+      "way": "The candidate cites only a past loss.",
+      "pulledBy": "a candidate who lost a race before",
+      "writes": "a lost race is the story"
+    }
+  ]
 }

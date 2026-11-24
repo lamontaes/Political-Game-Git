@@ -14,5 +14,17 @@
     "town-address": 0.3
   },
   "usedBy": [],
-  "inGame": "needs: a town history record; history from 1925 gives founding and office-holders for any generated place"
+  "inGame": "needs: a town history record; history from 1925 gives founding and office-holders for any generated place",
+  "turns": [
+    {
+      "way": "The history is only a sentence.",
+      "pulledBy": "a short speech",
+      "writes": "one line of history"
+    },
+    {
+      "way": "The history is left out for a new town.",
+      "pulledBy": "a town founded recently",
+      "writes": "the speech opens on now"
+    }
+  ]
 }

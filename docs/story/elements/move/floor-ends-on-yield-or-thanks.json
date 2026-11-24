@@ -17,5 +17,17 @@
     "floor-speech": 0.9
   },
   "usedBy": [],
-  "inGame": "time on the floor is a scene fact"
+  "inGame": "time on the floor is a scene fact",
+  "turns": [
+    {
+      "way": "The member runs out the clock mid-sentence.",
+      "pulledBy": "a member given a short time",
+      "writes": "the chair cuts the speech off"
+    },
+    {
+      "way": "The member asks for more time.",
+      "pulledBy": "a member with a long point",
+      "writes": "a request for extra time"
+    }
+  ]
 }

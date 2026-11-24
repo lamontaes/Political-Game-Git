@@ -17,5 +17,17 @@
     "victory": 0.7
   },
   "usedBy": [],
-  "inGame": "people records (household, spouse, children, parents) the speaker already has; needs: a trait-led small fact about a family member that a line can name"
+  "inGame": "people records (household, spouse, children, parents) the speaker already has; needs: a trait-led small fact about a family member that a line can name",
+  "turns": [
+    {
+      "way": "The family thanks is plain, with no joke or story.",
+      "pulledBy": "a guarded or formal speaker",
+      "writes": "a plain list of names"
+    },
+    {
+      "way": "The family is not named because the speaker lives alone.",
+      "pulledBy": "no household on the person record",
+      "writes": "the thanks go to friends and the team"
+    }
+  ]
 }

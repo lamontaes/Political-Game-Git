@@ -18,5 +18,17 @@
     "victory": 0.9
   },
   "usedBy": [],
-  "inGame": "candidate platform from the campaigns module (the questions a candidate holds most strongly) and the office's powers from the offices module"
+  "inGame": "candidate platform from the campaigns module (the questions a candidate holds most strongly) and the office's powers from the offices module",
+  "turns": [
+    {
+      "way": "One promise carries the whole speech.",
+      "pulledBy": "a single-issue platform",
+      "writes": "one first act is named and repeated"
+    },
+    {
+      "way": "No promises, only thanks and work ahead.",
+      "pulledBy": "a modest or cautious speaker; a seat with few powers",
+      "writes": "the speech says only that the work starts tomorrow"
+    }
+  ]
 }

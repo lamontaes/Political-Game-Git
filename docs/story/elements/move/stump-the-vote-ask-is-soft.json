@@ -17,5 +17,17 @@
     "campaign-speech": 0.8
   },
   "usedBy": [],
-  "inGame": "the contest row gives the election date; donor and volunteer records exist in the campaigns module"
+  "inGame": "the contest row gives the election date; donor and volunteer records exist in the campaigns module",
+  "turns": [
+    {
+      "way": "The ask names the date and the polling place.",
+      "pulledBy": "a hard-charging candidate near election day",
+      "writes": "a date and a request for the vote"
+    },
+    {
+      "way": "There is no ask.",
+      "pulledBy": "a speaker who is too formal or too shy",
+      "writes": "the speech ends on thanks"
+    }
+  ]
 }

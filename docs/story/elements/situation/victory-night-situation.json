@@ -19,5 +19,17 @@
     "victory": 1.0
   },
   "usedBy": [],
-  "inGame": "elections module rows (contests, filings, results) and the speech heard record"
+  "inGame": "elections module rows (contests, filings, results) and the speech heard record",
+  "turns": [
+    {
+      "way": "Victory is held until a recount ends.",
+      "pulledBy": "a margin inside the recount rule",
+      "writes": "the speech waits and says the count is not final"
+    },
+    {
+      "way": "The winner speaks alone, with no crowd.",
+      "pulledBy": "a small race with no party",
+      "writes": "a thank-you at home"
+    }
+  ]
 }

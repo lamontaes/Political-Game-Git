@@ -17,5 +17,17 @@
     "concession": 0.7
   },
   "usedBy": [],
-  "inGame": "the incumbent's own record: bills carried, votes cast, programs funded (legislature and budget modules)"
+  "inGame": "the incumbent's own record: bills carried, votes cast, programs funded (legislature and budget modules)",
+  "turns": [
+    {
+      "way": "The loser lists no accomplishments.",
+      "pulledBy": "a first-time candidate",
+      "writes": "the speech talks about the voters"
+    },
+    {
+      "way": "The loser lists only the incumbent's term.",
+      "pulledBy": "a losing incumbent",
+      "writes": "the term's work is the middle of the speech"
+    }
+  ]
 }

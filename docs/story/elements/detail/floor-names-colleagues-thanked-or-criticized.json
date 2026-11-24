@@ -17,5 +17,17 @@
     "floor-speech": 0.6
   },
   "usedBy": [],
-  "inGame": "relationships between members and the presiding officer"
+  "inGame": "relationships between members and the presiding officer",
+  "turns": [
+    {
+      "way": "No colleague is named.",
+      "pulledBy": "a quiet member",
+      "writes": "only the measure is named"
+    },
+    {
+      "way": "A colleague is named in disagreement.",
+      "pulledBy": "a combative member",
+      "writes": "a named disagreement"
+    }
+  ]
 }
