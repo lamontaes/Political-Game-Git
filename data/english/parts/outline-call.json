@@ -7810,6 +7810,766 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-ask-a-coach-a-pastor-or-a-shop-steward-what-they-hear-from-p",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask a coach, a pastor or a shop steward what they hear from people about {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-read-a-letter-to-the-editor-about-and-decide-whether-you-agr",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Read a letter to the editor about {about} and decide whether you agree.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-ask-the-person-who-cuts-your-hair-or-fixes-your-car-what-the",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask the person who cuts your hair or fixes your car what they think about {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-find-a-free-public-meeting-this-month-where-is-on-the-agenda",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Find a free public meeting this month where {theme-short} is on the agenda.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-before-you-argue-about-online-call-or-visit-someone-who-sees",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Before you argue about {about} online, call or visit someone who sees it differently.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-learn-what-your-own-household-s-stake-in-is-and-say-it-out-l",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Learn what your own household's stake in {about} is, and say it out loud to someone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-look-up-the-last-vote-your-state-legislature-took-on",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Look up the last vote your state legislature took on {theme-short}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-find-the-person-in-your-town-who-knows-the-most-about-and-as",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Find the person in your town who knows the most about {theme-short} and ask them a question.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-bring-a-question-about-to-the-next-open-house-at-your-school",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Bring a question about {theme-short} to the next open house at your school, library or fire station.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-tell-the-people-in-your-life-where-you-stand-on-and-ask-wher",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Tell the people in your life where you stand on {about}, and ask where they stand.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.hired.spoken-you-picked-me-last-november-and-the-first-thing-i-owe-you-is",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "You picked me last November, and the first thing I owe you is to do what I said I would in the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.hired.spoken-the-vote-in-november-was-close-in-some-places-and-wide-in-ot",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "The vote in November was close in some places and wide in others, and I'll answer to all of them for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.hired.spoken-last-fall-you-chose-someone-to-do-this-work-for-and-today-i",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "Last fall you chose someone to do this work for {term-left}, and today I start.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.hired.spoken-i-took-this-job-in-november-and-the-next-are-the-only-part-o",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "I took this job in November, and the next {term-left} are the only part of it that you'll remember.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.hired.spoken-you-gave-me-in-november-and-i-know-that-s-all-i-get",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "You gave me {term-left} in November, and I know that's all I get.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-i-ll-spend-the-next-on-the-things-i-named-today",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll spend the next {term-left} on the things I named today.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-congress-writes-the-bills-and-i-sign-them-or-send-them-back",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Congress writes the bills and I sign them or send them back, so for the next {term-left} we'll have to work out each one.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-i-ll-be-at-my-desk-tomorrow-with-left-in-this-term-and-a-lon",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll be at my desk tomorrow, with {term-left} left in this term and a long list.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-thank-you-for-having-me-in-this-chamber-i-have-left-to-earn",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for having me in this chamber. I have {term-left} left to earn it.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-now-i-go-back-to-work-and-the-next-are-the-part-that-counts",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Now I go back to work, and the next {term-left} are the part that counts.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-union-if-congress-sends-me-bills-on-these-subjects-i-ll-read-them",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If Congress sends me bills on these subjects, I'll read them before the next {term-left} are over, and I'll answer each one.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-state-the-writes-the-bills-and-i-sign-them-or-send-them-back-so-fo",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The {body-word} writes the bills and I sign them or send them back, so for the next {term-left} we'll have to work out each one.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-word", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-state-i-ll-be-at-my-desk-tomorrow-with-left-in-my-term-and-a-long",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll be at my desk tomorrow, with {term-left} left in my term and a long list.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.state-of-the-state-thank-you-for-having-me-in-this-room-i-have-left-to-earn-it",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for having me in this room. I have {term-left} left to earn it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-people-who-work-for-the-government-and-read-the-news",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who work for the government and read the news about it: the next {term-left} are about your jobs too.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-people-who-didn-t-watch-tonight-the-news-will-have-th",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who didn't watch tonight: the news will have this tomorrow, and the next {term-left} start with it.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-people-who-voted-for-the-other-party-the-next-are-you",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who voted for the other party: the next {term-left} are yours as much as mine.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-teachers-and-nurses-who-run-on-tight-budgets-this-cha",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the teachers and nurses who run on tight budgets: this chamber sets some of that, and I'll listen to you about it for {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-people-who-take-a-day-off-to-vote-it-counted-and-the",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who take a day off to vote: it counted, and the next {term-left} show how much.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-union-to-the-member-of-congress-who-disagrees-with-me-most-i-ll-st",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the member of Congress who disagrees with me most: I'll start with you, in the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-state-to-the-people-who-work-for-s-government-and-read-the-news-ab",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who work for {realm-name}'s government and read the news about it: the next {term-left} are about your jobs too.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-state-to-the-teachers-and-nurses-who-run-on-tight-budgets-this-roo",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the teachers and nurses who run on tight budgets: this room sets some of that, and I'll listen to you about it for {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-state-to-the-people-who-take-a-day-off-to-vote-in-it-counted-and-t",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people who take a day off to vote in {realm-name}: it counted, and the next {term-left} show how much.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-state-to-the-member-of-the-who-disagrees-with-me-most-i-ll-start-w",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the member of the {body-word} who disagrees with me most: I'll start with you, in the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["body-word", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.state-of-the-state-to-everyone-in-watching-from-home-what-happens-in-this-room",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To everyone in {realm-name} watching from home: what happens in this room reaches your town, and it will for {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
