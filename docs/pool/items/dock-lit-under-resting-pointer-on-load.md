@@ -23,7 +23,7 @@ Seen: Nov 23, a drawn place, 1440x900: nothing on the dock has a glow class, an 
 
 **Cause.** Found in code: the hover rules (about line 932 of src/bench/play.css) `.ring:hover` and `.action:hover:not(:disabled)` in src/bench/play.css light any button under a resting pointer, and the dock (`#dock`, shown when `rings.hidden` turns false, or a scene or sheet ends, in src/bench/play.mjs, near `fitUiScale`) appears under the spot of the click that started the life.
 
-**Fix.** While the dock settles after it comes into view (at load, when a scene ends, when a sheet closes), a hover on its rings or buttons shows the plain look; the first pointer move ends the settling and the hover light works as before. No player text changes.
+**Fix.** While the dock settles after it comes into view (at load, when a scene ends, when a sheet closes), a hover on its rings or buttons shows the plain look, and a ring's name label stays down; the first pointer move ends the settling and the hover light works as before. No player text changes.
 
 **Time box.** 1 hour, one Sonnet session at medium.
 

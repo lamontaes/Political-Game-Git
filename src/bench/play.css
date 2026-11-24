@@ -5154,6 +5154,11 @@ select.release-pick {
   opacity: 1;
   transition-delay: 0.25s;
 }
+/* Under a resting pointer the name stays down too, until the pointer moves (play.mjs, the dock's settle). */
+#dock.settling .ring[data-name]:hover::before {
+  opacity: 0;
+  transition-delay: 0s;
+}
 /* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
    Nov 7); the talk box takes the stage. */
 #game:has(
