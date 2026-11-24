@@ -3736,7 +3736,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america"
+      ]
     },
     {
       "key": "outline-theme.blessing.spoken-thanks-everyone",
@@ -3850,7 +3853,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america"
+      ]
     },
     {
       "key": "outline-theme.blessing.spoken-bless-you-all",
@@ -3910,7 +3916,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america"
+      ]
     },
     {
       "key": "outline-theme.blessing.spoken-good-night-america",
@@ -3937,7 +3946,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america"
+      ]
     },
     {
       "key": "outline-theme.blessing.spoken-good-night-everyone",

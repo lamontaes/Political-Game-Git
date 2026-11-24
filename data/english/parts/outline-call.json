@@ -5489,7 +5489,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
     },
     {
       "key": "outline-call.greeting.state-of-the-union-spoken-members-of-congress-fellow-citizens",
@@ -5511,7 +5512,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
     },
     {
       "key": "outline-call.greeting.state-of-the-union-spoken-my-fellow-americans",
@@ -5574,7 +5576,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-spoken-members-of-the-and-people-of",
@@ -5593,7 +5596,8 @@
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-spoken-people-of",
@@ -5655,7 +5659,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america"
+      ]
     },
     {
       "key": "outline-call.blessing.state-of-the-union-thank-you",
@@ -5705,7 +5712,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sots-close-ends-on-a-blessing"
+      ]
     },
     {
       "key": "outline-call.blessing.state-of-the-state-thank-you-and-god-bless",
@@ -5725,7 +5735,10 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sots-close-ends-on-a-blessing"
+      ]
     },
     {
       "key": "outline-call.greeting.state-of-the-union-and-members-of-congress",
@@ -5747,7 +5760,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
     },
     {
       "key": "outline-call.greeting.state-of-the-union-to-to-the-members-of-congress-and-to-everyone-watching",
@@ -5766,7 +5780,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
     },
     {
       "key": "outline-call.call.state-of-the-union-ask-your-state-s-senators-where-they-stand-on-and-listen-to",
@@ -5807,7 +5822,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-and-my-fellow-citizens-of",
@@ -5829,7 +5845,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-my-fellow-citizens-of",
@@ -5870,7 +5887,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-and-everyone-watching-in",
@@ -5889,7 +5907,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.report.state-of-the-state-the-people-of-sent-the-and-me-to-work-and-today-i-report-on",
@@ -6288,7 +6307,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-guests-and-people-of",
@@ -6310,7 +6330,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-lawmakers-of-and-neighbors-listening-at-home",
@@ -6354,7 +6375,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.report.state-of-the-state-i-report-to-the-today-and-what-i-say-is-for-every-person-in",
@@ -7205,7 +7227,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-my-thanks-to-the-for-having-me",
@@ -7227,7 +7250,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-people-of-it-s-good-to-be-with-you",
@@ -7293,7 +7317,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.call.state-of-the-state-find-your-state-representative-s-office-hours-and-bring-a-qu",
