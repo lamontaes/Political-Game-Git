@@ -1,4 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
+import { roleWord } from "./card";
 import { hash as fnv, readRecipe } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
@@ -746,8 +747,19 @@ export function peopleHere(
     if (!reason || reason === "you" || seen.has(id)) return [];
     seen.add(id);
     const face = faceOf(core, id, place, formal);
+    // Under their name: the office the scene names them by, else their tie to the
+    // viewer or the office they serve in now (mock C).
+    const under = role ?? roleWord(core, viewer ?? "", id);
     return face
-      ? [{ personId: id, name, reason, face, ...(role ? { role } : {}) }]
+      ? [
+          {
+            personId: id,
+            name,
+            reason,
+            face,
+            ...(under ? { role: under } : {}),
+          },
+        ]
       : [];
   });
   // First whoever speaks and whoever the scene is about, then the people the
