@@ -4189,6 +4189,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.i-d-like-someone-at-agency-to-read-my-r-sum-with-me-i-don-t-know-what-to-leave-in"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-first-few-lines-i-d-like-someone-to-read-them-and-tell-me-what-kind-of-work-they-think-i-m-looking-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-bring-an-opening-that-interests-me-could-we-look-at-which-experience-belongs-on-a-r-sum-for-that-job"
         }
       ],
       "elements": [
@@ -4219,6 +4249,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
           "after": "scene-talk-office.follow-answer.i-d-like-someone-at-agency-to-read-my-r-sum-with-me-i-don-t-know-what-to-leave-in"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.the-first-few-lines-i-d-like-someone-to-read-them-and-tell-me-what-kind-of-work-they-think-i-m-looking-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-d-bring-an-opening-that-interests-me-could-we-look-at-which-experience-belongs-on-a-r-sum-for-that-job"
         }
       ],
       "elements": [
@@ -4249,6 +4309,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.i-d-like-agency-to-run-through-an-interview-with-me-so-i-can-practice-answering-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-try-answering-the-first-question-when-somebody-says-to-tell-them-about-myself-i-never-know-where-to-start"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-want-to-practice-asking-questions-too-how-do-i-find-out-what-the-work-is-really-like"
         }
       ],
       "elements": [
@@ -4279,6 +4369,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
           "after": "scene-talk-office.follow-answer.i-d-like-agency-to-run-through-an-interview-with-me-so-i-can-practice-answering-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-try-answering-the-first-question-when-somebody-says-to-tell-them-about-myself-i-never-know-where-to-start"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-want-to-practice-asking-questions-too-how-do-i-find-out-what-the-work-is-really-like"
         }
       ],
       "elements": [
@@ -4309,6 +4429,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.ask-agency-where-i-can-train-for-a-different-kind-of-work"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-i-could-train-for-around-here-and-which-employers-actually-hire-people-who-finish"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.how-long-would-i-be-in-class-before-i-could-start-applying-for-work-in-that-field"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-cost-before-i-put-my-name-down-for-anything-i-need-to-know-what-i-d-have-to-pay-myself"
         }
       ],
       "elements": [
@@ -4339,6 +4489,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
           "after": "scene-talk-office.follow-answer.ask-agency-where-i-can-train-for-a-different-kind-of-work"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-i-could-train-for-around-here-and-which-employers-actually-hire-people-who-finish"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.how-long-would-i-be-in-class-before-i-could-start-applying-for-work-in-that-field"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.the-cost-before-i-put-my-name-down-for-anything-i-need-to-know-what-i-d-have-to-pay-myself"
         }
       ],
       "elements": [
@@ -4369,6 +4549,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.ask-agency-what-paperwork-i-ll-need-to-file-for-unemployment"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.where-do-i-start-the-claim-and-what-information-should-i-have-in-front-of-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.what-paperwork-could-i-get-together-before-i-apply-i-d-like-someone-to-check-my-list"
         }
       ],
       "elements": [
@@ -4399,6 +4609,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
           "after": "scene-talk-office.follow-answer.ask-agency-what-paperwork-i-ll-need-to-file-for-unemployment"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.where-do-i-start-the-claim-and-what-information-should-i-have-in-front-of-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.what-paperwork-could-i-get-together-before-i-apply-i-d-like-someone-to-check-my-list"
         }
       ],
       "elements": [
@@ -4429,6 +4669,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer"],
           "after": "scene-talk-office.follow-answer.tell-them-what-i-did-at-employer-i-want-to-know-who-else-needs-somebody-with-that-experience"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.at-employer-my-title-didn-t-tell-you-much-i-d-like-to-talk-through-the-actual-work-and-see-where-else-it-fits"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.could-they-help-me-figure-out-what-other-employers-call-the-work-i-did-at-employer-that-would-give-me-something-to-search-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.i-want-them-to-know-about-the-layoff-at-employer-i-d-rather-explain-it-myself-than-have-somebody-guess-why-i-left"
         }
       ],
       "elements": [
@@ -4459,6 +4729,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer", "staffer"],
           "after": "scene-talk-office.follow-answer.tell-them-what-i-did-at-employer-i-want-to-know-who-else-needs-somebody-with-that-experience"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer", "staffer"],
+          "after": "scene-talk-office.follow-answer.at-employer-my-title-didn-t-tell-you-much-i-d-like-to-talk-through-the-actual-work-and-see-where-else-it-fits"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer", "staffer"],
+          "after": "scene-talk-office.follow-answer.could-they-help-me-figure-out-what-other-employers-call-the-work-i-did-at-employer-that-would-give-me-something-to-search-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer", "staffer"],
+          "after": "scene-talk-office.follow-answer.i-want-them-to-know-about-the-layoff-at-employer-i-d-rather-explain-it-myself-than-have-somebody-guess-why-i-left"
         }
       ],
       "elements": [
@@ -4489,6 +4789,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.a-name-at-agency-would-help-i-d-like-to-speak-to-the-person-who-knows-about-openings"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.which-places-are-taking-applications-now-and-who-should-i-ask-for-when-i-call"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.where-would-they-look-first-if-they-were-trying-to-find-a-job-around-here-this-week"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.who-could-walk-me-through-a-listing-and-tell-me-whether-my-experience-matches-what-the-employer-wants"
         }
       ],
       "elements": [
@@ -4519,6 +4849,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
           "after": "scene-talk-office.follow-answer.a-name-at-agency-would-help-i-d-like-to-speak-to-the-person-who-knows-about-openings"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.which-places-are-taking-applications-now-and-who-should-i-ask-for-when-i-call"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.where-would-they-look-first-if-they-were-trying-to-find-a-job-around-here-this-week"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "staffer"],
+          "after": "scene-talk-office.follow-answer.who-could-walk-me-through-a-listing-and-tell-me-whether-my-experience-matches-what-the-employer-wants"
         }
       ],
       "elements": [
@@ -4669,6 +5029,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.i-d-like-someone-at-agency-to-read-my-r-sum-with-me-i-don-t-know-what-to-leave-in"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-first-few-lines-i-d-like-someone-to-read-them-and-tell-me-what-kind-of-work-they-think-i-m-looking-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-bring-an-opening-that-interests-me-could-we-look-at-which-experience-belongs-on-a-r-sum-for-that-job"
         }
       ],
       "elements": [
@@ -4699,6 +5089,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.i-d-like-agency-to-run-through-an-interview-with-me-so-i-can-practice-answering-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-try-answering-the-first-question-when-somebody-says-to-tell-them-about-myself-i-never-know-where-to-start"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-want-to-practice-asking-questions-too-how-do-i-find-out-what-the-work-is-really-like"
         }
       ],
       "elements": [
@@ -4729,6 +5149,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.ask-agency-where-i-can-train-for-a-different-kind-of-work"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-i-could-train-for-around-here-and-which-employers-actually-hire-people-who-finish"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.how-long-would-i-be-in-class-before-i-could-start-applying-for-work-in-that-field"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-cost-before-i-put-my-name-down-for-anything-i-need-to-know-what-i-d-have-to-pay-myself"
         }
       ],
       "elements": [
@@ -4759,6 +5209,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.ask-agency-what-paperwork-i-ll-need-to-file-for-unemployment"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.where-do-i-start-the-claim-and-what-information-should-i-have-in-front-of-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.what-paperwork-could-i-get-together-before-i-apply-i-d-like-someone-to-check-my-list"
         }
       ],
       "elements": [
@@ -4789,6 +5269,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer"],
           "after": "scene-talk-office.follow-answer.tell-them-what-i-did-at-employer-i-want-to-know-who-else-needs-somebody-with-that-experience"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.at-employer-my-title-didn-t-tell-you-much-i-d-like-to-talk-through-the-actual-work-and-see-where-else-it-fits"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.could-they-help-me-figure-out-what-other-employers-call-the-work-i-did-at-employer-that-would-give-me-something-to-search-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.i-want-them-to-know-about-the-layoff-at-employer-i-d-rather-explain-it-myself-than-have-somebody-guess-why-i-left"
         }
       ],
       "elements": [
@@ -4819,6 +5329,36 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.follow-answer.a-name-at-agency-would-help-i-d-like-to-speak-to-the-person-who-knows-about-openings"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.which-places-are-taking-applications-now-and-who-should-i-ask-for-when-i-call"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.where-would-they-look-first-if-they-were-trying-to-find-a-job-around-here-this-week"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.who-could-walk-me-through-a-listing-and-tell-me-whether-my-experience-matches-what-the-employer-wants"
         }
       ],
       "elements": [
@@ -8293,6 +8833,492 @@
         "key": "favor-asked"
       },
       "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-like-to-try-answering-the-first-question-when-somebody-says-to-tell-them-about-myself-i-never-know-where-to-start",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd like to try answering the first question. When somebody says to tell them about myself, I never know where to start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "What do I say if they ask me something I don't know? I'd like to try that one out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-want-to-practice-asking-questions-too-how-do-i-find-out-what-the-work-is-really-like",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want to practice asking questions, too. How do I find out what the work is really like?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-first-few-lines-i-d-like-someone-to-read-them-and-tell-me-what-kind-of-work-they-think-i-m-looking-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The first few lines. I'd like someone to read them and tell me what kind of work they think I'm looking for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The experience section. I want to know what someone reading it for the first time would take away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-bring-an-opening-that-interests-me-could-we-look-at-which-experience-belongs-on-a-r-sum-for-that-job",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd bring an opening that interests me. Could we look at which experience belongs on a r\u00e9sum\u00e9 for that job?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-like-to-know-what-i-could-train-for-around-here-and-which-employers-actually-hire-people-who-finish",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd like to know what I could train for around here and which employers actually hire people who finish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-ask-agency-about-training-what-do-you-want-to-find-out"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.how-long-would-i-be-in-class-before-i-could-start-applying-for-work-in-that-field",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "How long would I be in class before I could start applying for work in that field?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-ask-agency-about-training-what-do-you-want-to-find-out"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-cost-before-i-put-my-name-down-for-anything-i-need-to-know-what-i-d-have-to-pay-myself",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The cost. Before I put my name down for anything, I need to know what I'd have to pay myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-ask-agency-about-training-what-do-you-want-to-find-out"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.where-do-i-start-the-claim-and-what-information-should-i-have-in-front-of-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Where do I start the claim, and what information should I have in front of me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd want to ask what counts as proof of pay. Would somebody there go over the list with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.what-paperwork-could-i-get-together-before-i-apply-i-d-like-someone-to-check-my-list",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "What paperwork could I get together before I apply? I'd like someone to check my list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.at-employer-my-title-didn-t-tell-you-much-i-d-like-to-talk-through-the-actual-work-and-see-where-else-it-fits",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "At {employer} my title didn't tell you much. I'd like to talk through the actual work and see where else it fits.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-ask.what-would-you-like-agency-to-know-about-your-last-job"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.could-they-help-me-figure-out-what-other-employers-call-the-work-i-did-at-employer-that-would-give-me-something-to-search-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Could they help me figure out what other employers call the work I did at {employer}? That would give me something to search for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-ask.what-would-you-like-agency-to-know-about-your-last-job"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-want-them-to-know-about-the-layoff-at-employer-i-d-rather-explain-it-myself-than-have-somebody-guess-why-i-left",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want them to know about the layoff at {employer}. I'd rather explain it myself than have somebody guess why I left.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-ask.what-would-you-like-agency-to-know-about-your-last-job"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.which-places-are-taking-applications-now-and-who-should-i-ask-for-when-i-call",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Which places are taking applications now, and who should I ask for when I call?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-get-someone-from-agency-on-the-phone-what-do-you-want-to-ask-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.where-would-they-look-first-if-they-were-trying-to-find-a-job-around-here-this-week",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Where would they look first if they were trying to find a job around here this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-get-someone-from-agency-on-the-phone-what-do-you-want-to-ask-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.who-could-walk-me-through-a-listing-and-tell-me-whether-my-experience-matches-what-the-employer-wants",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Who could walk me through a listing and tell me whether my experience matches what the employer wants?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-get-someone-from-agency-on-the-phone-what-do-you-want-to-ask-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
     }
   ]
 }
