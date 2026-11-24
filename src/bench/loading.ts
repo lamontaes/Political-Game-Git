@@ -9,13 +9,13 @@ import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
-import { centuryOf, historyMode } from "../core2/electorate-century";
+import { centuryOf, historyMode } from "../core2/modules/elections";
 import { ageOnDate } from "../core2/kernel/dates";
 import { jobTitleByKind } from "../core2/person-work";
 import { sayableJobTitle } from "../english/said-as";
 import { withArticle } from "../english/journal-words";
 import { employerWords } from "../director/words";
-import { schoolsAttended } from "../core2/past-school";
+import { schoolsAttended } from "../core2/past";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {

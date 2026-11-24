@@ -66,7 +66,8 @@ import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
 import { questionAbout, questionPlainWords } from "../english/question-names";
-import { partyOf } from "../core2/candidate-pool";
+import { partyOf } from "../core2/modules/campaigns";
+import { reachScopeOf } from "../core2/law-reach/applied";
 import {
   causeGroupForm,
   causeGroupName,
@@ -1008,7 +1009,8 @@ export function archivedLawPassedFacts(
  * (`reason-for`, `reason-against`, question-names.json); when a bill that
  * carried takes effect (`takes-effect`, the earliest provision's date); and
  * whether the next chamber still takes it up (`next-step`, with that
- * chamber's name in `next-body`).
+ * chamber's name in `next-body`); and whom the law applies to by its data
+ * (`reaches-<group>`).
  */
 function voteBody(
   read: Reader,
@@ -1044,6 +1046,23 @@ function voteBody(
   if (question)
     for (const [key, text] of Object.entries(questionPlainWords(question)))
       if (key.startsWith("reason-")) out[key] = read.fact(text, bill.id);
+  // Whom the law applies to by its data (law-reach/scope.ts), as one fact per
+  // group of people it selects (`reaches-tenants`, `reaches-workers`), for
+  // the banks to word.
+  for (const provision of bill.provisions) {
+    const scope = reachScopeOf(
+      provision.policyId ??
+        provision.question ??
+        provision.series ??
+        (provision.line ? `budget:${provision.line}` : null),
+    );
+    const people = Array.isArray(scope?.people)
+      ? (scope.people as { id?: string; target?: string }[])
+      : [];
+    for (const group of people)
+      if (group.target === "people" && group.id)
+        out[`reaches-${group.id}`] = read.fact("yes", bill.id);
+  }
   const starts = bill.provisions
     .map((row) => row.effectiveDate)
     .filter((date): date is string => !!date)
