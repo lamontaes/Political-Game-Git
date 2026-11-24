@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10356
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T06:45:47.356Z
 ---
 
 **What.** The owner, Nov 16 (N16-58), said: it is squished right here. On Politics, Elections a ballot office such as Council member (District 2) - County office broke down to a word or less a line beside its Filing opens aside.

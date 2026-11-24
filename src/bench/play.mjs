@@ -1,7 +1,7 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
+import { makeButton, buttonRow } from "./ui/button.mjs";
 import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
@@ -285,7 +285,8 @@ function drawTalkStrip() {
       ? [
           bustStrip({
             people: shown,
-            speakingId: talkPersonId ?? undefined,
+            // Nobody on the strip speaks while the narrator does: all stand small.
+            speakingId: talkPersonId ?? null,
             onCard: openCard,
           }),
         ]
@@ -699,9 +700,21 @@ $("journal-note-close").addEventListener("click", () =>
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
-  $("journal-line").textContent = line;
+  ).catch(() => null);
+  // A read that failed leaves the pop-up as it is: only a Journal that is really empty takes
+  // a waiting pop-up down (N16-24, "I didn't even get to see the journal stuff there").
+  if (!chapters) return;
+  const newest = chapters.at(-1)?.lines.at(-1);
+  const line = newest?.text ?? "";
+  // A line that follows another ("Two years after that, ...") is shown with the line it
+  // follows, from its own link record, so a pop-up never opens on "that" with nothing before
+  // it (owner, Nov 23, P20).
+  const lead = newest?.link?.earlierId
+    ? chapters
+        .flatMap((chapter) => chapter.lines)
+        .find((earlier) => earlier.id === newest.link.earlierId)
+    : undefined;
+  $("journal-line").textContent = lead?.text ? `${lead.text} ${line}` : line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
@@ -2073,6 +2086,7 @@ async function campaignParts() {
     contest,
     campaign,
     pollSample,
+    pollPrice,
     petition,
     outings,
     standing,
@@ -2129,6 +2143,18 @@ async function campaignParts() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // An outlet that said no says why, in the words the trail already has
+      // (a refusal with no label there shows the outing's name only).
+      const refusal = {
+        "already-interviewed": controls.campaignUnavailable.interviewed,
+        "no-room": controls.campaignUnavailable.outletsFull,
+      }[result.interview?.reason];
+      if (
+        outing === "interview" &&
+        result.interview?.status === "declined" &&
+        refusal
+      )
+        campaignResult = refusal;
       // A donor meeting is seen in the host's home, told by what the room gave.
       if (outing === "party" && result.callsLine)
         campaignResult = result.callsLine;
@@ -2139,7 +2165,7 @@ async function campaignParts() {
       if (result.scene || moment) closeSheet();
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
-        drawHere(result.scene);
+        drawHere(result.scene, (p) => talkTo(p.personId));
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -2266,7 +2292,9 @@ async function campaignParts() {
         group: T.groupAsk,
         title: controls.campaignActs[kind],
         picture: pictures?.[kind],
-        load: async () => ({}),
+        // A poll's price is said where it is bought, not among where the race stands.
+        load: async () =>
+          kind === "poll" && pollPrice ? { nodes: [line(pollPrice)] } : {},
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
       })),
@@ -2295,7 +2323,7 @@ async function campaignParts() {
             {
               group: T.groupMoney,
               title: controls.campaignActs.circulators,
-              picture: pictures?.mail,
+              picture: pictures?.circulators,
               load: async () => {
                 const dollarsOut = numberBox({
                   value: 500,
@@ -2506,7 +2534,7 @@ async function campaignParts() {
                 ),
               ]
             : []),
-          buttonTray(out),
+          buttonRow(out),
         ],
       ],
     });
@@ -3445,7 +3473,8 @@ function billEstimate(paper, section) {
   // again; a section that changes a rule and no amount says so.
   const shown = lines.filter(Boolean);
   return {
-    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    // A section with no figure says nothing: no line, and the strip is hidden when it is empty.
+    prose: "",
     lines: shown,
     compare,
     // A phase-in's step: the paper lists every step beside the others, in order.
@@ -4250,17 +4279,6 @@ const sheets = {
             ...(peopleLine
               ? [stripSection(3, labels.myPeople, peopleLine)]
               : []),
-            // Your own life from the same lines the card tells of anyone (the mock
-            // draws no life section; it follows "My people").
-            ...(known.history?.length
-              ? [
-                  stripSection(
-                    5,
-                    labels.myLife,
-                    ...lifeParagraphs(known.history),
-                  ),
-                ]
-              : []),
           ],
         ],
       }),
@@ -4754,7 +4772,7 @@ const sheets = {
                     ...(opened.askedMinor !== undefined
                       ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                       : []),
-                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                    ...(stepButtons.length ? [buttonRow(...stepButtons)] : []),
                   ),
                 ],
               ]
@@ -4960,13 +4978,22 @@ const sheets = {
         : openingTab(ordered, newsTab, newsSeen);
     newsShowing = opening;
     read(opening);
+    const follows = await api(
+      `/api/news/follows?id=${encodeURIComponent(me.id)}`,
+    );
     return [
       newsBoard({
         outlets: ordered,
         chosenKey: opening,
-        followsAny: (
-          await api(`/api/news/follows?id=${encodeURIComponent(me.id)}`)
-        ).any,
+        followsAny: follows.any,
+        followed: new Map(follows.outlets.map((o) => [o.id, o.follows])),
+        onFollow: async (key, on) => {
+          newsShowing = key;
+          await post(
+            `/api/news/follow?id=${encodeURIComponent(me.id)}&outlet=${encodeURIComponent(key)}&on=${on ? 1 : 0}`,
+          );
+          await refresh();
+        },
         onChoose: (key) => {
           newsTab = key;
           newsShowing = key;
@@ -5476,12 +5503,22 @@ const sheets = {
                 closeSheet();
                 showPerson({ personId: f.cardId });
               },
-              more: f.stances.map((st) =>
-                row(
-                  policyLabel(st.question),
-                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-                ),
-              ),
+              // Where they stand, as typed rows in the strip screens' own
+              // sentence case, not the capitals of a form's label (owner,
+              // Nov 23, C11 and P28).
+              more: f.stances.length
+                ? [
+                    dotRows(
+                      f.stances.map((st) => ({
+                        label: policyLabel(st.question),
+                        value:
+                          st.position > 0
+                            ? (stance.for ?? "")
+                            : (stance.against ?? ""),
+                      })),
+                    ),
+                  ]
+                : [],
             }),
           )
         : [prose(labels.noFilers, "record-empty")];
@@ -5492,8 +5529,16 @@ const sheets = {
         race.filedWith;
       // A race the player may run for in kind but cannot file for today
       // says why, from the eligibility rule's own record, and offers no filing.
+      // So does one whose filing hasn't opened, where the player is still too
+      // young on its last filing day: waiting for it to open won't help.
+      const tooYoungForRace =
+        Boolean(race.filingDeadline) &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline;
       const cannotFile =
-        race.playerMayFile && !filed.has(race.contestId) && race.cannotFile
+        (race.playerMayFile || tooYoungForRace) &&
+        !filed.has(race.contestId) &&
+        race.cannotFile
           ? race.cannotFile
           : null;
       const cannotFileWords = cannotFile
@@ -5528,11 +5573,14 @@ const sheets = {
       // A race whose filing hasn't opened runs the world to that morning, as a
       // calendar day does (owner, Nov 17: "so I don't have to figure out the
       // filing thing"); what needs the player on the way stops it there.
+      // Not for a player who is old enough only after this race's filing
+      // closes: the morning it opens, they still could not file.
       const opensLater =
         !race.filingClosed &&
         !race.filingOpen &&
         race.filingOpens &&
-        race.filingOpens > today();
+        race.filingOpens > today() &&
+        !tooYoungForRace;
       const simButton = makeButton({
         textContent: labels.simTo.replace(
           "{date}",
@@ -5544,7 +5592,7 @@ const sheets = {
         closeSheet();
         act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
       });
-      const tray = [
+      const raceButtons = [
         ...(mayFile && !cannotFile ? [fileButton] : []),
         ...(race.mayAnnounce ? [announceButton] : []),
         ...(opensLater ? [simButton] : []),
@@ -5633,7 +5681,7 @@ const sheets = {
                 },
               ]),
             ),
-            ...(tray.length ? [buttonTray(...tray)] : []),
+            ...(raceButtons.length ? [buttonRow(...raceButtons)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile &&
@@ -5705,6 +5753,13 @@ const sheets = {
     // A race of an office the player runs for (the clerk's own answer: it is
     // not "not-your-office") is theirs; the rest are the town's and county's.
     const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    // The player turns old enough only after this race's filing closes.
+    const tooYoungFor = (race) =>
+      Boolean(
+        race.filingDeadline &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline,
+      );
     const entryOf = (race, own) => ({
       key: race.contestId,
       label:
@@ -5717,20 +5772,26 @@ const sheets = {
         ? status(race)
         : race.announced
           ? labels.youAnnounced
-          : own && race.cannotFile?.metOn
-            ? `${labels.filingOpens} ${dateWords(
-                race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                  ? race.filingOpens
-                  : race.cannotFile.metOn,
-                { year: today() },
-              )}`
-            : own && race.bar === "window-not-open" && race.filingOpens
-              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-              : own && race.playerMayFile && race.filingOpen
-                ? labels.fileForIt
-                : race.filers.length
-                  ? status(race)
-                  : "",
+          : // Old enough only after this race's filing closes: filing never
+            // opens for them in this race, so its line names no filing day.
+            own && race.cannotFile?.metOn && tooYoungFor(race)
+            ? race.filers.length
+              ? status(race)
+              : ""
+            : own && race.cannotFile?.metOn
+              ? `${labels.filingOpens} ${dateWords(
+                  race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                    ? race.filingOpens
+                    : race.cannotFile.metOn,
+                  { year: today() },
+                )}`
+              : own && race.bar === "window-not-open" && race.filingOpens
+                ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+                : own && race.playerMayFile && race.filingOpen
+                  ? labels.fileForIt
+                  : race.filers.length
+                    ? status(race)
+                    : "",
       data: { contest: race.contestId },
       race,
     });
@@ -5817,6 +5878,9 @@ const sheets = {
     return rosterScreen({
       title: controls.titles.bills,
       className: "bills",
+      // The list takes the sheet's room: the pager gives rows back until the sheet fits.
+      maxRows: 20,
+      reserve: 240,
       groups: stages.map((stage) => ({
         title: status[stage] ?? "",
         entries: list
@@ -6644,11 +6708,11 @@ const sheets = {
       return [
         rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
-        ...(repealButtons.length ? [buttonTray(...repealButtons)] : []),
+        ...(repealButtons.length ? [buttonRow(...repealButtons)] : []),
         ...(repealLines.length
           ? [stripSection(5, labels.repeal, ...repealLines)]
           : []),
-        ...(measures.length ? [buttonTray(...measures)] : []),
+        ...(measures.length ? [buttonRow(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
@@ -6838,7 +6902,7 @@ async function openSheet(tab) {
  * body, or a split screen's side or main) gives back a row at a time until
  * the part fits, the pager holds one row, or a row given back no longer
  * shortens the part (something else in it is the taller). A screen counts its rows from the
- * window; what sits above a pager (a tray of buttons, a long title) is only
+ * window; what sits above a pager (a row of buttons, a long title) is only
  * known once drawn.
  */
 function fitPagers(root) {
@@ -6935,6 +6999,46 @@ document.addEventListener("fullscreenchange", () => {
 
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
+
+// A dock that comes into view under a resting pointer (the click that began the
+// life, a scene that ends, a sheet that closes) shows no hover light until the
+// pointer moves: nothing glows on its own (owner, Nov 23, N8-P12). It watches
+// every panel that hides the dock, not only the rail's own `hidden`.
+{
+  const dock = $("dock");
+  const dockShown = () =>
+    !$("rings").hidden && getComputedStyle($("rings")).display !== "none";
+  let wasShown = dockShown();
+  const unsettle = () => dock.classList.remove("settling");
+  const watch = () => {
+    const shown = dockShown();
+    if (shown && !wasShown) {
+      dock.classList.add("settling");
+      window.addEventListener("pointermove", unsettle, {
+        once: true,
+        capture: true,
+      });
+    }
+    wasShown = shown;
+  };
+  const observer = new MutationObserver(watch);
+  for (const id of [
+    "rings",
+    "game",
+    "talk",
+    "meeting",
+    "desk",
+    "election-day",
+    "returns",
+    "ballot",
+    "sheet",
+  ])
+    if ($(id))
+      observer.observe($(id), {
+        attributes: true,
+        attributeFilter: ["hidden", "class"],
+      });
+}
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -7419,6 +7523,46 @@ async function listTowns() {
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
+// The portrait's size in the creator (layout, not game rules): it starts at `start`
+// and is the one part that gives way, so a tall look (a man's or a nonbinary person's
+// extra rows) with a name filled in still fits the window, and a short one fills the
+// room it has (owner, Nov 17: no empty space in the creator; the CTO's catch, Nov 24:
+// the panel's top edge ran off screen).
+const PORTRAIT_COLUMN = { start: 230, least: 140, most: 270, margin: 24 };
+/** Draws the portrait, keeping the one being left up until the new one has every piece, so it is never blank while the look changes (owner, Nov 16, N16-9). */
+function drawPortrait(view, tab, column) {
+  const portrait = drawFace(view.faces[tab], { shape: "bust", column });
+  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
+  const arrived = portrait.querySelector(".bust-stack")?.ready;
+  const put = () => {
+    $("cr-bust").replaceChildren(portrait);
+    setup.portraitShown = column;
+  };
+  if (!arrived || !$("cr-bust").firstChild) put();
+  else
+    void arrived.then(() => {
+      if (portraitTurn === setup.portraitTurn) put();
+    });
+}
+/** Resizes the portrait to the room the window leaves the panel: smaller when the panel runs past the window, larger when it has room to spare. */
+function fitPortrait(view, tab) {
+  const { least, most, margin } = PORTRAIT_COLUMN;
+  const shown =
+    setup.portraitShown ?? setup.portraitColumn ?? PORTRAIT_COLUMN.start;
+  const room = viewHeight() - margin - $("front").offsetHeight;
+  const next = Math.round(
+    Math.max(
+      least,
+      Math.min(
+        most,
+        room < 0 ? shown + room : room > 40 ? shown + room - 20 : shown,
+      ),
+    ),
+  );
+  if (next === (setup.portraitColumn ?? PORTRAIT_COLUMN.start)) return;
+  setup.portraitColumn = next;
+  drawPortrait(view, tab, next);
+}
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
 // share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
@@ -7427,18 +7571,7 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  // The look being left stays up until the new one has every piece, so the
-  // portrait is never blank while the look changes (owner, Nov 16, N16-9).
-  const portrait = drawFace(view.faces[tab], { shape: "bust", column: 220 });
-  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
-  const arrived = portrait.querySelector(".bust-stack")?.ready;
-  if (!arrived || !$("cr-bust").firstChild)
-    $("cr-bust").replaceChildren(portrait);
-  else
-    void arrived.then(() => {
-      if (portraitTurn === setup.portraitTurn)
-        $("cr-bust").replaceChildren(portrait);
-    });
+  drawPortrait(view, tab, setup.portraitColumn ?? PORTRAIT_COLUMN.start);
   const row = (r) =>
     lookRow(r, {
       onPick: (id, option) => void pickLook(id, option),
@@ -7468,6 +7601,7 @@ function showLook(view) {
       : []),
     ...view.rows.filter((r) => r.tab === tab).map(row),
   );
+  fitPortrait(view, tab);
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
   $("cr-undo").disabled = setup.previous.length === 0;

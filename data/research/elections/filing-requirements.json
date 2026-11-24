@@ -11131,7 +11131,8 @@
       "municipalOffice": {
         "office": "Village mayor / vice mayor",
         "applicable": true,
-        "offeredIn2026": true,
+        "offeredIn2026": false,
+        "nextRegularElection": "2028",
         "filedWith": "Guam Election Commission",
         "party": {
           "feeUSD": 100,
@@ -11142,7 +11143,7 @@
           "petitionInLieuOfFee": false,
           "feeAndPetitionBothRequired": false,
           "alternativeRoute": null,
-          "deadline2026": "2026-05-01"
+          "deadline2026": null
         },
         "independent": {
           "feeUSD": 100,
@@ -11153,21 +11154,24 @@
           "petitionInLieuOfFee": false,
           "feeAndPetitionBothRequired": false,
           "alternativeRoute": null,
-          "deadline2026": "2026-05-01"
+          "deadline2026": null
         },
         "feeInLieuOfSignatures": false,
         "petitionInLieuOfFee": false,
         "partyCandidateVsIndependent": "Partisan mayoral races.",
-        "minimumAge": 25,
-        "residency": "Resident and registered voter of the village (estimate)",
+        "minimumAge": 21,
+        "residency": "U.S. citizen, registered to vote in and resident of the municipality for one year before the election (5 GCA sec. 40108)",
         "registeredVoterRequired": true,
         "filingDeadlineRule": "160 to 90 days before the primary",
         "filingWindowOpens": "2026: February 23",
         "source": "https://gec.guam.gov/filing-for-candidacy/",
-        "secondarySources": [],
+        "secondarySources": [
+          "https://statecodesfiles.justia.com/guam/2024/title-5/division-4/chapter-40/chapter-40.pdf",
+          "https://en.wikipedia.org/wiki/2024_Guamanian_local_elections"
+        ],
         "retrievedDate": "2026-10-12",
         "estimate": true,
-        "estimateNote": "Some figures (marked estimate or null) could not be read from an official source on 2026-10-12."
+        "estimateNote": "Some figures (marked estimate or null) could not be read from an official source on 2026-10-12. Age, residency and the election year read from 5 GCA secs. 40104 and 40108 on 2026-11-18: mayors were last elected November 5, 2024 and are next elected November 7, 2028, so none is offered in 2026."
       },
       "usHouse": {
         "office": "Delegate to the U.S. House",
@@ -11616,12 +11620,17 @@
         "petitionInLieuOfFee": false,
         "partyCandidateVsIndependent": "As governor.",
         "minimumAge": 21,
+        "minimumAgeByOffice": {
+          "mayor": 25
+        },
         "residency": "Qualified voter of the island; resident and domiciliary of the island 3 years; must keep residing there",
         "registeredVoterRequired": true,
         "filingDeadlineRule": "4:30 p.m. 90 days before the election",
         "filingWindowOpens": "120 days before the election",
         "source": "https://www.votecnmi.gov.mp/downloads/2026/2026_GE_Candidates_Pamphlet-updated.pdf",
-        "secondarySources": [],
+        "secondarySources": [
+          "https://ballotpedia.org/Article_VI,_Northern_Mariana_Islands_Constitution"
+        ],
         "retrievedDate": "2026-10-12",
         "estimate": false
       },

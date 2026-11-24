@@ -2043,7 +2043,7 @@
     "id": "SG-GOV-territory-municipal-mix",
     "kind": "assumed-data",
     "file": "scripts/research/export-public-budget-bases.py",
-    "line": 0,
+    "line": 315,
     "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
     "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
     "addedBy": "Nation",
@@ -2100,5 +2100,45 @@
     "addedAt": "2026-11-17",
     "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-island-area-municipalities-unread",
+    "kind": "missing-data",
+    "file": "src/core2/reference/government-units.ts",
+    "line": 183,
+    "whatItFakes": "Of the Island Areas' local governments only Guam's 19 villages are read (src/core2/data/reference/island-area-governments.json). The Northern Mariana Islands' four municipalities (Saipan, Tinian and Aguiguan, Rota, the Northern Islands), each electing a Mayor of 25 or older and a three-member Municipal Council of 21 or older at large (Commonwealth Constitution Art. VI secs. 2 and 6), have no row, so a Northern Marianas place has no local office and no local race. American Samoa and the U.S. Virgin Islands elect no municipal government, so they need none.",
+    "why": "The game's 66 Northern Marianas places carry no link to the municipality each lies in (the place-to-county files hold none for the Island Areas), and a government row needs the places it governs.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "Resolved Nov 18: src/core2/data/reference/island-area-governments.json has a row for Saipan, Rota, and Tinian and Aguiguan, each listing the Census places it governs as the Census Bureau's 2020 Table 2 (Municipality and Village) lists them (51, 11 and 4 of the game's 66 places); each has its reading (a Mayor and a three-member council at large, Mayor 4 years and council 2) in src/core2/gov-rules/municipal-governments.json, the territory's even-year November timing, the Commonwealth Election Commission's filing row with the Mayor's own age of 25 (minimumAgeByOffice, read by filingRulesFor in src/core2/modules/elections.ts), and its vacancy law. The Northern Islands municipality (7 residents in 2020) has no village the game opens in, so it has no row. Shown in src/bench/island-area-local-race.test.ts. Was: A row for each Northern Marianas municipality listing the Census places it governs (from the Census Bureau's 2020 Island Areas geography), its reading (mayor and council) in src/core2/gov-rules/municipal-governments.json, its election timing and its filing research row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-18",
+    "resolvedBy": "Elections"
+  },
+  {
+    "id": "SG-GOV-island-mayor-late-vacancy",
+    "kind": "missing-engine",
+    "file": "src/core2/offices-local.ts",
+    "line": 315,
+    "whatItFakes": "A Northern Marianas Mayor's vacancy always goes to a special election. The Commonwealth Constitution (art. VI sec. 2(b)) calls one only when half or more of the term remains; with less left, 1 CMC sec. 5103(a) has the Governor appoint the last election's unsuccessful candidate for that office with the most votes. A council vacancy is appointed by the Mayor (art. VI sec. 6(b)), but the appointee is not the council race's runner-up the section names first.",
+    "why": "A vacancy rule in src/core2/modules/offices.ts is one method; no rule yet switches method on the share of the term left, or names the last race's runner-up as the appointee.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "A vacancy rule that reads the share of the term left (special election at half or more, else appointment by the Governor) and an appointee drawn from the last race's results, for both the Mayor and the council.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-island-vice-mayors-unseated",
+    "kind": "missing-data",
+    "file": "src/core2/offices-local.ts",
+    "line": 258,
+    "whatItFakes": "Six Guam villages (Hagat, Barrigada, Mangilao, Tamuning, Dededo, Yigo) also elect a Vice Mayor (5 GCA sec. 40101), and no village has that office: only the Mayor is seated and raced. A mayor's vacancy goes by the default rule (appointment by the governing body), though where a Vice Mayor serves the Vice Mayor takes the office (5 GCA sec. 40110(b)).",
+    "why": "The town office reader seats a council and a chief executive only; a second elected executive office has no reader yet.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "Resolved Nov 18: the six villages' readings in src/core2/gov-rules/municipal-governments.json name the Vice Mayor, the town office reader seats and races it on the Mayor's calendar (localViceMayorRules, cityOffices), and a Mayor's vacancy goes to the serving Vice Mayor, whose seat then stays vacant to the term's end (viceMayorSuccessor in src/core2/modules/offices.ts, 5 GCA sec. 40110(b)); with no Vice Mayor serving, the Municipal Planning Council appoints. Shown in src/bench/island-area-local-race.test.ts. Was: A vice-mayor office read from the village's reading in src/core2/gov-rules/municipal-governments.json, raced on the mayor's calendar, and the successor rule of 5 GCA sec. 40110(b) on the mayor's vacancy.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-18",
+    "resolvedBy": "Elections"
   }
 ]

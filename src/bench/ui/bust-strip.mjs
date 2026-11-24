@@ -1,7 +1,7 @@
 // The strip of busts (owner, Nov 11, 2026: "I do like this strip when there's a
-// scene and there's people to talk"): the people in a room as busts standing in
-// a band of soft glass with their names on it, its ends fading into the room and
-// a light along its top. It lies along the foot of the room to say who is here,
+// scene and there's people to talk"): the people in a room as busts standing
+// straight on the room with their names under them, each in a soft pool of light
+// (no plate and no band: CTO, Nov 24). It lies along the foot of the room to say who is here,
 // and joins the top of the talk box in a talk, where whoever speaks is lit and a
 // little larger. A room is its painting alone; nobody is drawn into it.
 import { el } from "./dom.mjs";
@@ -54,7 +54,8 @@ function stripPerson(person, { speakingId, onClick, onCard }) {
  * `words.label` names the strip at its left end. `speakingId` lights one person
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`
  * makes each person with something to say a button; `onCard` is what a click
- * does for the rest, opening that person's card.
+ * does for the rest, opening that person's card. `speakingId: null` is a talk
+ * where nobody on the strip speaks (the narrator does): everyone stands small.
  */
 export function bustStrip({
   people,
@@ -67,8 +68,9 @@ export function bustStrip({
   const strip = el("div", { className: "bust-strip" });
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));
+  // Someone speaks: the rest stand back, small and dimmed (play.css).
+  strip.dataset.speaker = speakingId ? "1" : "0";
   strip.append(
-    el("div", { className: "busts-glass" }),
     ...(words.label
       ? [el("span", { className: "busts-label", textContent: words.label })]
       : []),
