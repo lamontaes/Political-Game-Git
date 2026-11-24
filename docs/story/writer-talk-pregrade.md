@@ -5,7 +5,7 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `104bd27d`, every line authored
 - **Result:** 105 of 160 pass (66%); 55 fail.
 - **Calibration:** C4 8/8, D1 8/8, M1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the packet script at `af00c106` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
+- **Played:** the packet script at `104bd27d` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
@@ -103,11 +103,16 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `104bd27d`, every line authored
 
 ## As played
 
-- pass: `outline-talk.lead.talk-address-point-says-stays-right-where-it-is` → **6.17**   says: The President says a higher federal minimum wage stays right where it is. I'm glad he said it out loud. What'd you think?
-- pass: `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Somebody has to think about what that does to Bethel.
-- pass: `outline-talk.verdict-after.talk-address-point-so-i-m-with` → **2.30**   says: I kept picturing Chipley while the President went through interest rates on loans. So I'm with her.
-- pass: `outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on` → **1.16**   says: I kept picturing Meadow while the President went through taxes on the rich. Which is why I'd back her on a higher top income tax rate.
-- pass: `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on` → **2.24**   reply 1: Honestly, it bothers me more than I let on.
+- pass: `outline-talk.lead.talk-address-point-says-stays-right-where-it-is` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
+- pass: `outline-talk.ask.talk-address-point-where-do-you-come-down-on` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
+- pass: `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
+- fail: `outline-talk.why-first.talk-address-point-said-lines-up-with-what-i-see-around-place` → **5.17**   says: The minimum wage lines up with what I see around Roberts. That's why I'm behind the President on a higher federal minimum wage.
+- pass: `outline-talk.why-first.talk-address-point-what-president-said-on-said-fits-the-way-place-actually-is` → **1.16**   says: What the President said on taxes on the rich fits the way Meadow actually is. And I think she has it right.
+- pass: `outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-about` → **2.30**   says: I can only judge interest rates on loans by how Chipley has been going. That's why I'm behind the President on a cap on consumer loan interest.
+- pass: `outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-the-problem` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
+- pass: `outline-talk.why-first.talk-address-point-i-can-only-judge-said-by-how-place-has-been-going` → **2.30**   says: I can only judge interest rates on loans by how Chipley has been going. That's why I'm behind the President on a cap on consumer loan interest.
+- pass: `outline-talk.verdict.talk-address-point-if-you-ask-me-president-chose-the-right-fight` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
+- pass: `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on` → **2.25**   reply 2: Honestly, it bothers me more than I let on.
 
 ## Passing lines
 
