@@ -168,8 +168,11 @@ try {
   await drill("Race screen", async () => {
     await openRing("politics");
     await openTab("Elections");
-    // The roster lists what asks for money, then the offices you can run for: the last row is an office.
-    const row = page.locator("#sheet-body nav.pick-list .pick").last();
+    // The roster lists what asks for money, then the offices you can run for (a row that says when
+    // filing opens or that you can file); the last row is the fallback.
+    const rows = page.locator("#sheet-body nav.pick-list .pick");
+    const office = rows.filter({ hasText: /filing opens|file for it/i });
+    const row = (await office.count()) ? office.first() : rows.last();
     if (!(await row.count())) return false;
     await row.click();
     await page.waitForTimeout(700);
