@@ -2395,7 +2395,7 @@ body:not(.dev) .dev-only {
 }
 .dossier .heading {
   font-size: clamp(26px, calc(var(--vw) * 0.026), 38px);
-  line-height: 1.1;
+  line-height: 1.3;
 }
 #person-role {
   margin: -8px 0 0;
@@ -3001,8 +3001,13 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .mxbanner {
   padding: 0;
 }
+/* A title that wraps keeps its leading at 1.3 or more (the ui-look rule, Box
+   and scroll, Nov 24): the person card's name and section heads. */
 .strip-screen.name-beside .strip-name {
-  line-height: 1;
+  line-height: 1.3;
+}
+.strip-screen.name-beside .sechead {
+  line-height: 1.3;
 }
 /* The story is one column read in one place, in order (owner, Nov 23, P17, P24,
    P25; CTO, Nov 24); who they are stands under the bust. */
