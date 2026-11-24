@@ -1,0 +1,36 @@
+{
+  "id": "a-managers-active-hand-makes-the-first-weeks-go-well",
+  "kind": "consequence",
+  "summary": "A new hire whose manager takes part in the first weeks is far more likely to call the start a success.",
+  "realLife": "Gallup found employees were about 3.4 times as likely to rate onboarding successful when the manager took an active role.",
+  "sources": [
+    "Gallup, Create an exceptional onboarding journey for new employees: https://www.gallup.com/workplace/353096/create-exceptional-onboarding-journey-new-employees.aspx"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "new-coworker event with boss tie; job record start date.",
+  "turns": [
+    {
+      "turn": "manager-checks-in-weekly",
+      "summary": "The boss meets the new hire weekly and the newcomer settles.",
+      "pulledBy": ["trait: attentive boss", "small team"],
+      "writesBack": "boss tie closer; mood: confident"
+    },
+    {
+      "turn": "manager-is-absent",
+      "summary": "The boss is busy and the newcomer learns by trial.",
+      "pulledBy": ["busy season", "large team"],
+      "writesBack": "boss tie weak; mood: lost"
+    },
+    {
+      "turn": "a-coworker-steps-in",
+      "summary": "A coworker takes the newcomer under a wing instead.",
+      "pulledBy": ["trait: kind coworker"],
+      "writesBack": "coworker tie closer"
+    }
+  ]
+}

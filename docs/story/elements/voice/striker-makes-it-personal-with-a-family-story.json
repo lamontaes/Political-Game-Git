@@ -1,0 +1,38 @@
+{
+  "id": "striker-makes-it-personal-with-a-family-story",
+  "kind": "voice",
+  "summary": "A striker tells the council what lost health insurance did to a family member.",
+  "realLife": "A hospital worker told a council that losing her health insurance left her uninsured son unable to get care when he was hospitalized; she was personal and pointed at the hospital.",
+  "sources": [
+    "West Virginia Public Broadcasting, striking workers urge Huntington City Council: https://wvpublic.org/story/government/striking-workers-urge-huntington-city-council-to-support-blocked-resolution/amp/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "place", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
+  ],
+  "inGame": "a protest or strike with officials at the edge; a relative tie; needs: health insurance records",
+  "turns": [
+    {
+      "turn": "striker-speaks-in-numbers",
+      "summary": "The striker cites pay cuts and dollars only.",
+      "pulledBy": ["an analytic striker"],
+      "writesBack": "a clear case; less feeling"
+    },
+    {
+      "turn": "council-member-gets-emotional",
+      "summary": "A council member tears up in reply.",
+      "pulledBy": ["a sympathetic official"],
+      "writesBack": "a tie and a later resolution"
+    },
+    {
+      "turn": "legal-blocks-the-resolution",
+      "summary": "The city's lawyers block taking a side.",
+      "pulledBy": ["an official cautious about neutrality"],
+      "writesBack": "a promise to bring it back"
+    }
+  ]
+}
