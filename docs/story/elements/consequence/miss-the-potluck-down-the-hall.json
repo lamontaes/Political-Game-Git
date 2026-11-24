@@ -6,18 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{gathering}",
-    "{building}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{gathering}", "{building}"],
   "gates": [
     "A missed shift overlaps the time a resident needs assistance to attend a scheduled gathering."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "The gathering goes ahead and the neighbor knows the resident wanted to come.",
       "writesBack": "The resident shares a meal at home."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

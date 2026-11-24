@@ -6,19 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{aide}",
-    "{client}",
-    "{equipment}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{aide}", "{client}", "{equipment}"],
   "gates": [
     "A substitute is assigned and the equipment or orientation is on record."
   ],
@@ -38,5 +27,6 @@
       "pulledBy": "A qualified person can explain the equipment before the relevant task.",
       "writesBack": "The start time or task assignment changes."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

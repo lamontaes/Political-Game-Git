@@ -6,21 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{building}",
-    "{entrance}"
-  ],
-  "gates": [
-    "The resident has identified a specific access barrier at home."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{building}", "{entrance}"],
+  "gates": ["The resident has identified a specific access barrier at home."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the resident’s access report for a particular entrance.",
@@ -37,5 +25,6 @@
       "pulledBy": "The entrance is still inaccessible and a helper is present.",
       "writesBack": "One errand is finished while the repair remains open."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

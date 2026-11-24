@@ -6,21 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/4d545952-caed-cd7f-0c3d-5329bd8d5ef3/Testimony_Schwartz%2011.13.25.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{homeowner}",
-    "{insurer}",
-    "{repair_estimate}"
-  ],
-  "gates": [
-    "An insurance offer and a rebuild estimate cover the same loss."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{homeowner}", "{insurer}", "{repair_estimate}"],
+  "gates": ["An insurance offer and a rebuild estimate cover the same loss."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: an insurance offer and a rebuild estimate linked to one loss.",
@@ -37,5 +25,6 @@
       "pulledBy": "Some disputed costs are allowed.",
       "writesBack": "The remaining financing gap falls."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

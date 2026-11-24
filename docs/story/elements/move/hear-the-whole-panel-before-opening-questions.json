@@ -6,21 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{chair}",
-    "{panel}",
-    "{first_witness}"
-  ],
-  "gates": [
-    "The chair has announced the order of the panel."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{chair}", "{panel}", "{first_witness}"],
+  "gates": ["The chair has announced the order of the panel."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the chair’s announced hearing order.",
@@ -37,5 +25,6 @@
       "pulledBy": "Another witness still has prepared testimony.",
       "writesBack": "The next witness takes the microphone."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

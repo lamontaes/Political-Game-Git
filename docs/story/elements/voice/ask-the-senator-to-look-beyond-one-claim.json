@@ -6,18 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/4d545952-caed-cd7f-0c3d-5329bd8d5ef3/Testimony_Schwartz%2011.13.25.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{homeowner}",
-    "{member}",
-    "{claim}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{homeowner}", "{member}", "{claim}"],
   "gates": [
     "A claimant has expressly asked the member to consider other households."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "Other claimants have yet to authorize contact.",
       "writesBack": "The named claim proceeds on its own."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

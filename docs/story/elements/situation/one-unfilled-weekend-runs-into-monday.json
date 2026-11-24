@@ -6,21 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{first_uncovered_day}",
-    "{next_visit}"
-  ],
-  "gates": [
-    "The schedule shows consecutive gaps and a confirmed next visit."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{first_uncovered_day}", "{next_visit}"],
+  "gates": ["The schedule shows consecutive gaps and a confirmed next visit."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a visit calendar with a confirmed next visit.",
@@ -37,5 +25,6 @@
       "pulledBy": "No substitute can cover the intervening days.",
       "writesBack": "The resident knows when help will resume."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

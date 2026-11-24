@@ -6,18 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{visitor}",
-    "{care_setting}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{visitor}", "{care_setting}"],
   "gates": [
     "The resident has expressed a preference about where and how to receive care."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "Only part of the requested home support is available.",
       "writesBack": "The schedule records the task and its timing."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

@@ -6,18 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{aide}",
-    "{second_job}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{aide}", "{second_job}"],
   "gates": [
     "The second job is on the worker’s record or was disclosed to the resident."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "The employers agree to a schedule change.",
       "writesBack": "The household’s coverage changes on the affected days."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

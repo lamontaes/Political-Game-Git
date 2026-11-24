@@ -6,19 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{resident}",
-    "{aide}",
-    "{utility_bill}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{resident}", "{aide}", "{utility_bill}"],
   "gates": [
     "The resident disclosed the reason for the routine or a record confirms it."
   ],
@@ -38,5 +27,6 @@
       "pulledBy": "The household can afford limited use.",
       "writesBack": "One evening activity becomes possible."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,22 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{relative}",
-    "{occupation}"
-  ],
-  "gates": [
-    "Family care precedes a real opportunity for paid care work."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{relative}", "{occupation}"],
+  "gates": ["Family care precedes a real opportunity for paid care work."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a family caregiving history and a paid care offer.",
@@ -38,5 +25,6 @@
       "pulledBy": "The worker is interested but cannot yet take a client.",
       "writesBack": "A training appointment is recorded."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,22 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{care_job}",
-    "{second_job}"
-  ],
-  "gates": [
-    "Both jobs and variable care hours are on the worker’s record."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{care_job}", "{second_job}"],
+  "gates": ["Both jobs and variable care hours are on the worker’s record."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: two job schedules and a record of variable hours.",
@@ -38,5 +25,6 @@
       "pulledBy": "The retail shift overlaps the proposed visit.",
       "writesBack": "The coordinator has an open call to fill."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

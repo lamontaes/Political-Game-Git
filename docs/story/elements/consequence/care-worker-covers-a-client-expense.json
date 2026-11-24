@@ -6,22 +6,9 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{expense}",
-    "{visit}"
-  ],
-  "gates": [
-    "The expense is documented and the worker paid it."
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{expense}", "{visit}"],
+  "gates": ["The expense is documented and the worker paid it."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: an expense paid by the worker and any reimbursement.",
@@ -38,5 +25,6 @@
       "pulledBy": "Another item falls outside the policy.",
       "writesBack": "The remaining cost stays with the worker."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

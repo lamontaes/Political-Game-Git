@@ -6,19 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{resident}",
-    "{week}",
-    "{approved_hours}",
-    "{staffed_hours}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{week}", "{approved_hours}", "{staffed_hours}"],
   "gates": [
     "A service authorization and a staffing record cover the same person and week."
   ],
@@ -38,5 +27,6 @@
       "pulledBy": "One vacancy fits the aide’s availability.",
       "writesBack": "Delivered hours rise while the authorization stays the same."
     }
-  ]
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
 }

@@ -6,19 +6,8 @@
   "sources": [
     "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{neighbor}",
-    "{building}"
-  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{neighbor}", "{building}"],
   "gates": [
     "The workers share a building and an organization or event brings them together."
   ],
@@ -38,5 +27,6 @@
       "pulledBy": "Their shifts prevent meeting again soon.",
       "writesBack": "The connection survives the first introduction."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
