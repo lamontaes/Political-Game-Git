@@ -4218,7 +4218,7 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "requiresFacts": ["line", "remaining-funds"],
-          "excludesFacts": ["still-needed"]
+          "excludesFacts": ["still-needed", "empty-balance-stated"]
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -4245,7 +4245,7 @@
           "purpose": "cut-argument",
           "key": "cut-heard",
           "requiresFacts": ["line", "remaining-funds"],
-          "excludesFacts": ["still-needed"]
+          "excludesFacts": ["still-needed", "empty-balance-stated"]
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -10205,6 +10205,846 @@
       "elements": [
         "protection-under-realigned-road",
         "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "If somebody asks when we're coming to pave their street, what can I tell them? There's nothing left in the road account. I'd like you to ask council to fill it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-ask-for-the-money-back-until-there-s-a-vote-tell-them-you-can-t-give-them-a-date",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll ask for the money back. Until there's a vote, tell them you can't give them a date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.tell-them-that-account-is-empty-you-can-give-them-my-number-if-they-want-to-ask-why-i-stand-by-the-cut",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Tell them that account is empty. You can give them my number if they want to ask why I stand by the cut.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-ask-for-half-of-what-was-there-let-s-see-what-that-would-pay-for-before-we-give-anyone-a-date",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll ask for half of what was there. Let's see what that would pay for before we give anyone a date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-somebody-asks-when-we-re-coming-to-pave-their-street-what-can-i-tell-them-there-s-nothing-left-in-the-road-account-i-d-like-you-to-ask-council-to-fill-it-again"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Before we put another road job out for bids, I'd like you to go back to council. They left this account empty.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-bring-the-cost-of-the-proposed-work-when-i-move-to-put-the-money-back",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Bring the cost of the proposed work when I move to put the money back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.then-hold-off-on-bids-that-would-depend-on-this-account-i-m-keeping-the-cut",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then hold off on bids that would depend on this account. I'm keeping the cut.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-take-half-the-old-amount-back-to-the-members-what-would-you-be-prepared-to-bid-for-that",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll take half the old amount back to the members. What would you be prepared to bid for that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.before-we-put-another-road-job-out-for-bids-i-d-like-you-to-go-back-to-council-they-left-this-account-empty"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "If we send back the same paving list with no money beside it, people will think it's a schedule. Would you help me get the road money back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-take-the-funding-request-to-council-mark-the-work-as-proposed-until-we-ve-paid-for-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll take the funding request to council. Mark the work as proposed until we've paid for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.change-the-list-i-don-t-want-people-treating-it-as-a-promise-and-i-won-t-ask-for-the-money-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Change the list. I don't want people treating it as a promise, and I won't ask for the money back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-ask-the-members-for-half-show-me-which-jobs-would-still-be-waiting-even-if-we-get-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll ask the members for half. Show me which jobs would still be waiting even if we get it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.if-we-send-back-the-same-paving-list-with-no-money-beside-it-people-will-think-it-s-a-schedule-would-you-help-me-get-the-road-money-back"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Council took the last dollar out of the road account. If another fund can pay for a job, I'll check it, but I'd like your help restoring this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.check-the-other-funds-so-we-don-t-ask-twice-for-a-job-i-ll-carry-the-amendment-for-this-account",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Check the other funds so we don't ask twice for a job. I'll carry the amendment for this account.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.look-into-the-other-funds-don-t-count-on-me-to-put-this-one-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Look into the other funds. Don't count on me to put this one back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-support-putting-half-back-here-list-any-work-that-s-paid-for-somewhere-else-separately",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll support putting half back here. List any work that's paid for somewhere else separately.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.council-took-the-last-dollar-out-of-the-road-account-if-another-fund-can-pay-for-a-job-i-ll-check-it-but-i-d-like-your-help-restoring-this-one"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I've got no money left in this account to offer anybody a new start date. Will you help me put the road request back in front of the members?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "calm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-make-the-motion-you-can-tell-people-what-it-ll-take-to-give-them-a-date-again",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll make the motion. You can tell people what it'll take to give them a date again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.i-won-t-reopen-it-don-t-send-someone-out-to-mark-a-start-date-on-the-strength-of-a-request",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't reopen it. Don't send someone out to mark a start date on the strength of a request.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-move-to-put-half-of-it-back-give-me-the-first-piece-of-work-you-d-spend-that-on",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll move to put half of it back. Give me the first piece of work you'd spend that on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.i-ve-got-no-money-left-in-this-account-to-offer-anybody-a-new-start-date-will-you-help-me-put-the-road-request-back-in-front-of-the-members"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "There isn't a dollar left on the road line. Before we turn away a request, I'd like to let council hear what the work would cost. Will you sponsor it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "setsFacts": ["empty-balance-stated", "cut-share-stated"]
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "curious",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.give-me-the-request-and-its-price-i-ll-sponsor-putting-the-money-back",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Give me the request and its price. I'll sponsor putting the money back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.i-ll-hear-the-estimate-my-answer-on-restoring-the-money-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll hear the estimate. My answer on restoring the money is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.bring-the-estimate-i-ll-ask-for-half-the-old-appropriation-and-explain-what-that-would-leave-uncovered",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Bring the estimate. I'll ask for half the old appropriation and explain what that would leave uncovered.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "budget-line-highways",
+            "cut",
+            "empty-appropriation"
+          ],
+          "after": "scene-talk-office.state-deliver-news.there-isn-t-a-dollar-left-on-the-road-line-before-we-turn-away-a-request-i-d-like-to-let-council-hear-what-the-work-would-cost-will-you-sponsor-it"
+        }
+      ],
+      "elements": [
+        "answer-the-unfunded-requests",
+        "budget-leaves-executives-desk"
       ],
       "origin": "authored",
       "author": "Codex writer A",

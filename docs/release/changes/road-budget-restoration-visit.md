@@ -10,3 +10,5 @@ When a city cuts its road appropriation, the department head can offer to show c
 When the director asks to price work below the pavement, the mayor can sponsor the request, keep the cut or ask what half the money would buy.
 
 The scene introduction identifies the affected department. In the conversation, the mayor and department head can refer to the vote, the work and the amount they need without repeating the budget screen's category.
+
+When a vote empties the road account and it is still empty at the visit, the director can ask what to tell residents waiting for a paving date. The mayor can seek the full appropriation, leave the account empty, or offer half. A later deposit changes which conversation is available.

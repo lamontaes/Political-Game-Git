@@ -9,7 +9,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
 
-it("the fire chief explains the original vote after a second amendment changes the same line", () => {
+function budgetVisitWorld() {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(
     "79fd128d42b1a599b62573d62451eafcad97b83f8ffd48db7c91ea95058921b7",
@@ -22,6 +22,11 @@ it("the fire chief explains the original vote after a second amendment changes t
     .personId;
   core.focusPersonIds.add(mayor);
   director.watch(core, mayor);
+  return { core, director, api, city, mayor };
+}
+
+it("the fire chief explains the original vote after a second amendment changes the same line", () => {
+  const { core, director, api, city, mayor } = budgetVisitWorld();
   const budget = budgetsOf(api, city.id).at(-1)!;
   const cut = Math.round(budget.spendingMinor.fire * 0.05);
   const amend = (deltaMinor: number, measureId: string) =>
@@ -87,4 +92,53 @@ it("the fire chief explains the original vote after a second amendment changes t
     purposeScene(core, director, mayor, visit!, { typeKey: "budget-cut" })
       ?.kind,
   ).toBe("skipped");
+}, 120_000);
+
+it("the director stops describing the road account as empty when a later vote refills it", () => {
+  const { core, director, api, city, mayor } = budgetVisitWorld();
+  const budget = budgetsOf(api, city.id).at(-1)!;
+  const amendRoads = (deltaMinor: number, measureId: string) =>
+    amendBudget(api, {
+      governmentId: city.id,
+      line: "highways",
+      deltaMinor,
+      measureId,
+    })!;
+  const amount = budget.spendingMinor.highways;
+  expect(amount).toBeGreaterThan(1);
+  const cut = amendRoads(-amount, "fixture-empty-roads");
+  const causeId =
+    "budget-line-changed:" + cut.id + ":highways:fixture-empty-roads";
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  director.stageDoors(core, mayor);
+  const book = director.ledger.people.get(mayor)!;
+  const visit = book.schedule.find(
+    (entry) =>
+      book.momentsById.get(entry.momentId)?.causeId === causeId &&
+      entry.bindings.some((binding) => binding.typeKey === "budget-cut"),
+  );
+  expect(visit).toBeDefined();
+  const scene = () => {
+    const result = purposeScene(core, director, mayor, visit!, {
+      typeKey: "budget-cut",
+    });
+    if (result?.kind !== "composed")
+      throw new Error("Expected the public works director to visit");
+    return result.scene;
+  };
+  const empty = scene();
+  expect(empty.facts).toContainEqual({
+    key: "empty-appropriation",
+    text: "$0",
+    recordIds: [causeId, cut.id],
+  });
+  expect(empty.talk.state.placed?.needs).toContain("empty-appropriation");
+  amendRoads(1, "fixture-restore-one-cent");
+  const refilled = scene();
+  expect(
+    refilled.facts.some((fact) => fact.key === "empty-appropriation"),
+  ).toBe(false);
+  expect(refilled.talk.state.placed?.needs).not.toContain(
+    "empty-appropriation",
+  );
 }, 120_000);
