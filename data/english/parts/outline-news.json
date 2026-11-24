@@ -3320,6 +3320,104 @@
       "author": "the news writer",
       "date": "2026-11-24",
       "elements": ["vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.headline.news-roll-call-headline-one-vote-against",
+      "move": "headline",
+      "kind": "written",
+      "text": "The {law} passes with one vote against",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["law", "passed", "voted-against", "against-alone"],
+          "excludesFacts": ["no-dissent", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.headline.news-roll-call-headline-one-party-against",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} passes the {law} over {against-party} no votes",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": [
+            "body",
+            "law",
+            "passed",
+            "against-bloc",
+            "against-party"
+          ],
+          "excludesFacts": ["no-dissent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.headline.news-roll-call-headline-heads-to-next",
+      "move": "headline",
+      "kind": "written",
+      "text": "The {law} passes the {body} and heads to the {next-body}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "passed", "next-step", "next-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.headline.news-roll-call-headline-starts-on",
+      "move": "headline",
+      "kind": "written",
+      "text": "The {law} will start on {takes-effect}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["law", "passed", "takes-effect"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["vote-margin-right-after-the-scene"]
+    },
+    {
+      "key": "outline-news.headline.news-roll-call-headline-sends-on-to-next",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} sends the {law} on to the {next-body}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "passed", "next-step", "next-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
     }
   ]
 }
