@@ -243,21 +243,27 @@ it("an inaugural is given at the Capitol with the Oval Office as a cutaway, neve
   expect(kinds).toEqual([
     "stand",
     "desk",
-    "america",
     "desk",
+    "america",
     "colonnade",
     "colonnade",
     "state",
     "home",
   ]);
   expect(kinds).not.toContain("chamber");
-  // Country parts alternate America and the Oval Office.
+  // Every inaugural has its Oval Office cutaway, even one of three parts; the
+  // country parts after it alternate America and the Oval Office.
+  expect(beatKinds(["occasion", "country", "close"], "inaugural")).toEqual([
+    "stand",
+    "desk",
+    "home",
+  ]);
   expect(
     beatKinds(
       ["occasion", "country", "country", "country", "close"],
       "inaugural",
     ),
-  ).toEqual(["stand", "america", "desk", "america", "home"]);
+  ).toEqual(["stand", "desk", "america", "desk", "home"]);
   // A State of the Union is still given in the chamber.
   expect(beatKinds(["salutation", "occasion", "country", "close"])[0]).toBe(
     "chamber",
@@ -313,10 +319,14 @@ it.each(["a", "b"])(
       beats.map((beat) => beat.kind),
       where,
     ).toEqual(expected);
-    // The first country part is America along a route; a second takes the
-    // Oval Office cutaway.
+    // Every inaugural has its Oval Office cutaway (the President alone at the
+    // desk), and America along a route follows it when the address has a
+    // second country part.
     const middle = beats.slice(1, -1).map((beat) => beat.kind);
-    if (middle.length) expect(middle[0], where).toBe("america");
+    expect(middle, `${where}: middle beats ${middle.join(", ")}`).toContain(
+      "desk",
+    );
+    if (middle.length > 1) expect(middle, where).toContain("america");
     levels.forEach((level, at) => {
       if (at === 0 || at === levels.length - 1) return;
       if (level === "congress" || level === "vice-president")
