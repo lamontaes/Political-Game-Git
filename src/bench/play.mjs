@@ -2655,10 +2655,12 @@ async function showStory(momentId) {
       }
       // A speaker heard on a broadcast is named, never drawn in the room
       // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip. A beat that cuts home shows only the
-      // household listening, the speaker on the set (CTO, Nov 19).
+      // room stands on the strip. A cutaway (America, the state, home) shows
+      // its own people and the speaker only on the set, never on the strip
+      // as well (CTO, Nov 19 and Nov 24: "in a cutaway she belongs only in
+      // the corner").
       setWho(
-        (beat ? beat.kind !== "home" : story.speech.inRoom)
+        (beat ? beat.inRoom : story.speech.inRoom)
           ? story.speech.speakerId
           : null,
         story.names[story.speech.speakerId],
@@ -2673,10 +2675,7 @@ async function showStory(momentId) {
       drawTv(
         story.speech,
         story.names[story.speech.speakerId],
-        on ??
-          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
-            ? { medium: "television" }
-            : undefined),
+        on ?? (beat && !beat.inRoom ? { medium: "television" } : undefined),
       );
       fillTalk({
         lines: [
