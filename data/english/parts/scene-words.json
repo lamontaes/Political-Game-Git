@@ -555,7 +555,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
@@ -575,7 +576,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-other-home-other.you-walk-up-the-drive-and-name-waves-you-in",
@@ -595,7 +597,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-other-home-alone.you-ring-twice",
@@ -615,7 +618,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-other-home-alone.you-knock-twice",
@@ -635,7 +639,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-other-home-alone.you-step-up",
@@ -655,7 +660,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",

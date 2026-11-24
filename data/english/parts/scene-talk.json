@@ -187,7 +187,10 @@
     "asked-has-family": "A relative of the person asked to move in, by given name, from the family records (move-in-facts.ts).",
     "school-short": "The school as people at home say it ('Long Hill', or 'school' when the name holds only its kind), from the same school record as the school.",
     "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record.",
-    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites."
+    "payment": "What a household quarrel was over, by its missed payment's loan kind (\"the mortgage\", \"the payday loan\"), from the family quarrel record and the missed payment it cites.",
+    "session-hours": "How far into the canvassing session this door came, as people say a span (\"an hour\", \"two hours\"), from the door's cause record.",
+    "session-early": "\"yes\" when the door came in the first half hour of the canvassing session, from the door's cause record.",
+    "age-band": "The resident's age band as plain words (\"young\", \"middle-aged\", \"older\"), from the resident's birth record."
   },
   "maxWords": 70,
   "parts": [
@@ -27070,36 +27073,6 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "What did you do in {place} before you decided to run?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.who-s-behind-your-run-in-place-tell-me-that-and-i-ll-listen",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who's behind your run in {place}? Tell me that, and I'll listen.",
       "uses": [
         {
           "subject": "scene",
@@ -89990,6 +89963,15 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
         }
       ],
       "bearing": "warm",
@@ -90011,6 +89993,15 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -90042,6 +90033,15 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
         }
       ],
       "bearing": "calm",
@@ -90063,6 +90063,15 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -90094,128 +90103,7 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "session-early"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.after-session-hours-on-the-street-name-comes-to-the-door-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "After {session-hours} on the street, {name} comes to the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "session-hours"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-are-session-hours-into-the-walk-when-name-answers-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You are {session-hours} into the walk when {name} answers.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "session-hours"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-session-hours-into-your-walk-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} opens the door {session-hours} into your walk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "session-hours"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-have-only-just-started-when-name-opens-the-door-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You have only just started when {name} opens the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "session-early"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.barely-into-your-walk-you-find-name-at-the-door-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "Barely into your walk, you find {name} at the door.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "purpose": "ask-signature",
@@ -90328,6 +90216,15 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
         }
       ],
       "bearing": "calm",
@@ -90349,6 +90246,15 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -90380,76 +90286,7 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "age-band"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-answers-and-looks-age-band-to-you-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} answers and looks {age-band} to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "age-band"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-person-who-comes-to-the-door-looks-age-band-name-waits-for-you-to-speak-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "The person who comes to the door looks {age-band}. {name} waits for you to speak.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "age-band"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": ["door-count-is-how-people-measure-effort"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-opens-up-you-d-say-name-is-age-band-ask-signature",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} opens up. You'd say {name} is {age-band}.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "purpose": "ask-signature",
@@ -90469,6 +90306,270 @@
         "key": "door"
       },
       "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.reply-decline.we-re-for-rival-take-us-off-your-list",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "We're for {rival}. Take us off your list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-vote-on-vote-day-i-won-t-say-for-whom-and-that-s-all",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll vote on {vote-day}. I won't say for whom, and that's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      },
+      "elements": ["resident-will-vote-but-does-not-share"]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-talk-politics-with-strangers-come-back-after-vote-day-and-ask-me-how-it-went",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't talk politics with strangers. Come back after {vote-day} and ask me how it went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      },
+      "elements": ["resident-will-not-talk-politics-with-strangers"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-stop-what-i-m-doing-leave-a-flyer-and-i-ll-read-it-before-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't stop what I'm doing. Leave a flyer, and I'll read it before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      },
+      "elements": ["resident-keeps-working-while-talking"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-got-the-kids-and-the-dog-right-now-leave-a-flyer-and-i-ll-read-it-before-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've got the kids and the dog right now. Leave a flyer, and I'll read it before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      },
+      "elements": ["parent-answers-with-children-and-dog"]
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-being-paid-to-knock-on-doors-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you being paid to knock on doors in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      },
+      "elements": ["resident-asks-whether-the-canvasser-is-paid"]
+    },
+    {
+      "key": "scene-talk.follow-answer.no-not-a-cent-i-m-self-and-i-m-on-the-ballot-myself",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No, not a cent. I'm {self}, and I'm on the ballot myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["self"],
+          "after": "scene-talk.reply-ask.are-you-being-paid-to-knock-on-doors-in-place"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      },
+      "elements": ["resident-asks-whether-the-canvasser-is-paid"]
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks-for-your-time-anyway-have-a-good-one-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks for your time anyway. Have a good one in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      },
+      "elements": ["canvasser-ends-a-no-with-a-thank-you"]
+    },
+    {
+      "key": "scene-talk.follow-accept.sorry-to-bother-you-i-ll-leave-you-in-peace-until-vote-day",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Sorry to bother you. I'll leave you in peace until {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["vote-day"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      },
+      "elements": ["canvasser-apologizes-and-leaves-when-told-to"]
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-rival-and-me-the-same-question-and-see-whose-answer-is-plainer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask {rival} and me the same question, and see whose answer is plainer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["rival"],
+          "after": "scene-talk.reply-ask.why-should-i-pick-you-over-rival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      },
+      "elements": ["canvasser-says-just-talking-to-neighbors"]
     }
   ]
 }
