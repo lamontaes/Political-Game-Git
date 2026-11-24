@@ -5526,6 +5526,1058 @@
       "issues": [
         "none"
       ]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.governor-when-the-counties-pass-on-your-decision-about-the-disaster-somebody-there-will-have-to-answer-for-it",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Governor, when the counties pass on your decision about the {disaster}, somebody there will have to answer for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.tell-them-i-turned-it-down-they-deserve-to-hear-that-from-us-before-they-hear-it-on-the-news"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.give-the-counties-an-answer-now-i-ve-decided-against-declaring"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["briefing-travels-through-county"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.give-the-counties-my-number-the-decision-on-the-disaster-is-mine-and-i-m-leaving-it-unsigned",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Give the counties my number. The decision on the {disaster} is mine, and I'm leaving it unsigned.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.governor-when-the-counties-pass-on-your-decision-about-the-disaster-somebody-there-will-have-to-answer-for-it"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.governor-when-the-counties-pass-on-your-decision-about-the-disaster-somebody-there-will-have-to-answer-for-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["briefing-travels-through-county"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.the-people-who-recommended-declaring-over-the-disaster-may-want-to-know-whether-you-heard-their-advice-firsthand",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "The people who recommended declaring over the {disaster} may want to know whether you heard their advice firsthand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-take-the-recommendation-seriously-i-ve-heard-enough-to-give-you-a-decision-and-it-s-no"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.we-can-make-the-call-but-my-decision-on-this-offer-is-no-don-t-leave-it-pending-for-my-sake"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-calls-to-confirm-advice"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-ll-take-their-call-about-the-disaster-you-can-tell-them-now-that-i-declined",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll take their call about the {disaster}. You can tell them now that I declined.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.the-people-who-recommended-declaring-over-the-disaster-may-want-to-know-whether-you-heard-their-advice-firsthand"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.the-people-who-recommended-declaring-over-the-disaster-may-want-to-know-whether-you-heard-their-advice-firsthand"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-calls-to-confirm-advice"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.what-if-the-next-forecast-for-the-disaster-looks-worse-people-will-want-to-know-what-you-had-in-front-of-you-today",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "What if the next forecast for the {disaster} looks worse? People will want to know what you had in front of you today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.a-forecast-that-hasn-t-come-in-can-t-be-my-reason-for-signing-i-m-declining-this-request"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.don-t-wait-for-a-different-forecast-to-give-people-my-answer-i-m-turning-down-the-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.keep-today-s-forecast-for-the-disaster-with-my-decision-i-won-t-sign-the-declaration",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Keep today's forecast for the {disaster} with my decision. I won't sign the declaration.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.what-if-the-next-forecast-for-the-disaster-looks-worse-people-will-want-to-know-what-you-had-in-front-of-you-today"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.what-if-the-next-forecast-for-the-disaster-looks-worse-people-will-want-to-know-what-you-had-in-front-of-you-today"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.if-we-wait-and-the-disaster-gets-worse-somebody-will-ask-what-we-could-have-done-earlier",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "If we wait and the {disaster} gets worse, somebody will ask what we could have done earlier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-hear-why-you-d-act-early-i-won-t-sign-a-declaration-on-that-recommendation"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-understand-what-expires-i-m-declining-the-request-today"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-ll-go-back-with-my-answer-i-m-declining-the-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-explains-precaution"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-understand-the-risk-put-down-that-i-declined-the-declaration-for-the-disaster-today",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I understand the risk. Put down that I declined the declaration for the {disaster} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-we-wait-and-the-disaster-gets-worse-somebody-will-ask-what-we-could-have-done-earlier"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-we-wait-and-the-disaster-gets-worse-somebody-will-ask-what-we-could-have-done-earlier"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-explains-precaution"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.people-hearing-about-the-disaster-may-take-your-decision-to-mean-they-can-disregard-the-department-s-instructions",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "People hearing about the {disaster} may take your decision to mean they can disregard the department's instructions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.describe-the-work-your-department-can-do-if-someone-asks-about-a-declaration-tell-them-i-declined-it"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-can-give-the-department-my-answer-before-you-leave-i-won-t-declare"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.make-the-instructions-on-the-disaster-clear-people-still-need-them-and-i-m-still-declining-to-declare",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Make the instructions on the {disaster} clear. People still need them, and I'm still declining to declare.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.people-hearing-about-the-disaster-may-take-your-decision-to-mean-they-can-disregard-the-department-s-instructions"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.people-hearing-about-the-disaster-may-take-your-decision-to-mean-they-can-disregard-the-department-s-instructions"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.if-a-reporter-calls-a-county-office-first-the-person-who-picks-up-may-have-to-explain-your-decision-on-the-disaster-without-hearing-it-from-us",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "If a reporter calls a county office first, the person who picks up may have to explain your decision on the {disaster} without hearing it from us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.call-them-first-please-tell-them-the-answer-is-no-and-that-it-was-my-decision"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-want-them-to-hear-it-directly-too-tell-them-i-decided-against-signing"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["county-learns-from-broadcast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.then-get-word-to-the-local-directors-now-i-ve-declined-the-declaration-for-the-disaster",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Then get word to the local directors now. I've declined the declaration for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-a-reporter-calls-a-county-office-first-the-person-who-picks-up-may-have-to-explain-your-decision-on-the-disaster-without-hearing-it-from-us"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-a-reporter-calls-a-county-office-first-the-person-who-picks-up-may-have-to-explain-your-decision-on-the-disaster-without-hearing-it-from-us"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["county-learns-from-broadcast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.if-i-m-the-one-at-the-microphone-about-the-disaster-the-first-question-may-be-why-you-turned-this-down",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "If I'm the one at the microphone about the {disaster}, the first question may be why you turned this down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.say-i-heard-the-request-and-turned-it-down-if-they-want-the-reason-put-them-through-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-answer-for-the-department-i-ll-tell-people-myself-why-i-declined"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["advisers-take-over-press-room"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.send-that-question-about-the-disaster-to-me-i-ll-give-my-own-reasons-for-declining",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Send that question about the {disaster} to me. I'll give my own reasons for declining.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-i-m-the-one-at-the-microphone-about-the-disaster-the-first-question-may-be-why-you-turned-this-down"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.follow-warn.if-i-m-the-one-at-the-microphone-about-the-disaster-the-first-question-may-be-why-you-turned-this-down"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["advisers-take-over-press-room"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-warn.the-health-director-may-see-something-in-the-disaster-reports-that-the-rest-of-us-missed",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "The health director may see something in the {disaster} reports that the rest of us missed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-won-t-declare-on-the-advice-i-ve-heard-public-health-can-still-send-me-its-assessment"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["health-office-missing-from-plan"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.reply-decline.i-want-to-hear-that-assessment-of-the-disaster-you-have-my-decision-on-this-declaration",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I want to hear that assessment of the {disaster}. You have my decision on this declaration.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.follow-warn.the-health-director-may-see-something-in-the-disaster-reports-that-the-rest-of-us-missed"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["health-office-missing-from-plan"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-phone-the-counties-with-your-decision-about-the-disaster",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll phone the counties with your decision about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.tell-them-i-turned-it-down-they-deserve-to-hear-that-from-us-before-they-hear-it-on-the-news"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.give-the-counties-an-answer-now-i-ve-decided-against-declaring"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.give-the-counties-my-number-the-decision-on-the-disaster-is-mine-and-i-m-leaving-it-unsigned"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.give-the-counties-my-number-the-decision-on-the-disaster-is-mine-and-i-m-leaving-it-unsigned"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["briefing-travels-through-county"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-tell-the-advisers-on-the-disaster-that-you-ve-heard-their-recommendation-and-declined",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll tell the advisers on the {disaster} that you've heard their recommendation and declined.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-take-the-recommendation-seriously-i-ve-heard-enough-to-give-you-a-decision-and-it-s-no"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.we-can-make-the-call-but-my-decision-on-this-offer-is-no-don-t-leave-it-pending-for-my-sake"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-ll-take-their-call-about-the-disaster-you-can-tell-them-now-that-i-declined"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-ll-take-their-call-about-the-disaster-you-can-tell-them-now-that-i-declined"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-calls-to-confirm-advice"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-keep-today-s-forecast-for-the-disaster-with-the-briefing-notes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll keep today's forecast for the {disaster} with the briefing notes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.a-forecast-that-hasn-t-come-in-can-t-be-my-reason-for-signing-i-m-declining-this-request"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.don-t-wait-for-a-different-forecast-to-give-people-my-answer-i-m-turning-down-the-declaration"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.keep-today-s-forecast-for-the-disaster-with-my-decision-i-won-t-sign-the-declaration"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.keep-today-s-forecast-for-the-disaster-with-my-decision-i-won-t-sign-the-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-record-today-s-decision-about-the-disaster-so-the-department-can-account-for-what-it-knew",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll record today's decision about the {disaster} so the department can account for what it knew.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-hear-why-you-d-act-early-i-won-t-sign-a-declaration-on-that-recommendation"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-understand-what-expires-i-m-declining-the-request-today"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-ll-go-back-with-my-answer-i-m-declining-the-declaration"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-understand-the-risk-put-down-that-i-declined-the-declaration-for-the-disaster-today"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-understand-the-risk-put-down-that-i-declined-the-declaration-for-the-disaster-today"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-explains-precaution"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.the-public-update-on-the-disaster-will-carry-the-department-s-instructions-and-your-decision",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "The public update on the {disaster} will carry the department's instructions and your decision.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.describe-the-work-your-department-can-do-if-someone-asks-about-a-declaration-tell-them-i-declined-it"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-can-give-the-department-my-answer-before-you-leave-i-won-t-declare"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.make-the-instructions-on-the-disaster-clear-people-still-need-them-and-i-m-still-declining-to-declare"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.make-the-instructions-on-the-disaster-clear-people-still-need-them-and-i-m-still-declining-to-declare"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.the-county-directors-will-hear-about-the-disaster-from-us-before-we-go-to-the-press",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "The county directors will hear about the {disaster} from us before we go to the press.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.call-them-first-please-tell-them-the-answer-is-no-and-that-it-was-my-decision"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-want-them-to-hear-it-directly-too-tell-them-i-decided-against-signing"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.then-get-word-to-the-local-directors-now-i-ve-declined-the-declaration-for-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.then-get-word-to-the-local-directors-now-i-ve-declined-the-declaration-for-the-disaster"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["county-learns-from-broadcast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-direct-questions-about-your-reasons-for-declining-the-declaration-for-the-disaster-to-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll direct questions about your reasons for declining the declaration for the {disaster} to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.say-i-heard-the-request-and-turned-it-down-if-they-want-the-reason-put-them-through-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.you-answer-for-the-department-i-ll-tell-people-myself-why-i-declined"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.send-that-question-about-the-disaster-to-me-i-ll-give-my-own-reasons-for-declining"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "disaster"],
+          "after": "scene-talk-office.reply-decline.send-that-question-about-the-disaster-to-me-i-ll-give-my-own-reasons-for-declining"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["advisers-take-over-press-room"],
+      "issues": ["none"]
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-give-the-health-director-your-decision-and-bring-you-the-assessment-of-the-disaster",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll give the health director your decision and bring you the assessment of the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-won-t-declare-on-the-advice-i-ve-heard-public-health-can-still-send-me-its-assessment"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway", "disaster"],
+          "after": "scene-talk-office.reply-decline.i-want-to-hear-that-assessment-of-the-disaster-you-have-my-decision-on-this-declaration"
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["health-office-missing-from-plan"],
+      "issues": ["none"]
     }
   ]
 }
