@@ -152,8 +152,7 @@
   },
   "opening": {
     "news": "News",
-    "closeNews": "Close the news",
-    "newsToastSeconds": 8
+    "closeNews": "Close the news"
   },
   "person": {
     "whoIs": "Who {lower} is",
@@ -812,7 +811,9 @@
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
     "printedNothing": "Nothing from {name} yet.",
-    "followsNone": "You don't follow a paper or a station."
+    "followsNone": "You don't follow a paper or a station.",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   },
   "jobs": {
     "work": "Work",

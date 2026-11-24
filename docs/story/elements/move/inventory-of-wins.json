@@ -1,0 +1,33 @@
+{
+  "id": "inventory-of-wins",
+  "kind": "move",
+  "summary": "A speech ends on, or moves through, a run of accomplishments.",
+  "realLife": "Connecticut's governor joined budget points with Speaking of, and Florida's closed on a long list of wins; both are State of the State addresses.",
+  "sources": [
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["term-left"],
+  "gates": [],
+  "weights": {
+    "state": 0.17
+  },
+  "usedBy": [],
+  "inGame": "Shape `good-run-told` tells a good year (run-good, run-pay-ahead, run-jobs-gained from the macro months). needs: a section that tells several wins in a row; the planner tells one story section.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A list of failures owned, not wins.",
+      "pulledBy": "a humble speaker in a hard year (run-hard, run-own)",
+      "writesBack": "The journal records a speaker who owned the year."
+    },
+    {
+      "turn": "partial",
+      "what": "Two wins named and the rest left out.",
+      "pulledBy": "a speaker low in boastful traits",
+      "writesBack": "The paper repeats the two."
+    }
+  ]
+}

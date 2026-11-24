@@ -1,0 +1,38 @@
+{
+  "id": "pattern-a04-the-speaker-who-never-came",
+  "kind": "situation",
+  "summary": "The speaker who never came: The person meant to speak for {candidate} at the gathering has not come, and the room looks for someone.",
+  "realLife": "As a college student in 1930 he campaigned for Welly Hopkins, a state senate candidate, after a rousing speech at a political meeting in Blanco, Texas. Hopkins and Johnson's father then recommended him to a new congressman, who hired him. The speaker who fails to come is the game's addition.",
+  "sources": [
+    "https://www.discoverlbj.org/item/oh-hopkinsw-19650511-1-70-50",
+    "https://en.wikipedia.org/wiki/Lyndon_B._Johnson"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["candidate", "host", "friend"],
+  "gates": ["You attended the gathering.", "You back one of the candidates."],
+  "weights": [
+    "Speaking traits, and a school record of debate or speeches.",
+    "How strongly you back {candidate}."
+  ],
+  "pattern": "A04",
+  "choices": [
+    "stand up and speak for {candidate} (a short speech, one part at a time)",
+    "stay seated",
+    "push {friend} to do it"
+  ],
+  "branches": [
+    {
+      "when": "the speech lands",
+      "then": "{candidate} finds you after and asks you to work on the campaign full time."
+    },
+    {
+      "when": "the speech falls flat",
+      "then": "The parts you pick do not fit the room. {candidate} thanks you politely, and {host} remembers you tried."
+    },
+    {
+      "when": "you are shy",
+      "then": "{friend} volunteers you out loud. You can still decline, and {friend} brings it up later."
+    }
+  ],
+  "usedBy": []
+}

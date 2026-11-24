@@ -1,0 +1,30 @@
+{
+  "id": "marries-a-few-years-after-graduating",
+  "kind": "detail",
+  "summary": "A marriage is dated a few years after graduation.",
+  "realLife": "The same woman married in 1940.",
+  "sources": [
+    "St. Louis Fed, The Great Depression interview series, Margaret Barrett interview: https://www.stlouisfed.org/the-great-depression/curriculum/interviews-barrett-8"
+  ],
+  "fits": ["journal"],
+  "slots": ["age_then"],
+  "gates": [],
+  "inGame": "`household:partners-met` with `age_then`.",
+  "turns": [
+    {
+      "turn": "Marries right after graduating.",
+      "pulledBy": "partnership date near graduation",
+      "writesBack": "the line says so"
+    },
+    {
+      "turn": "Does not marry.",
+      "pulledBy": "no partnership on the record",
+      "writesBack": "the line says nothing of a wedding"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": [],
+  "issues": ["none"]
+}

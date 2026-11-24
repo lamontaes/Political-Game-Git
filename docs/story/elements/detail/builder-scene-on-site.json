@@ -1,0 +1,34 @@
+{
+  "id": "builder-scene-on-site",
+  "kind": "detail",
+  "summary": "A short scene with a builder on a site gives the numbers a picture.",
+  "realLife": "A builder's superintendent on a site was quoted on pre-sold homes and framing finishing in weeks.",
+  "sources": [
+    "Community Impact (Austin edition), 'Leander swamped by record number of permit requests', Nov. 17, 2014 (updated June 2015; the page text came without paragraph breaks, so the paragraph order was rebuilt from sentence logic): https://communityimpact.com/cedar-park-leander/city-county/leander-swamped-by-record-number-of-permit-requests-2/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "place", "number"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.8
+  },
+  "inGame": "needs: a builder as a filled-in person (the owner of a construction firm); firm rows exist",
+  "turns": [
+    {
+      "name": "a stalled site",
+      "pulledBy": "a builder waiting on permits",
+      "writes": "the scene is an idle site",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no scene",
+      "pulledBy": "a story built on figures only",
+      "writes": "the story stays with the city",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

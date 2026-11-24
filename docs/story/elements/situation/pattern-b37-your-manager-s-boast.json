@@ -1,0 +1,43 @@
+{
+  "id": "pattern-b37-your-manager-s-boast",
+  "kind": "situation",
+  "summary": "Your manager's boast: Days after you won, {campaign manager} told reporters the campaign paid people not to turn out voters for {rival}.",
+  "realLife": "Days after she won New Jersey's governorship in 1993, her campaign manager told reporters the campaign had paid to keep Black ministers and Democratic workers from turning out voters. He soon called it an exaggeration and later told lawyers under oath it was made up; Black ministers demanded an apology.",
+  "sources": [
+    "https://www.deseret.com/1993/11/21/19077804/rollins-says-he-deeply-regrets-fallout-from-probe",
+    "https://www.thecrimson.com/article/1993/11/13/ministers-blast-nj-elections-plocal-ministers/",
+    "https://en.wikipedia.org/wiki/Ed_Rollins"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["campaign manager"],
+  "gates": [
+    "You won.",
+    "{campaign manager}'s statement is on the press record."
+  ],
+  "weights": [
+    "How damaging it is.",
+    "Whether the record holds any such payment."
+  ],
+  "pattern": "B37",
+  "choices": [
+    "disown it and let them go",
+    "say it is false and keep them",
+    "open the campaign's books",
+    "say nothing"
+  ],
+  "branches": [
+    {
+      "when": "it is false",
+      "then": "{campaign manager} recants under oath, calling it a story told to needle the other side. The lie is on their record."
+    },
+    {
+      "when": "something was said",
+      "then": "Staff told groups the campaign would be ahead if they stayed out. It is on record and can be found."
+    },
+    {
+      "when": "the insulted groups",
+      "then": "Their leaders demand an apology and ask you to meet."
+    }
+  ],
+  "usedBy": []
+}

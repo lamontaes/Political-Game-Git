@@ -1,42 +1,40 @@
-/* global document, MutationObserver, setTimeout, clearTimeout */
-// The one toast part (owner, Oct 26: a toast that never leaves is a defect). A toast is a
-// `.toast` panel at a screen corner that holds for `seconds`, fades over its last second
-// and goes, and goes at once on its close control (a `[data-close]` slot, see panel.mjs).
+/* global document, MutationObserver */
+// The one toast part (owner, Oct 26: a toast that never leaves is a defect; CTO, Nov 24,
+// N16-24: "pop-ups vanish before you can read them"). A toast is a `.toast` panel at a
+// screen corner. It never times out: it stays until the player opens or closes it (a
+// `[data-close]` slot, see panel.mjs), and until then it waits behind whatever the player
+// has open: a scene, a talk, a person's card or a menu, and shows when that closes.
 import { SCENE_PANELS } from "./panel.mjs";
-const timers = new Map();
-// While a scene, a talk, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
-// "News pop-ups wait until the scene ends"): its seconds start when it shows, never before.
-const waiting = new Map();
-// The toasts on screen now, with what shows them again: a scene that opens takes them down to wait.
-const shown = new Map();
+// What is waiting for the stage to clear.
+const waiting = new Set();
+// The toasts on screen now: a scene, a card or a menu that opens takes them down to wait.
+const shown = new Set();
 let watching = false;
-// The panels a scene or a held decision takes the stage with: the talk, the meeting, the desk
-// (also the floor vote, nominations and orders), election day, its returns and the ballot.
-const SCENES = ["talk", ...SCENE_PANELS];
-const scenePanels = () =>
-  SCENES.map((id) => document.getElementById(id)).filter(Boolean);
-const sceneOpen = () => scenePanels().some((panel) => !panel.hidden);
-function watchScene() {
+// The panels that take the stage: the talk, a person's card, a menu, and the scenes and held
+// decisions (the meeting, the desk, the floor vote, nominations and orders, election day, its
+// returns and the ballot).
+const STAGE = ["talk", "person", "sheet", ...SCENE_PANELS];
+const stagePanels = () =>
+  STAGE.map((id) => document.getElementById(id)).filter(Boolean);
+const stageTaken = () => stagePanels().some((panel) => !panel.hidden);
+function watchStage() {
   if (watching) return;
-  const panels = scenePanels();
+  const panels = stagePanels();
   if (!panels.length) return;
   watching = true;
   const observer = new MutationObserver(() => {
-    if (sceneOpen()) {
-      // A toast already up when a scene opens comes down and waits like one asked for during it.
-      for (const [node, args] of [...shown]) {
+    if (stageTaken()) {
+      // A toast already up comes down and waits like one asked for during it.
+      for (const node of [...shown]) {
         shown.delete(node);
-        clearTimeout(timers.get(node));
-        timers.delete(node);
         node.hidden = true;
-        node.classList.remove("fading");
-        waiting.set(node, args);
+        waiting.add(node);
       }
       return;
     }
-    for (const [node, [seconds, onGone]] of [...waiting]) {
+    for (const node of [...waiting]) {
       waiting.delete(node);
-      showToast(node, seconds, onGone);
+      showToast(node);
     }
   });
   for (const panel of panels)
@@ -49,32 +47,16 @@ function watchScene() {
 export function hideToast(node) {
   waiting.delete(node);
   shown.delete(node);
-  clearTimeout(timers.get(node));
-  timers.delete(node);
   node.hidden = true;
-  node.classList.remove("fading");
 }
 
-export function showToast(node, seconds, onGone) {
-  watchScene();
-  if (sceneOpen()) {
+export function showToast(node) {
+  watchStage();
+  if (stageTaken()) {
     node.hidden = true;
-    waiting.set(node, [seconds, onGone]);
+    waiting.add(node);
     return;
   }
-  clearTimeout(timers.get(node));
-  node.style.setProperty("--toast-seconds", `${seconds}s`);
-  // Restart the fade when a new line replaces an old one.
-  node.classList.remove("fading");
-  void node.offsetWidth;
-  node.classList.add("fading");
   node.hidden = false;
-  shown.set(node, [seconds, onGone]);
-  timers.set(
-    node,
-    setTimeout(() => {
-      hideToast(node);
-      onGone?.();
-    }, seconds * 1000),
-  );
+  shown.add(node);
 }

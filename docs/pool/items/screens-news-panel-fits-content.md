@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10402
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T12:42:25.734Z
 ---
 
 **What.** The CTO, Nov 24 06:46Z, caught that the lower half of the News panel is empty (Bloomsbury and Roaring Spring). News took the whole window by design, so a short list of headlines and one story left the rest of the panel blank, the dead space the owner has ruled out since Oct 27.

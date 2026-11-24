@@ -1,0 +1,30 @@
+{
+  "id": "floor-partners-present-a-substitute",
+  "kind": "moment",
+  "summary": "One party’s leader introduces the replacement text with the other party’s leader standing beside him.",
+  "realLife": "Mansfield stood beside Dirksen when Dirksen offered their negotiated substitute on May 26.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{colleague}", "{substitute}"],
+  "gates": ["A negotiated substitute is ready for introduction."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "floor-debate identifies the bill and speakers. needs: a substitute text with named negotiators and an offering member.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "One negotiator offers the substitute and the other explains a reservation on the floor.",
+      "pulledBy": "Their agreement leaves a section open to later amendment.",
+      "writesBack": "The record carries both the offer and the reservation."
+    },
+    {
+      "turn": "late",
+      "what": "The partners wait for the clerk's corrected copy before offering the substitute.",
+      "pulledBy": "The copy at the desk differs from their agreed text.",
+      "writesBack": "The corrected version is the one entered on the floor."
+    }
+  ],
+  "issues": ["law:minimum-wage"]
+}

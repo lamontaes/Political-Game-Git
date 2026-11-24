@@ -1,0 +1,36 @@
+{
+  "id": "speaker-who-tells-a-story",
+  "kind": "voice",
+  "summary": "A speaker with a story to tell builds toward it; one without argues point by point.",
+  "realLife": "Three of twelve speeches put a story late that reframed the rest.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-short"],
+  "gates": [],
+  "weights": {
+    "sincere": 0.5,
+    "dramatic": 0.5,
+    "analytical": 0.2
+  },
+  "usedBy": [],
+  "inGame": "needs: a named person's story record; see late-story-reframes-the-speech.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A speaker who argues from figures only.",
+      "pulledBy": "high analytical",
+      "writesBack": "The paper quotes the measure."
+    },
+    {
+      "turn": "partial",
+      "what": "A story told in one sentence.",
+      "pulledBy": "a speaker with one memorable record",
+      "writesBack": "The sentence is the quote."
+    }
+  ]
+}

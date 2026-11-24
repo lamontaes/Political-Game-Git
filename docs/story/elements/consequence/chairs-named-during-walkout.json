@@ -1,0 +1,29 @@
+{
+  "id": "chairs-named-during-walkout",
+  "kind": "consequence",
+  "summary": "While {person} and allies are out of the chamber, the members who stayed choose the committee chairs.",
+  "realLife": "Chicago aldermen opposed to Harold Washington filled the chairmanships after the mayor and his allies walked out in 1983.",
+  "sources": ["https://en.wikipedia.org/wiki/Harold_Washington"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Members leave during a meeting that has chair elections on its agenda."
+  ],
+  "weights": ["A narrow quorum gives each departure more weight."],
+  "usedBy": [],
+  "inGame": "needs: attendance at the chair election.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair election waits for the members who left.",
+      "pulledBy": "Their departure breaks quorum.",
+      "writesBack": "The clerk adjourns the election without appointments."
+    },
+    {
+      "turn": "partial",
+      "what": "One committee gets a chair before the walkout.",
+      "pulledBy": "The council takes nominations separately.",
+      "writesBack": "The minutes distinguish filled and vacant chairs."
+    }
+  ]
+}

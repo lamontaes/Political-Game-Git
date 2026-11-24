@@ -1,0 +1,30 @@
+{
+  "id": "visit-supporters-across-the-state",
+  "kind": "move",
+  "summary": "A candidate for statewide office travels to another part of the state to maintain a relationship there.",
+  "realLife": "Dick Clark’s 1972 Iowa Senate campaign took him on foot through farming communities, suburbs and city business districts. He covered more than a thousand miles before the election.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GPO-CRECB-1973-pt3/pdf/GPO-CRECB-1973-pt3-3-1.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
+  ],
+  "inGame": "needs: record the campaign stop and earlier relationship in the same scene.",
+  "fits": ["journal", "campaign", "speeches"],
+  "slots": ["{candidate}", "{supporter}", "{place}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The candidate reschedules the visit with the same host.",
+      "pulledBy": "A chamber sitting conflicts with the original travel day.",
+      "writesBack": "The itinerary carries a new date for the existing commitment."
+    },
+    {
+      "turn": "partial",
+      "what": "The candidate reaches the host’s county but spends the visit at the host’s shop during a shift change.",
+      "pulledBy": "The host cannot leave work and has agreed to meet at the shop.",
+      "writesBack": "The visit log names the host and the people who could actually attend."
+    }
+  ]
+}

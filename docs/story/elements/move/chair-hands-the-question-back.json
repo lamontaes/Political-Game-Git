@@ -1,0 +1,34 @@
+{
+  "id": "chair-hands-the-question-back",
+  "kind": "move",
+  "summary": "Asked to step aside, the chair turns the question to the room and the vote goes ahead.",
+  "realLife": "A commissioner asked anyone with a conflict to abstain; the chair asked the room the same and did not abstain.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "exposed": 0.9
+  },
+  "inGame": "scene \"office-doubt\" and the exposed-conflict scenes; needs: abstaining as an option on a vote",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the chair steps aside",
+      "pulledBy": "a chair who recuses",
+      "writes": "the story says they left the room for the vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the chair abstains",
+      "pulledBy": "a vote the chair sat out",
+      "writes": "the story says it passed without their vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "recognize-caller-from-former-workplace",
+  "kind": "detail",
+  "summary": "The name on the phone reminds the player of the workplace where the two first met.",
+  "realLife": "David Demarest recalled telling fellow Bush campaign worker Bob Teeter during a drive that he wanted to keep working after the election. Days later Teeter called about running public affairs for the transition.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/david-f-demarest-jr-oral-history",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L192"
+  ],
+  "inGame": "needs: a recorded first meeting with its workplace and date.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{caller}", "{workplace}", "{player}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The player asks the caller for a reminder and recognizes the old workplace when they name it.",
+      "pulledBy": "The number is unfamiliar and the two have been out of touch.",
+      "writesBack": "The connection is reestablished through the caller's introduction."
+    },
+    {
+      "turn": "late",
+      "what": "The call goes to voicemail. A reference to the old lunch counter tells the member which former coworker to call back.",
+      "pulledBy": "The message mentions a workplace both people shared and includes a return number.",
+      "writesBack": "The member returns the call to that coworker after the sitting."
+    }
+  ]
+}

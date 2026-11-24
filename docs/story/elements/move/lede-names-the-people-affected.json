@@ -1,0 +1,35 @@
+{
+  "id": "lede-names-the-people-affected",
+  "kind": "move",
+  "summary": "A lede opens on the people a decision touches instead of the body that made it.",
+  "realLife": "One story opened on the taxpayers of a county who could see a change, with the board's act held for the second sentence.",
+  "sources": [
+    "Minot Daily News (North Dakota), county adopts budget with lower taxes: https://www.minotdailynews.com/news/local-news/2025/09/county-adopts-budget-with-lower-taxes/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["place", "percent"],
+  "gates": [],
+  "weights": {
+    "budget": 1.0,
+    "rate": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "opens on the body instead",
+      "pulledBy": "a vote count that is the news (one vote, no dissent)",
+      "writes": "the lede names the body and its act first",
+      "requiresFacts": ["by-one", "no-dissent"],
+      "excludesFacts": []
+    },
+    {
+      "name": "opens on a missing group",
+      "pulledBy": "a measure that hits a group that did not show up",
+      "writes": "the lede says who was not heard",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "inGame": "`conditions` and `law-amount` rows (who a change reaches); needs: a count of households a measure reaches"
+}

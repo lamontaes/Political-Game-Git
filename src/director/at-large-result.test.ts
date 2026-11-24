@@ -247,7 +247,7 @@ it(`${NORTH_COURTLAND.name}: every candidate of an at-large race is named once, 
     `${where}: every seat of ${race[0]!.id} decided`,
   ).toBe(true);
   // The field is who stood on the ballot: a rival who announced before
-  // filing opened and withdrew (`withdrawAnnouncement`) left the race.
+  // filing opened and withdrew (`withdrawFiling`) left the race.
   const field = new Set(
     race.flatMap((c) =>
       filingsOf(core, c.id)
@@ -325,7 +325,7 @@ it(`${NORTH_COURTLAND.name}: with nobody outside the cut, no winner is called`, 
     `${where}: every seat of ${race[0]!.id} decided`,
   ).toBe(true);
   // The field is who stood on the ballot: a rival who announced before
-  // filing opened and withdrew (`withdrawAnnouncement`) left the race.
+  // filing opened and withdrew (`withdrawFiling`) left the race.
   const field = new Set(
     race.flatMap((c) =>
       filingsOf(core, c.id)

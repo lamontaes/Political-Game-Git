@@ -1,0 +1,55 @@
+{
+  "id": "pattern-b7-03-your-name-beside-mine",
+  "kind": "situation",
+  "summary": "Your name beside mine: The player has a draft and goes to a colleague to ask them to sign on as co-sponsor.",
+  "realLife": "One life: After years of work on a military justice bill, a Democrat and two Republicans announced a large cosponsor list that crossed the aisle, and a prosecutors' group said one Republican's support would pull more along. Another: Members who passed bills described signing up nearly a whole state delegation, or building a committee and freshman group from both parties early, and advised finding common ground first. Another: She picked a Senate companion partner because of shared issue, constituents and background, saying the partner depends on who has shown interest in the topic.",
+  "sources": [
+    "https://www.military.com/daily-news/2021/05/14/after-8-years-of-effort-senate-has-votes-it-needs-overhaul-military-sexual-assault-prosecutions.html",
+    "https://rollcall.com/2019/09/09/how-a-handful-of-vulnerable-incumbents-got-bills-signed-into-law/",
+    "https://www.quorum.us/behind-the-desk/representative-delbene-bringing-stakeholders-table-crafting-legislation/"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the colleague", "the body", "committee chair", "cause group"],
+  "gates": [
+    "The bill record shows a bill the player drafted and has not yet filed, or has filed with room for co-sponsors.",
+    "{the colleague} sits in the body and is tied to the player on the record.",
+    "{the colleague} has a stance on the bill's subject on the stance record."
+  ],
+  "weights": [
+    "How close {the colleague} stands to the bill's subject.",
+    "What a favor to the player is worth to {the colleague}.",
+    "Whether {the colleague} sits in the other party or the other chamber.",
+    "Whether {committee chair} counts co-sponsors when deciding to hear the bill.",
+    "Whether the player has put a name on a bill for {the colleague}."
+  ],
+  "pattern": "B7-03",
+  "choices": [
+    "ask plainly and say what the bill does",
+    "offer to change a part to win the name",
+    "offer your own name on their bill in return",
+    "wait until the colleague asks you"
+  ],
+  "branches": [
+    {
+      "when": "{the colleague} says yes",
+      "then": "Their name goes on the bill record, and {committee chair} weighs it when deciding whether to hear the bill."
+    },
+    {
+      "when": "{the colleague} says yes if a part of the bill changes",
+      "then": "A bargain over the text begins; if the player agrees, the change is written and the name goes on."
+    },
+    {
+      "when": "{the colleague} says not yet",
+      "then": "The ask is kept open on the record with a day to talk again; the player's wait is read as patience or as pressure."
+    },
+    {
+      "when": "{the colleague} refuses",
+      "then": "The refusal is written on the tie with its reason; the colleague may say it at the next vote."
+    },
+    {
+      "when": "the colleague is of the other party",
+      "then": "A yes is read in both caucuses, and the bill gains weight with the chair and loses it with the player's own side."
+    }
+  ],
+  "usedBy": ["bill-sign-on"]
+}

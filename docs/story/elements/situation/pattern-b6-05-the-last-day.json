@@ -1,0 +1,56 @@
+{
+  "id": "pattern-b6-05-the-last-day",
+  "kind": "situation",
+  "summary": "The last day: It is the last day, and {the ones left behind} ask {the one who leaves} what comes next.",
+  "realLife": "One life: In sixth grade Joe's family left Hong Kong for the U.S. The friends wrote weekly at first and then lost touch; decades later Pak, who kept every letter, found Joe, and they now bike and eat together weekly. Another: A five-year-old Army child moving from Virginia to Alabama made a list of people to hug and have sign it, ending with his pediatrician, who called and met him on her supper break. The mother said the small gesture eased the move. Another: On the last day of school the daughter's best friend was moving away; she wished the family would move too, and asked to be left alone to cry. Her mother stayed available. Another: A New York Times Magazine piece on retirement: send-offs vary and the old gold-watch custom has mostly gone; some had parties, others regretted missed time with their children, and it is often sad. Another: A public relations worker left a nonprofit after nearly twenty years when leaders reversed promises about working from home. He would miss his supervisor of more than ten years and his work friends, and took a new job in six weeks.",
+  "sources": [
+    "https://www.kunc.org/2022-11-25/two-friends-tell-the-story-of-their-reunion-after-years-of-separation",
+    "https://www.army.mil/article/94308/the_goodbye_list_and_dr_jude_special_farewell_eases_move_for_military_child",
+    "https://militaryspouse.com/relationships/parenting/the-last-day-of-school-stinks-for-the-military-child/",
+    "https://sundaylongread.com/2024/06/01/charley-locke-new-york-times-magazine-retirement/",
+    "https://realdirtnap.substack.com/p/career-grief-two-weeks-notice"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the one who leaves", "the ones left behind", "the boss or head"],
+  "gates": [
+    "{the one who leaves} is on the work, school or home record and the leaving date is set.",
+    "{the ones left behind} are on the tie record.",
+    "The leaving is chosen or required by orders, a closing or a move."
+  ],
+  "weights": [
+    "Years in the place.",
+    "Whether the leaving was chosen.",
+    "Whether {the one who leaves} is a child.",
+    "Whether a send-off is the place's custom."
+  ],
+  "pattern": "B6-05",
+  "choices": [
+    "say goodbye to each by name",
+    "leave a way to keep in touch",
+    "ask {the ones left behind} for a promise to write",
+    "leave quietly"
+  ],
+  "branches": [
+    {
+      "when": "the leaving is a child's move with orders",
+      "then": "A list of people to say goodbye to is made and each is met on a chosen day; a small kindness from one lifts the whole move."
+    },
+    {
+      "when": "a best friend stays behind",
+      "then": "A mess of tears on the last day; the leaver wants to be left alone for a while, and the tie lasts through letters."
+    },
+    {
+      "when": "the leaving is a retirement or a quit",
+      "then": "The send-off is mixed: pride and sadness together; regrets about missed years show up."
+    },
+    {
+      "when": "the old tie is lost and found again years later",
+      "then": "Letters kept long afterward bring a reunion and the tie resumes where it left off."
+    },
+    {
+      "when": "the player holds an office",
+      "then": "The last day of an office or a staff job is read in the town's record."
+    }
+  ],
+  "usedBy": ["last-day", "moving-goodbye"]
+}

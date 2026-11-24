@@ -1,0 +1,31 @@
+{
+  "id": "many-moves-are-for-family-reasons",
+  "kind": "detail",
+  "summary": "More than a quarter of movers gave a family reason: marriage, a split, a parent's care.",
+  "realLife": "Family-related reasons made up 27.9 percent of moves in 2017.",
+  "sources": [
+    "U.S. Census Bureau, Overall Mover Rate Remains at an All-time Low (2017): https://www.census.gov/library/stories/2017/12/lower-moving-rate.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["moved-year"],
+  "gates": [],
+  "weights": {
+    "household": 0.5
+  },
+  "inGame": "needs: a family reason on the move record, from the partnerships and care records.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A family reason keeps someone from moving: a parent who needs care stays.",
+      "pulledBy": "care records in the household",
+      "writesBack": "no move; a care line on the card"
+    },
+    {
+      "turn": "partial",
+      "what": "A move for family is also a move for a job.",
+      "pulledBy": "a spouse's job and a relative's offer",
+      "writesBack": "both facts set on the move record"
+    }
+  ]
+}
