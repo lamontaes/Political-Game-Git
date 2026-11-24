@@ -1,112 +1,46 @@
 # Pre-grade: Writer Home (talk at home)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `104bd27d`, every line authored by this writer at that head (160 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `6799ca02`, every line authored by this writer at that head (138 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 105 of 160 pass (66%); 55 fail.
-- **Calibration:** C4 8/8, D1 8/8, M1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 120 of 138 pass (87%); 18 fail.
+- **Calibration:** C4 8/8, D1 8/8, M1 8/8, O1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the packet script at `104bd27d` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
+- **Played:** the packet script at `104bd27d` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### stance-is-plainly-for-or-against (14)
+### awkward / AI-sounding (9)
 
-- `outline-talk.lead.talk-address-point-about-was-the-first-thing-president-wanted-to-talk-about`: "{about} was the first thing {president} wanted to talk about." — It never says the President is for it, and 'the first thing' is a claim no record holds.
-- `outline-talk.lead.talk-address-point-i-didn-t-expect-president-to-be-this-firm-on-about`: "I didn't expect {president} to be this firm on {about}." — 'This firm on' doesn't say whether the President is for it or against it.
-- `outline-talk.lead.talk-address-point-did-you-notice-how-long-president-stayed-on-about`: "Did you notice how long {president} stayed on {about}?" — It never says the President is for it, and 'how long' is a claim no record holds.
-- `outline-talk.lead.talk-address-point-president-drew-a-hard-line-on-about`: "{president} drew a hard line on {about}." — 'Drew a hard line on' doesn't say which way the President stands.
-- `outline-talk.lead.talk-address-point-on-about-president-gave-no-ground-at-all`: "On {about}, {president} gave no ground at all." — 'Gave no ground' doesn't say which side the President is on.
-- `outline-talk.verdict.talk-address-point-that-s-one-president-can-keep`: "That's one {president} can keep." — 'That's one he can keep' is an idiom that leaves the stand unclear.
-- `outline-talk.verdict-after.talk-address-point-i-walked-away-from-president-object-on-that-one`: "I walked away from {president-object} on that one." — 'Walked away from the President' is a figure of speech that blurs whether the speaker disagrees or just left.
-- `outline-talk.verdict.talk-address-point-sometimes-president-surprises-me-and-that-was-one-of-those-times`: "Sometimes {president} surprises me, and that was one of those times." — Being surprised doesn't say the speaker agrees.
-- `outline-talk.verdict.talk-address-point-president-lost-me-somewhere-in-the-middle-of-that`: "{president} lost me somewhere in the middle of that." — 'Lost me somewhere in the middle' could mean the speaker stopped following, not that he disagrees.
-- `outline-talk.verdict.talk-address-point-i-d-have-asked-president-object-a-lot-more-questions-first`: "I'd have asked {president-object} a lot more questions first." — It never says whether the speaker is against the point, only that he'd have asked questions.
-- `outline-talk.verdict.talk-address-point-right-or-wrong-i-m-on-president-s-side-with-that`: "Right or wrong, I'm on {president}'s side with that." — 'Right or wrong' undercuts the support, and 'side with that' is awkward.
-- `outline-talk.verdict.talk-address-point-whoever-wrote-that-for-president-object-knew-what-they-were-doing`: "Whoever wrote that for {president-object} knew what they were doing." — It praises the speechwriter and never gives the speaker's own stand.
-- `outline-talk.verdict.talk-address-point-honestly-president-surprised-me-by-landing-there`: "Honestly, {president} surprised me by landing there." — 'Surprised me by landing there' doesn't say the speaker agrees.
-- `outline-talk.verdict.talk-address-point-that-s-the-part-of-president-i-ll-never-get-used-to`: "That's the part of {president} I'll never get used to." — It's about the President as a person, not the stand on the point.
+- `outline-talk.lead.talk-address-point-on-about-president-is-on-the-yes-side`: "On {about}, {president} is on the yes side." — 'On the yes side' is stilted ballot talk for a President's stand and doesn't sound like a person.
+- `outline-talk.lead.talk-address-point-on-about-president-is-on-the-no-side`: "On {about}, {president} is on the no side." — 'On the no side' is stilted, not how someone retells a speech.
+- `outline-talk.lead.talk-address-point-president-spoke-up-to-defend-about`: "{president} spoke up to defend {about}." — 'Spoke up to defend' is a clunky, padded construction; people would say 'defended'.
+- `outline-talk.lead.talk-address-point-president-wants-no-changes-to-about`: "{president} wants no changes to {about}." — 'Wants no changes to' reads oddly with the noun fills ('no changes to expanding Medicaid') and is stiff.
+- `outline-talk.lead.talk-address-point-president-said-to-leave-about-as-is`: "{president} said to leave {about} as is." — 'Said to leave X as is' sounds like an order relayed, not a stand, and is awkward with fills like 'shifting highway money to transit'.
+- `outline-talk.lead.talk-address-point-the-word-on-about-from-president-was-to-keep-it`: "The word on {about} from {president} was to keep it." — 'The word on X from Y was to keep it' is a contorted, simulated-sounding sentence with a vague 'it'.
+- `outline-talk.lead.talk-address-point-president-spoke-up-to-end-about`: "{president} spoke up to end {about}." — 'Spoke up to end' is clunky; you don't end a law by speaking up.
+- `outline-talk.lead.talk-address-point-president-plans-to-take-apart-about`: "{president} plans to take apart {about}." — 'Take apart' with policy fills ('take apart free fares on public transit') is odd and loaded.
+- `outline-talk.lead.talk-address-point-the-word-on-about-from-president-was-to-end-it`: "The word on {about} from {president} was to end it." — The same contorted 'The word on X from Y was to end it' shape, with a vague 'it'.
 
-### one-idea-to-a-sentence (9)
+### stance-is-plainly-for-or-against (8)
 
-- `outline-talk.why-first.talk-address-point-said-lines-up-with-what-i-see-around-place`: "{said} lines up with what I see around {place}." — A plural fill gives 'drug prices lines up', and the singular-verb shape repeats in M1-136.
-- `outline-talk.why-first.talk-address-point-said-doesn-t-match-what-i-see-around-place`: "{said} doesn't match what I see around {place}." — A plural fill gives 'drug prices doesn't match', and it repeats M1-009 for the other side.
-- `outline-talk.why-first.talk-address-point-money-is-tight-and-said-touched-that-here-in-place`: "Money is tight, and {said} touched that, here in {place}." — 'Touched that, here in {place}' is awkward and choppy.
-- `outline-talk.why-first.talk-address-point-said-matters-to-me-on-the-job-at-employer`: "{said} matters to me on the job at {employer}." — With a plural subject like 'drug prices' the line reads 'drug prices matters', and 'on the job at' is stiff.
-- `outline-talk.why-first.talk-address-point-i-ve-been-out-of-work-since-employer-so-said-is-personal`: "I've been out of work since {employer}, so {said} is personal." — 'Out of work since {employer}' puts an employer where a time goes, and 'is personal' breaks with plural fills.
-- `outline-talk.verdict-after.talk-address-point-i-m-still-weighing-president-object-on-about`: "I'm still weighing {president-object} on {about}." — 'Weighing the President on' is awkward: you weigh the policy, not the President.
-- `outline-talk.why.talk-address-point-place-needs-jobs-and-i-listen-for-that`: "{place} needs jobs, and I listen for that." — 'I listen for that' is an odd, unnatural reason.
-- `outline-talk.why-first.talk-address-point-things-in-place-are-the-reason-said-stuck-with-me`: "Things in {place} are the reason {said} stuck with me." — 'Things in {place} are the reason {said} stuck with me' is stiff and vague.
-- `outline-talk.ask.talk-address-point-is-said-the-part-that-stuck-with-you-too`: "Is {said} the part that stuck with you, too?" — A plural fill gives 'Is drug prices the part...', which is ungrammatical.
+- `outline-talk.lead.talk-address-point-where-about-is-concerned-president-is-for-it`: "Where {about} is concerned, {president} is for it." — 'Where X is concerned... is for it' is stiff, report-like phrasing nobody says at the kitchen table, and the trailing 'it' is the vague pronoun he objects to.
+- `outline-talk.lead.talk-address-point-president-wants-us-to-say-yes-to-about`: "{president} wants us to say yes to {about}." — 'Wants us to say yes' is false to the facts: the household doesn't vote on it, Congress decides, so it puts the ask on the wrong people.
+- `outline-talk.lead.talk-address-point-where-about-is-concerned-president-is-against-it`: "Where {about} is concerned, {president} is against it." — The same stiff 'Where X is concerned... against it' frame, ending on a vague 'it'.
+- `outline-talk.lead.talk-address-point-president-wants-us-to-say-no-to-about`: "{president} wants us to say no to {about}." — 'Wants us to say no' asks the household, who can't act, instead of the level of government that decides.
+- `outline-talk.lead.talk-address-point-on-about-president-wants-things-left-as-they-are`: "On {about}, {president} wants things left as they are." — 'Wants things left as they are' is vague. With an action-shaped fill ('On expanding Medicaid') it can read as being against the change, so the stand is unclear.
+- `outline-talk.lead.talk-address-point-where-about-is-concerned-president-wants-it-ended`: "Where {about} is concerned, {president} wants it ended." — Stiff 'Where X is concerned' frame with a dangling 'it'; awkward and AI-sounding.
+- `outline-talk.lead.talk-address-point-on-about-president-wants-a-change`: "On {about}, {president} wants a change." — 'Wants a change' doesn't say whether he'd end it, cut it or expand it, so the stand isn't plain.
+- `outline-talk.lead.talk-address-point-president-wants-to-change-about-for-good`: "{president} wants to change {about} for good." — 'Change for good' could mean improve it or change it permanently; it doesn't say he's against it.
 
-### no-literary-phrasing (8)
+### false for its facts (1)
 
-- `outline-talk.verdict-cold.talk-address-point-i-d-take-a-different-road-than-president-on-about`: "I'd take a different road than {president} on {about}." — 'Take a different road' is a metaphor.
-- `outline-talk.why-first.talk-address-point-rent-keeps-going-up-in-place-and-said-came-right-to-it`: "Rent keeps going up in {place}, and {said} came right to it." — 'Came right to it' is awkward, and the rent claim is put on the subject.
-- `outline-talk.verdict-after.talk-address-point-president-has-earned-my-agreement-on-about`: "{president} has earned my agreement on {about}." — 'Has earned my agreement' is stiff, not how people talk.
-- `outline-talk.why-first.talk-address-point-said-hit-differently-living-in-place`: "{said} hit differently, living in {place}." — 'Hit differently' is trendy filler that says nothing about the speaker's view.
-- `outline-talk.why-first.talk-address-point-from-my-seat-in-place-said-sounded-like-it-was-about-us`: "From my seat in {place}, {said} sounded like it was about us." — 'From my seat in' and 'sounded like it was about us' are composed and vague.
-- `outline-talk.why-first.talk-address-point-place-has-been-through-enough-that-said-gets-my-full-attention`: "{place} has been through enough that {said} gets my full attention." — 'Has been through enough that... gets my full attention' is composed and makes a claim no record holds.
-- `outline-talk.why.talk-address-point-place-taught-me-that-more-than-any-speech`: "{place} taught me that, more than any speech." — '{place} taught me that, more than any speech' is an epigram.
-- `outline-talk.verdict.talk-address-point-tell-president-object-to-try-that-on-someone-else`: "Tell {president-object} to try that on someone else." — 'Try that on someone else' is a smart-aleck line that treats the speech like a con, and its stance is fuzzy.
-
-### rejected-by-voice (7)
-
-- `outline-talk.lead.talk-address-point-president-isn-t-touching-about`: "{president} isn't touching {about}." — 'Isn't touching expanding Medicaid' doesn't work with a gerund fill and is unclear.
-- `outline-talk.lead.talk-address-point-as-far-as-president-is-concerned-about-stays`: "As far as {president} is concerned, {about} stays." — 'Expanding Medicaid stays' makes no sense with a gerund fill.
-- `outline-talk.lead.talk-address-point-president-promised-to-leave-about-alone`: "{president} promised to leave {about} alone." — 'Leave expanding Medicaid alone' doesn't work with a gerund fill.
-- `outline-talk.lead.talk-address-point-president-stood-up-for-about-which-is-already-the-law`: "{president} stood up for {about}, which is already the law." — 'Stood up for expanding Medicaid, which is already the law' is false for a gerund fill.
-- `outline-talk.lead.talk-address-point-president-said-about-has-to-go`: "{president} said {about} has to go." — 'Said expanding Medicaid has to go' is unclear about the law with a gerund fill.
-- `outline-talk.lead.talk-address-point-about-is-the-law-now-and-president-wants-that-changed`: "{about} is the law now, and {president} wants that changed." — 'Expanding Medicaid is the law now' is false for a gerund fill: an action isn't a law.
-- `outline-talk.verdict-cold.talk-address-point-president-had-it-right-on-said-plain-and-simple`: "{president} had it right on {said}, plain and simple." — He complained about 'plain and simple' tacked onto a line on Nov 12.
-
-### vary-the-shape (5)
-
-- `outline-talk.verdict.talk-address-point-i-wish-president-had-left-that-one-out`: "I wish {president} had left that one out." — It makes the same point and has the same shape as M1-023 ('stayed quiet on that').
-- `outline-talk.verdict.talk-address-point-what-president-said-there-is-what-i-d-say-at-this-table`: "What {president} said there is what I'd say at this table." — 'What I'd say at this table' is composed and makes the same point as M1-012.
-- `outline-talk.verdict.talk-address-point-i-listened-and-i-still-can-t-go-along-with-president-object`: "I listened, and I still can't go along with {president-object}." — It repeats M1-063 ('heard him out... doesn't change my mind').
-- `outline-talk.why-first.talk-address-point-knowing-place-the-way-i-do-i-listened-hard-to-said`: "Knowing {place} the way I do, I listened hard to {said}." — It makes the same point and has the same shape as M1-061 ('listened close/hard to').
-- `outline-talk.why-first.talk-address-point-people-i-know-in-place-came-to-mind-during-said`: "People I know in {place} came to mind during {said}." — It repeats M1-056, and 'during drug prices' doesn't work.
-
-### no-pointing-at-the-unnamed (3)
-
-- `outline-talk.lead.talk-address-point-president-is-for-about-and-said-so-first`: "{president} is for {about}, and said so first." — 'And said so first': first before whom? It makes no sense.
-- `outline-talk.why.talk-address-point-i-notice-this-at-employer-because-it-s-a-daily-thing-there`: "I notice this at {employer}, because it's a daily thing there." — 'I notice this' points at an unnamed 'this', and 'a daily thing there' is vague.
-- `outline-talk.verdict.talk-address-point-nobody-else-was-going-to-say-it-and-president-did`: "Nobody else was going to say it, and {president} did." — 'Say it' leans on an unnamed 'it', and 'nobody else was going to' claims something no record holds.
-
-### address-argues-not-announces (2)
-
-- `outline-talk.lead.talk-address-point-president-wants-about-off-the-books`: "{president} wants {about} off the books." — 'Off the books' is the phrasing he rejected ('what do you mean on the books?'), and a gerund fill breaks it.
-- `outline-talk.verdict.talk-address-point-it-worries-me-that-president-would-say-it-so-plainly`: "It worries me that {president} would say it so plainly." — 'So plainly' is the word he rejected, and the line names a feeling.
-
-### tense-of-the-record (2)
-
-- `outline-talk.verdict-after.talk-address-point-president-hasn-t-made-the-case-for-about-to-me`: "{president} hasn't made the case for {about} to me." — When the President is against it, saying he 'hasn't made the case for' it is false to the facts.
-- `outline-talk.verdict.talk-address-point-i-keep-waiting-for-president-object-to-explain-that-and-nothing`: "I keep waiting for {president-object} to explain that, and nothing." — 'I keep waiting' makes no sense right after one speech.
-
-### no-filler (2)
-
-- `outline-talk.verdict-after.talk-address-point-so-president-loses-me`: "So {president} loses me." — 'So the President loses me.' is a bare fragment with a filler opener.
-- `outline-talk.ask.talk-address-point-where-did-you-land-on-said-if-you-did`: "Where did you land on {said}, if you did?" — The 'if you did' tag is awkward padding.
-
-### reply-follows-the-line-before (1)
-
-- `outline-talk.verdict.talk-address-point-not-from-me-president-not-on-that-one`: "Not from me, {president}, not on that one." — It speaks to the President as if he were in the room, which doesn't work at the kitchen table.
-
-### question-names-its-subject (1)
-
-- `outline-talk.ask.talk-address-point-does-that-sound-right-to-you-about-said`: "Does that sound right to you, about {said}?" — 'About {said}' is tacked onto the end, so the question reads awkward and AI-built.
-
-### journal-names-no-feeling (1)
-
-- `outline-talk.verdict.talk-address-point-hearing-president-object-say-it-makes-me-feel-less-alone`: "Hearing {president-object} say it makes me feel less alone." — 'Makes me feel less alone' tells a feeling and reads like therapy, not kitchen talk.
+- `outline-talk.lead.talk-address-point-president-is-campaigning-to-end-about`: "{president} is campaigning to end {about}." — The President just took office in an inaugural address, so 'campaigning' is false to the moment.
 
 ## As played
 
-- pass: `outline-talk.lead.talk-address-point-says-stays-right-where-it-is` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
 - pass: `outline-talk.ask.talk-address-point-where-do-you-come-down-on` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
 - pass: `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
-- fail: `outline-talk.why-first.talk-address-point-said-lines-up-with-what-i-see-around-place` → **5.17**   says: The minimum wage lines up with what I see around Roberts. That's why I'm behind the President on a higher federal minimum wage.
 - pass: `outline-talk.why-first.talk-address-point-what-president-said-on-said-fits-the-way-place-actually-is` → **1.16**   says: What the President said on taxes on the rich fits the way Meadow actually is. And I think she has it right.
 - pass: `outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-about` → **2.30**   says: I can only judge interest rates on loans by how Chipley has been going. That's why I'm behind the President on a cap on consumer loan interest.
 - pass: `outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-the-problem` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
@@ -122,7 +56,6 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `104bd27d`, every line authored
 - `outline-talk.lead.talk-address-point-nobody-is-getting-out-of`: "Nobody is getting {about} out of {president}."
 - `outline-talk.lead.talk-address-point-said-no-to-flat-out`: "{president} said no to {about}, flat out."
 - `outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on`: "You catch that? {president} shut the door on {about}."
-- `outline-talk.lead.talk-address-point-says-stays-right-where-it-is`: "{president} says {about} stays right where it is."
 - `outline-talk.lead.talk-address-point-if-gets-a-say-is-on-its-way-out`: "If {president} gets a say, {about} is on its way out."
 - `outline-talk.lead.talk-address-point-out-of-the-whole-speech-gave-the-most-time`: "Out of the whole speech, {president} gave {said} the most time."
 - `outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-about`: "I've been waiting for somebody to say that about {about}."
@@ -207,11 +140,27 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `104bd27d`, every line authored
 - `outline-talk.verdict.talk-address-point-put-me-down-as-agreeing-with-president-object`: "Put me down as agreeing with {president-object}."
 - `outline-talk.verdict.talk-address-point-if-you-ask-me-president-chose-the-right-fight`: "If you ask me, {president} chose the right fight."
 - `outline-talk.verdict.talk-address-point-that-s-not-how-i-d-have-put-it-but-president-is-right`: "That's not how I'd have put it, but {president} is right."
-- `outline-talk.verdict.talk-address-point-good-for-president-object-and-good-for-all-of-us`: "Good for {president-object}, and good for all of us."
 - `outline-talk.verdict.talk-address-point-i-m-not-fooled-by-president-object-on-that-one`: "I'm not fooled by {president-object} on that one."
 - `outline-talk.verdict.talk-address-point-i-heard-president-out-and-it-doesn-t-change-my-mind`: "I heard {president} out, and it doesn't change my mind."
 - `outline-talk.verdict.talk-address-point-i-d-rather-president-had-stayed-quiet-on-that`: "I'd rather {president} had stayed quiet on that."
 - `outline-talk.verdict.talk-address-point-the-other-side-has-the-better-argument-and-president-knows-it`: "The other side has the better argument, and {president} knows it."
+- `outline-talk.lead.talk-address-point-president-came-out-in-favor-of-about`: "{president} came out in favor of {about}."
+- `outline-talk.lead.talk-address-point-president-said-yes-to-about`: "{president} said yes to {about}."
+- `outline-talk.lead.talk-address-point-president-is-backing-about`: "{president} is backing {about}."
+- `outline-talk.lead.talk-address-point-president-is-firmly-for-about`: "{president} is firmly for {about}."
+- `outline-talk.lead.talk-address-point-president-is-firmly-against-about`: "{president} is firmly against {about}."
+- `outline-talk.lead.talk-address-point-president-is-opposed-to-about`: "{president} is opposed to {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-keep-about`: "{president} wants to keep {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-end-about`: "{president} wants to end {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-roll-back-about`: "{president} wants to roll back {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-protect-about`: "{president} wants to protect {about}."
+- `outline-talk.lead.talk-address-point-president-is-defending-about`: "{president} is defending {about}."
+- `outline-talk.lead.talk-address-point-president-sided-with-those-who-want-to-keep-about`: "{president} sided with those who want to keep {about}."
+- `outline-talk.lead.talk-address-point-president-plans-to-stand-behind-about`: "{president} plans to stand behind {about}."
+- `outline-talk.lead.talk-address-point-president-made-a-point-of-backing-about`: "{president} made a point of backing {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-repeal-about`: "{president} wants to repeal {about}."
+- `outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-about`: "{president} wants to put an end to {about}."
+- `outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-about`: "{president} made a point of attacking {about}."
 - `conversation.own-view-answer-disagree.i-ve-gone-back-and-forth-on-myself`: "I've gone back and forth on {about} myself."
 - `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on`: "Honestly, {about} bothers me more than I let on."
 - `conversation.own-view-answer-agree.maybe-i-ve-been-too-quick-on`: "Maybe I've been too quick on {about}."
