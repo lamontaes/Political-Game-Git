@@ -3,8 +3,16 @@
   "first": "chamber",
   "last": "home",
   "places": {
-    "chamber": ["us-house-floor", "us-senate-floor"],
-    "officials": ["us-house-floor", "us-senate-floor"],
+    "chamber": [
+      "us-house-floor-in-session",
+      "us-house-floor",
+      "us-senate-floor"
+    ],
+    "officials": [
+      "us-house-floor-in-session",
+      "us-house-floor",
+      "us-senate-floor"
+    ],
     "america": ["train-depot-platform"],
     "state": ["state-capitol-{state}", "state-capitol-dome"],
     "window": ["oval-office-south-lawn", "oval-office", "oval-office-standard"],
