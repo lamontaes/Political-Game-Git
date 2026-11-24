@@ -7,7 +7,7 @@
  * 2. no sentence frame in more than 1 in 20 texts;
  * 3. on average at most one frame shared within a six.
  * Input: one recorded telling input per line (facts, points, traits,
- * momentKey, worldSeed), as `inauguralTelling` builds it. With fewer than
+ * momentKey, worldSeed), as `addressTelling` (src/director/address-telling.ts) builds it. With fewer than
  * 120 worlds, the worlds repeat with drawn traits, which overcounts slots a
  * world fact gates (the gate's own caution).
  * Run: KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-six.jsonl
