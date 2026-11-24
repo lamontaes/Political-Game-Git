@@ -690,7 +690,10 @@ $("journal-note-close").addEventListener("click", () =>
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
+  ).catch(() => null);
+  // A read that failed leaves the pop-up as it is: only a Journal that is really empty takes
+  // a waiting pop-up down (N16-24, "I didn't even get to see the journal stuff there").
+  if (!chapters) return;
   const newest = chapters.at(-1)?.lines.at(-1);
   const line = newest?.text ?? "";
   // A line that follows another ("Two years after that, ...") is shown with the line it

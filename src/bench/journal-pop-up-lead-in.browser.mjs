@@ -42,6 +42,16 @@ try {
     `${earlierText} ${ending}`,
     "the pop-up shows the line alone",
   );
+  // A failed read of the Journal leaves the waiting pop-up in place (N16-24).
+  await page.unroute("**/api/journal*");
+  await page.route("**/api/journal*", (route) => route.abort());
+  await page.locator("#hour").click();
+  await page.waitForTimeout(1500);
+  assert.equal(
+    await page.locator("#journal-line").innerText(),
+    shown,
+    "a failed Journal read changed the pop-up",
+  );
   console.log("ok: the pop-up carries the line it follows");
 } finally {
   await browser.close();
