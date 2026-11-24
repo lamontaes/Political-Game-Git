@@ -295,40 +295,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-voted-on-to-pass-which-means",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} voted {count} on {date} to pass {law}, which means {purpose}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "count", "date", "law", "purpose", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-the-voted-down-on-it-would-have-meant",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} voted down {law} {count} on {date}; it would have meant {purpose}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "count", "date", "law", "purpose", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-the-passed-on",
       "move": "lede",
       "kind": "written",
@@ -483,42 +449,6 @@
           "role": "headline",
           "tie": "record",
           "requiresFacts": ["body", "purpose", "failed"],
-          "excludesFacts": ["law"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-the-voted-on-for",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} voted {count} on {date} for {purpose}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "count", "date", "purpose", "passed"],
-          "excludesFacts": ["law"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-the-voted-on-against",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} voted {count} on {date} against {purpose}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "count", "date", "purpose", "failed"],
           "excludesFacts": ["law"]
         }
       ],
