@@ -25,5 +25,6 @@
       "pulledBy": "Desk duty takes the available hours.",
       "writesBack": "The index shows the unfinished subjects."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

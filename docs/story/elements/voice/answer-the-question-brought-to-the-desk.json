@@ -25,5 +25,6 @@
       "pulledBy": "A second member asks the same question.",
       "writesBack": "Each consultation retains its own record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -25,5 +25,6 @@
       "pulledBy": "The leader needs only the opening clause immediately.",
       "writesBack": "The finished copy follows."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

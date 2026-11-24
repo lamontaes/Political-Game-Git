@@ -25,5 +25,6 @@
       "pulledBy": "The review catches a mistaken citation.",
       "writesBack": "Both names appear on the corrected volume."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

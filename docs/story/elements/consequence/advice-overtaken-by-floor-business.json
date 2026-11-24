@@ -25,5 +25,6 @@
       "pulledBy": "The old advice has already been repeated.",
       "writesBack": "The explanation enters the record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

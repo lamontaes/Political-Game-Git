@@ -25,5 +25,6 @@
       "pulledBy": "The relief speaker is delayed.",
       "writesBack": "The floor manager revises the schedule."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

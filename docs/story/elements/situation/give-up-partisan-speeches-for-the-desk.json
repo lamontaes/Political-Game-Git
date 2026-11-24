@@ -33,5 +33,6 @@
       "pulledBy": "The applicant accepts.",
       "writesBack": "The new adviser declines it."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

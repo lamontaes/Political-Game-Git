@@ -25,5 +25,6 @@
       "pulledBy": "A comparable service already has accounts.",
       "writesBack": "The chair receives a comparison."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

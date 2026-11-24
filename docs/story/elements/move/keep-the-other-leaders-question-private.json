@@ -25,5 +25,6 @@
       "pulledBy": "One leader asks who raised the issue first.",
       "writesBack": "The other consultation stays private."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

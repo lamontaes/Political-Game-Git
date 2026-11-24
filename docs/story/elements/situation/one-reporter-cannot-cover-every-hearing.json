@@ -25,5 +25,6 @@
       "pulledBy": "The clerk sends only the notice.",
       "writesBack": "The decision awaits confirmation."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

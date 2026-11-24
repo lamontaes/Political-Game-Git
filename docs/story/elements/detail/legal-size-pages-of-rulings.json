@@ -25,5 +25,6 @@
       "pulledBy": "A heading fails to explain a result.",
       "writesBack": "The question goes into the next lesson."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

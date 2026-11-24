@@ -25,5 +25,6 @@
       "pulledBy": "The manager has yielded extra time.",
       "writesBack": "Both allocations appear in the debate record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
