@@ -1,0 +1,29 @@
+{
+  "id": "witness-compares-two-kinds-of-care",
+  "kind": "voice",
+  "summary": "A witness explains a family member’s treatment by recalling another relative’s medical care.",
+  "realLife": "Stephen Chukumba drew on his late wife’s cancer treatment when he testified about legal protections for his son’s care.",
+  "sources": [
+    "https://stephenthedad.substack.com/p/standing-up-testimony-confrontation"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{witness}", "{relative}", "{committee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "committee-hearing records a witness's personal stake. needs: two family care histories linked to that witness.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The witness sticks to their own household's current case.",
+      "pulledBy": "The other relative has asked to keep their treatment private.",
+      "writesBack": "The testimony describes only the current case."
+    },
+    {
+      "turn": "partial",
+      "what": "The witness compares the two families' paperwork without describing either diagnosis.",
+      "pulledBy": "The hearing concerns access and the forms are the relevant evidence.",
+      "writesBack": "The committee hears a comparison limited to the application process."
+    }
+  ]
+}
