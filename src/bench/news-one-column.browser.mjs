@@ -1,4 +1,4 @@
-/* global process, console, document, getComputedStyle */
+/* global process, console, getComputedStyle */
 // A news story is one column, in a real browser on the bench (npm run bench): the lead story's
 // text is never set in columns, so its last sentence cannot float in a second one (owner,
 // Nov 23, C16: "It reaches everyone in New Jersey." in a second column).
