@@ -384,6 +384,8 @@ interface ReadRequirements {
   readonly party?: ReadSide;
   readonly independent?: ReadSide;
   readonly minimumAge?: number | null;
+  /** An office of the family whose own law sets another age (a Northern Marianas Mayor, 25, beside its council's 21). */
+  readonly minimumAgeByOffice?: Readonly<Record<string, number>>;
   readonly residency?: string | null;
   readonly registeredVoterRequired?: boolean | null;
   readonly filingDeadlineRule?: string | null;
@@ -657,7 +659,12 @@ export function filingRulesFor(
     (contest.district
       ? readRequirements(town(api).stateKey, contest.family)?.districtSeatsRead
       : undefined) ?? contest.family;
-  const stateRules = filingRequirements(town(api).stateKey, family, side);
+  const kind = contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1);
+  const familyRules = filingRequirements(town(api).stateKey, family, side);
+  const ownAge = readRequirements(town(api).stateKey, family)
+    ?.minimumAgeByOffice?.[kind];
+  const stateRules =
+    ownAge === undefined ? familyRules : { ...familyRules, minimumAge: ownAge };
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
@@ -665,7 +672,7 @@ export function filingRulesFor(
       string,
       { value: number; citation: string }
     >
-  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  )[kind];
   const rules =
     federal && federal.value > stateRules.minimumAge
       ? {
@@ -2075,6 +2082,39 @@ export const RIVAL_FILED_EVENT = "rival-filed";
  */
 export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
   return filing.status === "on-ballot" || filing.status === "petitioning";
+}
+
+/**
+ * Whether a candidate is in the race for the press: a filing that stands, or
+ * an announced one whose race is still ahead (owner, Nov 17: "Run now, file on
+ * the date"). An announced candidate is already campaigning in the open, so
+ * the papers ask them and they can be asked.
+ */
+export function inTheRace(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  return (
+    standing(filing) ||
+    (filing.status === "announced" && raceAhead(api, filing))
+  );
+}
+
+/** The living candidates who announced for a contest and have not yet filed. */
+export function announcedIn(
+  api: CoreAPI,
+  contestId: string,
+): readonly FilingRow[] {
+  return (
+    table(api, "filings").query("byContest", [
+      contestId,
+    ]) as unknown as FilingRow[]
+  ).filter(
+    (f) =>
+      f.status === "announced" &&
+      raceAhead(api, f) &&
+      api.state.people.get(f.personId)?.alive !== false,
+  );
 }
 
 /**

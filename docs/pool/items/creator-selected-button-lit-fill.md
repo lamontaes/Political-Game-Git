@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n16-13
-pr:
+pr: #10308
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N16-13)
+merged-at: 2026-11-24T05:06:43.022Z
 ---
 
 **What.** The owner, Nov 16: "I'm not sure if this border is what I approved" (the creator). In a played creator the picked gender button (Female) is a dark button with a thin light outline, while the Everyday tab beside it is a lit brass fill. MENU-LOOK says a picked button is a lit brass fill.
