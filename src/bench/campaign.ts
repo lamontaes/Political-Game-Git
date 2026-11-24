@@ -74,6 +74,7 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import { votersWhoHeardOf } from "../core2/modules/voting";
 import {
   askToServe,
   chooseRunningMateForMe,
@@ -212,6 +213,7 @@ export function campaignView(core: CoreState, personId: string) {
           polls.at(-1),
           causes,
           contest ? raceSaid(api, contest) : undefined,
+          votersWhoHeardOf(api, personId),
         ),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
@@ -514,6 +516,8 @@ export function raceStanding(
     | undefined,
   causes: readonly CandidateStanding[],
   race?: RaceSaid,
+  // How many voters other than the candidate have heard of them (votersWhoHeardOf).
+  heardOf = 0,
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
@@ -524,20 +528,26 @@ export function raceStanding(
     slots: Readonly<Record<string, string | number>>,
   ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
-    mine && mine.reached > 0
-      ? line(
-          mine.reached > 1
-            ? "reached"
-            : mine.warmer + mine.cooler > 0
-              ? "reached-one"
-              : "reached-one-unmoved",
-          id,
-          {
-            reached: mine.reached,
-            ...race?.when,
-          },
-        )
-      : line("reached-none", id, { ...race?.when }),
+    ...(mine && mine.reached > 0
+      ? [
+          line(
+            mine.reached > 1
+              ? "reached"
+              : mine.warmer + mine.cooler > 0
+                ? "reached-one"
+                : "reached-one-unmoved",
+            id,
+            {
+              reached: mine.reached,
+              ...race?.when,
+            },
+          ),
+        ]
+      : // "No one has heard from you" only while the voting record says so:
+        // a player people in town know is not said to be unknown.
+        heardOf > 0
+        ? []
+        : [line("reached-none", id, { ...race?.when })]),
     // One voter reached who did not move is said in the reached line itself.
     ...(mine && (mine.reached > 1 || mine.warmer + mine.cooler > 0)
       ? [
