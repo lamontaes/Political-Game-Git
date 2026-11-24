@@ -44,7 +44,8 @@ export interface MunicipalClassForm {
   readonly atLarge?: boolean;
   /** When the class votes, where its statute sets it; else its state's timing. */
   readonly timing?: MunicipalElectionTiming;
-  readonly chief: {
+  /** Absent where the statute read does not say how the chief is chosen. */
+  readonly chief?: {
     readonly title: string;
     readonly directlyElected: boolean;
     /** Absent where the statute's term for the chief was not read. */

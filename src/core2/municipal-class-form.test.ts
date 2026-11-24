@@ -29,7 +29,7 @@ interface Row {
   readonly staggered?: boolean;
   readonly atLarge?: boolean;
   readonly timing?: string;
-  readonly chief: {
+  readonly chief?: {
     readonly title: string;
     readonly directlyElected: boolean;
     readonly termYears?: number;
@@ -108,11 +108,13 @@ describe(`a town has the council its class has in its state's law (seed ${seed})
           expect(council!.districted, where).toBe(false);
           expect(council!.method?.basis, where).toBe("class-law");
         }
-        expect(chief, where).toBeDefined();
-        expect(chief!.title, where).toBe(row.chief.title);
-        expect(chief!.elected, where).toBe(row.chief.directlyElected);
-        if (row.chief.termYears !== undefined)
-          expect(chief!.termYears, where).toBe(row.chief.termYears);
+        if (row.chief) {
+          expect(chief, where).toBeDefined();
+          expect(chief!.title, where).toBe(row.chief.title);
+          expect(chief!.elected, where).toBe(row.chief.directlyElected);
+          if (row.chief.termYears !== undefined)
+            expect(chief!.termYears, where).toBe(row.chief.termYears);
+        }
         if (row.timing)
           expect(
             resolveMunicipalElectionTiming(usps, unit!.placeGeoid!),

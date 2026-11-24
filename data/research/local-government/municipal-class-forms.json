@@ -210,6 +210,47 @@
         "citation": "RSMo 80.040: the board of trustees is \"to consist of five members, unless such town shall contain more than twenty-five hundred inhabitants\" and its voters choose nine; the first board serves terms of two and one years, and \"Thereafter all members shall serve for terms of two years\", so the terms take turns; RSMo 80.060: the board shall \"choose a chairman of their number\". Whether trustees are elected at large is not stated: not read. A village whose voters chose nine trustees is not read.",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=80.040"
       }
+    },
+    "WY": {
+      "town": {
+        "seats": 4,
+        "termYears": 4,
+        "atLarge": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
+        "citation": "Wyo. Stat. § 15-11-102: \"The elective officers of an incorporated town are one (1) mayor and four (4) councilmen\"; \"The term of office of mayor and councilman is four (4) years\"; \"They are elected at large.\" Whether the terms take turns is not stated in this section: not read.",
+        "url": "https://law.justia.com/codes/wyoming/2022/title-15/chapter-11/article-1/section-15-11-102/"
+      }
+    },
+    "AR": {
+      "town": {
+        "seats": 5,
+        "termYears": 2,
+        "staggered": false,
+        "citation": "Ark. Code § 14-45-102(a)(1): \"the qualified voters of incorporated towns shall elect five (5) council members\", on the Tuesday following the first Monday in November 1982 \"and every two (2) years thereafter\"; their terms take turns only after the voters choose four-year terms ((a)(2)(C)), and on a return to two-year terms \"all council members shall be elected to two-year terms\". Whether council members are elected at large and the mayor's election and term are not in this section: not read. A town whose voters chose four-year terms is not read.",
+        "url": "https://codes.findlaw.com/ar/title-14-local-government/ar-code-sect-14-45-102/"
+      }
+    },
+    "UT": {
+      "town": {
+        "seats": 4,
+        "citation": "Utah Code § 10-3b-103(5): \"Each town shall operate under a five-member council form of government\" unless it changed its form; § 10-3b-401: a council \"consisting of five members, one of which is a mayor\", so four members besides the mayor; § 10-3b-402(1): the mayor \"is a regular and voting member of the council\" and \"is the chair of the council\". The terms, the method and how the mayor is chosen are not in Part 4: not read.",
+        "url": "https://le.utah.gov/xcode/Title10/Chapter3B/C10-3b-P4_1800010118000101.pdf"
+      }
+    },
+    "MS": {
+      "town": {
+        "seats": 5,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true
+        },
+        "citation": "Miss. Code § 21-1-1: municipalities of \"less than two thousand and not less than three hundred inhabitants shall be classed as towns\"; § 21-3-7(1): in a municipality under 10,000 \"there shall be five (5) aldermen\", and \"All aldermen shall be selected by vote of the entire electorate of the municipality\", from wards or at large; § 21-3-3: \"The elective officers of all municipalities operating under a code charter shall be the mayor, the aldermen\". A town of 500 or fewer that chose three aldermen (21-3-7(3)), a town with its own charter, the terms and whether seats are ward seats are not read.",
+        "url": "https://law.justia.com/codes/mississippi/2019/title-21/chapter-3/section-21-3-7/"
+      }
     }
   }
 }
