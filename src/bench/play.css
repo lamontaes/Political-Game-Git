@@ -392,19 +392,25 @@ ol {
   padding: 0 0 9px 8px;
   white-space: nowrap;
 }
-/* Someone with something to say glows softly when pointed at. */
-.bust-strip .busts-person.talkable {
+/* Someone with something to say, or a card to open, glows softly when pointed at. */
+.bust-strip .busts-person.talkable,
+.bust-strip .busts-person.openable {
   cursor: pointer;
 }
 .bust-strip .busts-person.talkable:hover .busts-face,
-.bust-strip .busts-person.talkable:focus-visible .busts-face {
+.bust-strip .busts-person.openable:hover .busts-face,
+.bust-strip .busts-person.talkable:focus-visible .busts-face,
+.bust-strip .busts-person.openable:focus-visible .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.55));
 }
-.bust-strip .busts-person.talkable:focus-visible {
+.bust-strip .busts-person.talkable:focus-visible,
+.bust-strip .busts-person.openable:focus-visible {
   outline: none;
 }
 .bust-strip .busts-person.talkable:hover .busts-name,
-.bust-strip .busts-person.talkable:focus-visible .busts-name {
+.bust-strip .busts-person.openable:hover .busts-name,
+.bust-strip .busts-person.talkable:focus-visible .busts-name,
+.bust-strip .busts-person.openable:focus-visible .busts-name {
   color: var(--text-strong);
 }
 /* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
