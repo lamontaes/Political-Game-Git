@@ -594,10 +594,10 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.reply-deflect.i-hear-you-about-law-i-can-t-tell-from-the-amount-alone-whether-your-check-was-right",
+    "key": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law",
     "kind": "spoken",
     "move": "reply-deflect",
-    "text": "I hear you about {law}. I can't tell from the amount alone whether your check was right.",
+    "text": "I don't know your pay well enough to tell you whether they took the right amount under {law}.",
     "uses": [
       {
         "subject": "scene",
