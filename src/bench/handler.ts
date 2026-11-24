@@ -151,7 +151,6 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
-  creatorRandomPlace,
   stateCapitolPicture,
   drawBirthday,
   drawCharacter,
@@ -955,7 +954,6 @@ const ROUTES: readonly Route[] = [
       else if (route === "states") send(200, creatorStates());
       else if (route === "towns")
         send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? "", seed));
-      else if (route === "place") send(200, creatorRandomPlace(seed, draw));
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"

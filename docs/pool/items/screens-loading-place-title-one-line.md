@@ -27,7 +27,7 @@ Seen: the loading card at the top left of the title screen at 1440 by 900 while 
 
 **Time box.** 1 hours
 
-**Rules.** Screen to mock. No hand-written player text; no label added.
+**Rules.** Screen to mock: the loading card grows to fit the place name on one line. No hand-written player text: no new label is added; existing control names only.
 
 **Done when.** A second session, in a drawn place and seed it names, starts a new world and sees the place title on one line on the loading card; loading.browser.mjs passes.
 
