@@ -1,0 +1,35 @@
+{
+  "id": "picket-line-jeers-those-who-cross",
+  "kind": "moment",
+  "summary": "Pickets jeer officials who cross their line and cheer those who stay away.",
+  "realLife": "Oakland city workers jeered department heads who crossed their line and cheered those who stayed away; a new fire chief was heavily booed.",
+  "sources": [
+    "East Bay Express, Oakland council and picket line: https://eastbayexpress.com/?p=12348"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "the public-action engine (protest record: what it is over, who is in it, how many came: few, group or crowd) with officials at its edge; officials whose record shows they crossed or stayed away",
+  "turns": [
+    {
+      "turn": "official-crosses",
+      "summary": "The official walks through the noise with their head down.",
+      "pulledBy": ["duty to attend", "thick skin"],
+      "writesBack": "workers' view of the official sours"
+    },
+    {
+      "turn": "official-turns-back",
+      "summary": "The official decides not to cross and goes home.",
+      "pulledBy": ["sympathetic", "union ties"],
+      "writesBack": "workers' goodwill rises; event missed"
+    },
+    {
+      "turn": "official-stops-to-talk",
+      "summary": "The official stops and talks briefly with the line.",
+      "pulledBy": ["open trait"],
+      "writesBack": "short exchange; a promise to meet"
+    }
+  ]
+}
