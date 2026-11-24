@@ -14,6 +14,7 @@ import forms from "../../data/research/local-government/municipal-class-forms.js
 import { municipalGovernmentForUnit } from "./gov-rules/municipal-government";
 import { municipalClassOf } from "./gov-rules/municipal-class-form";
 import { localOfficesForPlace } from "./offices-local";
+import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
 import {
   governmentUnitStates,
   governmentUnitsForState,
@@ -27,6 +28,7 @@ interface Row {
   readonly termYears: number;
   readonly staggered: boolean;
   readonly atLarge: boolean;
+  readonly timing?: string;
   readonly chief: {
     readonly title: string;
     readonly directlyElected: boolean;
@@ -108,6 +110,11 @@ describe(`a town has the council its class has in its state's law (seed ${seed})
         expect(chief!.elected, where).toBe(row.chief.directlyElected);
         if (row.chief.termYears !== undefined)
           expect(chief!.termYears, where).toBe(row.chief.termYears);
+        if (row.timing)
+          expect(
+            resolveMunicipalElectionTiming(usps, unit!.placeGeoid!),
+            where,
+          ).toEqual({ timing: row.timing, basis: "class-law" });
       });
 
   it("leaves a class its state's law is not read for on the national typical council", () => {

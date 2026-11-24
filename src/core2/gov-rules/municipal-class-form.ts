@@ -16,7 +16,11 @@
  * form and falls to the typical council.
  */
 import forms from "../../../data/research/local-government/municipal-class-forms.json" with { type: "json" };
-import type { GovernmentUnitIdentity } from "../reference/government-units";
+import {
+  governmentUnitsForPlace,
+  type GovernmentUnitIdentity,
+} from "../reference/government-units";
+import type { MunicipalElectionTiming } from "./municipal-election-rules";
 
 export interface MunicipalClassForm {
   /** The state and class the form was read for. */
@@ -28,6 +32,8 @@ export interface MunicipalClassForm {
   readonly staggered: boolean;
   /** Whether every seat is elected by the whole town. */
   readonly atLarge: boolean;
+  /** When the class votes, where its statute sets it; else its state's timing. */
+  readonly timing?: MunicipalElectionTiming;
   readonly chief: {
     readonly title: string;
     readonly directlyElected: boolean;
@@ -73,4 +79,19 @@ export function municipalClassForm(
 /** The record a value taken from the class form cites. */
 export function municipalClassSource(form: MunicipalClassForm): string {
   return `The ${form.stateUsps} ${form.municipalClass} form in state law: ${form.citation} (${form.url})`;
+}
+
+/**
+ * When the municipality governing a place votes, where its class's form sets
+ * it; undefined where the place has no such municipality or the form is
+ * silent, and the state's timing applies.
+ */
+export function municipalClassTimingForPlace(
+  placeGeoid: string,
+): MunicipalElectionTiming | undefined {
+  for (const unit of governmentUnitsForPlace(placeGeoid)) {
+    const timing = municipalClassForm(unit)?.timing;
+    if (timing) return timing;
+  }
+  return undefined;
 }

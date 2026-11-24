@@ -237,6 +237,11 @@ const MUNICIPAL_DATES: Readonly<
     date: novemberGeneralElectionDay,
     read: true,
   },
+  "annual-november-general": {
+    inYear: () => true,
+    date: novemberGeneralElectionDay,
+    read: true,
+  },
   "odd-year-autumn": {
     inYear: (y) => y % 2 === 1,
     date: novemberGeneralElectionDay,
