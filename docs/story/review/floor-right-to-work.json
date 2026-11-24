@@ -120,6 +120,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.management-can-already-tell-the-union-it-doesn-t-want-that-term-presiding-i-see-no-reason-for-us-to-cut-off-the-discussion-before-they-meet"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -606,6 +710,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.there-s-a-fair-question-about-what-the-store-tells-a-new-employee-presiding-my-answer-would-be-to-show-them-the-agreement-and-explain-the-fee-i-d-vote-against-a-ban"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "curious",
@@ -1092,6 +1300,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.the-steward-has-work-to-do-even-for-people-who-didn-t-join-that-s-why-i-can-t-support-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "curious",
@@ -1578,6 +1890,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.stand-on-either-side-of-a-plant-gate-and-you-ll-hear-people-talk-about-what-they-got-in-the-last-contract-i-d-vote-against-bill-and-let-those-workers-negotiate-the-next-one"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -5032,6 +5448,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.management-can-already-tell-the-union-it-doesn-t-want-that-term-presiding-i-see-no-reason-for-us-to-cut-off-the-discussion-before-they-meet"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -5166,6 +5686,110 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.management-can-already-tell-the-union-it-doesn-t-want-that-term-presiding-i-see-no-reason-for-us-to-cut-off-the-discussion-before-they-meet"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "firm",
@@ -5300,6 +5924,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.management-can-already-tell-the-union-it-doesn-t-want-that-term-presiding-i-see-no-reason-for-us-to-cut-off-the-discussion-before-they-meet"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -5434,6 +6162,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.there-s-a-fair-question-about-what-the-store-tells-a-new-employee-presiding-my-answer-would-be-to-show-them-the-agreement-and-explain-the-fee-i-d-vote-against-a-ban"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "braced",
@@ -5568,6 +6400,110 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.there-s-a-fair-question-about-what-the-store-tells-a-new-employee-presiding-my-answer-would-be-to-show-them-the-agreement-and-explain-the-fee-i-d-vote-against-a-ban"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "warm",
@@ -5702,6 +6638,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.there-s-a-fair-question-about-what-the-store-tells-a-new-employee-presiding-my-answer-would-be-to-show-them-the-agreement-and-explain-the-fee-i-d-vote-against-a-ban"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "curious",
@@ -5836,6 +6876,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.the-steward-has-work-to-do-even-for-people-who-didn-t-join-that-s-why-i-can-t-support-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "guarded",
@@ -5970,6 +7114,110 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.the-steward-has-work-to-do-even-for-people-who-didn-t-join-that-s-why-i-can-t-support-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "calm",
@@ -6104,6 +7352,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.the-steward-has-work-to-do-even-for-people-who-didn-t-join-that-s-why-i-can-t-support-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "curious",
@@ -6238,6 +7590,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.stand-on-either-side-of-a-plant-gate-and-you-ll-hear-people-talk-about-what-they-got-in-the-last-contract-i-d-vote-against-bill-and-let-those-workers-negotiate-the-next-one"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "calm",
@@ -6372,6 +7828,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.stand-on-either-side-of-a-plant-gate-and-you-ll-hear-people-talk-about-what-they-got-in-the-last-contract-i-d-vote-against-bill-and-let-those-workers-negotiate-the-next-one"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -6506,6 +8066,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.stand-on-either-side-of-a-plant-gate-and-you-ll-hear-people-talk-about-what-they-got-in-the-last-contract-i-d-vote-against-bill-and-let-those-workers-negotiate-the-next-one"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "curious",
@@ -8248,6 +9912,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.management-can-already-tell-the-union-it-doesn-t-want-that-term-presiding-i-see-no-reason-for-us-to-cut-off-the-discussion-before-they-meet"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "guarded",
@@ -8382,6 +10150,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.there-s-a-fair-question-about-what-the-store-tells-a-new-employee-presiding-my-answer-would-be-to-show-them-the-agreement-and-explain-the-fee-i-d-vote-against-a-ban"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "warm",
@@ -8516,6 +10388,110 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.the-steward-has-work-to-do-even-for-people-who-didn-t-join-that-s-why-i-can-t-support-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
       }
     ],
     "bearing": "guarded",
@@ -8650,6 +10626,110 @@
           "bill"
         ],
         "after": "scene-talk.state-tell.stand-on-either-side-of-a-plant-gate-and-you-ll-hear-people-talk-about-what-they-got-in-the-last-contract-i-d-vote-against-bill-and-let-those-workers-negotiate-the-next-one"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
       }
     ],
     "bearing": "braced",
@@ -12007,6 +14087,518 @@
     "bearing": "guarded",
     "tag": {
       "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-state-ruling-reopens-one-plants-bargaining-agenda"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.let-the-member-bring-us-the-page-of-the-national-agreement-that-covers-our-plants-until-i-ve-seen-what-those-crews-would-lose-i-m-voting-against-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Let the member bring us the page of the national agreement that covers our plants. Until I've seen what those crews would lose, I'm voting against {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["one-national-contract-has-a-state-exception"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.somewhere-a-steward-has-to-take-this-vote-back-to-the-shop-and-explain-why-the-crew-across-the-line-can-bargain-for-something-this-crew-can-t-i-wouldn-t-ask-that-of-them-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Somewhere a steward has to take this vote back to the shop and explain why the crew across the line can bargain for something this crew can't. I wouldn't ask that of them, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["one-national-contract-has-a-state-exception"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.the-company-wanted-a-national-deal-the-workers-bargained-for-one-i-don-t-want-bill-cutting-a-piece-out-of-it-here",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "The company wanted a national deal. The workers bargained for one. I don't want {bill} cutting a piece out of it here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["one-national-contract-has-a-state-exception"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.put-yourself-in-the-transfer-office-presiding-same-company-same-job-and-now-somebody-has-to-walk-the-worker-through-a-different-fee-rule-i-d-leave-the-bargaining-where-it-is",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Put yourself in the transfer office, {presiding}. Same company, same job, and now somebody has to walk the worker through a different fee rule. I'd leave the bargaining where it is.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["one-national-contract-has-a-state-exception"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.when-a-supervisor-won-t-honor-the-schedule-even-the-worker-who-never-joined-can-need-a-steward-i-d-vote-against-bill-and-let-the-people-doing-that-work-discuss-how-to-pay-for-it",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "When a supervisor won't honor the schedule, even the worker who never joined can need a steward. I'd vote against {bill} and let the people doing that work discuss how to pay for it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["paying-a-fee-does-not-get-a-ratification-ballot"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.members-can-vote-the-agreement-down-nonmembers-may-get-the-raise-anyway-why-should-we-tell-the-bargaining-team-it-can-t-propose-sharing-the-expense-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Members can vote the agreement down. Nonmembers may get the raise anyway. Why should we tell the bargaining team it can't propose sharing the expense, {presiding}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["paying-a-fee-does-not-get-a-ratification-ballot"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.there-s-a-cost-to-handling-a-grievance-all-the-way-through-it-doesn-t-go-away-when-somebody-declines-a-union-card-that-s-the-part-of-bill-i-can-t-get-past",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "There's a cost to handling a grievance all the way through. It doesn't go away when somebody declines a union card. That's the part of {bill} I can't get past.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["paying-a-fee-does-not-get-a-ratification-ballot"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.ask-who-ll-take-the-call-from-a-worker-outside-the-local-when-the-company-reads-the-contract-differently-i-d-hear-that-answer-before-backing-a-fee-ban-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Ask who'll take the call from a worker outside the local when the company reads the contract differently. I'd hear that answer before backing a fee ban, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["paying-a-fee-does-not-get-a-ratification-ballot"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.the-clerk-who-works-nights-may-never-meet-the-person-who-wrote-the-notice-give-that-clerk-a-name-to-call-and-a-copy-of-the-agreement-that-s-where-i-d-start-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "The clerk who works nights may never meet the person who wrote the notice. Give that clerk a name to call and a copy of the agreement. That's where I'd start, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-union-and-store-post-one-notice-about-fees"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.an-unclear-notice-at-the-store-is-a-reason-to-fix-the-notice-it-hasn-t-persuaded-me-to-vote-for-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "An unclear notice at the store is a reason to fix the notice. It hasn't persuaded me to vote for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-union-and-store-post-one-notice-about-fees"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-d-want-to-know-what-the-clerk-was-told-at-hiring-and-what-was-up-on-the-wall-that-day-neither-of-those-questions-gets-answered-by-passing-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I'd want to know what the clerk was told at hiring and what was up on the wall that day. Neither of those questions gets answered by passing {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-union-and-store-post-one-notice-about-fees"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "The store and the local could sit down with a new hire and explain the fee together. I'd rather have that conversation at the store than settle it for them here, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-union-and-store-post-one-notice-about-fees"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.a-bargaining-demand-can-be-refused-under-bill-it-wouldn-t-even-get-a-hearing-as-a-possible-contract-term-i-ll-vote-against-closing-that-door",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "A bargaining demand can be refused. Under {bill} it wouldn't even get a hearing as a possible contract term. I'll vote against closing that door.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-state-ruling-reopens-one-plants-bargaining-agenda"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.what-do-we-think-happens-at-a-bargaining-table-presiding-the-employer-can-push-back-the-union-can-revise-its-demand-i-want-both-of-them-to-have-that-chance",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "What do we think happens at a bargaining table, {presiding}? The employer can push back. The union can revise its demand. I want both of them to have that chance.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-state-ruling-reopens-one-plants-bargaining-agenda"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-d-like-the-people-on-that-shift-to-hear-what-each-side-offered-and-decide-what-they-think-of-the-deal-with-bill-we-d-have-made-part-of-the-decision-before-they-ever-met",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I'd like the people on that shift to hear what each side offered and decide what they think of the deal. With {bill}, we'd have made part of the decision before they ever met.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "bill"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-state-ruling-reopens-one-plants-bargaining-agenda"],
+    "issues": ["question:us-policy-positions:labor-workforce.right-to-work"]
+  },
+  {
+    "key": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Suppose the employer would accept a fee in exchange for something the crew wants. How can we know from these desks what they'd be willing to trade, {presiding}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-against",
+          "presiding"
+        ],
+        "onlyWhen": ["body-formal"]
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "tell",
       "key": "honor"
     },
     "date": "2026-11-24",
