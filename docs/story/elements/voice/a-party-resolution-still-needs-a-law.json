@@ -1,0 +1,30 @@
+{
+  "id": "a-party-resolution-still-needs-a-law",
+  "kind": "voice",
+  "summary": "A committee officer reminds members that their vote alone cannot change appointment law.",
+  "realLife": "Foreman cited a party resolution calling for Senate approval of the governor’s state Supreme Court appointments and pointed out that the party vote had not enacted a law.",
+  "sources": [
+    "https://cdn.websites.hibu.com/8aac95f2f6344c779d2720db64b359e9/files/uploaded/07.11.2019%20CCRP%20Central%20Committee%20Minutes.pdf#page=3"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{officer}", "{resolution}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an adopted party resolution, its requested legal change and the legislative record.",
+  "turns": [
+    {
+      "turn": "bill-filed",
+      "what": "The officer gives members the bill’s designation.",
+      "pulledBy": "A legislator introduces a bill addressing the resolution.",
+      "writesBack": "The committee can follow the proposal through the legislature."
+    },
+    {
+      "turn": "no-bill",
+      "what": "The secretary records the resolution as the party’s request.",
+      "pulledBy": "No matching bill has been filed.",
+      "writesBack": "The appointment continues under the existing rule."
+    }
+  ]
+}
