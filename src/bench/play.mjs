@@ -6847,6 +6847,20 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
+  // Patch notes opened from the title sit beside the title menu, never over it (CTO, Nov 24: the panel
+  // overlapped the menu and cut off "Continue as ..."): centered in the room to its right.
+  const sheetEl = $("sheet");
+  if (tab === "patchNotes" && !$("front").hidden) {
+    const scale = uiScale();
+    const edge = $("front").getBoundingClientRect().right / scale + 16;
+    const room = viewWidth() - 24 - edge;
+    const width = Math.min(760, room);
+    sheetEl.style.width = `${width}px`;
+    sheetEl.style.left = `${edge + room / 2}px`;
+  } else {
+    sheetEl.style.width = "";
+    sheetEl.style.left = "";
+  }
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen). Jobs and study and
   // Your life are strip screens too: no full-body figure stands beside a menu
