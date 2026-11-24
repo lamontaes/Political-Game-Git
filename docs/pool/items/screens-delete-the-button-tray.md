@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 23)
-pr:
+pr: 10296
 blocked-on:
 source: the owner's playthrough of Nov 23, rows P33 and P37 (docs/coordination/playtest/2026-11-23-1.md)
 after:
