@@ -19,7 +19,7 @@ effort: low
 root: none
 ---
 
-**What.** In every world the ui-look browser run opened (six drawn worlds, Nov 23), the page threw "Cannot convert undefined or null to object" while the run moved on from Politics, Bills, and the Budgets page's history lines for total revenue and total spending were not drawn. Seen: the small line of yearly totals under revenue and spending on the Budgets page, missing today.
+**What.** In every world the ui-look browser run opened (six drawn worlds, Nov 23), the page threw "Cannot convert undefined or null to object" while the run moved on from Politics, Bills. The Budgets page's history lines for total revenue and total spending were not drawn. Seen: the small line of yearly totals under revenue and spending on the Budgets page, missing today.
 
 **Cause.** Measured: `npm run ui-look` (src/bench/ui-look.browser.mjs) at Pleasanton, Kansas, seed 45be95ba-c21d-44f1-b297-10f26876f850, lists "after politics > Bills: Cannot convert undefined or null to object (at valueOf | at Array.map | at trendLine (ui/trend-line.mjs:18:26))". `trendLine` (src/bench/ui/trend-line.mjs line 13) takes an options object and destructures `valueOf = (point) => point.minor` from it. An options object with no own `valueOf` (the `size` that `history` in src/bench/play.mjs passes as `{ height: 36 }` at lines 4760 and 4764 for total revenue and total spending) still has `Object.prototype.valueOf`, so the default is never used, and `history.map(valueOf)` calls that inherited function with no object, which throws. The Metrics screen (ui/metrics-screen.mjs line 62) passes its own `valueOf`, so it is not hit.
 
