@@ -115,7 +115,7 @@ The CTO's rules on the crew's thread (#9747), from the owner's standing rule "fi
 
 **Every session grows the skills (owner, Oct 29: "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask... I want skills to be made").** When you find something a skill should have told you (a trap you fell into, a fix that worked, a method you used twice, a check that caught a defect), add the line to the skill for that job, in the same pass. A skill can be about how the crew works (owner, Oct 29: keeping helpers' cloned workspaces down to what they need, so sessions have disk space to work with) or about anything in the game. A new skill is `.agents/skills/<name>/SKILL.md` with frontmatter `name` (the folder name) and a `description` of 41 to 1,024 characters that says what it does, when to use it and when not (write it as a folded `>` block: a one-line value with ": " in it is invalid YAML, and Claude Code then never offers the skill); mirror it byte for byte to `.claude/skills/<name>/`, add one line for it to the list below, in alphabetical order, run `npm run test:skill-ops` and prettier, and add a release declaration with `impact: none`. Ship it inside your work PR, or as its own `skills:` PR, which the CTO merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"), after running the skill test locally for the mirror and the list. A skill line records a ruling, a standing rule or a method that worked; it never makes new policy. When you are unsure whether something is a skill line or a question for the owner, ask the CTO. **A process is a skill, not a message (owner, Nov 1: "i saw one messaging about communicating a process. just make it a skill").** When you are about to explain in a message how to do something, write it into the skill that covers it (or a new one) and send the skill's name instead; a process received in a message that no skill holds becomes a skill line in the same pass (`crew-coordinator` (crew-messages part)).
 
-**Fewer, better skills (owner, Nov 16: "Let's go ahead", on the CTO's stricter policy).** Update the skill for the job first. A new skill needs a reason in its pull request and retires or merges an old one; the repo keeps about 40. Gotchas go in the job's skill, one line each with its date and cause, never in a lane's own skill. A rule that must hold every time becomes a GitHub check, not more skill text. A skill nobody loads is cut, and the owner's rules in it move word for word into the skill that takes its job (`done-proof`, section 10).
+**Fewer, better skills (owner, Nov 16: "Let's go ahead", on the CTO's stricter policy).** Update the skill for the job first. A new skill needs a reason in its pull request. The repo may go over 40 skills when each one is used (owner, Nov 24: "it's fine if it goes over 40, as long as they're being used"). Gotchas go in the job's skill, one line each with its date and cause, never in a lane's own skill. A rule that must hold every time becomes a GitHub check, not more skill text. A skill nobody loads is cut, and the owner's rules in it move word for word into the skill that takes its job (`done-proof`, section 10).
 
 Load a skill when its trigger fits; descriptions say when. Every session, first: `look-first`. One skill per line, in alphabetical order, so two sessions adding skills never edit the same line:
 
@@ -133,14 +133,17 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `gap-trace`: tracing a problem seen in play to its cause, its fix and its ruling, and the gap sheet row
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
 - `helper-checkout`: helpers work in sparse copies of the repository
+- `journal-writer`: writing the told life: the Journal, the life story, history and the loading screen's words
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
 - `merger`: the gate and the merge: a pull request's checks before the train, the checker, folding into the train and the train into main, auditing merges, sent-back pull requests, conflicts in generated files
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
+- `news-writer`: writing the news as stories: headline, lede and body from the world's records
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: the pool's paperwork: filing an item by hand, pool-only changes in one bundle an hour, the cap on new work
+- `pre-grade`: grading Story's played lines as the owner would, calibrated on his real verdicts
 - `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
 - `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
@@ -153,7 +156,9 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `scenes-from-life`: new scenes from real lives
 - `screen-to-mock`: screens follow the mocks and the shared controls; bill screens
 - `session-start`: the pool worker loop
+- `speech-writer`: writing speeches of every kind for the one speech planner
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows, long runs, and how often a step runs
+- `story-writer`: the shared loop for every Story writer: elements first, depth, turns, issues, the gate, nobody waits
 - `trusted-review-pass`: bulk review passes with planted calibration rows
 - `verify`: the fast checks before each commit and pull request in one script, a screenshot of a screen reached by playing, and the play walks
 - `wiring-audit`: auditing a family of mechanics end to end, and the 56-place trace audit

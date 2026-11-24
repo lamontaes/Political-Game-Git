@@ -1,0 +1,34 @@
+{
+  "id": "series-thread-to-the-last-one",
+  "kind": "move",
+  "summary": "The last paragraph points back to the earlier meeting of the series, with its date and subjects.",
+  "realLife": "A town hall story closed by linking the first town hall of the year and what it covered.",
+  "sources": [
+    "ALXnow (Alexandria, Virginia), 'Dozens attend second Alexandria City Council Town Hall of the year', June 13, 2025: https://www.alxnow.com/2025/06/13/dozens-attend-second-alexandria-city-council-town-hall-of-the-year/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "issue"],
+  "gates": [],
+  "weights": {
+    "town-hall": 0.7
+  },
+  "inGame": "earlier town-hall rows for the same body in the meetings table",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no earlier meeting",
+      "pulledBy": "a first town hall of its kind",
+      "writes": "the story says it is the first",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the earlier meeting's promise",
+      "pulledBy": "a promise made at the last one",
+      "writes": "the story says whether it was kept",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}
