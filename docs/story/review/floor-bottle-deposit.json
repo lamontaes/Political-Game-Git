@@ -5774,5 +5774,456 @@
       "warehouse-fills-while-textile-buyers-retreat",
       "pattern-b7-07-the-witness-in-the-hall"
     ]
+  },
+  {
+    "key": "scene-talk.reply-ask.i-d-like-to-hear-where-hearing-supporter-would-look-for-the-last-return-date-what-about-the-people-who-ve-already-bought-their-bottles",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "I'd like to hear where {hearing-supporter} would look for the last return date. What about the people who've already bought their bottles?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-supporter"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["bill-name"]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.those-bottles-could-sit-in-a-garage-for-weeks-i-d-ask-hearing-supporter-to-try-finding-the-date-from-home-before-we-settle-on-posting-it-in-stores",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Those bottles could sit in a garage for weeks. I'd ask {hearing-supporter} to try finding the date from home before we settle on posting it in stores.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-supporter"
+        ],
+        "after": "scene-talk.reply-ask.i-d-like-to-hear-where-hearing-supporter-would-look-for-the-last-return-date-what-about-the-people-who-ve-already-bought-their-bottles"
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-first-time-some-people-hear-of-bill-name-could-be-when-they-bring-the-bottles-back-i-d-leave-time-between-putting-up-the-notice-and-closing-the-counter",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The first time some people hear of {bill-name} could be when they bring the bottles back. I'd leave time between putting up the notice and closing the counter.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.reply-ask.i-d-like-to-hear-where-hearing-supporter-would-look-for-the-last-return-date-what-about-the-people-who-ve-already-bought-their-bottles"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.two-empties-on-the-counter-both-from-the-same-fridge-where-in-bill-name-could-the-clerk-point-to-explain-why-only-one-pays",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Two empties on the counter, both from the same fridge. Where in {bill-name} could the clerk point to explain why only one pays?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["hearing-supporter"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["hearing-opponent"]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.read-the-labels-could-hearing-supporter-match-each-drink-to-a-line-on-our-notice-that-s-what-the-clerk-will-have-to-do",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Read the labels. Could {hearing-supporter} match each drink to a line on our notice? That's what the clerk will have to do.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-supporter"
+        ],
+        "after": "scene-talk.reply-ask.two-empties-on-the-counter-both-from-the-same-fridge-where-in-bill-name-could-the-clerk-point-to-explain-why-only-one-pays"
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.give-hearing-opponent-the-two-labels-and-the-notice-we-re-proposing-if-you-still-have-to-know-the-answer-in-advance-the-clerk-doesn-t-stand-a-chance",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Give {hearing-opponent} the two labels and the notice we're proposing. If you still have to know the answer in advance, the clerk doesn't stand a chance.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-opponent"
+        ],
+        "after": "scene-talk.reply-ask.two-empties-on-the-counter-both-from-the-same-fridge-where-in-bill-name-could-the-clerk-point-to-explain-why-only-one-pays"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-hearing-opponent-brings-back-a-brand-the-grocer-has-never-stocked-does-your-notice-tell-the-clerk-to-turn-it-away",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If {hearing-opponent} brings back a brand the grocer has never stocked, does your notice tell the clerk to turn it away?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-opponent"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["bill-name"]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-have-the-notice-say-which-drinks-still-qualify-i-d-want-hearing-opponent-to-be-able-to-read-it-without-having-to-remember-which-store-sold-the-bottle",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd have the notice say which drinks still qualify. I'd want {hearing-opponent} to be able to read it without having to remember which store sold the bottle.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-opponent"
+        ],
+        "after": "scene-talk.reply-ask.if-hearing-opponent-brings-back-a-brand-the-grocer-has-never-stocked-does-your-notice-tell-the-clerk-to-turn-it-away"
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.a-brand-list-could-shut-somebody-out-by-mistake-while-returns-are-still-open-bill-name-ought-to-tell-the-clerk-whether-the-kind-of-drink-is-what-counts",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "A brand list could shut somebody out by mistake. While returns are still open, {bill-name} ought to tell the clerk whether the kind of drink is what counts.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.reply-ask.if-hearing-opponent-brings-back-a-brand-the-grocer-has-never-stocked-does-your-notice-tell-the-clerk-to-turn-it-away"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.suppose-the-grocer-honors-that-notice-down-to-the-last-minute-when-would-bill-name-let-the-grocer-turn-in-the-bottles",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Suppose the grocer honors that notice down to the last minute. When would {bill-name} let the grocer turn in the bottles?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["hearing-supporter"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill-name"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have",
+        "onlyWhen": ["hearing-opponent"]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-customer-should-get-the-whole-last-day-i-d-ask-hearing-supporter-to-follow-the-bottles-from-that-last-refund-until-the-dealer-can-turn-them-over-for-payment",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The customer should get the whole last day. I'd ask {hearing-supporter} to follow the bottles from that last refund until the dealer can turn them over for payment.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-supporter"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-grocer-honors-that-notice-down-to-the-last-minute-when-would-bill-name-let-the-grocer-turn-in-the-bottles"
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.two-dates-on-the-notice-please-i-d-have-hearing-opponent-check-which-one-a-shopper-would-see-first-and-print-the-dealer-s-instructions-separately-if-it-s-confusing",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Two dates on the notice, please. I'd have {hearing-opponent} check which one a shopper would see first and print the dealer's instructions separately if it's confusing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "hearing-opponent"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-grocer-honors-that-notice-down-to-the-last-minute-when-would-bill-name-let-the-grocer-turn-in-the-bottles"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "dealer-settles-after-customer-deadline",
+      "pattern-b7-07-the-witness-in-the-hall"
+    ]
   }
 ]
