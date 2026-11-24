@@ -844,10 +844,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.college.that-fall-in-college-year-you-started-college-the-same-year-as-the-diploma-and-with-the-same-ins",
+      "key": "outline-loading.college.college-came-in-college-year-the-same-year-as-the-diploma-and-with-the-same-instructions-none",
       "move": "college",
       "kind": "written",
-      "text": "That fall in {college-year} you started college, the same year as the diploma and with the same instructions: none.",
+      "text": "College came in {college-year}, the same year as the diploma, and with the same instructions: none.",
       "uses": [
         {
           "subject": "loading-story",
@@ -856,7 +856,6 @@
           "requiresFacts": ["college-year", "college-same-year"]
         }
       ],
-      "after": ["finished"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
