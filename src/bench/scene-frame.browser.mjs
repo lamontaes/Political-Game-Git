@@ -68,16 +68,19 @@ try {
 
     // In a talk only the speaker is big.
     await talkable.first().click();
-    await page.locator("#talk-strip .bust-strip").waitFor();
+    await page.locator("#talk-strip .talk-speaker").waitFor();
     await page.waitForTimeout(800);
     const talk = await page.evaluate(() => {
-      const strip = document.querySelector("#talk-strip .bust-strip");
+      // The speaker's bust is on the talk box; the others stand at the top.
+      const strip = document.querySelector("#talk-strip .talk-speaker");
+      const top = document.querySelector("#talk-cast .talk-top");
       const face = (cell) => cell.querySelector(".busts-face").offsetWidth;
       return {
         speaker: strip.dataset.speaker,
         speaking: [...strip.querySelectorAll(".speaking")].map(face),
-        quiet: [...strip.querySelectorAll(".quiet")].map(face),
+        quiet: [...(top?.querySelectorAll(".quiet") ?? [])].map(face),
         width: strip.getBoundingClientRect().width,
+        topY: top?.getBoundingClientRect().top ?? 0,
       };
     });
     console.log("Talk strip:", JSON.stringify(talk));
@@ -87,7 +90,7 @@ try {
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-talk.png` });
 
     // Anyone named on the strip opens their card.
-    await page.locator("#talk-strip .busts-person").first().click();
+    await page.locator("#talk-cast .busts-person").first().click();
     await page.locator("#person").waitFor({ state: "visible" });
     assert.ok(
       (await page.locator("#person-name").innerText()).trim(),

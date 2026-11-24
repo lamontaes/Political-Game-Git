@@ -530,19 +530,49 @@ ol {
    out of sight, and comes back when the card closes. Its lower edge used to
    show under the card (owner, Nov 11: nothing is left half covered). */
 #game:has(#person:not([hidden])) #talk,
+#game:has(#person:not([hidden])) #talk-cast,
 #game:has(#person:not([hidden])) #here {
   visibility: hidden;
 }
-/* On the talk box the strip joins its top edge, and the busts follow how many
-   stand there (the owner's sizes: one, two, and three or four). */
+/* In a talk the speaker's bust sits on the talk box's top edge; everyone else
+   stands in a row at the top of the screen and comes down to the box to speak
+   (owner, Nov 16; Nov 23). */
 #talk-strip {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 100%;
 }
-#talk-strip .bust-strip {
+#talk-strip .talk-speaker {
   --bust: 190px;
+  animation: talk-down 0.45s ease-out;
+}
+#talk-cast {
+  position: absolute;
+  top: var(--gutter);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+#game:has(#talk[hidden]) #talk-cast {
+  display: none;
+}
+#talk-cast .talk-top {
+  --bust: 110px;
+}
+#talk-cast .talk-top .busts-person {
+  --mine: calc(var(--bust) * 0.8);
+}
+@keyframes talk-down {
+  from {
+    transform: translateY(calc(-1 * (var(--gutter) + 40vh)));
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 #stage.cut {
   animation: cut 0.6s ease-out;

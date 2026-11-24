@@ -256,8 +256,8 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The same people on top of the talk box while a talk is open, whoever speaks
- * lit and a little larger. A speaker who is not in the room (a caller, someone
+ * The people of a talk: whoever speaks on the talk box, the rest in a row at
+ * the top of the screen. A speaker who is not in the room (a caller, someone
  * a scene brings in) stands first, by the face their card gave.
  */
 let talkFace;
@@ -273,25 +273,31 @@ function drawTalkStrip() {
   const others = here.people.filter((p) => p.personId !== talkPersonId);
   const speaking = here.people.filter((p) => p.personId === talkPersonId);
   // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others]
-    .slice(0, TALK_STRIP_PEOPLE)
-    .sort(
-      (a, b) =>
-        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
-        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
-    );
+  const shown = [...speaker, ...speaking, ...others].slice(
+    0,
+    TALK_STRIP_PEOPLE,
+  );
+  // The speaker's bust sits on the talk box; everyone else stands in a row at
+  // the top of the screen, and comes down to the box to speak (owner, Nov 16:
+  // "the person speaking should be on the actual card, and then maybe they go
+  // back to the top when they're not speaking").
+  const onBox = shown.filter((p) => p.personId === talkPersonId);
+  const atTop = shown.filter((p) => p.personId !== talkPersonId);
+  const strip = (people, className) => {
+    const node = bustStrip({
+      people,
+      speakingId: talkPersonId ?? null,
+      // Anyone named in a talk opens their card, whoever they are to you.
+      onClick: openCard,
+    });
+    node.classList.add(className);
+    return node;
+  };
+  $("talk-cast").replaceChildren(
+    ...(atTop.length ? [strip(atTop, "talk-top")] : []),
+  );
   $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [
-          bustStrip({
-            people: shown,
-            // Nobody on the strip speaks while the narrator does: all stand small.
-            speakingId: talkPersonId ?? null,
-            // Anyone named in a talk opens their card, whoever they are to you.
-            onClick: openCard,
-          }),
-        ]
-      : []),
+    ...(onBox.length ? [strip(onBox, "talk-speaker")] : []),
   );
 }
 
