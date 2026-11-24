@@ -289,33 +289,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "We ought to {to}, whatever {president} says.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "to",
-            "president",
-            "stand-against",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on",
       "move": "verdict-cold",
       "kind": "spoken",
