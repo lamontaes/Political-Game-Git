@@ -5,4 +5,4 @@ section: Changed
 title: Sponsors can thank an executive for signing a fare bill in a rider’s terms.
 ---
 
-After a signature, a sponsor can speak about the trip that led them to seek free rides or the details riders will need when fares return.
+A sponsor can thank the executive for signing by naming a trip the bill affects, such as a ride to class or a family trip across town.

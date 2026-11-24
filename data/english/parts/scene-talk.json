@@ -74223,9 +74223,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "When people ask about a weekend trip in {place}, I can tell them the fare bill is signed. I'll check when the change starts.",
-      "elements": [
-        "one-bus-to-visit-family"
-      ],
+      "elements": ["one-bus-to-visit-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74244,9 +74242,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-one-bus-to-visit-family"
-          ]
+          "excludesFacts": ["heard-one-bus-to-visit-family"]
         }
       ],
       "bearing": "steady",
@@ -74263,9 +74259,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll take the signed copy back. When we talk about paying for bus service in {place}, we'll need to account for those fares.",
-      "elements": [
-        "city-pays-agency-for-foregone-fares"
-      ],
+      "elements": ["city-pays-agency-for-foregone-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74284,9 +74278,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-city-pays-agency-for-foregone-fares"
-          ]
+          "excludesFacts": ["heard-city-pays-agency-for-foregone-fares"]
         }
       ],
       "bearing": "steady",
@@ -74303,9 +74295,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "Somebody with a monthly pass in {place} may still need it for another route. I'll make that clear when I explain the change.",
-      "elements": [
-        "monthly-pass-still-needed"
-      ],
+      "elements": ["monthly-pass-still-needed"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74324,9 +74314,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-monthly-pass-still-needed"
-          ]
+          "excludesFacts": ["heard-monthly-pass-still-needed"]
         }
       ],
       "bearing": "steady",
@@ -74343,9 +74331,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll ask the operator how drivers in {place} will learn when to stop collecting fares.",
-      "elements": [
-        "operator-no-longer-argues-over-the-fare"
-      ],
+      "elements": ["operator-no-longer-argues-over-the-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74364,9 +74350,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-operator-no-longer-argues-over-the-fare"
-          ]
+          "excludesFacts": ["heard-operator-no-longer-argues-over-the-fare"]
         }
       ],
       "bearing": "steady",
@@ -74383,9 +74367,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll let the students who ask about bus fare in {place} know you signed. They'll want the start date next.",
-      "elements": [
-        "student-counts-a-semester-of-fares"
-      ],
+      "elements": ["student-counts-a-semester-of-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74404,9 +74386,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-student-counts-a-semester-of-fares"
-          ]
+          "excludesFacts": ["heard-student-counts-a-semester-of-fares"]
         }
       ],
       "bearing": "steady",
@@ -74423,9 +74403,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I can tell people {bill} is signed. Before I say a particular ride is free, I'll check which service they're using.",
-      "elements": [
-        "the-bus-fare-and-the-van-fare"
-      ],
+      "elements": ["the-bus-fare-and-the-van-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74460,9 +74438,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "Now that you've signed {bill}, I'll ask where somebody without a phone can go to pay.",
-      "elements": [
-        "cash-rider-needs-a-place-to-buy-a-pass"
-      ],
+      "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74481,9 +74457,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-offline-fare-payment"
-          ]
+          "excludesFacts": ["heard-offline-fare-payment"]
         }
       ],
       "bearing": "steady",
@@ -74500,9 +74474,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "When a parent in {place} asks what the family trip will cost, I'll check which children need a ticket.",
-      "elements": [
-        "tell-the-driver-before-paying-for-the-family"
-      ],
+      "elements": ["tell-the-driver-before-paying-for-the-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74540,9 +74512,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll ask when the clock starts on a pass in {place}. The signature settles the fare question, but riders will need that detail.",
-      "elements": [
-        "pass-clock-starts-at-first-use"
-      ],
+      "elements": ["pass-clock-starts-at-first-use"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74561,9 +74531,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-pass-clock-starts-at-first-use"
-          ]
+          "excludesFacts": ["heard-pass-clock-starts-at-first-use"]
         }
       ],
       "bearing": "steady",
@@ -74580,9 +74548,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "The next question for a rider changing buses in {place} is whether they have to pay again. I'll check before I answer.",
-      "elements": [
-        "fare-cap-follows-the-payment-device"
-      ],
+      "elements": ["fare-cap-follows-the-payment-device"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74601,9 +74567,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-fare-cap-follows-the-payment-device"
-          ]
+          "excludesFacts": ["heard-fare-cap-follows-the-payment-device"]
         }
       ],
       "bearing": "steady",
@@ -74620,9 +74584,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll ask the drivers in {place} what they need before fare collection starts again.",
-      "elements": [
-        "crumpled-bills-at-the-farebox"
-      ],
+      "elements": ["crumpled-bills-at-the-farebox"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74641,9 +74603,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-crumpled-bills-at-the-farebox"
-          ]
+          "excludesFacts": ["heard-crumpled-bills-at-the-farebox"]
         }
       ],
       "bearing": "steady",
@@ -74660,9 +74620,7 @@
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll tell the members you signed {bill}. For the first day people actually need fare money, I'll check with the operator.",
-      "elements": [
-        "the-bus-fare-and-the-van-fare"
-      ],
+      "elements": ["the-bus-fare-and-the-van-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74697,9 +74655,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks. A Sunday visit in {place} is the kind of trip I had in mind when I brought this to you.",
-      "elements": [
-        "one-bus-to-visit-family"
-      ],
+      "elements": ["one-bus-to-visit-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74718,9 +74674,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-one-bus-to-visit-family"
-          ]
+          "excludesFacts": ["heard-one-bus-to-visit-family"]
         }
       ],
       "bearing": "steady",
@@ -74737,9 +74691,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "I appreciate your signing {bill}. We still have to find the money to run those buses.",
-      "elements": [
-        "city-pays-agency-for-foregone-fares"
-      ],
+      "elements": ["city-pays-agency-for-foregone-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74758,9 +74710,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-city-pays-agency-for-foregone-fares"
-          ]
+          "excludesFacts": ["heard-city-pays-agency-for-foregone-fares"]
         }
       ],
       "bearing": "steady",
@@ -74777,9 +74727,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thank you. I know some riders in {place} will still need their monthly passes for other routes.",
-      "elements": [
-        "monthly-pass-still-needed"
-      ],
+      "elements": ["monthly-pass-still-needed"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74798,9 +74746,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-monthly-pass-still-needed"
-          ]
+          "excludesFacts": ["heard-monthly-pass-still-needed"]
         }
       ],
       "bearing": "steady",
@@ -74817,9 +74763,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks for signing. This matters to the driver in {place} who's had to settle a fare dispute with a bus full of people.",
-      "elements": [
-        "operator-no-longer-argues-over-the-fare"
-      ],
+      "elements": ["operator-no-longer-argues-over-the-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74838,9 +74782,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-operator-no-longer-argues-over-the-fare"
-          ]
+          "excludesFacts": ["heard-operator-no-longer-argues-over-the-fare"]
         }
       ],
       "bearing": "steady",
@@ -74857,9 +74799,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "I appreciate that. For somebody riding to class in {place}, even the trip back counts.",
-      "elements": [
-        "student-counts-a-semester-of-fares"
-      ],
+      "elements": ["student-counts-a-semester-of-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74878,9 +74818,7 @@
             "sponsor-heard-signature",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-student-counts-a-semester-of-fares"
-          ]
+          "excludesFacts": ["heard-student-counts-a-semester-of-fares"]
         }
       ],
       "bearing": "steady",
@@ -74897,9 +74835,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thank you for signing {bill}. People who ride two services may still have to pay on one of them.",
-      "elements": [
-        "paid-transfer-after-free-first-leg"
-      ],
+      "elements": ["paid-transfer-after-free-first-leg"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74934,9 +74870,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "I appreciate your signature on {bill}. A rider who pays cash still needs somewhere to buy a ticket.",
-      "elements": [
-        "cash-rider-needs-a-place-to-buy-a-pass"
-      ],
+      "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -74955,9 +74889,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-offline-fare-payment"
-          ]
+          "excludesFacts": ["heard-offline-fare-payment"]
         }
       ],
       "bearing": "steady",
@@ -74974,9 +74906,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks for hearing me out. A parent taking two children across {place} will want to know whose fare they have to pay.",
-      "elements": [
-        "tell-the-driver-before-paying-for-the-family"
-      ],
+      "elements": ["tell-the-driver-before-paying-for-the-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -75014,9 +74944,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thank you. If somebody in {place} buys a pass before their first shift, the day it starts makes a difference.",
-      "elements": [
-        "pass-clock-starts-at-first-use"
-      ],
+      "elements": ["pass-clock-starts-at-first-use"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -75035,9 +74963,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-pass-clock-starts-at-first-use"
-          ]
+          "excludesFacts": ["heard-pass-clock-starts-at-first-use"]
         }
       ],
       "bearing": "steady",
@@ -75054,9 +74980,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks. Somebody changing buses in {place} will want to know what the whole trip costs.",
-      "elements": [
-        "fare-cap-follows-the-payment-device"
-      ],
+      "elements": ["fare-cap-follows-the-payment-device"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -75075,9 +74999,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-fare-cap-follows-the-payment-device"
-          ]
+          "excludesFacts": ["heard-fare-cap-follows-the-payment-device"]
         }
       ],
       "bearing": "steady",
@@ -75094,9 +75016,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "I appreciate that. The drivers in {place} are the ones who'll have to explain the fare at the door.",
-      "elements": [
-        "crumpled-bills-at-the-farebox"
-      ],
+      "elements": ["crumpled-bills-at-the-farebox"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
@@ -75115,9 +75035,7 @@
             "sponsor-heard-signature",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
           ],
-          "excludesFacts": [
-            "heard-crumpled-bills-at-the-farebox"
-          ]
+          "excludesFacts": ["heard-crumpled-bills-at-the-farebox"]
         }
       ],
       "bearing": "steady",
@@ -75134,9 +75052,7 @@
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thank you for signing {bill}. Now riders can ask the operator when to bring fare money again.",
-      "elements": [
-        "the-bus-fare-and-the-van-fare"
-      ],
+      "elements": ["the-bus-fare-and-the-van-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
       ],
