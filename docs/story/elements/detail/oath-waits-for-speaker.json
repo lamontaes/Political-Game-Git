@@ -7,15 +7,8 @@
     "https://www.govinfo.gov/content/pkg/CREC-2023-01-06-i5/pdf/CREC-2023-01-06-i5.pdf",
     "https://en.wikipedia.org/wiki/January_2023_Speaker_of_the_United_States_House_of_Representatives_election"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{chamber}",
-    "{member}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{chamber}", "{member}"],
   "gates": [],
   "weights": [],
   "usedBy": []

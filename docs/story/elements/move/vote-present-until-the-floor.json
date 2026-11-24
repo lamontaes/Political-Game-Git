@@ -6,16 +6,8 @@
   "sources": [
     "https://gaylordnews.net/9407/news/politics/one-big-beautiful-bill-advances-after-brecheen-flips"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{member}",
-    "{committee}",
-    "{provision}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{committee}", "{provision}"],
   "gates": [],
   "weights": [],
   "usedBy": []

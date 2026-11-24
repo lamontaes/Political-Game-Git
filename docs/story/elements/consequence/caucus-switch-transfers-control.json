@@ -7,16 +7,8 @@
     "https://www.senate.gov/states/SD/timeline.shtml",
     "https://en.wikipedia.org/wiki/Tom_Daschle"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{member}",
-    "{caucus}",
-    "{chamber}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{caucus}", "{chamber}"],
   "gates": [],
   "weights": [],
   "usedBy": []

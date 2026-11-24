@@ -6,16 +6,8 @@
   "sources": [
     "https://montanafreepress.org/2022/12/16/select-committee-offers-legislative-recommendations-in-montana-court-conflict/"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{committee}",
-    "{report}",
-    "{proposal}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{committee}", "{report}", "{proposal}"],
   "gates": [],
   "weights": [],
   "usedBy": []

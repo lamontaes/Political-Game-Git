@@ -6,18 +6,8 @@
   "sources": [
     "https://www.ntsb.gov/investigations/Pages/safety-recommendations.aspx"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "news",
-    "journal",
-    "speeches"
-  ],
-  "slots": [
-    "{manufacturer}",
-    "{part}",
-    "{mechanic}"
-  ],
+  "fits": ["office", "work-community", "news", "journal", "speeches"],
+  "slots": ["{manufacturer}", "{part}", "{mechanic}"],
   "gates": [
     "The manufacturer has issued the revised maintenance instructions."
   ],

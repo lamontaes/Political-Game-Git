@@ -7,17 +7,8 @@
     "https://millercenter.org/president/trump/essays/mike-pence",
     "https://en.wikipedia.org/wiki/Mike_Pence"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office",
-    "campaign"
-  ],
-  "slots": [
-    "{candidate}",
-    "{station}",
-    "{seat}"
-  ],
+  "fits": ["journal", "news", "office", "campaign"],
+  "slots": ["{candidate}", "{station}", "{seat}"],
   "gates": [],
   "weights": [],
   "usedBy": []

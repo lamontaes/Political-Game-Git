@@ -6,21 +6,9 @@
   "sources": [
     "https://www.csb.gov/assets/recommendation/status_change_summary_cenovus_%28husky_r10%29_c-aaa.pdf"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "news",
-    "journal",
-    "speeches"
-  ],
-  "slots": [
-    "{board}",
-    "{company}",
-    "{recommendation}"
-  ],
-  "gates": [
-    "The company has submitted evidence of its alternative."
-  ],
+  "fits": ["office", "work-community", "news", "journal", "speeches"],
+  "slots": ["{board}", "{company}", "{recommendation}"],
+  "gates": ["The company has submitted evidence of its alternative."],
   "weights": [],
   "usedBy": []
 }

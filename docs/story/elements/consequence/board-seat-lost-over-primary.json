@@ -7,16 +7,8 @@
     "https://sfpl.org/pdf/libraries/main/sfhistory/GLBT/Harvey_Milk_Archives-Scott_Smith_Collection.pdf",
     "https://en.wikipedia.org/wiki/Harvey_Milk"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{board}",
-    "{mayor}",
-    "{candidate}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{board}", "{mayor}", "{candidate}"],
   "gates": [],
   "weights": [],
   "usedBy": []

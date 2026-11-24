@@ -7,16 +7,8 @@
     "https://www.congress.gov/113/crec/2013/10/12/CREC-2013-10-12-pt1-PgH6557.pdf",
     "https://en.wikipedia.org/wiki/Eric_Cantor"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{leader}",
-    "{bill}",
-    "{chamber}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{leader}", "{bill}", "{chamber}"],
   "gates": [],
   "weights": [],
   "usedBy": []

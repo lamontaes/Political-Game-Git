@@ -8,16 +8,8 @@
     "https://webharvest.gov/congress115th/20181223195351/https://history.house.gov/People/Detail/20147",
     "https://en.wikipedia.org/wiki/Jeannette_Rankin"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{organization}",
-    "{member}",
-    "{vote}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{organization}", "{member}", "{vote}"],
   "gates": [],
   "weights": [],
   "usedBy": []

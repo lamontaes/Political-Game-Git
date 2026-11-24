@@ -6,16 +6,8 @@
   "sources": [
     "https://www.sevendaysvt.com/news/democratic-leaders-blame-squirrelly-legislator-for-override-fail-29604481/"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{member}",
-    "{leader}",
-    "{bill}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{leader}", "{bill}"],
   "gates": [],
   "weights": [],
   "usedBy": []

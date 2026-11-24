@@ -7,16 +7,8 @@
     "https://www.gutenberg.org/cache/epub/76649/pg76649-images.html",
     "https://standardebooks.org/ebooks/calvin-coolidge/the-autobiography-of-calvin-coolidge/text/chapter-3"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{member}",
-    "{city}",
-    "{job}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{city}", "{job}"],
   "gates": [],
   "weights": [],
   "usedBy": []

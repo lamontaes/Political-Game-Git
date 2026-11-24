@@ -6,16 +6,8 @@
   "sources": [
     "https://stephenthedad.substack.com/p/standing-up-testimony-confrontation"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{witness}",
-    "{relative}",
-    "{committee}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{witness}", "{relative}", "{committee}"],
   "gates": [],
   "weights": [],
   "usedBy": []

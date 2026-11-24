@@ -7,16 +7,8 @@
     "https://history.house.gov/People/Detail?id=10918",
     "https://en.wikipedia.org/wiki/Shirley_Chisholm"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{member}",
-    "{leader}",
-    "{committee}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{leader}", "{committee}"],
   "gates": [],
   "weights": [],
   "usedBy": []

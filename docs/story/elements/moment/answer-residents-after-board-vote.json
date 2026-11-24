@@ -7,18 +7,8 @@
     "https://www.ntsb.gov/Advocacy/Activities/Pages/Homendy20240625A.aspx",
     "https://www.ntsb.gov/about/reports/Documents/FY2026%20Budget%20Submission.pdf"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "news",
-    "journal",
-    "speeches"
-  ],
-  "slots": [
-    "{chair}",
-    "{meeting_place}",
-    "{town}"
-  ],
+  "fits": ["office", "work-community", "news", "journal", "speeches"],
+  "slots": ["{chair}", "{meeting_place}", "{town}"],
   "gates": [
     "The board has held its decision meeting in the affected community."
   ],

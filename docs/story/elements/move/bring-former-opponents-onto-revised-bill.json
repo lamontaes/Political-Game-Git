@@ -7,16 +7,8 @@
     "https://www.gillibrand.senate.gov/news/press/release/gillibrand-statement-on-inclusion-of-military-justice-improvement-and-increasing-prevention-act-in-ndaa/",
     "https://www.military.com/daily-news/2021/05/14/after-8-years-of-effort-senate-has-votes-it-needs-overhaul-military-sexual-assault-prosecutions.html"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{sponsor}",
-    "{colleague}",
-    "{bill}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{sponsor}", "{colleague}", "{bill}"],
   "gates": [],
   "weights": [],
   "usedBy": []

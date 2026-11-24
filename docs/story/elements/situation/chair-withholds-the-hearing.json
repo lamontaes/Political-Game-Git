@@ -6,16 +6,8 @@
   "sources": [
     "https://calmatters.org/politics/2019/04/california-legislators-killing-bills-committee-democrats/"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{sponsor}",
-    "{chair}",
-    "{bill}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{sponsor}", "{chair}", "{bill}"],
   "gates": [],
   "weights": [],
   "usedBy": []

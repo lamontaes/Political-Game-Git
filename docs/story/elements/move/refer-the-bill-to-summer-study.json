@@ -6,16 +6,8 @@
   "sources": [
     "https://www.governing.com/archive/Medical-Marijuana-Bill-Dead-in-Tennessee-Til-2016.html"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{chair}",
-    "{sponsor}",
-    "{bill}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{chair}", "{sponsor}", "{bill}"],
   "gates": [],
   "weights": [],
   "usedBy": []

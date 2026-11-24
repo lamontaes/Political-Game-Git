@@ -6,16 +6,8 @@
   "sources": [
     "https://rollcall.com/2019/09/09/how-a-handful-of-vulnerable-incumbents-got-bills-signed-into-law/"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office"
-  ],
-  "slots": [
-    "{sponsor}",
-    "{senate_partner}",
-    "{bill}"
-  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{sponsor}", "{senate_partner}", "{bill}"],
   "gates": [],
   "weights": [],
   "usedBy": []

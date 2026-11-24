@@ -6,16 +6,8 @@
   "sources": [
     "https://www.kcur.org/politics-elections-and-government/2024-07-15/kansas-citys-2024-ballots-include-hundreds-of-precinct-committee-members-heres-what-they-do"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "office",
-    "campaign"
-  ],
-  "slots": [
-    "{precinct}",
-    "{party_worker}"
-  ],
+  "fits": ["journal", "news", "office", "campaign"],
+  "slots": ["{precinct}", "{party_worker}"],
   "gates": [],
   "weights": [],
   "usedBy": []
