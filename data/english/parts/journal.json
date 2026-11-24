@@ -10198,88 +10198,10 @@
       }
     },
     {
-      "key": "journal.memoir-decided.i-set-my-sights-on",
-      "move": "memoir-decided",
-      "kind": "spoken",
-      "text": "I set my sights on {office}.",
-      "uses": [
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.was-back-in-the-picture-later",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "{name} was back in the picture later.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-hook.i-would-run-into-again",
       "move": "memoir-hook",
       "kind": "spoken",
       "text": "I would run into {name} again.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.did-not-stay-out-of-my-story",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "{name} did not stay out of my story.",
       "uses": [
         {
           "move": "memoir-hook",
@@ -10332,32 +10254,6 @@
       "move": "memoir-hook",
       "kind": "spoken",
       "text": "{name} turned up once more after that.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.not-for-the-last-time-i-saw",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "Not for the last time, I saw {name}.",
       "uses": [
         {
           "move": "memoir-hook",
@@ -12250,32 +12146,6 @@
       "move": "memoir-movedPay",
       "kind": "spoken",
       "text": "I would earn {wage} an hour at {next}.",
-      "uses": [
-        {
-          "move": "memoir-movedPay",
-          "subject": "memoir",
-          "role": "movedPay",
-          "choice": "movedPay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "movedPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-movedPay.paid-an-hour-which-was-the-pay",
-      "move": "memoir-movedPay",
-      "kind": "spoken",
-      "text": "{next} paid {wage} an hour, which was the pay.",
       "uses": [
         {
           "move": "memoir-movedPay",
