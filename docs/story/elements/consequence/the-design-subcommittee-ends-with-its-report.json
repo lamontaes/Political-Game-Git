@@ -1,0 +1,32 @@
+{
+  "id": "the-design-subcommittee-ends-with-its-report",
+  "kind": "consequence",
+  "summary": "Once the board adopts {report}, the chair disbands the group that wrote it.",
+  "realLife": "After the committee approved its report on improving coin and medal design, Gary Marks declared the design excellence subcommittee's assignment finished and dissolved it.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2011_0119-minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{report}"],
+  "gates": [
+    "A temporary committee has delivered the report it was appointed to prepare."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: subcommittee charge and adoption of its final report.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The board extends the group's assignment.",
+      "pulledBy": "Members ask for a follow-up on implementation.",
+      "writesBack": "The group receives a new reporting date."
+    },
+    {
+      "turn": "partial",
+      "what": "A recommendation needs an owner after dissolution.",
+      "pulledBy": "The adopted report names no one to carry it out.",
+      "writesBack": "The full board assigns the follow-up to a member."
+    }
+  ],
+  "issues": ["none"]
+}
