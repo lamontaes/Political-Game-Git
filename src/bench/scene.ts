@@ -728,6 +728,8 @@ export function peopleHere(
     name: string;
     reason: StageReason;
     role?: string;
+    /** The occasion is a formal one for them (the address names them by their office): they wear formal clothes. */
+    formal?: boolean;
   }[],
   /** Whose speech it is: first in the strip. */
   speaker?: string,
@@ -736,10 +738,10 @@ export function peopleHere(
   const viewer = ids.find((entry) => entry.reason === "you")?.id;
   const known = viewer ? core.people.get(viewer)?.knownIds : undefined;
   const seen = new Set<string>();
-  const present = ids.flatMap(({ id, name, reason, role }) => {
+  const present = ids.flatMap(({ id, name, reason, role, formal }) => {
     if (!reason || reason === "you" || seen.has(id)) return [];
     seen.add(id);
-    const face = faceOf(core, id, place);
+    const face = faceOf(core, id, place, formal);
     return face
       ? [{ personId: id, name, reason, face, ...(role ? { role } : {}) }]
       : [];
@@ -786,10 +788,13 @@ export function faceOf(
   core: CoreState,
   id: string,
   place: string,
+  /** A formal occasion dresses anyone formally, an officeholder or not (P10). */
+  formal = false,
 ): PersonFace | null {
   const looks = looksOf(core, id);
   if (!looks) return null;
-  const bust = bustOf(core, whoOf(core, id, looks), place);
+  const who = whoOf(core, id, looks);
+  const bust = bustOf(core, formal ? { ...who, official: true } : who, place);
   return bust ? { bust } : null;
 }
 

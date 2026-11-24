@@ -285,6 +285,11 @@ ol {
   --bust: 140px;
   position: relative;
   pointer-events: none;
+  /* The strip is as wide as the people on it (owner, Nov 16: "one person,
+     shorten the strip"), centered where it lies. */
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 .bust-strip .busts-glass {
   position: absolute;
@@ -325,14 +330,17 @@ ol {
     transparent 88%
   );
 }
+/* The label stands above the people, at the strip's left end, so it never lies over a name. */
 .bust-strip .busts-label {
   position: absolute;
-  left: 11%;
-  bottom: 9px;
+  left: 0;
+  bottom: 100%;
+  padding-bottom: 4px;
   font: var(--group-font);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 .bust-strip .busts-row {
   position: relative;
@@ -392,24 +400,37 @@ ol {
   padding: 0 0 9px 8px;
   white-space: nowrap;
 }
-/* Someone with something to say glows softly when pointed at. */
-.bust-strip .busts-person.talkable {
+/* Someone with something to say, or a card to open, glows softly when pointed at. */
+.bust-strip .busts-person.talkable,
+.bust-strip .busts-person.openable {
   cursor: pointer;
 }
 .bust-strip .busts-person.talkable:hover .busts-face,
-.bust-strip .busts-person.talkable:focus-visible .busts-face {
+.bust-strip .busts-person.openable:hover .busts-face,
+.bust-strip .busts-person.talkable:focus-visible .busts-face,
+.bust-strip .busts-person.openable:focus-visible .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.55));
 }
-.bust-strip .busts-person.talkable:focus-visible {
+.bust-strip .busts-person.talkable:focus-visible,
+.bust-strip .busts-person.openable:focus-visible {
   outline: none;
 }
 .bust-strip .busts-person.talkable:hover .busts-name,
-.bust-strip .busts-person.talkable:focus-visible .busts-name {
+.bust-strip .busts-person.openable:hover .busts-name,
+.bust-strip .busts-person.talkable:focus-visible .busts-name,
+.bust-strip .busts-person.openable:focus-visible .busts-name {
   color: var(--text-strong);
 }
 /* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
 .bust-strip .busts-person.speaking {
   --mine: calc(var(--bust) * 1.16);
+}
+/* Silent people are never shown big (owner, Nov 16): only the speaker is. */
+.bust-strip .busts-person.quiet {
+  --mine: calc(var(--bust) * 0.5);
+}
+.bust-strip .busts-person.quiet .busts-name {
+  font-size: var(--t-label);
 }
 .bust-strip .busts-person.speaking .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
@@ -417,7 +438,7 @@ ol {
 .bust-strip .busts-person.speaking .busts-name {
   font-size: var(--t-ui);
 }
-.bust-strip .busts-person.quiet .busts-face {
+.bust-strip[data-speaker="1"] .busts-person.quiet .busts-face {
   filter: brightness(0.72) saturate(0.85);
 }
 .bust-strip .busts-person.quiet .busts-name {
@@ -538,14 +559,8 @@ ol {
   right: 0;
   bottom: 100%;
 }
-#talk-strip .bust-strip[data-count="1"] {
-  --bust: 200px;
-}
-#talk-strip .bust-strip[data-count="2"] {
-  --bust: 180px;
-}
 #talk-strip .bust-strip {
-  --bust: 150px;
+  --bust: 190px;
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
@@ -779,8 +794,8 @@ select:focus-visible {
 /* Icons: gold line icons on round glass keys, a column over the player card. */
 .ring {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   background:
@@ -793,22 +808,35 @@ select:focus-visible {
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 .ring svg {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* Under a resting pointer on load nothing lights (play.mjs, the dock's settle). */
+#dock.settling .ring:hover,
+#dock.settling .action:hover:not(:disabled) {
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+#dock.settling .action:hover:not(:disabled) {
+  color: var(--text-strong);
+}
 /* A story the player has not read yet: a dot on the News icon. */
 .ring.unread::after {
   content: "";
   position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 9px;
-  height: 9px;
+  top: 4px;
+  right: 4px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--gold);
   box-shadow: 0 0 0 2px var(--iron);
@@ -1275,8 +1303,20 @@ input[type="range"]::-moz-range-thumb {
   content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
-.action[aria-pressed="true"] {
-  border-color: var(--gold);
+.action[aria-pressed="true"],
+.action[aria-pressed="true"]:hover {
+  color: var(--iron);
+  text-shadow: none;
+  border-color: transparent;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
 }
 /* The creator's fields always show their box, empty or filled. */
 #cr-character .field input,
@@ -1383,6 +1423,14 @@ input[type="range"]::-moz-range-thumb {
 #front.loading {
   top: 56px;
   transform: none;
+  /* The place's name ("Jericho Center, Vermont") sits on one line: the card grows to it
+     (owner, Nov 23, P31). */
+  width: max-content;
+  min-width: 400px;
+  max-width: calc(var(--vw) * 0.9);
+}
+#front.loading > .title {
+  white-space: nowrap;
 }
 /* The title's build version, bottom right (#4014). */
 .title-version {
@@ -1947,6 +1995,13 @@ body:not(.dev) .dev-only {
   flex: 0 1 auto;
   max-width: none;
 }
+/* Patch notes: a long list of builds beside a long page of notes. It takes the window's whole
+   height (owner, Nov 23, P1: "why are there 4 scroll wheel bars?" with free space under it), and
+   only the list's own box and the page scroll in it. */
+#game #sheet.options-sheet:has(.roster-screen.patch-notes) {
+  height: calc(var(--vh) - 2 * var(--gutter));
+}
+
 .option-setting {
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 2fr;
@@ -3686,7 +3741,7 @@ details.entry[open] {
   margin: 0 0 14px;
   border: 2px solid var(--brass);
 }
-.place-view .record-actions {
+.place-view .acts {
   margin: 0 0 6px;
 }
 
@@ -3854,11 +3909,11 @@ details.entry[open] {
 /* A member as a card: face, name, seat, party badge; opens their card. */
 #sheet-body .member-card {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr) auto auto;
+  grid-template-columns: 56px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 12px;
   width: 100%;
-  height: 64px;
+  height: 68px;
   min-height: 0;
   margin: 0;
   padding: 8px 12px 8px 9px;
@@ -3881,13 +3936,14 @@ details.entry[open] {
   outline-offset: 2px;
 }
 .member-card .member-face {
-  width: 46px;
-  height: 46px;
-  /* A portrait is a crop in a soft pool of light, never inside a circle or box (owner, Nov 5). */
+  width: 56px;
+  height: 56px;
+  /* A bust runs head to upper chest and ends in a soft fade, never a hard cut (MENU-LOOK;
+     owner, Nov 23, P21: "look at the tiny headshots. Their bodies are cut off."). */
   border: 0;
   border-radius: 0;
   background: none;
-  mask-image: radial-gradient(closest-side, black 72%, transparent);
+  mask-image: linear-gradient(to bottom, black 62%, transparent);
 }
 .member-text {
   min-width: 0;
@@ -4135,28 +4191,6 @@ details.entry[open] {
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.28);
 }
-/* A tray: buttons sit in a recessed bar, never loose on the panel. */
-.tray,
-.record-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 18px 0 0;
-  padding: 7px 9px;
-  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.22));
-  border: 1px solid rgba(156, 131, 80, 0.4);
-  border-radius: 3px;
-  box-shadow:
-    inset 0 2px 5px rgba(0, 0, 0, 0.65),
-    0 1px 0 rgba(255, 255, 255, 0.04);
-}
-.tray > button,
-#sheet-body .record-actions > button {
-  margin: 0;
-}
 /* The journal, to its mock: one cream page of story, paged by chapter under it. */
 #sheet-body:has(.journal-screen) {
   max-width: 760px;
@@ -4188,6 +4222,11 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
+/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
+.roster-screen.patch-notes > .pick-list.roster {
+  max-height: none;
+  overflow: visible;
+}
 /* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
 .roster-screen.patch-notes .roster-page,
 .roster-screen.journal .roster-page {
@@ -4195,6 +4234,10 @@ details.entry[open] {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Patch notes hold the whole window: the page runs to the panel's foot. */
+.roster-screen.patch-notes .roster-page {
+  max-height: calc(var(--vh) - 172px);
 }
 .travel-left {
   min-height: 0;
@@ -4234,6 +4277,7 @@ details.entry[open] {
 }
 .travel-tile b {
   position: absolute;
+  z-index: 1;
   left: 10px;
   bottom: 8px;
   right: 10px;
@@ -4241,11 +4285,25 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
+   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
+}
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
+   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+#sheet-body.place-view .travel-screen {
+  width: 100%;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+}
+#sheet-body.place-view .travel-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+#sheet-body.place-view .travel-tile {
+  height: 84px;
 }
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,
@@ -4820,6 +4878,24 @@ select.release-pick {
   overflow: hidden;
   clip-path: inset(50%);
 }
+/* A vote row with a paper behind it: its name is brighter at rest and a hover lights the row,
+   the one light language (MENU-LOOK, States; owner, Nov 23, P22). It is not a .pick, whose
+   span rule shrank the row's type to 14 px beside its 17 px neighbors (owner, Nov 23, C7). */
+.vote-rows .open-row {
+  cursor: pointer;
+  border-radius: var(--control-radius);
+  transition:
+    background 140ms,
+    box-shadow 140ms;
+}
+.vote-rows .open-row .dotlabel {
+  color: var(--gold);
+}
+.vote-rows .open-row:hover,
+.vote-rows .open-row:focus-visible {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
 /* Typed rows: label, a dot leader, the figure. */
 .strip-screen .dotrow {
   display: flex;
@@ -4834,6 +4910,11 @@ select.release-pick {
   border-bottom: 2px dotted rgba(226, 191, 110, 0.4);
   transform: translateY(-4px);
 }
+/* A date and a name on one row never break ("November 2, / 2021", "Reese / Warner"). */
+.strip-screen .dotrows.one-line .dotlabel,
+.strip-screen .dotrows.one-line .dotvalue {
+  white-space: nowrap;
+}
 .strip-screen .dotvalue {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
@@ -4842,6 +4923,8 @@ select.release-pick {
   position: absolute;
   top: 22px;
   right: 30px;
+  /* Above the name heading, which spans the card: the close mark takes the click. */
+  z-index: 3;
 }
 .strip-screen .mx3cols.one {
   grid-template-columns: minmax(0, 640px);
@@ -5132,6 +5215,11 @@ select.release-pick {
   opacity: 1;
   transition-delay: 0.25s;
 }
+/* Under a resting pointer the name stays down too, until the pointer moves (play.mjs, the dock's settle). */
+#dock.settling .ring[data-name]:hover::before {
+  opacity: 0;
+  transition-delay: 0s;
+}
 /* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
    Nov 7); the talk box takes the stage. */
 #game:has(
@@ -5284,6 +5372,11 @@ select.release-pick {
   text-decoration: underline;
 }
 
+/* The journal's page takes the whole panel, so the page is never half empty (owner,
+   Nov 8 and Nov 23; N8-C32). */
+.roster-screen.journal {
+  width: 100%;
+}
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5298,7 +5391,7 @@ select.release-pick {
 }
 .journal-text .intro.lead::first-letter {
   float: left;
-  margin: 2px 8px 0 0;
+  margin: 2px 3px 0 0;
   font:
     600 var(--t-display)/0.85 "Playfair Display",
     Georgia,
@@ -5398,10 +5491,6 @@ select.release-pick {
 .news-text .intro {
   margin: 0 0 10px;
 }
-.news-story.lead .news-text {
-  column-count: 2;
-  column-gap: 26px;
-}
 /* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
 .news-story.lead .story-image {
   display: block;
@@ -5410,10 +5499,6 @@ select.release-pick {
   aspect-ratio: auto;
   object-fit: cover;
   margin: 10px 0 12px;
-}
-/* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
-.news-story.lead .news-text > * {
-  break-inside: avoid;
 }
 /* The list of headlines beside the opened story; each scrolls inside its own column, never the
    menu as a page. */
@@ -5505,6 +5590,9 @@ select.release-pick {
 .pick-list .pick,
 #sheet-body .pick-list .pick {
   display: flex;
+  /* A long name keeps its words whole and sends its aside under it, never squeezing both
+     into one narrow line (owner, Nov 16, N16-58: "it's squished right here"). */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
@@ -5522,7 +5610,7 @@ select.release-pick {
 .pick b {
   font: var(--pick-font);
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .pick span {
   font: var(--pick-aside-font);
@@ -5552,11 +5640,11 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
-/* The side column is wide enough for a date and a name on one row
-   ("November 2, 2021 ... Holly Robles"), which wrapped to four lines. */
+/* The side column takes the width its longest line needs, up to 440px, so a date and a name sit
+   on one row ("November 2, 2021 ... Holly Robles") and never wrap or clip. */
 .roster-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) fit-content(440px);
   gap: 18px;
   align-items: start;
 }

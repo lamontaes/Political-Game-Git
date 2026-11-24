@@ -1,8 +1,9 @@
 name: Deterministic validation
 
-# The browser workflow (browser.yml) was deleted on 2026-10-24: no Playwright
-# suite exists. This workflow is the fast one: repository plus six unit shards,
-# about 38 job-minutes.
+# The browser workflow (browser.yml) was deleted on 2026-10-24 and no Playwright
+# suite runs wholesale. This workflow is the fast one: repository plus six unit
+# shards, about 38 job-minutes, and the one browser check that holds the menu
+# look (the ui-look job: no box in a box, no scroll with free space).
 
 on:
   pull_request:
@@ -253,6 +254,55 @@ jobs:
           printf '  %s\n' "${files[@]}"
           npx vitest run "${files[@]}"
 
+  # The menu look (owner, Nov 23: "explicitly forbid it. Make it turn main red"): a browser
+  # opens every menu at 1440x900 and fails a box in a box or a scroll with free space that
+  # tests/guards/ui-look-baseline.json does not list. Runs on every pull request and on
+  # main's hourly run, so a violation on main turns validate red.
+  ui-look:
+    name: ui-look
+    needs: scope
+    if: needs.scope.outputs.docs_only != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          # The baseline is compared with main's, so main's history is needed.
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Start the bench
+        shell: bash
+        run: |
+          set -euo pipefail
+          nohup node --max-old-space-size=6144 --import tsx src/bench/server.ts > bench.log 2>&1 &
+          for _ in $(seq 1 120); do
+            if curl -sf http://localhost:3000/play > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat bench.log
+          echo "The bench did not start."
+          exit 1
+
+      - name: Open every menu at 1440x900
+        env:
+          # The baseline only shrinks; a pull request body with a "CTO line:" lets it grow.
+          UI_LOOK_GROWTH_APPROVED: ${{ contains(github.event.pull_request.body, 'CTO line:') }}
+        run: npm run ui-look
+
   # Every test file and golden-path command must still load (npm run tests:load).
   # The unit job loads only the files a change touched, so a break in how any
   # other file loads is seen here, within the hour, on main's scheduled run.
@@ -285,6 +335,7 @@ jobs:
       - guards
       - scope
       - unit
+      - ui-look
       - tests-load
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -302,6 +353,12 @@ jobs:
           echo "repository=$repository"
           echo "guards=$guards"
           echo "unit=$unit"
+          ui_look='${{ needs.ui-look.result }}'
+          echo "ui-look=$ui_look"
+          if [[ "$ui_look" == "failure" || "$ui_look" == "cancelled" ]]; then
+            echo "A menu draws a box in a box or scrolls with free space (npm run ui-look)."
+            exit 1
+          fi
           tests_load='${{ needs.tests-load.result }}'
           echo "tests-load=$tests_load"
           if [[ "$tests_load" == "failure" || "$tests_load" == "cancelled" ]]; then

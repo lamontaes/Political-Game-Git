@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10312
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T05:04:19.829Z
 ---
 
 **What.** The owner, Nov 23 (P31), said: it is the same thing with the city and state on the loading screen. The card is 400 px wide, so a place like Los Altos, Texas wraps its title onto two lines.
@@ -27,7 +28,7 @@ Seen: the loading card at the top left of the title screen at 1440 by 900 while 
 
 **Time box.** 1 hours
 
-**Rules.** Screen to mock. No hand-written player text; no label added.
+**Rules.** Screen to mock: the loading card grows to fit the place name on one line. No hand-written player text: no new label is added; existing control names only.
 
 **Done when.** A second session, in a drawn place and seed it names, starts a new world and sees the place title on one line on the loading card; loading.browser.mjs passes.
 

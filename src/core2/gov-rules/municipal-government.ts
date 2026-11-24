@@ -34,6 +34,8 @@ export interface MunicipalReading {
     readonly title: string | null;
     readonly structuralPosition: string | null;
   } | null;
+  /** A second elected executive the charter or law names (a Guam village's Vice Mayor), where it has one. */
+  readonly viceMayor?: { readonly title: string } | null;
   readonly terms: readonly {
     readonly seatClass: string;
     readonly years: number | null;
