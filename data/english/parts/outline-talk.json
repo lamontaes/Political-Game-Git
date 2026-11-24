@@ -1960,28 +1960,6 @@
       "after": ["verdict", "why", "verdict-after"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-about-badly-enough-to-say-so-on-live-television",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants {about} badly enough to say so on live television.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-about-got-a-flat-no-from-president",
       "move": "lead",
       "kind": "spoken",
@@ -2306,31 +2284,6 @@
         "personality-v1:facet-skeptical",
         "personality-v1:facet-guarded"
       ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-president-wants-about-and-i-just-don-t",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "{president} wants {about}, and I just don't.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "stand-against",
-            "president-for"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -3784,25 +3737,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-about-and-made-that-clear",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants {about}, and made that clear.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-argued-against-about",
       "move": "lead",
       "kind": "spoken",
@@ -3844,44 +3778,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-turned-down-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} turned down {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-doesn-t-want-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} doesn't want {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.lead.talk-address-point-president-made-the-case-against-about",
       "move": "lead",
       "kind": "spoken",
@@ -3918,135 +3814,6 @@
         }
       ],
       "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-keep-about-in-place",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants to keep {about} in place.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-argued-to-keep-about-as-the-law",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} argued to keep {about} as the law.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-for",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-argued-to-end-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} argued to end {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-get-rid-of-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} wants to get rid of {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-argued-to-repeal-about",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} argued to repeal {about}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
