@@ -1,80 +1,38 @@
 # Pre-grade: Writer Home (talk at home)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `9c7557bd`, every line authored by this writer at that head (206 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `68b5df81`, every line authored by this writer at that head (190 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 170 of 206 pass (83%); 36 fail.
-- **Calibration:** C4 8/8, D1 8/8, M1 8/8, O1 8/8, Q1 8/8, TK 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 181 of 190 pass (95%); 9 fail.
+- **Calibration:** C4 8/8, D1 8/8, M1 8/8, NB 8/8, O1 8/8, Q1 8/8, TK 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the packet script at `104bd27d` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 9 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### vary-the-shape (7)
+### awkward (3)
 
-- `outline-talk.verdict.talk-address-point-i-heard-every-word-from-president-object-and-i-m-still-against-it`: "I heard every word from {president-object}, and I'm still against it." — Third '[he did X], and I'm still ...' verdict after TK-072 and TK-104.
-- `outline-talk.verdict.talk-address-point-i-m-with-president-object-on-a-lot-but-not-on-about`: "I'm with {president-object} on a lot, but not on {about}." — Same 'with him on a lot, but not X' shape as TK-017.
-- `outline-talk.lead.talk-address-point-did-you-hear-president-come-out-against-about`: "Did you hear {president} come out against {about}?" — Same 'Did you hear the President come out for/against X?' shape as TK-078.
-- `outline-talk.lead.talk-address-point-you-heard-president-speak-against-about-right`: "You heard {president} speak against {about}, right?" — Same 'You heard the President ... X, right?' shape as TK-092.
-- `outline-talk.lead.talk-address-point-did-president-really-just-say-yes-to-about`: "Did {president} really just say yes to {about}?" — Same 'Did the President really just say yes/no to X?' shape as TK-012.
-- `outline-talk.lead.talk-address-point-did-you-hear-president-say-to-keep-about`: "Did you hear {president} say to keep {about}?" — Same 'Did you hear the President say to keep/end X?' shape as TK-107.
-- `outline-talk.lead.talk-address-point-did-you-hear-president-say-to-end-about`: "Did you hear {president} say to end {about}?" — Third 'Did you hear the President ...' lead in the same shape.
+- `outline-talk.ask.talk-address-point-if-we-disagreed-on-said-could-we-still-have-supper`: "If we disagreed on {said}, could we still have supper?" — The hypothetical 'could we still have supper' is an odd ask.
+- `outline-talk.ask.talk-address-point-what-did-you-hear-in-said-that-i-missed`: "What did you hear in {said} that I missed?" — 'What did you hear in drug prices' misuses the subject slot.
+- `outline-talk.why-first.talk-address-point-for-me-said-is-about-place-not-about-the-speech`: "For me, {said} is about {place}, not about the speech." — 'not about the speech' is a confusing contrast that reads as filler.
 
-### awkward (7)
+### no-pointing-at-the-unnamed (3)
 
-- `outline-talk.verdict.talk-address-point-i-d-like-to-believe-president-object-on-that-and-i-can-t`: "I'd like to believe {president-object} on that, and I can't." — 'I'd like to believe him on that, and I can't' needs 'but'; as written it reads composed.
-- `outline-talk.ask.talk-address-point-was-president-fair-to-you-on-said`: "Was {president} fair to you on {said}?" — 'Was he fair to you on X?' is odd: the address was not about the listener.
-- `outline-talk.ask.talk-address-point-and-said-where-does-that-leave-you`: "And {said}: where does that leave you?" — 'And X: where does that leave you?' is a fragment with a colon, not how people ask.
-- `outline-talk.lead.talk-address-point-honestly-i-expected-president-to-say-no-to-about-and-no-one-else-would`: "Honestly, I expected {president} to say no to {about}, and no one else would." — 'and no one else would' makes no sense after 'I expected him to say no'.
-- `outline-talk.verdict.talk-address-point-honestly-president-lost-the-argument-with-me-on-about`: "Honestly, {president} lost the argument with me on {about}." — 'Lost the argument with me' is not how people say it; 'Honestly,' pads the front.
-- `outline-talk.verdict.talk-address-point-i-ve-thought-about-about-and-i-land-opposite-president-object`: "I've thought about {about}, and I land opposite {president-object}." — 'I land opposite him' is not how people talk.
-- `conversation.own-view-take-core.disagree-i-d-have-guessed-you-d-say-that-on-about`: "I'd have guessed you'd say that on {about}." — 'Say that on X' is clumsy; 'about' is what people say, and it duplicates TK-045.
+- `outline-talk.why.talk-address-point-i-m-not-trying-to-win-anything-it-s-what-i-see-in-place`: "I'm not trying to win anything. It's what I see in {place}." — The bare 'It's' after a defensive opener points at nothing named, and it repeats row 39's shape.
+- `outline-talk.heard.talk-address-point-we-both-heard-said-so-i-don-t-have-to-explain-it`: "We both heard {said}, so I don't have to explain it." — 'We both heard drug prices' misuses the subject slot, and 'explain it' points at nothing.
+- `outline-talk.heard.talk-address-point-you-were-right-here-for-said-so-you-know-what-i-mean`: "You were right here for {said}, so you know what I mean." — 'so you know what I mean' points at a meaning not yet said.
 
-### no-filler (6)
+### no-explaining (1)
 
-- `outline-talk.lead.talk-address-point-well-president-didn-t-waste-any-time-getting-to-about`: "Well, {president} didn't waste any time getting to {about}." — 'Well,' opener, and 'didn't waste any time' says nothing of where he stands.
-- `outline-talk.lead.talk-address-point-look-president-is-for-about-and-that-s-the-whole-story`: "Look, {president} is for {about}, and that's the whole story." — 'Look,' opener and 'that's the whole story' is a stock tag that says nothing.
-- `outline-talk.verdict.talk-address-point-well-president-convinced-me-i-ll-say-that`: "Well, {president} convinced me, I'll say that." — 'Well,' opener pads a line with nothing else to say.
-- `outline-talk.verdict.talk-address-point-look-president-is-right-about-about-and-i-ll-say-so`: "Look, {president} is right about {about}, and I'll say so." — 'Look,' opener and 'and I'll say so' is padding.
-- `outline-talk.verdict.talk-address-point-well-i-don-t-buy-what-president-is-selling-on-about`: "Well, I don't buy what {president} is selling on {about}." — 'Well,' opener pads it, and 'what he is selling' plays stiff with the pronoun uncontracted.
-- `outline-talk.verdict.talk-address-point-look-i-wanted-to-agree-with-president-object-and-i-just-can-t`: "Look, I wanted to agree with {president-object}, and I just can't." — Opens on 'Look,' and joins 'wanted to agree' to 'can't' with 'and' where people say 'but'.
+- `outline-talk.ask.talk-address-point-i-m-asking-because-i-want-your-view-on-said-not-to-trap-you`: "I'm asking because I want your view on {said}, not to trap you." — Explaining that the question is not a trap is odd at the kitchen table and spells out its own subtext.
 
-### pronoun-fits-the-person (5)
+### line-fits-the-roles-in-its-situation (1)
 
-- `outline-talk.verdict.talk-address-point-that-s-president-s-view-and-it-isn-t-mine`: "That's {president}'s view, and it isn't mine." — '{president}'s view' plays 'he's view' after the lead.
-- `outline-talk.ask.talk-address-point-tell-me-you-heard-president-on-said-the-way-i-did`: "Tell me you heard {president} on {said} the way I did." — {president} after the verdict plays as 'he' in object position: 'you heard he on X'.
-- `outline-talk.verdict.talk-address-point-honestly-i-m-on-president-s-side-on-about`: "Honestly, I'm on {president}'s side on {about}." — '{president}'s side' plays 'he's side' after the lead, and 'on his side on' doubles 'on'.
-- `outline-talk.verdict.talk-address-point-you-can-have-president-s-side-i-m-on-the-other-one`: "You can have {president}'s side. I'm on the other one." — '{president}'s side' plays 'he's side' after the lead.
-- `outline-talk.verdict.talk-address-point-i-d-take-president-s-side-on-a-lot-of-things-just-not-about`: "I'd take {president}'s side on a lot of things, just not {about}." — After the lead {president} plays as a pronoun, so '{president}'s side' comes out 'he's side'.
-
-### Because I am convinced... (Nov 23) (3)
-
-- `outline-talk.lead.talk-address-point-because-of-the-law-president-had-to-talk-about-about-and-chose-to-defend-it`: "Because of the law, {president} had to talk about {about}, and chose to defend it." — 'Because of the law, the President had to talk about' is false and stiff, in the rejected Because frame.
-- `outline-talk.verdict.talk-address-point-because-i-ve-seen-it-myself-i-m-with-president-object-on-about`: "Because I've seen it myself, I'm with {president-object} on {about}." — The rejected 'Because ..., I ...' frame, with 'it' pointing at nothing named.
-- `outline-talk.verdict.talk-address-point-because-it-matters-to-me-i-can-t-go-along-with-president-object-on-about`: "Because it matters to me, I can't go along with {president-object} on {about}." — The 'Because ..., I ...' frame he rejected, and 'it' points at nothing named.
-
-### plain-american-reads-stiff (2)
-
-- `outline-talk.verdict.talk-address-point-my-answer-to-president-object-on-about-is-no`: "My answer to {president-object} on {about} is no." — 'My answer to him is no' answers a question the President never asked the speaker.
-- `outline-talk.verdict.talk-address-point-i-m-unmoved-by-president-object-on-that-one`: "I'm unmoved by {president-object} on that one." — 'I'm unmoved by him' is stiff, written English, not talk at home.
-
-### no-non-replies (2)
-
-- `conversation.own-view-take-core.agree-that-s-a-relief-on-about`: "That's a relief, on {about}." — 'That's a relief, on X' is clipped and unnatural; same shape as TK-025.
-- `conversation.own-view-take-core.agree-good-to-hear-about-about`: "Good to hear, about {about}." — 'Good to hear, about X' is a clipped, unnatural reply that says nothing of its own.
-
-### alright-in-dialogue (2)
-
-- `conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right`: "Then we see {about} differently, and that's all right." — 'All right' in dialogue where his rule wants 'Alright'.
-- `conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about`: "All right, but I haven't changed my mind on {about}." — 'All right' in dialogue where his rule wants 'Alright'.
-
-### Whatever X says (Nov 12) (1)
-
-- `outline-talk.verdict.talk-address-point-whatever-president-says-i-m-not-for-it`: "Whatever {president} says, I'm not for it." — He rejected 'Whatever ... says'; it reads as reflexive opposition, not a stand on the point.
+- `outline-talk.ask.talk-address-point-what-would-you-say-to-someone-at-this-table-who-saw-said-the-other-way`: "What would you say to someone at this table who saw {said} the other way?" — A hypothetical 'someone at this table' who disagrees is strange when only the household is there.
 
 ### no-literary-phrasing (1)
 
-- `outline-talk.verdict.talk-address-point-not-every-idea-from-president-deserves-a-cheer-and-that-one-doesn-t`: "Not every idea from {president} deserves a cheer, and that one doesn't." — An epigram ('deserves a cheer') where a plain stand is wanted; 'that one' leans on nothing.
+- `outline-talk.why-first.talk-address-point-i-hear-said-differently-when-i-see-how-it-lands-in-place`: "I hear {said} differently when I see how it lands in {place}." — 'how it lands' is composed and sounds AI-written.
 
 ## As played
 
@@ -240,6 +198,17 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `9c7557bd`, every line authored
 - `outline-talk.verdict.talk-address-point-i-can-t-pretend-to-like-what-president-said-on-about`: "I can't pretend to like what {president} said on {about}."
 - `outline-talk.verdict.talk-address-point-i-d-be-lying-if-i-said-president-had-me-on-about`: "I'd be lying if I said {president} had me on {about}."
 - `outline-talk.verdict.talk-address-point-i-d-hoped-for-something-different-from-president-object-on-about`: "I'd hoped for something different from {president-object} on {about}."
+- `outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it`: "Do you mind talking about {said}, or should I drop it?"
+- `outline-talk.ask.talk-address-point-tell-me-if-i-m-pushing-i-only-want-to-know-where-you-land-on-said`: "Tell me if I'm pushing. I only want to know where you land on {said}."
+- `outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-about-about-and-we-ll-still-eat-supper`: "You can disagree with me about {about}, and we'll still eat supper."
+- `outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-about-again-if-it-bothers-you`: "I won't bring up {about} again if it bothers you."
+- `outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-about-to-get-through-supper`: "We don't have to settle {about} to get through supper."
+- `outline-talk.verdict-after.talk-address-point-say-what-you-think-about-about-i-d-rather-hear-it-than-guess`: "Say what you think about {about}. I'd rather hear it than guess."
+- `outline-talk.why-first.talk-address-point-before-president-even-got-to-said-i-was-thinking-about-place`: "Before {president} even got to {said}, I was thinking about {place}."
+- `outline-talk.why-first.talk-address-point-i-paid-attention-to-said-because-place-is-where-i-live`: "I paid attention to {said} because {place} is where I live."
+- `outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all`: "It's what I see out the window in {place}, that's all."
+- `outline-talk.heard.talk-address-point-i-ll-admit-i-watched-your-face-when-said-came-up`: "I'll admit I watched your face when {said} came up."
+- `outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we`: "Neither of us missed {said}, did we?"
 - `conversation.own-view-answer-disagree.i-ve-gone-back-and-forth-on-myself`: "I've gone back and forth on {about} myself."
 - `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on`: "Honestly, {about} bothers me more than I let on."
 - `conversation.own-view-answer-agree.maybe-i-ve-been-too-quick-on`: "Maybe I've been too quick on {about}."

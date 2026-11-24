@@ -1,135 +1,111 @@
 # Pre-grade: Writer W2, local and campaign speeches (opening-speech.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `45b2f2b5`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (119 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `e5361fc3`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (141 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 76 of 119 pass (64%); 43 fail.
-- **Calibration:** C4 8/8, E3 8/8, F1 8/8, L1 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 116 of 141 pass (82%); 25 fail.
+- **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** at `45b2f2b5` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 30 of these lines played.
+- **Played:** at `e5361fc3` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 28 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Play findings (whole speeches, not one line)
 
-- "If hard times matters to you, come to the next meeting..." (Rainelle address): the verb breaks when the theme's short name is plural.
-- "Do we get families in need what they qualify for sooner, or do we leave things as they are? Yes, because ..." (Midway address): "Yes" answers an either-or question.
-- "I'm sure that a call for help should be answered fast. I'll be against a bigger police budget every time it comes up." (Washington County address): the reason argues for the other side.
-- "Thank you, the Washington County Board of Commissioners, and thank you, Washington County." (Washington County address): "the" inside a direct address.
-- "God bless Rainelle. Thank you for hearing me out, Rainelle." (Rainelle campaign): the blessing comes before the thanks, and the place is said twice.
-- The addresses now run three or four short parts; whether that is long enough is the speech-has-a-core rule ("A four-line rally is not a speech").
+- "Thank you for making room for this, the Rainelle City Council and neighbors." (Rainelle address): {body-name} carries its article, so the direct address reads "the Rainelle City Council"; the line fails on its own too.
+- "...and our land and water is what I'd work on." (Rainelle campaign): a plural theme name with "is".
+- "I have one year left in this office, and I plan to use the time on hard times." (Midway address): the theme's short name ("hard times") does not read as something to work on.
+- "Stay in touch about hard times, Rainelle, and I'll do the same." (Rainelle address): fails on its own as well.
+- Earlier play faults are fixed at this head: the either-or question is gone, and the Washington County reason now argues for the stand.
 
 ## Failing lines by rule
 
-### vary-the-shape (20)
+### awkward (9)
 
-- `outline-local.greeting.neighbors-and-members-of-welcome`: "Neighbors, and members of {body-name}: welcome." — Another list-of-addressees greeting; the tacked-on 'welcome' is stiff.
-- `outline-local.greeting.thank-you-for-coming-out-to-hear-me`: "Thank you for coming out to hear me, {realm-bare}." — Longer twin of W1-039 with a self-regarding 'to hear me'.
-- `outline-local.pledge.i-ll-defend-at-every-meeting`: "I'll defend {law-name} at every meeting." — Does the same job as W1-078; 'defend at every meeting' assumes it is attacked every meeting.
-- `outline-local.today.as-things-stand-in`: "As things stand in {realm-name}, {today-clause}" — Same frame as W1-054, with stiffer 'As things stand'.
-- `outline-local.stand-reason.i-m-for-repealing`: "I'm for repealing {law-name}. {belief-sentence}" — Same shape as 'I'm for keeping {law-name}. {belief-sentence}'.
-- `outline-local.send-off.meets-again-soon-and-i-hope-you-ll-come-and-say-what-you-think-about`: "{body-name} meets again soon, and I hope you'll come and say what you think about {theme-short}." — Third variant of the meeting send-off, with a vague 'meets again soon'.
-- `outline-local.send-off.if-you-have-a-view-on-bring-it-to-the-next-meeting-of`: "If you have a view on {theme-short}, bring it to the next meeting of {body-name}." — Same 'If ..., come/bring it to the next meeting' shape as W1-001.
-- `outline-local.send-off.i-d-be-glad-to-have-your-vote-and-thank-you-for-listening`: "I'd be glad to have your vote, {realm-bare}, and thank you for listening." — Same ask as W1-085 with thanks glued on after.
-- `outline-local.send-off.i-d-be-proud-to-have-your-vote-for`: "I'd be proud to have your vote for {office-title}, {realm-bare}." — Twin of W1-085.
-- `outline-local.send-off.thank-you-for-hearing-me-out-i-d-like-to-be-your`: "Thank you for hearing me out, {realm-bare}. I'd like to be your {office-title}." — Twin of W1-029.
-- `outline-local.greeting.and-members-of-good-to-see-you`: "{realm-bare}, and members of {body-name}: good to see you." — Names the town twice ('Groton, and members of the Groton Select Board') in another list greeting.
-- `outline-local.greeting.members-of-and-residents-of`: "Members of {body-name}, and residents of {realm-name}." — Twin of W1-028.
-- `outline-local.greeting.to-the-people-of-and-to`: "To the people of {realm-name}, and to {body-name}:" — Same 'To the ..., and to ...:' shape as W1-011.
-- `outline-local.greeting.neighbors-in-thanks-for-giving-me-your-time`: "Neighbors in {realm-bare}, thanks for giving me your time." — Same 'Neighbors in X, thanks for ...' shape as W1-043.
-- `outline-local.greeting.thank-you-for-being-here-neighbors-of`: "Thank you for being here, neighbors of {realm-name}." — Twin of W1-026 reordered.
-- `outline-local.report.for-this-year-was-the-main-thing`: "For {realm-name} this year, {theme-name} was the main thing." — Same report as W1-017 in a flatter shape ('the main thing').
-- `outline-local.report.we-ended-the-year-ahead-on-the-budget-so-gets-my-attention-first`: "We ended the year ahead on the budget, so {theme-name} gets my attention first." — Same budget-ahead-so-theme shape as W1-006, with a weaker 'gets my attention'.
-- `outline-local.running.the-job-i-m-asking-for-is-and-i-m-asking-because-of`: "The job I'm asking for is {office-title}, and I'm asking because of {theme-name}." — Stilted double 'asking' construction; the 'because of {theme}' frame reads simulated.
-- `outline-local.send-off.please-come-to-a-meeting-of-and-tell-us-how-we-re-doing-on`: "Please come to a meeting of {body-name} and tell us how we're doing on {theme-short}." — Another twin of the come-to-a-meeting send-off (W1-061).
-- `outline-local.send-off.the-next-meeting-of-is-a-good-place-to-tell-us-what-you-think`: "The next meeting of {body-name} is a good place to tell us what you think." — Another meeting send-off, and it drops the theme.
+- `outline-local.report.gave-plenty-of-work-on-this-year`: "{realm-name} gave {body-name} plenty of work on {theme-name} this year." — A town 'gave the council plenty of work' is an odd way to say what happened.
+- `outline-local.report.looking-back-on-the-year-the-choices-that-mattered-most-in-were-about`: "Looking back on the year, the choices that mattered most in {realm-name} were about {theme-name}." — 'Looking back on the year, the choices that mattered most... were about' is wordy and AI-sounding.
+- `outline-local.greeting.good-evening-neighbors-of`: "Good evening, neighbors of {realm-name}." — 'neighbors of {realm}' is not how people greet a crowd.
+- `outline-local.running.on-the-ballot-for-my-first-concern-is`: "On the ballot for {office-title}, my first concern is {theme-name}." — 'On the ballot for X, my first concern' is a stiff dangling opener.
+- `outline-local.running.i-m-after-for-one-reason`: "I'm after {office-title} for one reason: {theme-name}." — 'I'm after mayor' is not how people say running for an office.
+- `outline-local.send-off.i-m-asking-for-and-i-m-grateful-for-the-hearing`: "I'm asking for {office-title}, {realm-bare}, and I'm grateful for the hearing." — 'asking for mayor' and 'grateful for the hearing' are stiff.
+- `outline-local.send-off.stay-in-touch-about-and-i-ll-do-the-same`: "Stay in touch about {theme-short}, {realm-bare}, and I'll do the same." — 'I'll do the same' after 'stay in touch' makes no sense.
+- `outline-local.greeting.neighbors-i-m-glad-to-see-so-many-of-you-from`: "Neighbors, I'm glad to see so many of you from {realm-name}." — 'so many of you from Springfield' is odd when the speech is in that town.
+- `outline-local.greeting.friends-thank-you-for-giving-this-evening-to-me`: "Friends, thank you for giving this {realm-name} evening to me." — 'giving this Springfield evening to me' is unnatural.
 
-### no-literary-phrasing (8)
+### office-named-as-people-say-it (4)
 
-- `outline-local.report.the-year-s-work-in-comes-down-to`: "The year's work in {realm-name} comes down to {theme-name}." — 'comes down to' says nothing concrete about the year.
-- `outline-local.report.over-the-year-in-took-most-of-our-attention`: "Over the year in {realm-name}, {theme-name} took most of our attention." — 'Over the year in Groton' is awkward and the line says nothing concrete.
-- `outline-local.report.if-one-subject-ran-through-the-year-in-it-was`: "If one subject ran through the year in {realm-name}, it was {theme-name}." — 'If one subject ran through the year' is visibly composed.
-- `outline-local.report.of-the-year-s-work-in-is-what-i-d-point-to`: "Of the year's work in {realm-name}, {theme-name} is what I'd point to." — Inverted 'Of the year's work ..., X is what I'd point to' reads composed.
-- `outline-local.report.the-year-had-a-lot-in-it-for-and-was-near-the-middle-of-it`: "The year had a lot in it for {realm-name}, and {theme-name} was near the middle of it." — 'had a lot in it ... near the middle of it' is vague composed texture, saying nothing.
-- `outline-local.running.if-you-ask-why-i-want-to-be-your-my-answer-is`: "If you ask why I want to be your {office-title}, my answer is {theme-name}." — 'If you ask why ..., my answer is {theme}' is a stilted setup with a noun-phrase answer.
-- `outline-local.running.running-for-i-keep-coming-back-to`: "Running for {office-title}, I keep coming back to {theme-name}." — Dangling 'Running for X, I keep coming back to' is a composed construction.
-- `outline-local.send-off.thank-you-i-hope-i-ve-earned-a-hearing-for`: "Thank you, {realm-bare}. I hope I've earned a hearing for {office-title}." — 'earned a hearing for mayor' is unclear and stiff.
+- `outline-local.running.the-seat-i-m-after-has-a-say-on`: "The seat I'm after, {office-title}, has a say on {theme-name}." — The appositive 'The seat I'm after, mayor,' is stiff and calls an office title a seat.
+- `outline-local.running.if-i-win-is-where-i-ll-begin`: "If I win {office-title}, {theme-name} is where I'll begin." — 'If I win council member' is ungrammatical with an office title as the object of win.
+- `outline-local.running.give-me-and-i-ll-work-on`: "Give me {office-title} and I'll work on {theme-name}." — 'Give me mayor' is awkward with an office title.
+- `outline-local.running.whoever-holds-next-will-decide-a-lot-about-and-i-d-like-that-to-be-me`: "Whoever holds {office-title} next will decide a lot about {theme-name}, and I'd like that to be me." — 'Whoever holds mayor' is awkward with an office title.
 
-### reply-follows-the-line-before (3)
+### vary-the-shape (3)
 
-- `outline-local.greeting.thank-you-all-for-coming-and-thank-you`: "Thank you all for coming, and thank you, {body-name}." — 'thank you, the Groton Select Board' puts an article in direct address; ungrammatical.
-- `outline-local.greeting.welcome-everyone-and-thank-you`: "Welcome, everyone, and thank you, {body-name}." — 'thank you, the Groton Select Board' (article in direct address); same shape as W1-034.
-- `outline-local.send-off.thank-you-and-thank-you`: "Thank you, {body-name}, and thank you, {realm-bare}." — 'Thank you, the Groton Select Board' puts an article in direct address.
+- `outline-local.stand-reason.i-d-keep-and-here-s-why`: "I'd keep {law-name}, and here's why: {belief}." — Same 'I'd ___ X, and here's why:' frame as MA-019.
+- `outline-local.stand-reason.i-d-say-yes-to-and-here-s-why`: "I'd say yes to {about}, and here's why: {belief}." — Same 'I'd ___ X, and here's why:' frame as MA-019.
+- `outline-local.stand-reason.i-d-say-no-to-and-here-s-why`: "I'd say no to {about}, and here's why: {belief}." — Same 'I'd ___ X, and here's why:' frame as MA-019, the repeated pattern he complained about.
 
-### speech-has-a-core (2)
+### no-literary-phrasing (2)
 
-- `outline-local.creed.my-view-is-that`: "My view is that {belief}." — A bare 'My view is that' creed: the flavorless pattern he rejected.
-- `outline-local.creed.i-m-sure-that`: "I'm sure that {belief}." — Same flavorless 'I am convinced' creed pattern he rejected on Nov 23.
+- `outline-local.report.i-measure-this-year-in-by-what-we-did-on`: "I measure this year in {realm-name} by what we did on {theme-name}." — 'I measure this year by what we did on' is a composed line.
+- `outline-local.report.people-in-don-t-ask-me-about-the-year-they-ask-me-about`: "People in {realm-name} don't ask me about the year. They ask me about {theme-name}." — The 'don't ask me about X. They ask me about Y' turn is a composed epigram.
 
-### plain-american-reads-stiff (2)
+### plain-american-no-jargon (1)
 
-- `outline-local.pledge.i-won-t-stop-pressing-to-be-rid-of`: "I won't stop pressing to be rid of {law-name}." — 'pressing to be rid of' is stiff and leans British.
-- `outline-local.send-off.i-d-like-your-vote-for-and-i-thank-you-for-listening`: "I'd like your vote for {office-title}, {realm-bare}, and I thank you for listening." — 'and I thank you for listening' is stiff; also a twin of the vote ask.
+- `outline-local.report.with-the-budget-ahead-this-year-has-room-to-do-more-on`: "With the budget ahead this year, {realm-name} has room to do more on {theme-name}." — 'With the budget ahead' is an insider phrase a listener can't picture.
 
-### fits-speaker-and-tie (2)
+### address-close-names-the-body (1)
 
-- `outline-local.greeting.i-m-glad-to-see-you`: "I'm glad to see you, {realm-bare}." — 'I'm glad to see you, Groton' addresses a town as a person; odd.
-- `outline-local.send-off.thank-you-for-the-year`: "Thank you for the year, {realm-bare}." — 'Thank you for the year' is an odd thing for a mayor to say to a town.
+- `outline-local.send-off.that-s-the-year-in-thank-you`: "That's the year in {realm-name}. Thank you." — 'That's the year in X' is a bare sign-off that names nothing the speech said.
+
+### no-stock-phrases (1)
+
+- `outline-local.creed.from-where-i-stand-in-i-think`: "From where I stand in {realm-name}, I think {belief}." — 'From where I stand' is a stock opener, and naming the town to its own residents is redundant.
+
+### names-something-specific (1)
+
+- `outline-local.report.had-a-hopeful-year-and-is-part-of-why`: "{realm-name} had a hopeful year, and {theme-name} is part of why." — 'had a hopeful year' is a generic sentiment.
+
+### one-idea-to-a-sentence (1)
+
+- `outline-local.running.people-ask-what-i-d-do-as-start-with`: "People ask what I'd do as {office-title}. Start with {theme-name}." — The bare imperative 'Start with' answers his own question awkwardly; a person says 'I'd start with'.
+
+### address-argues-not-announces (1)
+
+- `outline-local.send-off.now-we-get-back-to-work-on`: "Now we get back to work on {theme-short}." — A bare 'now we get back to work' close is the 'now I'll go do it' line he rejected.
 
 ### no-pointing-at-the-unnamed (1)
 
-- `outline-local.pledge.my-name-won-t-go-on`: "My name won't go on {about}." — Unclear what the name goes on; reads as a turn of phrase, and a mayor may not sign it.
-
-### stance-is-plainly-for-or-against (1)
-
-- `outline-local.stand.i-m-for-and-i-ll-back-it`: "I'm for {about}, and I'll back it." — Redundant 'I'm for it, and I'll back it' says the stand twice with no reason.
-
-### never-offer-what-the-player-cannot-do (1)
-
-- `outline-local.stand.i-m-against-and-i-d-vote-no`: "I'm against {about}, and I'd vote no." — A mayor often has no vote, and 'I'm ... I'd' mixes tenses.
-
-### "Because I am convinced... reads like a shitty simulated sentence" (1)
-
-- `outline-local.stand.i-disagree-with-that-because`: "I disagree with that, because {belief}." — 'because {belief}' glued onto a stock clause is the rejected slotted pattern.
-
-### every-line-gives-its-context (1)
-
-- `outline-local.contrast.others-would-rather`: "Others would rather {other-side}." — 'Others' with no 'some' before it leans on nothing.
-
-### address-no-capital-after-comma (1)
-
-- `outline-local.greeting.residents-and-guests-welcome`: "{body-name}, residents, and guests: welcome." — Opens 'The Groton Select Board, residents, and guests:' with a stray article; awkward list.
+- `outline-local.greeting.thank-you-for-making-room-for-this-and-neighbors`: "Thank you for making room for this, {body-name} and neighbors." — 'making room for this' points at nothing named, and the address order is awkward.
 
 ## As played
 
-- pass: `outline-local.greeting.members-of-department-heads-and-neighbors` → **the local head's address, 2409400, seed eb7bf596, part 1** Members of the Washington County Board of Commissioners, department heads and neighbors. If one subject ran through the year in Washington County, it was how we keep people safe and treat them fairly.
-- pass: `outline-local.greeting.neighbors-across-and-members-of` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Neighbors across Rainelle, and members of the Rainelle City Council. The year's work in Rainelle comes down to how we help people through hard times.
-- pass: `outline-local.greeting.neighbors-across-thank-you-for-coming-out` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Neighbors across Rainelle, thank you for coming out. What brought me into this race for council member is our land and water.
-- pass: `outline-local.greeting.neighbors-in-thanks-for-coming` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Neighbors in Washington County, thanks for coming. I'm asking for your vote for commissioner, and the cost of a place to live is what I'd work on.
-- fail: `outline-local.report.the-year-s-work-in-comes-down-to` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Neighbors across Rainelle, and members of the Rainelle City Council. The year's work in Rainelle comes down to how we help people through hard times.
-- pass: `outline-local.running.what-brought-me-into-this-race-for-is` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Neighbors across Rainelle, thank you for coming out. What brought me into this race for council member is our land and water.
-- fail: `outline-local.creed.my-view-is-that` → **a town member's campaign speech, 2409400, seed eb7bf596, part 2** My view is that builders build more homes when the rules don't make them lose money. My name won't go on an affordable-housing requirement for new buildings.
-- fail: `outline-local.creed.i-m-sure-that` → **the local head's address, 2409400, seed eb7bf596, part 3** I'm sure that a call for help should be answered fast. I'll be against a bigger police budget every time it comes up.
-- fail: `outline-local.pledge.my-name-won-t-go-on` → **a town member's campaign speech, 2409400, seed eb7bf596, part 2** My view is that builders build more homes when the rules don't make them lose money. My name won't go on an affordable-housing requirement for new buildings.
-- pass: `outline-local.pledge.i-ll-be-against-every-time-it-comes-up` → **the local head's address, 2409400, seed eb7bf596, part 3** I'm sure that a call for help should be answered fast. I'll be against a bigger police budget every time it comes up.
-- pass: `outline-local.today.here-in` → **a town member's campaign speech, 4949820, seed af873500, part 2** Here in Midway, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction, and I'd vote no.
-- fail: `outline-local.stand.i-m-against-and-i-d-vote-no` → **a town member's campaign speech, 4949820, seed af873500, part 2** Here in Midway, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction, and I'd vote no.
-- pass: `outline-local.question.do-we-or-do-we-leave-things-as-they-are` → **the local head's address, 4949820, seed af873500, part 2** Do we get families in need what they qualify for sooner, or do we leave things as they are? Yes, because a family in trouble shouldn't wait weeks for aid it qualifies for.
-- pass: `outline-local.question.is-it-time-to` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 2** Is it time to do more to care for our creeks and woods? Yes, because clean water is cheaper to keep than to win back.
+- pass: `outline-local.greeting.to-the-members-of-and-to-everyone-from-who-came-out` → **the local head's address, 4949820, seed af873500, part 1** To the members of the Midway City Council, and to everyone from Midway who came out: People in Midway don't ask me about the year. They ask me about how we help people through hard times.
+- pass: `outline-local.greeting.neighbors-in-thanks-for-coming` → **a town member's campaign speech, 4949820, seed af873500, part 1** Neighbors in Midway, thanks for coming. I filed for council member because of the cost of a place to live.
+- pass: `outline-local.running.i-filed-for-because-of` → **a town member's campaign speech, 4949820, seed af873500, part 1** Neighbors in Midway, thanks for coming. I filed for council member because of the cost of a place to live.
+- pass: `outline-local.creed.i-think-i-always-have` → **a town member's campaign speech, 2409400, seed eb7bf596, part 2** I think builders build more homes when the rules don't make them lose money. I always have. I'll be against an affordable-housing requirement for new buildings every time it comes up.
+- pass: `outline-local.creed.i-ve-held-the-view-for-years-that` → **the local head's address, 2409400, seed eb7bf596, part 3** I've held the view for years that a call for help should be answered fast. I'll work to give the police department more to work with, and I won't quit at the first no.
+- pass: `outline-local.pledge.i-ll-work-to-and-i-won-t-quit-at-the-first-no` → **the local head's address, 2409400, seed eb7bf596, part 3** I've held the view for years that a call for help should be answered fast. I'll work to give the police department more to work with, and I won't quit at the first no.
+- pass: `outline-local.pledge.i-ll-be-against-every-time-it-comes-up` → **a town member's campaign speech, 2409400, seed eb7bf596, part 2** I think builders build more homes when the rules don't make them lose money. I always have. I'll be against an affordable-housing requirement for new buildings every time it comes up.
+- pass: `outline-local.question.is-it-time-to` → **the local head's address, 4949820, seed af873500, part 2** Is it time to get families in need what they qualify for sooner? Yes, because a family in trouble shouldn't wait weeks for aid it qualifies for.
+- pass: `outline-local.question.is-this-the-year-we` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 2** Is this the year we do more to care for our creeks and woods? Yes, because clean water is cheaper to keep than to win back.
 - pass: `outline-local.answer.no-because` → **the local head's address, 2409400, seed eb7bf596, part 2** Is it time to give civilians oversight of the police? No, because an officer should be judged by people who have done the job.
 - pass: `outline-local.answer.i-wouldn-t-since` → **a town member's campaign speech, 4949820, seed af873500, part 3** Is it time to allow apartments in single-family zones? I wouldn't, since the people who bought into a neighborhood should shape it.
-- pass: `outline-local.answer.yes-because` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 2** Is it time to do more to care for our creeks and woods? Yes, because clean water is cheaper to keep than to win back.
+- pass: `outline-local.answer.yes-because` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 2** Is this the year we do more to care for our creeks and woods? Yes, because clean water is cheaper to keep than to win back.
 - pass: `outline-local.stand-reason.to-me-comes-down-to-this` → **the local head's address, 5466652, seed 2f25fb7e, part 2** To me, more assistance spending comes down to this: a family in trouble shouldn't wait weeks for aid it qualifies for.
-- fail: `outline-local.send-off.thank-you-for-hearing-me-out-i-d-like-to-be-your` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 3** God bless Rainelle. Thank you for hearing me out, Rainelle. I'd like to be your council member.
-- pass: `outline-local.blessing.thank-you` → **the governor's address, 4949820, seed af873500, part 3** Thank you.
-- pass: `outline-local.blessing.thank-you-all` → **the local head's address, 4949820, seed af873500, part 3** Thank you all.
-- pass: `outline-local.blessing.god-bless` → **the governor's address, 5466652, seed 2f25fb7e, part 3** God bless West Virginia.
-- fail: `outline-local.greeting.residents-and-guests-welcome` → **the local head's address, 4949820, seed af873500, part 1** The Midway City Council, residents, and guests: welcome. We ended the year ahead on the budget, so how we help people through hard times gets my attention first.
-- fail: `outline-local.report.if-one-subject-ran-through-the-year-in-it-was` → **the local head's address, 2409400, seed eb7bf596, part 1** Members of the Washington County Board of Commissioners, department heads and neighbors. If one subject ran through the year in Washington County, it was how we keep people safe and treat them fairly.
-- fail: `outline-local.report.we-ended-the-year-ahead-on-the-budget-so-gets-my-attention-first` → **the local head's address, 4949820, seed af873500, part 1** The Midway City Council, residents, and guests: welcome. We ended the year ahead on the budget, so how we help people through hard times gets my attention first.
-- fail: `outline-local.running.the-job-i-m-asking-for-is-and-i-m-asking-because-of` → **a town member's campaign speech, 4949820, seed af873500, part 1** Neighbors across Midway, thank you for coming out. The job I'm asking for is council member, and I'm asking because of the cost of a place to live.
-- pass: `outline-local.running.i-m-asking-for-your-vote-for-and-is-what-i-d-work-on` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Neighbors in Washington County, thanks for coming. I'm asking for your vote for commissioner, and the cost of a place to live is what I'd work on.
-- pass: `outline-local.send-off.if-matters-to-you-come-to-the-next-meeting-of` → **the local head's address, 5466652, seed 2f25fb7e, part 3** If hard times matters to you, come to the next meeting of the Rainelle City Council. God bless Rainelle.
-- fail: `outline-local.send-off.thank-you-and-thank-you` → **the local head's address, 2409400, seed eb7bf596, part 4** Thank you all. Thank you, the Washington County Board of Commissioners, and thank you, Washington County.
-- pass: `outline-local.send-off.if-you-vote-for-me-i-ll-work-for-you-as-your` → **a town member's campaign speech, 4949820, seed af873500, part 4** If you vote for me, Midway, I'll work for you as your council member.
+- pass: `outline-local.send-off.i-d-be-proud-to-speak-for-as-your` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 3** I'd be proud to speak for Rainelle as your council member.
+- pass: `outline-local.greeting.thanks-for-coming-out` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Thanks for coming out, Rainelle. I'm asking for your vote for council member, and our land and water is what I'd work on.
+- pass: `outline-local.report.the-thing-kept-coming-back-to-this-year-was` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Thank you for making room for this, the Rainelle City Council and neighbors. The thing Rainelle kept coming back to this year was how we help people through hard times.
+- pass: `outline-local.running.i-m-asking-for-your-vote-for-and-is-what-i-d-work-on` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Thanks for coming out, Rainelle. I'm asking for your vote for council member, and our land and water is what I'd work on.
+- pass: `outline-local.send-off.if-matters-to-you-come-to-the-next-meeting-of` → **the local head's address, 2409400, seed eb7bf596, part 4** If public safety matters to you, come to the next meeting of the Washington County Board of Commissioners.
+- pass: `outline-local.report.as-i-spent-a-good-part-of-this-year-on` → **the local head's address, 2409400, seed eb7bf596, part 1** Good to be with you all here in Washington County. As chair, I spent a good part of this year on how we keep people safe and treat them fairly.
+- fail: `outline-local.report.people-in-don-t-ask-me-about-the-year-they-ask-me-about` → **the local head's address, 4949820, seed af873500, part 1** To the members of the Midway City Council, and to everyone from Midway who came out: People in Midway don't ask me about the year. They ask me about how we help people through hard times.
+- pass: `outline-local.greeting.good-to-be-with-you-all-here-in` → **the local head's address, 2409400, seed eb7bf596, part 1** Good to be with you all here in Washington County. As chair, I spent a good part of this year on how we keep people safe and treat them fairly.
+- pass: `outline-local.stand.i-m-against` → **a town member's campaign speech, 4949820, seed af873500, part 2** Today, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction.
+- pass: `outline-local.today.today` → **a town member's campaign speech, 4949820, seed af873500, part 2** Today, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction.
+- pass: `outline-local.send-off.i-have-left-in-this-office-and-i-plan-to-use-the-time-on` → **the local head's address, 4949820, seed af873500, part 3** I have one year left in this office, and I plan to use the time on hard times.
+- fail: `outline-local.running.the-seat-i-m-after-has-a-say-on` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Neighbors in Washington County, thanks for coming. The seat I'm after, commissioner, has a say on the cost of a place to live.
+- pass: `outline-local.send-off.thanks-for-your-time-i-d-be-honored-to-serve-as` → **a town member's campaign speech, 4949820, seed af873500, part 4** Thanks for your time, Midway. I'd be honored to serve as council member.
+- fail: `outline-local.send-off.stay-in-touch-about-and-i-ll-do-the-same` → **the local head's address, 5466652, seed 2f25fb7e, part 3** Stay in touch about hard times, Rainelle, and I'll do the same.
+- fail: `outline-local.greeting.thank-you-for-making-room-for-this-and-neighbors` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Thank you for making room for this, the Rainelle City Council and neighbors. The thing Rainelle kept coming back to this year was how we help people through hard times.
 
 ## Passing lines
 
@@ -168,7 +144,6 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `45b2f2b5`, `data/englis
 - `outline-local.contrast.some-people-argue-that-we-should`: "Some people argue that we should {other-side}."
 - `outline-local.contrast.some-want-to-and-i-disagree`: "Some want to {other-side}, and I disagree."
 - `outline-local.contrast.plenty-of-people-around-here-want-to`: "Plenty of people around here want to {other-side}."
-- `outline-local.question.do-we-or-do-we-leave-things-as-they-are`: "Do we {to}, or do we leave things as they are?"
 - `outline-local.question.is-it-time-to`: "Is it time to {to}?"
 - `outline-local.question.is-this-the-year-we`: "Is this the year we {to}?"
 - `outline-local.question.is-worth-keeping`: "Is {law-name} worth keeping?"
@@ -188,9 +163,6 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `45b2f2b5`, `data/englis
 - `outline-local.send-off.thank-you-for-coming-out`: "Thank you for coming out, {realm-bare}."
 - `outline-local.send-off.please-vote-and-thank-you-for-hearing-me-out`: "Please vote, {realm-bare}, and thank you for hearing me out."
 - `outline-local.send-off.i-d-be-proud-to-speak-for-as-your`: "I'd be proud to speak for {realm-name} as your {office-title}."
-- `outline-local.blessing.thank-you`: "Thank you."
-- `outline-local.blessing.thank-you-all`: "Thank you all."
-- `outline-local.blessing.god-bless`: "God bless {realm-name}."
 - `outline-local.greeting.residents-of-and-members-of-thank-you-for-being-here`: "Residents of {realm-name}, and members of {body-name}, thank you for being here."
 - `outline-local.greeting.members-of-neighbors-friends`: "Members of {body-name}, neighbors, friends."
 - `outline-local.greeting.thanks-for-coming-out`: "Thanks for coming out, {realm-bare}."
@@ -209,3 +181,47 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `45b2f2b5`, `data/englis
 - `outline-local.send-off.i-d-be-proud-to-have-your-vote`: "I'd be proud to have your vote, {realm-bare}."
 - `outline-local.send-off.if-you-vote-for-me-i-ll-work-for-you-as-your`: "If you vote for me, {realm-bare}, I'll work for you as your {office-title}."
 - `outline-local.send-off.thanks-for-listening-i-d-be-glad-to-be-your`: "Thanks for listening, {realm-bare}. I'd be glad to be your {office-title}."
+- `outline-local.report.as-i-spent-a-good-part-of-this-year-on`: "As {office-title}, I spent a good part of this year on {theme-name}."
+- `outline-local.report.nothing-took-more-of-my-time-this-year-than`: "Nothing took more of my time this year than {theme-name}."
+- `outline-local.report.the-budget-stayed-steady-this-year-and-that-let-us-keep-working-on`: "The budget stayed steady this year, and that let us keep working on {theme-name}."
+- `outline-local.running.i-m-running-because-needs-somebody-s-full-attention`: "I'm running because {theme-name} needs somebody's full attention."
+- `outline-local.running.most-of-what-i-d-do-as-comes-back-to`: "Most of what I'd do as {office-title} comes back to {theme-name}."
+- `outline-local.greeting.good-to-be-with-you-all-here-in`: "Good to be with you all here in {realm-name}."
+- `outline-local.greeting.friends-from-across-thank-you-for-coming`: "Friends from across {realm-name}, thank you for coming."
+- `outline-local.send-off.i-ll-stay-a-while-after-this-if-you-d-like-to-talk-about`: "I'll stay a while after this, if you'd like to talk about {theme-short}."
+- `outline-local.send-off.thank-you-for-the-work-you-do-for-all-of-you`: "Thank you for the work you do for {realm-name}, all of you."
+- `outline-local.send-off.if-you-d-like-to-talk-about-i-ll-be-right-here`: "If you'd like to talk about {theme-short}, I'll be right here."
+- `outline-local.send-off.whoever-you-vote-for-please-vote`: "Whoever you vote for, please vote, {realm-bare}."
+- `outline-local.send-off.thank-you-for-listening-i-hope-to-see-you-at-the-polls`: "Thank you for listening. I hope to see you at the polls, {realm-bare}."
+- `outline-local.stand.i-m-for`: "I'm for {about}."
+- `outline-local.stand.i-m-against`: "I'm against {about}."
+- `outline-local.stand.i-disagree-and-here-s-why`: "I disagree, and here's why: {belief}."
+- `outline-local.contrast.some-of-you-will-want-to-and-i-understand-why`: "Some of you will want to {other-side}, and I understand why."
+- `outline-local.contrast.some-people-around-here-would`: "Some people around here would {other-side}."
+- `outline-local.stand-reason.i-d-repeal-and-here-s-why`: "I'd repeal {law-name}, and here's why: {belief}."
+- `outline-local.today.today`: "Today, {today-clause}"
+- `outline-local.greeting.good-evening-members-of-and-neighbors`: "Good evening, members of {body-name}, and neighbors."
+- `outline-local.send-off.good-night-and-thank-you-for-coming-out`: "Good night, {realm-bare}, and thank you for coming out."
+- `outline-local.send-off.good-night-i-hope-to-earn-your-vote`: "Good night, {realm-bare}. I hope to earn your vote."
+- `outline-local.report.the-budget-came-up-short-this-year-in-and-is-where-we-felt-it`: "The budget came up short this year in {realm-name}, and {theme-name} is where we felt it."
+- `outline-local.send-off.i-have-left-in-this-office-and-i-plan-to-use-the-time-on`: "I have {term-left} left in this office, and I plan to use the time on {theme-short}."
+- `outline-local.running.i-ve-held-this-seat-and-the-work-on-isn-t-finished`: "I've held this seat, and the work on {theme-name} isn't finished."
+- `outline-local.running.i-think-we-can-do-better-on-than-we-have-and-i-d-like-the-chance-as`: "I think we can do better on {theme-name} than we have, and I'd like the chance as {office-title}."
+- `outline-local.running.the-person-in-this-seat-hasn-t-done-enough-on-and-i-d-do-more`: "The person in this seat hasn't done enough on {theme-name}, and I'd do more."
+- `outline-local.send-off.i-ve-asked-for-your-trust-before-i-m-asking-for-it-again`: "I've asked for your trust before. I'm asking for it again, {realm-bare}."
+- `outline-local.send-off.if-matter-to-you-come-to-the-next-meeting-of`: "If {theme-short} matter to you, come to the next meeting of {body-name}."
+- `outline-local.running.as-i-d-give-the-attention-it-hasn-t-had`: "As {office-title}, I'd give {theme-name} the attention it hasn't had."
+- `outline-local.running.i-put-my-name-in-for-to-work-on`: "I put my name in for {office-title} to work on {theme-name}."
+- `outline-local.running.nothing-changes-on-unless-someone-pushes-and-i-m-running-for-to-push`: "Nothing changes on {theme-name} unless someone pushes, and I'm running for {office-title} to push."
+- `outline-local.running.i-ve-been-so-i-know-what-s-been-done-on-and-what-hasn-t`: "I've been {office-title}, so I know what's been done on {theme-name} and what hasn't."
+- `outline-local.send-off.vote-the-way-you-think-is-best-that-s-all-i-ask`: "Vote the way you think is best, {realm-bare}. That's all I ask."
+- `outline-local.send-off.come-find-me-after-this-and-tell-me-what-i-missed`: "Come find me after this, {realm-bare}, and tell me what I missed."
+- `outline-local.send-off.i-m-easy-to-find-tell-me-what-you-think-about`: "I'm easy to find, {realm-bare}. Tell me what you think about {theme-short}."
+- `outline-local.send-off.thanks-for-your-time-i-d-be-honored-to-serve-as`: "Thanks for your time, {realm-bare}. I'd be honored to serve as {office-title}."
+- `outline-local.send-off.thanks-for-coming-if-you-want-to-talk-about-the-door-is-open`: "Thanks for coming, {realm-bare}. If you want to talk about {theme-short}, the door is open."
+- `outline-local.send-off.questions-on-are-welcome-and-so-are-complaints`: "Questions on {theme-short} are welcome, and so are complaints."
+- `outline-local.send-off.i-ll-take-your-questions-on-now`: "I'll take your questions on {theme-short} now."
+- `outline-local.send-off.thank-you-all-and-i-have-work-to-do-on`: "Thank you all. {body-name} and I have work to do on {theme-short}."
+- `outline-local.greeting.i-m-glad-to-be-here-with-and-the-people-of`: "I'm glad to be here with {body-name} and the people of {realm-name}."
+- `outline-local.greeting.neighbors-department-heads-and-members-of-thank-you`: "Neighbors, department heads, and members of {body-name}: thank you."
+- `outline-local.greeting.neighbors-of-i-appreciate-you-being-here`: "Neighbors of {realm-name}, I appreciate you being here."
