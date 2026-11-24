@@ -30,6 +30,17 @@ try {
     const talkable = await someoneToTalkTo(page);
     await page.waitForTimeout(800);
 
+    // A news toast takes the corner's top right while it shows (the people stand left of
+    // it), so the toast is closed before the corner is measured.
+    const close = page.locator(
+      "#news-surface:not([hidden]) button:not(#news-surface-open)",
+    );
+    if (await close.count())
+      await close
+        .first()
+        .click()
+        .catch(() => {});
+    await page.waitForTimeout(600);
     // The people of a room stand small in the top-right corner, packed as wide as they
     // are, and nothing is along the foot of the room (owner, Nov 24, mock C).
     const room = await page.evaluate(() => {
