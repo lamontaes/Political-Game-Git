@@ -1,0 +1,30 @@
+{
+  "id": "factory-asked-to-conserve-too",
+  "kind": "voice",
+  "summary": "When households in {place} are asked to save fuel, {person} names the obligation on industry as well.",
+  "realLife": "Carter said conservation burdens should extend to businesses and households across regions.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{place}", "{person}"],
+  "gates": ["The proposal asks households and industry to change consumption."],
+  "weights": ["A public hearing raises unequal burdens."],
+  "usedBy": [],
+  "inGame": "needs: the conservation obligations and exemptions by sector.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A factory already meets the target.",
+      "pulledBy": "Its audited use falls below the standard.",
+      "writesBack": "The report credits existing savings."
+    },
+    {
+      "turn": "partial",
+      "what": "An exemption has an end date.",
+      "pulledBy": "A plant needs time to replace equipment.",
+      "writesBack": "Its compliance schedule names the deadline."
+    }
+  ],
+  "issues": ["none"]
+}

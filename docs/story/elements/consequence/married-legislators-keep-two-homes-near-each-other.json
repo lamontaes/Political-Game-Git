@@ -29,5 +29,6 @@
       "pulledBy": "The new map and the household's wishes.",
       "writesBack": "A seat given up and the household's job record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

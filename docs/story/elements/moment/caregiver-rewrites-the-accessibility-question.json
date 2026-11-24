@@ -1,0 +1,32 @@
+{
+  "id": "caregiver-rewrites-the-accessibility-question",
+  "kind": "moment",
+  "summary": "A caregiver in {place} explains why the word accessible on a restroom sign leaves a question unanswered.",
+  "realLife": "New York legislators credited disability advocates and direct support professionals with shaping an adult changing facility bill through conversations about travel and public events.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2026/pete-harckham/harckham-burdick-advance-accessibility-new-york"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A consultation record describes a particular access need in the participant's own account."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a consultation record describes a particular access need in the participant's own account.",
+  "turns": [
+    {
+      "turn": "heard",
+      "pulledBy": "The participant authorizes use of the account.",
+      "what": "Bring the documented need to the venue discussion.",
+      "writesBack": "Attach the stated conditions for attribution."
+    },
+    {
+      "turn": "unheard",
+      "pulledBy": "The meeting has no first-person account.",
+      "what": "Invite an affected person or representative to speak.",
+      "writesBack": "Leave their experience unattributed."
+    }
+  ]
+}

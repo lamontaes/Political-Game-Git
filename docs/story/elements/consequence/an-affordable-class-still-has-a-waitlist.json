@@ -1,0 +1,32 @@
+{
+  "id": "an-affordable-class-still-has-a-waitlist",
+  "kind": "consequence",
+  "summary": "{resident} can afford the advertised class but needs a space to open before the fee reduction helps.",
+  "realLife": "Portland directed customers to join a waiting list when an activity filled and said they would be contacted if a spot opened.",
+  "sources": [
+    "https://www.portland.gov/parks/register#:~:text=add%20yourself%20to%20the%20waitlist"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a full class, waiting list, offered place and participant's net price.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A spot opens after a fee increase and the resident turns it down at the quoted price.",
+      "what": "The clerk contacts the next person.",
+      "writesBack": "The waiting list records the declined offer."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A place opens at the lower fee and the resident accepts.",
+      "what": "The clerk takes payment and confirms enrollment.",
+      "writesBack": "The enrollment replaces the waitlist entry."
+    }
+  ]
+}

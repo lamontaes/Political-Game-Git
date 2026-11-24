@@ -80,7 +80,8 @@
       ],
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
+      "date": "2026-11-19",
+      "elements": ["birth-is-a-form-the-state-keeps"]
     },
     {
       "key": "outline-journal.born.my-life-started-in",
