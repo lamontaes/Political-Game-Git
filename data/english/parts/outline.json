@@ -44,7 +44,11 @@
     "name": "the person's full name, from the record",
     "surname": "the person's family name, from the record",
     "date": "the day as a news story says it",
-    "quote": "the line of the address a reader can quote, from the address's record"
+    "quote": "the line of the address a reader can quote, from the address's record",
+    "body": "the body that voted, as its record names it",
+    "law": "the bill or law by its name, never its number",
+    "purpose": "what the bill does, as a noun phrase from the bill catalog",
+    "count": "the vote count in words and figures (\"3 to 2\")"
   },
   "maxWords": 30,
   "parts": [
@@ -3707,6 +3711,289 @@
       ],
       "after": ["today"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-roll-call-headline-passes",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} passes {law}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-roll-call-headline-votes-down",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} votes down {law}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-roll-call-headline-clears-the",
+      "move": "headline",
+      "kind": "written",
+      "text": "{law} clears the {body}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "passed", "by-one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-voted-on-to-pass-which-means",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} voted {count} on {date} to pass {law}, which means {purpose}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "law", "purpose", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-voted-down-on-it-would-have-meant",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} voted down {law} {count} on {date}; it would have meant {purpose}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "law", "purpose", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-passed-on",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} passed {law} {count} on {date}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "law", "passed"],
+          "excludesFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-voted-down-on",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} voted down {law} {count} on {date}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "law", "failed"],
+          "excludesFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.margin.news-roll-call-it-came-down-to-a-single-vote",
+      "move": "margin",
+      "kind": "written",
+      "text": "It came down to a single vote, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["count", "by-one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.margin.news-roll-call-not-one-member-of-the-voted-against-it",
+      "move": "margin",
+      "kind": "written",
+      "text": "Not one member of the {body} voted against it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "no-dissent", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.margin.news-roll-call-not-one-member-of-the-voted-for-it",
+      "move": "margin",
+      "kind": "written",
+      "text": "Not one member of the {body} voted for it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "no-dissent", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.margin.news-roll-call-one-member-of-the-stood-alone-against-it",
+      "move": "margin",
+      "kind": "written",
+      "text": "One member of the {body} stood alone against it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "lone-vote", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.margin.news-roll-call-one-member-of-the-stood-alone-in-voting-for-it",
+      "move": "margin",
+      "kind": "written",
+      "text": "One member of the {body} stood alone in voting for it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "lone-vote", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "after": ["lede"]
+    },
+    {
+      "key": "outline.headline.news-roll-call-headline-votes-yes-on",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} votes yes on {purpose}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "purpose", "passed"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.headline.news-roll-call-headline-votes-no-on",
+      "move": "headline",
+      "kind": "written",
+      "text": "{body} votes no on {purpose}",
+      "uses": [
+        {
+          "subject": "news-roll-call-headline",
+          "role": "headline",
+          "tie": "record",
+          "requiresFacts": ["body", "purpose", "failed"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-voted-on-for",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} voted {count} on {date} for {purpose}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "purpose", "passed"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.lede.news-roll-call-the-voted-on-against",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body} voted {count} on {date} against {purpose}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "count", "date", "purpose", "failed"],
+          "excludesFacts": ["law"]
+        }
+      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"

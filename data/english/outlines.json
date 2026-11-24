@@ -164,6 +164,34 @@
           "shapes": ["next-then-voice", "voice-alone"]
         }
       ]
+    },
+    "news-roll-call-headline": {
+      "surface": "news",
+      "sections": [
+        {
+          "name": "headline",
+          "required": true,
+          "shapes": ["headline"]
+        }
+      ]
+    },
+    "news-roll-call": {
+      "surface": "news",
+      "budgets": {
+        "*": 2
+      },
+      "sections": [
+        {
+          "name": "lede",
+          "required": true,
+          "shapes": ["lede"]
+        },
+        {
+          "name": "body",
+          "joins": true,
+          "shapes": ["margin"]
+        }
+      ]
     }
   },
   "shapes": {
@@ -393,6 +421,9 @@
     },
     "voice-alone": {
       "moves": ["voice"]
+    },
+    "margin": {
+      "moves": ["margin"]
     }
   },
   "weights": {

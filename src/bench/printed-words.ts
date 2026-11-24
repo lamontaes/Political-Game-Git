@@ -984,13 +984,22 @@ const rollCall: Builder = (read, f) => {
   const no = num(f.no);
   if (yes === undefined || no === undefined) return null;
   const body = read.body(f.chamber);
+  // How the count went, for a story that says it in words: by one vote, or
+  // with one lone vote on the losing side (the Story lead, Nov 24: a vote
+  // story is a lede and a body, not three one-line facts).
+  const margin = Math.abs(yes - no);
+  const losing = Math.min(yes, no);
   return story(
     "roll-call",
     {
       ...read.billFacts(f.billId, f.number),
       count: read.fact(`${yes} to ${no}`),
+      date: read.date(),
       ...(body ? { body: read.fact(body, f.chamber ?? "") } : {}),
       [yes > no ? "passed" : "failed"]: read.yes(),
+      ...(margin === 1 ? { "by-one": read.yes() } : {}),
+      ...(margin > 1 && losing === 1 ? { "lone-vote": read.yes() } : {}),
+      ...(margin > 1 && losing === 0 ? { "no-dissent": read.yes() } : {}),
     },
     ["designation"],
   );
