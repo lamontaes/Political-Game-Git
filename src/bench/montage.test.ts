@@ -183,3 +183,27 @@ it.each(["a", "b", "c"])(
       expect(household?.memberIds ?? [], where).toContain(id);
   },
 );
+
+it.each(["a", "b"])(
+  "the address's middle parts cut away to America in the world's own address (draw %s)",
+  { timeout: 900_000 },
+  (draw) => {
+    setBookkeeping(false);
+    const place = drawPlace(`${runSeed}:america:${draw}`, "montage");
+    const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const address = world.director.ledger.opening!.address;
+    // One level per part the player sees, read from the record's sentences
+    // whatever numbers their parts carry (P8, Nov 23).
+    const levels = partLevels(address.sentences, address.parts.length);
+    const kinds = beatKinds(levels);
+    expect(kinds.length, where).toBe(address.parts.length);
+    expect(
+      kinds.slice(1, -1),
+      `${where}: middle beats ${kinds.join(", ")}`,
+    ).toContain("america");
+  },
+);
