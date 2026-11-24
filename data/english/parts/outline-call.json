@@ -4204,26 +4204,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-spoken-i-m-here-to-report-to-the-on-how-is-doing",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm here to report to the {body-word} on how {realm-name} is doing.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.blessing.state-of-the-union-god-bless-america",
       "move": "blessing",
       "kind": "spoken",
@@ -4429,26 +4409,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["sots-opens-with-a-salutation-to-named-officials"]
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-people-of-sent-the-and-me-to-work-and-today-i-report-on",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The people of {realm-name} sent the {body-word} and me to work, and today I report on how that's going.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
     },
     {
       "key": "outline-call.call.state-of-the-state-ask-your-member-of-the-where-they-stand-on-and-listen-to-the",
@@ -4694,29 +4654,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-report-to-the-today-and-what-i-say-is-for-every-person-in",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I report to the {body-word} today, and what I say is for every person in {realm-name}, not only the people in this room.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-fair-minded"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -5945,25 +5882,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-i-cant-give-this-report-without-starting-with-thedisaster-because",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I can't give this report without starting with {the-disaster}, because {realm-name} is still recovering.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-state-the-bodyword-and-i-come-from-the-same-party-and",
       "move": "report",
       "kind": "spoken",
@@ -6346,6 +6264,342 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-members-of-congress-and-my-fellow-americans",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, members of Congress, and my fellow Americans.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-members-of-congress-thevicepresident-and-everyone-watching-at-home",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Members of Congress, {the-vice-president}, and everyone watching at home.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-and-all-of-you-who-came-to-this-room",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, and all of you who came to this room tonight.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-members-of-congress-and-the-people-of-nation",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, members of Congress, and the people of {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president", "nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-across-nation-who-are-watching-this-at",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people across {nation} who are watching this at home, thank you for the time.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-members-of-congress-who-disagree-with-me-id",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the members of Congress who disagree with me, I'd like to hear from you before I hear from anyone else in {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-families-in-nation-who-are-paying-more-for",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the families in {nation} who are paying more for the basics than they did, you are who this is for.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-prices-ahead"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-in-nation-who-lost-a-job-this",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people in {nation} who lost a job this year, I haven't forgotten you.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-jobs-lost"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-in-nation-who-found-work-this-year",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people in {nation} who found work this year, I hope it turns into something steady.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-jobs-gained"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-still-rebuilding-this-year-hasn-t-finished-its-part",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people still rebuilding this year, {nation} hasn't finished its part yet.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.report.sotu-hiring-has-gone-on-for-runspan-and-the-people-who",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Hiring has gone on for {run-span}, and the people who got hired are why {nation} is steadier.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "nation",
+            "run-good",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-for-runspan-jobs-have-been-leaving-and-families-across-nation",
+      "move": "report",
+      "kind": "spoken",
+      "text": "For {run-span} jobs have been leaving, and families across {nation} have felt every one of them.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-everything-costs-more-than-it-did-and-for-runspan-nation",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Everything costs more than it did, and for {run-span} {nation} has been trying to catch up.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "nation",
+            "run-hard",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-nation-spent-the-year-answering-thedisaster-and-the-answer-isnt",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} spent the year answering {the-disaster}, and the answer isn't finished.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["sotu-opens-on-a-shared-trouble"]
+    },
+    {
+      "key": "outline-call.report.sotu-these-have-been-hard-years-for-a-lot-of-people",
+      "move": "report",
+      "kind": "spoken",
+      "text": "These have been hard years for a lot of people in {nation}, and I won't tell them otherwise.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-hard"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-it-has-been-a-good-run-for-nation-and-a",
+      "move": "report",
+      "kind": "spoken",
+      "text": "It has been a good run for {nation}, and a good run has to be spent on something.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-good"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-nation-has-gathered-in-this-room-for-a-long-time",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} has gathered in this room for a long time, and tonight is no different.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
     }
   ]
 }
