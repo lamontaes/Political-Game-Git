@@ -2,7 +2,11 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested.
 
-## story/w-stand-close at `0fe7025f` (newest): 54 of 86 pass
+## story/w-stand-close at `7dfd9789` (newest): 54 of 54 pass
+
+- Since 0fe7025f: the 32 failed lines were cut (13 victory night, 19 concession call). Nothing was added or reworded, so no re-read is needed. Checked by key and text: every remaining line is one that passed below, and every cut line is one listed as failing.
+
+## story/w-stand-close at `0fe7025f`: 54 of 86 pass
 
 - Victory night: 31 of 44; Race lost (concession call): 23 of 42.
 - Read blind in chunk NL (calibration 8/8; 22 of 30 earlier-graded lines got the same verdict again). Lines word for word the same as at `6dda0573` keep that read's verdict. The new reader failed 5 of those carried passes; they are listed below so you can see them, and they count as passes.
