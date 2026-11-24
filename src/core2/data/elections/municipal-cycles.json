@@ -1,11 +1,16 @@
 {
-  "about": "Cycle years and election day for the states whose towns vote on a multi-year cycle, as an anchor year plus a period in years (a year is a cycle year when (year - anchorYear) is a multiple of periodYears). Read by src/core2/elections-calendar.ts. Citations are the corpus rows data/municipal-elections/92O-national-state-baseline.json (secondary-synthesis-only). Only AL and MS use a cycle timing (checked over all 56 rows).",
+  "about": "Cycle years and election day for the states whose towns vote on a multi-year cycle, as an anchor year plus a period in years (a year is a cycle year when (year - anchorYear) is a multiple of periodYears). Read by src/core2/elections-calendar.ts. Citations are the corpus rows data/municipal-elections/92O-national-state-baseline.json (secondary-synthesis-only). Only AL and MS use a cycle timing among the state corpus's rows (checked over all 56); Guam uses one from its own law for its villages (src/core2/data/reference/island-area-governments.json).",
   "states": {
     "US-AL": {
       "timing": "quadrennial-late-summer-august",
       "anchorYear": 2025,
       "periodYears": 4,
-      "day": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 4 },
+      "day": {
+        "kind": "nth-weekday",
+        "month": 8,
+        "weekday": 2,
+        "nth": 4
+      },
       "tag": "SOURCED",
       "citation": "Ala. Code sec. 11-46-21(a), as amended by Senate Bill 119 of the 2021 Regular Session: regular municipal elections on the fourth Tuesday in August 2025 and quadrennially thereafter (2025, 2029); the 2025 elections were held August 26, 2025 (https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2021RS/PrintFiles/SB119-Eng.pdf; https://yellowhammernews.com/key-deadlines-approaching-for-alabamas-2025-municipal-elections)"
     },
@@ -13,9 +18,23 @@
       "timing": "quadrennial-summer-june",
       "anchorYear": 2021,
       "periodYears": 4,
-      "day": { "kind": "tuesday-after-first-monday", "month": 6 },
+      "day": {
+        "kind": "tuesday-after-first-monday",
+        "month": 6
+      },
       "tag": "SOURCED",
       "citation": "Miss. Code secs. 21-11-7, 21-11-11: general election the first Tuesday after the first Monday in June every 4 years (2021, 2025, 2029)"
+    },
+    "US-GU": {
+      "timing": "quadrennial-november-general",
+      "anchorYear": 2024,
+      "periodYears": 4,
+      "day": {
+        "kind": "tuesday-after-first-monday",
+        "month": 11
+      },
+      "tag": "SOURCED",
+      "citation": "5 GCA sec. 40104: Mayors and Vice Mayors are elected at the regular general election every fourth year from the November 1952 general election, for four years (https://statecodesfiles.justia.com/guam/2024/title-5/division-4/chapter-40/chapter-40.pdf); last held November 5, 2024 (https://en.wikipedia.org/wiki/2024_Guamanian_local_elections)"
     }
   }
 }

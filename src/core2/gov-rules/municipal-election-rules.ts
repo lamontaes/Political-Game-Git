@@ -26,7 +26,9 @@ export type MunicipalElectionTiming =
   | "town-meeting-day-march"
   | "town-meeting-day-spring"
   | "quadrennial-summer-june"
-  | "quadrennial-late-summer-august";
+  | "quadrennial-late-summer-august"
+  /** Every fourth year at the November general election (Guam's villages). */
+  | "quadrennial-november-general";
 
 /** How, or whether, voters may remove a municipal officer before term's end. */
 export type MunicipalRecallDoctrine =

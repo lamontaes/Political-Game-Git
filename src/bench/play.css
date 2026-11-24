@@ -776,8 +776,8 @@ select:focus-visible {
 /* Icons: gold line icons on round glass keys, a column over the player card. */
 .ring {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   background:
@@ -790,22 +790,35 @@ select:focus-visible {
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 .ring svg {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* Under a resting pointer on load nothing lights (play.mjs, the dock's settle). */
+#dock.settling .ring:hover,
+#dock.settling .action:hover:not(:disabled) {
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+#dock.settling .action:hover:not(:disabled) {
+  color: var(--text-strong);
+}
 /* A story the player has not read yet: a dot on the News icon. */
 .ring.unread::after {
   content: "";
   position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 9px;
-  height: 9px;
+  top: 4px;
+  right: 4px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--gold);
   box-shadow: 0 0 0 2px var(--iron);
@@ -1964,6 +1977,13 @@ body:not(.dev) .dev-only {
   flex: 0 1 auto;
   max-width: none;
 }
+/* Patch notes: a long list of builds beside a long page of notes. It takes the window's whole
+   height (owner, Nov 23, P1: "why are there 4 scroll wheel bars?" with free space under it), and
+   only the list's own box and the page scroll in it. */
+#game #sheet.options-sheet:has(.roster-screen.patch-notes) {
+  height: calc(var(--vh) - 2 * var(--gutter));
+}
+
 .option-setting {
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 2fr;
@@ -3703,7 +3723,7 @@ details.entry[open] {
   margin: 0 0 14px;
   border: 2px solid var(--brass);
 }
-.place-view .record-actions {
+.place-view .acts {
   margin: 0 0 6px;
 }
 
@@ -4153,28 +4173,6 @@ details.entry[open] {
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.28);
 }
-/* A tray: buttons sit in a recessed bar, never loose on the panel. */
-.tray,
-.record-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 18px 0 0;
-  padding: 7px 9px;
-  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.22));
-  border: 1px solid rgba(156, 131, 80, 0.4);
-  border-radius: 3px;
-  box-shadow:
-    inset 0 2px 5px rgba(0, 0, 0, 0.65),
-    0 1px 0 rgba(255, 255, 255, 0.04);
-}
-.tray > button,
-#sheet-body .record-actions > button {
-  margin: 0;
-}
 /* The journal, to its mock: one cream page of story, paged by chapter under it. */
 #sheet-body:has(.journal-screen) {
   max-width: 760px;
@@ -4206,6 +4204,11 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
+/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
+.roster-screen.patch-notes > .pick-list.roster {
+  max-height: none;
+  overflow: visible;
+}
 /* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
 .roster-screen.patch-notes .roster-page,
 .roster-screen.journal .roster-page {
@@ -4213,6 +4216,10 @@ details.entry[open] {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Patch notes hold the whole window: the page runs to the panel's foot. */
+.roster-screen.patch-notes .roster-page {
+  max-height: calc(var(--vh) - 172px);
 }
 .travel-left {
   min-height: 0;
@@ -4252,6 +4259,7 @@ details.entry[open] {
 }
 .travel-tile b {
   position: absolute;
+  z-index: 1;
   left: 10px;
   bottom: 8px;
   right: 10px;
@@ -4259,11 +4267,25 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
+   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
+}
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
+   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+#sheet-body.place-view .travel-screen {
+  width: 100%;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+}
+#sheet-body.place-view .travel-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+#sheet-body.place-view .travel-tile {
+  height: 84px;
 }
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,
@@ -4838,6 +4860,24 @@ select.release-pick {
   overflow: hidden;
   clip-path: inset(50%);
 }
+/* A vote row with a paper behind it: its name is brighter at rest and a hover lights the row,
+   the one light language (MENU-LOOK, States; owner, Nov 23, P22). It is not a .pick, whose
+   span rule shrank the row's type to 14 px beside its 17 px neighbors (owner, Nov 23, C7). */
+.vote-rows .open-row {
+  cursor: pointer;
+  border-radius: var(--control-radius);
+  transition:
+    background 140ms,
+    box-shadow 140ms;
+}
+.vote-rows .open-row .dotlabel {
+  color: var(--gold);
+}
+.vote-rows .open-row:hover,
+.vote-rows .open-row:focus-visible {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
 /* Typed rows: label, a dot leader, the figure. */
 .strip-screen .dotrow {
   display: flex;
@@ -5157,6 +5197,11 @@ select.release-pick {
   opacity: 1;
   transition-delay: 0.25s;
 }
+/* Under a resting pointer the name stays down too, until the pointer moves (play.mjs, the dock's settle). */
+#dock.settling .ring[data-name]:hover::before {
+  opacity: 0;
+  transition-delay: 0s;
+}
 /* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
    Nov 7); the talk box takes the stage. */
 #game:has(
@@ -5309,6 +5354,11 @@ select.release-pick {
   text-decoration: underline;
 }
 
+/* The journal's page takes the whole panel, so the page is never half empty (owner,
+   Nov 8 and Nov 23; N8-C32). */
+.roster-screen.journal {
+  width: 100%;
+}
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5323,7 +5373,7 @@ select.release-pick {
 }
 .journal-text .intro.lead::first-letter {
   float: left;
-  margin: 2px 8px 0 0;
+  margin: 2px 3px 0 0;
   font:
     600 var(--t-display)/0.85 "Playfair Display",
     Georgia,
@@ -5423,10 +5473,6 @@ select.release-pick {
 .news-text .intro {
   margin: 0 0 10px;
 }
-.news-story.lead .news-text {
-  column-count: 2;
-  column-gap: 26px;
-}
 /* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
 .news-story.lead .story-image {
   display: block;
@@ -5435,10 +5481,6 @@ select.release-pick {
   aspect-ratio: auto;
   object-fit: cover;
   margin: 10px 0 12px;
-}
-/* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
-.news-story.lead .news-text > * {
-  break-inside: avoid;
 }
 /* The list of headlines beside the opened story; each scrolls inside its own column, never the
    menu as a page. */
@@ -5530,6 +5572,9 @@ select.release-pick {
 .pick-list .pick,
 #sheet-body .pick-list .pick {
   display: flex;
+  /* A long name keeps its words whole and sends its aside under it, never squeezing both
+     into one narrow line (owner, Nov 16, N16-58: "it's squished right here"). */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
@@ -5547,7 +5592,7 @@ select.release-pick {
 .pick b {
   font: var(--pick-font);
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .pick span {
   font: var(--pick-aside-font);

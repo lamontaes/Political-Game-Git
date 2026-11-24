@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10310
 after:
 blocked-on:
 lead: play
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T05:21:02.096Z
 ---
 
 **What.** The President's card from the address and a council member's card from Politics come from one function but draw two layouts, scene busts open nothing, and the card leaves age, home, spouse, children, offices with their places and work empty. Make one fixed layout filled from the records. Seen: the President's card from the address scene beside a council member's card from Politics.
