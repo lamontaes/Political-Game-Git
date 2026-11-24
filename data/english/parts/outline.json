@@ -4661,6 +4661,421 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-if-you-remember-one-thing-from-today-make-it",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "If you remember one thing from today, make it {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-i-m-going-to-spend-most-of-my-time-up-here-on",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I'm going to spend most of my time up here on {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-there-s-one-thing-i-ran-on-more-than-anything-else-and-it-s",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "There's one thing I ran on more than anything else, and it's {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-you-ll-hear-me-talk-about-until-you-re-tired-of-it",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "You'll hear me talk about {theme-name} until you're tired of it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-the-first-thing-on-my-desk-is",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "The first thing on my desk is {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-i-want-to-talk-about-because-it-s-what-i-heard-about-most-on-the-road",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I want to talk about {theme-name}, because it's what I heard about most on the road.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.charge.inaugural-let-me-get-right-to",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "Let me get right to {theme-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"]
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-ask-anyone-who-s-worked-with-me-and-they-ll-tell-you-i-think",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "Ask anyone who's worked with me, and they'll tell you I think {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-if-you-want-to-know-where-i-start-it-s-here",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "If you want to know where I start, it's here: {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.creed.inaugural-some-things-i-won-t-change-my-mind-on-one-of-them-is-that",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "Some things I won't change my mind on. One of them is that {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.contrast.inaugural-some-in-congress-would-rather",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Some in Congress would rather {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.contrast.inaugural-the-other-side-has-a-plan-and-it-s-to",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "The other side has a plan, and it's to {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.question.inaugural-here-s-the-question-in-front-of-us-do-we",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Here's the question in front of us: do we {to}?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["to"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.question.inaugural-people-ask-me-whether-we-should-keep",
+      "move": "question",
+      "kind": "spoken",
+      "text": "People ask me whether we should keep {law-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "law",
+          "requiresFacts": ["law-name", "law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.send-off.inaugural-i-ll-see-you-out-there-over-the-next",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll see you out there over the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.send-off.inaugural-the-clock-on-these-started-at-noon-and-it-doesn-t-stop",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The clock on these {term-left} started at noon, and it doesn't stop.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-some-of-that-rebuilding-will-take-all-and-i-ll-be-here-for-all-of-it",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Some of that rebuilding will take all {term-left}, and I'll be here for all of it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"]
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster-meaning.inaugural-i-ll-go-see-it-for-myself-before-the-month-is-out-and-i-ll-keep-going-back-for",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I'll go see it for myself before the month is out, and I'll keep going back for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"]
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.disaster.inaugural-plenty-of-families-are-still-waiting-to-get-back-home-after-the-this-past-year",
+      "move": "disaster",
+      "kind": "spoken",
+      "text": "Plenty of families are still waiting to get back home after the {the-disaster} this past year.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster",
+          "tie": "record",
+          "requiresFacts": ["the-disaster"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-more-families-can-cover-the-rent-and-still-put-something-away-than-could-ago",
+      "move": "run",
+      "kind": "spoken",
+      "text": "More families can cover the rent and still put something away than could {run-span} ago.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }
