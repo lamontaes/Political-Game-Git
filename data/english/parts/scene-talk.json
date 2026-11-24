@@ -75513,6 +75513,798 @@
         "move": "thank",
         "key": "desk-visit"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.could-i-have-a-minute-on-bill-picture-the-line-at-the-front-door-of-a-bus",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Could I have a minute on {bill}? Picture the line at the front door of a bus.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["boarding-time-per-passenger"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.glad-i-caught-you-i-d-like-to-talk-about-the-sort-of-visit-in-place-that-nobody-puts-on-a-commuter-survey",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad I caught you. I'd like to talk about the sort of visit in {place} that nobody puts on a commuter survey.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["one-bus-to-visit-family"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.before-you-get-to-bill-may-i-put-a-question-to-you-what-if-the-alternative-to-the-bus-was-staying-home",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before you get to {bill}, may I put a question to you? What if the alternative to the bus was staying home?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["ask-what-trip-the-bus-replaced"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.i-owe-you-an-explanation-of-the-word-free-in-bill-the-operator-still-has-a-payroll",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I owe you an explanation of the word free in {bill}. The operator still has a payroll.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["city-pays-agency-for-foregone-fares"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-it-s-the-fare-bill-i-d-like-to-start-with-somebody-in-place-who-already-has-a-pass",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute? It's the fare bill. I'd like to start with somebody in {place} who already has a pass.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["monthly-pass-still-needed"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.may-i-come-in-i-want-to-look-at-bill-from-the-front-door-of-someone-who-uses-paratransit",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "May I come in? I want to look at {bill} from the front door of someone who uses paratransit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["paratransit-trip-needs-two-endpoints"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-making-room-for-me-i-d-like-to-talk-about-what-a-semester-of-bus-rides-costs-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for making room for me. I'd like to talk about what a semester of bus rides costs in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["student-counts-a-semester-of-fares"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-bill-that-brought-me-in-the-driver-collecting-the-money-deserves-a-word-here-too",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's {bill} that brought me in. The driver collecting the money deserves a word here too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["operator-no-longer-argues-over-the-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-time-to-take-one-trip-on-paper-start-on-a-bus-in-place-and-change-to-a-service-that-still-charges",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got time to take one trip on paper? Start on a bus in {place} and change to a service that still charges.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["paid-transfer-after-free-first-leg"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.hello-i-m-here-about-bill-and-what-it-takes-for-somebody-at-a-bus-stop-to-believe-our-announcement",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello. I'm here about {bill} and what it takes for somebody at a bus stop to believe our announcement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["fare-pilot-delivers-on-the-promised-day"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.when-you-have-a-moment-i-d-like-to-talk-buses-a-timetable-tells-you-only-so-much-about-waiting-at-a-stop-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "When you have a moment, I'd like to talk buses. A timetable tells you only so much about waiting at a stop in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["operator-and-rider-compare-the-running-time"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.mind-if-i-sit-down-i-want-to-talk-about-bill-in-terms-of-what-somebody-can-buy-with-the-fare-they-save",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Mind if I sit down? I want to talk about {bill} in terms of what somebody can buy with the fare they save.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["bus-money-becomes-breakfast-money"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.could-i-borrow-a-minute-there-s-a-difference-between-paying-with-a-phone-and-switching-to-a-card-on-the-ride-home-in-place-if-the-fare-cap-tracks-the-card",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Could I borrow a minute? There's a difference between paying with a phone and switching to a card on the ride home in {place} if the fare cap tracks the card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["fare-cap-follows-the-payment-device"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-here-on-bill-imagine-you-ve-got-cash-in-your-pocket-and-the-person-selling-the-pass-is-across-town",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm here on {bill}. Imagine you've got cash in your pocket and the person selling the pass is across town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-seeing-me-i-want-to-look-at-paying-the-fare-in-place-with-a-child-on-each-arm",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for seeing me. I want to look at paying the fare in {place} with a child on each arm.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["tell-the-driver-before-paying-for-the-family"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.is-this-a-good-time-for-bill-i-d-like-to-keep-the-bus-fare-and-the-van-fare-straight-while-we-talk",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is this a good time for {bill}? I'd like to keep the bus fare and the van fare straight while we talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["the-bus-fare-and-the-van-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.before-you-decide-on-bill-spare-me-a-minute-for-the-rider-buying-a-pass-on-friday-for-work-on-monday",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before you decide on {bill}, spare me a minute for the rider buying a pass on Friday for work on Monday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["pass-clock-starts-at-first-use"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.may-i-run-a-question-by-you-say-one-person-pays-for-everybody-who-boards-together-in-place-who-gets-credit-for-those-rides",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "May I run a question by you? Say one person pays for everybody who boards together in {place}. Who gets credit for those rides?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["companions-fares-and-one-persons-cap"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.good-to-see-you-a-dollar-that-s-gone-through-the-wash-still-spends-but-try-feeding-it-to-a-farebox-that-s-where-i-d-start-on-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good to see you. A dollar that's gone through the wash still spends, but try feeding it to a farebox. That's where I'd start on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["crumpled-bills-at-the-farebox"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-for-the-rider-who-changes-buses-in-place-the-price-on-the-first-bus-tells-only-half-the-story",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute for the rider who changes buses in {place}? The price on the first bus tells only half the story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["paid-transfer-after-free-first-leg"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.i-appreciate-the-time-i-d-like-to-look-at-bill-the-way-somebody-budgeting-for-a-whole-term-of-classes-would",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I appreciate the time. I'd like to look at {bill} the way somebody budgeting for a whole term of classes would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["student-counts-a-semester-of-fares"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-about-bill-before-we-talk-about-single-rides-let-s-remember-the-people-already-paying-by-the-month",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came about {bill}. Before we talk about single rides, let's remember the people already paying by the month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["monthly-pass-still-needed"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.can-we-talk-about-boarding-in-place-for-a-minute-collecting-the-fare-takes-time-even-when-everyone-has-the-right-change",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we talk about boarding in {place} for a minute? Collecting the fare takes time even when everyone has the right change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "place",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["boarding-time-per-passenger"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-fitting-me-in-i-want-to-talk-about-what-service-the-money-from-bill-would-actually-buy",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for fitting me in. I want to talk about what service the money from {bill} would actually buy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      },
+      "elements": ["hold-the-transit-money-for-a-service-plan"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ]
     }
   ]
 }
