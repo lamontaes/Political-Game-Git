@@ -1,0 +1,40 @@
+{
+  "id": "pattern-b29-a-line-of-your-own",
+  "kind": "situation",
+  "summary": "A line of your own: Neither big party will nominate you, and {organizer} asks how you get on the ballot.",
+  "realLife": "One life: A Socialist Alternative candidate, she sued the state to list her party on the 2012 ballot, lost that race, and in 2013 beat a long-serving Seattle council member on a $15 minimum wage platform. Another: He ran for New York mayor in 1933 on a Fusion ticket backed by reformers, Republicans and anti-Tammany Democrats, and won. Another: He left the Republicans and won the 1990 Connecticut governor's race on his own A Connecticut Party line with about 40 percent in a three-way race.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kshama_Sawant",
+    "https://en.wikipedia.org/wiki/Fiorello_H._La_Guardia",
+    "https://en.wikipedia.org/wiki/Lowell_Weicker"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["organizer"],
+  "gates": ["Candidate not nominated by a major party."],
+  "weights": [
+    "How unpopular the major parties are on record.",
+    "How many candidates split the vote."
+  ],
+  "pattern": "B29",
+  "choices": [
+    "run as an independent",
+    "run on a small party's line, suing if it is kept off",
+    "run on a fusion line with reformers of both parties",
+    "run as a write-in"
+  ],
+  "branches": [
+    {
+      "when": "the state will not list your party",
+      "then": "You sue to get it listed."
+    },
+    {
+      "when": "a three-way race",
+      "then": "You win with a plurality, and the record says how few chose you."
+    },
+    {
+      "when": "reformers of both parties back a fusion ticket",
+      "then": "Each expects its share after the win."
+    }
+  ],
+  "usedBy": []
+}

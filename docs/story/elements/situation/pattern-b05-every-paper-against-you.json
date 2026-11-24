@@ -1,0 +1,32 @@
+{
+  "id": "pattern-b05-every-paper-against-you",
+  "kind": "situation",
+  "summary": "Every paper against you: Every outlet in {the place} has endorsed {rival}, and {staffer} says the campaign needs its own way to reach people.",
+  "realLife": "One life: In the 1928 Louisiana governor's race he used sound trucks and radio ads; running for the Senate in 1930 with all of the state's daily papers backing his opponent, he started his own paper. Another: In the 1934 California governor's race the big Hearst and Chandler papers attacked him throughout.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Huey_Long",
+    "https://en.wikipedia.org/wiki/End_Poverty_in_California"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["staffer"],
+  "gates": ["Candidate.", "The outlets on record have endorsed {rival}."],
+  "weights": ["Money.", "How spread out the place is.", "Speaking traits."],
+  "pattern": "B05",
+  "choices": [
+    "start your own paper or sheet",
+    "buy radio time or sound trucks",
+    "go town to town in person",
+    "court one editor"
+  ],
+  "branches": [
+    {
+      "when": "your own paper",
+      "then": "It becomes a record of what you said that reporters can quote back."
+    },
+    {
+      "when": "the papers run your old words",
+      "then": "The attacks become a daily box of your own lines."
+    }
+  ],
+  "usedBy": []
+}

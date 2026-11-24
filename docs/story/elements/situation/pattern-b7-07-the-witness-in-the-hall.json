@@ -1,0 +1,55 @@
+{
+  "id": "pattern-b7-07-the-witness-in-the-hall",
+  "kind": "situation",
+  "summary": "The witness in the hall: A resident who testified catches the player in the hall and says what the bill would do to them.",
+  "realLife": "One life: A father drove to a statehouse to testify for a shield law protecting care for his son, compared his son's care to his late wife's cancer treatment, and asked the committee to advance the bill. The room applauded and several people thanked him afterward; the committee advanced the bill. Another: A seven-year-old girl and her parents testified in an almost eleven-hour Senate hearing against a bathroom bill, together for about six minutes. The committee gave a short thanks, the child's nerves gave way afterward, and the committee voted the bill out hours later, after the family had left. Another: A daughter told a Minnesota committee that surveillance video showed her father's death in an assisted living home and urged the bill, while an industry group's speaker said it was unclear whether facilities could meet its rules. The sponsors of the bills in both chambers spoke after.",
+  "sources": [
+    "https://stephenthedad.substack.com/p/standing-up-testimony-confrontation",
+    "https://www.texastribune.org/2017/07/22/transgender-girl-gets-her-two-minutes-bathroom-bill",
+    "https://fox9.com/news/lawmakers-blast-no-lift-policies-assisted-living-veterans-death-march-18"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the witness", "committee chair", "the sponsor", "the body"],
+  "gates": [
+    "The committee record shows a hearing held on the bill and {the witness} named as a witness with a side.",
+    "The player is a member of the committee, the bill's sponsor, or the member the witness is in the district of.",
+    "The witness record shows what the bill reaches in {the witness}'s own life."
+  ],
+  "weights": [
+    "How much of {the witness}'s own life the bill reaches.",
+    "How long the hearing ran and how late it was.",
+    "Whether the witness is in the player's district.",
+    "Whether the witness came with a group.",
+    "Whether the player agrees with the witness's side."
+  ],
+  "pattern": "B7-07",
+  "choices": [
+    "thank them and stay to listen",
+    "ask what it would really mean for them",
+    "say you see it differently and why",
+    "say you are late and leave"
+  ],
+  "branches": [
+    {
+      "when": "the player thanks the witness and listens",
+      "then": "Time spent on the tie is written; the witness's story goes into what the player knows of the bill."
+    },
+    {
+      "when": "the player asks what the bill would really mean for the witness",
+      "then": "The witness answers in their own life, never a figure about the world; the player's view of the bill may move."
+    },
+    {
+      "when": "the player tells the witness they see it differently",
+      "then": "The tie is strained; the witness tells others in their group."
+    },
+    {
+      "when": "the player brushes the witness off",
+      "then": "The witness is hurt and tells it to others, and a later talk or a vote reads the brush-off."
+    },
+    {
+      "when": "the witness is on the player's own side",
+      "then": "The witness asks what happens next and the player's answer is held as a promise."
+    }
+  ],
+  "usedBy": ["hearing-witness"]
+}
