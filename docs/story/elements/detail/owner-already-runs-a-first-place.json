@@ -19,12 +19,16 @@
     {
       "name": "a first business",
       "pulledBy": "a new owner",
-      "writes": "the story says it is their first"
+      "writes": "the story says it is their first",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a closing elsewhere",
       "pulledBy": "an owner closing one to open this",
-      "writes": "the story says the other one closed"
+      "writes": "the story says the other one closed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

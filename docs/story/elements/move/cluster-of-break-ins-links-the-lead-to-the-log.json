@@ -18,12 +18,16 @@
     {
       "name": "one break-in only",
       "pulledBy": "a single crime",
-      "writes": "no cluster paragraph"
+      "writes": "no cluster paragraph",
+      "requiresFacts": ["burglary"],
+      "excludesFacts": []
     },
     {
       "name": "a cluster across a month",
       "pulledBy": "a rising count",
-      "writes": "the story says the month's count rose"
+      "writes": "the story says the month's count rose",
+      "requiresFacts": ["up"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

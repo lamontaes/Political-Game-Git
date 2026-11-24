@@ -1,0 +1,31 @@
+{
+  "id": "recycling-board-revisits-fee-forecast",
+  "kind": "moment",
+  "summary": "The board meets with less recycling-fee revenue on hand than the plan assumed.",
+  "realLife": "Delaware’s advisory council reported in 2011 that collections were running at about three fifths of projections and spent meeting time on the shortfall.",
+  "sources": [
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=11",
+    "https://legis.delaware.gov/BillDetail?legislationId=19844"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{treasurer}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: receipts and fund spending authority.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "In a refundable system, the treasurer identifies what money the program may legally spend.",
+      "pulledBy": "The law limits the use of refundable collections.",
+      "writesBack": "The spending estimate distinguishes liabilities from revenue."
+    },
+    {
+      "turn": "opposite",
+      "what": "Under the replacement fee, the board compares actual receipts with outstanding grant requests.",
+      "pulledBy": "The replacement fee yields less than forecast.",
+      "writesBack": "The next grant discussion uses the revised balance."
+    }
+  ]
+}

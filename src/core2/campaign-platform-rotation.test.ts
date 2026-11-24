@@ -39,6 +39,8 @@ import {
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
+import { candidateStance } from "./campaign-stances";
+import { contestPositions } from "./contest-positions";
 import type { CoreAPI, CoreState } from "./types";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
@@ -90,10 +92,19 @@ function rivals(api: CoreAPI, core: CoreState): readonly FilingRow[] {
   for (const contest of openContests(api)) {
     const filed: FilingRow[] = [];
     for (const adult of adults) {
+      // A rival states the platform they run on (the same shares as a chosen
+      // one): an ordinary resident has no record that gives a reason for a
+      // stand (`StanceReader.ground`), so nothing is chosen for them.
+      const stated = contestPositions(api, contest)
+        .flatMap((question) => {
+          const position = candidateStance(api, adult.id, null, question);
+          return position ? [`${question}=${position}`] : [];
+        })
+        .slice(0, 3);
       const result = fileCandidacy(api, {
         personId: adult.id,
         contestId: contest.id,
-        platform: [],
+        platform: stated,
       });
       if (
         result.status === "refused" ||
