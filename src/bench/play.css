@@ -761,8 +761,8 @@ select:focus-visible {
 /* Icons: gold line icons on round glass keys, a column over the player card. */
 .ring {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   background:
@@ -775,8 +775,8 @@ select:focus-visible {
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 .ring svg {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.6;
@@ -787,10 +787,10 @@ select:focus-visible {
 .ring.unread::after {
   content: "";
   position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 9px;
-  height: 9px;
+  top: 4px;
+  right: 4px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--gold);
   box-shadow: 0 0 0 2px var(--iron);
