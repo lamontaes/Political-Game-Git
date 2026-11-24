@@ -1715,5 +1715,189 @@
     "elements": [
       "chair-withholds-the-hearing"
     ]
+  },
+  {
+    "key": "scene-talk.reply-stall.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "If I hear {bill} now and the committee turns it down, where does that leave you? You still have time to work on it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-stall.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version",
+    "move": "reply-stall",
+    "kind": "spoken",
+    "text": "I'd give {bill} another draft before you put it in front of the committee. Do you really want a hearing on this version?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "stall",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "stall",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-plea.i-ll-take-that-chance-give-me-the-hearing-on-bill-and-let-me-make-the-case-myself",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "I'll take that chance. Give me the hearing on {bill} and let me make the case myself.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-stall.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-accept.all-right-i-d-rather-have-another-crack-at-bill-than-lose-it-in-committee",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "All right. I'd rather have another crack at {bill} than lose it in committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-stall.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-plea.yes-on-this-version-i-d-like-people-to-hear-what-s-in-bill-before-i-start-taking-things-out",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "Yes, on this version. I'd like people to hear what's in {bill} before I start taking things out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-stall.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-accept.let-me-go-back-through-bill-first-i-ll-leave-the-calendar-with-you",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "Let me go back through {bill} first. I'll leave the calendar with you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-stall.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
   }
 ]
