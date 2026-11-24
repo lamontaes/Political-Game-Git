@@ -1626,10 +1626,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-it-was-who-spoke-to-the-house-and-senate-on-with-at-the-center",
+      "key": "outline-news.lede.news-address-was-the-one-who-spoke-to-the-house-and-senate-on-with-at-the-center",
       "move": "lede",
       "kind": "written",
-      "text": "It was {name} who spoke to the House and Senate on {date}, with {about} at the center.",
+      "text": "{name} was the one who spoke to the House and Senate on {date}, with {about} at the center.",
       "uses": [
         {
           "subject": "news-address",
@@ -2255,10 +2255,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-it-was-before-the-on-and-the-members-said-yes",
+      "key": "outline-news.lede.news-roll-call-was-before-the-on-and-the-members-said-yes",
       "move": "lede",
       "kind": "written",
-      "text": "It was {law} before the {body} on {date}, and the members said yes, {count}.",
+      "text": "{law} was before the {body} on {date}, and the members said yes, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -3001,10 +3001,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-that-was-a-no-for-from-the-on",
+      "key": "outline-news.lede.news-roll-call-a-no-for-came-from-the-on",
       "move": "lede",
       "kind": "written",
-      "text": "That was a no for {law} from the {body} on {date}, {count}.",
+      "text": "A no for {law} came from the {body} on {date}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -3607,10 +3607,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.headline.news-roll-call-headline-it-is-a-yes-in-the-for",
+      "key": "outline-news.headline.news-roll-call-headline-a-yes-in-the-for",
       "move": "headline",
       "kind": "written",
-      "text": "It is a yes in the {body} for {law}",
+      "text": "A yes in the {body} for {law}",
       "uses": [
         {
           "subject": "news-roll-call-headline",
@@ -3709,10 +3709,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.headline.news-roll-call-headline-it-is-a-no-in-the-for",
+      "key": "outline-news.headline.news-roll-call-headline-a-no-in-the-for",
       "move": "headline",
       "kind": "written",
-      "text": "It is a no in the {body} for {law}",
+      "text": "A no in the {body} for {law}",
       "uses": [
         {
           "subject": "news-roll-call-headline",
