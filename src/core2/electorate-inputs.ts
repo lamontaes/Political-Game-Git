@@ -12,7 +12,7 @@ import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { nationalParty, partySide } from "./appointments";
 // The national party of a side, for the century's count (electorate-century.ts).
-export { nationalParty };
+export { nationalParty, partySide };
 import { approvalGapPoints } from "./modules/national-opinion";
 import { campaignParameter } from "./campaign-data";
 import {

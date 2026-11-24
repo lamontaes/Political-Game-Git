@@ -623,9 +623,10 @@ function membershipPayouts(api: CoreAPI): void {
       const job = c.jobs.get(id);
       if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
     }
-    const cushion =
-      ((daily * p("jobsDaysPerYear")) / p("macroMonthsPerYear")) *
-      p("businessCushionMonths");
+    const cushion = firmBufferMinor(
+      daily * p("jobsDaysPerYear"),
+      p("macroMonthsPerYear"),
+    );
     const excess = org.liquidMinor - cushion;
     if (excess > 0)
       transferCash(
@@ -916,6 +917,29 @@ function reviewClosures(api: CoreAPI): void {
     );
 }
 
+/**
+ * The cash a firm keeps back, from its own books: what it pays out in one
+ * booked month (its pay cycle: the books close monthly) plus the largest
+ * shortfall of costs over sales it has met in its own recent months. A firm
+ * with no history keeps back its month's outgo alone. A firm that has run a
+ * thin month keeps more; one that has always covered itself keeps less.
+ */
+export function firmBufferMinor(
+  annualOutgoMinor: number,
+  monthsPerYear: number,
+  recent?: {
+    readonly sales: readonly number[];
+    readonly costs: readonly number[];
+  },
+): number {
+  const month = annualOutgoMinor / monthsPerYear;
+  const shortfall = (recent?.costs ?? []).reduce(
+    (worst, cost, i) => Math.max(worst, cost - (recent?.sales[i] ?? 0)),
+    0,
+  );
+  return Math.round(month + shortfall);
+}
+
 /** A branch of a firm based elsewhere sends its parent the cash above its cushion, out of the profit it has kept. */
 function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   const c = core(api),
@@ -925,9 +949,11 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   const net = netCash(c, row.id);
   const retained = row.retainedMinor + (net - (row.netThrough ?? net));
   const cash = c.organizations.get(row.id)!.liquidMinor;
-  const cushion =
-    (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-    p("businessCushionMonths");
+  const cushion = firmBufferMinor(
+    book.annualPayrollMinor,
+    p("macroMonthsPerYear"),
+    row.recent,
+  );
   const swept =
     retained > 0
       ? transferCash(
@@ -1714,8 +1740,10 @@ function month(api: CoreAPI): void {
       book.annualPayrollMinor,
       p("jobsDaysPerYear"),
     );
-    const cushion = Math.round(
-      (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
+    const cushion = firmBufferMinor(
+      weightedPayroll,
+      p("macroMonthsPerYear"),
+      row.recent,
     );
     const { need, short, spare } = ownerDrawCase(p, {
       cashMinor: cash,
@@ -1827,10 +1855,7 @@ export function ownerDrawCase(
 ): { need: number; short: number; spare: number } {
   const buffer = Math.max(
     c.payrollCushionMinor,
-    Math.round(
-      (c.annualOutflowsMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths"),
-    ),
+    Math.round(c.annualOutflowsMinor / p("macroMonthsPerYear")),
   );
   return {
     need: 1 / (1 + c.ownerDays / p("businessDaysPerMonth")),
@@ -2135,9 +2160,11 @@ function foundings(api: CoreAPI): number {
         if (!owner?.alive) return;
         const cash =
           c.organizations.get(row.id)!.liquidMinor + depositsHeld(c, row.id);
-        const cushion =
-          (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-          p("businessCushionMonths");
+        const cushion = firmBufferMinor(
+          book.annualPayrollMinor,
+          p("macroMonthsPerYear"),
+          row.recent,
+        );
         // Cash against its cushion, on a sliding scale from -1 (none) toward +1.
         const strength = cushion > 0 ? (cash - cushion) / (cash + cushion) : 0;
         return { row, owner, cash, cushion, strength };

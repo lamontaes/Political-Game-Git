@@ -4,31 +4,48 @@
  * record (plan, from, to), and the household pays a monthly premium that
  * reads it.
  *
- * Once a month, on the 1st, and on the first day played: an adult in the
- * years people work, with a job, holds an employer plan when the town's
- * working adults ranked by their employer's size (the larger first) and then
- * their pay reach the share who hold their own plan (a parameter, ESTIMATED).
- * The share is of the workers who have a job today: a recession costs plans
- * through the jobs it ends (men lose more of them, Cawley, Moriya and Simon
- * 2015), so the outcome web's unemployment-to-uninsured link is not read here
- * as well, which would count each lost job twice and take plans from workers
- * who kept theirs. The policy covers everyone else in the policyholder's household, at the
- * family premium when there are two or more people on it and the single
- * premium when there is one. People 65 and over hold Medicare (no premium
- * here). Everyone else is uninsured until another engine (Medicaid, the
- * gov-medicaid-coverage-reader item) gives them a plan. The policyholder pays
- * the worker's share of the premium (KFF 2024) from what they hold to the
- * place's outside account, where the insurers are; a premium they cannot
- * pay in full ends the policy for the next month, as with any bill that goes
- * unpaid: it is never a debt.
+ * Once a month, on the 1st, and on the first day played, each working adult
+ * with a job is weighed twice, from records the world keeps:
  *
- * Counted households are ranked with the full people, by the same employer
- * size and pay, and a counted household whose rank earns a policy holds a
+ * - their employer weighs offering them the plan: its staff (a larger employer
+ *   spreads the plan's fixed costs and its risk), and this job's pay against
+ *   what the plan would cost the employer for the worker (offerScore);
+ * - the worker offered one weighs taking it: what they would pay for each
+ *   person it covers, against their pay (takeScore).
+ *
+ * Each score is a sliding scale, and each worker's two scores multiply into
+ * their own share of a plan. The town's plans are the sum of its workers'
+ * shares (a counted worker's times the households the record stands for),
+ * held by the workers whose shares are highest, one policyholder to a
+ * household. No roll, and no share of workers to fill: a town of large,
+ * well-paying employers holds more plans than a town of small shops, a plant
+ * that closes takes its plans with it, and a dearer plan is offered and taken
+ * less. A recession costs plans through the jobs it ends (men lose more of
+ * them, Cawley, Moriya and Simon 2015), so the outcome web's
+ * unemployment-to-uninsured link is not read here as well.
+ *
+ * The plan's price is what its members cost. Each January (and on the first
+ * day played) the year's rate is set from the employer plans' own claims: the
+ * insurers' part of the care their members were billed over the last twelve
+ * months (medical-bills.ts), a covered person, plus the insurer's load. On the
+ * first day there are no claims yet, so the rate is the same sum over the
+ * care the opening's people need today, and each month of real claims takes
+ * the place of a month of that estimate. The policy covers everyone else in
+ * the policyholder's household under Medicare's age; the policyholder pays the
+ * worker's part of each covered person's rate. People 65 and over hold
+ * Medicare (no premium here). Everyone else is uninsured until another engine
+ * (Medicaid, the gov-medicaid-coverage-reader item) gives them a plan. The
+ * policyholder pays from what they hold to the place's outside account, where
+ * the insurers are; a premium they cannot pay in full ends the policy for
+ * the next month, as with any bill that goes unpaid: it is never a debt.
+ *
+ * Counted households are weighed with the full people, by the same employer
+ * size and pay, and a counted household whose worker holds a policy holds a
  * counted-coverage record on its policyholder and pays the same premium, once
  * for each real household the record stands for (counted money). A household
  * filled in is handed its counted record the same day (onFillIn): the counted
  * record ends and its members hold full records on the same plan, with the
- * same policyholder and premium, until the next review ranks them as it ranks
+ * same policyholder and premium, until the next review weighs them as it weighs
  * everyone. The employer's share of the premium is part of the employer's
  * compensation and is not modeled.
  *
@@ -36,7 +53,11 @@
  * from these records and paid, and what goes unpaid is placed for collection
  * as a medical-debt record (medical-bills.ts).
  */
-import { billMedicalCare } from "../medical-bills";
+import {
+  billMedicalCare,
+  expectedPlanCare,
+  type PlanCareMonth,
+} from "../medical-bills";
 import { coreAPI, registerModule } from "../state";
 import { registerPlanReaders } from "../life-plan-readers";
 import { outsideAccountOf } from "../budgets-treasury";
@@ -75,6 +96,8 @@ export interface CoverageRow {
   readonly lastPaidMinor: number;
   /** The cash journal record of the last premium paid, if any was. */
   readonly lastJournalId: string | null;
+  /** What the policyholder's plan was decided from (planScores), for dev mode's trace. */
+  readonly reasons?: PlanReasons;
   readonly source: Source;
 }
 
@@ -96,9 +119,9 @@ function sourceFor(api: CoreAPI): Source {
     tag: "ESTIMATED",
     asOf: api.state.date,
     citation:
-      "Employer coverage by rank of employer size and pay at the share of workers holding their own plan; premium is the worker's average contribution (KFF 2024 Employer Health Benefits Survey). Medicare at 65 (42 U.S.C. 1395c).",
+      "Employer coverage where the employer's offer (its staff, the job's pay against the plan's cost) and the worker's take-up (their part of the premium against their pay) both hold; the premium is the plans' own claims a covered person plus the insurer's load, at the worker's part of it (strengths from the KFF 2024 Employer Health Benefits Survey). Medicare at 65 (42 U.S.C. 1395c).",
     estimatedFrom:
-      "Census P60-284 (2023) employment-based coverage 53.7 percent of the population; KFF 2024 worker contributions.",
+      "The world's own records: employers' staff and pay, the employer plans' claims (medical-bills.ts) and households' members.",
   };
 }
 
@@ -108,6 +131,110 @@ interface Plan {
   readonly premiumMonthlyMinor: number;
 }
 
+/** What a policyholder's plan was decided from, kept on their record for dev mode's trace. */
+export interface PlanReasons {
+  /** The employer's jobs, and this job's pay a year. */
+  readonly staff: number;
+  readonly payAnnualMinor: number;
+  /** The employer's weighing of the offer and the worker's of taking it, each as a share from 0 to 1. */
+  readonly offerShare: number;
+  readonly takeShare: number;
+  /** The year's rate for one covered person a month, before the worker's part is taken. */
+  readonly rateMonthlyMinor: number;
+  /** People on the policy. */
+  readonly covered: number;
+}
+
+/** The year's rate: what one covered person costs the plans a month, with the insurer's load. */
+export interface PlanRateRow {
+  readonly id: "rate";
+  /** The calendar year the rate holds for. */
+  readonly year: number;
+  readonly rateMonthlyMinor: number;
+  /** The claims a covered person a month the rate was set from, before the load. */
+  readonly claimsMonthlyMinor: number;
+  /** The opening's estimate of a month of the plans' care (expectedPlanCare), which stands for each month with no claims yet. */
+  readonly opening: PlanCareMonth;
+  /** The plans' own claims, the latest twelve months. */
+  readonly months: readonly ({ readonly month: string } & PlanCareMonth)[];
+  readonly source: Source;
+}
+
+const rateTable = (api: CoreAPI) =>
+  api.moduleState(COVERAGE_MODULE_ID).table("planRate");
+
+/** The year's rate row, if the first review has run. */
+export function planRateOf(api: CoreAPI): PlanRateRow | undefined {
+  return rateTable(api).get("rate") as unknown as PlanRateRow | undefined;
+}
+
+/** Claims a covered person a month over the months kept, the opening's estimate standing for each month not yet lived. */
+function claimsPerPerson(api: CoreAPI, row: Omit<PlanRateRow, "source">) {
+  const window = api.parameter("monthsPerYear");
+  const missing = Math.max(0, window - row.months.length);
+  let insurer = row.opening.insurerMinor * missing,
+    members = row.opening.members * missing;
+  for (const month of row.months) {
+    insurer += month.insurerMinor;
+    members += month.members;
+  }
+  return members > 0 ? insurer / members : 0;
+}
+
+/** Sets the year's rate when there is none or the year has turned; returns the rate in force. */
+function setRate(api: CoreAPI): PlanRateRow {
+  const year = Number(api.state.date.slice(0, "YYYY".length));
+  const old = planRateOf(api);
+  if (old && old.year === year) return old;
+  const base = {
+    id: "rate" as const,
+    year,
+    opening: old?.opening ?? expectedPlanCare(api),
+    months: old?.months ?? [],
+  };
+  const claims = claimsPerPerson(api, {
+    ...base,
+    rateMonthlyMinor: 0,
+    claimsMonthlyMinor: 0,
+  });
+  const row: PlanRateRow = {
+    ...base,
+    claimsMonthlyMinor: Math.round(claims),
+    rateMonthlyMinor: Math.round(claims * api.parameter("healthPlanLoad")),
+    source: sourceFor(api),
+  };
+  rateTable(api).put(row as unknown as ModuleRow);
+  return row;
+}
+
+/** Adds a month of the plans' claims to the rate's record, keeping the latest twelve. */
+function recordClaims(api: CoreAPI, month: PlanCareMonth): void {
+  const old = planRateOf(api);
+  if (!old) return;
+  const key = api.state.date.slice(0, "YYYY-MM".length);
+  const months = [
+    ...old.months.filter((row) => row.month !== key),
+    { month: key, ...month },
+  ].slice(-api.parameter("monthsPerYear"));
+  rateTable(api).put({ ...old, months } as unknown as ModuleRow);
+}
+
+/** What the policyholder pays a month for a policy covering this many people, at the year's rate. */
+export function workerPremium(
+  api: CoreAPI,
+  rate: number,
+  covered: number,
+): number {
+  const p = (key: string) => api.parameter(key);
+  return Math.round(
+    rate *
+      Math.max(p("one"), covered) *
+      (covered > p("one")
+        ? p("healthWorkerPremiumShareFamily")
+        : p("healthWorkerPremiumShareSingle")),
+  );
+}
+
 interface Candidate {
   readonly personId: string;
   readonly householdId: string;
@@ -115,6 +242,68 @@ interface Candidate {
   readonly wage: number;
   /** Real workers the candidate stands for: 1 for a full person, the household's weight for a counted one. */
   readonly weight: number;
+  /** People under Medicare's age in the worker's household, whom a policy would cover. */
+  readonly covered: number;
+}
+
+/**
+ * The employer's weighing of offering this job the plan, and the worker's of
+ * taking it. Sliding scales, read from the world's records: the employer's
+ * staff, the job's pay, the year's rate and the people the policy would cover.
+ */
+export function planScores(
+  api: CoreAPI,
+  input: {
+    readonly staff: number;
+    readonly wageDailyMinor: number;
+    readonly covered: number;
+    readonly rateMonthlyMinor: number;
+  },
+): {
+  offerScore: number;
+  takeScore: number;
+  /** Each score as a share from 0 to 1 (its log-odds), for the town's count. */
+  offerShare: number;
+  takeShare: number;
+  payAnnualMinor: number;
+} {
+  const p = (key: string) => api.parameter(key);
+  const pay = input.wageDailyMinor * p("daysPerMeanYear");
+  const rateYear = input.rateMonthlyMinor * p("monthsPerYear");
+  const covered = Math.max(p("one"), input.covered);
+  // No pay, or a plan that costs nothing, leaves nothing to weigh.
+  if (!(pay > 0) || !(rateYear > 0)) {
+    const all = pay > 0;
+    return {
+      offerScore: all ? Infinity : -Infinity,
+      takeScore: all ? Infinity : -Infinity,
+      offerShare: all ? p("one") : p("zero"),
+      takeShare: all ? p("one") : p("zero"),
+      payAnnualMinor: pay,
+    };
+  }
+  const employerCost =
+    rateYear * (p("one") - p("healthWorkerPremiumShareSingle"));
+  const workerCost =
+    workerPremium(api, input.rateMonthlyMinor, covered) * p("monthsPerYear");
+  const offerScore =
+    p("healthOfferBaseline") +
+    p("healthOfferSizeWeight") * Math.log(Math.max(p("one"), input.staff)) +
+    p("healthOfferPayWeight") * Math.log(pay / employerCost);
+  const takeScore =
+    p("healthTakeBurdenWeight") *
+    Math.log(
+      (p("healthTakeBurdenTolerance") * pay * covered) /
+        Math.max(p("one"), workerCost),
+    );
+  const share = (score: number) => p("one") / (p("one") + Math.exp(-score));
+  return {
+    offerScore,
+    takeScore,
+    offerShare: share(offerScore),
+    takeShare: share(takeScore),
+    payAnnualMinor: pay,
+  };
 }
 
 /**
@@ -152,26 +341,43 @@ function unpaidHolders(api: CoreAPI): Set<string | null> {
 }
 
 /**
- * Who holds an employer plan in their own name: the town's working adults, full
- * and counted, ranked by their employer's size and then pay (the larger first),
- * the top share by weight. One policyholder to a household.
+ * Who holds an employer plan in their own name. Each of the town's working
+ * adults, full and counted, has their own share of a plan (planScores: the
+ * employer's offer times the worker's take-up); the town's plans are the sum
+ * of those shares, held from the highest share down. One policyholder to a
+ * household.
  */
 function holdersToday(
   api: CoreAPI,
   staff: ReadonlyMap<string, number>,
   unpaid: ReadonlySet<string | null>,
+  rate: PlanRateRow,
 ): {
   full: Map<string, string>;
   counted: Map<string, string>;
+  reasons: Map<string, PlanReasons>;
   summary: EmployerPlansSummary;
 } {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
   const date = makeIsoDate(core.date);
+  const ageOf = (birth: string) => ageOnDate(makeIsoDate(birth), date);
   const adult = (birth: string) => {
-    const age = ageOnDate(makeIsoDate(birth), date);
+    const age = ageOf(birth);
     return age >= 19 && age < p("healthMedicareAge");
   };
+  // People under Medicare's age in each full household.
+  const coveredIn = new Map<string, number>();
+  for (const person of core.people.values())
+    if (
+      person.alive &&
+      !person.id.startsWith("official:") &&
+      ageOf(person.birthDate) < p("healthMedicareAge")
+    )
+      coveredIn.set(
+        person.householdId,
+        (coveredIn.get(person.householdId) ?? 0) + 1,
+      );
   const candidates: Candidate[] = [];
   for (const person of core.people.values()) {
     if (!person.alive || person.id.startsWith("official:")) continue;
@@ -183,28 +389,33 @@ function holdersToday(
       size: staff.get(job.organizationId) ?? 0,
       wage: job.wageDailyMinor,
       weight: 1,
+      covered: coveredIn.get(person.householdId) ?? 1,
     });
   }
   const rt = residentsRuntime(core);
+  const counted = new Set<string>();
   if (rt) {
     const store = rt.store;
     // The town's usual employer size, for workers whose employer is not recorded.
     const sizes = [...staff.values()].sort((a, b) => a - b);
     const usualSize = sizes[Math.floor(sizes.length / 2)] ?? 0;
     for (const h of store.liveHouseholds()) {
+      counted.add(h.id);
       const weight = store.weightOf(h);
+      const members = store.countedMembers(h);
+      const covered = members.filter(
+        (m) => ageOf(store.born[m]!) < p("healthMedicareAge"),
+      ).length;
       // Workers with no recorded employer (the place's unplaced workers) have
       // jobs too: the same rule as a recorded worker, at the town's usual
       // employer size and the pool's pay, so a place made mostly of them is
-      // not left with almost no employer plans.
+      // weighed like any other.
       if (h.unplacedWorkers > 0) {
-        const holder = store
-          .countedMembers(h)
-          .find(
-            (m) =>
-              adult(store.born[m]!) &&
-              !h.jobs.some((job) => job.personId === store.ids[m]),
-          );
+        const holder = members.find(
+          (m) =>
+            adult(store.born[m]!) &&
+            !h.jobs.some((job) => job.personId === store.ids[m]),
+        );
         if (holder !== undefined)
           candidates.push({
             personId: store.ids[holder]!,
@@ -216,6 +427,7 @@ function holdersToday(
             // The policyholders the record stands for, one to a household:
             // `unplacedWorkers` is one real household's, as a recorded job is.
             weight: Math.min(1, h.unplacedWorkers) * weight,
+            covered,
           });
       }
       for (const job of h.jobs) {
@@ -228,31 +440,48 @@ function holdersToday(
           size: staff.get(job.organizationId) ?? 0,
           wage: job.wageDailyMinor,
           weight,
+          covered,
         });
       }
     }
   }
-  candidates.sort(
+  const scored = candidates.map((c) => ({
+    c,
+    ...planScores(api, {
+      staff: c.size,
+      wageDailyMinor: c.wage,
+      covered: c.covered,
+      rateMonthlyMinor: rate.rateMonthlyMinor,
+    }),
+  }));
+  const shareOf = (row: (typeof scored)[number]) =>
+    row.offerShare * row.takeShare;
+  // The highest share first: their own records decide who, the sum how many.
+  scored.sort(
     (a, b) =>
-      b.size - a.size ||
-      b.wage - a.wage ||
-      a.personId.localeCompare(b.personId),
-  );
-  const total = candidates.reduce((n, c) => n + c.weight, 0);
-  const share = p("healthEmployerPolicyholderShare");
-  const counted = new Set(
-    rt ? [...rt.store.liveHouseholds()].map((h) => h.id) : [],
+      shareOf(b) - shareOf(a) ||
+      b.c.wage - a.c.wage ||
+      a.c.personId.localeCompare(b.c.personId),
   );
   const full = new Map<string, string>();
   const heldCounted = new Map<string, string>();
-  const slots = Math.round(total * share);
+  const reasons = new Map<string, PlanReasons>();
+  let total = 0,
+    offered = 0,
+    plans = 0;
+  for (const row of scored) {
+    total += row.c.weight;
+    offered += row.c.weight * row.offerShare;
+    plans += row.c.weight * shareOf(row);
+  }
   let taken = 0,
     heldWeight = 0,
     lapsedWeight = 0;
-  for (const c of candidates) {
-    const held = taken < slots;
+  for (const row of scored) {
+    const { c } = row;
+    const held = taken < Math.round(plans);
     taken += c.weight;
-    if (!held) continue;
+    if (!held) break;
     if (unpaid.has(c.personId)) {
       lapsedWeight += c.weight;
       continue;
@@ -260,44 +489,67 @@ function holdersToday(
     const into = counted.has(c.householdId) ? heldCounted : full;
     if (into.has(c.householdId)) continue;
     into.set(c.householdId, c.personId);
+    reasons.set(c.personId, {
+      staff: c.size,
+      payAnnualMinor: row.payAnnualMinor,
+      offerShare: row.offerShare,
+      takeShare: row.takeShare,
+      rateMonthlyMinor: rate.rateMonthlyMinor,
+      covered: c.covered,
+    });
     heldWeight += c.weight;
   }
   return {
     full,
     counted: heldCounted,
+    reasons,
     summary: {
       date: makeIsoDate(core.date),
       workers: total,
-      share,
-      slots,
+      offered,
+      plans,
       held: heldWeight,
       lapsed: lapsedWeight,
       fullHolders: full.size,
       countedHolders: heldCounted.size,
+      rateYear: rate.year,
+      rateMonthlyMinor: rate.rateMonthlyMinor,
+      claimsMonthlyMinor: rate.claimsMonthlyMinor,
+      claimMonths: rate.months.length,
     },
   };
 }
 
 /**
- * One ranking of employer plans: workers with a job (by the real workers they
- * stand for), the share who hold their own plan, the plans that share gives,
- * those held, and those left out because the holder's last premium went unpaid.
+ * One weighing of employer plans: workers with a job (by the real workers
+ * they stand for), the sum of their employers' offers, the plans their own
+ * shares add up to (offer times take-up), those held, and those left out
+ * because their last premium went unpaid; and the year's rate the weighing
+ * read.
  */
 export interface EmployerPlansSummary {
   readonly date: IsoDate;
   readonly workers: number;
-  readonly share: number;
-  readonly slots: number;
+  readonly offered: number;
+  readonly plans: number;
   readonly held: number;
   readonly lapsed: number;
   readonly fullHolders: number;
   readonly countedHolders: number;
+  readonly rateYear: number;
+  /** One covered person's month at the year's rate, and the claims a person it was set from. */
+  readonly rateMonthlyMinor: number;
+  readonly claimsMonthlyMinor: number;
+  /** Months of the plans' own claims behind the rate (the opening's estimate stands for the rest of twelve). */
+  readonly claimMonths: number;
 }
 
-/** The town's employer plans as the review would rank them today, for dev mode. Reads only. */
+/** The town's employer plans as the review would weigh them today, for dev mode. Reads only. */
 export function employerPlansToday(api: CoreAPI): EmployerPlansSummary | null {
   if (!api.state.modules.has(COVERAGE_MODULE_ID)) return null;
-  return holdersToday(api, staffOf(api), unpaidHolders(api)).summary;
+  const rate = planRateOf(api);
+  if (!rate) return null;
+  return holdersToday(api, staffOf(api), unpaidHolders(api), rate).summary;
 }
 
 /** The day of the last review: the 1st, or the opening day in the opening month. */
@@ -315,6 +567,7 @@ function plansToday(
   only?: ReadonlySet<string>,
   /** The day ages are taken on: today at a review, the last review's day at a fill-in. */
   agesOn: IsoDate = makeIsoDate(api.state.date),
+  rateMonthlyMinor: number = planRateOf(api)?.rateMonthlyMinor ?? 0,
 ): Map<string, { householdId: string } & Plan> {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
@@ -337,8 +590,6 @@ function plansToday(
       ...(members.get(person.householdId) ?? []),
       person.id,
     ]);
-  const perMonth = (usd: number) =>
-    Math.round((usd * p("minorPerDollar")) / p("monthsPerYear"));
   for (const person of people) {
     const holder = holderByHousehold.get(person.householdId);
     if (ageOf(person.birthDate) >= p("healthMedicareAge")) {
@@ -358,11 +609,7 @@ function plansToday(
         holderId: holder,
         premiumMonthlyMinor:
           person.id === holder
-            ? perMonth(
-                covered.length > 1
-                  ? p("healthWorkerContributionFamilyAnnualUsd")
-                  : p("healthWorkerContributionSingleAnnualUsd"),
-              )
+            ? workerPremium(api, rateMonthlyMinor, covered.length)
             : 0,
       });
     } else {
@@ -390,6 +637,8 @@ export interface CountedCoverageRow {
   readonly to: IsoDate | null;
   readonly lastDueMinor: number;
   readonly lastPaidMinor: number;
+  /** What the policy was decided from (planScores), for dev mode's trace. */
+  readonly reasons?: PlanReasons;
   readonly source: Source;
 }
 
@@ -411,7 +660,12 @@ export function countedCoverageOf(
 }
 
 /** Each counted household's policy today: the holders the shared ranking picks. */
-function reviewCounted(api: CoreAPI, held: ReadonlyMap<string, string>): void {
+function reviewCounted(
+  api: CoreAPI,
+  held: ReadonlyMap<string, string>,
+  rate: PlanRateRow,
+  reasons: ReadonlyMap<string, PlanReasons>,
+): void {
   const core = api.state as CoreState;
   const rt = residentsRuntime(core);
   const today = makeIsoDate(core.date);
@@ -421,8 +675,6 @@ function reviewCounted(api: CoreAPI, held: ReadonlyMap<string, string>): void {
       .filter((row) => row.to === null)
       .map((row) => [row.householdId, row]),
   );
-  const perMonth = (usd: number) =>
-    Math.round((usd * p("minorPerDollar")) / p("monthsPerYear"));
   const wanted = new Map<
     string,
     Omit<
@@ -446,11 +698,8 @@ function reviewCounted(api: CoreAPI, held: ReadonlyMap<string, string>): void {
         placeId: h.placeId,
         holderId,
         covered,
-        premiumMonthlyMinor: perMonth(
-          covered > 1
-            ? p("healthWorkerContributionFamilyAnnualUsd")
-            : p("healthWorkerContributionSingleAnnualUsd"),
-        ),
+        premiumMonthlyMinor: workerPremium(api, rate.rateMonthlyMinor, covered),
+        ...(reasons.has(holderId) ? { reasons: reasons.get(holderId)! } : {}),
       });
     }
   for (const [householdId, old] of have) {
@@ -518,6 +767,7 @@ function putPlans(
     string,
     { readonly lastDueMinor: number; readonly lastPaidMinor: number }
   > = new Map(),
+  reasons: ReadonlyMap<string, PlanReasons> = new Map(),
 ): void {
   const today = makeIsoDate(api.state.date);
   for (const [personId, plan] of plans) {
@@ -542,6 +792,9 @@ function putPlans(
       lastDueMinor: carried.get(personId)?.lastDueMinor ?? 0,
       lastPaidMinor: carried.get(personId)?.lastPaidMinor ?? 0,
       lastJournalId: null,
+      ...(plan.plan === "employer" && reasons.has(personId)
+        ? { reasons: reasons.get(personId)! }
+        : {}),
       source: sourceFor(api),
     } as unknown as ModuleRow);
   }
@@ -551,9 +804,16 @@ function putPlans(
 function review(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
   const have = new Map(current(api).map((row) => [row.personId, row]));
-  const holders = holdersToday(api, staffOf(api), unpaidHolders(api));
-  reviewCounted(api, holders.counted);
-  putPlans(api, plansToday(api, holders.full), have);
+  const rate = setRate(api);
+  const holders = holdersToday(api, staffOf(api), unpaidHolders(api), rate);
+  reviewCounted(api, holders.counted, rate, holders.reasons);
+  putPlans(
+    api,
+    plansToday(api, holders.full, undefined, today, rate.rateMonthlyMinor),
+    have,
+    undefined,
+    holders.reasons,
+  );
   // Anyone who died or left the records has no current plan.
   const alive = new Set(
     [...(api.state as CoreState).people.values()]
@@ -627,7 +887,7 @@ function handOff(api: CoreAPI, householdId: string): void {
 
 /** The month's out-of-pocket medical bills, priced by the coverage records as they stand after the premiums. */
 function billMedical(api: CoreAPI): void {
-  billMedicalCare(api, {
+  const month = billMedicalCare(api, {
     module: COVERAGE_MODULE_ID,
     coverage: new Map(current(api).map((row) => [row.personId, row.plan])),
     countedHolders: new Set(
@@ -636,6 +896,7 @@ function billMedical(api: CoreAPI): void {
         .map((row) => row.householdId),
     ),
   });
+  recordClaims(api, month);
 }
 
 /** Each policyholder pays the month's premium to the outside account, from what they hold. */
@@ -679,6 +940,8 @@ export const COVERAGE_MODULE: CoreModule = {
       },
       // Each household's latest month of medical bills (medical-bills.ts).
       medicalBills: {},
+      // One row: the year's rate and the twelve months of claims behind it.
+      planRate: {},
     },
   },
   onFillIn(api, { householdId }) {

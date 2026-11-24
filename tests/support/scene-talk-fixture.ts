@@ -74,6 +74,8 @@ const flags = [
   // The desk visit always knows what a bill costs; with no budget line the
   // record says so (deskFacts, purpose-scene.ts).
   "no-cost",
+  // A last day at a job (lastDayFacts) says the job was left.
+  "work-day",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -120,10 +122,16 @@ export const facts: Record<string, Fact> = {
   self: fact("Pat Rivera"),
   effect: fact("my rent went up"),
   relative: fact("Robin Ortiz"),
+  // A letter writer's and a missing relative's town and name (letterFacts, gatheringFacts).
+  hometown: fact("Bergen County"),
+  absent: fact("Robin Ortiz"),
   where: fact("county clerk's office"),
   executive: fact("governor"),
   employer: fact("the hardware store"),
   position: fact("a cashier"),
+  school: fact("Long Hill High School"),
+  "school-short": fact("Long Hill"),
+  workplace: fact("the clinic"),
   pay: fact("$15.00"),
   when: fact("this morning"),
   "stake-money": fact("money"),
@@ -145,6 +153,8 @@ export const facts: Record<string, Fact> = {
   "race-office": fact("governor"),
   "reason-yes-step-up": fact("yes"),
   "reason-own-seat": fact("yes"),
+  // What a quarrel was over, by its missed payment's loan (quarrelFacts).
+  payment: fact("the mortgage"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
