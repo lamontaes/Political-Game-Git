@@ -435,17 +435,23 @@ ol {
   border-radius: var(--control-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
-/* The broadcast on a set the room paints: over its glass, in the picture's own percent. */
+/* The broadcast on a set the room paints: the speaker's bust over its glass, in the picture's own percent. */
 #tv-screen {
   position: absolute;
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  background: radial-gradient(circle, #5d7184, #1d2630);
-  border-radius: 6%;
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
+  border-radius: var(--control-radius);
 }
-#tv-screen > * {
-  width: 100%;
+#tv-screen {
+  container-type: size;
+}
+#tv-screen .bust-strip {
+  --bust: 100cqw;
+  height: 100%;
+}
+#tv-screen .busts-glass,
+#tv-screen .busts-name {
+  display: none;
 }
 #tv .bust-strip {
   --bust: 120px;

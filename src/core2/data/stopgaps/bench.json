@@ -12,5 +12,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-BENCH-painted-tv-rooms-checked",
+    "kind": "partial-model",
+    "file": "src/bench/scene.ts",
+    "line": 569,
+    "whatItFakes": "Only the living-room pictures were checked for a painted television; a set painted in a kitchen, bedroom, regional house or official residence shows no broadcast on its glass.",
+    "why": "The broadcast-on-glass fix (C18, Nov 23) measured the glass of the sets in the living rooms of every dwelling; the other room pictures were not opened one by one.",
+    "addedBy": "claude/pt-address-c18",
+    "addedAt": "2026-11-23",
+    "replacement": "A paintedScreens row in scene-places.json for each other picture that paints a set, found by looking at every room picture; no code changes.",
+    "status": "open"
   }
 ]

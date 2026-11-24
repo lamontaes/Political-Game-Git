@@ -1131,11 +1131,7 @@
     "more": "and {count} more"
   },
   "tv": {
-    "live": "Live",
-    "screens": {
-      "apartment-rundown-living": [69.2, 47, 4.8, 8.6],
-      "apartment-starter-living": [65.4, 42, 5.3, 16.5]
-    }
+    "live": "Live"
   },
   "talkBox": {
     "continue": "Continue",
