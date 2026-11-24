@@ -135,6 +135,12 @@ it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE
     typeKey: "desk-visit",
   });
   expect(composed?.kind).toBe("composed");
+  expect(composed?.kind === "composed" && composed.scene.facts).toContainEqual(
+    expect.objectContaining({
+      key: `desk-enact:${bill.provisions[0]!.question}`,
+      recordIds: [bill.id],
+    }),
+  );
   let yes: number[] | undefined;
   if (composed?.kind === "composed")
     (function walk(node: TreeNode, at: number[]) {
