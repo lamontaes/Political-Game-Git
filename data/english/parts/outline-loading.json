@@ -55,7 +55,9 @@
     "start-president-party": "The party that held the White House when the game opens.",
     "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row.",
     "governor-party": "The party of the governor of the player's state when the game opens, from the offices engine's governor seat.",
-    "us-house-party": "The party of the U.S. Representative whose district covers the player's town when the game opens."
+    "us-house-party": "The party of the U.S. Representative whose district covers the player's town when the game opens.",
+    "household-others": "How many other people live in the player's household at the opening, in words ('one other person', 'three other people'), from the household record.",
+    "lived-here-since": "The year the player's household moved into the place, from the household record."
   },
   "maxWords": 30,
   "parts": [
@@ -94,23 +96,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.loading-story-by-the-state-had-you-in-a-classroom-in-that-s-how-the-state-",
-      "move": "school",
-      "kind": "written",
-      "text": "By {school-year} the state had you in a classroom in {school-place}. That's how the state says hello.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.school.loading-story-in-you-started-school-in-where-the-first-lesson-was-standing",
       "move": "school",
       "kind": "written",
@@ -128,28 +113,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.loading-story-in-the-family-packed-up-for-because-the-economy-said-so",
-      "move": "moved",
-      "kind": "written",
-      "text": "In {moved-year} the family packed up {moved-from} for {moved-to}, because the economy said so.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-for-work"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.moved.loading-story-in-you-landed-in-survived-the-loss",
       "move": "moved",
       "kind": "written",
@@ -160,23 +123,6 @@
           "role": "moved",
           "tie": "record",
           "requiresFacts": ["moved-year", "moved-from", "moved-to"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.finished.loading-story-you-finished-school-in-the-diploma-came-with-no-instructions",
-      "move": "finished",
-      "kind": "written",
-      "text": "You finished school in {finished-year}. The diploma came with no instructions.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "finished",
-          "tie": "record",
-          "requiresFacts": ["finished-year"]
         }
       ],
       "origin": "authored",
@@ -205,24 +151,6 @@
       "move": "college",
       "kind": "written",
       "text": "In {college-year} you started college, which is a lot like school with a bill attached.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year"],
-          "excludesFacts": ["college-same-year"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.college.loading-story-brought-college-because-everyone-said-so-with-great-confiden",
-      "move": "college",
-      "kind": "written",
-      "text": "{college-year} brought college, because everyone said so with great confidence.",
       "uses": [
         {
           "subject": "loading-story",
@@ -277,24 +205,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.loading-story-and-now-it-s-a-new-president-takes-the-oath-has-its-legislat",
-      "move": "now",
-      "kind": "written",
-      "text": "And now it's {start-month} {start-year}. A new President takes the oath, {state} has its legislature back, and {place} has been talking about all of it without you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["start-month", "start-year", "state", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "after": ["start"]
-    },
-    {
       "key": "outline-loading.now.loading-story-it-s-washington-has-a-new-president-has-its-usual-problems-a",
       "move": "now",
       "kind": "written",
@@ -305,24 +215,6 @@
           "role": "now",
           "tie": "record",
           "requiresFacts": ["start-month", "start-year", "state", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "after": ["start"]
-    },
-    {
-      "key": "outline-loading.college.loading-story-that-fall-came-college-a-lot-like-school-with-a-bill",
-      "move": "college",
-      "kind": "written",
-      "text": "That fall came college, which is a lot like school with a bill attached. Welcome to {college-year}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "college",
-          "tie": "record",
-          "requiresFacts": ["college-year", "college-same-year"]
         }
       ],
       "origin": "authored",
@@ -3781,6 +3673,385 @@
         }
       ],
       "elements": ["some-moves-are-for-a-job"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.you-were-still-too-young-for-school-when-the-family-left-moved-from-for-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "You were still too young for school when the family left {moved-from} for {moved-to} in {moved-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-came-in-moved-year-before-you-started-schoo",
+      "move": "moved",
+      "kind": "written",
+      "text": "The move from {moved-from} to {moved-to} came in {moved-year}, before you started school.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.in-moved-year-the-family-moved-to-moved-to-you-had-not-started-school-yet",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} the family moved to {moved-to}. You had not started school yet.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.you-finished-school-and-started-college-in-the-same-year-college-year",
+      "move": "college",
+      "kind": "written",
+      "text": "You finished school and started college in the same year, {college-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.in-college-year-you-graduated-and-started-college-one-right-after-the-other",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you graduated and started college, one right after the other.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.three-governments-cover-place-in-start-month-start-year-the-town-state-and-the-c",
+      "move": "now",
+      "kind": "written",
+      "text": "Three governments cover {place} in {start-month} {start-year}: the town, {state} and the country. You have a say in all three.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "state"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.most-of-what-happens-in-place-happens-without-you-start-month-start-year-is-when",
+      "move": "now",
+      "kind": "written",
+      "text": "Most of what happens in {place} happens without you. {start-month} {start-year} is when that starts to change.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.by-start-month-start-year-you-know-your-way-around-place-and-so-does-everyone-wh",
+      "move": "now",
+      "kind": "written",
+      "text": "By {start-month} {start-year} you know your way around {place}, and so does everyone who has been there longer.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.someone-in-place-runs-the-town-and-in-start-month-start-year-you-can-find-out-wh",
+      "move": "now",
+      "kind": "written",
+      "text": "Someone in {place} runs the town, and in {start-month} {start-year} you can find out who.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-you-live-alone-in-place-in-a-household-of-one",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year} you live alone in {place}, in a household of one.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "lives-alone"]
+        }
+      ],
+      "elements": ["three-in-ten-households-are-one-person"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-live-on-your-own-in-place-as-many-households-in-the-country-do",
+      "move": "now",
+      "kind": "written",
+      "text": "You live on your own in {place}, as many households in the country do.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "lives-alone"]
+        }
+      ],
+      "elements": ["three-in-ten-households-are-one-person"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.your-household-has-lived-in-place-since-lived-here-since",
+      "move": "now",
+      "kind": "written",
+      "text": "Your household has lived in {place} since {lived-here-since}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "lived-here-since"
+          ]
+        }
+      ],
+      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-has-been-your-household-s-home-since-lived-here-since",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} has been your household's home since {lived-here-since}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "lived-here-since"
+          ]
+        }
+      ],
+      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.your-household-moved-into-place-in-lived-here-since-and-you-are-still-there-in-s",
+      "move": "now",
+      "kind": "written",
+      "text": "Your household moved into {place} in {lived-here-since}, and you are still there in {start-month} {start-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "lived-here-since"
+          ]
+        }
+      ],
+      "elements": [
+        "about-one-person-in-nine-changes-residence-each-year",
+        "young-adults-mostly-live-near-where-they-grew-up"
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-live-in-place-with-one-other-person",
+      "move": "now",
+      "kind": "written",
+      "text": "You live in {place} with one other person.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "one-other-in-household"
+          ]
+        }
+      ],
+      "elements": ["average-household-size-is-two-and-a-half"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.your-household-in-place-has-one-other-person-besides-you",
+      "move": "now",
+      "kind": "written",
+      "text": "Your household in {place} has one other person besides you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "one-other-in-household"
+          ]
+        }
+      ],
+      "elements": ["average-household-size-is-two-and-a-half"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-live-in-place-with-household-others-other-people",
+      "move": "now",
+      "kind": "written",
+      "text": "You live in {place} with {household-others} other people.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "household-others",
+            "several-in-household"
+          ]
+        }
+      ],
+      "elements": ["average-household-size-is-two-and-a-half"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.your-household-in-place-has-household-others-other-people-besides-you",
+      "move": "now",
+      "kind": "written",
+      "text": "Your household in {place} has {household-others} other people besides you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": [
+            "start-month",
+            "start-year",
+            "place",
+            "household-others",
+            "several-in-household"
+          ]
+        }
+      ],
+      "elements": ["average-household-size-is-two-and-a-half"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
