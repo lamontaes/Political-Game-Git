@@ -18,12 +18,16 @@
     {
       "name": "price up and sales down",
       "pulledBy": "a tight market",
-      "writes": "the lede says prices rose as sales fell"
+      "writes": "the lede says prices rose as sales fell",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "both up",
       "pulledBy": "a hot market",
-      "writes": "the lede says both rose"
+      "writes": "the lede says both rose",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

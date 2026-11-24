@@ -2,8 +2,9 @@
   "id": "job-offer-traces-to-an-application",
   "kind": "moment",
   "summary": "An employer’s offer arrives in response to an application the player remembers submitting.",
-  "realLife": "owner, Nov 16: A job offer needs an identifiable reason for reaching this person.",
+  "realLife": "Arthur Rynearson recalled applying to the House and Senate legislative counsel offices and interviewing with both. The Senate offer arrived by mail while a separate application at the Library of Congress was still pending.",
   "sources": [
+    "https://www.senate.gov/about/resources/pdf/rynearson-arthur-j-full-transcript-with-index.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L244"
   ],
   "inGame": "The job-offer scene handles the offer; an application-linked version requires the matching application.",
@@ -18,6 +19,12 @@
       "what": "The employer calls to invite the applicant for another interview.",
       "pulledBy": "The application passed its first review and the hiring decision is open.",
       "writesBack": "The application advances to an interview with no offer recorded."
+    },
+    {
+      "turn": "late",
+      "what": "The offer comes after the applicant has accepted work somewhere else.",
+      "pulledBy": "Both employers have dated correspondence on file and the applicant has a confirmed start date.",
+      "writesBack": "The applicant declines the later offer and the first job remains on the employment record."
     }
   ]
 }

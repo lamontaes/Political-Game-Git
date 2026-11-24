@@ -14,7 +14,6 @@ import { coreAPI } from "../core2/state";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { townSeats } from "../core2/modules/offices";
-import type { EntityId } from "../core2/kernel/brands";
 import { billOf } from "../core2/modules/legislature";
 import {
   ELECTIONS_MODULE_ID,
@@ -35,14 +34,8 @@ import {
   fact,
   planSpeech,
   type Block,
-  type OutlineSpeaker,
   type PlannedPoint,
 } from "./speech-outline";
-import {
-  tellingOfPlan,
-  toldSentences,
-  type AddressTelling,
-} from "./address-telling";
 import { localSpeaker } from "./local-address";
 import { markWordsStopgap } from "./stopgaps";
 
@@ -76,12 +69,11 @@ function spoken(
   speakerId: PersonId,
   plan: ReturnType<typeof planSpeech>,
   blocks: readonly Block[],
-  told: OpeningSentence[] | null = null,
 ): LocalSpeech | null {
   const speaker = core.people.get(speakerId);
   // A speech with nothing to say is not given.
   if (!speaker || !plan.asks.length) return null;
-  const sentences = told ?? composeBlocks(core, speaker, [...blocks]);
+  const sentences = composeBlocks(core, speaker, [...blocks]);
   if (!sentences?.length) return null;
   return {
     kind,
@@ -161,72 +153,11 @@ export function composeFloorSpeech(
 }
 
 /**
- * What a candidate's campaign speech is told from, planned by the one
- * planner from what they run on (the sameness gate's inputs read it). Null
- * where the office or the candidate is not on the record.
- */
-export function campaignSpeechTelling(
-  core: CoreState,
-  candidateId: PersonId,
-  officeId: string,
-  party: string | null,
-): AddressTelling | null {
-  const api = coreAPI(core);
-  const office = officeOf(core, officeId);
-  const person = core.people.get(candidateId);
-  if (!office || !person) return null;
-  const platform = candidatePlatform(
-    api,
-    candidateId,
-    party,
-    contestPositions(api, { officeId }),
-  ).map((row) => row.question);
-  const speaker: OutlineSpeaker = {
-    person,
-    jurisdiction: office.jurisdiction,
-    serviceStart: core.date,
-    local: {
-      ...localSpeaker(core, { party }, office, officeSaid(office)),
-      questions: platform,
-    },
-  };
-  const telling = tellingOfPlan(
-    core,
-    "campaign-speech",
-    speaker,
-    planSpeech(core, "campaign", speaker),
-    `campaign-speech:${core.date}:${candidateId}`,
-  );
-  // Whether the candidate holds the seat they run for, from the seat's
-  // serving term: an incumbent runs on the record, a challenger against it.
-  const held = townSeats(api).find(
-    (row) => row.office.id === officeId && row.holder?.personId === candidateId,
-  );
-  const side = held ? "incumbent" : "challenger";
-  return {
-    ...telling,
-    input: {
-      ...telling.input,
-      facts: {
-        ...telling.input.facts,
-        [side]: {
-          text: "yes",
-          sourceRecordIds: [held?.holder?.id ?? officeId] as EntityId[],
-        },
-      },
-    },
-  };
-}
-
-/**
  * A local candidate's campaign (stump) speech for an office: what they run
  * on is the platform engine's pick (campaign-stances.ts `candidatePlatform`:
  * the questions the seat takes up that they hold most strongly and most of
- * the town shares), planned into one theme and asked of the voters. Told
- * through the one outline planner where its bank can say every required
- * section; the old composer stands in until then
- * (SG-WORDS-addresses-await-outline). Null when the platform gives nothing
- * to say.
+ * the town shares), planned into one theme and asked of the voters. Null
+ * when the platform gives nothing to say.
  */
 export function composeCampaignSpeech(
   core: CoreState,
@@ -234,19 +165,36 @@ export function composeCampaignSpeech(
   officeId: string,
   party: string | null,
 ): LocalSpeech | null {
-  const telling = campaignSpeechTelling(core, candidateId, officeId, party);
-  if (!telling) return null;
-  const told = toldSentences(telling);
-  // stopgapId: SG-WORDS-addresses-await-outline
-  if (!told) markWordsStopgap("SG-WORDS-addresses-await-outline");
-  return spoken(
-    core,
-    "campaign",
-    candidateId,
-    telling.plan,
-    telling.plan.blocks,
-    told,
-  );
+  const api = coreAPI(core);
+  const office = officeOf(core, officeId);
+  const person = core.people.get(candidateId);
+  if (!office || !person) return null;
+  // What they run on is what their filing for this office says: the stands
+  // were chosen once, when they filed (`platformFromViews`), and every reader
+  // takes them from there. Only a candidate with no filing for the seat (an
+  // official speaking on the stump) has them chosen from their views.
+  const filed = standingFiling(core, candidateId);
+  const platform =
+    filed && filed.contest.officeId === officeId && filed.filing.platform.length
+      ? filed.filing.platform.map((entry) =>
+          entry.slice(P.zero, entry.lastIndexOf("=")),
+        )
+      : candidatePlatform(
+          api,
+          candidateId,
+          party,
+          contestPositions(api, { officeId }),
+        ).map((row) => row.question);
+  const plan = planSpeech(core, "campaign", {
+    person,
+    jurisdiction: office.jurisdiction,
+    serviceStart: core.date,
+    local: {
+      ...localSpeaker(core, { party }, office, officeSaid(office)),
+      questions: platform,
+    },
+  });
+  return spoken(core, "campaign", candidateId, plan, plan.blocks);
 }
 
 /** A speech a scene plays in its speaker's own words, composed from its record. */

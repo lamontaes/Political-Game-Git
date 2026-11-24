@@ -18,12 +18,16 @@
     {
       "name": "held without bail",
       "pulledBy": "a serious charge",
-      "writes": "the lede says they remain jailed"
+      "writes": "the lede says they remain jailed",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "charges dropped",
       "pulledBy": "a case that fell apart",
-      "writes": "the lede says the case was dismissed"
+      "writes": "the lede says the case was dismissed",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

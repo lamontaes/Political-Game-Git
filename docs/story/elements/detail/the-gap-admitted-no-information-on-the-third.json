@@ -18,12 +18,16 @@
     {
       "name": "all three known",
       "pulledBy": "complete records",
-      "writes": "each is named with age and town"
+      "writes": "each is named with age and town",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "none named",
       "pulledBy": "juveniles",
-      "writes": "the story says names are withheld"
+      "writes": "the story says names are withheld",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

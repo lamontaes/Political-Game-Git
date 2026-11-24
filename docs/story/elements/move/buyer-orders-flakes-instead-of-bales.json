@@ -1,0 +1,30 @@
+{
+  "id": "buyer-orders-flakes-instead-of-bales",
+  "kind": "move",
+  "summary": "A buyer's shipping instructions determine whether a recycler bundles bottles or grinds them before pickup.",
+  "realLife": "The Missourian described processors choosing bales or granules according to the buyer's requirements and fitting more granulated material into a shipment.",
+  "sources": [
+    "https://mdh.contentdm.oclc.org/digital/api/collection/colmo8/id/242376/download"
+  ],
+  "fits": ["work-community", "office", "news", "journal", "speeches"],
+  "slots": ["{buyer}", "{shipment}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: buyer specification and available processing equipment.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The carrier reserves space for bundles.",
+      "pulledBy": "The buyer accepts intact bales.",
+      "writesBack": "The recycler schedules the baling equipment."
+    },
+    {
+      "turn": "opposite",
+      "what": "The dispatcher checks how much material fits after grinding.",
+      "pulledBy": "The buyer requires granules.",
+      "writesBack": "The recycler checks grinding capacity before confirming pickup."
+    }
+  ]
+}

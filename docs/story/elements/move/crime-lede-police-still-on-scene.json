@@ -18,12 +18,16 @@
     {
       "name": "lede on the crime itself",
       "pulledBy": "a crime with no ongoing response",
-      "writes": "the lede says what was taken and where"
+      "writes": "the lede says what was taken and where",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on an arrest",
       "pulledBy": "a suspect already held",
-      "writes": "the lede says who was arrested"
+      "writes": "the lede says who was arrested",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

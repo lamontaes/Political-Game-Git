@@ -18,12 +18,16 @@
     {
       "name": "a runaway first place",
       "pulledBy": "one candidate far ahead",
-      "writes": "the story names the first place and groups the rest"
+      "writes": "the story names the first place and groups the rest",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a tie for the last seat",
       "pulledBy": "two candidates level for a seat",
-      "writes": "the story says a recount is possible"
+      "writes": "the story says a recount is possible",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

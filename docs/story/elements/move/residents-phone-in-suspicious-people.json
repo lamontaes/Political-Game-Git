@@ -18,12 +18,16 @@
     {
       "name": "police found them",
       "pulledBy": "an officer on patrol",
-      "writes": "the story says an officer noticed them"
+      "writes": "the story says an officer noticed them",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a camera caught them",
       "pulledBy": "a doorbell camera",
-      "writes": "the story says what the footage showed"
+      "writes": "the story says what the footage showed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

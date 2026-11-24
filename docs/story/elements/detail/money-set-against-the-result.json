@@ -18,12 +18,16 @@
     {
       "name": "the winner raised more",
       "pulledBy": "a well funded winner",
-      "writes": "the story says money tracked the result"
+      "writes": "the story says money tracked the result",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no figures",
       "pulledBy": "a race with no filings",
-      "writes": "the story leaves money out"
+      "writes": "the story leaves money out",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

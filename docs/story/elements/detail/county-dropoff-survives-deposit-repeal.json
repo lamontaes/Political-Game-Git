@@ -1,0 +1,28 @@
+{
+  "id": "county-dropoff-survives-deposit-repeal",
+  "kind": "detail",
+  "summary": "A household without a return trip to the store looks up where the county accepts sorted recyclables.",
+  "realLife": "Delaware’s replacement law provided for the state solid waste authority to maintain a site in each county for separated recyclables.",
+  "sources": ["https://legis.delaware.gov/BillDetail?legislationId=19844"],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{household}", "{county}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: authorized drop-off site and accepted materials.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A household checks whether returning an eligible bottle to a dealer would recover its deposit.",
+      "pulledBy": "A nearby dealer owes a refund for that beverage.",
+      "writesBack": "The household can compare the dealer trip with the drop-off trip."
+    },
+    {
+      "turn": "opposite",
+      "what": "After the final refund window, a county site remains an option for accepted materials without a deposit payout.",
+      "pulledBy": "The deposit is gone and the county site accepts the material.",
+      "writesBack": "The empty can be delivered without an expectation of payment."
+    }
+  ]
+}

@@ -25,5 +25,6 @@
       "pulledBy": "The copy at the desk differs from their agreed text.",
       "writesBack": "The corrected version is the one entered on the floor."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage"]
 }

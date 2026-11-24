@@ -1,0 +1,28 @@
+{
+  "id": "annexation-offer-does-not-lock-in-refund-waiver",
+  "kind": "voice",
+  "summary": "A council member asks whether a store can rely on its waiver if a later ordinance changes the rule.",
+  "realLife": "Loveless asked about the exemption's future. Boeckmann advised that the applicant would have no vested right preventing a later council from changing it.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_may21.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{member}", "{applicant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: waiver term and subsequent ordinance.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The applicant asks the clerk for written confirmation of the end date.",
+      "pulledBy": "The later ordinance preserves existing waivers.",
+      "writesBack": "The clerk keeps the original end date."
+    },
+    {
+      "turn": "opposite",
+      "what": "A cashier has to change how the till handles deposits.",
+      "pulledBy": "The later ordinance extinguishes the waiver.",
+      "writesBack": "The shop receives a new compliance date."
+    }
+  ]
+}

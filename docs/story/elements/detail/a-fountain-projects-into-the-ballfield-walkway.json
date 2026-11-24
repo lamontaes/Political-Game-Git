@@ -1,0 +1,32 @@
+{
+  "id": "a-fountain-projects-into-the-ballfield-walkway",
+  "kind": "detail",
+  "summary": "{inspector} checks whether a person using a cane can detect a drinking fountain projecting into the path.",
+  "realLife": "At Winton Park, inspectors identified a fountain beside the ballfield that extended into the walkway beyond what a cane user could detect.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=Drinking%20fountain%20next%20to%20ballfield"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{inspector}"],
+  "gates": [
+    "A pedestrian route passes a projecting fixture recorded as a cane-detection hazard."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the fixture position, walkway clearance and cane-detectable edge.",
+  "turns": [
+    {
+      "turn": "fixture moved",
+      "what": "The inspector checks the clear path at the new location.",
+      "pulledBy": "Staff propose moving the fixture.",
+      "writesBack": "The revised plan identifies the new position."
+    },
+    {
+      "turn": "guard narrows path",
+      "what": "The inspector marks the clearance needed around it.",
+      "pulledBy": "A proposed guard narrows the walkway.",
+      "writesBack": "The fixture repair returns for redesign."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

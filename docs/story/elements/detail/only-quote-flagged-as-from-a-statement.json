@@ -18,12 +18,16 @@
     {
       "name": "quote from an interview",
       "pulledBy": "an owner who talked to the paper",
-      "writes": "the story says they said it in an interview"
+      "writes": "the story says they said it in an interview",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no quote",
       "pulledBy": "an owner who did not respond",
-      "writes": "the story says they did not respond"
+      "writes": "the story says they did not respond",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

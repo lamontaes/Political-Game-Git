@@ -18,12 +18,16 @@
     {
       "name": "no appeal",
       "pulledBy": "a crime with a suspect already found",
-      "writes": "the story gives no request"
+      "writes": "the story gives no request",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "residents already helped",
       "pulledBy": "footage already handed in",
-      "writes": "the story says what it showed"
+      "writes": "the story says what it showed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

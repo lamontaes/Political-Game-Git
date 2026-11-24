@@ -18,12 +18,17 @@
     {
       "name": "vote first",
       "pulledBy": "a meeting that went quietly",
-      "writes": "the story leads with the vote and then the comment"
+      "writes": "the story leads with the vote and then the comment",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the reply first",
       "pulledBy": "a superintendent or official who answered sharply",
-      "writes": "the story opens on the reply"
+      "writes": "the story opens on the reply",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "the public-comment `hearing` row, then the roll call; needs: comment and reply as records"
 }

@@ -1,0 +1,32 @@
+{
+  "id": "check-the-agency-between-exam-preparations",
+  "kind": "detail",
+  "summary": "A student interrupts exam preparation to check whether an agency has found a substitute attendant.",
+  "realLife": "Tomko described calling the agency repeatedly while studying because she would be the person left without help if it found no replacement.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{student}", "{agency}", "{exam}"],
+  "gates": [
+    "A canceled visit coincides with the student’s work for an upcoming exam."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an agency call about a missed shift during exam preparation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The agency confirms coverage on the first call.",
+      "pulledBy": "A replacement has accepted.",
+      "writesBack": "The student can return to studying."
+    },
+    {
+      "turn": "partial",
+      "what": "The agency promises to call back.",
+      "pulledBy": "It still has an opening.",
+      "writesBack": "The student has a time to check again."
+    }
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
+}

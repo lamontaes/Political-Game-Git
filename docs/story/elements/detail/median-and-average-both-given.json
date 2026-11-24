@@ -18,12 +18,16 @@
     {
       "name": "only the median",
       "pulledBy": "a short report",
-      "writes": "one price"
+      "writes": "one price",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the two diverge",
       "pulledBy": "a few very large sales",
-      "writes": "the story says why the average is higher"
+      "writes": "the story says why the average is higher",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

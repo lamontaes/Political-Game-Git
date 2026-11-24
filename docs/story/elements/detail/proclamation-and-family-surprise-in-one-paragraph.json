@@ -19,12 +19,16 @@
     {
       "name": "no ceremony",
       "pulledBy": "a quiet exit",
-      "writes": "the story is a notice"
+      "writes": "the story is a notice",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a party",
       "pulledBy": "a gathering after",
-      "writes": "the story names where"
+      "writes": "the story names where",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

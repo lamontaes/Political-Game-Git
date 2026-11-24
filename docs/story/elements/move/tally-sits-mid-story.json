@@ -19,12 +19,17 @@
     {
       "name": "tally at the top",
       "pulledBy": "a one-vote margin or a unanimous vote",
-      "writes": "the lede carries the count"
+      "writes": "the lede carries the count",
+      "requiresFacts": ["by-one", "no-dissent"],
+      "excludesFacts": []
     },
     {
       "name": "no tally",
       "pulledBy": "a vote by voice or a consent item",
-      "writes": "the story says the item passed without a count"
+      "writes": "the story says the item passed without a count",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`roll-call` and `vote-margin` rows (count, `by-one`, `lone-vote`, `no-dissent`)"
 }

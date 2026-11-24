@@ -18,12 +18,16 @@
     {
       "name": "an empty pipeline",
       "pulledBy": "a town with no projects",
-      "writes": "the story says nothing is in review"
+      "writes": "the story says nothing is in review",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a pipeline that stalled",
       "pulledBy": "projects pending long",
-      "writes": "the story says how long"
+      "writes": "the story says how long",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

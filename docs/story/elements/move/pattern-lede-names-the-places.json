@@ -18,12 +18,16 @@
     {
       "name": "a lede on one place",
       "pulledBy": "a single close race",
-      "writes": "the lede names the race and the margin"
+      "writes": "the lede names the race and the margin",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a lede on the winners",
       "pulledBy": "a pattern of upsets",
-      "writes": "the lede names who won"
+      "writes": "the lede names who won",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "only the percent",
       "pulledBy": "a short brief",
-      "writes": "one change in plain words"
+      "writes": "one change in plain words",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "only the level",
       "pulledBy": "a first report",
-      "writes": "the levels with no comparison"
+      "writes": "the levels with no comparison",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

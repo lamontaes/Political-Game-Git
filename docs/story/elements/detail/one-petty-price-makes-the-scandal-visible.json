@@ -18,12 +18,16 @@
     {
       "name": "a large figure instead",
       "pulledBy": "a contract worth millions",
-      "writes": "the story gives the total"
+      "writes": "the story gives the total",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no figure",
       "pulledBy": "an allegation with no amount",
-      "writes": "the story says amounts are not known"
+      "writes": "the story says amounts are not known",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
