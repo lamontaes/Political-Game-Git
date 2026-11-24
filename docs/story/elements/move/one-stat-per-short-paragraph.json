@@ -18,12 +18,16 @@
     {
       "name": "figures in one paragraph",
       "pulledBy": "a short story",
-      "writes": "the counts sit in one sentence"
+      "writes": "the counts sit in one sentence",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "figures as a chart",
       "pulledBy": "a screen with room",
-      "writes": "the counts are a small table"
+      "writes": "the counts are a small table",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

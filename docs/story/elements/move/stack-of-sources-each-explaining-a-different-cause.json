@@ -18,12 +18,16 @@
     {
       "name": "one source",
       "pulledBy": "a thin story",
-      "writes": "one voice explains it"
+      "writes": "one voice explains it",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "sources who disagree",
       "pulledBy": "a contested boom",
-      "writes": "the story sets the quotes against each other"
+      "writes": "the story sets the quotes against each other",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

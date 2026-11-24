@@ -1,0 +1,28 @@
+{
+  "id": "price-the-space-behind-the-return-counter",
+  "kind": "move",
+  "summary": "A council member asks a grocer to account for the room the returns occupy as well as the people who sort them.",
+  "realLife": "When John asked about store costs, Nowell's representative Rick Rowden distinguished wages from floor space and pest control.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{member}", "{grocer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: store expenses and return duty.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The grocer sketches the return corner on a store plan.",
+      "pulledBy": "The member has the store's labor estimate alone.",
+      "writesBack": "The clerk requests a separate figure for the space devoted to returns."
+    },
+    {
+      "turn": "opposite",
+      "what": "The manager walks the freed floor with the department heads.",
+      "pulledBy": "The return duty expires.",
+      "writesBack": "The grocer checks the remaining stock before assigning the space to another use."
+    }
+  ]
+}

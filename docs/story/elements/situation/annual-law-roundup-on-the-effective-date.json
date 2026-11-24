@@ -18,12 +18,16 @@
     {
       "name": "one law only",
       "pulledBy": "a single big law",
-      "writes": "the story is about that law alone"
+      "writes": "the story is about that law alone",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a law delayed",
       "pulledBy": "a court order",
-      "writes": "the story says the date moved"
+      "writes": "the story says the date moved",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

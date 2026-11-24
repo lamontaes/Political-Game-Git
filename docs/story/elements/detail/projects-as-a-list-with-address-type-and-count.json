@@ -18,12 +18,16 @@
     {
       "name": "one project",
       "pulledBy": "a single large site",
-      "writes": "the story names it and the count"
+      "writes": "the story names it and the count",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "projects by neighborhood",
       "pulledBy": "a town with districts",
-      "writes": "the list is grouped by district"
+      "writes": "the list is grouped by district",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

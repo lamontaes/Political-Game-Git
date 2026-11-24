@@ -22,12 +22,17 @@
     {
       "name": "a hearing with no change",
       "pulledBy": "a budget that kept last year's rate",
-      "writes": "the story says nothing changed"
+      "writes": "the story says nothing changed",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a budget cut",
       "pulledBy": "a falling revenue forecast",
-      "writes": "the story leads with what was cut"
+      "writes": "the story leads with what was cut",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`budget-hearing`, `budget-adopted`, `budget-request` and `budget-line` builders; the budget engine"
 }

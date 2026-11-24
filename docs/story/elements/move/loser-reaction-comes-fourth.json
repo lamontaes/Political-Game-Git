@@ -18,12 +18,16 @@
     {
       "name": "the loser does not concede",
       "pulledBy": "a candidate who disputes the count",
-      "writes": "the story quotes the challenge"
+      "writes": "the story quotes the challenge",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the winner speaks first",
       "pulledBy": "a winner who gave a speech that night",
-      "writes": "the story opens its quotes with the speech"
+      "writes": "the story opens its quotes with the speech",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

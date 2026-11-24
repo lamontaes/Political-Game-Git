@@ -1,0 +1,32 @@
+{
+  "id": "find-the-way-in-from-the-unusable-door",
+  "kind": "detail",
+  "summary": "{voter} reaches a polling entrance and looks for a sign pointing to a usable door.",
+  "realLife": "At Planada's recreation building, the polling survey found no directions at inaccessible entrances and no accessibility symbol at accessible ones.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_atte.html#:~:text=directional%20signage%20posted%20at%20inaccessible%20entrances"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{voter}"],
+  "gates": [
+    "A polling facility has multiple entrances and an inspection records missing directions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the polling location, entrance signs and Election Day door schedule.",
+  "turns": [
+    {
+      "turn": "marked door locked",
+      "what": "The site lead checks the opening plan.",
+      "pulledBy": "A sign points to an entrance locked on Election Day.",
+      "writesBack": "The access log names the locked door."
+    },
+    {
+      "turn": "route verified",
+      "what": "The lead confirms that the door at its end is open.",
+      "pulledBy": "A volunteer walks the marked route before polls open.",
+      "writesBack": "The opening checklist records the route check."
+    }
+  ],
+  "issues": ["none"]
+}

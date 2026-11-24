@@ -1,0 +1,28 @@
+{
+  "id": "industry-asks-for-one-more-session",
+  "kind": "situation",
+  "summary": "A member weighs a ban on throwaway bottles against the beverage companies’ promise to bring back a remedy for litter.",
+  "realLife": "Oregon’s 1969 beer-container bill lost after the industry offered to develop alternatives for the next session.",
+  "sources": ["https://sos.oregon.gov/archives/records/pages/bottle-bill.aspx"],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{member}", "{committee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: committee agenda and dated industry proposal.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The committee puts a refund proposal on its next agenda.",
+      "pulledBy": "No workable litter plan has reached the clerk by the promised date.",
+      "writesBack": "The next hearing notice names the refund bill."
+    },
+    {
+      "turn": "opposite",
+      "what": "The promised plan arrives and the chair schedules it alongside the deposit proposal.",
+      "pulledBy": "Industry delivers a competing plan before the hearing notice goes out.",
+      "writesBack": "Both proposals appear on the notice."
+    }
+  ]
+}

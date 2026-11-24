@@ -18,12 +18,16 @@
     {
       "name": "results certified",
       "pulledBy": "a canvass finished",
-      "writes": "a later story says the result stands"
+      "writes": "a later story says the result stands",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a recount",
       "pulledBy": "a margin under the recount line",
-      "writes": "a later story says a recount was ordered"
+      "writes": "a later story says a recount was ordered",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

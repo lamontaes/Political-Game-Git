@@ -18,12 +18,16 @@
     {
       "name": "only the official",
       "pulledBy": "a critic who declined",
-      "writes": "the story says no one objected"
+      "writes": "the story says no one objected",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "only the critic",
       "pulledBy": "an official who did not respond",
-      "writes": "the story says the council did not respond"
+      "writes": "the story says the council did not respond",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

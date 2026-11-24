@@ -18,12 +18,16 @@
     {
       "name": "a resident quoted",
       "pulledBy": "a resident who spoke at a meeting",
-      "writes": "the story quotes them by name"
+      "writes": "the story quotes them by name",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no public voice",
       "pulledBy": "a quiet town",
-      "writes": "the story has officials only"
+      "writes": "the story has officials only",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

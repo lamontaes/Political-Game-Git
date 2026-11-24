@@ -18,12 +18,16 @@
     {
       "name": "no dishes",
       "pulledBy": "a shop with no food",
-      "writes": "the story names the main product"
+      "writes": "the story names the main product",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a dish that sold out",
       "pulledBy": "a popular dish",
-      "writes": "the story says it ran out"
+      "writes": "the story says it ran out",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

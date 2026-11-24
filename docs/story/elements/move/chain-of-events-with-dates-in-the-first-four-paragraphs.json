@@ -18,12 +18,16 @@
     {
       "name": "only the latest step",
       "pulledBy": "a story that follows an earlier one",
-      "writes": "the story links back and starts at the new step"
+      "writes": "the story links back and starts at the new step",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "one date",
       "pulledBy": "a simple vacancy",
-      "writes": "the story gives one date"
+      "writes": "the story gives one date",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

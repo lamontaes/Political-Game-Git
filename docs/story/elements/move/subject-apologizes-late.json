@@ -18,12 +18,16 @@
     {
       "name": "the subject refuses",
       "pulledBy": "a subject who will not comment",
-      "writes": "the story says they declined"
+      "writes": "the story says they declined",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the subject denies",
       "pulledBy": "a subject who calls it false",
-      "writes": "the story gives the denial and the papers"
+      "writes": "the story gives the denial and the papers",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

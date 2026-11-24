@@ -18,12 +18,16 @@
     {
       "name": "lede on a drop",
       "pulledBy": "a year below the last",
-      "writes": "the lede says permits fell and by how much"
+      "writes": "the lede says permits fell and by how much",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "lede on the people",
       "pulledBy": "a town where buyers wait",
-      "writes": "the lede says how many families are waiting"
+      "writes": "the lede says how many families are waiting",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

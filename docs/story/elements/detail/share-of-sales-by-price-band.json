@@ -18,12 +18,16 @@
     {
       "name": "more expensive sales",
       "pulledBy": "a luxury run",
-      "writes": "the share above a price rose"
+      "writes": "the share above a price rose",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no bands",
       "pulledBy": "a thin report",
-      "writes": "only the median"
+      "writes": "only the median",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
