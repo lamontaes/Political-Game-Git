@@ -36632,6 +36632,222 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-ve-gone-back-and-forth-on-myself",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I've gone back and forth on {about} myself.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "Honestly, {about} bothers me more than I let on.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.maybe-i-ve-been-too-quick-on",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Maybe I've been too quick on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I hadn't looked at {about} that way before.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-will-never-see-the-same-way",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We will never see {about} the same way.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'm on the other side of {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "We see eye to eye on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-have-said-the-same-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd have said the same about {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-private.i-d-rather-keep-to-myself",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I'd rather keep {about} to myself.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-private.we-don-t-need-to-get-into",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "We don't need to get into {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-got-you-there-on",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What got you there on {about}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-why.where-does-that-come-from-on",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Where does that come from, on {about}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
     }
   ]
 }
