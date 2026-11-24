@@ -533,7 +533,7 @@
   },
   "wantedPictures": {
     "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
-    "inaugural-stand": "The inaugural stand on the Capitol's west front on Inauguration Day: the platform with its podium, flags and bunting, the Chief Justice, the Speaker and the Vice President standing by, the crowd on the Mall below, by day.",
+    "inaugural-stand": "The inaugural stand on the Capitol's west front on Inauguration Day: the platform with its podium, flags and bunting, the Chief Justice, the Speaker and the Vice President standing by, the crowd on the Mall below, at noon (an inauguration is at noon) and at night.",
     "oval-office-resolute": "The Resolute desk as a television address: the President seated facing the camera, flags and the window behind (WANTED cto-33).",
     "us-house-floor-in-session": "The House floor during the President's address: the members in their rows facing the rostrum, the Speaker and the Vice President behind it, the gallery above, by day and at night.",
     "white-house-residence-living": "The President's living room in the White House residence, by day and at night.",
