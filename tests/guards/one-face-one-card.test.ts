@@ -141,7 +141,7 @@ describe("one face part and one person card", () => {
       (play.match(/\$\("person-facts"\)\.replaceChildren/g) ?? []).length,
       "the person panel is filled by showPerson alone",
     ).toBe(1);
-    // The story's old switch between two layouts is gone, and its slot is one.
-    expect(play).not.toMatch(/fitLifeStory|underBust/);
+    // The story's old switch between two layouts is gone.
+    expect(play).not.toMatch(/fitLifeStory/);
   });
 });

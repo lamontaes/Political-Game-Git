@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, requestAnimationFrame */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -2965,11 +2965,13 @@ async function personCardNode(
         ]
       : []),
   ];
-  // Their life stands across the foot of the card in columns of its own, the
-  // same on every card (owner, Nov 23, P24/P25: one layout, never past the panel).
+  // Their life stands under the bust and runs on into the second column, split
+  // so neither column stands empty (owner, Nov 23, P17, P24, P25); with no bust
+  // it stands in the second column.
   const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
   const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -3004,21 +3006,69 @@ async function personCardNode(
       })),
     );
   if (!stillWanted()) return null;
-  return {
+  const node = stripScreen({
     name: c.name,
-    node: stripScreen({
-      name: c.name,
-      role,
-      nameBeside: true,
-      // The approved card's bust stands as tall as its sections (pl-people).
-      bustColumn: PERSON_CARD_BUST,
-      foot: life,
-      face: c.face ?? null,
-      columns: secondColumn.length
-        ? [firstColumn, secondColumn]
-        : [firstColumn],
-    }),
+    role,
+    nameBeside: true,
+    // The approved card's bust stands as tall as its sections (pl-people).
+    bustColumn: PERSON_CARD_BUST,
+    ...(c.face ? { underBust: life } : { foot: life }),
+    face: c.face ?? null,
+    columns: secondColumn.length ? [firstColumn, secondColumn] : [firstColumn],
+  });
+  balanceLife(node);
+  return { name: c.name, node };
+}
+/**
+ * Splits a card's story between the bust's column and the second column so the
+ * two end level and neither stands empty (owner, Nov 23, P17 and P24: "so much
+ * empty area here"); the story's paragraphs keep their order, the left column
+ * first. Waits until the card is on screen, because it measures it.
+ */
+async function balanceLife(root) {
+  for (
+    let frame = 0;
+    frame < 120 && !root.getBoundingClientRect().height;
+    frame++
+  )
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+  const left = root.querySelector(".mx3left");
+  const story = left?.querySelector('[data-life="1"] .secbody');
+  if (!story || !root.getBoundingClientRect().height) return;
+  // The story's own columns, left to right: under the bust, then each section column.
+  const homes = [story];
+  const parts = [left];
+  for (const column of root.querySelectorAll(".mx3col")) {
+    const rest = document.createElement("div");
+    rest.className = "secbody life-rest";
+    const section = document.createElement("div");
+    section.className = "sec strips dp5";
+    section.append(rest);
+    column.append(section);
+    homes.push(rest);
+    parts.push(column);
+  }
+  const bottom = (column) => {
+    const marks = column.querySelectorAll(".mxbust, p, .dotrow, h3, .perk");
+    return Math.max(
+      column.getBoundingClientRect().top,
+      ...[...marks].map((mark) => mark.getBoundingClientRect().bottom),
+    );
   };
+  const height = (at) =>
+    bottom(parts[at]) - parts[at].getBoundingClientRect().top;
+  // Level the columns: each ends near the average, the story's paragraphs kept in order.
+  const level =
+    parts.reduce((sum, _part, at) => sum + height(at), 0) / parts.length;
+  for (let at = 0; at < parts.length - 1; at++)
+    while (homes[at].children.length > 1) {
+      const last = homes[at].lastElementChild;
+      const own = last.getBoundingClientRect().height;
+      if (height(at) - level < own / 2) break;
+      homes[at + 1].prepend(last);
+    }
+  for (const [at, home] of homes.entries())
+    if (!home.children.length && at) home.parentElement.remove();
 }
 /** The person card's bust column, in pixels: --card-bust in play.css. */
 const PERSON_CARD_BUST = 380;

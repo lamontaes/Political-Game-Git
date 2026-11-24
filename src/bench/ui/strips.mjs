@@ -39,7 +39,7 @@ export function stripScreen({
   columns,
   nameBeside = false,
   bustColumn,
-  foot = [],
+  underBust = [],
 }) {
   const banner = el(
     "div",
@@ -63,6 +63,10 @@ export function stripScreen({
         alt: name,
         ...(bustColumn ? { column: bustColumn } : {}),
       }),
+      // `underBust`: sections set in the bust's own column, under it, so the
+      // portrait column leaves no hole (owner on People, Nov 16: "still lots
+      // of empty space").
+      ...underBust,
     ),
     el(
       "div",
@@ -76,10 +80,6 @@ export function stripScreen({
         ),
       ),
     ),
-    // `foot`: sections set across the screen's whole width under the bust and
-    // the columns, in columns of their own (the person card's story), so a long
-    // one neither scrolls nor runs past the panel.
-    ...(foot.length ? [el("div", { className: "mx3foot" }, ...foot)] : []),
   );
 }
 
