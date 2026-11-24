@@ -15,7 +15,7 @@
     "pay-vote": 0.6
   },
   "inGame": "the pay ordinance, the public-comment record, each member's recorded view on pay; needs: a stated view on process kept per member",
-  "issues": ["government"],
+  "issues": ["none"],
   "turns": [
     {
       "name": "a member asks for a do-over",

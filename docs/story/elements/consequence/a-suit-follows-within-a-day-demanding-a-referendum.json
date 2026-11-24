@@ -15,7 +15,7 @@
     "bond-vote": 0.6
   },
   "inGame": "the bond ordinance, a petition-for-referendum path, a court filing; needs: a lawsuit record and a referendum step",
-  "issues": ["infrastructure"],
+  "issues": ["none"],
   "turns": [
     {
       "name": "a suit the next morning",

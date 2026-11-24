@@ -15,7 +15,7 @@
     "rezoning-vote": 0.5
   },
   "inGame": "the roll call, the protest-petition share, the zoning ordinance; needs: a supermajority rule keyed to the share of objecting neighbors, and a court filing",
-  "issues": ["business"],
+  "issues": ["none"],
   "turns": [
     {
       "name": "the count is challenged",
