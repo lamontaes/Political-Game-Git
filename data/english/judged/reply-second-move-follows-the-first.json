@@ -2,15 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5985,
-  "no": {
-    "01q969onfm1": {
-      "keys": [
-        "scene-talk.follow-plea.please-don-t-shut-me-out-first-we-re-still-a-team",
-        "scene-talk.reply-thank.that-helps-place-is-a-lot-quieter-than-i-expected"
-      ],
-      "why": "The second move, that the place is quieter than expected, does not follow from saying the reassurance helps; it jumps to an unrelated remark."
-    }
-  },
-  "yesHash": "1u4mvwemapp"
+  "judged": 6149,
+  "no": {},
+  "yesHash": "1j4vmyuk3qh"
 }

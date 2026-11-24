@@ -776,28 +776,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.hired.inaugural-last-november-you-hired-me-and-with-me",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "Last November you hired me, and {the-vice-president} with me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "record",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.hired.inaugural-you-sent-me-here-in-november-to-do-a-job-and-i-have-to-do-it",
       "move": "hired",
       "kind": "spoken",
@@ -904,50 +882,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.disaster-meaning.inaugural-every-family-still-waiting-on-help-from-the-is-the-first-thing-on-my-desk-tomorrow",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Every family still waiting on help from the {the-disaster} is the first thing on my desk tomorrow.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"]
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.hired.inaugural-in-november-you-chose-me-and-with-me-and-today-we-both-go-to-work",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "In November you chose me, and {the-vice-president} with me, and today we both go to work.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "law",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.disaster.inaugural-for-the-families-the-hit-this-past-year-has-been-about-getting-a-roof-back",
       "move": "disaster",
       "kind": "spoken",
@@ -1006,28 +940,6 @@
       "lean": [
         "personality-v1:facet-devoted",
         "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.disaster-meaning.inaugural-i-ll-go-see-it-for-myself-before-the-month-is-out-and-i-ll-keep-going-back-for",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "I'll go see it for myself before the month is out, and I'll keep going back for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"]
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-sincere"
       ],
       "origin": "authored",
       "author": "the Story lead",

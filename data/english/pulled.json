@@ -37,9 +37,6 @@
     ],
     "scene-talk.reply-relent.all-right-for-name-i-ll-find-a-way": [
       "alright-in-dialogue"
-    ],
-    "scene-talk.reply-thank.that-helps-place-is-a-lot-quieter-than-i-expected": [
-      "reply-second-move-follows-the-first"
     ]
   },
   "noReplyFollows": {},
