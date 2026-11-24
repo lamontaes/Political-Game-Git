@@ -2,8 +2,9 @@
   "id": "recognize-caller-from-former-workplace",
   "kind": "detail",
   "summary": "The name on the phone reminds the player of the workplace where the two first met.",
-  "realLife": "owner, Nov 16: A caller can be introduced through a remembered workplace encounter.",
+  "realLife": "David Demarest recalled telling fellow Bush campaign worker Bob Teeter during a drive that he wanted to keep working after the election. Days later Teeter called about running public affairs for the transition.",
   "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/david-f-demarest-jr-oral-history",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L192"
   ],
   "inGame": "needs: a recorded first meeting with its workplace and date.",

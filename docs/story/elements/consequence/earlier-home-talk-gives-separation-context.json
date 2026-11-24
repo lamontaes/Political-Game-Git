@@ -2,8 +2,9 @@
   "id": "earlier-home-talk-gives-separation-context",
   "kind": "consequence",
   "summary": "An earlier conversation about a strained marriage matters when the couple considers separating.",
-  "realLife": "owner, Nov 14: A quiet domestic exchange can set up a later decision about divorce.",
+  "realLife": "When Eleanor Roosevelt learned of Franklin’s affair with Lucy Mercer, she offered him a divorce. Franklin chose to stay married and promised Eleanor he would stop seeing Mercer.",
   "sources": [
+    "https://erpapers.columbian.gwu.edu/franklin-delano-roosevelt-1882-1945",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L236"
   ],
   "inGame": "needs: a prior conversation outcome read by the separation scene.",
