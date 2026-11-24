@@ -664,10 +664,10 @@
       "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, the phone rings, and {name} is on the line.",
+      "text": "The phone rings, and {name} is on the line.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -681,13 +681,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-name-is-calling",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, you pick up, and it's {name}.",
+      "text": "The phone rings. {name} is calling.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -701,13 +702,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-name-is-calling",
+      "key": "scene-words.arrival-phone-other.name-calls-and-happened-is-the-subject",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, the phone rings. {name} is calling.",
+      "text": "{name} calls, and {happened} is the subject.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -721,13 +723,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-name-calls-and-happened-is-the-subject",
+      "key": "scene-words.arrival-phone-other.you-pick-up-and-name-starts-in-on-happened",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, {name} calls, and {happened} is the subject.",
+      "text": "You pick up, and {name} starts in on {happened}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -741,13 +744,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-name-starts-in-on-happened",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-with-name-calling-about-happened",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, you pick up, and {name} starts in on {happened}.",
+      "text": "The phone rings with {name} calling about {happened}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -761,33 +765,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-with-name-calling-about-happened",
-      "move": "arrival-phone-other",
-      "kind": "spoken",
-      "text": "{begins}, the phone rings with {name} calling about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-phone-other",
-          "subject": "arrival",
-          "role": "phone",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
+      "key": "scene-words.arrival-phone-alone.the-phone-rings",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, the phone rings.",
+      "text": "The phone rings.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -801,13 +786,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-alone.begins-your-phone-buzzes-on-the-table",
+      "key": "scene-words.arrival-phone-alone.your-phone-buzzes",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, your phone buzzes on the table.",
+      "text": "Your phone buzzes.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -821,13 +807,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-alone.begins-the-phone-starts-to-ring-in-your-hand",
+      "key": "scene-words.arrival-phone-alone.your-phone-rings",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, the phone starts to ring in your hand.",
+      "text": "Your phone rings.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -841,7 +828,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-a-letter-from-name-arrives",

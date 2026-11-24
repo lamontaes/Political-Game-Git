@@ -30102,31 +30102,6 @@
       }
     },
     {
-      "key": "scene-talk.close-press.the-invitation-from-outlet-stays-open",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "The invitation from {outlet} stays open.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "invite-interview",
-          "key": "favor-asked",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-press.outlet-would-still-welcome-you",
       "move": "close-press",
       "kind": "spoken",
@@ -55008,30 +54983,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-on-the-phone",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is on the phone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-call-is-from-name",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -72199,47 +72150,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-need-time",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I need time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.thank-you-for-letting-me-see-child",
       "move": "follow-thank",
       "kind": "spoken",
@@ -82971,30 +82881,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "We'd still like your side, for {outlet}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
