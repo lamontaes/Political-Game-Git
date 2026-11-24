@@ -10,5 +10,20 @@
   "slots": ["{volunteer}", "{publication}", "{county}"],
   "gates": ["The campaign has copies available to distribute."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a literature inventory and a delivery record that distinguishes the two publications.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The volunteers deliver the campaign paper alone on the last block.",
+      "pulledBy": "They have fewer copies of the profile than of the paper.",
+      "writesBack": "The route sheet identifies where only one item went out."
+    },
+    {
+      "turn": "late",
+      "what": "The volunteers hold the boxes for the second delivery.",
+      "pulledBy": "The profile was promised for the following morning.",
+      "writesBack": "The distribution date shifts and the inventory stays at headquarters overnight."
+    }
+  ]
 }

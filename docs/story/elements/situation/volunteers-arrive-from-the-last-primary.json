@@ -10,5 +10,20 @@
   "slots": ["{organizer}", "{volunteer}", "{primary}"],
   "gates": ["Volunteers have traveled from another race."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Campaigns tracks volunteerIds by campaign. needs: arrivals from another contest and a queue of available assignments.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "An arriving volunteer spends the first evening showing others around the office.",
+      "pulledBy": "The organizer has fewer field assignments than arrivals.",
+      "writesBack": "The volunteer records an office shift."
+    },
+    {
+      "turn": "late",
+      "what": "A worker returns the next day for a regular shift.",
+      "pulledBy": "The first day's jobs were filled when the worker arrived.",
+      "writesBack": "The roster dates the first assignment to the following day."
+    }
+  ]
 }

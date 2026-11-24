@@ -10,5 +10,20 @@
   "slots": ["{scheduler}", "{primary}", "{next_primary}"],
   "gates": ["The election calendar overlaps campaign assignments."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: one staff assignment spanning two contests with distinct filing and appearance calendars.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The scheduler holds a room in the next state and leaves the visit unconfirmed.",
+      "pulledBy": "The current primary still needs the candidate on its last day.",
+      "writesBack": "The later calendar shows a tentative booking."
+    },
+    {
+      "turn": "opposite",
+      "what": "The scheduler hands the next primary's book to another worker.",
+      "pulledBy": "A local organizer has arrived with authority to confirm stops.",
+      "writesBack": "Each contest has a different scheduling contact."
+    }
+  ]
 }

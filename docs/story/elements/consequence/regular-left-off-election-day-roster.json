@@ -10,5 +10,20 @@
   "slots": ["{worker}", "{party}", "{roster}"],
   "gates": ["A returning worker expected a place on the roster."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Campaigns records volunteer membership and evenings of doors. needs: a named election-day roster and an omitted assignment.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The regular calls the desk and gets the familiar shift back.",
+      "pulledBy": "The organizer left a name off while copying the roster.",
+      "writesBack": "The corrected list names the regular."
+    },
+    {
+      "turn": "partial",
+      "what": "The regular takes a short relief shift when a neighbor asks.",
+      "pulledBy": "A full shift is already assigned and the neighbor needs a break.",
+      "writesBack": "The relief stint appears separately on the roster."
+    }
+  ]
 }

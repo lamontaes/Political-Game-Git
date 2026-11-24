@@ -10,5 +10,20 @@
   "slots": ["{member}", "{staffer}", "{bill}"],
   "gates": ["Constituent letters have been sorted by position."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a constituent letter's stance on a bill and the office's handling of that letter.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member asks for the letters in delivery order.",
+      "pulledBy": "The member wants to see what arrived after the broadcast.",
+      "writesBack": "The reading pile keeps its postmarks in sequence."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff leave letters asking questions in their own folder.",
+      "pulledBy": "Those writers asked about a clause without taking a position.",
+      "writesBack": "The mail tally keeps inquiries separate from support and opposition."
+    }
+  ]
 }

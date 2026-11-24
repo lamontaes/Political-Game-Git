@@ -10,5 +10,20 @@
   "slots": ["{organizer}", "{precinct}", "{party}"],
   "gates": ["A party organization and volunteer operation share territory."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Campaigns records a volunteer's doors. needs: a precinct coverage map shared by the party and campaign.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The party asks volunteers to finish one street inside its assigned precinct.",
+      "pulledBy": "A regular loses part of an evening to work.",
+      "writesBack": "The handoff sheet identifies the unfinished street."
+    },
+    {
+      "turn": "late",
+      "what": "The two offices discover an uncovered precinct after comparing their lists.",
+      "pulledBy": "Each roster assumed the other office had claimed it.",
+      "writesBack": "The next shift gets a new assignment with a named lead."
+    }
+  ]
 }

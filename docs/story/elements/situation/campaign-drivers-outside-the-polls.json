@@ -10,5 +10,20 @@
   "slots": ["{driver}", "{worker}", "{polling_place}"],
   "gates": ["Election-day party work is permitted and scheduled."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a volunteer driving roster and fulfilled ride requests distinct from election administration.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A driver takes the morning requests and hands the afternoon list to dispatch.",
+      "pulledBy": "The driver's paid shift starts at noon.",
+      "writesBack": "Dispatch reassigns the outstanding rides."
+    },
+    {
+      "turn": "opposite",
+      "what": "The rostered driver spends the morning waiting at headquarters.",
+      "pulledBy": "Everyone who booked a ride calls to say they have transportation.",
+      "writesBack": "The log shows canceled requests and no completed trips."
+    }
+  ]
 }

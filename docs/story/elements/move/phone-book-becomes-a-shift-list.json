@@ -10,5 +10,20 @@
   "slots": ["{supervisor}", "{volunteer}", "{county}"],
   "gates": ["A telephone directory is available to campaign volunteers."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a calling shift with assigned directory pages and a record of completed calls.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A caller returns a page with the stopping place marked.",
+      "pulledBy": "A work call ends the volunteer's shift early.",
+      "writesBack": "The next caller starts at the first untouched entry."
+    },
+    {
+      "turn": "opposite",
+      "what": "The organizer puts the directory aside and gives callers the office's callback slips.",
+      "pulledBy": "People who contacted the office are still waiting for answers.",
+      "writesBack": "The evening log records returned calls."
+    }
+  ]
 }

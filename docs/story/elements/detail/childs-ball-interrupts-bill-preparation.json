@@ -10,5 +10,20 @@
   "slots": ["{child}", "{member}", "{bill}"],
   "gates": ["A child is present during work at home."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a family interruption tied to the place and time of a bill briefing.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Another adult joins the child outdoors and the member finishes the discussion.",
+      "pulledBy": "The other adult is free and the briefing is nearly over.",
+      "writesBack": "The meeting ends before the member goes outside."
+    },
+    {
+      "turn": "late",
+      "what": "The member puts the papers away and resumes the discussion after supper.",
+      "pulledBy": "The child needs more time and the advisers can stay.",
+      "writesBack": "The briefing notes carry a second session that evening."
+    }
+  ]
 }

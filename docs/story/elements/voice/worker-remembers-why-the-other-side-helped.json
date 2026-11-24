@@ -10,5 +10,20 @@
   "slots": ["{organizer}", "{opponent}", "{organization}"],
   "gates": ["The opponent has an established record with the organization."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: an organizer's attributed recollection and the public record cited in it.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The organizer recalls the vote people mentioned but declines to speak for the whole local.",
+      "pulledBy": "Only a few members discussed their reasons with the organizer.",
+      "writesBack": "The account attributes the explanation to those conversations."
+    },
+    {
+      "turn": "late",
+      "what": "The organizer adds a correction after checking the legislative record.",
+      "pulledBy": "The vote occurred in a different session from the one first recalled.",
+      "writesBack": "The account cites the corrected session."
+    }
+  ]
 }

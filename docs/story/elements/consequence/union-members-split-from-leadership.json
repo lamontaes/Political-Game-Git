@@ -10,5 +10,20 @@
   "slots": ["{worker}", "{organization}", "{opponent}"],
   "gates": ["Members and leaders have taken different positions."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: an organization's endorsement stored separately from members' voluntary campaign work.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The members who turn up for the shift follow the local's endorsement.",
+      "pulledBy": "Those volunteers had already committed to the endorsed candidate.",
+      "writesBack": "The shift roster and the local's endorsement point to the same campaign."
+    },
+    {
+      "turn": "neutral",
+      "what": "The local leaves the choice to individual members.",
+      "pulledBy": "Members fail to agree at the endorsement meeting.",
+      "writesBack": "The local records no endorsement and the volunteers retain their own affiliations."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{member}", "{visitor}", "{office}"],
   "gates": ["The office is open to visitors."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: an open office visit coinciding with a member and staffer's private conversation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member signs at the doorway and returns to the letters.",
+      "pulledBy": "The visitors want only a signature and the staffer has stayed.",
+      "writesBack": "The private mail review resumes."
+    },
+    {
+      "turn": "late",
+      "what": "The receptionist asks the visitors to come back after the meeting.",
+      "pulledBy": "The door is closed when they arrive.",
+      "writesBack": "Their visit goes in the appointment book for later that day."
+    }
+  ]
 }
