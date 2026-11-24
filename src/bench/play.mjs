@@ -7190,6 +7190,9 @@ show("front-close", false);
 const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // A sheet opened over the title (Patch notes, Options, Saves) closes when a front panel
+  // opens, so New game never sits under it (owner, Nov 23, P2).
+  if (openTab !== undefined) closeSheet();
   // The close X is on every front panel but the title menu itself.
   show("front-close", name !== "front-main" && name !== null);
   // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
@@ -7425,9 +7428,18 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 270 }),
-  );
+  // The look being left stays up until the new one has every piece, so the
+  // portrait is never blank while the look changes (owner, Nov 16, N16-9).
+  const portrait = drawFace(view.faces[tab], { shape: "bust", column: 270 });
+  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
+  const arrived = portrait.querySelector(".bust-stack")?.ready;
+  if (!arrived || !$("cr-bust").firstChild)
+    $("cr-bust").replaceChildren(portrait);
+  else
+    void arrived.then(() => {
+      if (portraitTurn === setup.portraitTurn)
+        $("cr-bust").replaceChildren(portrait);
+    });
   const row = (r) =>
     lookRow(r, {
       onPick: (id, option) => void pickLook(id, option),

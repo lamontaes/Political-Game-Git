@@ -1257,8 +1257,20 @@ input[type="range"]::-moz-range-thumb {
   content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
-.action[aria-pressed="true"] {
-  border-color: var(--gold);
+.action[aria-pressed="true"],
+.action[aria-pressed="true"]:hover {
+  color: var(--iron);
+  text-shadow: none;
+  border-color: transparent;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
 }
 /* The creator's fields always show their box, empty or filled. */
 #cr-character .field input,
@@ -1365,6 +1377,14 @@ input[type="range"]::-moz-range-thumb {
 #front.loading {
   top: 56px;
   transform: none;
+  /* The place's name ("Jericho Center, Vermont") sits on one line: the card grows to it
+     (owner, Nov 23, P31). */
+  width: max-content;
+  min-width: 400px;
+  max-width: calc(var(--vw) * 0.9);
+}
+#front.loading > .title {
+  white-space: nowrap;
 }
 /* The title's build version, bottom right (#4014). */
 .title-version {
@@ -3861,11 +3881,11 @@ details.entry[open] {
 /* A member as a card: face, name, seat, party badge; opens their card. */
 #sheet-body .member-card {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr) auto auto;
+  grid-template-columns: 56px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 12px;
   width: 100%;
-  height: 64px;
+  height: 68px;
   min-height: 0;
   margin: 0;
   padding: 8px 12px 8px 9px;
@@ -3888,13 +3908,14 @@ details.entry[open] {
   outline-offset: 2px;
 }
 .member-card .member-face {
-  width: 46px;
-  height: 46px;
-  /* A portrait is a crop in a soft pool of light, never inside a circle or box (owner, Nov 5). */
+  width: 56px;
+  height: 56px;
+  /* A bust runs head to upper chest and ends in a soft fade, never a hard cut (MENU-LOOK;
+     owner, Nov 23, P21: "look at the tiny headshots. Their bodies are cut off."). */
   border: 0;
   border-radius: 0;
   background: none;
-  mask-image: radial-gradient(closest-side, black 72%, transparent);
+  mask-image: linear-gradient(to bottom, black 62%, transparent);
 }
 .member-text {
   min-width: 0;
