@@ -199,6 +199,7 @@ import {
   organizationName,
   businessNameSaid,
   employerWords,
+  isOutsideMarket,
   properName,
   spoken,
   spokenDate,
@@ -6960,7 +6961,7 @@ function lieClaims(
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
       // The market's stand-in for work out of town is no employer to claim.
-      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
+      .filter((org) => org && org.id !== own.value && !isOutsideMarket(org));
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),

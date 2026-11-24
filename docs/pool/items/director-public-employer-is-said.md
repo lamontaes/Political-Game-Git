@@ -23,7 +23,7 @@ root: none
 
 **Cause.** Found in code: `employerWords` (src/director/words.ts) passes `outside: !!org.outsideFlow`, and `employerSaidAs` (src/english/said-as.ts) returns null for an outside employer. The outside market carries `outsideFlow`, but so does the public employer that owns its government's outside pay authority (src/core2/opening-public-pay.ts gives the owner a zero-stock outside flow), so the director took it for work out of town. `jobAndEmployer` (src/director/home-work-facts.ts) then returns null and every work fact drops.
 
-**Fix.** The director knows the market by its kind, as the core does (moves.ts, residents.ts, counted-demotion.ts): `outside: org.kind === OUTSIDE_MARKET_KIND`, with the constant re-exported from the Jobs family's entry (src/core2/modules/jobs.ts), since src/core2/opening-outside-market.ts is in no family's entry.
+**Fix.** One rule for the whole director, `isOutsideMarket(org)` in src/director/words.ts: the market is known by its kind, as the core reads it (moves.ts, residents.ts, counted-demotion.ts), with `OUTSIDE_MARKET_KIND` re-exported from the Jobs family's entry (src/core2/modules/jobs.ts), since src/core2/opening-outside-market.ts is in no family's entry. Every director read of `outsideFlow` as the market goes through it: `employerWords` (words.ts), a scene's setting (scene.ts), a work reason for a view (view-learned.ts), a layoff named in a speech (speech-outline.ts) and another workplace to talk about (conversation.ts).
 
 **Time box.** 1.5 hours.
 
@@ -33,6 +33,6 @@ root: none
 
 **Waits on.** The Jobs session's yes to the re-export and the Words session's review (asked on #10377, 7142310689).
 
-**Files.** src/director/words.ts, src/core2/modules/jobs.ts, src/director/public-employer-said.test.ts (new)
+**Files.** src/director/words.ts, src/director/scene.ts, src/director/view-learned.ts, src/director/speech-outline.ts, src/director/conversation.ts, src/core2/modules/jobs.ts, src/director/public-employer-said.test.ts (new)
 
-**Notes.** Filed by Board mock (lane 8), Nov 24. The same `outsideFlow`-as-the-market read is also at src/director/scene.ts (a scene's setting), view-learned.ts (a work reason for a view), speech-outline.ts (a layoff named in a speech) and conversation.ts (another workplace to talk about); each hides a pay-authority owner the same way and is left for Words to rule on.
+**Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator asked for all five director reads through one helper (19:35Z). The bench reads `outsideFlow` the same way and is left for the Screens session: src/bench/card.ts (95, 124, 1250, 1816), src/bench/printed-words.ts (3391, 3504), src/bench/campaign.ts (382) and src/bench/dev-views/dev-closing.ts (108, 335).

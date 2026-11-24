@@ -156,17 +156,26 @@ export function organizationName(org: {
 }
 
 /**
+ * Whether an organization is the outside market, the stand-in for work and
+ * buyers out of town: never an employer to name, a place to be found at or a
+ * workplace to talk about. It is known by its kind, as the core reads it. A
+ * public employer that owns its government's outside pay authority
+ * (opening-public-pay.ts) carries `outsideFlow` too, and is a real employer.
+ */
+export function isOutsideMarket(org: { readonly kind?: string }): boolean {
+  return org.kind === OUTSIDE_MARKET_KIND;
+}
+
+/**
  * An employer as the one said-as reader says it, from its record: a
  * government's payroll as the government, a business by its name, and never
- * the outside market that stands in for work out of town (null). The market is
- * known by its kind: a public employer that owns its government's outside pay
- * authority (opening-public-pay.ts) carries `outsideFlow` too, and is said.
+ * the outside market that stands in for work out of town (null).
  */
 export function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
     name: businessNameSaid(org),
     kind: org.kind,
-    outside: org.kind === OUTSIDE_MARKET_KIND,
+    outside: isOutsideMarket(org),
     ...(org.classification ? { classification: org.classification } : {}),
     ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
   });
