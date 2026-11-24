@@ -5478,6 +5478,61 @@
         "against": "the state has its own bills to pay before it sends more to the towns"
       },
       "again": "the bigger state aid to towns"
+    },
+    "budget-line:interest": {
+      "about": "more money to pay down debt",
+      "said": "paying down debt",
+      "to": "put more toward paying off the debt",
+      "for": "put more toward paying off the debt",
+      "against": "keep the debt payments where they are",
+      "today": {
+        "without": {
+          "for": "Every year we pay interest on what we borrowed, and that money buys nothing new.",
+          "against": "Paying down debt faster means cutting something people use now."
+        },
+        "with": {
+          "for": "Every year we pay interest on what we borrowed, and that money buys nothing new.",
+          "against": "Paying down debt faster means cutting something people use now."
+        }
+      },
+      "repeal": "keep the debt payments where they are",
+      "keep": "keep the bigger debt payment in the budget",
+      "family": "budget",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The longer we owe it, the more of every tax dollar goes to the lender.",
+            "Interest takes a share of the budget before anything else is paid for."
+          ],
+          "against": [
+            "Extra payments on old debt come out of the same budget as the roads and the schools.",
+            "The debt payments are already in the budget, and a bigger one means a cut somewhere else."
+          ]
+        },
+        "with": {
+          "for": [
+            "The longer we owe it, the more of every tax dollar goes to the lender.",
+            "Interest takes a share of the budget before anything else is paid for."
+          ],
+          "against": [
+            "Extra payments on old debt come out of the same budget as the roads and the schools.",
+            "The debt payments are already in the budget, and a bigger one means a cut somewhere else."
+          ]
+        }
+      },
+      "law": "the bigger debt payment",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "the sooner a debt is paid off, the less of our money goes to interest",
+        "against": "paying a debt off early shouldn't come before the things people need now"
+      },
+      "again": "the bigger debt payment"
     }
   }
 }
