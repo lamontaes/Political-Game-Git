@@ -63,6 +63,18 @@ export function scenePicture(
       }
       case "@org":
         return orgPlace(core, ask.recordId);
+      case "@from": {
+        // The room the cause record was made in (a call the player made
+        // from work or from home): that workplace, or that home.
+        const from = ask.recordId
+          ? core.durableLog.get(ask.recordId)?.placeId
+          : undefined;
+        if (!from) return null;
+        const home = core.households.get(from);
+        if (!home) return orgPlace(core, from);
+        const member = home.memberIds.find((id) => core.people.get(id)?.alive);
+        return member ? at(member) : null;
+      }
       case "@door": {
         const host = hostOf(core, personId, ask);
         const household = host ? core.people.get(host)?.householdId : undefined;

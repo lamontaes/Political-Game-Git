@@ -28,8 +28,10 @@ const MADE_AT: readonly SharedHistoryKind[] = [
 import { P } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
+  type ModuleStopTokenV1,
   playerClockFrontierV1,
   registerModuleStopV1,
+  releaseModuleStopV1,
 } from "../core2/player-stops-v1";
 import type {
   CoreEventInput,
@@ -324,6 +326,13 @@ export function createDirector(
   const pending = new Map<PersonId, Pending>();
   /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
+  /**
+   * The stops the last record made on the player's clock registered, by the
+   * cause of their moment: a press that shows its own scene releases its stop
+   * here, so the clock does not stop again on a scene already played. Holds
+   * only the last record's stops.
+   */
+  const pressedStops = new Map<string, ModuleStopTokenV1>();
   /**
    * Each watched person's scenes that wait for them (outcome
    * `scene-waiting`), by moment id in the order they were staged: the one
@@ -1852,7 +1861,10 @@ export function createDirector(
     });
   }
 
-  function registerInterrupts(core: CoreState): void {
+  function registerInterrupts(
+    core: CoreState,
+    tokens?: Map<string, ModuleStopTokenV1>,
+  ): void {
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
       if (
@@ -1880,7 +1892,7 @@ export function createDirector(
         },
         entry.bindings[zero]?.setting.kind,
       );
-      registerModuleStopV1(core, {
+      const token = registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,
         controlledPersonId: moment.personId,
@@ -1896,6 +1908,7 @@ export function createDirector(
         hold: false,
       });
       entry.stop = { recordId: moment.id, at };
+      tokens?.set(moment.causeId, token);
       interruptedToday.add(moment.personId);
     }
   }
@@ -2041,7 +2054,8 @@ export function createDirector(
       const now = playerClockFrontierV1(core, id);
       if (!now || now.date !== core.date) continue;
       measureDay(core, book, false);
-      registerInterrupts(core);
+      pressedStops.clear();
+      registerInterrupts(core, pressedStops);
     }
   }
 
@@ -2338,10 +2352,18 @@ export function createDirector(
       const book = ledger.people.get(personId);
       if (!book || !started) return undefined;
       measureDay(core, book, false);
-      // The press shows the scene itself: no stop for it at the day's close.
+      // The press shows the scene itself: no stop for it at the day's close,
+      // and none on the clock when the record already stopped it as it was
+      // made (the clock would stop again on the scene already played, its
+      // talk answered: Account lead, Nov 15, the clock stuck after Propose).
       for (let i = interrupts.length - one; i >= zero; i -= one)
         if (interrupts[i]!.moment.causeId === causeId)
           interrupts.splice(i, one);
+      const token = pressedStops.get(causeId);
+      if (token) {
+        releaseModuleStopV1(core, token);
+        pressedStops.delete(causeId);
+      }
       return book.schedule.find(
         (entry) => book.momentsById.get(entry.momentId)?.causeId === causeId,
       );

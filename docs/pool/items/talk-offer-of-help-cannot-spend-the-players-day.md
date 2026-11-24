@@ -31,6 +31,8 @@ checked: account lead 2026-11-14
 
 **Done when.** A second session, in a drawn place with its seed named, answers "Need help moving?" yes to an evicted relative on main and sees the block on the player's calendar for a named day, then plays that day and sees the visit; and a meeting the player attends shows its hours on the calendar.
 
-**Waits on.** nothing.
+**Notes.** Nov 14 (Account lead, thread "Let the player call or visit someone"): the scheduling engine named in Cause and Fix (src/director/scheduling.ts) stages the director's scenes; it keeps no calendar of the player's own blocks, so the Fix as written would build a second scheduler. Split instead: the player's acts that spend time and write a contact record are item `player-visits-or-calls-from-the-card` (Visit and Call on a person's card, built); a talk reply that accepts an offer becomes a kept promise settled by those records, which is item `design-player-reaches-a-relative-or-friend` and the promises builder's `promise-kinds.json`. What stays here: meetings spending none of the player's time, still open as its own gap, and the calendar showing a promised visit, which needs the promise record first.
+
+**Waits on.** `player-visits-or-calls-from-the-card` for the act; the promises engine for the record.
 
 **Files.** src/director/conversation.ts, src/director/scheduling.ts

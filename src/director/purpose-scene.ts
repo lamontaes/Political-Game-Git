@@ -155,6 +155,7 @@ import { promiseSubject } from "./promise-talk";
 const BETRAYAL_TYPE = "betrayal";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { askAnswerFacts } from "./ask-answer-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
 import { homeWorkFacts } from "./home-work-facts";
@@ -1127,6 +1128,8 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // The answer to the player's own ask out or proposal, and why a no.
+    ...askAnswerFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // What happened in a home or work scene's cause (a layoff, a first day, a
     // school year's end, a proposal or breakup, a death, a quarrel): the
     // employer, the years, the school, how long together, who died, what it

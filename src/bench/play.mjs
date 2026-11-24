@@ -277,8 +277,10 @@ function drawTalkStrip() {
         (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
         (speaker.includes(b) ? -1 : here.people.indexOf(b)),
     );
+  // On a call nobody's face sits over the talk: a housemate in the room
+  // drawn above "Carlos McKinney" reads as the one on the line.
   $("talk-strip").replaceChildren(
-    ...(shown.length
+    ...(shown.length && !talk?.byPhone
       ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
       : []),
   );
@@ -1543,7 +1545,7 @@ async function setWho(personId, name) {
   drawTalkStrip();
 }
 /** A talk's lines: what you said before, what they said before, and what is said now. */
-function spokenLines(lines) {
+function spokenLines(lines, keep = 1) {
   return transcript(
     lines.map((line) => ({
       text: line.text,
@@ -1553,6 +1555,7 @@ function spokenLines(lines) {
     {
       mineWho: $("card-name").textContent,
       theirWho: $("talk-name").textContent,
+      keep,
     },
   );
 }
@@ -1582,7 +1585,12 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
-function renderTalk(value) {
+/**
+ * Draws the talk box. `opened` is the talk's first draw: everything said so
+ * far is shown (a call's "Yes, hello?" comes before the player's own "Hi,
+ * it's ..."), where later draws keep only the player's last line and after.
+ */
+function renderTalk(value, opened = false) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
@@ -1599,7 +1607,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: spokenLines(value.lines),
+    lines: spokenLines(value.lines, opened ? value.lines.length : 1),
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1633,7 +1641,7 @@ async function talkTo(otherId, momentId) {
   const opened = await post(
     `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
   );
-  renderTalk(opened);
+  renderTalk(opened, true);
   // Nothing to say opens no box (the server answers none): the room is handed
   // back, as after a talk's end.
   if (!opened) await renderScene();
@@ -2860,7 +2868,42 @@ async function personCardNode(
       onOpen: () => openOther({ personId: k.personId }),
     })),
   );
+  // What the player can do about them from here (Visit, Call): each shown,
+  // closed ones with the reason in plain words under them.
+  const acts = person.personId === me.id ? [] : (c.acts ?? []);
+  const first = c.name.split(" ")[0];
+  const actsSection = acts.length
+    ? [
+        stripSection(
+          1,
+          labels.actsTitle,
+          buttonRow(
+            ...acts.map((act) =>
+              makeButton({
+                className: "action",
+                textContent: labels.acts[act.kind],
+                disabled: !act.open,
+                onclick: () => doAct(act.kind, person.personId),
+              }),
+            ),
+          ),
+          ...acts
+            .filter(
+              (act, at, all) =>
+                !act.open &&
+                labels.actReasons[act.reason] &&
+                // One line per reason: a closed Visit and Call that wait
+                // for the same thing say it once.
+                all.findIndex((other) => other.reason === act.reason) === at,
+            )
+            .map((act) =>
+              noteLine(labels.actReasons[act.reason].replace("{first}", first)),
+            ),
+        ),
+      ]
+    : [];
   const firstColumn = [
+    ...actsSection,
     ...(c.summary?.length
       ? [
           stripSection(
@@ -3043,6 +3086,32 @@ async function visit(organizationId) {
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
+}
+
+// ---- An act from a person's card: Visit goes to where they are, Call rings them ----
+async function doAct(kind, personId) {
+  closePerson();
+  closeSheet();
+  lying = false;
+  $("talk-name").textContent = "";
+  renderTalk(undefined);
+  const done = await post(
+    `/api/act?kind=${encodeURIComponent(kind)}&other=${encodeURIComponent(personId)}`,
+  );
+  if (kind === "visit") {
+    me.names = { ...me.names, ...done.names };
+    $("backdrop").src = done.backdrop.url;
+    drawHere(done, (p) => talkTo(p.personId));
+    me.scene = done;
+    // The trip and the visit's hours moved the clock.
+    if (done.packet) renderPacket(done.packet);
+  }
+  // The talk opens where they are, or on the phone; nothing to say hands the
+  // room back, as after any talk's end. An ask's answer is a scene the room
+  // now plays.
+  if (done.talk) renderTalk(done.talk, true);
+  else if (done.momentId) await showStory(done.momentId);
+  else await renderScene();
 }
 
 // ---- Go home from a place: the trip back, then the room the day has you in ----

@@ -1430,6 +1430,16 @@
       "impactParameter": "directorKinUnionImpact"
     },
     {
+      "eventKind": "family.asked-out",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
+      "eventKind": "family.proposal-answered",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
       "eventKind": "family.married",
       "channel": "feeling",
       "impactParameter": "directorOwnMarriageImpact"

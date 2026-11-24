@@ -4221,6 +4221,112 @@
         }
       ]
     },
+    "ask-out-answer": {
+      "state": "tell",
+      "replies": ["thank", "accept", "ask", "withdraw"],
+      "follow": {
+        "thank": ["thank"],
+        "accept": ["accept"],
+        "ask": ["answer", "promise"],
+        "withdraw": ["accept"]
+      },
+      "again": {
+        "answer": ["thank", "accept", "withdraw"]
+      },
+      "endings": [
+        {
+          "id": "glad",
+          "label": "They said yes to going out",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "sure",
+          "label": "They said yes to going out",
+          "keeps": "none",
+          "when": {
+            "asker": ["promise"]
+          }
+        },
+        {
+          "id": "waved-off",
+          "label": "You told them to forget you asked",
+          "keeps": "relationship-cooled",
+          "when": {
+            "anyReply": ["withdraw"]
+          }
+        },
+        {
+          "id": "took-it-well",
+          "label": "You took the no kindly",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "proposal-answer": {
+      "state": "tell",
+      "replies": ["thank", "accept", "ask", "withdraw"],
+      "follow": {
+        "thank": ["thank"],
+        "accept": ["accept"],
+        "ask": ["answer", "promise"],
+        "withdraw": ["accept"]
+      },
+      "again": {
+        "answer": ["thank", "accept", "withdraw"]
+      },
+      "endings": [
+        {
+          "id": "glad",
+          "label": "You're engaged",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "sure",
+          "label": "You're engaged",
+          "keeps": "none",
+          "when": {
+            "asker": ["promise"]
+          }
+        },
+        {
+          "id": "waved-off",
+          "label": "You let it drop",
+          "keeps": "relationship-cooled",
+          "when": {
+            "anyReply": ["withdraw"]
+          }
+        },
+        {
+          "id": "took-it-well",
+          "label": "You took the no kindly",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "breakup-tell": {
       "state": "tell",
       "replies": ["ask", "accept", "apologize", "confront"],

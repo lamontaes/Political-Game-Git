@@ -45,6 +45,7 @@ import {
 } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import {
+  bestPartnerAgeLikelihood,
   partnerAgeFor,
   partnerAgeLikelihood,
   partneringPerYear,
@@ -1061,6 +1062,556 @@ function answerMoveIn(api: CoreAPI, event: CoreEventInput): void {
     .put(answered as never);
 }
 
+// ---------------------------------------------------------------------------
+// The player's own courtship acts (family life question 1, ruled Nov 14 2026
+// under the owner's overnight say; the question stays open to the owner): the
+// player may ask someone out and later propose; the other person answers from
+// their own record, and a no is kept with its reason and date and may be
+// asked again once that reason no longer holds.
+
+/** Why an ask is not open, or why the answer was no. */
+export type AskReason =
+  | "with-someone"
+  | "you-are-with-someone"
+  | "family"
+  | "too-young"
+  | "not-in-town"
+  | "barely-know"
+  | "age-gap"
+  | "nothing-changed"
+  | "not-together"
+  | "too-soon"
+  | "not-sure-yet"
+  /** Already promised to marry, or married: nothing to propose. */
+  | "engaged";
+
+export type AskKind = "ask-out" | "propose";
+
+/** The record of the other person's answer to the player asking them out. */
+export const FAMILY_ASKED_OUT = "family.asked-out";
+/** The record of the partner's answer to the player's proposal. */
+export const FAMILY_PROPOSAL_ANSWERED = "family.proposal-answered";
+
+export interface AskRow {
+  /** `<kind>:<asker>:<asked>` */
+  id: string;
+  kind: AskKind;
+  date: IsoDate;
+  answer: "yes" | "no";
+  reason?: AskReason;
+  /** How the answer weighed, so a second ask can tell whether anything changed. */
+  weight: number;
+  /** Asks of this kind between the two, answered so far. */
+  count: number;
+}
+
+function askRowId(kind: AskKind, askerId: PersonId, otherId: PersonId) {
+  return `${kind}:${askerId}:${otherId}`;
+}
+
+/** How close a person is to the people they know in town, on average: what a tie is measured against. */
+function typicalCloseness(api: CoreAPI, person: Readonly<PersonState>): number {
+  const core = api.state as CoreState;
+  let sum = api.parameter("zero");
+  let n = api.parameter("zero");
+  for (const id of person.knownIds) {
+    const other = core.people.get(id);
+    if (!other?.alive || other.placeId !== person.placeId) continue;
+    sum += closenessBetween(core, person.id, id);
+    n += api.parameter("one");
+  }
+  return n > api.parameter("zero") && sum > api.parameter("zero")
+    ? sum / n
+    : api.parameter("one");
+}
+
+/** How one single weighs another: age fit times the tie, as the monthly review pairs people. */
+function pairScore(
+  core: CoreState,
+  person: Readonly<PersonState>,
+  other: Readonly<PersonState>,
+): { fit: number; tie: number } {
+  const today = makeIsoDate(core.date);
+  return {
+    fit: partnerAgeLikelihood(
+      ageOnDate(makeIsoDate(person.birthDate), today),
+      sexOf(person),
+      ageOnDate(makeIsoDate(other.birthDate), today),
+      sexOf(other),
+    ),
+    tie: closenessBetween(core, person.id, other.id),
+  };
+}
+
+/**
+ * How the asked weighs the asker, by the rule the monthly review pairs the
+ * town's singles by (`knownSingle`): age fit times the tie, against the best
+ * other single they know, or the wider population when they know none. At
+ * least as good as their best other choice is a
+ * yes (weight one or more); short of it, whichever of fit or tie falls
+ * further behind is the reason.
+ */
+function askOutWeight(
+  api: CoreAPI,
+  asker: Readonly<PersonState>,
+  asked: Readonly<PersonState>,
+): Weighed {
+  const core = api.state as CoreState;
+  const zero = api.parameter("zero");
+  const mine = pairScore(core, asked, asker);
+  let best: { fit: number; tie: number } | undefined;
+  for (const id of asked.knownIds) {
+    if (id === asker.id || asked.familyIds.has(id)) continue;
+    const other = core.people.get(id);
+    if (
+      !other?.alive ||
+      other.tier === "husk" ||
+      other.placeId !== asked.placeId ||
+      partnerLinkOf(core, id)
+    )
+      continue;
+    const score = pairScore(core, asked, other);
+    if (score.fit * score.tie > (best ? best.fit * best.tie : zero))
+      best = score;
+  }
+  const terms = {
+    fit: mine.fit,
+    tie: mine.tie,
+    ...(best ? { bestOtherFit: best.fit, bestOtherTie: best.tie } : {}),
+  };
+  if (mine.fit * mine.tie <= zero)
+    return {
+      weight: zero,
+      reason: mine.fit <= zero ? "age-gap" : "barely-know",
+      terms,
+    };
+  if (!best) {
+    // Nobody they know is free: their other choice is the wider population,
+    // where the monthly review finds a partner for a single who knows none
+    // (`meetPartner`). That partner fits as well as anyone can fit their age,
+    // and is someone they would come to be as close to as the people outside
+    // their family they know in town (not counting the asker): the asker is
+    // weighed against both. With nobody outside their family to measure by,
+    // the tie measures as the asker's own, and the age fit decides.
+    const today = makeIsoDate(core.date);
+    const bestFit = bestPartnerAgeLikelihood(
+      ageOnDate(makeIsoDate(asked.birthDate), today),
+      sexOf(asked),
+      sexOf(asker),
+      api.parameter("votingAge"),
+    );
+    let sum = zero;
+    let n = zero;
+    for (const id of asked.knownIds) {
+      if (id === asker.id || asked.familyIds.has(id)) continue;
+      const other = core.people.get(id);
+      if (
+        !other?.alive ||
+        other.placeId !== asked.placeId ||
+        other.householdId === asked.householdId
+      )
+        continue;
+      sum += closenessBetween(core, asked.id, id);
+      n += api.parameter("one");
+    }
+    const typical = n > zero && sum > zero ? sum / n : mine.tie;
+    return {
+      weight: (mine.fit * mine.tie) / (bestFit * typical),
+      reason:
+        mine.fit / bestFit < mine.tie / typical ? "age-gap" : "barely-know",
+      terms: {
+        ...terms,
+        widerPopulationFit: bestFit,
+        typicalCloseness: typical,
+      },
+    };
+  }
+  return {
+    weight: (mine.fit * mine.tie) / (best.fit * best.tie),
+    reason:
+      mine.fit / best.fit < mine.tie / best.tie ? "age-gap" : "barely-know",
+    terms,
+  };
+}
+
+/** An answer's weight, the reason a no would give, and the terms it was made of (shown in dev mode). */
+export interface Weighed {
+  weight: number;
+  reason: AskReason;
+  terms: Readonly<Record<string, number>>;
+}
+
+/** How the partner weighs a proposal: how far the couple has come, and the tie. */
+function proposeWeight(
+  api: CoreAPI,
+  asker: Readonly<PersonState>,
+  asked: Readonly<PersonState>,
+  couple: CoupleRow,
+): Weighed {
+  const core = api.state as CoreState;
+  const half = api.parameter("half");
+  // The couple's own climb: dating is the first half of the way to an
+  // engagement, living together the second.
+  const along =
+    couple.stage === "living-together"
+      ? half + couple.progress * half
+      : couple.stage === "dating" || couple.stage === "move-in-asked"
+        ? couple.progress * half
+        : api.parameter("one");
+  const closeness = closenessBetween(core, asked.id, asker.id);
+  const typical = typicalCloseness(api, asked);
+  const partnerFactor = partnerFactorOf(api, asked);
+  const tie = (closeness / typical) * partnerFactor;
+  // A no says whichever falls further short: the time the two have had, or
+  // how sure the partner is of the tie.
+  return {
+    weight: (along / half) * tie,
+    reason: along / half < tie ? "too-soon" : "not-sure-yet",
+    terms: {
+      progress: couple.progress,
+      along,
+      half,
+      closeness,
+      typicalCloseness: typical,
+      partnerFactor,
+      tie,
+    },
+  };
+}
+
+/** Whether the player may ask this person now, and if not, why. */
+export function canAsk(
+  api: CoreAPI,
+  playerId: PersonId,
+  otherId: PersonId,
+  kind: AskKind,
+): { open: boolean; reason?: AskReason } {
+  const core = api.state as CoreState;
+  const me = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const adultAge = api.parameter("votingAge");
+  const today = makeIsoDate(core.date);
+  if (
+    !me?.alive ||
+    !other?.alive ||
+    other.tier === "husk" ||
+    me.id === other.id
+  )
+    return { open: false, reason: "not-in-town" };
+  if (other.placeId !== me.placeId)
+    return { open: false, reason: "not-in-town" };
+  if (
+    ageOnDate(makeIsoDate(me.birthDate), today) < adultAge ||
+    ageOnDate(makeIsoDate(other.birthDate), today) < adultAge
+  )
+    return { open: false, reason: "too-young" };
+  if (me.familyIds.has(otherId)) {
+    const link = partnerLinkOf(core, playerId);
+    if (!link?.personIds.includes(otherId))
+      return { open: false, reason: "family" };
+  }
+  const mine = partnerLinkOf(core, playerId);
+  if (kind === "ask-out") {
+    if (mine) return { open: false, reason: "you-are-with-someone" };
+  } else {
+    if (!mine?.personIds.includes(otherId))
+      return { open: false, reason: "not-together" };
+    const couple = coupleOf(api, mine);
+    if (["proposed", "engaged", "married"].includes(couple.stage))
+      return { open: false, reason: "engaged" };
+  }
+  const held = store(api)
+    .table("asks")
+    .get(askRowId(kind, playerId, otherId)) as unknown as AskRow | undefined;
+  // An answer given today stands for the day: the next ask is another day's.
+  if (held?.date === core.date)
+    return { open: false, reason: "nothing-changed" };
+  if (held?.answer === "no") {
+    // Asked before and told no: open again once the reason no longer holds.
+    if (held.reason === "with-someone" && partnerLinkOf(core, otherId))
+      return { open: false, reason: "nothing-changed" };
+    if (held.reason !== "with-someone") {
+      const now =
+        kind === "ask-out"
+          ? askOutWeight(api, me, other).weight
+          : proposeWeight(api, me, other, coupleOf(api, mine!)).weight;
+      if (now <= held.weight) return { open: false, reason: "nothing-changed" };
+    }
+  }
+  return { open: true };
+}
+
+/**
+ * What the card's Ask out and Propose read now between the player and this
+ * person, for dev mode's person view: the gate (open, or why not), the last
+ * answer kept, and how the other would weigh the ask today, with its terms.
+ * It reads only.
+ */
+export function askReading(
+  api: CoreAPI,
+  playerId: PersonId,
+  otherId: PersonId,
+): Record<
+  AskKind,
+  {
+    gate: { open: boolean; reason?: AskReason };
+    lastAnswer: Readonly<AskRow> | null;
+    weighedNow: Weighed | null;
+  }
+> {
+  const core = api.state as CoreState;
+  const me = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const mine = partnerLinkOf(core, playerId);
+  const read = (kind: AskKind) => ({
+    gate: canAsk(api, playerId, otherId, kind),
+    lastAnswer:
+      (store(api)
+        .table("asks")
+        .get(askRowId(kind, playerId, otherId)) as unknown as
+        AskRow | undefined) ?? null,
+    weighedNow:
+      !me || !other || other.tier === "husk"
+        ? null
+        : kind === "ask-out"
+          ? partnerLinkOf(core, otherId)
+            ? null
+            : askOutWeight(api, me, other)
+          : mine?.personIds.includes(otherId)
+            ? proposeWeight(api, me, other, coupleOf(api, mine))
+            : null,
+  });
+  return { "ask-out": read("ask-out"), propose: read("propose") };
+}
+
+/**
+ * Where an ask is made: the room the player stands in (an organization or a
+ * household), and whether it was by phone because the other was elsewhere.
+ */
+export interface AskWhere {
+  room?: string;
+  byPhone?: boolean;
+}
+
+function keepAnswer(
+  api: CoreAPI,
+  kind: AskKind,
+  me: Readonly<PersonState>,
+  other: Readonly<PersonState>,
+  answer: "yes" | "no",
+  weight: number,
+  reason?: AskReason,
+  where?: AskWhere,
+  /** The terms the weight was made of, kept on the record for dev mode's trace. */
+  terms: Readonly<Record<string, number>> = {},
+) {
+  const core = api.state as CoreState;
+  const id = askRowId(kind, me.id, other.id);
+  const held = store(api).table("asks").get(id) as unknown as
+    AskRow | undefined;
+  const row: AskRow = {
+    id,
+    kind,
+    date: core.date,
+    answer,
+    ...(reason ? { reason } : {}),
+    weight,
+    count: (held?.count ?? api.parameter("zero")) + api.parameter("one"),
+  };
+  store(api)
+    .table("asks")
+    .put(row as never);
+  const ids: PersonId[] = [other.id, me.id];
+  // One record per ask: the count keeps two asks on one day apart.
+  const recordId = `${kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED}:${me.id}:${other.id}:${core.date}:${row.count}`;
+  api.emit({
+    id: recordId,
+    date: core.date,
+    kind: kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED,
+    personIds: ids,
+    // Where the ask was made (the room the player stands in), else the town.
+    placeId: where?.room ?? me.placeId,
+    publicRecord: false,
+    source: source(
+      api,
+      kind === "ask-out"
+        ? `${me.givenName} asked ${other.givenName} out.`
+        : `${me.givenName} asked ${other.givenName} to marry them.`,
+    ),
+    facts: {
+      answer,
+      ...(reason ? { reason } : {}),
+      asks: String(row.count),
+      // Asked by phone, the two apart; asked of this person before.
+      ...(where?.byPhone ? { by: "phone" } : {}),
+      ...(row.count > api.parameter("one") ? { askedBefore: "yes" } : {}),
+      // How the answer weighed (a yes at one or more) and its terms, and the
+      // weight of the no before it, which the card's gate compared against.
+      weight: String(weight),
+      ...Object.fromEntries(
+        Object.entries(terms).map(([name, value]) => [
+          `weighed.${name}`,
+          String(value),
+        ]),
+      ),
+      ...(held?.answer === "no"
+        ? { weightOfNoBefore: String(held.weight) }
+        : {}),
+    },
+  });
+  return recordId;
+}
+
+/**
+ * The player asks someone out. The other answers from their own record: a
+ * yes starts the couple dating through the engine's own writer; a no is kept
+ * with its reason and date. Either way the answer is a record the director
+ * stages as the scene.
+ */
+export function askOut(
+  api: CoreAPI,
+  playerId: PersonId,
+  otherId: PersonId,
+  /** Where the ask is made: the room the two stand in together, or by phone. */
+  where?: AskWhere,
+): {
+  asked: boolean;
+  answer?: "yes" | "no";
+  reason?: AskReason;
+  /** The answer's record, which stages the scene. */
+  recordId?: string;
+} {
+  const gate = canAsk(api, playerId, otherId, "ask-out");
+  if (!gate.open)
+    return { asked: false, ...(gate.reason ? { reason: gate.reason } : {}) };
+  const core = api.state as CoreState;
+  const me = core.people.get(playerId)!;
+  const other = core.people.get(otherId)!;
+  if (partnerLinkOf(core, otherId)) {
+    const recordId = keepAnswer(
+      api,
+      "ask-out",
+      me,
+      other,
+      "no",
+      api.parameter("zero"),
+      "with-someone",
+      where,
+    );
+    return { asked: true, answer: "no", reason: "with-someone", recordId };
+  }
+  const { weight, reason, terms } = askOutWeight(api, me, other);
+  if (weight < api.parameter("one")) {
+    const recordId = keepAnswer(
+      api,
+      "ask-out",
+      me,
+      other,
+      "no",
+      weight,
+      reason,
+      where,
+      terms,
+    );
+    return { asked: true, answer: "no", reason, recordId };
+  }
+  api.setPartnersV1({
+    personIds: [playerId, otherId],
+    together: true,
+    source: source(
+      api,
+      `${me.givenName} and ${other.givenName} started dating.`,
+    ),
+    witnessIds: witnessesOf(core, [playerId, otherId]),
+    facts: { [UNION_FACT]: "dating" },
+  });
+  const link = partnerLinkOf(core, playerId)!;
+  store(api)
+    .table("couples")
+    .put({
+      id: link.id,
+      stage: "dating",
+      since: core.date,
+      progress: api.parameter("zero"),
+    } as never);
+  const recordId = keepAnswer(
+    api,
+    "ask-out",
+    me,
+    other,
+    "yes",
+    weight,
+    undefined,
+    where,
+    terms,
+  );
+  return { asked: true, answer: "yes", recordId };
+}
+
+/**
+ * The player proposes to their partner. The partner answers from how far the
+ * couple has come and how close they are: a yes makes them engaged, the
+ * engine's own climb then takes them to the wedding; a no is kept with its
+ * reason and date.
+ */
+export function propose(
+  api: CoreAPI,
+  playerId: PersonId,
+  otherId: PersonId,
+  /** Where the ask is made: the room the two stand in together, or by phone. */
+  where?: AskWhere,
+): {
+  asked: boolean;
+  answer?: "yes" | "no";
+  reason?: AskReason;
+  /** The answer's record, which stages the scene. */
+  recordId?: string;
+} {
+  const gate = canAsk(api, playerId, otherId, "propose");
+  if (!gate.open)
+    return { asked: false, ...(gate.reason ? { reason: gate.reason } : {}) };
+  const core = api.state as CoreState;
+  const me = core.people.get(playerId)!;
+  const other = core.people.get(otherId)!;
+  const link = partnerLinkOf(core, playerId)!;
+  const couple = coupleOf(api, link);
+  const { weight, reason, terms } = proposeWeight(api, me, other, couple);
+  if (weight < api.parameter("one")) {
+    const recordId = keepAnswer(
+      api,
+      "propose",
+      me,
+      other,
+      "no",
+      weight,
+      reason,
+      where,
+      terms,
+    );
+    return { asked: true, answer: "no", reason, recordId };
+  }
+  store(api)
+    .table("couples")
+    .put({
+      ...couple,
+      stage: "engaged",
+      since: core.date,
+      progress: api.parameter("zero"),
+    } as never);
+  const recordId = keepAnswer(
+    api,
+    "propose",
+    me,
+    other,
+    "yes",
+    weight,
+    undefined,
+    where,
+    terms,
+  );
+  return { asked: true, answer: "yes", recordId };
+}
+
 function nextFirst(date: string): string {
   const [year, month] = date.split("-").map(Number) as [number, number];
   return month === 12
@@ -1090,6 +1641,7 @@ export const partnershipsModule: CoreModule = {
       state: {},
       pulls: {},
       couples: {},
+      asks: {},
       contacts: {},
       jobsSeen: {},
       owed: {},

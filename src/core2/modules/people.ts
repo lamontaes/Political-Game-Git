@@ -236,7 +236,12 @@ export { schoolDayOf } from "./school";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
-export { ENCOUNTERS, meetAtMeeting, meetInTalk } from "../encounters";
+export {
+  ENCOUNTERS,
+  meetAtMeeting,
+  meetInTalk,
+  recordVisit,
+} from "../encounters";
 /** A speech heard, for the director's scenes of a speech. */
 export {
   SPEECH_HEARD,

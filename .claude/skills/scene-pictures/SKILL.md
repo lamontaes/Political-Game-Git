@@ -17,7 +17,7 @@ description: >
 
 - **`situationPlaces` in `src/bench/data/scene-places.json`** is the one place a scene type's picture is named. A key is `"<type>:<setting>"` (`"door-ask:other-home"`), or `"<variant purpose>:<setting>"` for an arc variant (`"ask-signature.lost-job:other-home"`). Settings are the situation types' setting kinds plus `seat` (an officeholder's seat of government, which the director names a venue).
 - The value is a list of names tried in order; the first one painted wins. A name nobody has painted is skipped, so a wanted picture goes first and a painted stand-in after it.
-- Names starting with `@` are filled in from the records: `@home` (the household the scene is in; for an `other-home` scene the host's, not the player's), `@org` (the employer), `@door` (the door picture for the host's kind of dwelling), `@office` (the room of the office kind the person serves in, `officeWorkplaces`), `@seatroom` (the room of the body the person sits on).
+- Names starting with `@` are filled in from the records: `@home` (the household the scene is in; for an `other-home` scene the host's, not the player's), `@org` (the employer), `@from` (the room the scene's cause record was made in, a workplace or a home: a call the player made is drawn where they made it), `@door` (the door picture for the host's kind of dwelling), `@office` (the room of the office kind the person serves in, `officeWorkplaces`), `@seatroom` (the room of the body the person sits on).
 - `sceneSettings` is the default for a setting; `schoolPlacesByAge` the school list. Other screens (the filing counter, meetings, speeches, election night) read their own sections of the same file.
 
 ## How a scene resolves (`src/bench/scene-picture-steps.ts`, read by `scene-picture.ts`)
