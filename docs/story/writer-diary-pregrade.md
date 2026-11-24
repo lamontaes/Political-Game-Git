@@ -1,203 +1,159 @@
 # Pre-grade: Writer Journal (diary)
 
-Pre-grader, 2026-11-24. Branch `story/w-diary` at `2721fbe9`, every line authored by this writer at that head (192 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-diary` at `96f15060`, every line authored by this writer at that head (280 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 81 of 192 pass (42%); 111 fail.
-- **Calibration:** C1 8/8, D2 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 177 of 280 pass (63%); 103 fail.
+- **Calibration:** C1 8/8, D2 8/8, H1 8/8, H2 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### no-literary-phrasing (34)
+### no-literary-phrasing (42)
 
-- `outline-diary.mine.journal-evening-nobody-asked-but-has-my-vote-in-spirit`: "Nobody asked, but {about} has my vote in spirit." — 'Has my vote in spirit' is composed, and a vote on a federal question is not the player's to give.
-- `outline-diary.mine.journal-evening-the-part-about-i-would-argue-with-given-the-chance`: "The part about {about} I would argue with, given the chance." — The fronted object ('The part about X I would argue with') is a written inversion nobody says.
-- `outline-diary.mine.journal-evening-half-of-me-heard-and-thought-yes-the-other-half-wanted-details-first`: "Half of me heard {about} and thought yes; the other half wanted details first." — The 'half of me... the other half' device joined by a semicolon is visibly composed.
-- `outline-diary.mine.journal-evening-i-kept-turning-over-after-the-speech-ended-and-landed-nowhere`: "I kept turning {about} over after the speech ended and landed nowhere." — 'Landed nowhere' is a metaphor where a plain 'I still don't know' belongs.
-- `outline-diary.ahead.journal-evening-out-the-door-in-tomorrow-i-will-see-who-else-heard-it`: "Out the door in {place} tomorrow, I will see who else heard it." — 'Out the door in {place} tomorrow' is an awkward fronted phrase.
-- `outline-diary.watched.journal-evening-gave-the-speech-and-gave-it-our-attention`: "{president-name} gave the speech, and {we} gave it our attention." — The 'gave the speech... gave it our attention' echo is a composed wordplay.
-- `outline-diary.watched.journal-evening-for-the-house-went-quiet-and-stayed-that-way`: "For {president-name}, the house went quiet and stayed that way." — 'For X, the house went quiet and stayed that way' is composed texture.
-- `outline-diary.watched.journal-evening-alone-with-the-tv-i-heard-out`: "Alone with the TV, I heard {president-name} out." — 'Alone with the TV, I heard X out' is a fronted, composed sentence.
-- `outline-diary.mine.journal-evening-i-turned-the-speech-over-looking-for-a-reason-to-come-around-on-and-found-none`: "I turned the speech over looking for a reason to come around on {about}, and found none." — 'Turned the speech over looking for a reason' is composed and repeats C1-012's image.
-- `outline-diary.ahead.journal-evening-sleep-first-then-and-whoever-i-meet-there`: "Sleep first. Then {place}, and whoever I meet there." — Clipped fragments ('Sleep first. Then X') are visibly composed texture.
-- `outline-diary.watched.journal-evening-tonight-had-for-an-audience`: "Tonight, {president-name} had {us} for an audience." — 'Had us for an audience' is composed texture, not how people write a diary.
-- `outline-diary.watched.journal-evening-under-one-roof-everybody-took-in-together`: "Under one roof, everybody took in {president-name} together." — 'Under one roof... together' is redundant and composed.
-- `outline-diary.watched.journal-evening-had-an-audience-of-one-in-this-house-tonight-me`: "{president-name} had an audience of one in this house tonight, me." — 'An audience of one in this house tonight, me' is a composed punchline.
-- `outline-diary.ahead.journal-evening-what-makes-of-the-speech-is-tomorrow-s-question`: "What {place} makes of the speech is tomorrow's question." — 'Is tomorrow's question' is a composed closer.
-- `outline-diary.ahead.journal-evening-wakes-up-in-a-few-hours-and-so-do-i`: "{place} wakes up in a few hours, and so do I." — The town waking up 'and so do I' is a personified, cute closer.
-- `outline-diary.stance.journal-evening-came-in-for-a-hard-word-from-the-president-who-wants-it-repealed`: "{about} came in for a hard word from the President, who wants it repealed." — 'Came in for a hard word' is composed.
-- `outline-diary.mine.journal-evening-somewhere-between-yes-and-no-on-is-where-i-am-tonight`: "Somewhere between yes and no on {about} is where I am tonight." — 'Somewhere between yes and no... is where I am' is composed.
-- `outline-diary.mine.journal-evening-pressed-for-an-answer-on-i-would-say-ask-me-later`: "Pressed for an answer on {theme-short}, I would say: ask me later." — A fronted 'Pressed for an answer' with a colon reveal is composed.
-- `outline-diary.watched.journal-evening-together-the-house-sat-for`: "Together, the house sat for {president-name}." — 'Together, the house sat for X' is composed.
-- `outline-diary.watched.journal-evening-the-house-held-still-while-spoke`: "The house held still while {president-name} spoke." — 'The house held still' is literary texture.
-- `outline-diary.watched.journal-evening-here-i-sat-alone-hearing-out`: "Here I sat, alone, hearing {president-name} out." — 'Here I sat, alone, hearing X out' is a literary inversion.
-- `outline-diary.watched.journal-evening-i-took-in-alone-with-the-tv-for-company`: "I took {president-name} in alone, with the TV for company." — 'With the TV for company' is a composed phrase.
-- `outline-diary.said.journal-evening-listening-i-kept-count-of-how-often-came-back-and-gave-up`: "Listening, I kept count of how often {theme-name} came back, and gave up." — Keeping count and giving up is a composed joke, not a plain diary line.
-- `outline-diary.said.journal-evening-that-was-the-speech-from-the-first-minute-to-the-last`: "{theme-name}: that was the speech, from the first minute to the last." — Opening on the bare slot and a colon is a visibly composed line.
-- `outline-diary.said.journal-evening-i-wrote-one-phrase-in-the-margin-of-my-head`: "I wrote one phrase in the margin of my head: {theme-name}." — 'The margin of my head' is a literary image.
-- `outline-diary.said.journal-evening-the-heart-of-it-was-the-rest-was-a-bridge-to-get-there`: "The heart of it was {theme-name}; the rest was a bridge to get there." — 'The rest was a bridge to get there' is a metaphor.
-- `outline-diary.ahead.journal-evening-when-i-wake-up-will-still-be-the-place-i-know-with-one-more-thing-to-talk-about`: "When I wake up, {place} will still be the place I know, with one more thing to talk about." — 'Still the place I know' is a composed, literary line.
-- `outline-diary.ahead.journal-evening-the-speech-belongs-to-the-country-the-morning-belongs-to`: "The speech belongs to the country. The morning belongs to {place}." — The 'belongs to the country / belongs to {place}' parallel is a composed epigram.
-- `outline-diary.ahead.journal-evening-late-as-it-is-is-still-on-my-mind`: "Late as it is, {place} is still on my mind." — The inverted 'Late as it is' is literary, and the line says nothing.
-- `outline-diary.stance.journal-evening-count-among-the-things-the-president-said-no-to`: "Count {about} among the things the President said no to." — 'Count X among the things' is writerly phrasing.
-- `outline-diary.watched.journal-evening-it-was-on-the-screen-and-on-the-couch`: "On the screen, {president-name}; on the couch, {we}." — The semicolon parallel is a composed tableau.
-- `outline-diary.watched.journal-evening-the-house-gave-its-whole-attention`: "The house gave {president-name} its whole attention." — Personifying 'the house' is literary.
-- `outline-diary.mine.journal-evening-sounds-fine-in-a-speech-which-is-not-the-same-as-knowing`: "{about} sounds fine in a speech, which is not the same as knowing." — Ends in an epigram ('which is not the same as knowing').
-- `outline-diary.mine.journal-evening-i-will-not-pretend-to-a-view-on-that-i-have-not-earned`: "I will not pretend to a view on {about} that I have not earned." — 'Pretend to a view... I have not earned' is literary.
+- `outline-diary.watched.journal-evening-saw-give-the-first-speech-of-the-term`: "{we} saw {president-name} give the first speech of the term." — 'The first speech of the term' is a roundabout description nobody writes instead of the inaugural address.
+- `outline-diary.watched.journal-evening-the-household-watched-give-the-first-speech`: "The household watched {president-name} give the first speech." — 'The household' is stiff for a diary, and 'the first speech' is vague.
+- `outline-diary.said.journal-evening-the-main-subject-of-the-speech-was`: "The main subject of the speech was {theme-name}." — 'The main subject of the speech was' reads like a book report, not a diary.
+- `outline-diary.said.journal-evening-the-speech-stayed-on`: "The speech stayed on {theme-name}." — 'The speech stayed on what health care costs' is awkward wording nobody uses.
+- `outline-diary.said.journal-evening-the-president-spent-the-speech-on`: "The President spent the speech on {theme-name}." — 'Spent the speech on' a theme phrase is awkward and stiff.
+- `outline-diary.said.journal-evening-what-the-president-mainly-talked-about-was`: "What the President mainly talked about was {theme-name}." — The pseudo-cleft 'What the President mainly talked about was' sounds composed and AI-like.
+- `outline-diary.said.journal-evening-was-the-main-thing-the-president-talked-about`: "{theme-name} was the main thing the President talked about." — Opening on a lowercase clause like 'how we help people through hard times was the main thing' is clumsy.
+- `outline-diary.stance.journal-evening-the-president-said-should-stay-in-place`: "The President said {about} should stay in place." — 'Expanding Medicaid should stay in place' is awkward with the policy fills.
+- `outline-diary.mine.journal-evening-on-i-have-not-made-up-my-mind`: "On {theme-short}, I have not made up my mind." — 'On hard times, I have not made up my mind' makes no sense with the short theme fills.
+- `outline-diary.ahead.journal-evening-i-will-see-tomorrow-who-in-agrees-with-the-speech`: "I will see tomorrow who in {place} agrees with the speech." — Awkward word order ('I will see tomorrow who'), and a person agrees with a speaker, not with 'the speech'.
+- `journal.memoir-againWait.after-no-check-arrived`: "After {last_employer}, no check arrived." — 'No check arrived' is a composed, slightly literary turn rather than how a person says it.
+- `journal.memoir-againWait.since-my-pay-had-stopped`: "Since {last_employer}, my pay had stopped." — 'Since X, my pay had stopped' is awkward; pay stops once, not since.
+- `journal.memoir-hard.without-i-had-no-job`: "Without {lost_employer}, I had no job." — Tautological and awkward: 'without the employer I had no job' says nothing more.
+- `journal.memoir-hard.was-gone-and-so-was-the-work`: "{lost_employer} was gone, and so was the work." — Literary 'and so was' turn, and it claims the employer itself was gone, which the record need not hold.
+- `journal.memoir-hard.i-had-lost-and-had-nothing-in-its-place`: "I had lost {lost_employer} and had nothing in its place." — 'Lost {employer}' says the company was lost, not the job, and 'nothing in its place' is composed.
+- `journal.memoir-hard.was-behind-me-and-no-job-was-ahead`: "{lost_employer} was behind me, and no job was ahead." — Behind me / ahead is a literary balanced turn.
+- `journal.memoir-movedFrom.the-place-we-left-was`: "The place we left was {moved_from}." — 'The place we left was X' is a stiff, backwards cleft.
+- `journal.memoir-movedFrom.was-where-we-started-from`: "{moved_from} was where we started from." — Awkward 'where we started from' cleft; not how people say it.
+- `journal.memoir-movedWith.was-beside-me-on-the-move`: "{moved_with} was beside me on the move." — 'Beside me on the move' is literary and breaks agreement when several children came.
+- `journal.memoir-movedWith.on-the-move-i-had`: "On the move, I had {moved_with}." — 'On the move, I had X' is awkward and unclear.
+- `journal.memoir-movedWith.the-move-was-and-me`: "The move was {moved_with} and me." — 'The move was X and me' is ungrammatical-sounding and awkward.
+- `journal.memoir-birthFirst.was-the-first-one-born-to-us`: "{firstborn} was the first one born to us." — 'The first one born to us' is stiff and formal.
+- `journal.memoir-birthFirst.i-was-a-parent-for-the-first-time-with`: "I was a parent for the first time with {firstborn}." — 'I was a parent for the first time with X' is awkward.
+- `journal.memoir-birthFirst.was-the-child-who-made-us-parents`: "{firstborn} was the child who made us parents." — 'The child who made us parents' is an epigram-like literary turn.
+- `journal.memoir-decided.running-for-was-my-decision`: "Running for {office} was my decision." — Stresses whose decision it was, implying a dispute the record does not hold.
+- `journal.memoir-revise.appeared-again-later-on`: "{name} appeared again, later on." — 'Appeared again, later on' is stiff and awkward.
+- `journal.memoir-became.in-time-was`: "In time, {name} was {office}." — 'In time, X was mayor' is a bare, slightly literary line.
+- `journal.memoir-deathAge.was-how-old-was`: "{death_age} was how old {other} was." — Backward cleft 'age was how old X was' is awkward.
+- `journal.memoir-deathBoth.being-died-at`: "Being {after_illness}, {other} died at {death_age}." — 'Being X, Y died' is awkward and implies a cause the line does not state plainly.
+- `journal.memoir-schoolFor.my-time-there-came-to`: "My time there came to {school_for}." — 'My time there came to' is stiff.
+- `journal.memoir-schoolFor.was-how-long-i-had-been-at`: "{school_for} was how long I had been at {school}." — Backward cleft 'span was how long I had been' is awkward.
+- `journal.memoir-schoolFor.that-was-the-end-of-at`: "That was the end of {school_for} at {school}." — 'The end of three years at X' is awkward and stiff.
+- `journal.memoir-birthAge.by-the-time-was-born-i-was`: "By the time {name} was born, I was {age_then}." — 'By the time' implies a lateness the record does not hold.
+- `journal.memoir-birthAge.i-was-and-was-new`: "I was {age_then}, and {name} was new." — 'And X was new' is a literary turn.
+- `journal.memoir-firstPay.an-hour-was-the-first-pay-i-earned`: "{wage} an hour was the first pay I earned." — Fronting the wage is awkward and written, not said.
+- `journal.memoir-firstPay.at-i-was-paid-an-hour-to-begin`: "At {employer}, I was paid {wage} an hour to begin." — 'To begin' is stiff; same content as H2-100.
+- `journal.memoir-againPay.put-the-wage-at-an-hour`: "{employer} put the wage at {wage} an hour." — 'Put the wage at' is stiff, office-memo phrasing.
+- `journal.memoir-againFelt.went-by-with-no-job`: "{span} went by with no job." — 'Went by with no job' is a composed, literary turn.
+- `journal.memoir-letGoHeld.at-was-over`: "{held} at {employer} was over." — '{held} at X was over' is awkward.
+- `journal.memoir-letGoPay.the-last-wage-at-was-an-hour`: "The last wage at {employer} was {wage} an hour." — 'The last wage at' is stiff.
+- `journal.memoir-togetherFor.had-passed-since-we-met`: "{together} had passed since we met." — 'Had passed since we met' is stiff and also dates from a meeting the record does not hold.
+- `journal.memoir-togetherFor.we-went-back`: "We went back {together}." — 'We went back {together}' is not grammatical English.
 
-### awkward (17)
+### vary-the-shape (26)
 
-- `outline-diary.watched.journal-evening-came-on-at-the-end-of-the-evening-with-still-awake-to-see-it`: "{president-name} came on at the end of the evening, with {we} still awake to see it." — 'With {we} still awake' fills as 'with Joe, Ann and I', which is ungrammatical.
-- `outline-diary.mine.journal-evening-skip-i-thought-the-moment-it-came-up`: "Skip {about}, I thought, the moment it came up." — 'Skip X, I thought' is an odd command to oneself.
-- `outline-diary.stance.journal-evening-as-for-the-president-was-clear-that-it-holds`: "As for {about}, the President was clear that it holds." — 'It holds' is an odd way to say a law stays.
-- `outline-diary.mine.journal-evening-credit-where-it-is-due-is-a-good-idea`: "Credit where it is due: {about} is a good idea." — The idiom said stiffly ('Credit where it is due') aims the credit at no one named.
-- `outline-diary.watched.journal-evening-for-the-length-of-s-speech-did-nothing-else`: "For the length of {president-name}'s speech, {we} did nothing else." — 'For the length of X's speech... did nothing else' is stiff.
-- `outline-diary.watched.journal-evening-without-company-i-listened-to-from-start-to-finish`: "Without company, I listened to {president-name} from start to finish." — 'Without company' is stiff.
-- `outline-diary.said.journal-evening-what-the-president-chose-to-talk-about-was-and-nothing-pulled-away-from-it`: "What the President chose to talk about was {theme-name}, and nothing pulled away from it." — 'Nothing pulled away from it' is awkward and unclear.
-- `outline-diary.said.journal-evening-ask-me-what-the-speech-was-about-and-i-will-say-and-then-ask-what-you-would-like`: "Ask me what the speech was about and I will say {theme-name}, and then ask what you would like to know." — The second half ('then ask what you would like to know') makes no sense in a diary.
-- `outline-diary.ahead.journal-evening-where-do-i-go-from-here-out-the-door-and-into-as-usual`: "Where do I go from here? Out the door and into {place}, as usual." — A rhetorical question with an 'as usual' that doesn't fit a first evening.
-- `outline-diary.stance.journal-evening-the-president-asked-for-and-asked-it-plainly`: "The President asked for {about}, and asked it plainly." — 'Asked it plainly' is ungrammatical after 'asked for', and he objects to 'plainly'.
-- `outline-diary.watched.journal-evening-for-took-the-evening-off-and-watched`: "For {president-name}, {we} took the evening off and watched." — 'For {president-name}, we took the evening off' is awkward.
-- `outline-diary.watched.journal-evening-nobody-left-the-room-for`: "Nobody left the room for {president-name}." — 'Left the room for' is unclear: it reads as leaving because of the President.
-- `outline-diary.watched.journal-evening-no-one-to-watch-with-i-watched-anyway`: "No one to watch with, I watched {president-name} anyway." — A dangling modifier ('No one to watch with, I watched') is awkward.
-- `outline-diary.watched.journal-evening-i-spent-the-speech-alone-on-the-couch-with`: "I spent the speech alone on the couch with {president-name}." — 'Alone on the couch with' the President contradicts itself and reads as a joke.
-- `outline-diary.mine.journal-evening-if-i-stay-honest-about-i-am-with-the-president`: "If I stay honest about {about}, I am with the President." — 'If I stay honest about' is awkward and makes the view unclear.
-- `outline-diary.mine.journal-evening-well-said-i-thought-about`: "Well said, I thought, about {theme-short}." — 'Well said, I thought, about X' is stilted.
-- `outline-diary.mine.journal-evening-all-i-could-think-about-was-no`: "All I could think about {theme-short} was: no." — 'All I could think about X was: no' is awkward.
+- `outline-diary.watched.journal-evening-all-of-us-watched-s-first-speech-together`: "All of us watched {president-name}'s first speech together." — Near copy of row 012 with 'first' added.
+- `outline-diary.watched.journal-evening-the-house-watched-s-speech-together-tonight`: "The house watched {president-name}'s speech together tonight." — 'The house watched' is awkward, and it repeats row 012 almost word for word.
+- `outline-diary.mine.journal-evening-on-i-disagree-with-the-president`: "On {about}, I disagree with the President." — The same sentence as 059 with its parts swapped.
+- `outline-diary.ahead.journal-evening-tomorrow-i-will-see-what-people-in-think-of-the-speech`: "Tomorrow I will see what people in {place} think of the speech." — Same shape as 075 and 077 ('tomorrow, people in the town, the speech').
+- `journal.memoir-againWait.the-last-paycheck-i-had-came-from`: "The last paycheck I had came from {last_employer}." — Same shape and meaning as H2-002 (my last pay came from X), only wordier.
+- `journal.memoir-deathIllness.for-a-while-before-the-end-had-been`: "For a while before the end, {name} had been {after_illness}." — Same words as H2-015 rearranged; adds nothing.
+- `journal.memoir-movedFrom.was-the-town-i-moved-away-from`: "{moved_from} was the town I moved away from." — Same awkward X-was-the-town cleft as H2-020.
+- `journal.memoir-movedWith.moving-i-took-with-me`: "Moving, I took {moved_with} with me." — Awkward dangling 'Moving,' and repeats H2-027's took-with-me meaning.
+- `journal.memoir-birthFirst.the-first-baby-was`: "The first baby was {firstborn}." — Same shape as H2-031 with 'baby' swapped for 'child'.
+- `journal.memoir-whenAge.i-was-at-that-point`: "I was {age} at that point." — Same shape as H2-038 and H2-090 (I was age then / at that point).
+- `journal.memoir-revise.down-the-road-i-saw-again`: "Down the road, I saw {name} again." — Same shape as H2-051 (I met/saw X again) with a stock 'down the road'.
+- `journal.memoir-became.got-to-be`: "{name} got to be {office}." — Same casual shape and meaning as H2-064.
+- `journal.memoir-deathAge.was-gone-at`: "{other} was gone at {death_age}." — Euphemistic 'was gone' in the same shape as H2-074.
+- `journal.memoir-deathAge.at-died`: "At {death_age}, {other} died." — H2-074 with the clauses swapped; same grammatical pattern.
+- `journal.memoir-schoolFor.i-had-been-a-student-there-for`: "I had been a student there for {school_for}." — Same meaning and shape as H2-083 (I had been there for).
+- `journal.memoir-schoolAge.at-that-point-i-was`: "At that point I was {age_then}." — Same line as H2-037 reordered.
+- `journal.memoir-schoolAge.it-happened-when-i-was`: "It happened when I was {age_then}." — H2-088 with its clauses swapped.
+- `journal.memoir-birthAge.i-was-when-was-born`: "I was {age_then} when {name} was born." — H2-093 with its clauses swapped; H2-093 carries its subject first.
+- `journal.memoir-movedAge.we-moved-when-i-was`: "We moved when I was {age_then}." — H2-096 with its clauses swapped.
+- `journal.memoir-firstPay.my-first-wage-was-an-hour-at`: "My first wage was {wage} an hour, at {employer}." — Same as H2-099 with the employer tacked on after a comma.
+- `journal.memoir-againPay.would-pay-an-hour`: "{employer} would pay {wage} an hour." — Same 'would' offer shape and meaning as H2-107.
+- `journal.memoir-againFelt.it-was-without-work`: "It was {span} without work." — Same meaning and shape as H2-111.
+- `journal.memoir-againFelt.for-i-had-no-job`: "For {span}, I had no job." — Same meaning as H2-111 and H2-114, just reordered.
+- `journal.memoir-letGoHeld.i-had-worked-at-for`: "I had worked at {employer} for {held}." — Same as H2-115 with 'worked' for 'been'.
+- `journal.memoir-letGoPay.i-earned-an-hour-at`: "I earned {wage} an hour at {employer}." — Same meaning and shape as H2-125.
+- `journal.memoir-movedPay.at-the-wage-was-an-hour`: "At {next}, the wage was {wage} an hour." — H2-127 with its parts reordered.
 
-### vary-the-shape (11)
+### stance-is-plainly-for-or-against (9)
 
-- `outline-diary.said.journal-evening-nearly-every-paragraph-came-back-around-to`: "Nearly every paragraph came back around to {theme-name}." — Says the same as 'kept returning to' (C1-066), and a heard speech has no paragraphs.
-- `outline-diary.watched.journal-evening-the-tv-was-on-for-and-did-not-look-away`: "The TV was on for {president-name}, and {we} did not look away." — Same 'X on, and we...' shape as C1-022 and C1-130, with a dramatic 'did not look away'.
-- `outline-diary.mine.journal-evening-count-it-as-a-yes-from-me-on`: "Count it as a yes from me on {about}." — Same 'Count me...' shape as C1-041, and stiffer.
-- `outline-diary.mine.journal-evening-if-is-the-plan-count-me-among-the-doubters`: "If {about} is the plan, count me among the doubters." — A third 'count me' line; same shape as C1-041 and C1-070.
-- `outline-diary.mine.journal-evening-on-i-am-where-i-was-before-the-speech-undecided`: "On {about} I am where I was before the speech: undecided." — Same meaning as C1-045 in the colon-reveal shape.
-- `outline-diary.stance.journal-evening-count-the-president-among-those-who-want`: "Count the President among those who want {about}." — Another 'Count...' line, stiffer than C1-041.
-- `outline-diary.stance.journal-evening-behind-the-president-put-the-weight-of-the-office`: "Behind {about}, the President put the weight of the office." — An inverted copy of C1-019 ('Behind X, the President put the weight...').
-- `outline-diary.stance.journal-evening-not-while-this-president-has-a-say`: "{about}? Not while this President has a say." — Repeats C1-021's 'has a say' in a cute fragment.
-- `outline-diary.stance.journal-evening-under-this-president-is-staying-put`: "Under this President, {about} is staying put." — Says the same as C1-086 with a fronted phrase.
-- `outline-diary.mine.journal-evening-hand-me-a-reason-to-back-and-i-will-think-about-it-tonight-gave-me-none`: "Hand me a reason to back {about} and I will think about it; tonight gave me none." — A third 'Do X and I will...' line after C1-009 and C1-010, joined with a semicolon.
-- `outline-diary.ahead.journal-evening-bed-first-then-then-we-will-see`: "Bed first, then {place}, then we will see." — The same 'X first, then {place}' fragment shape as C1-049.
+- `outline-diary.stance.journal-evening-the-president-said-should-happen`: "The President said {about} should happen." — 'Public broadband should happen' is a flavorless, unnatural way to say what he asked for.
+- `outline-diary.stance.journal-evening-the-president-said-should-not-happen`: "The President said {about} should not happen." — 'Expanding Medicaid should not happen' is the same flat, awkward frame as 035.
+- `outline-diary.stance.journal-evening-the-president-wants-to-keep`: "The President wants to keep {about}." — With gerund fills ('keep expanding Medicaid', 'keep shifting highway money') it says something other than keeping the law.
+- `outline-diary.stance.journal-evening-the-president-wants-to-stay-the-law`: "The President wants {about} to stay the law." — 'Wants public broadband to stay the law' is false: the fill names the policy, not a law.
+- `outline-diary.stance.journal-evening-the-president-wants-repealed`: "The President wants {about} repealed." — 'Wants public broadband repealed' or 'expanding Medicaid repealed' doesn't make sense: a policy phrase is not a law.
+- `outline-diary.stance.journal-evening-the-president-said-should-be-repealed`: "The President said {about} should be repealed." — Same fault as 050: you can't repeal 'expanding Medicaid'.
+- `outline-diary.mine.journal-evening-i-want-too`: "I want {about} too." — 'I want expanding Medicaid too' is broken with gerund fills.
+- `outline-diary.mine.journal-evening-i-am-not-for-and-the-speech-did-not-change-that`: "I am not for {about}, and the speech did not change that." — 'Not for' hedges where a plain 'against' belongs, and the line reads stiff.
+- `outline-diary.mine.journal-evening-i-would-not-have-said-what-the-president-said-about`: "I would not have said what the President said about {theme-short}." — Says nothing about whether the player is for or against anything, only about the wording.
 
-### false or odd for its facts (7)
+### no-pointing-at-the-unnamed (6)
 
-- `outline-diary.said.journal-evening-took-up-the-middle-of-the-speech`: "{theme-name} took up the middle of the speech." — 'Took up the middle of the speech' is odd when the theme is the whole speech.
-- `outline-diary.watched.journal-evening-dinner-conversation-gave-way-to-on-the-news-and-listened`: "Dinner conversation gave way to {president-name} on the news, and {we} listened." — 'Gave way' is composed, and an inaugural address is not 'on the news'.
-- `outline-diary.watched.journal-evening-no-one-here-missed-the-whole-household-watched`: "No one here missed {president-name}; the whole household watched." — 'No one missed X' reads as missing the President himself, and repeats itself.
-- `outline-diary.stance.journal-evening-expect-to-be-taken-apart-if-the-president-has-it-right`: "Expect {about} to be taken apart, if the President has it right." — 'If the President has it right' means the wrong thing; it should be 'gets his way'.
-- `outline-diary.ahead.journal-evening-whatever-comes-of-the-speech-will-show-up-in-before-it-shows-up-anywhere-else`: "Whatever comes of the speech will show up in {place} before it shows up anywhere else." — Composed claim that a national speech shows up in the town first.
-- `outline-diary.ahead.journal-evening-morning-in-is-when-i-find-out-what-changed`: "Morning in {place} is when I find out what changed." — 'What changed' implies something changed overnight that the record does not hold.
-- `outline-diary.said.journal-evening-you-could-put-the-speech-in-a-sentence`: "You could put the speech in a sentence: {theme-name}." — A theme name is not a sentence, so 'in a sentence: X' does not fit.
+- `outline-diary.watched.journal-evening-spoke-tonight-and-i-watched-it-alone`: "{president-name} spoke tonight, and I watched it alone." — 'It' points at nothing named, since 'spoke' is not a noun ('It. What is it?').
+- `outline-diary.mine.journal-evening-i-am-still-thinking-about`: "I am still thinking about {theme-short}." — With short themes ('still thinking about getting around', 'about hard times') it means something else entirely.
+- `journal.memoir-deathIllness.before-it-came-had-been`: "Before it came, {name} had been {after_illness}." — 'Before it came' points at an unnamed 'it' (the death).
+- `journal.memoir-whenAge.i-was-the-day-it-started`: "I was {age} the day it started." — 'The day it started' leans on an unnamed 'it' and claims a start the record may not hold.
+- `journal.memoir-remember.was-someone-i-knew-from-before`: "{name} was someone I knew from before." — 'From before' is vague; before what is not said.
+- `journal.memoir-remember.was-part-of-my-life-before-any-of-this`: "{name} was part of my life before any of this." — 'Before any of this' points at an unnamed 'this'.
 
-### narration-assumes-no-reason (4)
+### false for its facts (5)
 
-- `outline-diary.mine.journal-evening-being-for-was-never-something-i-expected-to-share-with-a-president`: "Being for {about} was never something I expected to share with a President." — Invents a lifelong expectation the record does not hold, and reads stiff.
-- `outline-diary.ahead.journal-evening-there-is-to-deal-with-in-the-morning-and-a-lot-to-learn-about-it`: "There is {place} to deal with in the morning, and a lot to learn about it." — Treats the player's own town as a place to learn about, which is odd and vague.
-- `outline-diary.stance.journal-evening-against-the-president-made-the-argument-carefully`: "Against {about}, the President made the argument carefully." — The fronted 'Against X,' and 'carefully' invent a manner the record does not hold.
-- `outline-diary.mine.journal-evening-i-wrote-down-and-left-a-blank-beside-it`: "I wrote {about} down and left a blank beside it." — Invents an action (writing it down with a blank beside it) as a literary image.
+- `journal.memoir-whenAge.that-was-the-year-i-was`: "That was the year I was {age}." — 'The year I was {age}' is awkward, and an age spans two calendar years.
+- `journal.memoir-deathAge.had-reached`: "{other} had reached {death_age}." — 'Had reached {age}' never says the person died.
+- `journal.memoir-letGoPay.paid-me-an-hour-to-the-end`: "{employer} paid me {wage} an hour to the end." — 'To the end' claims the wage never changed, which the record does not say.
+- `journal.memoir-togetherFor.we-had-known-each-other-for`: "We had known each other for {together}." — {together} counts from the partnership's start, not from when they met, so 'known each other for' says more than the record.
+- `journal.memoir-togetherFor.it-had-been-since-we-met`: "It had been {together} since we met." — 'Since we met' dates from a meeting, but {together} counts from the partnership's start.
 
-### no-stock-phrases (4)
+### one-idea-to-a-sentence (4)
 
-- `outline-diary.ahead.journal-evening-things-start-to-matter-in-tomorrow-one-conversation-at-a-time`: "Things start to matter in {place} tomorrow, one conversation at a time." — 'One conversation at a time' is a stock phrase, and 'things start to matter' is vague.
-- `outline-diary.ahead.journal-evening-time-to-sleep-will-not-change-overnight`: "Time to sleep. {place} will not change overnight." — 'Will not change overnight' is stock and says nothing.
-- `outline-diary.ahead.journal-evening-all-i-know-for-sure-is-that-i-wake-up-in`: "All I know for sure is that I wake up in {place}." — 'All I know for sure' is stock and empty.
-- `outline-diary.stance.journal-evening-on-the-president-was-for-it-and-it-showed`: "On {about}, the President was for it, and it showed." — 'And it showed' is filler tacked onto the stand.
-
-### stance-is-plainly-for-or-against (3)
-
-- `outline-diary.stance.journal-evening-leave-alone-the-president-said-and-it-stays-as-it-is`: "Leave {about} alone, the President said, and it stays as it is." — 'Leave X alone... and it stays as it is' is a tautology that muddles the stand.
-- `outline-diary.stance.journal-evening-nothing-in-the-speech-said-yes-to`: "Nothing in the speech said yes to {about}." — Says only that nothing said yes; it never plainly says the President is against it.
-- `outline-diary.stance.journal-evening-anyone-worried-about-heard-the-president-say-it-would-stay`: "Anyone worried about {about} heard the President say it would stay." — 'Anyone worried about' the law leaves unclear which side the worry is on.
-
-### no-pointing-at-the-unnamed (3)
-
-- `outline-diary.ahead.journal-evening-come-morning-gets-the-first-look-at-what-i-do-with-all-this`: "Come morning, {place} gets the first look at what I do with all this." — 'All this' points at nothing named; the personified town is composed.
-- `outline-diary.mine.journal-evening-the-president-said-it-and-on-i-would-have-said-the-same`: "The President said it, and on {about} I would have said the same." — 'The President said it' points at an 'it' before anything is named.
-- `outline-diary.mine.journal-evening-on-i-need-to-hear-it-from-somebody-who-has-seen-it-work`: "On {theme-short}, I need to hear it from somebody who has seen it work." — 'Hear it' and 'seen it work' point at an 'it' the line never named.
+- `outline-diary.stance.journal-evening-the-president-wants-to-end-which-is-the-law-today`: "The President wants to end {about}, which is the law today." — 'End expanding Medicaid, which is the law today' is broken with gerund fills and has a clunky tacked-on clause.
+- `journal.memoir-movedWith.i-did-not-make-the-move-alone-came-too`: "I did not make the move alone; {moved_with} came too." — Two clauses glued with a semicolon and a composed 'did not make the move alone'.
+- `journal.memoir-decided.the-decision-was-mine-i-would-run-for`: "The decision was mine: I would run for {office}." — Composed colon construction; reads written, not said.
+- `journal.memoir-deathBoth.at-was-gone-before-that`: "At {death_age}, {other} was gone; {after_illness} before that." — Semicolon joins a sentence to a verbless fragment; euphemistic 'gone'.
 
 ### journal-names-no-feeling (3)
 
-- `outline-diary.watched.journal-evening-why-did-stay-up-for-curiosity-mostly`: "Why did {we} stay up for {president-name}? Curiosity, mostly." — A cute self-question answered with a feeling ('Curiosity, mostly').
-- `outline-diary.mine.journal-evening-i-put-the-speech-down-feeling-worse-about-than-when-it-began`: "I put the speech down feeling worse about {theme-short} than when it began." — Names a feeling, and 'put the speech down' is false for a speech on TV.
-- `outline-diary.said.journal-evening-nothing-about-the-speech-surprised-me-except-how-long-it-stayed-on`: "Nothing about the speech surprised me except how long it stayed on {theme-name}." — The journal names a feeling ('surprised') to make the sentence work.
+- `journal.memoir-revise.later-still-was-back-in-my-life`: "Later still, {name} was back in my life." — 'Back in my life' claims a closeness the record need not hold.
+- `journal.memoir-became.the-next-thing-i-knew-was`: "The next thing I knew, {name} was {office}." — 'The next thing I knew' implies surprise the record does not hold and is a stock phrase.
+- `journal.memoir-letGoHeld.after-was-finished-with-me`: "After {held}, {employer} was finished with me." — 'Was finished with me' gives the employer an attitude the record does not hold.
 
-### no-dangling-fragments (3)
+### look-up-how-real-people-say-it (2)
 
-- `outline-diary.ahead.journal-evening-one-night-then-back-out-into`: "One night, then back out into {place}." — A composed fragment, not a sentence.
-- `outline-diary.ahead.journal-evening-tomorrow`: "Tomorrow, {place}." — A bare two-word fragment that says nothing.
-- `outline-diary.ahead.journal-evening-first-the-rest-of-the-country-afterward`: "{place} first, the rest of the country afterward." — A fragment with no verb.
+- `journal.memoir-joinCause.that-is-why`: "That is why." — Played as an opener it becomes "That is why, I ...": nobody puts a comma after 'That is why', and it says the reason backward.
+- `journal.memoir-joinLater.it-was-before-long`: "It was {span} before long." — Played as an opener it becomes "It was three months before long, ...", which makes no sense.
 
-### narration-person (2)
+### narration-assumes-no-reason (1)
 
-- `outline-diary.said.journal-evening-look-through-the-speech-for-anything-but-and-you-will-not-find-much`: "Look through the speech for anything but {theme-name} and you will not find much." — The journal is first person, but this line addresses 'you' with an imperative.
-- `outline-diary.said.journal-evening-if-you-missed-the-speech-here-is-all-you-need-it-was-about`: "If you missed the speech, here is all you need: it was about {theme-name}." — The diary talks to a reader ('If you missed the speech'), not to the player's own record.
-
-### no-filler (2)
-
-- `outline-diary.watched.journal-evening-i-sat-through-on-my-own-because-that-is-how-the-evening-went`: "I sat through {president-name} on my own, because that is how the evening went." — 'Sat through' implies boredom, and 'because that is how the evening went' is filler.
-- `outline-diary.said.journal-evening-so-much-for-a-first-speech-was-all-of-it`: "So much for a first speech. {theme-name} was all of it." — 'So much for a first speech' is a dismissive opener that says nothing, and the stand is unclear.
-
-### flat (2)
-
-- `outline-diary.watched.journal-evening-i-listened-to-by-myself-and-took-it-in-quietly`: "I listened to {president-name} by myself and took it in quietly." — Flat and redundant ('by myself... quietly'); C1-033 says it with a real detail.
-- `outline-diary.ahead.journal-evening-there-is-a-whole-day-in-waiting-for-me`: "There is a whole day in {place} waiting for me." — Flat, generic closer with nothing specific.
-
-### false for its facts (2)
-
-- `outline-diary.said.journal-evening-it-was-a-speech-about-more-than-anything-the-president-has-said-before`: "It was a speech about {theme-name}, more than anything the President has said before." — On a first inaugural there is no record of earlier speeches to compare against.
-- `outline-diary.mine.journal-evening-my-own-view-of-matches-the-president-s-which-does-not-happen-often`: "My own view of {about} matches the President's, which does not happen often." — 'Which does not happen often' claims a history of disagreeing that no record holds.
-
-### names-something-specific (2)
-
-- `outline-diary.said.journal-evening-back-and-forth-the-speech-moved-around`: "Back and forth, the speech moved around {theme-name}." — 'Moved around' the theme is vague and says nothing specific.
-- `outline-diary.ahead.journal-evening-what-i-do-next-i-will-do-in-with-whatever-i-know-by-then`: "What I do next, I will do in {place}, with whatever I know by then." — Says nothing about what will be done; it's composed filler.
-
-### address-argues-not-announces (2)
-
-- `outline-diary.ahead.journal-evening-the-next-thing-i-do-will-be-in-and-i-intend-to-do-it-well`: "The next thing I do will be in {place}, and I intend to do it well." — 'I intend to do it well' is a bare intention with nothing behind it.
-- `outline-diary.stance.journal-evening-take-it-off-the-books-said-the-president-about`: "Take it off the books, said the President, about {about}." — He rejected 'on the books', and the inverted 'said the President, about X' is awkward.
-
-### every-line-gives-its-context (1)
-
-- `outline-diary.ahead.journal-evening-whatever-i-think-of-tonight-is-where-i-start`: "Whatever I think of tonight, {place} is where I start." — Vague: 'where I start' on what is never said.
-
-### stake-is-named (1)
-
-- `outline-diary.mine.journal-evening-where-does-leave-people-like-me-worse-off-i-think`: "Where does {theme-short} leave people like me? Worse off, I think." — 'People like me' and 'worse off' point at an effect the line never names; the self-question shape is stock.
-
-### the same grammatical pattern (1)
-
-- `outline-diary.ahead.journal-evening-tomorrow-is-again-and-i-mean-to-be-useful`: "Tomorrow is {place} again, and I mean to be useful." — 'And I mean to...' is the pattern he has complained about for a month, and 'Tomorrow is {place}' is odd.
-
-### fact list (1)
-
-- `outline-diary.mine.journal-evening-good-points-on-a-couple-of-bad-ones-and-no-verdict-from-me-yet`: "Good points on {theme-short}, a couple of bad ones, and no verdict from me yet." — A list of fragments that also claims good and bad points the record does not hold.
-
-### fits-speaker-and-tie (1)
-
-- `outline-diary.stance.journal-evening-bring-on-said-the-president`: "Bring on {about}, said the President." — 'Bring on X, said the President' puts slang in a President's mouth with a storybook inversion.
-
-### rejected-by-voice (1)
-
-- `outline-diary.stance.journal-evening-what-did-the-president-want-plain-and-simple`: "What did the President want? {about}, plain and simple." — 'Plain and simple' is the tag he called disjointed on Nov 12, and the self-question is stock.
-
-### never-offer-what-the-player-cannot-do (1)
-
-- `outline-diary.mine.journal-evening-i-would-vote-no`: "{about}: I would vote no." — A colon fragment about a vote the player does not cast.
+- `outline-diary.watched.journal-evening-stayed-up-to-hear`: "{we} stayed up to hear {president-name}." — Claims they stayed up late, which no record holds, and never says what was heard.
 
 ### no-explaining (1)
 
-- `outline-diary.said.journal-evening-a-speech-like-that-turns-on-one-idea-and-here-it-was`: "A speech like that turns on one idea, and here it was {theme-name}." — It explains how speeches work instead of saying what was heard, and 'here it was' reads as AI.
+- `outline-diary.watched.journal-evening-i-watched-speak-and-nobody-else-was-watching-with-me`: "I watched {president-name} speak, and nobody else was watching with me." — Says 'alone' twice over in a padded, AI-sounding clause.
 
-### speech-has-one-theme (1)
+### line-fits-the-roles-in-its-situation (1)
 
-- `outline-diary.stance.journal-evening-forget-everything-else-the-president-wants`: "Forget everything else: the President wants {about}." — 'Forget everything else' overclaims and clashes with the speech's one theme.
+- `outline-diary.ahead.journal-evening-tomorrow-i-will-find-out-who-in-watched`: "Tomorrow I will find out who in {place} watched." — Finding out who watched is an odd goal with no reason behind it.
 
-### reason-holds-for-the-side (1)
+### no-stock-phrases (1)
 
-- `outline-diary.mine.journal-evening-will-cost-more-than-the-speech-let-on-i-think`: "{about} will cost more than the speech let on, I think." — Assumes a cost the record doesn't hold, and many questions aren't about cost.
+- `journal.memoir-hook.later-on-crossed-my-path-again`: "Later on, {name} crossed my path again." — 'Crossed my path' is a stock phrase and repeats H2-047's meaning.
+
+### names-something-specific (1)
+
+- `journal.memoir-revise.was-around-again-after-a-while`: "{name} was around again after a while." — 'Was around again after a while' is vague and says nothing concrete.
+
+### plain-american-spelling-and-phrasing (1)
+
+- `journal.memoir-againPay.an-hour-was-on-offer-at`: "{wage} an hour was on offer at {employer}." — 'On offer' leans British and reads stiff.
 
 ## Passing lines
 
@@ -279,6 +235,102 @@ Pre-grader, 2026-11-24. Branch `story/w-diary` at `2721fbe9`, every line authore
 - `outline-diary.stance.journal-evening-the-president-is-out-to-end`: "The President is out to end {about}."
 - `outline-diary.stance.journal-evening-is-the-law-and-the-president-wants-it-gone`: "{about} is the law and the President wants it gone."
 - `outline-diary.watched.journal-evening-the-speech-started-and-stopped-talking`: "The speech started, and {we} stopped talking."
-- `outline-diary.watched.journal-evening-everyone-in-the-house-me-included-watched-give-the-first-speech`: "Everyone in the house, me included, watched {president-name} give the first speech."
 - `outline-diary.mine.journal-evening-the-president-is-wrong-about-i-am-sure-of-it`: "The President is wrong about {about}, I am sure of it."
 - `outline-diary.mine.journal-evening-i-would-like-to-know-more-about-before-i-take-a-side`: "I would like to know more about {about} before I take a side."
+- `outline-diary.watched.journal-evening-watched-s-speech-on-the-tv-tonight`: "{we} watched {president-name}'s speech on the TV tonight."
+- `outline-diary.watched.journal-evening-turned-on-the-tv-for-s-speech`: "{we} turned on the TV for {president-name}'s speech."
+- `outline-diary.watched.journal-evening-listened-to-s-whole-speech`: "{we} listened to {president-name}'s whole speech."
+- `outline-diary.watched.journal-evening-watched-speak-from-start-to-finish`: "{we} watched {president-name} speak from start to finish."
+- `outline-diary.watched.journal-evening-gave-the-speech-tonight-and-watched-it-together`: "{president-name} gave the speech tonight, and {we} watched it together."
+- `outline-diary.watched.journal-evening-heard-what-had-to-say-tonight`: "{we} heard what {president-name} had to say tonight."
+- `outline-diary.watched.journal-evening-the-whole-house-watched-speak-tonight`: "The whole house watched {president-name} speak tonight."
+- `outline-diary.watched.journal-evening-everyone-in-the-house-watched-s-speech`: "Everyone in the house watched {president-name}'s speech."
+- `outline-diary.watched.journal-evening-we-all-watched-s-speech-together-tonight`: "We all watched {president-name}'s speech together tonight."
+- `outline-diary.watched.journal-evening-s-speech-was-on-and-the-whole-house-watched`: "{president-name}'s speech was on, and the whole house watched."
+- `outline-diary.watched.journal-evening-i-watched-s-speech-alone-tonight`: "I watched {president-name}'s speech alone tonight."
+- `outline-diary.watched.journal-evening-i-listened-to-s-whole-speech-by-myself`: "I listened to {president-name}'s whole speech by myself."
+- `outline-diary.watched.journal-evening-i-saw-s-speech-on-my-own`: "I saw {president-name}'s speech on my own."
+- `outline-diary.watched.journal-evening-i-turned-on-the-tv-and-watched-by-myself`: "I turned on the TV and watched {president-name} by myself."
+- `outline-diary.said.journal-evening-the-speech-was-about`: "The speech was about {theme-name}."
+- `outline-diary.said.journal-evening-the-president-spoke-about`: "The President spoke about {theme-name}."
+- `outline-diary.said.journal-evening-most-of-what-the-president-said-was-about`: "Most of what the President said was about {theme-name}."
+- `outline-diary.said.journal-evening-the-president-talked-about-for-most-of-the-speech`: "The President talked about {theme-name} for most of the speech."
+- `outline-diary.said.journal-evening-i-heard-a-lot-about-in-that-speech`: "I heard a lot about {theme-name} in that speech."
+- `outline-diary.stance.journal-evening-the-president-asked-for-in-the-speech`: "The President asked for {about} in the speech."
+- `outline-diary.stance.journal-evening-the-president-supports`: "The President supports {about}."
+- `outline-diary.stance.journal-evening-the-president-is-pushing-for`: "The President is pushing for {about}."
+- `outline-diary.stance.journal-evening-the-president-says-should-go-ahead`: "The President says {about} should go ahead."
+- `outline-diary.stance.journal-evening-the-president-opposes`: "The President opposes {about}."
+- `outline-diary.stance.journal-evening-the-president-said-no-to`: "The President said no to {about}."
+- `outline-diary.stance.journal-evening-the-president-does-not-want`: "The President does not want {about}."
+- `outline-diary.stance.journal-evening-in-the-speech-the-president-defended`: "In the speech, the President defended {about}."
+- `outline-diary.mine.journal-evening-i-agree-with-the-president-about`: "I agree with the President about {about}."
+- `outline-diary.mine.journal-evening-i-think-the-president-is-right-about`: "I think the President is right about {about}."
+- `outline-diary.mine.journal-evening-i-support-same-as-the-president`: "I support {about}, same as the President."
+- `outline-diary.mine.journal-evening-i-am-for`: "I am for {about}."
+- `outline-diary.mine.journal-evening-i-disagree-with-the-president-about`: "I disagree with the President about {about}."
+- `outline-diary.mine.journal-evening-i-think-the-president-is-wrong-about`: "I think the President is wrong about {about}."
+- `outline-diary.mine.journal-evening-i-am-against`: "I am against {about}."
+- `outline-diary.mine.journal-evening-i-think-is-a-mistake`: "I think {about} is a mistake."
+- `outline-diary.mine.journal-evening-i-do-not-know-yet-what-i-think-about`: "I do not know yet what I think about {about}."
+- `outline-diary.mine.journal-evening-i-have-not-decided-about`: "I have not decided about {about}."
+- `outline-diary.mine.journal-evening-i-am-undecided-on`: "I am undecided on {about}."
+- `outline-diary.mine.journal-evening-i-need-to-know-more-before-i-take-a-side-on`: "I need to know more before I take a side on {about}."
+- `outline-diary.mine.journal-evening-i-cannot-say-yet-whether-i-am-for`: "I cannot say yet whether I am for {about}."
+- `outline-diary.mine.journal-evening-i-would-like-to-read-more-about-first`: "I would like to read more about {about} first."
+- `outline-diary.ahead.journal-evening-tomorrow-i-will-talk-to-people-in-about-the-speech`: "Tomorrow I will talk to people in {place} about the speech."
+- `outline-diary.ahead.journal-evening-i-will-ask-people-in-what-they-thought`: "I will ask people in {place} what they thought."
+- `outline-diary.ahead.journal-evening-i-want-to-hear-what-my-neighbors-in-thought`: "I want to hear what my neighbors in {place} thought."
+- `outline-diary.ahead.journal-evening-tomorrow-i-will-ask-around-about-the-speech`: "Tomorrow I will ask around {place} about the speech."
+- `outline-diary.ahead.journal-evening-tomorrow-i-will-ask-someone-in-what-they-made-of-the-speech`: "Tomorrow I will ask someone in {place} what they made of the speech."
+- `journal.memoir-againWait.nothing-had-come-in-since`: "Nothing had come in since {last_employer}."
+- `journal.memoir-againWait.my-last-pay-came-from`: "My last pay came from {last_employer}."
+- `journal.memoir-againWait.i-had-not-been-paid-since`: "I had not been paid since {last_employer}."
+- `journal.memoir-hard.nothing-replaced-right-away`: "Nothing replaced {lost_employer} right away."
+- `journal.memoir-hard.after-there-was-no-paycheck`: "After {lost_employer}, there was no paycheck."
+- `journal.memoir-deathIllness.had-been-for-some-time-before-the-end`: "{name} had been {after_illness} for some time before the end."
+- `journal.memoir-movedFrom.before-that-home-was`: "Before that, home was {moved_from}."
+- `journal.memoir-movedFrom.i-had-lived-in-until-then`: "I had lived in {moved_from} until then."
+- `journal.memoir-movedFrom.we-had-left-behind`: "We had left {moved_from} behind."
+- `journal.memoir-movedWith.made-the-move-with-me`: "{moved_with} made the move with me."
+- `journal.memoir-birthFirst.our-first-child-was`: "Our first child was {firstborn}."
+- `journal.memoir-birthFirst.came-first`: "{firstborn} came first."
+- `journal.memoir-whenAge.this-was-when-i-was`: "This was when I was {age}."
+- `journal.memoir-whenAge.i-was-then`: "I was {age} then."
+- `journal.memoir-decided.i-put-my-name-forward-for`: "I put my name forward for {office}."
+- `journal.memoir-decided.i-chose-to-run-for`: "I chose to run for {office}."
+- `journal.memoir-decided.i-made-up-my-mind-to-go-for`: "I made up my mind to go for {office}."
+- `journal.memoir-hook.i-would-run-into-again`: "I would run into {name} again."
+- `journal.memoir-hook.turned-up-once-more-after-that`: "{name} turned up once more after that."
+- `journal.memoir-revise.i-met-again-some-time-afterward`: "I met {name} again some time afterward."
+- `journal.memoir-remember.i-had-known-for-a-good-while`: "I had known {name} for a good while."
+- `journal.memoir-remember.and-i-went-back-a-long-way`: "{name} and I went back a long way."
+- `journal.memoir-remember.i-knew-from`: "I knew {name} from {school}."
+- `journal.memoir-became.rose-to`: "{name} rose to {office}."
+- `journal.memoir-became.took-on-the-job-of`: "{name} took on the job of {office}."
+- `journal.memoir-became.ended-up-as`: "{name} ended up as {office}."
+- `journal.memoir-meantFriend.we-were-close`: "We were close."
+- `journal.memoir-joinCause.because-of-this`: "Because of this."
+- `journal.memoir-joinLater.down-the-road`: "{span} down the road."
+- `journal.memoir-joinLater.on`: "{span} on."
+- `journal.memoir-deathAge.died-at`: "{other} died at {death_age}."
+- `journal.memoir-deathBoth.died-at-after-being`: "{other} died at {death_age}, after being {after_illness}."
+- `journal.memoir-deathBoth.had-been-and-died-at`: "{other} had been {after_illness}, and died at {death_age}."
+- `journal.memoir-schoolFor.i-had-spent-there`: "I had spent {school_for} there."
+- `journal.memoir-schoolAge.i-was-when-it-happened`: "I was {age_then} when it happened."
+- `journal.memoir-birthAge.was-born-when-i-was`: "{name} was born when I was {age_then}."
+- `journal.memoir-movedAge.i-was-when-we-moved`: "I was {age_then} when we moved."
+- `journal.memoir-movedAge.at-i-moved`: "At {age_then}, I moved."
+- `journal.memoir-firstPay.my-first-job-paid-an-hour`: "My first job paid {wage} an hour."
+- `journal.memoir-firstPay.i-started-at-on-an-hour`: "I started at {employer} on {wage} an hour."
+- `journal.memoir-againPay.the-pay-at-was-an-hour`: "The pay at {employer} was {wage} an hour."
+- `journal.memoir-againPay.i-would-make-an-hour-at`: "I would make {wage} an hour at {employer}."
+- `journal.memoir-againFelt.i-went-without-a-job`: "I went {span} without a job."
+- `journal.memoir-againFelt.i-was-out-of-work-for`: "I was out of work for {span}."
+- `journal.memoir-letGoHeld.i-had-been-at-for`: "I had been at {employer} for {held}."
+- `journal.memoir-letGoHeld.my-run-at-lasted`: "My run at {employer} lasted {held}."
+- `journal.memoir-letGoPay.at-my-wage-was-an-hour`: "At {employer}, my wage was {wage} an hour."
+- `journal.memoir-letGoPay.i-was-making-an-hour-at`: "I was making {wage} an hour at {employer}."
+- `journal.memoir-movedPay.i-would-earn-an-hour-at`: "I would earn {wage} an hour at {next}."
+- `journal.memoir-movedPay.the-wage-at-was-an-hour`: "The wage at {next} was {wage} an hour."
+- `journal.memoir-movedPay.i-went-to-and-was-paid-an-hour`: "I went to {next} and was paid {wage} an hour."
