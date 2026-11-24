@@ -3341,6 +3341,18 @@
             "why-view"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "reason-for",
+            "stand-against",
+            "why-view"
+          ],
+          "excludesFacts": []
         }
       ],
       "after": ["verdict", "verdict-cold"],
@@ -3364,6 +3376,18 @@
             "president-for",
             "reason-for",
             "stand-with",
+            "why-view"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "reason-for",
+            "stand-against",
             "why-view"
           ],
           "excludesFacts": []
@@ -3393,6 +3417,18 @@
             "why-view"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "reason-for",
+            "stand-against",
+            "why-view"
+          ],
+          "excludesFacts": []
         }
       ],
       "after": ["verdict", "verdict-cold"],
@@ -3416,6 +3452,18 @@
             "president-against",
             "reason-against",
             "stand-with",
+            "why-view"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-for",
+            "reason-against",
+            "stand-against",
             "why-view"
           ],
           "excludesFacts": []
@@ -3445,6 +3493,18 @@
             "why-view"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-for",
+            "reason-against",
+            "stand-against",
+            "why-view"
+          ],
+          "excludesFacts": []
         }
       ],
       "after": ["verdict", "verdict-cold"],
@@ -3471,21 +3531,7 @@
             "why-view"
           ],
           "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-for-part-of-it-is-that-reason-against",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Part of it is that {reason-against}.",
-      "uses": [
+        },
         {
           "subject": "talk-address-point",
           "role": "why",
@@ -3493,136 +3539,6 @@
           "requiresFacts": [
             "president-for",
             "reason-against",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-for-i-think-it-s-because-reason-against",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I think it's because {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "reason-against",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-for-to-my-mind-reason-against",
-      "move": "why",
-      "kind": "spoken",
-      "text": "To my mind, {reason-against}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-for",
-            "reason-against",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-against-part-of-it-is-that-reason-for",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Part of it is that {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "reason-for",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-against-i-think-it-s-because-reason-for",
-      "move": "why",
-      "kind": "spoken",
-      "text": "I think it's because {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "reason-for",
-            "stand-against",
-            "why-view"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["verdict", "verdict-cold"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-stand-against-president-against-to-my-mind-reason-for",
-      "move": "why",
-      "kind": "spoken",
-      "text": "To my mind, {reason-for}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": [
-            "president-against",
-            "reason-for",
             "stand-against",
             "why-view"
           ],
@@ -3654,6 +3570,19 @@
             "stand-with"
           ],
           "excludesFacts": []
+        },
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": [
+            "president",
+            "president-against",
+            "reason-for",
+            "said",
+            "stand-against"
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -3683,23 +3612,7 @@
             "stand-with"
           ],
           "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why-first.talk-address-point-stand-against-president-for-i-was-already-thinking-reason-against-before-president-got-to-said",
-      "move": "why-first",
-      "kind": "spoken",
-      "text": "I was already thinking {reason-against} before {president} got to {said}.",
-      "uses": [
+        },
         {
           "subject": "talk-address-point",
           "role": "why-first",
@@ -3708,35 +3621,6 @@
             "president",
             "president-for",
             "reason-against",
-            "said",
-            "stand-against"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why-first.talk-address-point-stand-against-president-against-i-was-already-thinking-reason-for-before-president-got-to-said",
-      "move": "why-first",
-      "kind": "spoken",
-      "text": "I was already thinking {reason-for} before {president} got to {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why-first",
-          "tie": "stand",
-          "requiresFacts": [
-            "president",
-            "president-against",
-            "reason-for",
             "said",
             "stand-against"
           ],
