@@ -8129,6 +8129,507 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-thank-you-for-having-me-members-of-the",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Thank you for having me, members of the {body-word}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-thank-you",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Thank you, {realm-name}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-friends-and-fellow-citizens-of",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Friends, and fellow citizens of {realm-name}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-welcome",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Welcome, {realm-name}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-fellow-citizens-of-thank-you-for-listening",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Fellow citizens of {realm-name}: thank you for listening.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-members-of-the-it-s-good-to-see-you",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Members of the {body-word}: it's good to see you.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-my-thanks-to-the-for-having-me",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "My thanks to the {body-word} for having me.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-people-of-it-s-good-to-be-with-you",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "People of {realm-name}, it's good to be with you.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-to-everyone-in-hello",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "To everyone in {realm-name}, hello.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.state-of-the-state-good-to-be-here",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Good to be here, {body-word}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-find-your-state-representative-s-office-hours-and-bring-a-qu",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Find your state representative's office hours, and bring a question about {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-look-up-which-agency-in-handles-and-read-what-it-publishes",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Look up which agency in {realm-name} handles {theme-short}, and read what it publishes.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-visit-your-county-clerk-or-town-office-and-ask-what-the-stat",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Visit your county clerk or town office and ask what the state's rules on {theme-short} mean there.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-read-the-bill-on-before-the-votes-on-it-and-tell-your-member",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Read the bill on {about} before the {body-word} votes on it, and tell your member what you think.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-watch-a-committee-hearing-on-online-this-month",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Watch a {body-word} committee hearing on {about} online this month.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-ask-a-neighbor-in-whether-would-help-or-hurt-them",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask a neighbor in {realm-name} whether {about} would help or hurt them.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-check-how-works-in-the-next-state-over-and-compare",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Check how {about} works in the next state over, and compare.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-write-to-the-local-paper-in-about-even-if-it-s-short",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Write to the local paper in {realm-name} about {theme-short}, even if it's short.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-ask-your-member-of-the-to-explain-their-last-vote-on",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask your member of the {body-word} to explain their last vote on {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-learn-which-committee-in-the-your-member-sits-on-and-what-it",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Learn which committee in the {body-word} your member sits on, and what it decides on {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.state-of-the-state-bring-up-at-a-town-meeting-or-a-school-board-in",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Bring up {theme-short} at a town meeting or a school board in {realm-name}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "ask-of-listeners-comes-last",
+        "asks-of-lawmakers-in-state-addresses"
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
