@@ -1472,6 +1472,14 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-figure .strip-name {
   text-align: center;
+  /* The name stands on the portrait's faded lower chest, not under it, so a tall look
+     (a man's extra rows) with a name filled in still fits the window (owner, Nov 17:
+     no empty space in the creator; the CTO's catch, Nov 24: the panel's top ran off screen). */
+  position: relative;
+  margin-top: -44px;
+}
+#cr-figure .strip-name:empty {
+  display: none;
 }
 /* One row of buttons under both columns: Random draws the whole character, Begin starts the life. */
 #cr-foot {
@@ -1483,8 +1491,33 @@ input[type="range"]::-moz-range-thumb {
 #cr-screen .secbody {
   padding-bottom: 8px;
 }
+/* The place list takes the rest of its column, so the creator has no dead space under
+   it; it scrolls only when it holds more than the column's height (owner, Nov 17:
+   no empty space in the creator). */
+#cr-screen.strip-screen {
+  align-items: stretch;
+}
+#cr-who-col,
+#cr-place-sec,
+#cr-place-sec .secbody,
+#cr-place,
+#cr-state-pick:not([hidden]),
+#cr-town-pick:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#cr-place-sec,
+#cr-place-sec .secbody,
+#cr-place,
+#cr-state-pick,
+#cr-town-pick {
+  flex: 1 1 auto;
+}
 #cr-screen .choice-list {
-  max-height: 150px;
+  flex: 1 1 150px;
+  min-height: 150px;
+  max-height: none;
 }
 #cr-screen .acts {
   justify-content: flex-end;
