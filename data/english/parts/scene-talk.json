@@ -3339,7 +3339,9 @@
       "key": "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "So it brings {purpose} and costs the budget nothing. I'll sign it.",
+      "text": "That answers my question. I'll sign it.",
+      "elements": ["sign-the-board-amendments-intact"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -26152,7 +26154,9 @@
       "key": "scene-talk.follow-answer.bill-costs-the-budget-nothing",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} costs the budget nothing.",
+      "text": "There's no spending increase written into it.",
+      "elements": ["treasurer-has-the-balance-but-no-current-price"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
