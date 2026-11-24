@@ -9,7 +9,12 @@
  * was about, where the player stands on it by their own recorded view, and a
  * close that looks ahead, the way a diary entry ends.
  */
-import { questionNumber, questionPlainWords } from "../english/question-names";
+import {
+  questionNumber,
+  questionPlainWords,
+  questionToday,
+} from "../english/question-names";
+import { countSaid } from "../english/count-words";
 import type { EntityId } from "../core2/kernel/brands";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -110,6 +115,9 @@ export function eveningTelling(
     facts.we = fact(namesSaid([...first, SELF.subject]), named);
     facts.us = fact(namesSaid([...first, SELF.object]), named);
   } else facts.alone = fact("yes", [story.id, personId]);
+  // How many watched, in words ("five"), from the household's members.
+  if (others.length)
+    facts["watchers-count"] = fact(countSaid(others.length + 1), named);
   // The theme of the point the speech argued, as the address said it.
   const family = story.points[P.zero]?.family ?? story.theme;
   const themeName = family ? themeNameBy(me.traits, family) : null;
@@ -136,8 +144,26 @@ export function eveningTelling(
     facts[`about-${questionNumber(point.question)}`] = fact("yes", [
       `question:${point.question}`,
     ]);
-    if (point.stance)
+    if (point.stance) {
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
+      // What the President said is at stake, as the President's side tells
+      // how things stand today (the question's own `today` wording), for a
+      // line on what the speech claimed (W3, Nov 24: the stance moves had
+      // run out of ideas).
+      const stakes = questionToday(
+        point.question,
+        !!point.inForce,
+        point.stance === "for" ? "for" : "against",
+      );
+      if (stakes) {
+        facts.stakes = fact(stakes, [`question:${point.question}`]);
+        facts["stakes-clause"] = fact(
+          stakes.charAt(0).toLowerCase() +
+            stakes.slice(1).replace(/[.!?]$/, ""),
+          [`question:${point.question}`],
+        );
+      }
+    }
     // A law already in force is one the President keeps or undoes.
     if (point.inForce)
       facts["law-in-force"] = fact("yes", point.sourceRecordIds);
