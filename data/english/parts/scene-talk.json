@@ -71482,58 +71482,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.who-else",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who else?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.i-ll-show-you",
       "move": "reply-promise",
       "kind": "spoken",
@@ -73563,36 +73511,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.sure-ask-anything-about-and-i-ll-tell-you-what-i-know",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Sure. Ask anything about {employer}, and I'll tell you what I know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      },
-      "elements": [
-        "new-hire-first-week-talk",
-        "invite-a-colleague-to-lunch-first",
-        "new-hire-asks-for-an-introduction-note"
-      ]
-    },
-    {
       "key": "scene-talk.reply-agree.happy-to-stick-with-me-at-until-lunch-and-i-ll-show-you-the-ropes",
       "move": "reply-agree",
       "kind": "spoken",
@@ -73620,35 +73538,6 @@
         "new-hire-first-week-talk",
         "invite-a-colleague-to-lunch-first",
         "new-hire-asks-for-an-introduction-note"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-come-find-me-and-we-ll-get-you-settled-at-employer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, come find me, and we'll get you settled at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "invite-a-colleague-to-lunch-first"
       ]
     },
     {
@@ -73929,6 +73818,96 @@
         "key": "arrival"
       },
       "elements": ["asking-questions-is-expected-early"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-once-the-morning-rush-is-over-at-find-me-then",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, once the morning rush is over at {workplace}. Find me then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["workplace"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-yet-i-m-covering-for-someone-at-and-can-t-step-away-try-me-tomorrow",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not yet. I'm covering for someone at {workplace} and can't step away. Try me tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["workplace"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-showing-people-around-isn-t-my-job-and-i-m-behind-as-it-is",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. Showing people around {workplace} isn't my job, and I'm behind as it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["workplace"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.you-re-right-yes",
