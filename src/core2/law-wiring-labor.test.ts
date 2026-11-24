@@ -523,9 +523,21 @@ function run(specId: string, subject: Subject) {
       const claim = (
         claims.rows() as unknown as { personId: string; paidMinor: number }[]
       ).find((c) => c.personId === filed.counted);
-      const row = ui.find(
-        (r) => r.targetId === `counted-claimants:${filed.counted}`,
+      // A counted claimant filled in as a full person mid-claim is paid as one
+      // from then on (jobs-benefits.ts payClaims), and the law's row follows:
+      // the group's row holds the paydays while counted and the person's row
+      // the rest, so the claim's money is both rows'.
+      const rowsOf = ui.filter(
+        (r) =>
+          r.targetId === `counted-claimants:${filed.counted}` ||
+          r.targetId === filed.counted,
       );
+      const row = rowsOf.length
+        ? {
+            amountMinor: rowsOf.reduce((n, r) => n + r.amountMinor, 0),
+            count: rowsOf[0]!.count,
+          }
+        : undefined;
       const paydays = entries.filter(
         (e) =>
           e.sourceId.startsWith(`unemployment-benefit:${filed.counted}:`) ||
