@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: who holds command during a joint response.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor accepts the federal command arrangement.",
+      "pulledBy": "The governor approves the proposed transfer.",
+      "writesBack": "The response record names the new authority."
+    },
+    {
+      "turn": "partial",
+      "what": "The state keeps command and shares a liaison with federal officials.",
+      "pulledBy": "The parties agree on coordination without a transfer.",
+      "writesBack": "The agreement names a liaison and retains state command."
+    }
+  ]
 }

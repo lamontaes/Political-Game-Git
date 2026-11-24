@@ -11,5 +11,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the conditions for releasing a contract payment.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The city pays the invoice in full.",
+      "pulledBy": "An audit confirms the contractor met the participation requirement.",
+      "writesBack": "The payment ledger records the release."
+    },
+    {
+      "turn": "partial",
+      "what": "The city pays for accepted work and withholds the disputed portion.",
+      "pulledBy": "The contract separates the items under review.",
+      "writesBack": "The invoice shows the paid balance and the amount held."
+    }
+  ]
 }

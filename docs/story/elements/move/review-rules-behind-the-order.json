@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: recommendations for changing agency regulations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive directs an immediate rule change.",
+      "pulledBy": "A legal review identifies the specific rule and authority to amend it.",
+      "writesBack": "The order names the rule and effective date."
+    },
+    {
+      "turn": "partial",
+      "what": "The committee starts with one agency.",
+      "pulledBy": "That agency has complete records while the others are collecting theirs.",
+      "writesBack": "The first report covers a named agency only."
+    }
+  ]
 }

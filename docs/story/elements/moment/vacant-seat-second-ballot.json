@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: successive votes on filling a council vacancy.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The second ballot leaves the seat vacant.",
+      "pulledBy": "Every member repeats the first vote.",
+      "writesBack": "The minutes record another tie."
+    },
+    {
+      "turn": "late",
+      "what": "The council fills the seat at the following meeting.",
+      "pulledBy": "One member requests time to interview the finalists.",
+      "writesBack": "The appointment carries the later meeting date."
+    }
+  ]
 }

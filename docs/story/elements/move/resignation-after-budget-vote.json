@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the timing of a resignation against the council calendar.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member resigns before the budget vote.",
+      "pulledBy": "The council postpones the vote beyond the member's intended departure.",
+      "writesBack": "The roll lists the seat as vacant."
+    },
+    {
+      "turn": "partial",
+      "what": "The member announces the resignation now and sets a later effective date.",
+      "pulledBy": "Colleagues need time to arrange succession.",
+      "writesBack": "The notice preserves a final meeting date."
+    }
+  ]
 }

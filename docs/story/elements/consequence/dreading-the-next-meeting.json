@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a member's reported reason for requesting leave.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member feels able to attend the next meeting.",
+      "pulledBy": "The chair agrees to a change the member requested.",
+      "writesBack": "The member confirms attendance."
+    },
+    {
+      "turn": "partial",
+      "what": "The member attends for the vote and leaves afterward.",
+      "pulledBy": "The vote affects a constituent and the member has requested limited duties.",
+      "writesBack": "The minutes record the vote and early departure."
+    }
+  ]
 }

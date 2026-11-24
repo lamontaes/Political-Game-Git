@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: delegated duties during executive travel.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor returns to decide the matter personally.",
+      "pulledBy": "The matter requires the governor's signature.",
+      "writesBack": "The travel calendar records the early return."
+    },
+    {
+      "turn": "partial",
+      "what": "The deputy handles daily work and sends one decision to the governor.",
+      "pulledBy": "The delegation excludes appointments.",
+      "writesBack": "The appointment remains on the governor's docket."
+    }
+  ]
 }

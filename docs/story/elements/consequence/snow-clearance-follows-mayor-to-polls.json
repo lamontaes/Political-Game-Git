@@ -11,5 +11,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: voter accounts of street clearance by neighborhood.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A challenger hears residents defend the plow crews.",
+      "pulledBy": "Their streets were cleared before morning traffic.",
+      "writesBack": "The canvass records support for the response in those blocks."
+    },
+    {
+      "turn": "partial",
+      "what": "The criticism comes from side streets only.",
+      "pulledBy": "Service logs show a gap between main routes and side streets.",
+      "writesBack": "The campaign records which routes residents named."
+    }
+  ]
 }

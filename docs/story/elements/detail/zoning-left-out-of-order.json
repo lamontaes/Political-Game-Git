@@ -11,5 +11,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the scope of local permitting authority.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council includes zoning in the reform.",
+      "pulledBy": "A separate zoning amendment wins the required vote.",
+      "writesBack": "The ordinance records the changed approval process."
+    },
+    {
+      "turn": "partial",
+      "what": "The council tries the permit change in a single district.",
+      "pulledBy": "The adopted measure authorizes a pilot.",
+      "writesBack": "The permit record carries the district boundary and review date."
+    }
+  ]
 }

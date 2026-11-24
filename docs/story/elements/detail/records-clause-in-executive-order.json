@@ -10,5 +10,20 @@
   "slots": ["{office}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the records an executive inquiry may obtain.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The committee has to request records individually.",
+      "pulledBy": "Its order grants no general access.",
+      "writesBack": "The inquiry tracks each agency's response."
+    },
+    {
+      "turn": "partial",
+      "what": "The agency supplies a redacted file.",
+      "pulledBy": "The file contains protected personal information.",
+      "writesBack": "The production log identifies what was withheld."
+    }
+  ]
 }

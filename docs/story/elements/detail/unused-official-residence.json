@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: occupancy and costs of an official residence.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor moves into the residence.",
+      "pulledBy": "The family accepts the accommodation and the building is ready.",
+      "writesBack": "The occupancy record gives the move date."
+    },
+    {
+      "turn": "partial",
+      "what": "The executive uses the house for official receptions only.",
+      "pulledBy": "The family keeps its existing home.",
+      "writesBack": "The property calendar records public functions without residential occupancy."
+    }
+  ]
 }

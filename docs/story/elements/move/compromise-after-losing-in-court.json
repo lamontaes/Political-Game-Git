@@ -11,5 +11,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: settlement terms for disputed appointments.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The mayor lets the nominations lapse.",
+      "pulledBy": "The council rejects the remaining candidates.",
+      "writesBack": "The appointment docket closes without a settlement."
+    },
+    {
+      "turn": "partial",
+      "what": "The council accepts one nominee while negotiations continue.",
+      "pulledBy": "One candidate has enough recorded support.",
+      "writesBack": "The appointment record keeps the other posts open."
+    }
+  ]
 }

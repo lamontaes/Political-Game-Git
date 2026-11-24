@@ -11,5 +11,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: participation by firm in completed contracts.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A promised subcontract never reaches the firm.",
+      "pulledBy": "The prime contractor keeps the work in house.",
+      "writesBack": "The closeout shows a gap between promised and paid participation."
+    },
+    {
+      "turn": "late",
+      "what": "A subcontractor is credited after an invoice review.",
+      "pulledBy": "Its payment was missing from the first accounting.",
+      "writesBack": "The corrected closeout names the firm and amount."
+    }
+  ]
 }

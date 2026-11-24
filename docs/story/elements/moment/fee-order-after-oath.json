@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a signed fee order and its effective date.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The fee remains in effect after inauguration.",
+      "pulledBy": "A legal review finds that changing it takes a vote.",
+      "writesBack": "The incoming executive sends a proposal to the legislature."
+    },
+    {
+      "turn": "late",
+      "what": "The executive delays signing until collection offices can implement the change.",
+      "pulledBy": "Local offices need new instructions for pending renewals.",
+      "writesBack": "The signed order gives a later start date."
+    }
+  ]
 }

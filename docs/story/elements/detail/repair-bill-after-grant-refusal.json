@@ -8,5 +8,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: who pays for outstanding rail repairs.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "An existing agreement puts the repair cost on the railroad.",
+      "pulledBy": "The work falls within the operator's maintenance obligation.",
+      "writesBack": "The invoice goes to the operator."
+    },
+    {
+      "turn": "partial",
+      "what": "The state pays only for the urgent repairs.",
+      "pulledBy": "The remaining work can wait for the next appropriation.",
+      "writesBack": "The work order lists funded and deferred repairs."
+    }
+  ]
 }

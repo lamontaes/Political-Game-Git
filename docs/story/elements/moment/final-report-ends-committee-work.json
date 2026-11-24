@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the closing date of a temporary committee.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The committee continues after its report.",
+      "pulledBy": "The executive assigns a follow-up review.",
+      "writesBack": "Its mandate gains a second reporting date."
+    },
+    {
+      "turn": "partial",
+      "what": "A smaller group stays to answer implementation questions.",
+      "pulledBy": "Agencies still need interpretations of two findings.",
+      "writesBack": "The new roster names the members who remain."
+    }
+  ]
 }

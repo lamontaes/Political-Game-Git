@@ -8,5 +8,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: attendance at the chair election.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair election waits for the members who left.",
+      "pulledBy": "Their departure breaks quorum.",
+      "writesBack": "The clerk adjourns the election without appointments."
+    },
+    {
+      "turn": "partial",
+      "what": "One committee gets a chair before the walkout.",
+      "pulledBy": "The council takes nominations separately.",
+      "writesBack": "The minutes distinguish filled and vacant chairs."
+    }
+  ]
 }
