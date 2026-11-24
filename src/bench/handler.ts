@@ -42,7 +42,7 @@ import {
   OPENING_WARMUP_DAYS,
 } from "./world";
 import { gameStartDate } from "../core2/game-start";
-import { knownCard, personCard } from "./card";
+import { knownCard, personCard, roleWord } from "./card";
 import { openingArrivalMinute, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
@@ -317,6 +317,13 @@ function sceneNow(current: CoreState, id: string) {
         ...scene,
         people: scene.people.map((person) => ({
           ...person,
+          // Their office or their tie to you, under their name (mock C).
+          ...(person.role
+            ? {}
+            : (() => {
+                const role = roleWord(current, id, person.personId);
+                return role ? { role } : {};
+              })()),
           talkable:
             person.personId === id ||
             openConversation(current, id, person.personId, {

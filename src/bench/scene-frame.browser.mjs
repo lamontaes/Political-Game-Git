@@ -72,22 +72,19 @@ try {
       room.bottom < room.height / 3,
       "the people reach down into the room",
     );
-    // The label never lies over a name.
-    const clash = await page.evaluate(() => {
-      const label = document.querySelector("#here .busts-label");
-      if (!label || getComputedStyle(label).display === "none") return false;
-      const a = label.getBoundingClientRect();
-      return [...document.querySelectorAll("#here .busts-name")].some((n) => {
-        const b = n.getBoundingClientRect();
-        return (
-          a.left < b.right &&
-          b.left < a.right &&
-          a.top < b.bottom &&
-          b.top < a.bottom
-        );
-      });
-    });
-    assert.equal(clash, false, "the Here label is over a name");
+    // No "Here" label over the corner (CTO, Nov 24: mock C has none), and a role or a tie
+    // under a name reads as words, never as a record key.
+    assert.equal(
+      await page.locator("#here .busts-label").count(),
+      0,
+      "a label is over the corner",
+    );
+    const roles = await page
+      .locator("#here .busts-role")
+      .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+    console.log("Roles:", JSON.stringify(roles));
+    for (const role of roles)
+      assert.match(role, /^[A-Z][A-Za-z' -]+$/, `"${role}" is not worded`);
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-room.png` });
 
     // In a talk the speaker is on the talk box, big; the others stay small in the corner.

@@ -250,7 +250,7 @@ function drawHere(scene, onClick) {
           bustStrip({
             people: here.people,
             more: here.more,
-            words: controls.here,
+            words: { more: controls.here.more },
             onClick: onClick
               ? (person) =>
                   $("talk").hidden ? hereClick?.(person) : openCard(person)
