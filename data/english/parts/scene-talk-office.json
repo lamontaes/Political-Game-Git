@@ -3572,6 +3572,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3598,6 +3608,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3624,6 +3644,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3650,6 +3680,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3676,6 +3716,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3702,6 +3752,16 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3891,6 +3951,17 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer"],
           "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "ask",
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3918,6 +3989,17 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "employer"],
           "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "ask",
+          "onlyWhen": ["money-left"]
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],

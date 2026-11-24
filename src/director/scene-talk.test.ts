@@ -188,6 +188,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           name: fact("Pat Rivera"),
           agency: fact("the workforce office"),
           "problem-work": fact("yes"),
+          "money-left": fact("almost gone"),
         },
       );
       if (result.kind !== "composed") continue;
