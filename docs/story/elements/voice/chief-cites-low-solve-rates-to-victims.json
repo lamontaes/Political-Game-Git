@@ -1,0 +1,43 @@
+{
+  "id": "chief-cites-low-solve-rates-to-victims",
+  "kind": "voice",
+  "summary": "Faced with angry victims, a chief answers with how seldom property crimes are solved anywhere.",
+  "realLife": "At a packed meeting, victims asked if the department was out of its depth. The chief said burglars are very hard to find and convict, pointed to a national clearance rate of under one in five, and another officer said the courts are slow.",
+  "sources": [
+    "The Almanac (Atherton, California), 'Atherton police: At least $2M in jewelry, other items stolen this year', Feb 5, 2019: https://www.almanacnews.com/news/print/2019/02/05/atherton-police-at-least-2m-in-jewelry-other-items-stolen-this-year",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["percent", "count", "burglary", "date"],
+  "gates": [],
+  "weights": {
+    "crime": 0.5,
+    "burglary": 0.4
+  },
+  "inGame": "case clearance counts by crime kind; needs: a clearance-rate view on the police record",
+  "issues": ["budget:police"],
+  "turns": [
+    {
+      "name": "the chief cites the national rate",
+      "pulledBy": "a clearance rate near the national one",
+      "writes": "the story carries the chief's defense",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the chief concedes the town is behind",
+      "pulledBy": "a clearance rate well under the national one",
+      "writes": "the story reports the admission and a promised review",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "an officer says the town is still statistically safe",
+      "pulledBy": "a rise that starts from a very low base",
+      "writes": "the story pairs the rise with a calm note",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
