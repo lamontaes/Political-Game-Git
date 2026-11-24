@@ -2,7 +2,7 @@
 // The new busts in the creator, in a real browser on the bench (npm run bench).
 // Owner, Nov 17, 2026: "a few different head shapes ... 2 or 3 more shades ...
 // more clothes and more hairstyles" (#10070). For a woman and a man, each in a
-// place drawn with the creator's Random place (from all 56), the check opens
+// place drawn with the creator's Random (from all 56), the check opens
 // the creator and, on every head shape the Head row offers:
 //   - the bust wears the head of that shape (head-<shape>-...) in its skin;
 //   - every Top option puts that top on the bust, and every Hair option that
@@ -73,17 +73,17 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-start").click();
     await page.locator("#cr-screen:not([hidden])").waitFor();
-    await page.locator(`[data-gender=${gender}]`).click();
     const presses = 1 + randomInt(4);
     let place;
     for (let i = 0; i < presses; i++) {
       const drawn = page.waitForResponse((r) =>
-        r.url().includes("/api/creator/place"),
+        r.url().includes("/api/creator/character"),
       );
-      await page.locator("#cr-place-random").click();
-      place = await (await drawn).json();
+      await page.locator("#cr-random").click();
+      place = (await (await drawn).json()).place;
     }
-    const where = `${gender} in ${place.town.name}, ${place.state.name} (Random place pressed ${presses} times)`;
+    const where = `${gender} in ${place.town.name}, ${place.state.name} (Random pressed ${presses} times)`;
+    await page.locator(`[data-gender=${gender}]`).click();
     console.log(where);
     await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
     await loaded(page);
