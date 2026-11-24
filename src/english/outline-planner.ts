@@ -383,9 +383,19 @@ function shapeOrder(
  * conditions match the most facts wins, and general ones are the fallback").
  */
 const specificityOf = (part: {
+  readonly text: string;
   readonly after?: readonly string[];
   readonly use: { readonly requiresFacts?: readonly string[] };
-}) => (part.use.requiresFacts?.length ?? 0) + (part.after ? 1 : 0);
+}) => {
+  // A slot the line fills is what it says, not when it is said: only the
+  // facts it checks and does not print are its conditions (W2, Nov 24: lines
+  // that print more slots out-ranked every one-fact line).
+  const printed = new Set(slotsOf(part.text));
+  return (
+    (part.use.requiresFacts ?? []).filter((fact) => !printed.has(fact)).length +
+    (part.after ? 1 : 0)
+  );
+};
 
 /**
  * The sayable pieces from the most specific down: the most specific tier
