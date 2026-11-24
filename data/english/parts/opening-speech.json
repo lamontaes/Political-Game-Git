@@ -21637,28 +21637,6 @@
       "elements": ["mayor-opens-by-thanking-host-and-officials"]
     },
     {
-      "key": "opening-speech.close.plain-town-address-meets-again-soon-and-i-hope-you-ll-come-and-say-what-you-thi",
-      "move": "close",
-      "kind": "spoken",
-      "text": "{body-name} meets again soon, and I hope you'll come and say what you think about {theme-short}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "theme-short"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
       "key": "opening-speech.close.plain-town-address-thank-you-for-coming-out",
       "move": "close",
       "kind": "spoken",
