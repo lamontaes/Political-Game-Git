@@ -2,9 +2,10 @@
   "id": "next-meeting-date",
   "kind": "detail",
   "summary": "The story ends on the date the body meets again.",
-  "realLife": "A school board story closed on the next meeting date; a council story on the next reading.",
+  "realLife": "A school board story closed on the date of the next meeting.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Times-Republican (Marshalltown, Iowa), superintendent gets contract extension by a 3-2 vote: https://www.timesrepublican.com/news/todays-news/2025/06/despite-more-public-comment-criticism-stc-superintendent-gets-contract-extension-by-3-2-vote",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["date", "body"],

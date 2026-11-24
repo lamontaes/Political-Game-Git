@@ -4,7 +4,12 @@
   "summary": "A county or town adopts or hears a budget and the paper tells what it costs households.",
   "realLife": "Five county budget stories read: lede, stakes, a household example, figures, officials' quotes, side items.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Lawrence Journal-World, Douglas County commissioners approve the 2026 budget: https://www2.ljworld.com/news/county-government/2025/aug/27/douglas-county-commissioners-approve-budget-for-2026-with-lower-property-tax-rate-than-2025s",
+    "Marion County Record (Kansas), county approves a $31.5 million budget with no objection: https://www.marionrecord.com/direct/no_objection_as_county_approves_31_5_million_budget_+5653budget+4e6f206f626a656374696f6e20617320636f756e747920617070726f766573202433312e35206d696c6c696f6e2062756467657420",
+    "Jacksboro Newspapers (Texas), county adopts budget, tax rate increase: https://www.jacksboronewspapers.com/news/county-adopts-budget-tax-rate-increase",
+    "Daily Inter Lake (Montana), Flathead County commissioners sign off on the new fiscal budget: https://dailyinterlake.com/news/2025/sep/03/flathead-county-commissioners-sign-off-on-new-fiscal-budget/",
+    "Minot Daily News (North Dakota), county adopts budget with lower taxes: https://www.minotdailynews.com/news/local-news/2025/09/county-adopts-budget-with-lower-taxes/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["measure", "from", "to"],

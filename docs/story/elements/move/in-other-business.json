@@ -4,7 +4,10 @@
   "summary": "A meeting story carries the meeting's other acts, grouped by meeting and not by subject.",
   "realLife": "5 of 7 meeting stories add the same meeting's other business, and 3 end on such an item.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Lawrence Journal-World, Douglas County commissioners approve the 2026 budget: https://www2.ljworld.com/news/county-government/2025/aug/27/douglas-county-commissioners-approve-budget-for-2026-with-lower-property-tax-rate-than-2025s",
+    "Marion County Record (Kansas), county approves a $31.5 million budget with no objection: https://www.marionrecord.com/direct/no_objection_as_county_approves_31_5_million_budget_+5653budget+4e6f206f626a656374696f6e20617320636f756e747920617070726f766573202433312e35206d696c6c696f6e2062756467657420",
+    "Chanute Tribune (Kansas), city to remove certain legal publications from the Tribune: https://www.chanute.com/article/598,city-of-chanute-to-remove-certain-legal-publications-from-the-tribune",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["body", "date"],

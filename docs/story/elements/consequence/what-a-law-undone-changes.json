@@ -2,9 +2,11 @@
   "id": "what-a-law-undone-changes",
   "kind": "consequence",
   "summary": "A law that is undone is told as the rule it replaced no longer applying, never as 'passed'.",
-  "realLife": "The sampled stories report a decision or an end; the game's rule is that a law in force is kept or undone.",
+  "realLife": "The sampled council stories report an act the body took, an ordinance read for the last time or a notice dropped. The game's rule is that a law in force is kept or undone, never 'passed'.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "The Village Reporter (Wauseon, Ohio), council passes two ordinances on final reading: https://thevillagereporter.com/wauseon-city-council-council-passes-two-ordinances-on-final-reading/",
+    "Chanute Tribune (Kansas), city to remove certain legal publications from the Tribune: https://www.chanute.com/article/598,city-of-chanute-to-remove-certain-legal-publications-from-the-tribune",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["law", "place", "date"],

@@ -4,7 +4,8 @@
   "summary": "A lede opens on a scene in the place before it says what changed.",
   "realLife": "A story on a local business closing opened on the scene at the shop, then named the owner and the date.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["subject", "place"],

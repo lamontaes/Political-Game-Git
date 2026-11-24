@@ -4,7 +4,9 @@
   "summary": "A story ends on a short quote about the speaker's own plans.",
   "realLife": "Two of 11 stories end on the owner's or official's own words about what they will do next.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Juneau Empire, Ron's Apothecary Shoppe closing after nearly 50 years: https://juneauempire.com/news/rons-apothecary-shoppe-closing-on-dec-6-after-nearly-50-years-as-co-owners-retire",
+    "Jacksboro Newspapers (Texas), county adopts budget, tax rate increase: https://www.jacksboronewspapers.com/news/county-adopts-budget-tax-rate-increase",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["quote", "name"],

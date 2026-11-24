@@ -4,7 +4,8 @@
   "summary": "A school board meeting where public comment and the superintendent's replies are the story.",
   "realLife": "One story read whole: conflict first, a vote and a pay figure mid-story, a parent's reaction, the next meeting date.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Times-Republican (Marshalltown, Iowa), superintendent gets contract extension by a 3-2 vote: https://www.timesrepublican.com/news/todays-news/2025/06/despite-more-public-comment-criticism-stc-superintendent-gets-contract-extension-by-3-2-vote",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["body"],

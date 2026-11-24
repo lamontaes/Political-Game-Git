@@ -4,7 +4,8 @@
   "summary": "A lede opens on the people a decision touches instead of the body that made it.",
   "realLife": "One story opened on the taxpayers of a county who could see a change, with the board's act held for the second sentence.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Minot Daily News (North Dakota), county adopts budget with lower taxes: https://www.minotdailynews.com/news/local-news/2025/09/county-adopts-budget-with-lower-taxes/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["place", "percent"],

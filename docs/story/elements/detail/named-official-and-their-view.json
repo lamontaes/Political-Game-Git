@@ -4,7 +4,10 @@
   "summary": "The story names the official and says their view in one plain sentence before any quote.",
   "realLife": "Officials quoted first in council and budget stories were a commissioner, an administrator or counsel.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Chanute Tribune (Kansas), city to remove certain legal publications from the Tribune: https://www.chanute.com/article/598,city-of-chanute-to-remove-certain-legal-publications-from-the-tribune",
+    "Lawrence Journal-World, Douglas County commissioners approve the 2026 budget: https://www2.ljworld.com/news/county-government/2025/aug/27/douglas-county-commissioners-approve-budget-for-2026-with-lower-property-tax-rate-than-2025s",
+    "Jacksboro Newspapers (Texas), county adopts budget, tax rate increase: https://www.jacksboronewspapers.com/news/county-adopts-budget-tax-rate-increase",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["name", "body"],

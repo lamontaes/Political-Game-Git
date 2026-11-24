@@ -4,7 +4,10 @@
   "summary": "What residents feel arrives late in a story and often through someone else.",
   "realLife": "Only 1 of 11 stories quotes an ordinary resident directly; closings relay customers through the owner.",
   "sources": [
-    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026: 11 local stories read whole, coded by paragraph role)"
+    "Times-Republican (Marshalltown, Iowa), superintendent gets contract extension by a 3-2 vote: https://www.timesrepublican.com/news/todays-news/2025/06/despite-more-public-comment-criticism-stc-superintendent-gets-contract-extension-by-3-2-vote",
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "Juneau Empire, Ron's Apothecary Shoppe closing after nearly 50 years: https://juneauempire.com/news/rons-apothecary-shoppe-closing-on-dec-6-after-nearly-50-years-as-co-owners-retire",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
   ],
   "fits": ["news"],
   "slots": ["place"],
