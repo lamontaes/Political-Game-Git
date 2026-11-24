@@ -1,0 +1,30 @@
+{
+  "id": "a-knoll-already-has-a-name-in-town",
+  "kind": "voice",
+  "summary": "Residents tell a board what they call a hill that has no name in its federal entry.",
+  "realLife": "Torrey residents identified the Utah feature as Torrey Knoll and objected to calling it a sentinel. The applicant withdrew the proposal.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20865_June13%202024_Minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{residents}", "{knoll}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: testimony of local usage and the status of the applicant’s proposal.",
+  "turns": [
+    {
+      "turn": "the-applicant-withdraws-the-competing-proposal",
+      "what": "The applicant withdraws the competing proposal.",
+      "pulledBy": "Residents supply an established local name.",
+      "writesBack": "The docket closes without adopting the proposed name.."
+    },
+    {
+      "turn": "staff-requests-independent-examples",
+      "what": "Staff requests independent examples.",
+      "pulledBy": "Residents disagree over local usage.",
+      "writesBack": "The file retains competing accounts.."
+    }
+  ]
+}

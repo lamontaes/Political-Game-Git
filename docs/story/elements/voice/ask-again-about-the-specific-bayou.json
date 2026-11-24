@@ -1,0 +1,30 @@
+{
+  "id": "ask-again-about-the-specific-bayou",
+  "kind": "voice",
+  "summary": "A staff member asks a Tribal officer about the feature on the docket because an earlier objection named other places.",
+  "realLife": "The Caddo Nation of Oklahoma’s preservation officer had objected to two other proposals. Staff sought specific comment on Anne des Cadeaux Bayou and Brevelle Branch and received no reply.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{officer}", "{bayou}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the officer’s earlier response, the specific features it names and any reply to the new inquiry.",
+  "turns": [
+    {
+      "turn": "the-clerk-asks-about-this-particular-case",
+      "what": "The clerk asks about this particular case.",
+      "pulledBy": "An objection identifies another waterway.",
+      "writesBack": "The earlier objection remains attached to its own proposal.."
+    },
+    {
+      "turn": "the-clerk-adds-the-response",
+      "what": "The clerk adds the response.",
+      "pulledBy": "The officer answers about this waterway.",
+      "writesBack": "The committee has a position specific to this docket.."
+    }
+  ]
+}

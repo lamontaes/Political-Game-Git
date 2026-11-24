@@ -1,0 +1,30 @@
+{
+  "id": "a-parks-cave-name-goes-back-to-the-park",
+  "kind": "consequence",
+  "summary": "When a replacement name is withdrawn, the park using the old name still has a decision to make.",
+  "realLife": "The Connecticut cave applicant withdrew after objections to naming it for a fictional character. Park management was considering alternatives for the name it used locally.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20871_Dec12_2024%20Minutes.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{park}", "{cave}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the withdrawn proposal, the local name still in use and any subsequent park decision.",
+  "turns": [
+    {
+      "turn": "the-clerk-closes-its-file",
+      "what": "The clerk closes its file.",
+      "pulledBy": "The federal proposal is withdrawn.",
+      "writesBack": "The park can continue its own review.."
+    },
+    {
+      "turn": "the-park-director-records-that-local-decision",
+      "what": "The park director records that local decision.",
+      "pulledBy": "The park settles on another name.",
+      "writesBack": "The park has a name it can use on its own materials.."
+    }
+  ]
+}

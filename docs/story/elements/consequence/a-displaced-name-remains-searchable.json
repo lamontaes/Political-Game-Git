@@ -1,0 +1,30 @@
+{
+  "id": "a-displaced-name-remains-searchable",
+  "kind": "consequence",
+  "summary": "Restoring an earlier name leaves the intervening name in the record as a variant.",
+  "realLife": "When Spring Lake regained its name, staff said Lake Killian would remain an alternate entry in the federal names database.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{lake}", "{variant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the restoration decision and the database instruction about variants.",
+  "turns": [
+    {
+      "turn": "the-registrar-links-the-displaced-name",
+      "what": "The registrar links the displaced name.",
+      "pulledBy": "The restoration includes a variant.",
+      "writesBack": "A search by that name leads to the same lake.."
+    },
+    {
+      "turn": "the-clerk-seeks-the-entry-details",
+      "what": "The clerk seeks the entry details.",
+      "pulledBy": "The decision gives no variant instruction.",
+      "writesBack": "The alternate listing awaits confirmation.."
+    }
+  ]
+}

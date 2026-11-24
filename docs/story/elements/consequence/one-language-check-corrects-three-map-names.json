@@ -1,0 +1,30 @@
+{
+  "id": "one-language-check-corrects-three-map-names",
+  "kind": "consequence",
+  "summary": "A wider check of names sends several related map entries to a language expert for correction.",
+  "realLife": "After Oregon’s board found discrepancies, Christine Johnson connected the review with a Basque specialist who verified the forms of three names the federal committee corrected.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{language}", "{entries}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the entries under review and a qualified language adviser’s findings for each.",
+  "turns": [
+    {
+      "turn": "the-registrar-updates-the-approved-entries",
+      "what": "The registrar updates the approved entries.",
+      "pulledBy": "The specialist verifies all the forms.",
+      "writesBack": "The map index can use the verified spellings.."
+    },
+    {
+      "turn": "the-reviewer-separates-that-entry",
+      "what": "The reviewer separates that entry.",
+      "pulledBy": "One translation remains uncertain.",
+      "writesBack": "The uncertain form stays open for further evidence.."
+    }
+  ]
+}

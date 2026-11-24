@@ -1,0 +1,30 @@
+{
+  "id": "hear-the-islands-before-the-group-name",
+  "kind": "voice",
+  "summary": "A chair explains why the board can vote on individual islands while their collective name is still pending.",
+  "realLife": "Ranieri asked to hear the Maine island names together. The chair proceeded with the individual proposals because a future meeting might lack a quorum.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}", "{islands}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the individual and collective proposals, the meeting attendance and the chair’s ruling.",
+  "turns": [
+    {
+      "turn": "the-chair-calls-the-individual-names",
+      "what": "The chair calls the individual names.",
+      "pulledBy": "Enough members are present today.",
+      "writesBack": "The group name stays pending after their vote.."
+    },
+    {
+      "turn": "the-clerk-carries-the-items-forward",
+      "what": "The clerk carries the items forward.",
+      "pulledBy": "The meeting lacks enough members.",
+      "writesBack": "The names await a meeting that can act.."
+    }
+  ]
+}

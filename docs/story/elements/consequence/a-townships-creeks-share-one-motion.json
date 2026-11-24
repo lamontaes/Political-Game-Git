@@ -1,0 +1,30 @@
+{
+  "id": "a-townships-creeks-share-one-motion",
+  "kind": "consequence",
+  "summary": "A township’s long naming project reaches the committee as a group of creeks on a single motion.",
+  "realLife": "After local outreach on eight Pennsylvania streams, the federal committee grouped the proposals and approved them together.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{township}", "{streams}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the list of streams covered by the motion and the decision on grouping them.",
+  "turns": [
+    {
+      "turn": "the-chair-puts-the-group-to-a-vote",
+      "what": "The chair puts the group to a vote.",
+      "pulledBy": "Members agree to a single motion.",
+      "writesBack": "The minutes record one disposition for the listed streams.."
+    },
+    {
+      "turn": "the-chair-asks-for-separate-consideration",
+      "what": "The chair asks for separate consideration.",
+      "pulledBy": "A member singles out a disputed name.",
+      "writesBack": "The disputed stream gets its own motion.."
+    }
+  ]
+}

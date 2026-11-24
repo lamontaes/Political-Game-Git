@@ -1,0 +1,30 @@
+{
+  "id": "remove-the-signature-keep-the-proposal",
+  "kind": "consequence",
+  "summary": "A rejected applicant can have their name removed from a published proposal while the proposal stays available.",
+  "realLife": "After the Milky Way Peak applicant asked to disappear from the public review list along with the proposal, staff agreed to replace the personal name with a general location.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=17"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{applicant}", "{review-list}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the applicant’s removal request and staff’s publication decision.",
+  "turns": [
+    {
+      "turn": "the-editor-substitutes-a-general-description",
+      "what": "The editor substitutes a general description.",
+      "pulledBy": "Staff approves removing the personal name.",
+      "writesBack": "The decision remains publicly traceable.."
+    },
+    {
+      "turn": "the-clerk-explains-which-material-stays-public",
+      "what": "The clerk explains which material stays public.",
+      "pulledBy": "The applicant seeks removal of the entire proposal.",
+      "writesBack": "The published proposal remains on the list.."
+    }
+  ]
+}

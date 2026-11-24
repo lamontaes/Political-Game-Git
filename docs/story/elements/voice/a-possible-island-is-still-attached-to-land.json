@@ -1,0 +1,30 @@
+{
+  "id": "a-possible-island-is-still-attached-to-land",
+  "kind": "voice",
+  "summary": "A resident asks about naming an island before the point of land has separated from shore.",
+  "realLife": "Federal staff received a Maine inquiry about a point that rising water might eventually turn into an island.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20865_June13%202024_Minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{shore}", "{point}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the resident’s inquiry, the survey date and the feature’s documented shoreline.",
+  "turns": [
+    {
+      "turn": "the-applicant-describes-the-existing-point",
+      "what": "The applicant describes the existing point.",
+      "pulledBy": "The survey still shows a connection.",
+      "writesBack": "The file distinguishes the present feature from the forecast.."
+    },
+    {
+      "turn": "the-resident-submits-the-new-map",
+      "what": "The resident submits the new map.",
+      "pulledBy": "A later survey documents separation.",
+      "writesBack": "The board can examine a documented island.."
+    }
+  ]
+}
