@@ -837,5 +837,221 @@
       "key": "colleague-word"
     },
     "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "When does the {body} get our report on {bill}? I want to know what I'm signing up for.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "body", "bill"],
+        "onlyWhen": ["study-due"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-need-you-through-study-due-that-s-when-we-tell-the-body-what-we-think-of-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd need you through {study-due}. That's when we tell the {body} what we think of {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.put-study-due-on-your-calendar-that-s-when-i-owe-the-body-an-answer-on-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Put {study-due} on your calendar. That's when I owe the {body} an answer on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Does the {body} vote on {bill} the day our study ends, or is that just when we report?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "body", "bill"],
+        "onlyWhen": ["study-due"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.study-due-is-the-report-date-i-can-t-give-you-a-date-for-another-vote-on-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "{study-due} is the report date. I can't give you a date for another vote on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "bill"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.what-i-owe-the-body-on-study-due-is-our-finding-a-floor-vote-is-a-separate-decision",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "What I owe the {body} on {study-due} is our finding. A floor vote is a separate decision.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-body-expects-us-back-with-bill-on-study-due-i-need-your-help-up-to-the-day-we-hand-it-in",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "The {body} expects us back with {bill} on {study-due}. I need your help up to the day we hand it in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-mark-study-due-for-the-report-on-bill-i-wouldn-t-mark-it-as-a-vote",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can mark {study-due} for the report on {bill}. I wouldn't mark it as a vote.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "bill"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
   }
 ]
