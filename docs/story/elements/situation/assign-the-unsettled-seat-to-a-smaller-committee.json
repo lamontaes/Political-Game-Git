@@ -17,13 +17,13 @@
   "inGame": "needs: a referral from the full committee and the subcommittee’s returned recommendation.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "committee-splits-on-remedy",
       "what": "It sends both recommendations back.",
       "pulledBy": "The smaller group agrees on facts but splits on the remedy.",
       "writesBack": "The full committee receives a divided report."
     },
     {
-      "turn": "opposite",
+      "turn": "witness-supplies-return",
       "what": "The subcommittee recommends a single slate.",
       "pulledBy": "A witness supplies the missing return.",
       "writesBack": "The recommendation goes back for a full committee vote."

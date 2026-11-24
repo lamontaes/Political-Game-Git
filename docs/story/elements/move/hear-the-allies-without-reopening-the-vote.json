@@ -17,13 +17,13 @@
   "inGame": "needs: a reconsideration request, its disposition and the list of advisers heard.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "motion-to-reconsider",
       "what": "The chair puts that procedural motion first.",
       "pulledBy": "A delegate moves reconsideration after the advisers finish.",
       "writesBack": "The minutes preserve whether the earlier decision was reopened."
     },
     {
-      "turn": "opposite",
+      "turn": "advisers-write-instead",
       "what": "The secretary circulates their letters.",
       "pulledBy": "The advisers leave before the scheduled caucus.",
       "writesBack": "The existing decision stands alongside the written advice."

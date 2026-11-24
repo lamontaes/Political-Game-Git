@@ -17,13 +17,13 @@
   "inGame": "needs: a travel roster, pickup location and the names of the people who actually boarded.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "passenger-missing",
       "what": "An organizer checks whether the alternate is aboard.",
       "pulledBy": "A delegate misses the departure.",
       "writesBack": "The travel list marks the empty seat separately from the voting seat."
     },
     {
-      "turn": "opposite",
+      "turn": "second-pickup",
       "what": "The driver takes on the remaining delegates there.",
       "pulledBy": "A second pickup has been arranged.",
       "writesBack": "The final passenger list includes both meeting places."

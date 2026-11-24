@@ -15,13 +15,13 @@
   "inGame": "needs: precinct voting weights and the delegate’s own notes.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "missing-ward-checked",
       "what": "The delegate leaves that line blank and asks the secretary afterward.",
       "pulledBy": "A tally skips one ward.",
       "writesBack": "The notebook retains a source for the missing figure."
     },
     {
-      "turn": "opposite",
+      "turn": "organizer-takes-notes",
       "what": "The delegate passes that person the figures.",
       "pulledBy": "The precinct has elected someone willing to organize its next meeting.",
       "writesBack": "A named organizer takes the ward sheet home."

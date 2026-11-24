@@ -18,13 +18,13 @@
   "inGame": "needs: the chair’s public commitment and separately recorded campaign work.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "volunteers-answer-individually",
       "what": "The chair asks for volunteers by name.",
       "pulledBy": "A member asks whether the statement binds everyone.",
       "writesBack": "Only people who sign up appear on the campaign roster."
     },
     {
-      "turn": "opposite",
+      "turn": "caucus-endorses",
       "what": "Its secretary circulates the result to local organizers.",
       "pulledBy": "The delegation endorses the ticket by vote.",
       "writesBack": "The endorsement and each volunteer’s shifts remain separate records."

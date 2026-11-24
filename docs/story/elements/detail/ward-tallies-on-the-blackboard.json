@@ -15,13 +15,13 @@
   "inGame": "needs: a ward tally, its displayed version and the publication deadline.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "ward-challenges-total",
       "what": "The teller checks the sheet before erasing it.",
       "pulledBy": "A ward disputes the chalked figure.",
       "writesBack": "The revised total carries the ward’s correction."
     },
     {
-      "turn": "opposite",
+      "turn": "last-returns-miss-press",
       "what": "The reporter prints the completed wards.",
       "pulledBy": "The next edition goes to press before counting ends.",
       "writesBack": "The last returns remain unpublished until the follow-up."

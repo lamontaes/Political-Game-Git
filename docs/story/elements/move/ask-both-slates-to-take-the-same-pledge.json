@@ -17,13 +17,13 @@
   "inGame": "needs: the proposed pledge text and each delegation’s signed response.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "slate-requests-time",
       "what": "Its delegates defer signing until they have read it.",
       "pulledBy": "One slate asks for the text overnight.",
       "writesBack": "The signature list marks their answers pending."
     },
     {
-      "turn": "opposite",
+      "turn": "both-slates-sign",
       "what": "The committee has to resolve their competing claims on other grounds.",
       "pulledBy": "Both slates sign the same wording.",
       "writesBack": "The evidence file retains both signed pledges."

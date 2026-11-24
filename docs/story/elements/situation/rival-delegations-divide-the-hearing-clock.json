@@ -17,13 +17,13 @@
   "inGame": "needs: a hearing schedule, time used and the list of witnesses actually heard.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "witnesses-file-statements",
       "what": "Counsel submits the remaining statements in writing.",
       "pulledBy": "One witness needs the rest of the allotted time.",
       "writesBack": "The hearing file distinguishes spoken and submitted evidence."
     },
     {
-      "turn": "opposite",
+      "turn": "chair-opens-questions",
       "what": "The chair opens questions under the hearing rules.",
       "pulledBy": "A delegation finishes early.",
       "writesBack": "The minutes record the additional questioning separately."

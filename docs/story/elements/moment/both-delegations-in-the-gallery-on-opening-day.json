@@ -15,13 +15,13 @@
   "inGame": "needs: distinct spectator credentials, contested seats and the date of the ruling.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "floor-access-granted",
       "what": "Ushers take the newly seated delegates down to the floor.",
       "pulledBy": "The report arrives during the first session.",
       "writesBack": "Their voting status begins with that ruling."
     },
     {
-      "turn": "opposite",
+      "turn": "dispute-continues",
       "what": "Both groups return with spectator credentials again.",
       "pulledBy": "The meeting recesses without a report.",
       "writesBack": "The next roll still lists the state as disputed."

@@ -18,13 +18,13 @@
   "inGame": "needs: the seat type and recipient named in each term of the compromise.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "delegates-can-nominate",
       "what": "The caucus opens nominations.",
       "pulledBy": "The committee lets the delegation choose the people instead.",
       "writesBack": "The eventual names trace back to a delegation vote."
     },
     {
-      "turn": "opposite",
+      "turn": "named-recipient-declines",
       "what": "The committee must decide whether the offer can transfer.",
       "pulledBy": "A named recipient declines.",
       "writesBack": "The unfilled place carries the terms of the original offer."

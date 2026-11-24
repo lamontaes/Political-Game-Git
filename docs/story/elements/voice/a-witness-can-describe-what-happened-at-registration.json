@@ -18,13 +18,13 @@
   "inGame": "needs: the witness’s consent and testimony attached to the credentials case.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "statement-submitted",
       "what": "Counsel asks permission to enter it in the record.",
       "pulledBy": "The witness prefers a written statement.",
       "writesBack": "The file identifies whose words were submitted and who read them."
     },
     {
-      "turn": "opposite",
+      "turn": "witness-recalled",
       "what": "She distinguishes what she remembers from what she can document.",
       "pulledBy": "The committee recalls the witness to clarify a date.",
       "writesBack": "The hearing record keeps that uncertainty."

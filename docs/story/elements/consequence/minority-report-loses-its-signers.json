@@ -17,13 +17,13 @@
   "inGame": "needs: dated signatures on the minority report and the threshold for filing.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "signers-wait",
       "what": "The secretary holds the list open.",
       "pulledBy": "Some members keep their names on the report until the caucus answers.",
       "writesBack": "The floor route stays pending until the deadline."
     },
     {
-      "turn": "opposite",
+      "turn": "report-filed",
       "what": "The dissenters file the report.",
       "pulledBy": "Enough members reaffirm their support in time.",
       "writesBack": "The floor agenda gains a contested seating item."

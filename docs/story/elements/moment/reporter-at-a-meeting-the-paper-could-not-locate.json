@@ -17,13 +17,13 @@
   "inGame": "needs: a notice inquiry, what the desk knew then and the editor’s attendance.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "desk-finds-location",
       "what": "The volunteer relays it to the delegates.",
       "pulledBy": "The desk obtains the room before the caller hangs up.",
       "writesBack": "The notice log records who received it in time."
     },
     {
-      "turn": "opposite",
+      "turn": "editor-arrives-late",
       "what": "The paper publishes a correction for its readers.",
       "pulledBy": "The editor learns the place only after the opening.",
       "writesBack": "The published notice records when the information became available."

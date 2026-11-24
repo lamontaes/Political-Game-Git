@@ -17,13 +17,13 @@
   "inGame": "needs: the pledge requirement, a reporter’s question and any later chair ruling.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "counsel-answers-later",
       "what": "Reporters get a written ruling after the session.",
       "pulledBy": "The chair refers the question to counsel.",
       "writesBack": "The vacancy acquires a dated interpretation."
     },
     {
-      "turn": "opposite",
+      "turn": "alternate-called",
       "what": "The secretary calls the alternate.",
       "pulledBy": "The chair rules that an alternate from the same return goes first.",
       "writesBack": "The vacancy and the replacement each have a roll entry."

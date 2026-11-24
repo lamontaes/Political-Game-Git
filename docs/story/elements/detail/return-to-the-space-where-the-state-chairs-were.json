@@ -17,13 +17,13 @@
   "inGame": "needs: the previous floor plan, observed furniture change and separate credentials roll.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "chairs-restored",
       "what": "The group sits for the closing business.",
       "pulledBy": "Ushers bring chairs back before adjournment.",
       "writesBack": "The seating change leaves voting credentials a separate question."
     },
     {
-      "turn": "opposite",
+      "turn": "new-floor-plan",
       "what": "The delegation asks where the state section will be.",
       "pulledBy": "The session moves to a new hall.",
       "writesBack": "The replacement floor plan records its assigned space."

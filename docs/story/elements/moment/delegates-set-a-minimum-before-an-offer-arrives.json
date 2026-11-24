@@ -15,13 +15,13 @@
   "inGame": "needs: the caucus vote and the negotiating instructions in force at the time of the offer.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "terms-divide-caucus",
       "what": "The negotiator asks which terms can be traded.",
       "pulledBy": "The caucus divides on one condition.",
       "writesBack": "The minutes distinguish fixed instructions from discretion."
     },
     {
-      "turn": "opposite",
+      "turn": "delegates-reserve-decision",
       "what": "The negotiator can bring back a proposal for a fresh vote.",
       "pulledBy": "The delegation withholds instructions.",
       "writesBack": "No offer is recorded as accepted on the group’s behalf."

@@ -17,13 +17,13 @@
   "inGame": "needs: precinct assignments and actual seating by row.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "colleague-changes-rows",
       "what": "The two can consult each other during votes.",
       "pulledBy": "Another member brings a chair to the back.",
       "writesBack": "The seating record still shows the original separation."
     },
     {
-      "turn": "opposite",
+      "turn": "precinct-reunited",
       "what": "An usher clears a place in its row.",
       "pulledBy": "The chair grants the delegate’s request to sit with the precinct.",
       "writesBack": "The corrected assignment appears on the seating chart."

@@ -17,13 +17,13 @@
   "inGame": "needs: the disputed list and the rival meeting’s separately certified return.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "one-name-found",
       "what": "That delegate must choose which meeting to attend.",
       "pulledBy": "The official locates one name on a supplemental sheet.",
       "writesBack": "The two attendance rolls preserve the choice."
     },
     {
-      "turn": "opposite",
+      "turn": "alternate-election-postponed",
       "what": "Its secretary sends only the principal names.",
       "pulledBy": "The rival meeting adjourns before electing alternates.",
       "writesBack": "A later absence leaves that delegation short."

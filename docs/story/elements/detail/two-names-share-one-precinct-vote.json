@@ -15,13 +15,13 @@
   "inGame": "needs: certified vote shares for each delegate and alternate.",
   "turns": [
     {
-      "turn": "partial",
+      "turn": "alternate-inherits-share",
       "what": "The clerk keeps the fraction beside the substitute’s name.",
       "pulledBy": "One delegate’s alternate takes over.",
       "writesBack": "The precinct’s total voting strength stays the same."
     },
     {
-      "turn": "opposite",
+      "turn": "vote-weight-corrected",
       "what": "The clerk reads the correction before the ballot.",
       "pulledBy": "A corrected return awards the entire vote to one delegate.",
       "writesBack": "The division list uses the corrected weight."
