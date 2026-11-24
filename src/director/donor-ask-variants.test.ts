@@ -233,7 +233,17 @@ it(`a donor's ask plays the variant its records give (seed ${seed})`, () => {
       id: string,
       facts: Record<string, string>,
       date = core.date,
-    ) => ({ id, date, facts: { ...real.facts!, ...facts } });
+    ) => ({
+      id,
+      date,
+      // A gift that names a bill is the officeholder's ask these variants read;
+      // a candidate's gift with no bill is a hearing (its own test is in arc-variant.test.ts).
+      facts: {
+        billId: real.facts!.billId ?? "probe-bill",
+        ...real.facts!,
+        ...facts,
+      },
+    });
     const pick = (
       id: string,
       facts: Record<string, string>,
