@@ -2,6 +2,22 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested. Verdicts carry by exact text; lines not judged before were read blind (chunk LA, 131 lines, calibration 8/8, with 30 earlier-graded lines mixed in).
 
+## story/w-loading at `342ea9a9` (newest): 197 of 206 pass
+
+- New since 576d36a3: 8 lines (moved-before-school, college-same-year), read blind in chunk LF (calibration 8/8).
+
+### Failing lines
+
+- `outline-loading.school.loading-story-by-the-state-had-you-in-a-classroom-in-that-s-how-the-state-` (the Story lead): "By {school-year} the state had you in a classroom in {school-place}. That's how the state says hello." — no-literary-phrasing: 'That's how the state says hello' is a forced epigram rather than plain sarcasm.
+- `outline-loading.moved.loading-story-in-the-family-packed-up-for-because-the-economy-said-so` (the Story lead): "In {moved-year} the family packed up {moved-from} for {moved-to}, because the economy said so." — plain-american-reads-stiff: 'Packed up {moved-from} for {moved-to}' is wrong idiom, and 'because the economy said so' is a strained quip.
+- `outline-loading.finished.loading-story-you-finished-school-in-the-diploma-came-with-no-instructions` (the Story lead): "You finished school in {finished-year}. The diploma came with no instructions." — no-literary-phrasing: 'The diploma came with no instructions' is a stock composed quip; the other finish line says it plainly.
+- `outline-loading.college.loading-story-brought-college-because-everyone-said-so-with-great-confiden` (the Story lead): "{college-year} brought college, because everyone said so with great confidence." — no-literary-phrasing: 'Brought college, because everyone said so with great confidence' is visibly composed and awkward.
+- `outline-loading.now.loading-story-and-now-it-s-a-new-president-takes-the-oath-has-its-legislat` (the Story lead): "And now it's {start-month} {start-year}. A new President takes the oath, {state} has its legislature back, and {place} has been talking about all of it without you." — one-idea-to-a-sentence: A three-part list that mixes tenses, 'has its legislature back' is unclear, and the town 'talking without you' makes no sense for someone who lives there.
+- `outline-loading.college.loading-story-that-fall-came-college-a-lot-like-school-with-a-bill` (the Story lead): "That fall came college, which is a lot like school with a bill attached. Welcome to {college-year}." — vary-the-shape: Repeats row 127's joke word for word, and 'Welcome to {college-year}' is awkward.
+- `outline-loading.moved.you-moved-from-moved-from-to-moved-to-in-moved-year-before-your-first-day-of-sch` (the loading and history writer): "You moved from {moved-from} to {moved-to} in {moved-year}, before your first day of school." — vary-the-shape: It has the same shape and content as LF-019 (from X to Y in year, before school), so a player meets the same line twice.
+- `outline-loading.moved.school-came-after-the-move-the-family-left-moved-from-for-moved-to-in-moved-year` (the loading and history writer): "School came after the move: the family left {moved-from} for {moved-to} in {moved-year}, and the first classroom was a new one." — no-literary-phrasing: 'The first classroom was a new one' is a composed turn that says nothing (every first classroom is new).
+- `outline-loading.college.college-year-a-high-school-diploma-and-a-college-enrollment-in-the-same-year` (the loading and history writer): "{college-year}: a high school diploma and a college enrollment in the same year." — news-reads-as-a-story: A year-colon fragment with 'a college enrollment' is the list of facts he complained the loading card still is, not a story.
+
 ## story/w-loading at `576d36a3` (newest): 192 of 209 pass
 
 - New since 50872577: 21 lines (born, school, moved, college, finished), read blind in chunk LE (calibration 8/8).
