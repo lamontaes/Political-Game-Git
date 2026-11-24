@@ -2151,6 +2151,690 @@
         "move": "accept",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.who-can-actually-declare-an-emergency-for-the-disaster",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who can actually declare an emergency for the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-i-send-you-back-to-the-department-can-you-declare-an-emergency-for-the-disaster-yourself",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If I send you back to the department, can you declare an emergency for the {disaster} yourself?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.only-you-can-declare-an-emergency-for-the-disaster-governor",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Only you can declare an emergency for the {disaster}, Governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.who-can-actually-declare-an-emergency-for-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-send-you-back-to-the-department-can-you-declare-an-emergency-for-the-disaster-yourself"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-can-recommend-a-declaration-for-the-disaster-the-decision-is-yours",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can recommend a declaration for the {disaster}. The decision is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.who-can-actually-declare-an-emergency-for-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-send-you-back-to-the-department-can-you-declare-an-emergency-for-the-disaster-yourself"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-department-can-brief-you-on-the-disaster-it-takes-the-governor-to-declare-the-emergency",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The department can brief you on the {disaster}. It takes the governor to declare the emergency.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.who-can-actually-declare-an-emergency-for-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-send-you-back-to-the-department-can-you-declare-an-emergency-for-the-disaster-yourself"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["governor-will-give-instructions"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-i-let-deadline-go-by-what-happens-to-the-request-for-federal-help",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If I let {deadline} go by, what happens to the request for federal help?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.does-a-request-for-aid-go-in-on-deadline-even-if-i-haven-t-signed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does a request for aid go in on {deadline} even if I haven't signed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.if-you-let-deadline-pass-without-a-decision-we-won-t-have-asked-for-federal-help",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If you let {deadline} pass without a decision, we won't have asked for federal help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-let-deadline-go-by-what-happens-to-the-request-for-federal-help"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.does-a-request-for-aid-go-in-on-deadline-even-if-i-haven-t-signed"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-deadline-for-this-request-is-deadline-if-it-expires-no-request-goes-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The deadline for this request is {deadline}. If it expires, no request goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-let-deadline-go-by-what-happens-to-the-request-for-federal-help"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.does-a-request-for-aid-go-in-on-deadline-even-if-i-haven-t-signed"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.it-takes-a-decision-from-you-an-unanswered-offer-on-deadline-leaves-the-state-without-a-request-on-file",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It takes a decision from you. An unanswered offer on {deadline} leaves the state without a request on file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-i-let-deadline-go-by-what-happens-to-the-request-for-federal-help"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.does-a-request-for-aid-go-in-on-deadline-even-if-i-haven-t-signed"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-could-a-resident-find-out-about-my-decision-on-the-disaster",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What could a resident find out about my decision on the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "elements": ["fact-sheet-after-presidents-statement"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-somebody-asks-to-see-my-declaration-for-the-disaster-what-will-they-see",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If somebody asks to see my declaration for the {disaster}, what will they see?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["fact-sheet-after-presidents-statement"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-public-record-would-show-that-you-declared-an-emergency-for-the-disaster-and-the-day-you-did-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The public record would show that you declared an emergency for the {disaster} and the day you did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.what-could-a-resident-find-out-about-my-decision-on-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-somebody-asks-to-see-my-declaration-for-the-disaster-what-will-they-see"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["fact-sheet-after-presidents-statement"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.anyone-could-look-up-the-declaration-for-the-disaster-it-would-have-your-name-on-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Anyone could look up the declaration for the {disaster}. It would have your name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.what-could-a-resident-find-out-about-my-decision-on-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-somebody-asks-to-see-my-declaration-for-the-disaster-what-will-they-see"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["fact-sheet-after-presidents-statement"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-entry-for-the-disaster-would-identify-you-as-the-governor-who-declared-the-emergency",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The entry for the {disaster} would identify you as the governor who declared the emergency.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.what-could-a-resident-find-out-about-my-decision-on-the-disaster"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-somebody-asks-to-see-my-declaration-for-the-disaster-what-will-they-see"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["fact-sheet-after-presidents-statement"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-federal-aid-comes-through-for-the-disaster-does-any-of-the-cost-fall-on-the-state",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If federal aid comes through for the {disaster}, does any of the cost fall on the state?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "elements": ["repair-bill-after-grant-refusal"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.reply-ask.where-would-our-share-of-the-bill-for-the-disaster-come-from",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where would our share of the bill for the {disaster} come from?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["repair-bill-after-grant-refusal"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-state-budget-covers-our-share-of-aid-for-the-disaster-the-amount-depends-on-what-federal-help-comes-through",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The state budget covers our share of aid for the {disaster}. The amount depends on what federal help comes through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-federal-aid-comes-through-for-the-disaster-does-any-of-the-cost-fall-on-the-state"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.where-would-our-share-of-the-bill-for-the-disaster-come-from"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["repair-bill-after-grant-refusal"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.if-there-s-a-state-share-for-the-disaster-it-goes-in-the-state-s-budget",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If there's a state share for the {disaster}, it goes in the state's budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-federal-aid-comes-through-for-the-disaster-does-any-of-the-cost-fall-on-the-state"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.where-would-our-share-of-the-bill-for-the-disaster-come-from"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["repair-bill-after-grant-refusal"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-federal-amount-for-the-disaster-determines-the-state-s-part-any-share-we-owe-goes-on-our-books",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The federal amount for the {disaster} determines the state's part. Any share we owe goes on our books.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.if-federal-aid-comes-through-for-the-disaster-does-any-of-the-cost-fall-on-the-state"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"],
+          "after": "scene-talk-office.reply-ask.where-would-our-share-of-the-bill-for-the-disaster-come-from"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["repair-bill-after-grant-refusal"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     }
   ]
 }
