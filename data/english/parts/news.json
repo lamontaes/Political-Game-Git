@@ -9937,6 +9937,578 @@
       }
     },
     {
+      "key": "news.crime.burglars-broke-into-a-house-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Burglars broke into a house in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-home-in-place-was-broken-into-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A home in {place} was broken into on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-burglary-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A burglary was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.someone-broke-into-a-house-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone broke into a house in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-had-its-ordinal-burglary-this-month-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had its {ordinal} burglary this month on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.on-date-a-house-in-place-was-broken-into-the-ordinal-burglar",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, a house in {place} was broken into, the {ordinal} burglary this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-property-crime-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A property crime was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.police-in-place-took-a-report-of-a-property-crime-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Police in {place} took a report of a property crime on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-police-logged-a-property-crime-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police logged a property crime on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-police-recorded-the-ordinal-property-crime-this-month-",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police recorded the {ordinal} property crime this month on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-property-crime-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} property crime this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["property", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.someone-vandalized-property-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone vandalized property in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.vandals-hit-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals hit {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.property-in-place-was-damaged-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property in {place} was damaged on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.vandalism-in-place-on-date-was-the-ordinal-case-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandalism in {place} on {date} was the {ordinal} case this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-case-of-vandalism-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} case of vandalism this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.a-robbery-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "A robbery was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.someone-in-place-was-robbed-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone in {place} was robbed on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-police-took-a-report-of-a-robbery-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police took a report of a robbery on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-robbery-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} robbery this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.the-robbery-in-place-on-date-was-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "The robbery in {place} on {date} was the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.an-assault-was-reported-in-place-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "An assault was reported in {place} on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.someone-in-place-was-attacked-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Someone in {place} was attacked on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-police-took-a-report-of-an-assault-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police took a report of an assault on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.on-date-place-had-its-ordinal-assault-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "On {date}, {place} had its {ordinal} assault this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.the-assault-in-place-on-date-was-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "The assault in {place} on {date} was the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.graduation.graduates-of-the-number-seniors-in-place-finished-school",
       "move": "graduation",
       "kind": "written",
@@ -15332,6 +15904,289 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-opened-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened its doors.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-is-open-for-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} is open for business.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-started-taking-customers",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} started taking customers.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-opened-its-doors-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened its doors in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.there-is-a-new-business-in-place-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "There is a new business in {place}: {subject}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.place-has-a-new-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{place} has a new business, {subject}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-set-up-shop-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} set up shop in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.in-place-subject-opened-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "In {place}, {subject} opened its doors.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.owner-opened-subject-in-place-and-it-is-now-taking-customers",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{owner} opened {subject} in {place}, and it is now taking customers.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-in-place-is-owner-s-new-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject}, in {place}, is {owner}'s new business.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.in-place-owner-is-the-owner-of-a-new-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "In {place}, {owner} is the owner of a new business, {subject}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-opened-for-business-in-industry",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened for business in {industry}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.subject-is-a-new-business-in-industry",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} is a new business in {industry}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

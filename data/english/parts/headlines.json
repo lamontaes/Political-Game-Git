@@ -4383,27 +4383,6 @@
       }
     },
     {
-      "key": "headlines.owner-changed.subject-under-new-ownership",
-      "move": "owner-changed",
-      "kind": "written",
-      "text": "{subject} under new ownership",
-      "uses": [
-        {
-          "move": "owner-changed",
-          "subject": "headline",
-          "role": "owner-changed",
-          "choice": "headline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.organization-opened.subject-welcomes-first-customers",
       "move": "organization-opened",
       "kind": "written",
@@ -4419,6 +4398,136 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens in {place}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.new-in-place-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "New in {place}: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens its doors",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.place-gets-a-new-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{place} gets a new business",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.open-for-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "Open for business: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.subject-sets-up-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} sets up in {place}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -6386,6 +6495,336 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.break-in-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Break-in reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-home-broken-into",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} home broken into",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.burglars-strike-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Burglars strike {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.property-crime-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property crime reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-police-log-a-property-crime",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} police log a property crime",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.property-crime-hits-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property crime hits {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["property"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-vandalism-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} vandalism reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.vandals-hit-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals hit {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.property-damaged-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property damaged in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.robbery-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Robbery reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.person-robbed-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Person robbed in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-robbery-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} robbery reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.assault-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Assault reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.person-attacked-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Person attacked in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-assault-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} assault reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "headline",
         "key": "news-received"
