@@ -3470,6 +3470,732 @@
         "key": "cut-heard"
       },
       "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-need-cut-to-get-back-to-the-previous-funding-level",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd need {cut} to get back to the previous funding level.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"],
+          "after": "scene-talk-office.reply-ask.how-much-came-out-of-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.we-re-down-cut-from-what-we-had",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We're down {cut} from what we had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"],
+          "after": "scene-talk-office.reply-ask.how-much-came-out-of-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-ask-the-council-for-the-cut-you-just-laid-out",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll ask the council for the {cut} you just laid out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"],
+          "after": "scene-talk-office.follow-answer.the-cut-was-cut-that-s-the-amount-i-d-like-restored"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-need-cut-to-get-back-to-the-previous-funding-level"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.we-re-down-cut-from-what-we-had"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.i-ve-heard-the-amount-i-m-keeping-line-at-the-funding-it-has-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard the amount. I'm keeping {line} at the funding it has now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.the-cut-was-cut-that-s-the-amount-i-d-like-restored"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-need-cut-to-get-back-to-the-previous-funding-level"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.we-re-down-cut-from-what-we-had"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.could-you-work-with-half-of-that-cut-if-i-took-it-to-council",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Could you work with half of that {cut} if I took it to council?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"],
+          "after": "scene-talk-office.follow-answer.the-cut-was-cut-that-s-the-amount-i-d-like-restored"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-need-cut-to-get-back-to-the-previous-funding-level"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.we-re-down-cut-from-what-we-had"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-want-to-look-at-the-line-account-myself-before-i-answer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I want to look at the {line} account myself before I answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.the-cut-was-cut-that-s-the-amount-i-d-like-restored"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-need-cut-to-get-back-to-the-previous-funding-level"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.we-re-down-cut-from-what-we-had"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The new figure for {line} is {percent} percent below the old one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.reply-ask.what-share-of-the-funding-for-line-did-you-lose"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{percent} percent of the {line} budget came out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.reply-ask.what-share-of-the-funding-for-line-did-you-lose"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-ask-the-council-to-bring-line-back-up-to-its-old-funding",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll ask the council to bring {line} back up to its old funding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["percent", "line"],
+          "after": "scene-talk-office.follow-answer.it-s-percent-percent-of-what-we-had-for-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.even-with-a-percent-percent-cut-i-won-t-seek-an-amendment",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Even with a {percent} percent cut, I won't seek an amendment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["percent", "line"],
+          "after": "scene-talk-office.follow-answer.it-s-percent-percent-of-what-we-had-for-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.would-it-be-worth-going-to-council-for-half-of-what-line-lost",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Would it be worth going to council for half of what {line} lost?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["percent", "line"],
+          "after": "scene-talk-office.follow-answer.it-s-percent-percent-of-what-we-had-for-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.let-me-look-at-that-percent-percent-alongside-the-rest-of-the-budget",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me look at that {percent} percent alongside the rest of the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["percent", "line"],
+          "after": "scene-talk-office.follow-answer.it-s-percent-percent-of-what-we-had-for-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.the-new-figure-for-line-is-percent-percent-below-the-old-one"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "percent"],
+          "after": "scene-talk-office.follow-answer.percent-percent-of-the-line-budget-came-out"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Put the full {cut} for {line} before the council again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.reply-ask.what-exactly-do-you-want-me-to-ask-the-council-to-do-about-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd like you to sponsor the amendment that restores {line}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.reply-ask.what-exactly-do-you-want-me-to-ask-the-council-to-do-about-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-bring-the-full-request-for-line-to-the-council",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll bring the full request for {line} to the council.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.ask-for-an-amendment-putting-cut-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.you-ll-have-to-make-the-case-for-line-without-my-backing",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You'll have to make the case for {line} without my backing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.ask-for-an-amendment-putting-cut-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-can-back-an-amendment-for-half-the-cut-would-you-support-that",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I can back an amendment for half the {cut}. Would you support that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.ask-for-an-amendment-putting-cut-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.give-me-time-to-read-the-line-appropriation-before-i-take-a-position",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me time to read the {line} appropriation before I take a position.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "line"],
+          "after": "scene-talk-office.follow-answer.ask-for-an-amendment-putting-cut-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.put-the-full-cut-for-line-before-the-council-again"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "cut"],
+          "after": "scene-talk-office.follow-answer.i-d-like-you-to-sponsor-the-amendment-that-restores-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
     }
   ]
 }
