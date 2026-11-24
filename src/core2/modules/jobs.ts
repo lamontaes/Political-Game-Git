@@ -5851,3 +5851,6 @@ export {
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
 export { openingWorkStatus } from "../jobs-elsewhere";
+// Re-exported so the director tells the outside market (work out of town) from a public employer
+// that owns its government's outside pay authority: both carry `outsideFlow`.
+export { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
