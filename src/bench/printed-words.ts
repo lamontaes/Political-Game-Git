@@ -32,6 +32,7 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
   bodyOf,
+  chambersOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -65,6 +66,7 @@ import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
 import { questionAbout, questionPlainWords } from "../english/question-names";
+import { partyOf } from "../core2/candidate-pool";
 import {
   causeGroupForm,
   causeGroupName,
@@ -996,12 +998,15 @@ export function archivedLawPassedFacts(
 /**
  * What a vote story's body tells after its lede (W5 and the CTO, Nov 24: a
  * body that follows from the lede, not three fragments), each from the
- * record: who brought the bill (`sponsor`), the one member on the losing side
- * by name where only one was (`lone-voter`), the plain reasons people give
- * for and against the bill's question (`reason-for`, `reason-against`, from
- * question-names.json), when it takes effect (`takes-effect`, the earliest
- * provision's date, for a bill that carried) and whether the other chamber
- * still has to take it up (`next-step`).
+ * record, named as W5's pieces read them: who brought the bill (`sponsor`);
+ * for a bill that carried, the one member who voted against it by name
+ * (`voted-against`, `against-alone`), or `against-bloc` with the party's
+ * label (`against-party`) where every member against shares one party; the
+ * plain reasons people give for and against the bill's question
+ * (`reason-for`, `reason-against`, question-names.json); when a bill that
+ * carried takes effect (`takes-effect`, the earliest provision's date); and
+ * whether the next chamber still takes it up (`next-step`, with that
+ * chamber's name in `next-body`).
  */
 function voteBody(
   read: Reader,
@@ -1013,11 +1018,26 @@ function voteBody(
   const out: Facts = {};
   const sponsor = read.name(bill.sponsorId);
   if (sponsor) out.sponsor = read.fact(sponsor, bill.sponsorId);
-  const losers = read
-    .billVotes(bill.id, f.chamber)
-    .filter((row) => row.vote === (carried ? "no" : "yes"));
-  const lone = losers.length === 1 ? read.name(losers[0]!.memberId) : null;
-  if (lone) out["lone-voter"] = read.fact(lone, losers[0]!.memberId);
+  if (carried) {
+    const against = read
+      .billVotes(bill.id, f.chamber)
+      .filter((row) => row.vote === "no");
+    const lone = against.length === 1 ? read.name(against[0]!.memberId) : null;
+    const parties = new Set(
+      against.map((row) => partyOf(read.api, row.memberId as PersonId)),
+    );
+    const party = parties.size === 1 ? [...parties][0] : null;
+    if (lone) {
+      out["voted-against"] = read.fact(lone, against[0]!.memberId);
+      out["against-alone"] = read.yes();
+    } else if (against.length > 1 && party) {
+      out["against-bloc"] = read.yes();
+      out["against-party"] = read.fact(
+        party,
+        ...against.map((row) => row.memberId),
+      );
+    }
+  }
   const question = bill.provisions.find((row) => row.question)?.question;
   if (question)
     for (const [key, text] of Object.entries(questionPlainWords(question)))
@@ -1028,7 +1048,13 @@ function voteBody(
     .sort()[0];
   if (carried && starts)
     out["takes-effect"] = read.fact(spokenDate(starts), bill.id);
-  if (carried && bill.nextChamberOn) out["next-step"] = read.yes();
+  const chambers = chambersOf(read.api, bill);
+  const next = chambers[chambers.indexOf(f.chamber ?? "") + 1];
+  const nextBody = carried && f.chamber && next ? read.body(next) : null;
+  if (nextBody) {
+    out["next-step"] = read.yes();
+    out["next-body"] = read.fact(nextBody, next!);
+  }
   return out;
 }
 
