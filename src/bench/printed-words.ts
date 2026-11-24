@@ -64,7 +64,7 @@ import { joinList } from "../english/bill-names";
 import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
-import { questionAbout } from "../english/question-names";
+import { questionAbout, questionPlainWords } from "../english/question-names";
 import {
   causeGroupForm,
   causeGroupName,
@@ -365,6 +365,21 @@ class Reader {
           identity: { givenName: string; familyName: string };
         }
       | undefined;
+  }
+  /** A bill's recorded floor votes in one chamber: who voted which way. */
+  billVotes(
+    billId: string | undefined,
+    chamber: string | undefined,
+  ): readonly { memberId: string; vote: string }[] {
+    if (!billId) return [];
+    return (
+      (this.table(LEGISLATURE_MODULE_ID, "votes")?.query("byBill", [billId]) ??
+        []) as unknown as {
+        memberId: string;
+        vote: string;
+        chamber?: string;
+      }[]
+    ).filter((row) => !chamber || !row.chamber || row.chamber === chamber);
   }
   /** A full person's or a named official's name; null for anyone else. */
   name(id: string | undefined): string | null {
@@ -978,6 +993,45 @@ export function archivedLawPassedFacts(
   );
 }
 
+/**
+ * What a vote story's body tells after its lede (W5 and the CTO, Nov 24: a
+ * body that follows from the lede, not three fragments), each from the
+ * record: who brought the bill (`sponsor`), the one member on the losing side
+ * by name where only one was (`lone-voter`), the plain reasons people give
+ * for and against the bill's question (`reason-for`, `reason-against`, from
+ * question-names.json), when it takes effect (`takes-effect`, the earliest
+ * provision's date, for a bill that carried) and whether the other chamber
+ * still has to take it up (`next-step`).
+ */
+function voteBody(
+  read: Reader,
+  f: Record<string, string>,
+  carried: boolean,
+): Facts {
+  const bill = read.bill(f.billId);
+  if (!bill) return {};
+  const out: Facts = {};
+  const sponsor = read.name(bill.sponsorId);
+  if (sponsor) out.sponsor = read.fact(sponsor, bill.sponsorId);
+  const losers = read
+    .billVotes(bill.id, f.chamber)
+    .filter((row) => row.vote === (carried ? "no" : "yes"));
+  const lone = losers.length === 1 ? read.name(losers[0]!.memberId) : null;
+  if (lone) out["lone-voter"] = read.fact(lone, losers[0]!.memberId);
+  const question = bill.provisions.find((row) => row.question)?.question;
+  if (question)
+    for (const [key, text] of Object.entries(questionPlainWords(question)))
+      if (key.startsWith("reason-")) out[key] = read.fact(text, bill.id);
+  const starts = bill.provisions
+    .map((row) => row.effectiveDate)
+    .filter((date): date is string => !!date)
+    .sort()[0];
+  if (carried && starts)
+    out["takes-effect"] = read.fact(spokenDate(starts), bill.id);
+  if (carried && bill.nextChamberOn) out["next-step"] = read.yes();
+  return out;
+}
+
 /** A floor vote on a bill: the count and whether it carried. */
 const rollCall: Builder = (read, f) => {
   const yes = num(f.yes);
@@ -993,6 +1047,7 @@ const rollCall: Builder = (read, f) => {
     "roll-call",
     {
       ...read.billFacts(f.billId, f.number),
+      ...voteBody(read, f, yes > no),
       count: read.fact(`${yes} to ${no}`),
       date: read.date(),
       ...(body ? { body: read.fact(body, f.chamber ?? "") } : {}),

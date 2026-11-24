@@ -1265,7 +1265,7 @@
       "moves": ["moved"]
     },
     "anchor-then-stand": {
-      "moves": ["anchor", "stand", "stand-reason?", "long-view?"]
+      "moves": ["anchor", "stand?", "stand-reason?", "long-view?"]
     },
     "contrast-stand-reason": {
       "moves": [
