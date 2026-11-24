@@ -83,9 +83,15 @@ const clean = (value: unknown) => String(value ?? "").trim();
 
 const server = await startServer(`${out}/${run}/.saves`);
 try {
-  for (let n = 0; n < count; n += 1) {
-    const place = drawPlace(`${run}-${n}`, "first-evening-walk");
-    const dir = `${out}/${run}/place-${n + 1}-${place.key}`;
+  // SEEDS=a,b,c plays those world seeds as the packet script does (the world
+  // draws its own place from the seed); without it three places are drawn.
+  const fixedSeeds = (process.env.SEEDS ?? "").split(",").filter(Boolean);
+  const total = fixedSeeds.length || count;
+  for (let n = 0; n < total; n += 1) {
+    const place = fixedSeeds.length
+      ? { seed: fixedSeeds[n]!, key: "" }
+      : drawPlace(`${run}-${n}`, "first-evening-walk");
+    const dir = `${out}/${run}/place-${n + 1}-${place.key || place.seed}`;
     mkdirSync(dir, { recursive: true });
     const head = (title: string, extra = "") =>
       `# ${title}\n\nPlace key: ${place.key}  \nSeed: ${place.seed}  \nRun: ${run}, place ${n + 1} of ${total}\n${extra}\n`;
