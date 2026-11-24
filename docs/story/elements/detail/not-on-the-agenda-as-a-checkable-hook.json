@@ -18,12 +18,16 @@
     {
       "name": "on the agenda",
       "pulledBy": "a noticed vote",
-      "writes": "the story gives the notice date"
+      "writes": "the story gives the notice date",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a closed session",
       "pulledBy": "a vote after a private meeting",
-      "writes": "the story says it was in executive session"
+      "writes": "the story says it was in executive session",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

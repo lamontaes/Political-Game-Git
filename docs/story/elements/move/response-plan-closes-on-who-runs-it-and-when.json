@@ -19,12 +19,16 @@
     {
       "name": "no fix yet",
       "pulledBy": "a council that has not decided",
-      "writes": "the story says no plan has been set"
+      "writes": "the story says no plan has been set",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the fix fails",
       "pulledBy": "a move that slipped",
-      "writes": "a later story says it was delayed"
+      "writes": "a later story says it was delayed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

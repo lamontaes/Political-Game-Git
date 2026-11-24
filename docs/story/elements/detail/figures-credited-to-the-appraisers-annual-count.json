@@ -18,12 +18,16 @@
     {
       "name": "figures credited to the city",
       "pulledBy": "a permit count",
-      "writes": "the story says the city's permit records show it"
+      "writes": "the story says the city's permit records show it",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "figures with no source",
       "pulledBy": "an estimate",
-      "writes": "the story says it is an estimate"
+      "writes": "the story says it is an estimate",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

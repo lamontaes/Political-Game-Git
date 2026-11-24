@@ -18,12 +18,16 @@
     {
       "name": "a winner under half",
       "pulledBy": "a field of many candidates",
-      "writes": "the paragraph says no one reached half"
+      "writes": "the paragraph says no one reached half",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a landslide",
       "pulledBy": "a winner far ahead",
-      "writes": "the paragraph gives the gap in plain words"
+      "writes": "the paragraph gives the gap in plain words",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

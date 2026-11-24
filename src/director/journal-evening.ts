@@ -25,11 +25,16 @@ import { addressPointFor, pointKey } from "./conversation";
 import type { JournalChapter } from "./journal";
 import type { Director } from "./ledger";
 import { addressPoints, type AddressPoint } from "./opening-facts";
-import { spoken } from "./words";
+import { employerWords, spoken } from "./words";
+import { recordsSince } from "./life-news";
+import { FAMILY_CONTACT } from "../core2/modules/people";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { themeNameBy } from "./theme-words";
 
 /** The most housemates a diary entry names one by one before it says "the whole house". */
 const WATCHERS_NAMED = JOURNAL_EVENING.watchersNamed;
+/** Days back a relative's letter is still this evening's news (a month). */
+const LETTER_DAYS = 30;
 /** The player in a list of watchers, as subject and as object. */
 const SELF = JOURNAL_EVENING.self;
 
@@ -143,6 +148,38 @@ export function eveningTelling(
     // 2 on #10390: "A diary that takes a side nobody talked about").
     const told = saidAtTable(core, personId, others, point);
     if (told) facts[`stand-${told}`] = fact("yes", [personId]);
+  }
+  // What else the day held, from records the world already keeps (W3, Nov
+  // 24: the evening's moves had too few facts to say different things): a
+  // housemate's job, from the job and employer records, and a letter from a
+  // relative elsewhere in the past month (`family.contact`, kin-contact.ts),
+  // with the town it came from.
+  const worker = others.find(
+    (person) => person?.jobId && core.jobs.get(person.jobId),
+  );
+  const job = worker?.jobId ? core.jobs.get(worker.jobId) : undefined;
+  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  const employerSaid = employer ? employerWords(employer) : null;
+  if (worker && job && employerSaid) {
+    facts["housemate-worker"] = fact(worker.givenName, [worker.id, job.id]);
+    facts["housemate-employer"] = fact(employerSaid, [job.id, employer!.id]);
+  }
+  const letter = recordsSince(
+    core,
+    personId,
+    FAMILY_CONTACT,
+    addDays(makeIsoDate(story.date), -LETTER_DAYS),
+    story.date,
+  )
+    .filter((row) => row.personIds.at(P.zero) === personId)
+    .at(-1);
+  const writerId = letter?.facts?.writerId as PersonId | undefined;
+  const writer = writerId ? core.people.get(writerId) : undefined;
+  if (letter && writer) {
+    facts["kin-wrote"] = fact(writer.givenName, [letter.id, writer.id]);
+    const from = corePlaceByJurisdictionId(writer.placeId as never);
+    if (from && writer.placeId !== me.placeId)
+      facts["kin-wrote-from"] = fact(spoken(from), [letter.id, writer.placeId]);
   }
   const home = corePlaceByJurisdictionId(me.placeId as never);
   if (home) facts.place = fact(spoken(home), [me.householdId]);

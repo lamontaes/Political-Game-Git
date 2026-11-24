@@ -18,12 +18,16 @@
     {
       "name": "turnout down",
       "pulledBy": "a dull race",
-      "writes": "the story says fewer voted"
+      "writes": "the story says fewer voted",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "turnout unchanged",
       "pulledBy": "a steady year",
-      "writes": "the story says it matched the last one"
+      "writes": "the story says it matched the last one",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

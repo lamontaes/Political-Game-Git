@@ -18,12 +18,16 @@
     {
       "name": "no subheads",
       "pulledBy": "a short story",
-      "writes": "the reactions run in one paragraph"
+      "writes": "the reactions run in one paragraph",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "subheads by seat",
       "pulledBy": "a ballot with several offices",
-      "writes": "each office gets its own block"
+      "writes": "each office gets its own block",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

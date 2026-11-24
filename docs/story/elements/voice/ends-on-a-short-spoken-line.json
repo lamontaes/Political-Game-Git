@@ -18,12 +18,16 @@
     {
       "name": "ends on the date",
       "pulledBy": "a plain notice",
-      "writes": "the last line is when she leaves"
+      "writes": "the last line is when she leaves",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "ends on the mayor",
       "pulledBy": "a story with a strong tribute",
-      "writes": "the last line is the mayor's"
+      "writes": "the last line is the mayor's",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,8 +18,12 @@
     "winner-votes": "the winner's votes in it",
     "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row.",
     "here-since-year": "The year the player's household moved into the place, from the household record (left out where the life's own records place the player here earlier).",
-    "school-name": "The name of the first school the player attended, from the school engine's records (left out where the record holds no name).",
-    "first-employer": "The name of the player's first employer, said as the world says an employer, from the first hire row's organization."
+    "born-president-party": "The party that held the White House when the player was born, as an adjective, from the century's presidency rows.",
+    "school-president-party": "The party that held the White House when the player started school, as an adjective.",
+    "moved-president-party": "The party that held the White House when the household moved, as an adjective.",
+    "school-state": "The state the player's first school was in, said as a sentence says it, from the school record's place.",
+    "moved-from-state": "The state the household moved out of, from the move record's from-place.",
+    "moved-to-state": "The state the household moved into, from the move record's to-place."
   },
   "maxWords": 30,
   "parts": [
@@ -417,16 +421,111 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.loading-story-your-first-school-was-and-it-was-in",
+      "key": "outline-loading.born.born-in-born-year-under-a-born-president-party-president",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}, under a {born-president-party} president.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year", "born-president-party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.started-school-in-school-year-under-a-school-president-party-president",
       "move": "school",
       "kind": "written",
-      "text": "Your first school was {school-name}, in {school-place}.",
+      "text": "You started school in {school-year}, under a {school-president-party} president.",
       "uses": [
         {
           "subject": "loading-story",
           "role": "school",
           "tie": "record",
-          "requiresFacts": ["school-name", "school-place"]
+          "requiresFacts": ["school-year", "school-president-party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.moved-to-moved-to-in-moved-year-under-a-moved-president-party-president",
+      "move": "moved",
+      "kind": "written",
+      "text": "The family moved to {moved-to} in {moved-year}, under a {moved-president-party} president.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-to", "moved-president-party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.you-ran-for-lost-office-in-lost-year-the-year-you-finished-high-school-and-lost",
+      "move": "lost",
+      "kind": "written",
+      "text": "You ran for {lost-office} in {lost-year}, the year you finished high school, and lost.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-same-year-as-school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["lincoln-lost-his-first-race"]
+    },
+    {
+      "key": "outline-loading.lost.you-ran-for-lost-office-in-lost-year-the-year-you-started-college-and-lost",
+      "move": "lost",
+      "kind": "written",
+      "text": "You ran for {lost-office} in {lost-year}, the year you started college, and lost.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-same-year-as-college"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["lincoln-lost-his-first-race"]
+    },
+    {
+      "key": "outline-loading.school.in-school-year-you-were-a-student-in-school-place-which-is-in-school-state",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-year} you were a student in {school-place}, which is in {school-state}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place", "school-state"]
         }
       ],
       "origin": "authored",
@@ -435,22 +534,53 @@
       "elements": ["school-is-assigned-by-address"]
     },
     {
-      "key": "outline-loading.job.loading-story-your-first-job-was-with",
-      "move": "job",
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-took-the-family-out-of-moved-from-state-and-into-moved-to-state",
+      "move": "moved",
       "kind": "written",
-      "text": "Your first job, in {first-job-year}, was with {first-employer}.",
+      "text": "The move from {moved-from} to {moved-to} took your family out of {moved-from-state} and into {moved-to-state}.",
       "uses": [
         {
           "subject": "loading-story",
-          "role": "job",
+          "role": "moved",
           "tie": "record",
-          "requiresFacts": ["first-job-year", "first-employer"]
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-from-state",
+            "moved-to-state",
+            "moved-across-state"
+          ]
         }
       ],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24",
-      "elements": ["a-new-hire-fills-out-an-employment-form"]
+      "elements": ["some-moves-are-for-a-job"]
+    },
+    {
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-stayed-inside-moved-to-state",
+      "move": "moved",
+      "kind": "written",
+      "text": "The move from {moved-from} to {moved-to} stayed inside {moved-to-state}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-to-state",
+            "moved-within-state"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["some-moves-are-for-a-job"]
     }
   ]
 }

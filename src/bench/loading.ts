@@ -56,6 +56,10 @@ export function loadingTelling(
     const place = id ? corePlaceByJurisdictionId(id as never) : undefined;
     return place ? spoken(place) : undefined;
   };
+  const stateSaid = (id: string | undefined) => {
+    const place = id ? corePlaceByJurisdictionId(id as never) : undefined;
+    return place?.withinName ? stateInSentence(place.withinName) : undefined;
+  };
   // The day each part of the life began, for reading who held the White
   // House then (presidencyParty below).
   const days: Record<string, { date: string; id: string }> = {};
@@ -71,6 +75,8 @@ export function loadingTelling(
         days.school ??= { date: event.date, id: event.id };
         put("school-year", yearOf(event.date), event.id);
         put("school-place", where, event.id);
+        const schoolState = stateSaid(event.placeId);
+        if (schoolState) put("school-state", schoolState, event.id);
       }
     }
     if (at === "move/moved-in" && !facts["moved-year"]) {
@@ -81,6 +87,18 @@ export function loadingTelling(
         put("moved-year", yearOf(event.date), event.id);
         put("moved-from", from, event.id);
         put("moved-to", to, event.id);
+        // Whether the move crossed a state line, from the two places' states.
+        const fromState = stateSaid(String(event.facts?.fromPlaceId ?? ""));
+        const toState = stateSaid(String(event.facts?.toPlaceId ?? ""));
+        if (fromState && toState) {
+          put("moved-from-state", fromState, event.id);
+          put("moved-to-state", toState, event.id);
+          put(
+            fromState === toState ? "moved-within-state" : "moved-across-state",
+            "yes",
+            event.id,
+          );
+        }
         if (String(event.facts?.pushedBy ?? "").startsWith("economy"))
           put("moved-for-work", "yes", event.id);
       }
@@ -107,9 +125,11 @@ export function loadingTelling(
           Number(event.facts.winnerVotes).toLocaleString("en-US"),
           event.id,
         );
-      const before = facts["college-year"] ?? facts["finished-year"];
-      if (before?.text === yearOf(event.date))
-        put("lost-same-year", "yes", event.id);
+      // The race came in the year they finished high school or started college.
+      if (facts["finished-year"]?.text === yearOf(event.date))
+        put("lost-same-year-as-school", "yes", event.id);
+      if (facts["college-year"]?.text === yearOf(event.date))
+        put("lost-same-year-as-college", "yes", event.id);
     }
   }
   // The first school's name, from the school engine's own records, where it

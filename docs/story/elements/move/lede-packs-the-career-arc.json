@@ -18,12 +18,16 @@
     {
       "name": "a short lede",
       "pulledBy": "a brief notice",
-      "writes": "the lede says only who retires and when"
+      "writes": "the lede says only who retires and when",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on the ceremony",
       "pulledBy": "an event at a meeting",
-      "writes": "the lede says what was given"
+      "writes": "the lede says what was given",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

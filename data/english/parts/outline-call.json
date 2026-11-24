@@ -50,7 +50,8 @@
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
     "count": "the vote count in words and figures (\"3 to 2\")",
     "body-word": "the body the governor reports to, said as people say it after 'the' (\"legislature\"), from the speech's facts",
-    "realm-name": "the state, as the speech names it, from the speech's facts"
+    "realm-name": "the state, as the speech names it, from the speech's facts",
+    "nation": "the country as a national speaker names it (speech-outlines.json nationWords: \"America\"), for the national kinds only"
   },
   "maxWords": 30,
   "parts": [
@@ -1297,79 +1298,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.charge.spoken-which-question-comes-first-for-me-it-s",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Which question comes first? For me it's {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-plenty-of-people-asked-me-about-and-i-owe-them-an-answer-today",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Plenty of people asked me about {theme-name}, and I owe them an answer today.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-devoted"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.call.spoken-whatever-you-think-of-take-a-minute-to-learn-what-the-other-side-is-af",
       "move": "call",
       "kind": "spoken",
@@ -1444,116 +1372,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.call.spoken-tell-the-people-who-disagree-with-you-about-one-thing-they-got-right",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Tell the people who disagree with you on whether to {to} one thing they got right.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-mediating"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
-      "key": "outline-call.charge.spoken-who-here-has-talked-about-at-a-kitchen-table-that-s-who-i-m-speaking-t",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Who here has talked about {theme-name} at a kitchen table? That's who I'm speaking to.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-we-ll-take-on-plenty-in-the-next-we-ll-start-with",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "We'll take on plenty in the next {term-left}. We'll start with {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.charge.spoken-let-s-spend-the-first-stretch-of-this-term-where-the-trouble-is",
       "move": "charge",
       "kind": "spoken",
@@ -1585,165 +1403,6 @@
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-the-people-i-met-kept-coming-back-to-so-i-m-coming-back-to-it-too",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "The people I met kept coming back to {theme-name}, so I'm coming back to it too.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-tender-hearted"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-here-s-the-order-i-ll-work-in-first-everything-else-behind-it",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Here's the order I'll work in: {theme-name} first, everything else behind it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-what-brought-me-to-this-podium-was-and-that-hasn-t-changed",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "What brought me to this podium was {theme-name}, and that hasn't changed.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["oath", "hired"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-where-do-i-start-with-because-it-won-t-wait-for-a-better-time",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Where do I start? With {theme-name}, because it won't wait for a better time.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-every-president-has-something-to-get-to-first-mine-is",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Every president has something to get to first. Mine is {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["oath", "hired"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -2069,30 +1728,6 @@
       "elements": ["opens-on-the-occasion"]
     },
     {
-      "key": "outline-call.hired.spoken-last-fall-s-election-gave-me-to-show-you-what-i-meant",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "Last fall's election gave me {term-left} to show you what I meant.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "record",
-          "requiresFacts": ["elected-last-fall", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["opens-on-the-occasion"]
-    },
-    {
       "key": "outline-call.hired.spoken-everything-i-said-last-fall-now-has-to-hold-up-over",
       "move": "hired",
       "kind": "spoken",
@@ -2167,36 +1802,6 @@
       "lean": [
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-the-cost-of-living-has-crept-up-for-and-it-s-the-first-thing-people-ra",
-      "move": "run",
-      "kind": "spoken",
-      "text": "The cost of living has crept up for {run-span}, and it's the first thing people raise with me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -2318,35 +1923,6 @@
       "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
     },
     {
-      "key": "outline-call.run.spoken-hiring-has-picked-up-over-the-last-and-more-of-you-are-getting-that-ph",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Hiring has picked up over the last {run-span}, and more of you are getting that phone call.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.run.spoken-fewer-people-are-out-of-work-now-than-ago-and-that-s-your-doing-as-muc",
       "move": "run",
       "kind": "spoken",
@@ -2429,40 +2005,6 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster.spoken-families-are-still-putting-their-lives-back-together-after-the",
-      "move": "disaster",
-      "kind": "spoken",
-      "text": "Families are still putting their lives back together after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-call.disaster.spoken-neighbors-have-spent-this-past-year-helping-each-other-recover-from-th",
@@ -2603,43 +2145,6 @@
       "elements": ["diagnosis-before-acts"]
     },
     {
-      "key": "outline-call.disaster-image.spoken-somewhere-right-now-a-family-is-eating-dinner-in-a-rented-room-because",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "Somewhere right now, a family is eating dinner in a rented room because of the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a39-be-there-that-night"]
-    },
-    {
       "key": "outline-call.disaster-image.spoken-imagine-a-shop-owner-standing-in-the-store-the-emptied-deciding-whethe",
       "move": "disaster-image",
       "kind": "spoken",
@@ -2758,43 +2263,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-humble"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["parallel-run-of-to-those-addresses"]
-    },
-    {
-      "key": "outline-call.address-to.spoken-to-the-people-who-disagree-with-me-and-there-will-be-many-i-ll-listen",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the people who disagree with me, and there will be many: I'll listen to you for all {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -2939,58 +2407,6 @@
         "personality-v1:facet-light-hearted",
         "personality-v1:facet-informal"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-for-a-steady-job-has-been-easier-to-land-than-it-used-to-be",
-      "move": "run",
-      "kind": "spoken",
-      "text": "For {run-span}, a steady job has been easier to land than it used to be.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-take-home-pay-has-been-on-the-rise-for-and-families-have-noticed",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Take-home pay has been on the rise for {run-span}, and families have noticed.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -3393,87 +2809,6 @@
       "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
     },
     {
-      "key": "outline-call.run.spoken-i-know-there-are-families-here-who-have-been-without-a-paycheck-for-pa",
-      "move": "run",
-      "kind": "spoken",
-      "text": "I know there are families here who have been without a paycheck for part of the last {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-people-who-ve-worked-all-their-lives-found-themselves-starting-over-in",
-      "move": "run",
-      "kind": "spoken",
-      "text": "People who've worked all their lives found themselves starting over in the last {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-a-lot-of-people-stopped-expecting-things-to-get-better-during-the-last",
-      "move": "run",
-      "kind": "spoken",
-      "text": "A lot of people stopped expecting things to get better during the last {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
       "key": "outline-call.run.spoken-employers-started-hiring-again-and-for-they-haven-t-stopped",
       "move": "run",
       "kind": "spoken",
@@ -3533,44 +2868,6 @@
       "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
-      "key": "outline-call.charge.spoken-i-ll-start-with-because-it-s-what-people-raise-with-me-most",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "I'll start with {theme-name}, because it's what people raise with me most.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.charge.spoken-of-everything-on-my-list-has-waited-the-longest-so-it-goes-first",
       "move": "charge",
       "kind": "spoken",
@@ -3626,30 +2923,6 @@
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-when-people-ask-what-this-administration-is-for-i-start-with",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "When people ask what this administration is for, I start with {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["oath", "hired"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-ambitious"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -3765,81 +3038,6 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-call.charge.spoken-before-anything-else-in-the-next-i-ll-deal-with",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Before anything else in the next {term-left}, I'll deal with {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.call.spoken-read-the-text-of-a-bill-on-before-you-pass-along-anyone-s-opinion-of-i",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read the text of a bill to {to} before you pass along anyone's opinion of it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
       "key": "outline-call.call.spoken-look-up-how-your-own-representatives-voted-on",
       "move": "call",
       "kind": "spoken",
@@ -3871,40 +3069,6 @@
         "personality-v1:facet-studious",
         "personality-v1:facet-meticulous"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
-      "key": "outline-call.call.spoken-go-to-a-public-meeting-about-even-if-you-never-speak",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Go to a public meeting about {theme-short}, even if you never speak.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
@@ -4082,27 +3246,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.oath.spoken-the-oath-names-the-constitution-and-nothing-else-that-s-what-i-ll-answ",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "The oath names the Constitution and nothing else. That's what I'll answer to for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["opens-on-the-occasion"]
-    },
-    {
       "key": "outline-call.oath.spoken-i-ve-taken-the-oath-so-the-next-are-about-the-constitution-first-and-m",
       "move": "oath",
       "kind": "spoken",
@@ -4120,30 +3263,6 @@
       "lean": [
         "personality-v1:facet-humble",
         "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["opens-on-the-occasion"]
-    },
-    {
-      "key": "outline-call.oath.spoken-the-oath-doesn-t-mention-a-party-it-mentions-the-constitution-and-i-ll",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "The oath doesn't mention a party. It mentions the Constitution, and I'll work under it for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-blunt"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -4173,150 +3292,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["opens-on-the-occasion"]
-    },
-    {
-      "key": "outline-call.run.spoken-rent-groceries-and-gas-have-all-cost-more-as-the-last-went-on",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Rent, groceries and gas have all cost more as the last {run-span} went on.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-prices-at-the-store-have-risen-for-and-families-have-cut-back-to-cover",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Prices at the store have risen for {run-span}, and families have cut back to cover it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-a-trip-to-the-grocery-store-costs-more-than-it-did-ago-and-everybody-h",
-      "move": "run",
-      "kind": "spoken",
-      "text": "A trip to the grocery store costs more than it did {run-span} ago, and everybody here knows it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-many-households-have-changed-what-they-buy-over-the-last-because-the-p",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Many households have changed what they buy over the last {run-span}, because the prices left them no choice.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-more-people-have-been-out-of-work-during-the-last-and-some-of-them-are",
-      "move": "run",
-      "kind": "spoken",
-      "text": "More people have been out of work during the last {run-span}, and some of them are still looking.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
     },
     {
       "key": "outline-call.run.spoken-many-people-who-lost-a-job-in-the-last-had-to-take-a-lower-paying-one",
@@ -4409,33 +3384,6 @@
       "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
     },
     {
-      "key": "outline-call.run.spoken-job-hunting-has-taken-months-for-too-many-people-over",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Job hunting has taken months for too many people over {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
       "key": "outline-call.run.spoken-over-a-lot-of-towns-have-lost-a-business-or-a-plant-and-they-feel-the",
       "move": "run",
       "kind": "spoken",
@@ -4491,113 +3439,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["hard-year-names-the-trouble-first", "diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.run.spoken-most-workers-have-seen-their-pay-go-up-at-least-once-in-the-last",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Most workers have seen their pay go up at least once in the last {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-hourly-pay-has-risen-in-many-jobs-over",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Hourly pay has risen in many jobs over {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-a-lot-of-people-in-this-country-are-earning-more-than-they-were-ago",
-      "move": "run",
-      "kind": "spoken",
-      "text": "A lot of people in this country are earning more than they were {run-span} ago.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-over-the-last-more-families-have-been-able-to-save-something-each-mont",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Over the last {run-span}, more families have been able to save something each month.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
     },
     {
       "key": "outline-call.run.spoken-over-a-lot-of-workers-changed-jobs-for-better-pay-and-found-it",
@@ -4658,35 +3499,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.run.spoken-businesses-have-been-adding-workers-for-in-small-towns-as-well-as-big",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Businesses have been adding workers for {run-span}, in small towns as well as big cities.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.run.spoken-in-the-last-the-number-of-people-with-jobs-has-gone-up-in-most-states",
       "move": "run",
       "kind": "spoken",
@@ -4739,35 +3551,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.run.spoken-over-factories-stores-and-offices-have-been-hiring",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Over {run-span}, factories, stores and offices have been hiring.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": ["run-pay-ahead"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.run.spoken-hiring-and-pay-both-went-up-over-the-last-and-that-s-why-so-many-famil",
       "move": "run",
       "kind": "spoken",
@@ -4807,32 +3590,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.run.spoken-most-households-are-in-better-shape-than-they-were-ago",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Most households are in better shape than they were {run-span} ago.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-span"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.disaster.spoken-many-families-are-still-living-somewhere-temporary-because-of-the",
       "move": "disaster",
       "kind": "spoken",
@@ -4864,40 +3621,6 @@
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-sincere"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.disaster.spoken-roads-schools-and-businesses-are-still-being-repaired-after-the",
-      "move": "disaster",
-      "kind": "spoken",
-      "text": "Roads, schools and businesses are still being repaired after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
@@ -5015,114 +3738,6 @@
       "elements": ["diagnosis-before-acts"]
     },
     {
-      "key": "outline-call.disaster.spoken-neighbors-cooked-meals-hauled-debris-and-opened-their-homes-after-the",
-      "move": "disaster",
-      "kind": "spoken",
-      "text": "Neighbors cooked meals, hauled debris and opened their homes after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.disaster.spoken-some-of-the-damage-from-the-will-take-a-long-time-to-repair",
-      "move": "disaster",
-      "kind": "spoken",
-      "text": "Some of the damage from the {the-disaster} will take a long time to repair.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-call.disaster-image.spoken-right-now-a-family-somewhere-is-sorting-through-what-they-could-carry",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "Right now, a family somewhere is sorting through what they could carry out of their home after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a39-be-there-that-night"]
-    },
-    {
       "key": "outline-call.disaster-image.spoken-a-shop-owner-somewhere-is-deciding-whether-to-rebuild-after-the",
       "move": "disaster-image",
       "kind": "spoken",
@@ -5157,43 +3772,6 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-image.spoken-some-families-are-still-sleeping-in-a-relative-s-spare-room-because-of",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "Some families are still sleeping in a relative's spare room because of the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-calm"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a39-be-there-that-night"]
     },
     {
       "key": "outline-call.disaster-image.spoken-a-child-somewhere-is-starting-a-new-school-this-year-because-of-the",
@@ -5406,36 +3984,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-insurance-claims-and-federal-forms-shouldn-t-take-longer-than-the-repa",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Insurance claims and federal forms shouldn't take longer than the repairs, and I'll push the agencies on that for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.disaster-meaning.spoken-help-should-reach-a-small-town-as-fast-as-a-big-city-and-i-ll-watch-fo",
       "move": "disaster-meaning",
       "kind": "spoken",
@@ -5622,26 +4170,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-spoken-i-m-here-to-report-to-the-on-how-is-doing",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm here to report to the {body-word} on how {realm-name} is doing.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.blessing.state-of-the-union-god-bless-america",
       "move": "blessing",
       "kind": "spoken",
@@ -5744,49 +4272,6 @@
       ]
     },
     {
-      "key": "outline-call.greeting.state-of-the-union-and-members-of-congress",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "{the-vice-president}, and members of Congress.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-union-to-to-the-members-of-congress-and-to-everyone-watching",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "To {the-vice-president}, to the members of Congress, and to everyone watching.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sotu-opens-by-greeting-or-saluting-the-speaker"]
-    },
-    {
       "key": "outline-call.call.state-of-the-union-ask-your-state-s-senators-where-they-stand-on-and-listen-to",
       "move": "call",
       "kind": "spoken",
@@ -5872,29 +4357,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-fellow-citizens-of-and-members-of-the",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Fellow citizens of {realm-name}, and members of the {body-word}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-and-everyone-watching-in",
       "move": "greeting",
       "kind": "spoken",
@@ -5913,26 +4375,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["sots-opens-with-a-salutation-to-named-officials"]
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-people-of-sent-the-and-me-to-work-and-today-i-report-on",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The people of {realm-name} sent the {body-word} and me to work, and today I report on how that's going.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
     },
     {
       "key": "outline-call.call.state-of-the-state-ask-your-member-of-the-where-they-stand-on-and-listen-to-the",
@@ -6003,29 +4445,6 @@
       "elements": ["opens-on-the-occasion"]
     },
     {
-      "key": "outline-call.call.spoken-ask-a-few-neighbors-what-they-think-about",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Ask a few neighbors what they think about {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
       "key": "outline-call.disaster-meaning.spoken-a-family-should-know-within-days-whether-its-claim-was-appro",
       "move": "disaster-meaning",
       "kind": "spoken",
@@ -6043,29 +4462,6 @@
       "lean": [
         "personality-v1:facet-meticulous",
         "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-in-the-next-the-people-who-run-disaster-relief-will-answer-q",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "In the next {term-left}, the people who run disaster relief will answer questions from the families they serve.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6118,52 +4514,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-small-towns-will-get-the-same-attention-as-big-ones-for-the",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Small towns will get the same attention as big ones for the next {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-rebuilding-money-will-go-to-rebuilding-and-over-the-next-i-l",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Rebuilding money will go to rebuilding, and over the next {term-left} I'll have it audited.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.disaster-image.spoken-a-family-somewhere-is-still-living-out-of-suitcases-because",
       "move": "disaster-image",
       "kind": "spoken",
@@ -6180,29 +4530,6 @@
       "lean": [
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-calm"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a39-be-there-that-night"]
-    },
-    {
-      "key": "outline-call.disaster-image.spoken-a-man-somewhere-is-sleeping-in-his-truck-outside-what-s-left",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "A man somewhere is sleeping in his truck outside what's left of his house after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-blunt"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6232,28 +4559,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-image.spoken-a-teacher-somewhere-is-holding-class-in-a-borrowed-room-beca",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "A teacher somewhere is holding class in a borrowed room because the {the-disaster} closed her school.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.disaster-image.spoken-a-woman-somewhere-is-filling-out-another-form-for-help-after",
       "move": "disaster-image",
       "kind": "spoken",
@@ -6274,48 +4579,6 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-image.spoken-a-boy-somewhere-is-sleeping-on-a-cot-in-a-gym-because-the-to",
-      "move": "disaster-image",
-      "kind": "spoken",
-      "text": "A boy somewhere is sleeping on a cot in a gym because the {the-disaster} took his bedroom.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-image",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-members-of-the-and-everyone-in-listening",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Members of the {body-word}, and everyone in {realm-name} listening.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-guests-and-people-of",
@@ -6363,52 +4626,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-to-the-and-to-the-people-of",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "To the {body-word}, and to the people of {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-report-to-the-today-and-what-i-say-is-for-every-person-in",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I report to the {body-word} today, and what I say is for every person in {realm-name}, not only the people in this room.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.run.spoken-starting-pay-at-many-jobs-is-higher-than-it-was-ago",
       "move": "run",
       "kind": "spoken",
@@ -6447,25 +4664,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.run.spoken-wage-growth-has-been-steady-for-and-most-workers-have-felt-some-of-it",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Wage growth has been steady for {run-span}, and most workers have felt some of it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.run.spoken-employers-have-raised-pay-to-keep-their-workers-over-the-last",
       "move": "run",
       "kind": "spoken",
@@ -6482,33 +4680,6 @@
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.run.spoken-over-the-last-jobs-got-easier-to-find-and-better-paid",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Over the last {run-span}, jobs got easier to find and better paid.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": [
-            "run-good",
-            "run-pay-ahead",
-            "run-span",
-            "run-jobs-gained"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6565,29 +4736,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.call.spoken-ask-the-person-who-cuts-your-hair-or-fixes-your-car-what-the",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Ask the person who cuts your hair or fixes your car whether we should {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
       "key": "outline-call.call.spoken-before-you-argue-about-online-call-or-visit-someone-who-sees",
       "move": "call",
       "kind": "spoken",
@@ -6627,29 +4775,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
-      "key": "outline-call.call.spoken-tell-the-people-in-your-life-where-you-stand-on-and-ask-wher",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Tell the people in your life whether you'd {to}, and ask where they stand.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-friendly"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6725,52 +4850,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["parallel-run-of-to-those-addresses"]
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-union-to-the-member-of-congress-who-disagrees-with-me-most-i-ll-st",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the member of Congress who disagrees with me most: I'll start with you, in the next {term-left}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-humble"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["parallel-run-of-to-those-addresses"]
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-the-member-of-the-who-disagrees-with-me-most-i-ll-start-w",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the member of the {body-word} who disagrees with me most: I'll start with you, in the next {term-left}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["body-word", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-humble"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6953,29 +5032,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-union-unemployment-has-risen-in-this-country-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Unemployment has risen in this country over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-union-this-year-the-worst-disaster-to-hit-the-country-was-the",
       "move": "report",
       "kind": "spoken",
@@ -7083,25 +5139,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-welcome",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Welcome, {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-fellow-citizens-of-thank-you-for-listening",
       "move": "greeting",
       "kind": "spoken",
@@ -7147,32 +5184,6 @@
       "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-my-thanks-to-the-for-having-me",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "My thanks to the {body-word} for having me.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": [
-        "sots-opens-by-thanking-legislators",
-        "sots-opens-with-a-salutation-to-named-officials"
-      ]
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-people-of-it-s-good-to-be-with-you",
       "move": "greeting",
       "kind": "spoken",
@@ -7193,51 +5204,6 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-to-everyone-in-hello",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "To everyone in {realm-name}, hello.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-good-to-be-here",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Good to be here, {body-word}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"]
     },
     {
       "key": "outline-call.call.state-of-the-state-find-your-state-representative-s-office-hours-and-bring-a-qu",
@@ -7436,28 +5402,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.call.state-of-the-state-learn-which-committee-in-the-your-member-sits-on-and-what-it",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Learn which committee in the {body-word} your member sits on, and what it decides on {theme-short}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.call.state-of-the-state-bring-up-at-a-town-meeting-or-a-school-board-in",
       "move": "call",
       "kind": "spoken",
@@ -7472,224 +5416,6 @@
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-pay-has-gone-up-for-working-people-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay has gone up for working people over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-workers-earn-more-now-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Workers earn more now than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-pay-is-higher-across-the-country-than-it-was-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay is higher across the country than it was {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-paychecks-have-grown-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Paychecks have grown for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-people-who-work-for-a-living-have-seen-their-pay-rise-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "People who work for a living have seen their pay rise over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-over-the-last-pay-went-up",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Over the last {run-span}, pay went up.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-pay-for-working-people-is-up-from-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Pay for working people is up from {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-more-people-have-jobs-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "More people have jobs than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-hiring-has-picked-up-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Hiring has picked up over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-country-has-added-jobs-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The country has added jobs over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7718,521 +5444,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-union-jobs-have-come-back-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Jobs have come back over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-jobs-gained", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-prices-have-gone-up-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Prices have gone up over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-food-rent-and-gas-cost-more-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Food, rent and gas cost more than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-families-pay-more-for-everyday-things-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Families pay more for everyday things than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-cost-of-living-has-risen-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The cost of living has risen for {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-prices-ahead", "run-span"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-jobs-have-been-lost-over-the-last",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Jobs have been lost over the last {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-fewer-people-have-jobs-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Fewer people have jobs than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-unemployment-is-higher-than-ago",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Unemployment is higher than {run-span} ago.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-layoffs-have-gone-up-over",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Layoffs have gone up over {run-span}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-jobs-lost", "run-span"],
-          "excludesFacts": ["run-prices-ahead"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-worst-disaster-this-year-was-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The worst disaster this year was the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-hit-families-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {the-disaster} hit families this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-this-year-s-worst-disaster-was-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "This year's worst disaster was the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-families-are-still-rebuilding-after-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Families are still rebuilding after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-this-is-a-year-of-real-opportunity-and-real-challenges-for",
-      "move": "report",
-      "kind": "spoken",
-      "text": "This is a year of real opportunity and real challenges for {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-what-does-this-year-will-matter-for-a-long-time",
-      "move": "report",
-      "kind": "spoken",
-      "text": "What {realm-name} does this year will matter for a long time.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-is-a-state-that-does-hard-things-when-it-has-to",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name} is a state that does hard things when it has to.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-future-of-depends-on-what-the-and-i-do-with-the-next-few",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The future of {realm-name} depends on what the {body-word} and I do with the next few months.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-there-s-a-lot-to-be-proud-of-in-and-a-lot-left-to-do",
-      "move": "report",
-      "kind": "spoken",
-      "text": "There's a lot to be proud of in {realm-name}, and a lot left to do.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-has-always-asked-a-lot-of-the-people-who-run-it-and-it-shoul",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name} has always asked a lot of the people who run it, and it should.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-think-is-a-place-where-good-work-can-still-get-done",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I think {realm-name} is a place where good work can still get done.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-whatever-else-is-true-is-a-state-that-takes-care-of-its-own",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Whatever else is true, {realm-name} is a state that takes care of its own.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-question-for-this-year-is-how-well-we-use-what-we-have",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The question for {realm-name} this year is how well we use what we have.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-s-best-years-depend-on-the-choices-made-in-this-room",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name}'s best years depend on the choices made in this room.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-state-more-people-in-have-reason-to-be-hopeful-this-year",
       "move": "report",
       "kind": "spoken",
@@ -8249,51 +5460,6 @@
       "after": ["greeting"],
       "elements": ["sots-opens-with-a-claim-about-the-state"],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-has-good-reason-to-feel-hopeful-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name} has good reason to feel hopeful this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "pay-better"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-there-s-more-to-be-hopeful-about-in-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "There's more to be hopeful about in {realm-name} this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "pay-better"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -8323,54 +5489,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.report.state-of-the-state-has-real-reason-for-concern-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name} has real reason for concern this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "pay-worse"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-there-s-more-to-worry-about-in-this-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "There's more to worry about in {realm-name} this year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "pay-worse"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-welcome-back-members-of-the",
       "move": "greeting",
       "kind": "spoken",
@@ -8388,47 +5506,6 @@
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-polite"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-good-to-see-the-back-in-this-room",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Good to see the {body-word} back in this room.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-friends-in-this-chamber-and-everyone-in-listening",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Friends in this chamber, and everyone in {realm-name} listening.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -8454,28 +5531,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-members-of-the-thank-you-for-the-invitation",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Members of the {body-word}, thank you for the invitation.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-people-of-and-the-that-serves-them",
       "move": "greeting",
       "kind": "spoken",
@@ -8492,51 +5547,6 @@
       "lean": [
         "personality-v1:facet-studious",
         "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-to-the-good-to-be-back",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "To the {body-word}: good to be back.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.greeting.state-of-the-state-citizens-of-and-members-of-the",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Citizens of {realm-name}, and members of the {body-word}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "elements": ["sots-opens-with-a-salutation-to-named-officials"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-nurturing"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -8579,50 +5589,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-read-a-news-story-about-in-and-look-for-who-it-didn-t-quote",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read a news story about {theme-short} in {realm-name}, and look for who it didn't quote.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-find-your-town-s-public-notices-and-look-for-anything-about",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Find your town's public notices, and look for anything about {theme-short}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -8712,76 +5678,6 @@
       "elements": []
     },
     {
-      "key": "outline-call.call.state-of-the-state-visit-the-website-of-the-and-find-the-page-for-the-committee",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Visit the website of the {body-word}, and find the page for the committee that handles {theme-short}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["body-word", "theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-comes-to-this-year-with-more-to-do-than-time-to-do-it",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{realm-name} comes to this year with more to do than time to do it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-work-in-front-of-is-bigger-than-any-one-of-us",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The work in front of {realm-name} is bigger than any one of us.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-state-i-came-into-this-room-thinking-about-what-does-well-and-what",
       "move": "report",
       "kind": "spoken",
@@ -8801,116 +5697,6 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-this-year-gets-to-decide-what-kind-of-state-it-wants-to-be",
-      "move": "report",
-      "kind": "spoken",
-      "text": "This year {realm-name} gets to decide what kind of state it wants to be.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-most-of-what-needs-this-year-the-and-i-can-do-together",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Most of what {realm-name} needs this year, the {body-word} and I can do together.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["body-word", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "elements": ["sots-opens-with-a-claim-about-the-state"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-read-the-summary-of-a-bill-on-on-congress-s-own-website-befo",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read the summary of a bill to {to} on Congress's own website before you decide.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-pick-a-federal-agency-that-deals-with-and-read-what-it-says",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Pick a federal agency that deals with {theme-short} and read what it says it does.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-watch-a-floor-debate-on-even-a-short-one",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Watch a floor debate on whether to {to}, even a short one.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
     },
     {
       "key": "outline-call.call.state-of-the-union-compare-what-your-own-members-of-congress-said-about-last-ye",
@@ -8952,28 +5738,6 @@
       "lean": [
         "personality-v1:facet-assertive",
         "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-follow-one-federal-story-about-for-a-week",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Follow one federal story about {theme-short} for a week.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-nurturing"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -9023,72 +5787,6 @@
       "elements": []
     },
     {
-      "key": "outline-call.send-off.state-of-the-union-my-first-call-tomorrow-is-to-the-committee-chairs-on",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "My first call tomorrow is to the committee chairs, about whether to {to}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "elements": ["victory-ends-on-a-call-to-work"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-this-week-i-ll-sit-down-with-the-members-of-congress-who-car",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll sit down this week with the members of Congress who care most about whether to {to}, on both sides.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-by-friday-i-ll-have-asked-every-committee-chair-who-touches",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "By Friday I'll have asked each committee chair for a date to talk about whether to {to}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "elements": ["victory-ends-on-a-call-to-work"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-state-realmname-is-still-living-with-thedisaster-and-this-years-work",
       "move": "report",
       "kind": "spoken",
@@ -9112,25 +5810,6 @@
       "move": "report",
       "kind": "spoken",
       "text": "After {the-disaster}, {realm-name} has a different kind of year ahead of it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["realm-name", "the-disaster"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-cant-give-this-report-without-starting-with-thedisaster-because",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I can't give this report without starting with {the-disaster}, because {realm-name} is still recovering.",
       "uses": [
         {
           "subject": "state-of-the-state",
@@ -9528,6 +6207,342 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-members-of-congress-and-my-fellow-americans",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, members of Congress, and my fellow Americans.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-members-of-congress-thevicepresident-and-everyone-watching-at-home",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Members of Congress, {the-vice-president}, and everyone watching at home.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-and-all-of-you-who-came-to-this-room",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, and all of you who came to this room tonight.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.greeting.sotu-thevicepresident-members-of-congress-and-the-people-of-nation",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "{the-vice-president}, members of Congress, and the people of {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "greeting",
+          "tie": "record",
+          "requiresFacts": ["the-vice-president", "nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-across-nation-who-are-watching-this-at",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people across {nation} who are watching this at home, thank you for the time.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-members-of-congress-who-disagree-with-me-id",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the members of Congress who disagree with me, I'd like to hear from you before I hear from anyone else in {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-families-in-nation-who-are-paying-more-for",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the families in {nation} who are paying more for the basics than they did, you are who this is for.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-prices-ahead"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-in-nation-who-lost-a-job-this",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people in {nation} who lost a job this year, I haven't forgotten you.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-jobs-lost"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-in-nation-who-found-work-this-year",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people in {nation} who found work this year, I hope it turns into something steady.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-jobs-gained"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.address-to.sotu-to-the-people-still-rebuilding-this-year-hasn-t-finished-its-part",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the people still rebuilding this year, {nation} hasn't finished its part yet.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "address-to",
+          "tie": "record",
+          "requiresFacts": ["nation", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["parallel-run-of-to-those-addresses"]
+    },
+    {
+      "key": "outline-call.report.sotu-hiring-has-gone-on-for-runspan-and-the-people-who",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Hiring has gone on for {run-span}, and the people who got hired are why {nation} is steadier.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "nation",
+            "run-good",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-for-runspan-jobs-have-been-leaving-and-families-across-nation",
+      "move": "report",
+      "kind": "spoken",
+      "text": "For {run-span} jobs have been leaving, and families across {nation} have felt every one of them.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-hard", "run-jobs-lost", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-everything-costs-more-than-it-did-and-for-runspan-nation",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Everything costs more than it did, and for {run-span} {nation} has been trying to catch up.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "nation",
+            "run-hard",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-nation-spent-the-year-answering-thedisaster-and-the-answer-isnt",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} spent the year answering {the-disaster}, and the answer isn't finished.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "elements": ["sotu-opens-on-a-shared-trouble"]
+    },
+    {
+      "key": "outline-call.report.sotu-these-have-been-hard-years-for-a-lot-of-people",
+      "move": "report",
+      "kind": "spoken",
+      "text": "These have been hard years for a lot of people in {nation}, and I won't tell them otherwise.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-hard"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-it-has-been-a-good-run-for-nation-and-a",
+      "move": "report",
+      "kind": "spoken",
+      "text": "It has been a good run for {nation}, and a good run has to be spent on something.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-good"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.sotu-nation-has-gathered-in-this-room-for-a-long-time",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} has gathered in this room for a long time, and tonight is no different.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
     }
   ]
 }

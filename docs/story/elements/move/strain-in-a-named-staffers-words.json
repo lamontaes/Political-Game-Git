@@ -18,12 +18,16 @@
     {
       "name": "no strain",
       "pulledBy": "a staff keeping up",
-      "writes": "the story says inspections are on time"
+      "writes": "the story says inspections are on time",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "strain with no names",
       "pulledBy": "staff who will not be quoted",
-      "writes": "the story says staff said the load was heavy"
+      "writes": "the story says staff said the load was heavy",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

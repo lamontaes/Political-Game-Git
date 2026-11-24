@@ -3467,6 +3467,17 @@ export function subjectsBetween(
                 text: questionSaid(top.question) ?? top.about,
                 sourceRecordIds: [top.recordId],
               },
+              // Each side's own reason in plain words, so a housemate's
+              // stand need not say the record's name (the CTO, 18:49Z,
+              // 7141204837 on #10377; questionPlainWords).
+              ...Object.fromEntries(
+                Object.entries(questionPlainWords(top.question))
+                  .filter(([key]) => key.startsWith("reason-"))
+                  .map(([key, text]) => [
+                    key,
+                    { text, sourceRecordIds: [top.recordId] },
+                  ]),
+              ),
               [`side-${top.side}`]: {
                 text: "yes",
                 sourceRecordIds: [top.recordId],

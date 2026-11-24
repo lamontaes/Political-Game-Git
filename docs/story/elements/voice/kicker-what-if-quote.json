@@ -18,12 +18,16 @@
     {
       "name": "kicker from the appointee",
       "pulledBy": "a new member with a plan",
-      "writes": "the last line is their promise"
+      "writes": "the last line is their promise",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no kicker",
       "pulledBy": "a plain story",
-      "writes": "the last line is the next meeting"
+      "writes": "the last line is the next meeting",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

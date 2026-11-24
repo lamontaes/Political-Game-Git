@@ -19,12 +19,16 @@
     {
       "name": "a single event",
       "pulledBy": "a quiet month",
-      "writes": "one dated line"
+      "writes": "one dated line",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a season digest",
       "pulledBy": "a busy spring",
-      "writes": "the digest groups by season"
+      "writes": "the digest groups by season",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "outright winner",
       "pulledBy": "a candidate over the line",
-      "writes": "no runoff mentioned"
+      "writes": "no runoff mentioned",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a three-way runoff",
       "pulledBy": "a split field",
-      "writes": "the story names all three"
+      "writes": "the story names all three",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -18,12 +18,16 @@
     {
       "name": "decision made by a body",
       "pulledBy": "a board decision",
-      "writes": "the paragraph names the board and its members"
+      "writes": "the paragraph names the board and its members",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "decision-maker unknown",
       "pulledBy": "a case not yet assigned",
-      "writes": "the story says it is not known who decides"
+      "writes": "the story says it is not known who decides",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

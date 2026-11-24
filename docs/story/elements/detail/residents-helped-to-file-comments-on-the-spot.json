@@ -18,12 +18,16 @@
     {
       "name": "no help offered",
       "pulledBy": "a protest with only speeches",
-      "writes": "the story has speakers and no filing"
+      "writes": "the story has speakers and no filing",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a filing denied",
       "pulledBy": "a late comment",
-      "writes": "the story says it came too late"
+      "writes": "the story says it came too late",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -99,7 +99,9 @@
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
     "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk).",
-    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json).",
+    "reason-for": "the side for the question's own reason, in plain words (question-names.json reasons.for, via questionPlainWords)",
+    "reason-against": "the side against the question's own reason, in plain words (question-names.json reasons.against, via questionPlainWords)"
   },
   "maxWords": 10,
   "lineWords": {
@@ -15316,502 +15318,6 @@
           "excludesFacts": ["wage"]
         }
       ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.you-bring-up-about-and-i-m-dead-set-against",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "You bring up {about} and I'm dead set against.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["they-opened"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.since-you-ask-i-m-against-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Since you ask, I'm against {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["they-opened"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-ve-said-it-before-i-don-t-want-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I've said it before: I don't want {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["held-said"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-ve-opposed-about-for-a-long-time",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I've opposed {about} for a long time.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["held-said"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.it-comes-down-to-about-i-don-t-want-it",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "It comes down to {about}. I don't want it.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.nothing-bothers-me-like-about-i-m-against-it",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Nothing bothers me like {about}. I'm against it.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "If {about} is on the table, I'm out.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "{about} is the one that gets me riled.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.here-s-my-side-i-m-against-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Here's my side: I'm against {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-won-t-stand-for-about-plain-and-simple",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I won't stand for {about}, plain and simple.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.on-about-i-m-firmly-opposed",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "On {about}, I'm firmly opposed.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.put-me-down-against-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Put me down against {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-against"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.you-bring-up-about-and-i-m-all-in",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "You bring up {about} and I'm all in.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["they-opened"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Since you ask, I'm for {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["they-opened"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I've said it before: I want {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["held-said"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-ve-wanted-about-for-a-long-time",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I've wanted {about} for a long time.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["held-said"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.it-comes-down-to-about-i-want-it",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "It comes down to {about}. I want it.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.nothing-moves-me-like-about-i-m-for-it",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Nothing moves me like {about}. I'm for it.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-in",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "If {about} is on the table, I'm in.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.about-is-the-one-i-care-most-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "{about} is the one I care most about.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"],
-          "excludesFacts": ["about-named"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.here-s-my-side-i-m-for-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Here's my side: I'm for {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.i-stand-with-about-plain-and-simple",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "I stand with {about}, plain and simple.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.on-about-i-m-firmly-in-favor",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "On {about}, I'm firmly in favor.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-say-core.put-me-down-for-about",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Put me down for {about}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
@@ -34507,6 +34013,358 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I keep thinking {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-i-m-relieved-i-m-not-the-only-one-who-thinks-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'm relieved I'm not the only one who thinks {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I keep thinking {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-i-m-relieved-i-m-not-the-only-one-who-thinks-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'm relieved I'm not the only one who thinks {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-may-not-see-it-but-reason-for",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You may not see it, but {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-d-still-say-reason-for-and-i-m-not-changing-my-mind",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'd still say {reason-for}, and I'm not changing my mind.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-may-not-see-it-but-reason-against",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You may not see it, but {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-d-still-say-reason-against-and-i-m-not-changing-my-mind",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'd still say {reason-against}, and I'm not changing my mind.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-not", "reason-against"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-since-you-ask-i-think-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "warm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-you-re-asking-and-i-d-say-the-same-as-always-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "You're asking, and I'd say the same as always: {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "warm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always thought {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "calm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-for-honestly-i-think-reason-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Honestly, I think {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-for", "side-for"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "curious",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-since-you-ask-i-think-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Since you ask, I think {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": ["they-opened"]
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "guarded",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-you-re-asking-and-i-d-say-the-same-as-always-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "You're asking, and I'd say the same as always: {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "guarded",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always thought {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "calm",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-say-core.side-against-honestly-i-think-reason-against",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Honestly, I think {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["reason-against", "side-against"],
+          "excludesFacts": []
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "bearing": "blunt",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     }
   ]
 }

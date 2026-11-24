@@ -18,12 +18,16 @@
     {
       "name": "no deal",
       "pulledBy": "a law that passed alone",
-      "writes": "the item says nothing of a trade"
+      "writes": "the item says nothing of a trade",
+      "requiresFacts": ["lone-vote"],
+      "excludesFacts": []
     },
     {
       "name": "a deal that fell apart",
       "pulledBy": "a bargain broken before the vote",
-      "writes": "the item says what was dropped"
+      "writes": "the item says what was dropped",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
