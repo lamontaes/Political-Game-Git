@@ -7,6 +7,21 @@
   },
   "waiting": {},
   "sample": {
+    "scene-talk-office.follow-accept.all-right-i-ll-have-to-price-a-shorter-stretch-if-the-work-underneath-still-has-to-be-done": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.all-right-if-somebody-asks-why-their-block-has-to-wait-i-ll-make-sure-they-can-reach-you": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.all-right-the-part-you-put-back-stays-in-our-plan-i-ll-take-the-balance-off-today-s-council-request": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.then-i-ll-work-with-what-s-left-for-line": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.understood-i-ll-work-from-the-revised-budget-for-line": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-in-place": [
       "alright-in-dialogue"
     ],

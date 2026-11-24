@@ -18,6 +18,7 @@ import {
   governmentOfJurisdiction,
   type BudgetRow,
 } from "../core2/modules/budgets";
+import { lineForPost } from "../core2/budgets-treasury";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
@@ -3226,6 +3227,22 @@ function cutFacts(
         )
       : undefined;
   const current = votedBudget?.spendingMinor[said.line ?? ""];
+  // A later amendment may refill an account the original vote emptied.
+  if (recorded && after === P.zero && current === P.zero && votedBudget) {
+    const sourceRecordIds = [causeId, votedBudget.id];
+    facts["empty-appropriation"] = {
+      text: roundedDollars(current),
+      sourceRecordIds,
+    };
+    facts["budget-year"] = {
+      text: String(votedBudget.fiscalYear),
+      sourceRecordIds,
+    };
+    facts["half-restoration"] = {
+      text: roundedDollars(cut / P.two),
+      sourceRecordIds,
+    };
+  }
   const recovered = current !== undefined && current > after;
   if (recovered && votedBudget) {
     if (current >= before) return false;
@@ -3267,16 +3284,38 @@ function cutFacts(
   const lineName = (
     lineNames.lines as Record<string, { readonly name: string } | undefined>
   )[said.line ?? ""]?.name;
-  if (lineName)
+  if (lineName) {
     facts.line = {
       text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
       sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
     };
+    facts[`budget-line-${said.line}`] = facts.line;
+  }
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
-    (row) => row.holderId === headId,
+    (row) =>
+      row.holderId === headId &&
+      lineForPost("city", `town:${row.post}`) === said.line,
   );
   if (!post) return true;
   facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
+  if (
+    votedBudget &&
+    post.since > votedBudget.adoptedOn &&
+    post.since <= core.date
+  ) {
+    const appointment = core.durableLog.get(
+      `appointed:${post.id}:${post.since}`,
+    );
+    if (
+      appointment?.kind === "official-appointed" &&
+      appointment.facts?.appointee === headId
+    ) {
+      facts["inherited-budget-year"] = {
+        text: String(votedBudget.fiscalYear),
+        sourceRecordIds: [appointment.id, votedBudget.id],
+      };
+    }
+  }
   const date = core.date;
   const years =
     Number(date.slice(P.zero, P.isoYearCharacters)) -
