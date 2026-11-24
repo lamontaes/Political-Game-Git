@@ -1257,8 +1257,20 @@ input[type="range"]::-moz-range-thumb {
   content: none;
 }
 /* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
-.action[aria-pressed="true"] {
-  border-color: var(--gold);
+.action[aria-pressed="true"],
+.action[aria-pressed="true"]:hover {
+  color: var(--iron);
+  text-shadow: none;
+  border-color: transparent;
+  background: linear-gradient(
+    var(--brass-hi),
+    var(--gold) 55%,
+    var(--brass-lo)
+  );
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 248, 225, 0.6),
+    0 0 14px rgba(214, 189, 132, 0.35);
 }
 /* The creator's fields always show their box, empty or filled. */
 #cr-character .field input,
