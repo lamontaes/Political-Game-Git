@@ -7291,6 +7291,402 @@
         "key": "cut-heard"
       },
       "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.could-you-put-cut-back-in-the-road-budget-a-paving-estimate-only-tells-us-what-the-surface-costs",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Could you put {cut} back in the road budget? A paving estimate only tells us what the surface costs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.if-i-separate-the-paving-from-the-work-underneath-it-will-you-help-me-make-the-case-for-restoring-cut",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "If I separate the paving from the work underneath it, will you help me make the case for restoring {cut}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "curious",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.with-cut-out-of-the-road-budget-i-d-like-to-show-council-what-that-money-could-pay-for-below-street-level-will-you-come-with-me",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "With {cut} out of the road budget, I'd like to show council what that money could pay for below street level. Will you come with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "calm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-d-be-careful-about-promising-the-same-road-work-for-cut-less-can-i-count-on-you-to-ask-for-the-money-back",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'd be careful about promising the same road work for {cut} less. Can I count on you to ask for the money back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.the-road-line-lost-cut-give-me-a-chance-to-price-the-work-under-the-pavement-before-you-call-that-a-saving",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The road line lost {cut}. Give me a chance to price the work under the pavement before you call that a saving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.will-you-go-back-to-council-with-me-about-the-cut-for-roads-i-can-explain-why-the-top-layer-is-only-part-of-the-job",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Will you go back to council with me about the {cut} for roads? I can explain why the top layer is only part of the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "budget-line-highways"],
+          "setsFacts": ["cut-amount-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-appreciate-the-money-that-came-back-could-we-take-the-remaining-still-needed-to-council-with-a-breakdown-of-the-road-work",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I appreciate the money that came back. Could we take the remaining {still-needed} to council with a breakdown of the road work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "steady",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.the-road-budget-is-still-still-needed-short-of-where-it-was-i-d-like-to-show-council-what-work-that-difference-would-buy",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The road budget is still {still-needed} short of where it was. I'd like to show council what work that difference would buy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "firm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.some-money-is-back-in-the-road-budget-would-you-help-me-ask-for-the-last-still-needed-if-i-price-the-surface-and-the-work-beneath-it-separately",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Some money is back in the road budget. Would you help me ask for the last {still-needed} if I price the surface and the work beneath it separately?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "calm",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.we-can-show-the-members-exactly-how-much-came-back-before-they-leave-the-road-line-still-needed-short-let-me-walk-them-through-the-work",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "We can show the members exactly how much came back. Before they leave the road line {still-needed} short, let me walk them through the work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.would-it-help-if-i-put-a-road-cross-section-beside-the-request-for-still-needed-you-could-see-which-costs-run-below-the-pavement",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Would it help if I put a road cross section beside the request for {still-needed}? You could see which costs run below the pavement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "curious",
+      "issues": ["budget:highways"]
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-d-like-your-help-with-the-still-needed-still-missing-from-roads-let-me-take-the-members-through-what-they-d-be-paying-for",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'd like your help with the {still-needed} still missing from roads. Let me take the members through what they'd be paying for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": [
+            "still-needed",
+            "restored-amount",
+            "budget-line-highways"
+          ],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": [
+        "protection-under-realigned-road",
+        "answer-the-unfunded-requests"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "warm",
+      "issues": ["budget:highways"]
     }
   ]
 }

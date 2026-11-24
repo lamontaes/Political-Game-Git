@@ -3267,11 +3267,13 @@ function cutFacts(
   const lineName = (
     lineNames.lines as Record<string, { readonly name: string } | undefined>
   )[said.line ?? ""]?.name;
-  if (lineName)
+  if (lineName) {
     facts.line = {
       text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
       sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
     };
+    facts[`budget-line-${said.line}`] = facts.line;
+  }
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );

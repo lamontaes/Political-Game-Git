@@ -52,12 +52,20 @@ it("the fire chief explains the original vote after a second amendment changes t
   });
   expect(result?.kind).toBe("composed");
   if (result?.kind === "composed") {
+    expect(result.scene.facts.map((fact) => fact.key)).not.toContain(
+      "budget-line-highways",
+    );
     expect(result.scene.talk.state.text).not.toContain("$180,000");
     expect(
       result.scene.talk.tree.replies.map((reply) => reply.line.move),
     ).toEqual(expect.arrayContaining(["ask", "agree", "refuse", "bargain"]));
     expect(result.scene.facts).toEqual(
       expect.arrayContaining([
+        {
+          key: "budget-line-fire",
+          text: "fire protection",
+          recordIds: [causeId],
+        },
         { key: "original-percent", text: "5", recordIds: [causeId] },
         { key: "original-cut", text: "$180,000", recordIds: [causeId] },
         {
