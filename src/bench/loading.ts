@@ -107,9 +107,11 @@ export function loadingTelling(
           Number(event.facts.winnerVotes).toLocaleString("en-US"),
           event.id,
         );
-      const before = facts["college-year"] ?? facts["finished-year"];
-      if (before?.text === yearOf(event.date))
-        put("lost-same-year", "yes", event.id);
+      // The race came in the year they finished high school or started college.
+      if (facts["finished-year"]?.text === yearOf(event.date))
+        put("lost-same-year-as-school", "yes", event.id);
+      if (facts["college-year"]?.text === yearOf(event.date))
+        put("lost-same-year-as-college", "yes", event.id);
     }
   }
   // The first school's name, from the school engine's own records, where it
