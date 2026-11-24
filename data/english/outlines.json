@@ -638,7 +638,9 @@
     "news-roll-call": {
       "surface": "dialogue",
       "budgets": {
-        "*": 2
+        "*": 2,
+        "sponsor": 1,
+        "lone-voter": 1
       },
       "sections": [
         {
@@ -649,7 +651,7 @@
         {
           "name": "body",
           "joins": true,
-          "shapes": ["margin"]
+          "shapes": ["margin-then-who-then-effect", "margin"]
         }
       ]
     },
@@ -1278,6 +1280,9 @@
     },
     "disaster-placed": {
       "moves": ["disaster", "disaster-meaning?", "disaster-help?"]
+    },
+    "margin-then-who-then-effect": {
+      "moves": ["margin", "who?", "why?", "effect?"]
     }
   },
   "weights": {

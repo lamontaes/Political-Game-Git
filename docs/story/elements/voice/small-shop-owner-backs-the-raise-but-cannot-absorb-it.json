@@ -1,0 +1,42 @@
+{
+  "id": "small-shop-owner-backs-the-raise-but-cannot-absorb-it",
+  "kind": "voice",
+  "summary": "A small-shop owner says a living wage is right but the raise is hard to carry.",
+  "realLife": "A restaurant owner in a city with wage tiers by business size said he agreed with a living wage in principle, then listed the raise, health coverage for staff over twenty hours and his own profit as pressures. He expected to hold staffing down, keep kitchen raises small because tipped staff already earned well, and perhaps raise menu prices.",
+  "sources": [
+    "KSTP (St. Paul, Minnesota), 'St. Paul's new minimum wage for small businesses is helping workers, posing challenges for owners', July 2025: https://kstp.com/kstp-news/top-news/st-pauls-new-minimum-wage-for-small-businesses-is-helping-workers-not-so-much-owners/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "law", "body", "percent"],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.5
+  },
+  "inGame": "a business owner's stated reasons, the minimum-wage law record and the owner's payroll and menu prices; needs: a business owner's spoken stance kept on the interview record",
+  "issues": ["law:minimum-wage"],
+  "turns": [
+    {
+      "name": "agrees in principle, then lists the costs",
+      "pulledBy": "an owner with thin margins and staff on the payroll",
+      "writes": "the story quotes support for the goal and the burden together",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "flat support with no complaint",
+      "pulledBy": "an owner whose pay was already above the new level",
+      "writes": "the story quotes approval and no cost",
+      "requiresFacts": [],
+      "excludesFacts": ["thin-margins"]
+    },
+    {
+      "name": "the complaint comes later",
+      "pulledBy": "an owner who adjusts first and talks only after the first full payroll",
+      "writes": "the story waits a month to quote the strain",
+      "requiresFacts": ["delayed"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

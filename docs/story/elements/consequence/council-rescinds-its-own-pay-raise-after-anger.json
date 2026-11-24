@@ -1,0 +1,43 @@
+{
+  "id": "council-rescinds-its-own-pay-raise-after-anger",
+  "kind": "consequence",
+  "summary": "A council takes back a large raise for itself and sends staff to write a smaller one.",
+  "realLife": "After a council more than doubled the pay of its mayor and members, residents objected to the size and the speed. A majority told staff by straw poll to draft a smaller raise, close to what staff pay had grown since a base year. The new plan will get its own formal vote and public comment, so the first raise is rescinded but nothing is final.",
+  "sources": [
+    "TownLift (Park City, Utah), 'Park City Council rescinds doubled salaries, directs staff to draft a smaller raise', June 12, 2026: https://townlift.com/2026/06/park-city-council-rescinds-doubled-salaries-directs-staff-to-draft-a-smaller-raise/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "percent", "date"],
+  "gates": [],
+  "weights": {
+    "pay-vote": 0.7,
+    "roll-call": 0.4
+  },
+  "inGame": "the pay ordinance, the salary schedule, the public-comment record; needs: a rescission step and a straw poll record",
+  "issues": ["government"],
+  "turns": [
+    {
+      "name": "a smaller raise is drafted",
+      "pulledBy": "a majority moved by public anger",
+      "writes": "the first raise is rescinded and a smaller ordinance is set for a formal vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the council keeps the first raise",
+      "pulledBy": "members who think pay had fallen too low",
+      "writes": "the raise stays and the story says residents will take it to the next election",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the smaller raise passes after comment",
+      "pulledBy": "public comment at the budget meeting",
+      "writes": "the lower pay is adopted and the salary schedule changes",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

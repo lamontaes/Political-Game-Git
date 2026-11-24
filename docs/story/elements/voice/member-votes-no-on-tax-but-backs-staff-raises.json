@@ -1,0 +1,43 @@
+{
+  "id": "member-votes-no-on-tax-but-backs-staff-raises",
+  "kind": "voice",
+  "summary": "A member says a no vote on a tax rise is not a vote against the pay raises in the same budget.",
+  "realLife": "In a mid-size city's budget vote, the mayor and one member opposed the property tax increase. The mayor said her no was not aimed at city employees. The other member said the raises were good but the tax would fall on residents, renters included. A third member who disliked the tax voted yes anyway, citing police resignations and pay below nearby departments.",
+  "sources": [
+    "WFDD (Greensboro, North Carolina), 'Greensboro City Council passes $751M budget with property tax increase', June 21, 2023: https://wfdd.org/story/greensboro-city-council-passes-751m-budget-property-tax-increase-0",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "percent", "count"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.6,
+    "budget-vote": 0.5
+  },
+  "inGame": "the vote record with each member's side, the budget's tax-rate change, the public-safety departure count; needs: a stated reason kept per member beside the vote",
+  "issues": ["taxes-finance"],
+  "turns": [
+    {
+      "name": "no on the tax, yes on the raises",
+      "pulledBy": "a member who opposes the tax but wants the pay raised",
+      "writes": "the story quotes the split reason and the member's vote is marked as a no on the levy",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "yes despite disliking the tax",
+      "pulledBy": "a member whose police department lost officers",
+      "writes": "the story quotes the member naming the departures as the reason for a yes",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a no that names renters",
+      "pulledBy": "a member whose ward has many renters",
+      "writes": "the story quotes the burden on renters as the reason for the no",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

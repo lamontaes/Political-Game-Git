@@ -1,0 +1,43 @@
+{
+  "id": "lawmaker-says-the-budget-matters-more-than-the-speech",
+  "kind": "voice",
+  "summary": "A regional lawmaker of the other party says the coming budget will tell more than the speech did.",
+  "realLife": "In a regional roundup after a governor's yearly address, several opposition-party state lawmakers said they would judge the governor by the budget due a week later, one calling the speech hopeful talk and another saying it lacked specifics on prices, safety and schools.",
+  "sources": [
+    "Mid-Hudson News (Hudson Valley, New York), 'Lawmakers react to Hochul's State of the State', January 10, 2024: https://midhudsonnews.com/2024/01/10/lawmakers-react-to-hochuls-state-of-the-state/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote", "about", "place"],
+  "gates": [],
+  "weights": {
+    "address": 0.5,
+    "budget": 0.3
+  },
+  "inGame": "an official's stated reasons from the interview record and the executive budget record; needs: a stored reaction to an address",
+  "issues": ["budget:administration"],
+  "turns": [
+    {
+      "name": "praise first, details later",
+      "pulledBy": "the lawmaker agrees with one goal in the speech",
+      "writes": "the story pairs a kind word with a request for the budget's numbers",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "flat dismissal",
+      "pulledBy": "the lawmaker's party is far from the governor's and the district has lost residents",
+      "writes": "the story quotes a short hard line and no offer to work together",
+      "requiresFacts": [],
+      "excludesFacts": ["agrees-on-a-goal"]
+    },
+    {
+      "name": "wait and say nothing",
+      "pulledBy": "the lawmaker declines to react before the budget arrives",
+      "writes": "the story says the lawmaker will comment on the budget instead",
+      "requiresFacts": ["budget-not-yet-released"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

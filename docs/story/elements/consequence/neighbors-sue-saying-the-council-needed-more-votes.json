@@ -1,0 +1,43 @@
+{
+  "id": "neighbors-sue-saying-the-council-needed-more-votes",
+  "kind": "consequence",
+  "summary": "Neighbors sue to void a rezoning, arguing the narrow vote fell short of the votes the rules required.",
+  "realLife": "After a tie-broken vote to allow concerts at a stadium, neighbors and a nonprofit sued the city in county court. They said the vote count fell short of what a protest petition and state law demand, that the wrong kind of zoning change was used, and that private talks cut out the members who voted no. Members who voted yes said others chose not to join the talks. The university planned demolition soon, so the suit could decide the project.",
+  "sources": [
+    "The Daily Northwestern (Evanston, Illinois), 'Most Livable City Association files complaint, asks Cook County to invalidate Ryan Field rezoning', November 30, 2023: https://dailynorthwestern.com/2023/11/30/lateststories/most-livable-city-association-files-complaint-asks-cook-county-to-invalidate-ryan-field-rezoning",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "percent"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.6,
+    "rezoning-vote": 0.5
+  },
+  "inGame": "the roll call, the protest-petition share, the zoning ordinance; needs: a supermajority rule keyed to the share of objecting neighbors, and a court filing",
+  "issues": ["business"],
+  "turns": [
+    {
+      "name": "the count is challenged",
+      "pulledBy": "a protest petition from most nearby owners",
+      "writes": "a lawsuit claims a higher vote threshold applied and asks the court to void the rezoning",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote is ruled enough",
+      "pulledBy": "a court that reads the rule as a simple majority",
+      "writes": "the rezoning stands and demolition proceeds",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote is voided and held again",
+      "pulledBy": "a court that finds the wrong process was used",
+      "writes": "the rezoning is void and a new vote with the higher threshold is set",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
