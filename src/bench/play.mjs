@@ -2152,7 +2152,7 @@ async function campaignParts() {
       if (result.scene || moment) closeSheet();
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
-        drawHere(result.scene);
+        drawHere(result.scene, (p) => talkTo(p.personId));
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
