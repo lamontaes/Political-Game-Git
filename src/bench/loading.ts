@@ -102,6 +102,10 @@ export function loadingTelling(
         put("lost-same-year", "yes", event.id);
     }
   }
+  // The family moved before the child started school: the school's own
+  // start came at the new home, so the move is part of why it is where it is.
+  if (days.moved && days.school && days.moved.date < days.school.date)
+    put("moved-before-school", "yes", days.moved.id);
   // Who held the White House when each part of the life began, from the
   // history the world ran from 1925 (the century's presidency rows). The
   // century holds a party and no name, so the story says the party. A fact
