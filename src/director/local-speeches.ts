@@ -14,6 +14,7 @@ import { coreAPI } from "../core2/state";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { townSeats } from "../core2/modules/offices";
+import type { EntityId } from "../core2/kernel/brands";
 import { billOf } from "../core2/modules/legislature";
 import {
   ELECTIONS_MODULE_ID,
@@ -189,13 +190,32 @@ export function campaignSpeechTelling(
       questions: platform,
     },
   };
-  return tellingOfPlan(
+  const telling = tellingOfPlan(
     core,
     "campaign-speech",
     speaker,
     planSpeech(core, "campaign", speaker),
     `campaign-speech:${core.date}:${candidateId}`,
   );
+  // Whether the candidate holds the seat they run for, from the seat's
+  // serving term: an incumbent runs on the record, a challenger against it.
+  const held = townSeats(api).find(
+    (row) => row.office.id === officeId && row.holder?.personId === candidateId,
+  );
+  const side = held ? "incumbent" : "challenger";
+  return {
+    ...telling,
+    input: {
+      ...telling.input,
+      facts: {
+        ...telling.input.facts,
+        [side]: {
+          text: "yes",
+          sourceRecordIds: [held?.holder?.id ?? officeId] as EntityId[],
+        },
+      },
+    },
+  };
 }
 
 /**
