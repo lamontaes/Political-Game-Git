@@ -1,0 +1,36 @@
+{
+  "id": "a-congregation-is-where-most-volunteers-serve",
+  "kind": "consequence",
+  "summary": "Joining a congregation's projects gives a newcomer a set of regular faces, because religious groups are where the largest share of volunteers serve.",
+  "realLife": "The Bureau of Labor Statistics found about a third of volunteers served mainly with a religious organization, ahead of educational or youth groups and community service groups.",
+  "sources": [
+    "U.S. Bureau of Labor Statistics, Volunteering in the United States news release: https://www.bls.gov/news.release/volun.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "place"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: congregations as organizations; ties to neighbors who attend can stand in until then.",
+  "turns": [
+    {
+      "turn": "newcomer-becomes-a-regular",
+      "summary": "The newcomer is soon known by name and asked to take on more.",
+      "pulledBy": ["steady attendance", "trait: friendly"],
+      "writesBack": "neighbor ties form; journal note"
+    },
+    {
+      "turn": "newcomer-feels-an-outsider",
+      "summary": "The newcomer is polite but finds the circle closed.",
+      "pulledBy": ["trait: shy", "long-established members"],
+      "writesBack": "no new ties; mood: lonely"
+    },
+    {
+      "turn": "newcomer-drifts-to-another-group",
+      "summary": "A school project draws the newcomer away.",
+      "pulledBy": ["child in school", "friend there"],
+      "writesBack": "school-group ties instead"
+    }
+  ]
+}

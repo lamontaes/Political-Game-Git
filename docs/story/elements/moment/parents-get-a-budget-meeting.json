@@ -27,5 +27,6 @@
       "pulledBy": "Working parents have limited time to attend.",
       "writesBack": "The executive's meeting file includes the written requests."
     }
-  ]
+  ],
+  "issues": ["budget:schools"]
 }

@@ -157,6 +157,12 @@ export interface Director {
    */
   stageDoors(core: CoreState, outingPlayerId?: PersonId): void;
   /**
+   * The player whose story goes on while dev mode runs the world's clock
+   * without them (undefined when the run ends): their scenes from
+   * circumstance stage as on the player's own clock.
+   */
+  runningFor(personId: PersonId | undefined): void;
+  /**
    * The player's interrupt setting: the scene kinds allowed to stop their
    * day (situation-type keys), or null for every kind. Read by scheduling.
    */
@@ -1614,8 +1620,17 @@ export function createDirector(
    * for staging its porch scene and registering its stop (P41).
    */
   let outingPlayer: PersonId | undefined;
+  /**
+   * The player dev mode runs the world's clock for (`runningFor`): dev mode
+   * lets go of the player's clock while it runs days, so without this the
+   * player's scenes from circumstance (a new coworker, a friend's call) never
+   * staged in a dev run.
+   */
+  let runPlayer: PersonId | undefined;
   const controlled = (core: Readonly<CoreState>, personId: PersonId) =>
-    personId === outingPlayer || isExplicitlyControlledPersonV1(core, personId);
+    personId === outingPlayer ||
+    personId === runPlayer ||
+    isExplicitlyControlledPersonV1(core, personId);
 
   /**
    * Scenes from circumstance (circumstance.ts): for each controlled person,
@@ -1920,14 +1935,13 @@ export function createDirector(
         frontier !== undefined &&
         opened.date === frontier.date &&
         opened.minuteOfDay === frontier.minuteOfDay;
-      const lastMinute =
-        coreParam(core, "minutesPerHour") * coreParam(core, "hoursPerDay") -
-        one;
-      const at = !atPause
-        ? opened
-        : opened.minuteOfDay < lastMinute
-          ? { date: opened.date, minuteOfDay: opened.minuteOfDay + one }
-          : { date: addDays(makeIsoDate(opened.date), one), minuteOfDay: zero };
+      const at = atPause
+        ? openedAt(
+            core,
+            { date: opened.date, minuteOfDay: opened.minuteOfDay + one },
+            entry.bindings[zero]?.setting.kind,
+          )
+        : opened;
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,
@@ -2368,6 +2382,9 @@ export function createDirector(
       } finally {
         outingPlayer = undefined;
       }
+    },
+    runningFor(personId) {
+      runPlayer = personId;
     },
     setSceneFilter(personId, allowedKinds, date) {
       if (!allowedKinds) {

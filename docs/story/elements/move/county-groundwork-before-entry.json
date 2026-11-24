@@ -25,5 +25,6 @@
       "pulledBy": "The candidate has authorized an initial look only.",
       "writesBack": "The exploratory file contains a calendar with no commitments."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

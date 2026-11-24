@@ -1,0 +1,30 @@
+{
+  "id": "the-owner-wants-to-name-its-reservoir",
+  "kind": "consequence",
+  "summary": "An owner’s objection ends one reservoir proposal while leaving its own idea unfiled.",
+  "realLife": "The Lake Hornwoggin applicant withdrew after the Ohio reservoir’s corporate owner objected and indicated it might submit another name.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20865_June13%202024_Minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{owner}", "{reservoir}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the owner’s objection, the applicant’s withdrawal and any separate replacement application.",
+  "turns": [
+    {
+      "turn": "the-clerk-closes-the-withdrawn-case",
+      "what": "The clerk closes the withdrawn case.",
+      "pulledBy": "The owner only expresses interest.",
+      "writesBack": "The docket contains no replacement proposal."
+    },
+    {
+      "turn": "staff-opens-a-separate-case",
+      "what": "Staff opens a separate case.",
+      "pulledBy": "The owner submits a complete alternative.",
+      "writesBack": "The new name receives its own review."
+    }
+  ]
+}

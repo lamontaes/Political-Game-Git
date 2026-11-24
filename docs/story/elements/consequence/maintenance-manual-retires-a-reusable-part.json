@@ -27,5 +27,6 @@
       "pulledBy": "The revised manual applies and no replacement is in stock.",
       "writesBack": "The maintenance log records the equipment idle."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

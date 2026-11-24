@@ -1,0 +1,31 @@
+{
+  "id": "the-clerk-gave-the-wrong-date-and-no-one-can-extend-it",
+  "kind": "consequence",
+  "summary": "A clerk's wrong filing date leaves several candidates off a ballot, and the officials say state law allows no extension.",
+  "realLife": "In one city a clerk's mistaken date meant mayoral candidates missed the cutoff, and the city looked to a court to let them on; in another city a candidate said his confirmation listed the earlier deadline and he was told his signatures fell short.",
+  "sources": [
+    "Michigan Public, Flint voters may have to write in a mayor, May 4, 2015: https://www.michiganpublic.org/politics-government/2015-05-04/flint-voters-might-have-to-write-in-name-of-the-next-mayor-in-november",
+    "KALW, mayoral hopeful left off ballot blames clerk's office, Aug. 24, 2022: https://www.kalw.org/kalw-news/2022-08-24/oakland-mayoral-hopeful-left-off-ballot-blames-city-clerks-office"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "inGame": "needs: a clerk's stated date that differs from the legal date",
+  "weights": {
+    "filing": 0.9
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "A court puts the candidates on the ballot",
+      "pulledBy": "a city that sues in good faith",
+      "writesBack": "a late filing accepted by order"
+    },
+    {
+      "turn": "The race is a write-in race",
+      "pulledBy": "no court order",
+      "writesBack": "a ballot with no names and a write-in campaign"
+    }
+  ]
+}

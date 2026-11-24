@@ -1,0 +1,30 @@
+{
+  "id": "election-judge-says-i-can-only-be-in-one-place",
+  "kind": "voice",
+  "summary": "A first-year election judge says the hardest part is handling every problem at once.",
+  "realLife": "A first-time precinct judge told a reporter the day was hectic from the start, with a missing worker, provisional ballots he had never issued, and a voter at the wrong site.",
+  "sources": [
+    "Votebeat, a first-time judge of elections describes municipal election day, Nov. 9, 2023: https://votebeat.org/pennsylvania/2023/11/09/chester-county-election-poll-worker-jay-schneider"
+  ],
+  "fits": ["campaign", "journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "polling place staffing record; provisional ballots cast on election day",
+  "weights": {
+    "turnout": 0.5
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The judge keeps the line moving and calls the county",
+      "pulledBy": "a calm, organized official",
+      "writesBack": "a steady day and a note of thanks"
+    },
+    {
+      "turn": "The judge runs short and tempers rise",
+      "pulledBy": "a missing worker and a long line",
+      "writesBack": "a tense morning and a later complaint"
+    }
+  ]
+}

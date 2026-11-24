@@ -1,0 +1,32 @@
+{
+  "id": "county-champion-state-bill-author",
+  "kind": "move",
+  "summary": "The county official advocating for {place} joins the state legislator who can carry the bill to the governor.",
+  "realLife": "Los Angeles County Supervisor Janice Hahn championed the hospital campus proposal while Senator Bob Archuleta authored the state legislation.",
+  "sources": [
+    "https://sd30.senate.ca.gov/news/press-release/ca-legislature-approves-archuleta-bill-convert-unused-property-metropolitan"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "An official bill history names the author and a public record identifies the local advocate."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an official bill history names the author and a public record identifies the local advocate.",
+  "turns": [
+    {
+      "turn": "joint",
+      "pulledBy": "Both officials make a documented appeal.",
+      "what": "Explain the different roles each held.",
+      "writesBack": "Link the appeal to the pending bill."
+    },
+    {
+      "turn": "separate",
+      "pulledBy": "Only the local official speaks at the event.",
+      "what": "Attribute the statement to that official.",
+      "writesBack": "Keep authorship with the legislator."
+    }
+  ]
+}

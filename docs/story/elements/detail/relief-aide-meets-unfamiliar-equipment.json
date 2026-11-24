@@ -1,0 +1,32 @@
+{
+  "id": "relief-aide-meets-unfamiliar-equipment",
+  "kind": "detail",
+  "summary": "An on-call aide explains why a substitute needs training even when the client’s routine is familiar to the regular worker.",
+  "realLife": "Adams told senators that a relief assignment could put him in a home whose equipment he had never used, making training important to both people’s safety.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{aide}", "{client}", "{equipment}"],
+  "gates": [
+    "A substitute is assigned and the equipment or orientation is on record."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a substitute assignment, equipment and training records.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A trained backup takes the assignment.",
+      "pulledBy": "The coordinator finds someone familiar with the equipment.",
+      "writesBack": "The shift is covered."
+    },
+    {
+      "turn": "partial",
+      "what": "The substitute waits for orientation.",
+      "pulledBy": "A qualified person can explain the equipment before the relevant task.",
+      "writesBack": "The start time or task assignment changes."
+    }
+  ],
+  "issues": ["none"]
+}

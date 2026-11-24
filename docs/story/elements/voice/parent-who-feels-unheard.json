@@ -31,5 +31,6 @@
       "pulledBy": ["worn down"],
       "writesBack": "withdraws from school life"
     }
-  ]
+  ],
+  "issues": ["budget:schools"]
 }

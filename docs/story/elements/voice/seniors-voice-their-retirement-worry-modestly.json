@@ -1,0 +1,44 @@
+{
+  "id": "seniors-voice-their-retirement-worry-modestly",
+  "kind": "voice",
+  "summary": "Older people talk about Social Security as a worry about retirement, in a modest voice, and do not want to be a burden.",
+  "realLife": "At a roundtable ahead of an election, older residents spoke of their retirement worries in a modest voice. One had worked part-time while caring for a disabled son, held jobs without benefits and worried what she would get back from Social Security; another said she did not want to be a burden on her children. The seniors themselves were not quoted arguing about taxes; the campaigns carried that debate.",
+  "sources": [
+    "https://www.wowt.com/2026/10/20/iowa-seniors-voice-fears-over-social-securitys-future-ahead-midterms/ (local TV report on a seniors roundtable)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the benefit}"],
+  "gates": [
+    "the speaker is of retirement age or near it",
+    "the speaker has paid payroll tax or has a benefit on record",
+    "the speaker has little saved"
+  ],
+  "weights": [
+    "whether the speaker supports a child or adult relative",
+    "whether the benefit is the largest part of income",
+    "the speaker's work history"
+  ],
+  "inGame": "reads the speaker's work history, benefit amount and the Social Security laws in force; needs: a person's worry about their check as a stand with a reason",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the check rises and she relaxes",
+      "what": "She says the raise helps the grocery bill.",
+      "pulledBy": "the benefit goes up with a cost-of-living change",
+      "writesBack": "the worry marker is lowered"
+    },
+    {
+      "turn": "she talks tax instead of fear",
+      "what": "She says the rich should pay in too.",
+      "pulledBy": "a candidate says so at the door",
+      "writesBack": "the stand cites a source heard"
+    },
+    {
+      "turn": "she sends the child to ask",
+      "what": "She tells her son she does not want to lean on him.",
+      "pulledBy": "her savings are thin",
+      "writesBack": "the tie to the son shows a worry about being a burden"
+    }
+  ],
+  "issues": ["law:social-security-tax", "budget:federal:socialSecurity"]
+}

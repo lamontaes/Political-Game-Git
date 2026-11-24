@@ -1,0 +1,29 @@
+{
+  "id": "speakers-ask-the-council-for-a-review-board",
+  "kind": "move",
+  "summary": "Speakers at the microphone ask the council for a specific body to look at the problem.",
+  "realLife": "Akron speakers asked the council to create a community review board.",
+  "sources": [
+    "Akron Beacon Journal via Yahoo, speakers criticize Akron council over police actions: https://news.yahoo.com/speakers-criticize-akron-council-actions-120116287.html"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["issue", "office"],
+  "gates": [],
+  "weights": {
+    "rally-word": 0.8
+  },
+  "inGame": "cause group asks and the council's body records; needs: a review board as a created body",
+  "turns": [
+    {
+      "turn": "The council creates it",
+      "pull": "a majority",
+      "writes": "writes a created body and a Journal line"
+    },
+    {
+      "turn": "The council tables it",
+      "pull": "a split",
+      "writes": "writes a second rally"
+    }
+  ],
+  "usedBy": ["rally-word", "rally-opponent"]
+}

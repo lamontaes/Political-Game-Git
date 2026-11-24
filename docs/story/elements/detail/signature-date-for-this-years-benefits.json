@@ -1,0 +1,32 @@
+{
+  "id": "signature-date-for-this-years-benefits",
+  "kind": "detail",
+  "summary": "At the desk, {person} explains which year's benefits depend on signing by a particular date.",
+  "realLife": "New York ambulance bill sponsors asked for signature by September 30 because a later start would delay the benefit to providers by a year.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2024/michelle-hinchey/hinchey-kelles-ems-and-fire-coalition-urge-governor"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A documented implementation cutoff and its consequence for the benefit year."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a documented implementation cutoff and its consequence for the benefit year.",
+  "turns": [
+    {
+      "turn": "in-time",
+      "pulledBy": "The signature precedes the cutoff.",
+      "what": "Give providers the applicable benefit year.",
+      "writesBack": "Save the effective period with the notice."
+    },
+    {
+      "turn": "late",
+      "pulledBy": "The implementation cutoff passes first.",
+      "what": "Ask the administering office for the next applicable period.",
+      "writesBack": "Keep the missed start on the calendar."
+    }
+  ]
+}

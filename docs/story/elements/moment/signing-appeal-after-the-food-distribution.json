@@ -1,0 +1,32 @@
+{
+  "id": "signing-appeal-after-the-food-distribution",
+  "kind": "moment",
+  "summary": "The weekly food distribution in {place} ends with volunteers asking for a decision on the program's future.",
+  "realLife": "New York legislators helped at a Queens distribution event before urging the governor to make Nourish New York permanent.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/6.17.21_senator_borrello_joins_colleagues_to_urge_governor_to_sign_nourish_ny_f.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "An event record establishes the distribution, participants and subsequent public appeal."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an event record establishes the distribution, participants and subsequent public appeal.",
+  "turns": [
+    {
+      "turn": "participated",
+      "pulledBy": "The roster or account identifies a volunteer.",
+      "what": "Describe the work that person did before the appeal.",
+      "writesBack": "Keep the event and speaker connected."
+    },
+    {
+      "turn": "represented",
+      "pulledBy": "A representative attended only for the announcement.",
+      "what": "Attribute the request to the speaker.",
+      "writesBack": "Credit the distribution to its recorded volunteers."
+    }
+  ]
+}

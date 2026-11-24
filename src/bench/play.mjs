@@ -91,7 +91,6 @@ import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billFigures } from "./ui/bill-figures.mjs";
-import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -4703,8 +4702,9 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
-    // "Since last year ... up by ..." from the record's own change, and its history as a line
-    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    // "Since last year ... up by ..." from the record's own change, set beside last year's
+    // figure (Nation's budgetView: changeMinor, changePct); never computed here. No little
+    // chart (owner, Nov 5: data, never charts).
     const pctFormat = new Intl.NumberFormat("en-US", {
       style: "percent",
       maximumFractionDigits: 1,
@@ -4725,10 +4725,6 @@ const sheets = {
                   : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
               );
       return [typedRow(words.sinceLastYear, how)];
-    };
-    const history = (record, size) => {
-      const line = trendLine(record?.history, size);
-      return line ? [line] : [];
     };
     // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
@@ -4797,7 +4793,6 @@ const sheets = {
                     ),
                     ...lastYear(lastOf(prior?.spending, opened.line)),
                     ...sinceLast(opened),
-                    ...history(opened),
                     ...(opened.askedMinor !== undefined
                       ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                       : []),
@@ -4813,11 +4808,9 @@ const sheets = {
               typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
               ...lastYear(prior?.revenueMinor),
               ...sinceLast(latest.totals?.revenue, { short: true }),
-              ...history(latest.totals?.revenue, { height: 36 }),
               typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
               ...lastYear(prior?.spendingMinor),
               ...sinceLast(latest.totals?.spending, { short: true }),
-              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
@@ -6174,6 +6167,15 @@ const sheets = {
           })),
         ),
       );
+      // What is coming up sits under the chief, and only when something is scheduled (no filler
+      // line for an empty calendar; the CTO, Nov 24).
+      const comingItems = executive
+        .flatMap((o) => o.comingUp)
+        .sort((x, y) => x.date.localeCompare(y.date))
+        .slice(0, 4);
+      const coming = comingItems.length
+        ? [stripSection(3, labels.comingUp, comingList(comingItems))]
+        : [];
       return {
         main: chief
           ? [
@@ -6199,16 +6201,7 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              ...coming,
             ]
           : [],
         side: runs
@@ -6281,7 +6274,15 @@ const sheets = {
         : (offered[0] ?? "legislative");
       const redraw = async () => {
         const node = await screen();
-        if (openTab === "government") $("sheet-body").replaceChildren(node);
+        if (openTab === "government") {
+          $("sheet-body").replaceChildren(node);
+          // A government page with only its main column (a town with only a mayor) is as wide
+          // as what it holds; one with a side column takes the window.
+          $("sheet").classList.toggle(
+            "fits",
+            node.classList.contains("single"),
+          );
+        }
       };
       const levels = tabBar({
         attr: "level",
@@ -6951,7 +6952,9 @@ async function openSheet(tab) {
     "fits",
     !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
+      !$("sheet-body").querySelector(
+        ".screen-grid, .split-screen:not(.single.government-screen)",
+      ),
   );
   // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
   $("sheet").classList.toggle("hugs", tab === "bills");

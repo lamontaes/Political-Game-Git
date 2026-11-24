@@ -1,0 +1,29 @@
+{
+  "id": "chair-reaches-out-before-the-seat-opens",
+  "kind": "situation",
+  "summary": "A party chair starts calling prospects as soon as rumor says a seat will open.",
+  "realLife": "A Burlington Republican chair began reaching out when he heard a seat might open.",
+  "sources": [
+    "VTDigger, Burlington Republicans pounce on open City Council seat: https://vtdigger.org/2017/04/11/burlington-republicans-pounce-on-open-city-council-seat/"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["party", "office"],
+  "gates": [],
+  "weights": {
+    "party-recruit": 0.8
+  },
+  "inGame": "party-asked record; party membership; needs: a rumor of vacancy before the record",
+  "turns": [
+    {
+      "turn": "The chair waits for the filing notice",
+      "pull": "a cautious chair",
+      "writes": "writes a late ask"
+    },
+    {
+      "turn": "The chair asks someone who just declined",
+      "pull": "a short field",
+      "writes": "writes a repeat ask"
+    }
+  ],
+  "usedBy": ["party-recruit"]
+}
