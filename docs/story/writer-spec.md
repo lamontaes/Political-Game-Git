@@ -84,6 +84,9 @@ The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment
   The id is the file's name without `.json`, unique across kinds. A line with no real element behind it says so by having none, and that is a line to look at twice.
 - **Something real you find** goes into the bank first, in an `elements:` PR to main (docs only, 25 or more files, merged by the CTO), so every writer can use it the same hour. Search the bank for a match before adding one; add your evidence to a match instead of a twin.
 - **`usedBy`** stays as the element's author left it; nobody hand-edits it to list lines.
+- **Sources are the real thing** (the CTO, 7134833236): an element's `sources` name the real speech, paper, record or archive with its URL (presidency.ucsb.edu, a state archive, the paper's own page). Our own research notes may be one extra line, never the only one.
+- **Format before you push:** `npx prettier --write docs/story/elements`. An element PR that fails Prettier waits.
+- **The owner's words hold in elements too:** never "ward" in a summary or moment (the place's own word from its record, or "a council member").
 
 ## Checks before you post
 

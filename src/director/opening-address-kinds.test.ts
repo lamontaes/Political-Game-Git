@@ -1,5 +1,6 @@
 import { STORIES } from "./address-story";
 import { partsOf, type TellingInput } from "../english/outline-planner";
+import type * as OutlinePlanner from "../english/outline-planner";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -24,8 +25,7 @@ import { WORDS_STOPGAP_HITS } from "./stopgaps";
 // reads the banks as they are.
 const banks = vi.hoisted(() => ({ say: new Set<string>() }));
 vi.mock("../english/outline-planner", async (importOriginal) => {
-  const real =
-    await importOriginal<typeof import("../english/outline-planner")>();
+  const real = await importOriginal<typeof OutlinePlanner>();
   return {
     ...real,
     tell: (input: TellingInput) =>
