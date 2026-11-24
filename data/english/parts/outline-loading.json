@@ -3412,6 +3412,438 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.you-started-school-in-school-place-in-school-year-and-the-days-had-a-schedule-fr",
+      "move": "school",
+      "kind": "written",
+      "text": "You started school in {school-place} in {school-year}, and the days had a schedule from then on.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-place-had-a-classroom-for-you-in-school-year-and-a-teacher-with-a-list-of",
+      "move": "school",
+      "kind": "written",
+      "text": "{school-place} had a classroom for you in {school-year}, and a teacher with a list of names.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.in-school-year-school-in-school-place-meant-a-desk-a-teacher-and-a-lot-of-rules",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-year}, school in {school-place} meant a desk, a teacher and a lot of rules about lines.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.your-first-day-of-school-was-in-school-place-in-the-school-year-school-year",
+      "move": "school",
+      "kind": "written",
+      "text": "Your first day of school was in {school-place}, in the {school-year} school year.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-in-school-place-started-for-you-in-school-year-nobody-asked-whether-you-w",
+      "move": "school",
+      "kind": "written",
+      "text": "School in {school-place} started for you in {school-year}. Nobody asked whether you were ready.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.from-school-year-on-school-place-decided-when-you-ate-lunch",
+      "move": "school",
+      "kind": "written",
+      "text": "From {school-year} on, {school-place} decided when you ate lunch.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.you-learned-your-way-around-school-place-s-school-in-school-year-starting-with-w",
+      "move": "school",
+      "kind": "written",
+      "text": "You learned your way around {school-place}'s school in {school-year}, starting with where the lunchroom was.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-place-enrolled-you-in-school-year-after-that-attendance-counted",
+      "move": "school",
+      "kind": "written",
+      "text": "{school-place} enrolled you in {school-year}. After that, attendance counted.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.teachers-in-school-place-had-you-on-their-list-in-school-year-and-the-list-had-r",
+      "move": "school",
+      "kind": "written",
+      "text": "Teachers in {school-place} had you on their list in {school-year}, and the list had rules.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.by-school-year-you-were-in-school-in-school-place-learning-to-read-and-to-wait-i",
+      "move": "school",
+      "kind": "written",
+      "text": "By {school-year} you were in school in {school-place}, learning to read and to wait in line.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.in-school-year-the-school-in-school-place-sent-a-form-home-it-was-the-first-of-m",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-year} the school in {school-place} sent a form home. It was the first of many.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-year-was-your-first-year-of-school-in-school-place-and-the-homework-was-s",
+      "move": "school",
+      "kind": "written",
+      "text": "{school-year} was your first year of school, in {school-place}, and the homework was short.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.your-first-school-was-in-school-place-and-you-started-there-in-school-year",
+      "move": "school",
+      "kind": "written",
+      "text": "Your first school was in {school-place}, and you started there in {school-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-were-born-in-born-year-and-the-state-recorded-it",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}, and the state recorded it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.the-state-has-a-certificate-for-you-from-born-year",
+      "move": "born",
+      "kind": "written",
+      "text": "The state has a certificate for you from {born-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.in-born-year-a-certificate-was-filled-out-with-your-name-on-it",
+      "move": "born",
+      "kind": "written",
+      "text": "In {born-year} a certificate was filled out with your name on it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.a-birth-certificate-for-you-was-filed-in-born-year-and-nobody-asked-you-to-sign",
+      "move": "born",
+      "kind": "written",
+      "text": "A birth certificate for you was filed in {born-year}, and nobody asked you to sign it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-were-born-in-born-year-the-state-kept-the-record-and-you-kept-the-name",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}. The state kept the record, and you kept the name.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.in-born-year-you-were-born-and-the-paperwork-followed",
+      "move": "born",
+      "kind": "written",
+      "text": "In {born-year} you were born, and the paperwork followed.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.born-year-is-the-year-on-your-birth-certificate",
+      "move": "born",
+      "kind": "written",
+      "text": "{born-year} is the year on your birth certificate.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-came-into-the-world-in-born-year-and-someone-had-to-fill-out-the-form",
+      "move": "born",
+      "kind": "written",
+      "text": "You came into the world in {born-year}, and someone had to fill out the form.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.the-year-on-your-birth-certificate-is-born-year-the-rest-of-the-file-was-added-l",
+      "move": "born",
+      "kind": "written",
+      "text": "The year on your birth certificate is {born-year}. The rest of the file was added later.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.your-file-starts-in-born-year-with-a-birth-certificate",
+      "move": "born",
+      "kind": "written",
+      "text": "Your file starts in {born-year}, with a birth certificate.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-were-born-in-born-year-everything-else-in-your-file-comes-after-that",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}. Everything else in your file comes after that.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
