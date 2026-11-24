@@ -2921,14 +2921,27 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .strip-name {
   line-height: 1;
 }
-/* The story stands across the card's foot in columns of its own: the same
-   place on every card, never past the panel (owner, Nov 23, P24/P25). */
+/* The story rises under the sections, beside the bust, so a card with thin
+   records leaves no hole beside it and a long story shares the width in two
+   columns (owner, Nov 23, P17, P24, P25). With no bust it takes the full width. */
+.strip-screen.name-beside:has(.mxbust) .mx3left {
+  grid-row: 1 / span 2;
+}
 .strip-screen .mx3foot {
   grid-column: 1 / -1;
+}
+.strip-screen.name-beside:has(.mxbust) .mx3foot {
+  grid-column: 2;
 }
 .strip-screen .mx3foot .secbody {
   column-count: 3;
   column-gap: 32px;
+}
+.strip-screen.name-beside:has(.mxbust) .mx3foot .secbody {
+  column-count: 2;
+}
+.strip-screen .dotvalue {
+  text-align: right;
 }
 .strip-screen .mx3foot .secbody > * {
   break-inside: avoid;

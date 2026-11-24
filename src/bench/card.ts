@@ -1497,6 +1497,7 @@ interface TermLike {
     familyName: string;
     birthDate?: string;
     gender?: string;
+    homeState?: string;
   };
   readonly startDate: string;
   readonly party: string | null;
@@ -1656,7 +1657,10 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       ? ageOnDate(makeIsoDate(term.identity.birthDate), makeIsoDate(core.date))
       : null,
     alive: true,
-    home: null,
+    // Their home state, from their term's identity.
+    home: term.identity.homeState
+      ? jurisdictionName(term.identity.homeState)
+      : null,
     offices: officesHeld(core, allTerms.filter(sameHolder(term)) as never),
     family: holder ? familyOf(core, holder) : [],
     placeName: government,
@@ -1801,8 +1805,8 @@ function officesHeld(
  */
 function familyOf(core: CoreState, person: PersonState | undefined) {
   return [...familyFactsOf(person)]
-    .filter(
-      ([, fact]) => fact.relation === "partner" || fact.relation === "child",
+    .filter(([, fact]) =>
+      ["partner", "child", "parent", "other-parent"].includes(fact.relation),
     )
     .flatMap(([id, fact]) => {
       const kin = core.people.get(id);
@@ -1878,6 +1882,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     family ||
     housemate ||
     coworker ||
+    // An officeholder's town is public.
+    servingOffices(core, otherId).length > 0 ||
     other.placeId === viewer.placeId;
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)

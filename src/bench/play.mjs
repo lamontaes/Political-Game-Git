@@ -2808,7 +2808,7 @@ async function personCardNode(
   // story under it is told apart.
   const yearsOf = (office) =>
     office.to === null
-      ? `${labels.since} ${office.from}`
+      ? `${labels.since}\u00a0${office.from}`
       : office.to === office.from
         ? String(office.from)
         : `${office.from}\u2013${office.to}`;
@@ -2828,10 +2828,6 @@ async function personCardNode(
           },
         ]
       : []),
-    ...(c.offices ?? []).map((office) => ({
-      label: capital(office.office),
-      value: [office.place, yearsOf(office)].filter(Boolean).join(" \u00b7 "),
-    })),
   ];
   const sharedLines = (c.shared ?? [])
     .filter((s) => labels.sharedWords?.[s.kind])
@@ -2892,8 +2888,22 @@ async function personCardNode(
     })),
   ]);
   const firstColumn = [
-    ...(factRows.length
-      ? [stripSection(1, heading("whoIs", "whoAre"), dotRows(factRows))]
+    ...(factRows.length || c.offices?.length
+      ? [
+          stripSection(
+            1,
+            heading("whoIs", "whoAre"),
+            dotRows(factRows),
+            // Each office is a line of its own, wrapping as a phrase.
+            ...(c.offices ?? []).map((office) =>
+              introText(
+                [capital(office.office), office.place, yearsOf(office)]
+                  .filter(Boolean)
+                  .join(" \u00b7 "),
+              ),
+            ),
+          ),
+        ]
       : []),
     ...(c.traitLines?.length
       ? [
