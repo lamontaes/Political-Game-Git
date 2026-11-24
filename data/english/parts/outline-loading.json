@@ -3889,6 +3889,313 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-had-a-government-before-you-got-here-and-in-start-month-start-year-it-is-s",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} had a government before you got here, and in {start-month} {start-year} it is still running.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-town-of-place-has-its-own-government-and-in-start-month-start-year-you-are-o",
+      "move": "now",
+      "kind": "written",
+      "text": "The town of {place} has its own government, and in {start-month} {start-year} you are one of the people it governs.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.it-is-start-month-start-year-and-place-has-been-running-without-you-everyone-the",
+      "move": "now",
+      "kind": "written",
+      "text": "It is {start-month} {start-year}, and {place} has been running without you. Everyone there has a head start.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "after": ["start"]
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-place-has-neighbors-a-government-and-a-calendar-of-mee",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year}, {place} has neighbors, a government and a calendar of meetings, and you are on the list for all three.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.everyone-in-place-has-an-opinion-about-how-the-town-is-run-and-in-start-month-st",
+      "move": "now",
+      "kind": "written",
+      "text": "Everyone in {place} has an opinion about how the town is run, and in {start-month} {start-year} you are about to form yours.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.start-month-start-year-is-when-you-start-paying-attention-to-how-place-is-run",
+      "move": "now",
+      "kind": "written",
+      "text": "{start-month} {start-year} is when you start paying attention to how {place} is run.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-is-where-you-live-as-start-month-start-year-begins-and-state-is-the-state",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} is where you live as {start-month} {start-year} begins, and {state} is the state that makes its laws.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "state"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-live-in-place-which-is-in-state-and-the-laws-of-both-apply-to-you-in-start-m",
+      "move": "now",
+      "kind": "written",
+      "text": "You live in {place}, which is in {state}, and the laws of both apply to you in {start-month} {start-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "state"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-a-person-in-place-answers-to-the-town-the-state-and-th",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year}, a person in {place} answers to the town, the state and the country, in that order of nearness.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.three-governments-cover-place-in-start-month-start-year-the-town-state-and-the-c",
+      "move": "now",
+      "kind": "written",
+      "text": "Three governments cover {place} in {start-month} {start-year}: the town, {state} and the country. You have a say in all three.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "state"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.place-sets-some-rules-and-state-sets-others-and-in-start-month-start-year-you-ar",
+      "move": "now",
+      "kind": "written",
+      "text": "{place} sets some rules and {state} sets others, and in {start-month} {start-year} you are subject to both.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "state"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.as-start-month-start-year-begins-you-have-a-vote-in-place-and-a-few-years-of-lif",
+      "move": "now",
+      "kind": "written",
+      "text": "As {start-month} {start-year} begins, you have a vote in {place} and a few years of life behind you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.most-of-what-happens-in-place-happens-without-you-start-month-start-year-is-when",
+      "move": "now",
+      "kind": "written",
+      "text": "Most of what happens in {place} happens without you. {start-month} {start-year} is when that starts to change.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-have-lived-through-school-moves-and-other-changes-and-in-start-month-start-y",
+      "move": "now",
+      "kind": "written",
+      "text": "You have lived through school, moves and other changes, and in {start-month} {start-year} you are still in {place}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.by-start-month-start-year-you-know-your-way-around-place-and-so-does-everyone-wh",
+      "move": "now",
+      "kind": "written",
+      "text": "By {start-month} {start-year} you know your way around {place}, and so does everyone who has been there longer.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.someone-in-place-runs-the-town-and-in-start-month-start-year-you-can-find-out-wh",
+      "move": "now",
+      "kind": "written",
+      "text": "Someone in {place} runs the town, and in {start-month} {start-year} you can find out who.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.the-town-of-place-holds-meetings-passes-rules-and-collects-taxes-and-in-start-mo",
+      "move": "now",
+      "kind": "written",
+      "text": "The town of {place} holds meetings, passes rules and collects taxes, and in {start-month} {start-year} you are in the middle of it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place"]
+        }
+      ],
+      "elements": ["voting-starts-at-eighteen-by-election-day"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
