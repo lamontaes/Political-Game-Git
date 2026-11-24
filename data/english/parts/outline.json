@@ -482,25 +482,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.run-meaning.inaugural-we-got-there-together-and-the-next-are-about-staying-there",
-      "move": "run-meaning",
-      "kind": "spoken",
-      "text": "We got there together, and the next {term-left} are about staying there.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run-meaning",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-own", "term-left"]
-        }
-      ],
-      "after": ["run"],
-      "lean": ["personality-v1:facet-proud", "personality-v1:facet-persistent"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.run-question.inaugural-how-many-of-you-have-stood-at-a-checkout-in-the-last-and-put",
       "move": "run-question",
       "kind": "spoken",
@@ -765,27 +746,6 @@
         "personality-v1:facet-devoted",
         "personality-v1:facet-proud",
         "personality-v1:facet-persistent"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.creed.inaugural-i-came-to-this-office-believing-and-i-still-do",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I came to this office believing {belief}, and I still do.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -1768,7 +1728,8 @@
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"]
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
@@ -2543,7 +2504,8 @@
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"]
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "after": ["start"],
@@ -2565,7 +2527,8 @@
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"]
+          "requiresFacts": ["about", "president", "president-for"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-polite"],
@@ -3686,25 +3649,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.stand.inaugural-i-d-keep-it-that-way-and-that-means-no-to",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd keep it that way, and that means no to {about}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.headline.news-roll-call-headline-passes",
       "move": "headline",
       "kind": "written",
@@ -4232,27 +4176,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.run.inaugural-the-last-were-good-to-a-lot-of-working-families-and-i-mean-to-keep-it-that-way",
-      "move": "run",
-      "kind": "spoken",
-      "text": "The last {run-span} were good to a lot of working families, and I mean to keep it that way.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "law",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.run.inaugural-wages-have-beaten-prices-for-and-you-earned-every-bit-of-that",
       "move": "run",
       "kind": "spoken",
@@ -4373,25 +4296,6 @@
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-assertive"
       ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.stand.inaugural-i-mean-to-keep-it-that-way-and-that-means-keeping",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I mean to keep it that way, and that means keeping {law-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "law",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"]
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"

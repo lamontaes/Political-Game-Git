@@ -369,7 +369,7 @@
       "pull": ["personality-v1:facet-polite", "personality-v1:facet-duty-bound"]
     },
     "address-run": {
-      "moves": ["address-to", "address-to?", "call?"],
+      "moves": ["address-to", "call?"],
       "pull": [
         "personality-v1:facet-dramatic",
         "personality-v1:facet-charming",
