@@ -11029,6 +11029,438 @@
         "key": "favor-asked"
       },
       "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.it-helps-to-know-i-can-take-it-straight-to-agency-i-thought-i-needed-you-to-send-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It helps to know I can take it straight to {agency}. I thought I needed you to send me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-ask-agency-about-a-r-sum-review-yourself"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.a-second-reader-is-what-i-came-for-i-ll-try-agency-on-my-own",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "A second reader is what I came for. I'll try {agency} on my own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-ask-agency-about-a-r-sum-review-yourself"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.then-my-first-question-for-agency-is-whether-they-have-somebody-i-can-practice-with",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then my first question for {agency} is whether they have somebody I can practice with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-can-t-arrange-the-practice-interview-you-can-ask-agency-directly"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.fair-enough-i-can-play-both-sides-of-an-interview-at-home-until-i-hear-from-agency",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I can play both sides of an interview at home until I hear from {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-can-t-arrange-the-practice-interview-you-can-ask-agency-directly"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-d-like-to-know-my-options-before-i-pick-a-class-i-can-take-that-up-with-agency",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'd like to know my options before I pick a class. I can take that up with {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-m-going-to-leave-the-training-question-with-you-try-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.in-that-case-agency-is-my-next-call-i-don-t-want-to-sign-up-for-the-wrong-course",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "In that case, {agency} is my next call. I don't want to sign up for the wrong course.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-m-going-to-leave-the-training-question-with-you-try-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.before-i-send-anything-in-i-want-to-hear-from-agency-about-what-they-ll-accept",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Before I send anything in, I want to hear from {agency} about what they'll accept.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-can-t-take-that-up-for-you-ask-agency-what-to-bring-when-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.got-it-when-i-reach-agency-i-ll-start-with-the-paperwork",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Got it. When I reach {agency}, I'll start with the paperwork.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.i-can-t-take-that-up-for-you-ask-agency-what-to-bring-when-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-can-explain-the-work-at-employer-better-myself-anyway",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can explain the work at {employer} better myself anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.i-can-t-make-an-introduction-you-can-tell-agency-about-the-work-you-did-at-employer"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "solemn"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.then-i-ll-give-agency-examples-of-what-i-did-at-employer-the-title-only-tells-part-of-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll give {agency} examples of what I did at {employer}. The title only tells part of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.i-can-t-make-an-introduction-you-can-tell-agency-about-the-work-you-did-at-employer"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "solemn"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.what-i-wanted-was-a-person-to-ask-about-openings-maybe-agency-can-give-me-a-name",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "What I wanted was a person to ask about openings. Maybe {agency} can give me a name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-call-agency-for-that-name-yourself"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.if-i-go-straight-to-agency-i-can-ask-about-the-openings-myself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "If I go straight to {agency}, I can ask about the openings myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-decline.you-ll-have-to-call-agency-for-that-name-yourself"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.it-s-saying-why-i-left-employer-that-trips-me-up-i-can-practice-that-part-on-my-own-for-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It's saying why I left {employer} that trips me up. I can practice that part on my own for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.i-can-t-set-up-interview-help-for-you-you-can-take-that-question-to-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-can-make-the-call-to-agency-talking-about-the-layoff-in-an-interview-is-where-i-d-like-some-help",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can make the call to {agency}. Talking about the layoff in an interview is where I'd like some help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.i-can-t-set-up-interview-help-for-you-you-can-take-that-question-to-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.what-happens-to-my-coverage-after-employer-laid-me-off-is-still-on-my-mind-i-ll-ask-about-that-myself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "What happens to my coverage after {employer} laid me off is still on my mind. I'll ask about that myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.you-ll-need-to-speak-to-agency-yourself-about-coverage-i-can-t-make-that-referral"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "tired"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-start-with-the-coverage-question-when-i-reach-agency-i-want-to-know-where-i-stand-before-i-make-plans",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll start with the coverage question when I reach {agency}. I want to know where I stand before I make plans.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-decline.you-ll-need-to-speak-to-agency-yourself-about-coverage-i-can-t-make-that-referral"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "bearing": "tired"
     }
   ]
 }
