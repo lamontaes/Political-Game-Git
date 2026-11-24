@@ -18,7 +18,12 @@ const DATA = montage as unknown as {
   /** Parts of a kind of speech that stage differently (the inaugural): its first part and the beats its levels key to. */
   speeches: Record<
     string,
-    { first?: BeatKind; levels?: Record<string, BeatKind> }
+    {
+      first?: BeatKind;
+      levels?: Record<string, BeatKind>;
+      /** Levels whose parts take these beats in turn: America along a route, then the Oval Office, and so on. */
+      alternate?: { levels: string[]; kinds: BeatKind[] };
+    }
   >;
   /** The kinds of beat the speaker is in the room for (the rest are heard on a set). */
   inRoom: BeatKind[];
@@ -28,7 +33,7 @@ const DATA = montage as unknown as {
 
 export type BeatKind =
   | "chamber"
-  | "window"
+  | "stand"
   | "desk"
   | "officials"
   | "colonnade"
@@ -37,7 +42,7 @@ export type BeatKind =
   | "home";
 
 /** Beats that show the speaker large, and beats that name the key people by office. */
-const SPEAKER_KINDS: readonly BeatKind[] = ["chamber", "window", "desk"];
+const SPEAKER_KINDS: readonly BeatKind[] = ["chamber", "stand", "desk"];
 const OFFICIAL_KINDS: readonly BeatKind[] = ["officials", "colonnade"];
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
@@ -62,18 +67,20 @@ export interface MontageBeat {
  */
 export function beatKinds(
   levels: readonly string[],
-  /** The kind of speech: an inaugural stages its first and middle parts in the Oval Office (owner, Nov 23). */
+  /** The kind of speech: an inaugural is given at the Capitol's stand, with the Oval Office as a cutaway (owner, Nov 23). */
   speechKind?: string,
 ): BeatKind[] {
   if (levels.length <= 1) return [DATA.last];
   const staged = speechKind ? DATA.speeches[speechKind] : undefined;
-  return levels.map((level, at) =>
-    at === 0
-      ? (staged?.first ?? DATA.first)
-      : at === levels.length - 1
-        ? DATA.last
-        : (staged?.levels?.[level] ?? DATA.levels[level] ?? "america"),
-  );
+  let turn = 0;
+  return levels.map((level, at) => {
+    if (at === 0) return staged?.first ?? DATA.first;
+    if (at === levels.length - 1) return DATA.last;
+    const kinds = staged?.alternate?.kinds;
+    if (kinds && staged.alternate!.levels.includes(level))
+      return kinds[turn++ % kinds.length]!;
+    return staged?.levels?.[level] ?? DATA.levels[level] ?? "america";
+  });
 }
 
 /**
@@ -297,7 +304,9 @@ export function addressMontage(
     }
     // Whoever the part names is shown as it is spoken (the Vice President
     // when named), unless the beat already holds them or is the home.
-    if (kind !== "home")
+    // The President at work in the Oval Office stands alone: the people a part
+    // names are not drawn into that cutaway.
+    if (kind !== "home" && kind !== "desk")
       for (const id of namedHere)
         if (!cast.some((row) => row.id === id)) {
           cast.push({

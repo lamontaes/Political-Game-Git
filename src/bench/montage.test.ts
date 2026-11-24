@@ -101,7 +101,7 @@ it.each(["a", "b", "c"])(
       if (beat.kind === "america")
         for (const id of shown)
           expect(named[at], `${where}: part ${at} shows ${id}`).toContain(id);
-      if (beat.kind !== "home")
+      if (beat.kind !== "home" && beat.kind !== "desk")
         for (const id of named[at]!)
           expect(
             beat.sourceRecordIds,
@@ -223,7 +223,7 @@ it.each(["a", "b"])(
   },
 );
 
-it("an inaugural is staged with its Oct 28 cutaways, never on the House floor (owner, Nov 23)", () => {
+it("an inaugural is given at the Capitol with the Oval Office as a cutaway, never on the House floor (owner, Nov 23)", () => {
   const kinds = beatKinds(
     [
       "salutation",
@@ -237,19 +237,27 @@ it("an inaugural is staged with its Oct 28 cutaways, never on the House floor (o
     ],
     "inaugural",
   );
-  // The Oval Office window first, the Resolute desk, America along a route,
-  // the key people named at the colonnade, the states, and home.
+  // The speech at the Capitol's stand, the President at the Resolute desk,
+  // America along a route, the desk again, the key people named at the
+  // colonnade, the states, and home.
   expect(kinds).toEqual([
-    "window",
+    "stand",
     "desk",
     "america",
-    "america",
+    "desk",
     "colonnade",
     "colonnade",
     "state",
     "home",
   ]);
   expect(kinds).not.toContain("chamber");
+  // Country parts alternate America and the Oval Office.
+  expect(
+    beatKinds(
+      ["occasion", "country", "country", "country", "close"],
+      "inaugural",
+    ),
+  ).toEqual(["stand", "america", "desk", "america", "home"]);
   // A State of the Union is still given in the chamber.
   expect(beatKinds(["salutation", "occasion", "country", "close"])[0]).toBe(
     "chamber",
@@ -287,10 +295,12 @@ it.each(["a", "b"])(
       named,
       story.speechKind,
     );
-    // Beat 1 is the President at the Oval Office window (its fallback is the
-    // Oval Office until the South Lawn view is painted); no beat is the House.
-    expect(beats[0]!.kind, where).toBe("window");
-    expect(beats[0]!.backdrop.file, where).toMatch(/^oval-office/);
+    // Beat 1 is the speech at the Capitol's stand (its fallback is the
+    // Capitol's exterior until the stand is painted); no beat is the House.
+    expect(beats[0]!.kind, where).toBe("stand");
+    expect(beats[0]!.backdrop.file, where).toMatch(
+      /^(inaugural-stand|us-capitol-exterior)/,
+    );
     for (const beat of beats)
       expect(beat.backdrop.file, `${where}: ${beat.kind}`).not.toMatch(
         /^us-(house|senate)-floor/,
@@ -303,20 +313,28 @@ it.each(["a", "b"])(
       beats.map((beat) => beat.kind),
       where,
     ).toEqual(expected);
+    // The first country part is America along a route; a second takes the
+    // Oval Office cutaway.
+    const middle = beats.slice(1, -1).map((beat) => beat.kind);
+    if (middle.length) expect(middle[0], where).toBe("america");
     levels.forEach((level, at) => {
       if (at === 0 || at === levels.length - 1) return;
-      if (level === "country" || level === "people")
-        expect(beats[at]!.kind, `${where}: part ${at}`).toBe("america");
       if (level === "congress" || level === "vice-president")
         expect(beats[at]!.kind, `${where}: part ${at}`).toBe("colonnade");
     });
     for (const beat of beats.filter((row) => row.kind === "colonnade"))
       expect(beat.backdrop.file, where).toMatch(/^white-house-colonnade/);
-    for (const beat of beats.filter((row) => row.kind === "desk"))
+    // The Oval Office cutaway is the President alone at the Resolute desk.
+    for (const beat of beats.filter((row) => row.kind === "desk")) {
       expect(beat.backdrop.file, where).toMatch(/^oval-/);
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: desk`,
+      ).toEqual([story.president.id]);
+    }
     // The key people a part names are on its beat as it is spoken.
     beats.forEach((beat, at) => {
-      if (beat.kind === "home") return;
+      if (beat.kind === "home" || beat.kind === "desk") return;
       for (const id of named[at]!)
         expect(
           beat.sourceRecordIds,
@@ -331,7 +349,7 @@ it.each(["a", "b"])(
       expect(beat.inRoom, `${where}: ${beat.kind}`).toBe(false);
     // The President is the large bust on the beats that show him working.
     for (const beat of beats.filter((row) =>
-      ["chamber", "window", "desk"].includes(row.kind),
+      ["chamber", "stand", "desk"].includes(row.kind),
     ))
       expect(
         beat.people.map((person) => person.personId),

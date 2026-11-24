@@ -1,5 +1,5 @@
 {
-  "note": "The President's address plays as a montage (owner, Oct 29 02:35: the cutaways alternate the President working with America; the Vice President, Congress and the player's governor appear named by office as the camera passes; it ends at home). One beat per part of the speech. `levels` keys each part's beat to its role (the first non-salutation level of its sentences, agreed with Words, Nov 2): the first part is always the President in the chamber where the address is given (owner, Nov 17: \"An address happens where it's given: Congress's chamber, not the Oval Office\"; the salutation names the Speaker and the guests) and the last is always home. Each kind names its tagged place picture; `america` lists the town's pictures in turn, the first that has one painted. The sequence of beats is the lane's framing, not a record. The states' part is the player's own state: its capitol painted in that light (`statePlace` names it from the state, as state-capitol-<state>), with the governor and the state's chamber leaders named over it and nobody drawn (owner, Nov 4: no people tonight). Only a place with a mannequin plate (art/people-rooms/mannequin-plates) draws people: the train depot platform (people along a route) and the home living room; the speaker in the chamber stands as the large bust on the strip. The inaugural is staged as one (owner, Nov 23: \"A. Keep the inaugural on Jan 20, with the montage back\"; his Oct 28 cutaways): `speeches.inaugural` replaces the House floor with the Oval Office window for the first part and the Resolute desk for a middle part about the occasion, and names the key people at the colonnade; a State of the Union keeps the chamber. A picture nobody has painted is named first in its list and skipped until painted (`wantedPictures`).",
+  "note": "The President's address plays as a montage (owner, Oct 29 02:35: the cutaways alternate the President working with America; the Vice President, Congress and the player's governor appear named by office as the camera passes; it ends at home). One beat per part of the speech. `levels` keys each part's beat to its role (the first non-salutation level of its sentences, agreed with Words, Nov 2): the first part is always the President in the chamber where the address is given (owner, Nov 17: \"An address happens where it's given: Congress's chamber, not the Oval Office\"; the salutation names the Speaker and the guests) and the last is always home. Each kind names its tagged place picture; `america` lists the town's pictures in turn, the first that has one painted. The sequence of beats is the lane's framing, not a record. The states' part is the player's own state: its capitol painted in that light (`statePlace` names it from the state, as state-capitol-<state>), with the governor and the state's chamber leaders named over it and nobody drawn (owner, Nov 4: no people tonight). Only a place with a mannequin plate (art/people-rooms/mannequin-plates) draws people: the train depot platform (people along a route) and the home living room; the speaker in the chamber stands as the large bust on the strip. The inaugural is staged as one (owner, Nov 23: \"A. Keep the inaugural on Jan 20, with the montage back\", and his answer that the speech plays with cutaways to the President at work in the Oval Office): `speeches.inaugural` gives the speech itself to the Capitol's inaugural stand (the speaker large, the Chief Justice, Speaker and Vice President named), and the Oval Office, with the President alone at the Resolute desk, is a cutaway: an occasion part takes it, and the country and people parts alternate America along a route with it. The key people's parts are the colonnade; a State of the Union keeps the chamber. A picture nobody has painted is named first in its list and skipped until painted (`wantedPictures`).",
   "first": "chamber",
   "last": "home",
   "places": {
@@ -15,9 +15,9 @@
     ],
     "america": ["train-depot-platform"],
     "state": ["state-capitol-{state}", "state-capitol-dome"],
-    "window": ["oval-office-south-lawn", "oval-office", "oval-office-standard"],
-    "desk": ["oval-office-resolute", "oval-address-standard"],
-    "colonnade": ["white-house-colonnade"]
+    "desk": ["oval-office-resolute", "oval-address-standard", "oval-office"],
+    "colonnade": ["white-house-colonnade"],
+    "stand": ["inaugural-stand", "us-capitol-exterior"]
   },
   "mostOfficials": 4,
   "mostAmerica": 6,
@@ -31,14 +31,18 @@
     "families": "home",
     "close": "home"
   },
-  "inRoom": ["chamber", "officials", "window", "desk", "colonnade"],
+  "inRoom": ["chamber", "officials", "stand", "desk", "colonnade"],
   "speeches": {
     "inaugural": {
-      "first": "window",
+      "first": "stand",
       "levels": {
         "occasion": "desk",
         "congress": "colonnade",
         "vice-president": "colonnade"
+      },
+      "alternate": {
+        "levels": ["country", "people"],
+        "kinds": ["america", "desk"]
       }
     }
   }
