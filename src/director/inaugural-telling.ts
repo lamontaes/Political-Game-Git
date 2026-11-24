@@ -133,23 +133,42 @@ export function inauguralFacts(
       [vpOffice.before, vp.text].join(" "),
       vp.sourceRecordIds,
     );
-  // What the other side of the stand wants done, as a verb phrase.
+  Object.assign(facts, otherSide(facts));
+  return facts;
+}
+
+/** What the other side of a stand wants done, as a verb phrase. */
+function otherSide(facts: Facts): Facts {
   const about = facts.about;
   const to = facts.to;
   const law = facts["law-name"];
-  if (about && to && law) {
-    const against = !!facts["stance-against"];
-    const inForce = !!facts["law-in-force"];
-    const other = against
-      ? inForce
-        ? `keep ${law.text}`
-        : to.text
-      : inForce
-        ? `repeal ${law.text}`
-        : `block ${about.text}`;
-    facts["other-side"] = fact(other, about.sourceRecordIds);
-  }
-  return facts;
+  if (!about || !to || !law) return {};
+  const against = !!facts["stance-against"];
+  const inForce = !!facts["law-in-force"];
+  const other = against
+    ? inForce
+      ? `keep ${law.text}`
+      : to.text
+    : inForce
+      ? `repeal ${law.text}`
+      : `block ${about.text}`;
+  return { "other-side": fact(other, about.sourceRecordIds) };
+}
+
+/** The stand facts of the plan's second point, where it has one: said in the address's second section. */
+function secondPoint(
+  plan: SpeechPlan,
+): { facts: Facts; question: string } | null {
+  const point = plan.points[P.one];
+  const block = point
+    ? plan.blocks.find((row) => row.key === `point-${point.question}`)
+    : undefined;
+  if (!point || !block) return null;
+  const facts: Facts = { ...block.facts };
+  return {
+    facts: { ...facts, ...otherSide(facts) },
+    question: point.question,
+  };
 }
 
 /** A told sentence as the address keeps it: one part per paragraph, its camera, its pieces and the stand it speaks on. */
@@ -161,7 +180,9 @@ function asOpening(
   const about = facts.about;
   const to = facts.to;
   const onStand =
-    (row.section === "theme" || row.facts.includes("about")) &&
+    (row.section === "theme" ||
+      row.section === "second" ||
+      row.facts.includes("about")) &&
     about &&
     to &&
     (facts["stance-for"] || facts["stance-against"]);
@@ -217,6 +238,7 @@ export function tellInaugural(
     serviceStart: official.serviceStart,
   });
   const facts = inauguralFacts(core, president, official, plan, inaugurationId);
+  const second = secondPoint(plan);
   const told = tell({
     kind: "inaugural",
     facts,
@@ -225,11 +247,14 @@ export function tellInaugural(
     sourceRecordIds: [official.id as EntityId, inaugurationId as EntityId],
     knower: president.id as EntityId,
     traits: president.traits,
+    ...(second ? { points: [second.facts] } : {}),
   });
   if (!told) return null;
   return {
     sentences: told.sentences.map((row) =>
-      asOpening(row, facts, plan.points[P.zero]?.question ?? null),
+      row.section === "second" && second
+        ? asOpening(row, { ...facts, ...second.facts }, second.question)
+        : asOpening(row, facts, plan.points[P.zero]?.question ?? null),
     ),
     plan,
   };

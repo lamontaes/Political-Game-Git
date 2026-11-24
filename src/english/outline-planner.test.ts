@@ -158,4 +158,44 @@ describe("the outline planner", () => {
     // not a speech"); these facts give eight sentences told in full.
     expect(Math.min(...lengths)).toBeGreaterThanOrEqual(8);
   });
+  it("says a second point on its own facts where the record holds one, and leaves the section out where it does not", () => {
+    // The CTO, Nov 24 (7131781243 on #10377): an address's length comes
+    // from a second point drawn from the world, not from stock slots.
+    const second: TellingFacts = Object.fromEntries(
+      Object.entries({
+        about: "more defense spending",
+        to: "grow defense spending",
+        "law-name": "the defense spending increase",
+        "stance-against": "yes",
+        "law-not-in-force": "yes",
+        "other-side": "grow defense spending",
+        belief: "our money should go to needs here at home first",
+        "belief-sentence": "Our money should go to needs here at home first.",
+      }).map(([key, text]) => [key, f(text)]),
+    );
+    for (const traits of PROFILES) {
+      const without = told(traits)!;
+      expect(without.sentences.some((row) => row.section === "second")).toBe(
+        false,
+      );
+      const withPoint = tell({
+        kind: "inaugural",
+        facts,
+        points: [second],
+        momentKey: "moment",
+        worldSeed: "seed",
+        sourceRecordIds: ["record:test"],
+        knower: "person:president",
+        traits,
+      })!;
+      const said = withPoint.sentences.filter(
+        (row) => row.section === "second",
+      );
+      expect(said.length).toBeGreaterThan(0);
+      // The second point speaks of its own subject, never the first's.
+      expect(said.map((row) => row.text).join(" ")).not.toContain(
+        "rent increases",
+      );
+    }
+  });
 });

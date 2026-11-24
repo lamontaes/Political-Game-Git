@@ -54,6 +54,13 @@ interface SectionRow {
   readonly optional?: boolean;
   /** The recorded facets that pull a speaker toward saying the section. */
   readonly pull?: readonly string[];
+  /**
+   * A section said on another point of the text: its facts are the input's
+   * `points[point - 1]` over the text's own, and it is left out where the
+   * input holds no such point (the CTO, Nov 24: an address's length comes
+   * from a second point drawn from the world, not from stock slots).
+   */
+  readonly point?: number;
 }
 
 /** One order the row's movable sections may be said in, and the facets that pull a speaker toward it. */
@@ -173,6 +180,8 @@ export interface TellingInput {
   readonly traits?: Readonly<Record<string, number>>;
   /** Pieces said in earlier texts of this world, oldest first. */
   readonly said?: readonly string[];
+  /** The facts of the text's further points, in order: a section with `point: n` is said on `points[n - 1]`. */
+  readonly points?: readonly TellingFacts[];
   /** Told each move no piece could say, for a reader's trace. */
   readonly onMiss?: (section: string, shape: string, move: string) => void;
 }
@@ -479,7 +488,12 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
   const known: TellingInput = { ...input, facts };
   const draw = `${input.worldSeed}:${input.momentKey}`;
   for (const section of sectionsInOrder(row, input.traits, `${draw}/order`)) {
-    if (!holds(facts, section.when)) {
+    // A section on a further point reads that point's facts over the text's.
+    const own = section.point ? input.points?.[section.point - 1] : undefined;
+    if (section.point && !own) continue;
+    const here = own ? { ...facts, ...own } : facts;
+    const knownHere: TellingInput = own ? { ...known, facts: here } : known;
+    if (!holds(here, section.when)) {
       if (section.required) return null;
       continue;
     }
@@ -499,13 +513,13 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
     let told: ToldSentence[] | null = null;
     for (const name of shapeOrder(
       section,
-      facts,
+      here,
       input.traits,
       shapesUsed,
       `${draw}/${section.name}`,
     )) {
       const shape = OUTLINES.shapes[name]!;
-      const here: ToldSentence[] = [];
+      const saying: ToldSentence[] = [];
       const taken = new Set(saidHere);
       const spending = new Map(spent);
       let before = opens ? "start" : (last?.move ?? "start");
@@ -514,7 +528,7 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
         const optional = raw.endsWith("?");
         const move = optional ? raw.slice(0, -1) : raw;
         const worded = wordMove(
-          known,
+          knownHere,
           row.surface,
           move,
           before,
@@ -543,10 +557,10 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
           continue;
         taken.add(worded.part.key);
         for (const said of new Set(
-          slotsOf(worded.part.text).map((slot) => saidOf(input.facts, slot)),
+          slotsOf(worded.part.text).map((slot) => saidOf(here, slot)),
         ))
           spending.set(said, (spending.get(said) ?? 0) + 1);
-        here.push({
+        saying.push({
           section: section.name,
           shape: name,
           move,
@@ -559,8 +573,8 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
         });
         before = move;
       }
-      if (!failed && here.length) {
-        told = here;
+      if (!failed && saying.length) {
+        told = saying;
         for (const [slot, count] of spending) spent.set(slot, count);
         shapesUsed.add(name);
         break;

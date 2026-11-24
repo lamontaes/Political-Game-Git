@@ -49,6 +49,19 @@
           ]
         },
         {
+          "name": "second",
+          "point": 1,
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
           "name": "call",
           "camera": "families",
           "shapes": ["address-run", "call-alone"],
@@ -78,7 +91,7 @@
       ],
       "orders": [
         {
-          "sections": ["story", "theme", "call"],
+          "sections": ["story", "theme", "second", "call"],
           "pull": [
             "personality-v1:facet-sincere",
             "personality-v1:facet-duty-bound",
@@ -87,7 +100,7 @@
           ]
         },
         {
-          "sections": ["call", "story", "theme"],
+          "sections": ["call", "story", "theme", "second"],
           "pull": [
             "personality-v1:facet-mediating",
             "personality-v1:facet-forgiving",
@@ -96,7 +109,7 @@
           ]
         },
         {
-          "sections": ["theme", "story", "call"],
+          "sections": ["theme", "second", "story", "call"],
           "pull": [
             "personality-v1:facet-assertive",
             "personality-v1:facet-ambitious",
