@@ -1,0 +1,30 @@
+{
+  "id": "another-list-after-the-signing",
+  "kind": "moment",
+  "summary": "{governor} comes back to the same policy with a second list after the courts continue their review.",
+  "realLife": "In June 2025 Moore announced additional possession pardons after another year of work with the Maryland Judiciary.",
+  "sources": [
+    "https://governor.maryland.gov/news/press-releases/governor-moore-announces-additional-action-close-marylands-racial-wealth-gap-promoting-just#:~:text=continued%20partnership"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
+  "gates": ["Earlier pardon list and later verified cases."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: earlier pardon list and later verified cases.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "Review confirms a previously omitted case.",
+      "what": "Put it on the supplemental order.",
+      "writesBack": "The second grant carries its own date."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "An entry duplicates the first list.",
+      "what": "Reconcile the case identifiers before announcing a count.",
+      "writesBack": "The total counts the underlying offense once."
+    }
+  ]
+}
