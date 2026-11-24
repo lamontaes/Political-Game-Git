@@ -2,8 +2,9 @@
   "id": "audience-gathers-to-hear-governor-challenged",
   "kind": "situation",
   "summary": "A speaker makes a public case against the governor while the player listens.",
-  "realLife": "owner, Nov 8: A speech opposing the governor can draw the player into public life.",
+  "realLife": "During Wisconsin’s 2012 recall campaign, Tom Barrett’s supporters gathered in Milwaukee’s Pere Marquette Park to hear Bill Clinton make the case for replacing Governor Scott Walker. Clinton stayed to talk with people after the speech.",
   "sources": [
+    "https://urbanmilwaukee.com/2012/06/01/bill-clinton-campaigns-with-barrett-at-pere-marquette-park/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
   ],
   "inGame": "needs: an opposition speech, its subject and the player’s attendance.",

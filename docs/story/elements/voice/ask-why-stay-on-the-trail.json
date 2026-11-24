@@ -2,8 +2,9 @@
   "id": "ask-why-stay-on-the-trail",
   "kind": "voice",
   "summary": "During a long campaign a candidate privately reconsiders why they want the job.",
-  "realLife": "owner, Nov 8: Time spent campaigning can give someone cause to question their reasons for running.",
+  "realLife": "After three months exploring a presidential run, Representative Pat Schroeder told supporters she saw too little time to catch up. She also described how the demands of seeking the nomination kept her apart from the people she wanted to reach.",
   "sources": [
+    "https://www.washingtonpost.com/archive/politics/1987/09/29/schroeder-rules-out-88-bid-citing-time-political-process/01f5bf26-c580-41ed-bcf6-d6a024d6c593/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
   ],
   "inGame": "needs: reflection tied to campaign duration rather than an officeholder’s office-doubt scene.",

@@ -2,8 +2,9 @@
   "id": "local-athlete-earns-a-college-sports-story",
   "kind": "moment",
   "summary": "A local athlete’s move into Division I competition makes the town paper.",
-  "realLife": "owner, Nov 14: A newspaper can cover a resident’s sporting achievement alongside civic news.",
+  "realLife": "Local signing-day coverage in Uxbridge, Massachusetts, followed four field hockey players making their college commitments just hours before a high school playoff game. Kendall Gilmore signed to play for Maryland.",
   "sources": [
+    "https://sports.yahoo.com/article/dream-big-local-high-school-232707176.html",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L83"
   ],
   "inGame": "needs: a recorded athletic achievement with its competition level available to the local news desk.",
