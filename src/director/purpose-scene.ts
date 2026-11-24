@@ -3295,6 +3295,21 @@ function deskFacts(
     };
     facts.purpose = { text: title.purpose, sourceRecordIds: [bill.id] };
   }
+  // For a single policy question, let the visitor speak to the direction
+  // of the bill. Older provisions carry the question and value alone.
+  const [provision] = bill.provisions;
+  if (
+    bill.provisions.length === P.one &&
+    provision?.kind === "policy-question" &&
+    provision.question &&
+    (provision.value === P.one || provision.value === -P.one)
+  ) {
+    const operation = provision.value === P.one ? "enact" : "repeal";
+    facts[`desk-${operation}:${provision.question}`] = {
+      text: "yes",
+      sourceRecordIds: [bill.id],
+    };
+  }
   // How it passed, said as people say it, never as a count (owner, Nov 14
   // 00:50Z; Words lead rule 50): nobody against it, enough to override a
   // veto in every chamber, or short of that, by the chambers' own tallies.

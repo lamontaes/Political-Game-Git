@@ -25467,7 +25467,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill"]
+          "requiresFacts": ["for", "bill"],
+          "setsFacts": ["sponsor-heard-veto"]
         }
       ],
       "bearing": "guarded",
@@ -72418,6 +72419,286 @@
       "tag": {
         "move": "warn",
         "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.if-a-rider-in-place-asks-when-free-rides-start-i-won-t-give-them-a-date-on-the-strength-of-our-vote",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "If a rider in {place} asks when free rides start, I won't give them a date on the strength of our vote.",
+      "elements": ["the-bus-fare-and-the-van-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.when-i-explain-your-veto-in-place-i-ll-have-to-start-with-what-it-costs-somebody-to-get-to-work",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "When I explain your veto in {place}, I'll have to start with what it costs somebody to get to work.",
+      "elements": ["jobs-at-the-other-end-of-the-route"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-take-your-answer-on-bill-back-to-the-members-we-still-owe-riders-an-explanation",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll take your answer on {bill} back to the members. We still owe riders an explanation.",
+      "elements": ["council-vote-story"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "bill",
+            "for",
+            "sponsor-heard-veto",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-question-i-ll-put-to-the-members-in-place-is-whether-they-still-want-to-fight-for-a-ride-without-a-fare",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The question I'll put to the members in {place} is whether they still want to fight for a ride without a fare.",
+      "elements": ["reserve-a-meeting-for-possible-vetoes"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.when-someone-in-place-asks-whether-to-bring-fare-money-again-i-ll-explain-what-you-sent-back",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "When someone in {place} asks whether to bring fare money again, I'll explain what you sent back.",
+      "elements": ["the-bus-fare-and-the-van-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-ask-the-members-in-place-where-they-stand-now-on-bringing-fares-back",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll ask the members in {place} where they stand now on bringing fares back.",
+      "elements": ["reserve-a-meeting-for-possible-vetoes"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-tell-riders-in-place-you-vetoed-the-proposal-to-charge-again-i-can-answer-that-much-today",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll tell riders in {place} you vetoed the proposal to charge again. I can answer that much today.",
+      "elements": ["the-bus-fare-and-the-van-fare"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-in-place-will-want-to-see-how-the-members-voted-as-well-as-hear-why-you-sent-the-fare-bill-back",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People in {place} will want to see how the members voted as well as hear why you sent the fare bill back.",
+      "elements": ["reserve-a-meeting-for-possible-vetoes"],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": [
+            "place",
+            "for",
+            "sponsor-heard-veto",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
       }
     }
   ]
