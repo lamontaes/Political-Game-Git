@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10361
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T06:45:31.149Z
 ---
 
 **What.** Box and scroll found a page error on Politics, Budgets, Cannot convert undefined or null to object (carryover N8-P28, Budgets). Once a place has two years of figures the history lines throw and the page draws no line.

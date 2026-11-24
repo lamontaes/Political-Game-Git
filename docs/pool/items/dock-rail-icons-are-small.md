@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n8-p11
-pr:
+pr: #10326
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N8-P11)
+merged-at: 2026-11-24T06:44:56.144Z
 ---
 
 **What.** The owner, Nov 8: "the UI is not resizing. I mean, look at this. It's so small." and the rail icons are tiny. The window scaling above 1440x900 is on main and works; at 1440x900 the rail is still 40 px circles with 22 px icons.
