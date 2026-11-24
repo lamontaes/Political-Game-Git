@@ -4027,6 +4027,26 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.state-request.does-agency-help-people-practice-for-interviews-i-d-like-to-talk-to-somebody-there"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.the-layoff-was-since-ago-could-you-find-me-someone-to-practice-a-job-interview-with"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.could-i-rehearse-with-somebody-at-agency-i-want-to-be-able-to-explain-the-layoff-when-an-interviewer-asks"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -4054,6 +4074,26 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.state-request.i-could-use-another-pair-of-eyes-on-my-r-sum-could-you-introduce-me-to-someone-at-agency"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-got-laid-off-since-ago-could-somebody-read-my-r-sum-the-way-a-hiring-manager-would"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-d-take-my-r-sum-to-agency-if-i-knew-who-to-ask-for-i-m-having-trouble-putting-my-work-into-words"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -4081,6 +4121,26 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.state-request.i-want-to-know-what-training-i-could-get-through-agency-can-you-help-me-reach-them"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.it-s-been-since-since-i-got-laid-off-who-could-help-me-work-out-what-i-d-need-to-learn-for-a-different-job"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.before-i-enroll-in-anything-i-d-like-to-talk-to-agency-about-training-after-a-layoff-can-you-connect-us"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -4108,6 +4168,26 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.state-request.who-at-agency-could-tell-me-how-to-apply-for-unemployment"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-got-laid-off-since-ago-where-can-i-get-help-with-an-unemployment-claim"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.can-you-put-me-through-to-agency-i-have-a-question-about-filing-for-unemployment-after-the-layoff"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -4162,6 +4242,26 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.state-request.i-want-to-work-again-could-you-ask-agency-who-s-hiring"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.the-layoff-was-since-ago-could-you-introduce-me-to-somebody-who-knows-which-places-are-taking-applications"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.who-sees-the-job-listings-as-they-come-in-at-agency-i-d-like-to-speak-to-that-person"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -9643,6 +9743,266 @@
         "key": "favor-asked"
       },
       "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-request.the-layoff-was-since-ago-could-you-find-me-someone-to-practice-a-job-interview-with",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The layoff was {since} ago. Could you find me someone to practice a job interview with?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.state-request.could-i-rehearse-with-somebody-at-agency-i-want-to-be-able-to-explain-the-layoff-when-an-interviewer-asks",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could I rehearse with somebody at {agency}? I want to be able to explain the layoff when an interviewer asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-got-laid-off-since-ago-could-somebody-read-my-r-sum-the-way-a-hiring-manager-would",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I got laid off {since} ago. Could somebody read my r\u00e9sum\u00e9 the way a hiring manager would?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-d-take-my-r-sum-to-agency-if-i-knew-who-to-ask-for-i-m-having-trouble-putting-my-work-into-words",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd take my r\u00e9sum\u00e9 to {agency} if I knew who to ask for. I'm having trouble putting my work into words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-request.it-s-been-since-since-i-got-laid-off-who-could-help-me-work-out-what-i-d-need-to-learn-for-a-different-job",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's been {since} since I got laid off. Who could help me work out what I'd need to learn for a different job?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.state-request.before-i-enroll-in-anything-i-d-like-to-talk-to-agency-about-training-after-a-layoff-can-you-connect-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Before I enroll in anything, I'd like to talk to {agency} about training after a layoff. Can you connect us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-got-laid-off-since-ago-where-can-i-get-help-with-an-unemployment-claim",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I got laid off {since} ago. Where can I get help with an unemployment claim?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.can-you-put-me-through-to-agency-i-have-a-question-about-filing-for-unemployment-after-the-layoff",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can you put me through to {agency}? I have a question about filing for unemployment after the layoff.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.state-request.the-layoff-was-since-ago-could-you-introduce-me-to-somebody-who-knows-which-places-are-taking-applications",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The layoff was {since} ago. Could you introduce me to somebody who knows which places are taking applications?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.state-request.who-sees-the-job-listings-as-they-come-in-at-agency-i-d-like-to-speak-to-that-person",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Who sees the job listings as they come in at {agency}? I'd like to speak to that person.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "since"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
     }
   ]
 }
