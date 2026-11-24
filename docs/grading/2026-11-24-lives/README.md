@@ -11,21 +11,21 @@
 ## Life 1: Greeley, Colorado
 
 - Seed: `56f2d087-96cd-49e1-85d4-ba22eb3c176e`
-- Played: Monday, January 20, 20257:00 PM to Thursday, February 13, 20257:00 AM; reply policy: warm; 13 scenes.
+- Played: Monday, January 20, 2025, 7:00 PM to Thursday, February 13, 2025, 7:00 AM; reply policy: warm; 13 scenes.
 - Reached: The loading story, The President's address, Talk at home after it, The Journal evening, The news, A door knock, An interview call, A donor ask, An offer of help (volunteers), An endorsement ask, The Journal page at the end of the life.
 - Not reached: nothing.
 
 ## Life 2: Towaoc, Colorado
 
 - Seed: `9faf530e-a91b-477e-ada7-83f4eb91c79e`
-- Played: Monday, January 20, 20257:00 PM to Thursday, February 13, 20257:00 AM; reply policy: blunt; 12 scenes.
+- Played: Monday, January 20, 2025, 7:00 PM to Thursday, February 13, 2025, 7:00 AM; reply policy: blunt; 12 scenes.
 - Reached: The loading story, The President's address, Talk at home after it, The Journal evening, The news, A door knock, A donor ask, An offer of help (volunteers), An endorsement ask, The Journal page at the end of the life.
 - Not reached: An interview call.
 
 ## Life 3: Hartford, Michigan
 
 - Seed: `6cbdaccf-e733-4d22-82e6-4f694c416b8e`
-- Played: Monday, January 20, 20259:00 PM to Thursday, February 13, 20257:00 AM; reply policy: middle; 16 scenes.
+- Played: Monday, January 20, 2025, 9:00 PM to Thursday, February 13, 2025, 7:00 AM; reply policy: middle; 16 scenes.
 - Reached: The loading story, The President's address, Talk at home after it, The Journal evening, The news, A door knock, An interview call, A donor ask, An offer of help (volunteers), An endorsement ask, The Journal page at the end of the life.
 - Not reached: nothing.
 

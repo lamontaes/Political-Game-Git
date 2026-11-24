@@ -7,8 +7,8 @@
    "place": "Greeley, Colorado",
    "seed": "56f2d087-96cd-49e1-85d4-ba22eb3c176e",
    "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
-   "start": "Monday, January 20, 20257:00 PM",
-   "end": "Thursday, February 13, 20257:00 AM",
+   "start": "Monday, January 20, 2025, 7:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
    "entries": [
     {
      "n": 1,
@@ -144,7 +144,7 @@
     {
      "n": 2,
      "title": "The President's address",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Emma Potts, Parker Potts, Lucy Potts, Sebastian Potts",
      "blocks": [
       {
@@ -214,7 +214,7 @@
     {
      "n": 3,
      "title": "Talk at home with Parker Potts",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Parker Potts, Emma Potts, Sebastian Potts, Lucy Potts",
      "blocks": [
       {
@@ -294,7 +294,7 @@
     {
      "n": 4,
      "title": "The Journal evening",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -320,7 +320,7 @@
     {
      "n": 5,
      "title": "The news",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -346,7 +346,7 @@
     {
      "n": 6,
      "title": "Knock on doors",
-     "when": "Tuesday, January 21, 202510:00 AM",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
      "here": "Frederick Stein",
      "blocks": [
       {
@@ -423,7 +423,7 @@
     {
      "n": 7,
      "title": "Ask for an interview",
-     "when": "Tuesday, January 21, 202510:00 AM",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -512,7 +512,7 @@
     {
      "n": 8,
      "title": "Call donors",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Megan Potts",
      "blocks": [
       {
@@ -589,7 +589,7 @@
     {
      "n": 9,
      "title": "Volunteers",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -629,7 +629,7 @@
     {
      "n": 10,
      "title": "Endorsements",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -669,7 +669,7 @@
     {
      "n": 11,
      "title": "A scene: It's early on January 22",
-     "when": "Wednesday, January 22, 20257:00 AM",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
      "here": "Emma Potts, Parker Potts, Lucy Potts, Sebastian Potts",
      "blocks": [
       {
@@ -729,7 +729,7 @@
     {
      "n": 12,
      "title": "A scene: It's early on February 11",
-     "when": "Tuesday, February 11, 20257:00 AM",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
      "here": "Emma Potts, Parker Potts, Lucy Potts, Sebastian Potts",
      "blocks": [
       {
@@ -781,7 +781,7 @@
     {
      "n": 13,
      "title": "The Journal page at the end of the life",
-     "when": "Thursday, February 13, 20257:00 AM",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
      "here": "Greeley, Colorado",
      "blocks": [
       {
@@ -813,8 +813,8 @@
    "place": "Towaoc, Colorado",
    "seed": "9faf530e-a91b-477e-ada7-83f4eb91c79e",
    "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
-   "start": "Monday, January 20, 20257:00 PM",
-   "end": "Thursday, February 13, 20257:00 AM",
+   "start": "Monday, January 20, 2025, 7:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
    "entries": [
     {
      "n": 1,
@@ -926,7 +926,7 @@
     {
      "n": 2,
      "title": "The President's address",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Lara Richardson, Kayla Richardson",
      "blocks": [
       {
@@ -988,7 +988,7 @@
     {
      "n": 3,
      "title": "Talk at home with Lara Richardson",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Lara Richardson, Kayla Richardson",
      "blocks": [
       {
@@ -1068,7 +1068,7 @@
     {
      "n": 4,
      "title": "The Journal evening",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1094,7 +1094,7 @@
     {
      "n": 5,
      "title": "The news",
-     "when": "Monday, January 20, 20257:00 PM",
+     "when": "Monday, January 20, 2025, 7:00 PM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1120,7 +1120,7 @@
     {
      "n": 6,
      "title": "Knock on doors",
-     "when": "Tuesday, January 21, 202510:00 AM",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
      "here": "Mary Merrill",
      "blocks": [
       {
@@ -1177,7 +1177,7 @@
     {
      "n": 7,
      "title": "Call donors",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1238,7 +1238,7 @@
     {
      "n": 8,
      "title": "Volunteers",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1277,7 +1277,7 @@
     {
      "n": 9,
      "title": "Endorsements",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1316,7 +1316,7 @@
     {
      "n": 10,
      "title": "A scene: It's early on January 22",
-     "when": "Wednesday, January 22, 20257:00 AM",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
      "here": "Lara Richardson, Kayla Richardson",
      "blocks": [
       {
@@ -1376,7 +1376,7 @@
     {
      "n": 11,
      "title": "A scene: It's early on February 11",
-     "when": "Tuesday, February 11, 20257:00 AM",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
      "here": "Lara Richardson, Kayla Richardson",
      "blocks": [
       {
@@ -1436,7 +1436,7 @@
     {
      "n": 12,
      "title": "The Journal page at the end of the life",
-     "when": "Thursday, February 13, 20257:00 AM",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
      "here": "Towaoc, Colorado",
      "blocks": [
       {
@@ -1468,8 +1468,8 @@
    "place": "Hartford, Michigan",
    "seed": "6cbdaccf-e733-4d22-82e6-4f694c416b8e",
    "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
-   "start": "Monday, January 20, 20259:00 PM",
-   "end": "Thursday, February 13, 20257:00 AM",
+   "start": "Monday, January 20, 2025, 9:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
    "entries": [
     {
      "n": 1,
@@ -1589,7 +1589,7 @@
     {
      "n": 2,
      "title": "The President's address",
-     "when": "Monday, January 20, 20259:00 PM",
+     "when": "Monday, January 20, 2025, 9:00 PM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -1659,7 +1659,7 @@
     {
      "n": 3,
      "title": "Talk at home with Kevin Yates",
-     "when": "Monday, January 20, 20259:00 PM",
+     "when": "Monday, January 20, 2025, 9:00 PM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -1739,7 +1739,7 @@
     {
      "n": 4,
      "title": "The Journal evening",
-     "when": "Monday, January 20, 20259:00 PM",
+     "when": "Monday, January 20, 2025, 9:00 PM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -1765,7 +1765,7 @@
     {
      "n": 5,
      "title": "The news",
-     "when": "Monday, January 20, 20259:00 PM",
+     "when": "Monday, January 20, 2025, 9:00 PM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -1791,7 +1791,7 @@
     {
      "n": 6,
      "title": "Knock on doors",
-     "when": "Tuesday, January 21, 202510:00 AM",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
      "here": "Nancy Lara",
      "blocks": [
       {
@@ -1846,7 +1846,7 @@
     {
      "n": 7,
      "title": "Ask for an interview",
-     "when": "Tuesday, January 21, 202510:00 AM",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -1914,7 +1914,7 @@
     {
      "n": 8,
      "title": "Call donors",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -2013,7 +2013,7 @@
     {
      "n": 9,
      "title": "Volunteers",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -2050,7 +2050,7 @@
     {
      "n": 10,
      "title": "Endorsements",
-     "when": "Tuesday, January 21, 20252:00 PM",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
@@ -2087,7 +2087,7 @@
     {
      "n": 11,
      "title": "A scene: It's early on January 22",
-     "when": "Wednesday, January 22, 20257:00 AM",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -2153,7 +2153,7 @@
     {
      "n": 12,
      "title": "Talk at home with Joseph Yates",
-     "when": "Friday, January 24, 20257:00 AM",
+     "when": "Friday, January 24, 2025, 7:00 AM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -2229,7 +2229,7 @@
     {
      "n": 13,
      "title": "Talk at home with Kevin Yates",
-     "when": "Sunday, January 26, 20257:00 AM",
+     "when": "Sunday, January 26, 2025, 7:00 AM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -2281,7 +2281,7 @@
     {
      "n": 14,
      "title": "Talk at home with Jacqueline Yates",
-     "when": "Monday, January 27, 20257:00 AM",
+     "when": "Monday, January 27, 2025, 7:00 AM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -2332,7 +2332,7 @@
     {
      "n": 15,
      "title": "A scene: It's early on February 11",
-     "when": "Tuesday, February 11, 20257:00 AM",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
      "here": "Kevin Yates, Jacqueline Yates, Joseph Yates",
      "blocks": [
       {
@@ -2384,7 +2384,7 @@
     {
      "n": 16,
      "title": "The Journal page at the end of the life",
-     "when": "Thursday, February 13, 20257:00 AM",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
      "here": "Hartford, Michigan",
      "blocks": [
       {
