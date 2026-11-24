@@ -24,7 +24,7 @@
     },
     {
       "turn": "late",
-      "what": "At the next ward meeting, the florist recognizes the messenger and asks which blocks the vacant precinct covers.",
+      "what": "At the next local party meeting, the florist recognizes the messenger and asks which blocks the vacant precinct covers.",
       "pulledBy": "The resident has the meeting address from their first conversation and the post is still vacant.",
       "writesBack": "The secretary gives the resident a precinct map and records their interest."
     }
