@@ -6,6 +6,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { appliedOn } from "./law-reach/applied";
+import { lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
@@ -20,14 +21,17 @@ const KEYS = [
 ];
 
 describe(`sales tax counted reach (seed ${seed})`, () => {
-  it("never stands for more people than the town's counted residents", () => {
-    // A state with no general sales tax (a gross receipts tax instead, in the
-    // starting law) writes no sales-tax reach rows, so a draw that lands there
-    // has no case: it is passed over by name and the next draw is tried, up to
-    // MAX_DRAWS, and the test fails naming every place passed over if none holds.
-    const MAX_DRAWS = 8;
-    const passedOver: string[] = [];
-    const run = (place: { name: string; key: string; seed: string }) => {
+  it("never stands for more people than the town's counted residents, and writes no reach where no sales tax is in force", () => {
+    // Whether the place taxes sales is read from its own law record (a rate
+    // above zero at a city, county, township or state level, not set aside),
+    // before the rows are looked at: a place with the tax must write counted
+    // reach rows, and a place with none (a gross receipts tax instead) must
+    // write none. No place is passed over for what it wrote.
+    const places = [
+      { name: "Prescott, Michigan", key: "2666300", seed: "a91c03e7d2b84f10" },
+      drawPlace(`${seed}:0`, "purchase-tax-reach"),
+    ];
+    for (const place of places) {
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -48,6 +52,13 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
         whole = Math.max(whole, peopleToday());
       }
+      const taxed = lawInForce(api, "sales-tax").levels.some(
+        (l) =>
+          l.row &&
+          !l.setAside &&
+          l.level !== "federal" &&
+          (l.row.value ?? 0) > 0,
+      );
       let witnessed = 0;
       for (const key of KEYS) {
         const rows = appliedOn(api, key).filter((r) => r.target === "group");
@@ -62,30 +73,19 @@ describe(`sales tax counted reach (seed ${seed})`, () => {
           ).toBeLessThanOrEqual(whole);
         }
       }
-      if (witnessed === 0)
-        passedOver.push(`${where}: no counted sales-tax reach rows`);
-      return witnessed;
-    };
-    // Prescott, Michigan is pinned: its state has the tax, so it must witness.
-    expect(
-      run({
-        name: "Prescott, Michigan",
-        key: "2666300",
-        seed: "a91c03e7d2b84f10",
-      }),
-      passedOver.join("; "),
-    ).toBeGreaterThan(0);
-    let witnessed = 0;
-    for (let draw = 0; draw < MAX_DRAWS && witnessed === 0; draw += 1) {
-      const place = drawPlace(`${seed}:${draw}`, "purchase-tax-reach");
-      witnessed = run(place);
+      process.stdout.write(
+        `purchase-tax-counted-reach: ${where}: sales tax in force ${taxed}, ${witnessed} counted reach rows\n`,
+      );
+      if (taxed)
+        expect(
+          witnessed,
+          `${where}: a sales tax is in force, counted sales-tax reach rows`,
+        ).toBeGreaterThan(0);
+      else
+        expect(
+          witnessed,
+          `${where}: no sales tax in force, so no counted reach rows`,
+        ).toBe(0);
     }
-    process.stdout.write(
-      `purchase-tax-counted-reach: seed ${seed}; passed over: ${passedOver.join("; ") || "none"}\n`,
-    );
-    expect(
-      witnessed,
-      `no drawn place had counted sales-tax reach rows in ${MAX_DRAWS} draws; passed over: ${passedOver.join("; ")}`,
-    ).toBeGreaterThan(0);
-  }, 1_800_000);
+  }, 900_000);
 });
