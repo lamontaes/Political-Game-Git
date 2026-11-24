@@ -1,0 +1,34 @@
+{
+  "id": "snow-clearance-follows-mayor-to-polls",
+  "kind": "consequence",
+  "summary": "Voters in {place} still remember the uncleared streets when the incumbent asks for another term.",
+  "realLife": "Chicago’s slow snow removal became a campaign issue for Jane Byrne in her primary win over Mayor Michael Bilandic.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1979_Chicago_blizzard",
+    "https://en.wikipedia.org/wiki/Jane_Byrne"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "Residents have experienced a snow response and an incumbent faces an election."
+  ],
+  "weights": [
+    "Longer recorded clearance times on a resident's block give the complaint more weight."
+  ],
+  "usedBy": [],
+  "inGame": "needs: voter accounts of street clearance by neighborhood.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A challenger hears residents defend the plow crews.",
+      "pulledBy": "Their streets were cleared before morning traffic.",
+      "writesBack": "The canvass records support for the response in those blocks."
+    },
+    {
+      "turn": "partial",
+      "what": "The criticism comes from side streets only.",
+      "pulledBy": "Service logs show a gap between main routes and side streets.",
+      "writesBack": "The campaign records which routes residents named."
+    }
+  ]
+}

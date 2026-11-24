@@ -1,0 +1,42 @@
+{
+  "id": "pattern-b34-the-concession-call",
+  "kind": "situation",
+  "summary": "The concession call: The count says you lost, and {campaign manager} holds the phone: call {winner} now, later, or not yet.",
+  "realLife": "One life: On election night 2000, after the networks called Florida for George W. Bush, Gore phoned Bush to concede, then, as the margin shrank, called back to take it back. His campaign chairman told the crowd the race was too close to call. Another: In 2016 her campaign chairman told the crowd to go home; she called the winner that night and gave her concession speech the next morning.",
+  "sources": [
+    "https://thecrimson.com/article/2000/11/9/gore-minutes-from-conceding-pnashville-on-the",
+    "https://www.heraldnet.com/news/at-the-bell-gore-decided-fight-wasnt-over",
+    "https://wlos.com/news/nation-world/podesta-to-clinton-supporters-go-home",
+    "https://www.cbsnews.com/amp/news/hillary-clinton-concession-speech-2016-donald-trump"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["winner", "chairman"],
+  "gates": ["Election night.", "The count record shows you behind."],
+  "weights": [
+    "How narrow it is.",
+    "How many ballots are out.",
+    "Pride traits."
+  ],
+  "pattern": "B34",
+  "choices": [
+    "call to concede now (the call follows its real form)",
+    "wait for more returns",
+    "send {chairman} to tell the crowd to go home",
+    "speak to the crowd yourself tonight"
+  ],
+  "branches": [
+    {
+      "when": "the margin collapses after you called",
+      "then": "You call back and take it back, after the other side has begun to celebrate."
+    },
+    {
+      "when": "you call in private and speak in the morning",
+      "then": "The crowd goes home without you, and the next day's speech is the concession on record."
+    },
+    {
+      "when": "you are the winner taking the call",
+      "then": "Take the concession graciously, or snap when it is taken back."
+    }
+  ],
+  "usedBy": []
+}

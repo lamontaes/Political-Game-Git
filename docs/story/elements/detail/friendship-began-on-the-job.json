@@ -1,0 +1,30 @@
+{
+  "id": "friendship-began-on-the-job",
+  "kind": "detail",
+  "summary": "A call from a close friend recalls how both people came to know each other through work.",
+  "realLife": "On his way to start work for Senator Edward Brooke, Ralph Neas stopped at the neighboring Kennedy office to introduce himself. Neas recalled that he and receptionist Melody Miller remained friends for decades.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/ralph-neas-oral-history",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L192"
+  ],
+  "inGame": "needs: a work-origin record for the current friendship.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{friend}", "{job}", "{player}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The two remember meeting at work and disagree about which shift it was.",
+      "pulledBy": "Their job dates overlap but neither kept the old roster.",
+      "writesBack": "The workplace remains established and the shift stays uncertain."
+    },
+    {
+      "turn": "late",
+      "what": "The retired dispatcher mails over the shift photograph after the call.",
+      "pulledBy": "The two friends worked at the same depot and the dispatcher kept the annotated print.",
+      "writesBack": "The photo supplies the missing date for their first shift together."
+    }
+  ]
+}

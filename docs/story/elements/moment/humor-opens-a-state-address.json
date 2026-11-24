@@ -1,0 +1,32 @@
+{
+  "id": "humor-opens-a-state-address",
+  "kind": "moment",
+  "summary": "A governor opens with a joke before the business.",
+  "realLife": "Utah's governor opened by asking the chamber to hold applause to the end.",
+  "sources": [
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "state": 0.08
+  },
+  "usedBy": [],
+  "inGame": "The `greeting` move and trait lean (light-hearted, informal) exist. needs: a humor piece; none is written.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A grave opening in a year of loss (a disaster).",
+      "pulledBy": "the-disaster in the year",
+      "writesBack": "The first line honors the people hurt."
+    },
+    {
+      "turn": "neutral",
+      "what": "A warm opening with no joke.",
+      "pulledBy": "a friendly speaker",
+      "writesBack": "The greeting alone."
+    }
+  ]
+}

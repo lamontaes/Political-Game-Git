@@ -1,0 +1,28 @@
+{
+  "id": "students-bring-their-own-meeting-vote",
+  "kind": "voice",
+  "summary": "A student brings the result of an association meeting to the council hearing that same day.",
+  "realLife": "Elska Lunde reported that the university's undergraduate history association had voted to retain the ordinance and would consider a compromise for stores and shoppers.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{student}", "{association}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: association vote and authority to negotiate.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The student hands the secretary a record of the meeting.",
+      "pulledBy": "The council asks who authorized the statement.",
+      "writesBack": "The student gives the result from the association meeting."
+    },
+    {
+      "turn": "opposite",
+      "what": "A council member asks whether the association has authorized this particular bargain.",
+      "pulledBy": "The council proposes a different compromise.",
+      "writesBack": "The student takes the proposal back without promising the association's votes."
+    }
+  ]
+}

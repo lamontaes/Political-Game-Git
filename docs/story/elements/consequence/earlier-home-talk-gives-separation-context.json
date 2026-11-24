@@ -1,0 +1,30 @@
+{
+  "id": "earlier-home-talk-gives-separation-context",
+  "kind": "consequence",
+  "summary": "An earlier conversation about a strained marriage matters when the couple considers separating.",
+  "realLife": "When Eleanor Roosevelt learned of Franklin’s affair with Lucy Mercer, she offered him a divorce. Franklin chose to stay married and promised Eleanor he would stop seeing Mercer.",
+  "sources": [
+    "https://erpapers.columbian.gwu.edu/franklin-delano-roosevelt-1882-1945",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L236"
+  ],
+  "inGame": "needs: a prior conversation outcome read by the separation scene.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{partner}", "{player}", "{earlier_talk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The couple recalls the earlier argument and agrees to try the change they discussed then.",
+      "pulledBy": "Both still want to stay together and the practical option remains available.",
+      "writesBack": "A new household agreement follows the earlier conversation."
+    },
+    {
+      "turn": "partial",
+      "what": "One spouse remembers promising to be home on hearing nights. The other asks about the weekends they never discussed.",
+      "pulledBy": "The earlier conversation covered evenings in session and the new calendar adds Saturday meetings.",
+      "writesBack": "The couple carries the weekend question into their next conversation."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "lawyer-separates-coverage-from-distribution-of-refunds",
+  "kind": "situation",
+  "summary": "A member learns that changing which drinks qualify and changing where the money goes may require different approvals.",
+  "realLife": "Campbell told colleagues that after consulting Boeckmann he understood broader coverage might be possible by council action while changing the distribution of money would need voters.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{member}", "{counsel}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: local charter and counsel opinion.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The chair asks staff to redraft the coverage list.",
+      "pulledBy": "Counsel confirms the council may change coverage.",
+      "writesBack": "The clerk prepares the coverage amendment for a council vote."
+    },
+    {
+      "turn": "opposite",
+      "what": "A member asks the clerk for the last day to submit ballot language.",
+      "pulledBy": "The proposed change redirects receipts and needs voter approval.",
+      "writesBack": "The sponsor prepares an election referral."
+    }
+  ]
+}

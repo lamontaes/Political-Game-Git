@@ -1,0 +1,43 @@
+{
+  "id": "pattern-c11-family-on-the-inside",
+  "kind": "situation",
+  "summary": "Family on the inside: {family member} works for your campaign or near your office, and {go-between} offers them something you would never take yourself.",
+  "realLife": "One life: During the 2016 race his eldest son, who also ran the family company, took a meeting offered with the promise of damaging material on the rival. Emails released in 2017 showed its purpose. Another: In 2002, while her father was vice president, she took a State Department post that critics said was created for her. In 2016 she won the Wyoming House seat he had held from 1979 to 1989.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Donald_Trump_Jr.",
+    "https://en.wikipedia.org/wiki/Liz_Cheney"
+  ],
+  "fits": ["campaign", "journal", "news", "office", "speeches"],
+  "slots": ["family member", "go-between"],
+  "gates": [
+    "You hold an office or are running.",
+    "{family member} holds a role in your campaign, business or government on record."
+  ],
+  "weights": [
+    "How close the tie is.",
+    "How much the family business touches your office.",
+    "Traits that trust family."
+  ],
+  "pattern": "C11",
+  "choices": [
+    "let them take it",
+    "tell them no",
+    "set a rule that family stays out of the work",
+    "ask the lawyers first"
+  ],
+  "branches": [
+    {
+      "when": "the meeting promised dirt on your rival",
+      "then": "Emails show what it was for, and years later a committee refers {family member} to prosecutors."
+    },
+    {
+      "when": "a post is said to be made for them",
+      "then": "Critics say the job was created for them while you held office, and it follows them into their own race."
+    },
+    {
+      "when": "{family member} runs for your old seat",
+      "then": "They win the seat you once held, and every vote they cast is read against yours (C47)."
+    }
+  ],
+  "usedBy": []
+}

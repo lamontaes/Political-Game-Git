@@ -1,0 +1,35 @@
+{
+  "id": "response-plan-closes-on-who-runs-it-and-when",
+  "kind": "move",
+  "summary": "The story ends with the fix: a new department, who will lead it, and about when.",
+  "realLife": "The city's plan to move the permit office under a new department was given with a named lead and a rough date.",
+  "sources": [
+    "Community Impact (Austin edition), 'Leander swamped by record number of permit requests', Nov. 17, 2014 (updated June 2015; the page text came without paragraph breaks, so the paragraph order was rebuilt from sentence logic): https://communityimpact.com/cedar-park-leander/city-county/leander-swamped-by-record-number-of-permit-requests-2/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.7,
+    "budget": 0.6
+  },
+  "inGame": "the budget lines that add staff (`budget-line-changed`); needs: a department reorganization",
+  "turns": [
+    {
+      "name": "no fix yet",
+      "pulledBy": "a council that has not decided",
+      "writes": "the story says no plan has been set",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the fix fails",
+      "pulledBy": "a move that slipped",
+      "writes": "a later story says it was delayed",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

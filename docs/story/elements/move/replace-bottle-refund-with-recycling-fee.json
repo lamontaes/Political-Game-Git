@@ -1,0 +1,28 @@
+{
+  "id": "replace-bottle-refund-with-recycling-fee",
+  "kind": "move",
+  "summary": "A legislator has to explain why buying a drink still costs extra after the refund is repealed.",
+  "realLife": "Delaware’s 2010 act replaced the refundable deposit with a temporary fee to finance universal recycling.",
+  "sources": ["https://legis.delaware.gov/BillDetail?legislationId=19844"],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{member}", "{shopper}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: effective date and refundable or nonrefundable charge.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Under a deposit, the shopper can recover the charge on an eligible empty.",
+      "pulledBy": "The purchase is covered by an active refundable deposit.",
+      "writesBack": "The register records a refundable charge."
+    },
+    {
+      "turn": "opposite",
+      "what": "Under Delaware’s replacement fee, the proceeds support recycling and the shopper has no refund claim for the new charge.",
+      "pulledBy": "The replacement fee took effect before the purchase.",
+      "writesBack": "The new charge goes to the fee account."
+    }
+  ]
+}

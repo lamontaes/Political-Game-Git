@@ -1,0 +1,33 @@
+{
+  "id": "named-people-inside-a-point-as-proof",
+  "kind": "move",
+  "summary": "People in the room are named in the middle of a point as proof, not as the point's opening.",
+  "realLife": "Florida's and Georgia's governors worked people from the audience into the middle of a point rather than opening on them.",
+  "sources": [
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches", "office"],
+  "slots": ["the-vice-president"],
+  "gates": [],
+  "weights": {
+    "state": 0.17
+  },
+  "usedBy": [],
+  "inGame": "needs: a record of the people in the room (guests). The vice president, from the officials engine, is the only named person at the address today.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No named people; the proof is a figure said in words.",
+      "pulledBy": "no guest record at the address",
+      "writesBack": "The point stands on the measure alone."
+    },
+    {
+      "turn": "late",
+      "what": "A named person appears at the close, as a thank-you.",
+      "pulledBy": "a person the world has met and filled in (two-level population)",
+      "writesBack": "That person's later talk brings the speech up."
+    }
+  ]
+}

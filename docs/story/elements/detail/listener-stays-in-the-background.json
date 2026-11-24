@@ -1,0 +1,30 @@
+{
+  "id": "listener-stays-in-the-background",
+  "kind": "detail",
+  "summary": "Someone else is present at the desk while the official and visitor speak to each other.",
+  "realLife": "Senate aide Charles Ferris recalled a Reuters reporter hearing his account of a trade bill’s prospects while Ferris talked with other reporters in the Senate gallery.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/ferris-charles-d-full-transcript-with-index.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L279"
+  ],
+  "inGame": "needs: identify a present non-speaker in the scene cast before referring to their presence.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{official}", "{visitor}", "{listener}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The listener waits until the visitor leaves before asking the official a question.",
+      "pulledBy": "The visitor was addressing the official privately about their case.",
+      "writesBack": "A separate conversation occurs after the visit."
+    },
+    {
+      "turn": "partial",
+      "what": "The aide hears the request at the desk and steps outside before the visitor gives an account number.",
+      "pulledBy": "The visitor asks for privacy before handing over the document.",
+      "writesBack": "The aide can confirm the subject of the visit and the caseworker alone handles the personal details."
+    }
+  ]
+}

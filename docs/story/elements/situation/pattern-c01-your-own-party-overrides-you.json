@@ -1,0 +1,48 @@
+{
+  "id": "pattern-c01-your-own-party-overrides-you",
+  "kind": "situation",
+  "summary": "Your own party overrides you: {the body}, where your own party holds the majority, overrides your veto of {the bill}, and {chamber leader} tells the press the votes were never in doubt.",
+  "realLife": "One life: As South Carolina governor, his own party's House overrode 105 of his 106 budget vetoes in one day in 2004. The next day he brought live pigs into the chamber to protest pork spending. In 2006 he rejected the whole budget, and the legislature overrode him the next day. Another: In 2013, his first year as Indiana governor, the Republican legislature overrode his veto of a local tax bill by wide margins in both houses.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mark_Sanford",
+    "https://en.wikipedia.org/wiki/Mike_Pence"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the bill", "chamber leader"],
+  "gates": [
+    "You hold an executive office with a veto.",
+    "You vetoed {the bill}, and {the body} voted to override it.",
+    "Your party holds the majority in {the body}."
+  ],
+  "weights": [
+    "How many of your vetoes the body has overridden.",
+    "How far your views sit from the majority's.",
+    "Traits that hate waste or dig in."
+  ],
+  "pattern": "C01",
+  "choices": [
+    "veto the next one too and take it to the public with a stunt",
+    "name the members who voted to override, in their own districts",
+    "meet {chamber leader} and trade: you sign one of theirs, they hold one of yours",
+    "stop vetoing and work on bills before they pass"
+  ],
+  "branches": [
+    {
+      "when": "you protest with a stunt",
+      "then": "The picture runs everywhere. Voters like it, and the senior members whose projects you mocked remember it at the next vote."
+    },
+    {
+      "when": "you reject the whole budget",
+      "then": "The body overrides you the next day in a special sitting, and the press calls it a failed protest."
+    },
+    {
+      "when": "it is your first year",
+      "then": "The override is your first break with the majority, and members learn that your veto can be beaten."
+    },
+    {
+      "when": "you hate waste",
+      "then": "You veto lines in members' own districts, and those members stop returning your calls."
+    }
+  ],
+  "usedBy": []
+}

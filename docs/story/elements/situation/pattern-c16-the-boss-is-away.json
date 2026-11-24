@@ -1,0 +1,43 @@
+{
+  "id": "pattern-c16-the-boss-is-away",
+  "kind": "situation",
+  "summary": "The boss is away: {the executive} is away, and the calls, the decisions and the press all come to you.",
+  "realLife": "One life: As chief of staff to California's governor, he later said he ran the state while his boss campaigned for president in 1980. Another: In 2009 the South Carolina governor told his staff he was hiking and did not answer 15 calls from his chief of staff while he was in Argentina.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gray_Davis",
+    "https://en.wikipedia.org/wiki/Mark_Sanford"
+  ],
+  "fits": ["campaign", "journal", "news", "office", "work-community"],
+  "slots": ["the executive", "second in line"],
+  "gates": [
+    "You are the chief of staff, the deputy or {second in line} to {the executive}.",
+    "{the executive} is away on record: campaigning, traveling, unreachable."
+  ],
+  "weights": [
+    "How long they are gone.",
+    "How much is waiting.",
+    "How much {the executive} trusts you."
+  ],
+  "pattern": "C16",
+  "choices": [
+    "decide what must be decided and say so",
+    "hold everything until they return",
+    "tell the press the truth about where they are",
+    "cover for them"
+  ],
+  "branches": [
+    {
+      "when": "{the executive} is running for higher office",
+      "then": "You run the place day to day for months. Later you say so, and it is the record you run on."
+    },
+    {
+      "when": "they will not answer",
+      "then": "After many unanswered calls you have to tell the press something. Whatever you say is quoted when the truth comes out (C22)."
+    },
+    {
+      "when": "{second in line} wants to act",
+      "then": "They ask whether the office is vacant in law, and the question itself is news."
+    }
+  ],
+  "usedBy": []
+}

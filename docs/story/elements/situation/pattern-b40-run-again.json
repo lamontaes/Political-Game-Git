@@ -1,0 +1,38 @@
+{
+  "id": "pattern-b40-run-again",
+  "kind": "situation",
+  "summary": "Run again: You lost again, and {close tie} asks whether you will run next time.",
+  "realLife": "One life: He lost three Wisconsin governor's races, then won the 1957 special Senate election. Another: He lost the 2002 Newark mayoral race and won in 2006, when the incumbent did not run. Another: She lost a 2012 state house race to the speaker, then won a Seattle council seat in 2013.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1957_United_States_Senate_special_election_in_Wisconsin",
+    "https://en.wikipedia.org/wiki/Cory_Booker",
+    "https://en.wikipedia.org/wiki/Kshama_Sawant"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["close tie"],
+  "gates": ["You lost a race."],
+  "weights": [
+    "How many times you have lost.",
+    "Your margin.",
+    "Your household's money.",
+    "Stubborn traits."
+  ],
+  "pattern": "B40",
+  "choices": [
+    "run again for the same office",
+    "run for something smaller",
+    "say you are done",
+    "say not yet"
+  ],
+  "branches": [
+    {
+      "when": "you have lost several times",
+      "then": "The next try comes as a special election, and the papers call you the one who never quits."
+    },
+    {
+      "when": "the incumbent who beat you retires",
+      "then": "The next run is against someone else."
+    }
+  ],
+  "usedBy": []
+}

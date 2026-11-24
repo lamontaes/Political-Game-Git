@@ -1,0 +1,36 @@
+{
+  "id": "refrain-carries-the-speech",
+  "kind": "move",
+  "summary": "One repeated phrase carries a speech and the policies hang off it.",
+  "realLife": "Four of twelve speeches ran on a refrain: Bush's America at its best, Cox's weird, New Mexico's made to lead, Arizona's supporting families also means.",
+  "sources": [
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://governor.state.nm.us/2024/01/16/new-mexico-is-made-to-lead-governor-delivers-second-state-of-the-state-address-announces-legislative-agenda",
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-name", "theme-short"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.33,
+    "state": 0.33
+  },
+  "usedBy": [],
+  "inGame": "needs: a planner move that repeats one phrase through the speech. `theme-name` and `theme-short` exist, but each is allowed one mention per address (budgets in data/english/outlines.json).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No refrain: each point stands alone.",
+      "pulledBy": "the default today (theme-short is said once)",
+      "writesBack": "Nothing for the listener to repeat back."
+    },
+    {
+      "turn": "partial",
+      "what": "The refrain appears twice, at the open and the close.",
+      "pulledBy": "a speaker high in persistent; needs a slot allowed to repeat",
+      "writesBack": "The close can return to the opening line."
+    }
+  ]
+}
