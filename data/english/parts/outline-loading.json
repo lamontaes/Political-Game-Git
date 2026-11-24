@@ -4333,10 +4333,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.the-white-house-was-born-president-party-when-you-arrived-in-born-year-which-had",
+      "key": "outline-loading.born.the-white-house-was-born-president-party-when-you-were-born-in-born-year-you-had",
       "move": "born",
       "kind": "written",
-      "text": "The White House was {born-president-party} when you arrived in {born-year}, which had nothing to do with you and everything to do with the calendar.",
+      "text": "The White House was {born-president-party} when you were born in {born-year}. You had no say in that either.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4351,10 +4351,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.in-born-year-a-born-president-party-administration-ran-the-country-and-you-ran-n",
+      "key": "outline-loading.born.when-you-were-born-in-born-year-a-born-president-party-administration-was-in-off",
       "move": "born",
       "kind": "written",
-      "text": "In {born-year} a {born-president-party} administration ran the country, and you ran nothing, yet.",
+      "text": "When you were born in {born-year}, a {born-president-party} administration was in office. Nobody asked you about it.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4369,28 +4369,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.you-were-born-in-born-year-in-a-term-the-born-president-party-white-house-was-se",
+      "key": "outline-loading.born.born-year-a-born-president-party-white-house-and-one-new-person-in-state",
       "move": "born",
       "kind": "written",
-      "text": "You were born in {born-year}, in a term the {born-president-party} White House was serving out, with the rest of the country none the wiser.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year", "born-president-party"]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.born.born-year-found-a-born-president-party-president-in-office-and-a-newborn-in-stat",
-      "move": "born",
-      "kind": "written",
-      "text": "{born-year} found a {born-president-party} President in office and a newborn in {state}, and only one of them had a schedule.",
+      "text": "{born-year}: a {born-president-party} White House, and one new person in {state}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4405,10 +4387,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.whoever-held-the-white-house-in-born-year-was-a-born-president-party-candidate-a",
+      "key": "outline-loading.born.a-born-president-party-administration-was-in-charge-in-born-year-you-were-in-cha",
       "move": "born",
       "kind": "written",
-      "text": "Whoever held the White House in {born-year} was a {born-president-party} candidate, and you were a candidate for nothing but a nap.",
+      "text": "A {born-president-party} administration was in charge in {born-year}. You were in charge of nothing, yet.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4423,10 +4405,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.the-country-had-a-born-president-party-white-house-the-year-you-were-born-born-y",
+      "key": "outline-loading.born.in-born-year-you-were-born-under-a-born-president-party-white-house-and-the-pape",
       "move": "born",
       "kind": "written",
-      "text": "The country had a {born-president-party} White House the year you were born, {born-year}, and a form to fill out for you anyway.",
+      "text": "In {born-year} you were born under a {born-president-party} White House, and the paperwork did not mention it.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4444,49 +4426,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.born.politics-in-born-year-belonged-to-the-born-president-party-white-house-and-your",
-      "move": "born",
-      "kind": "written",
-      "text": "Politics in {born-year} belonged to the {born-president-party} White House, and your politics were limited to hunger.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year", "born-president-party"]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.born.a-born-president-party-term-was-under-way-when-you-were-born-in-born-year-and-th",
-      "move": "born",
-      "kind": "written",
-      "text": "A {born-president-party} term was under way when you were born in {born-year}, and the term would end long before you could vote on it.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year", "born-president-party"]
-        }
-      ],
-      "elements": [
-        "a-presidential-term-ends-at-noon-on-january-twentieth",
-        "voting-starts-at-eighteen-by-election-day"
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.school.the-white-house-was-school-president-party-in-school-year-when-school-place-sent",
+      "key": "outline-loading.school.when-you-started-school-in-school-place-in-school-year-the-white-house-was-schoo",
       "move": "school",
       "kind": "written",
-      "text": "The White House was {school-president-party} in {school-year} when {school-place} sent you to school, and no one asked whether it had a position on recess.",
+      "text": "When you started school in {school-place} in {school-year}, the White House was {school-president-party}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4505,10 +4448,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.in-school-year-a-school-president-party-president-ran-the-country-and-school-pla",
+      "key": "outline-loading.school.in-school-year-you-started-school-in-school-place-the-white-house-was-school-pre",
       "move": "school",
       "kind": "written",
-      "text": "In {school-year}, a {school-president-party} President ran the country and {school-place} ran your mornings.",
+      "text": "In {school-year} you started school in {school-place}. The White House was {school-president-party}, and the school day was the same either way.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4527,10 +4470,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.you-started-school-in-school-place-in-school-year-under-a-school-president-party",
+      "key": "outline-loading.school.the-school-president-party-party-held-the-white-house-in-school-year-when-school",
       "move": "school",
       "kind": "written",
-      "text": "You started school in {school-place} in {school-year}, under a {school-president-party} administration that had no say in the lunch line.",
+      "text": "The {school-president-party} party held the White House in {school-year}, when {school-place} sent you to school.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4549,32 +4492,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.school-place-school-year-a-new-classroom-and-a-school-president-party-white-hous",
+      "key": "outline-loading.school.school-year-the-white-house-was-school-president-party-for-another-term-and-firs",
       "move": "school",
       "kind": "written",
-      "text": "{school-place}, {school-year}: a new classroom, and a {school-president-party} White House that has never once met your teacher.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": [
-            "school-year",
-            "school-place",
-            "school-president-party"
-          ]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.school.school-year-a-school-president-party-white-house-again-which-is-how-washington-s",
-      "move": "school",
-      "kind": "written",
-      "text": "{school-year}: a {school-president-party} White House again, which is how Washington says nothing changed, while {school-place} taught you the alphabet.",
+      "text": "{school-year}: the White House was {school-president-party} for another term, and first grade in {school-place} carried on as usual.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4594,10 +4515,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.school.the-school-president-party-party-had-the-white-house-in-school-year-for-yet-anot",
+      "key": "outline-loading.school.the-school-president-party-party-had-held-the-white-house-before-and-in-school-y",
       "move": "school",
       "kind": "written",
-      "text": "The {school-president-party} party had the White House in {school-year} for yet another term, and the only thing that changed in {school-place} was your handwriting.",
+      "text": "The {school-president-party} party had held the White House before, and in {school-year} it still did, while you learned the alphabet in {school-place}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4617,10 +4538,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.the-moved-president-party-white-house-stayed-put-in-moved-year-and-you-didn-t-mo",
+      "key": "outline-loading.moved.you-moved-from-moved-from-to-moved-to-in-moved-year-with-a-moved-president-party",
       "move": "moved",
       "kind": "written",
-      "text": "The {moved-president-party} White House stayed put in {moved-year}, and you didn't: {moved-from} to {moved-to}.",
+      "text": "You moved from {moved-from} to {moved-to} in {moved-year}, with a {moved-president-party} White House in office.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4640,10 +4561,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.by-moved-year-the-family-had-moved-on-from-moved-from-while-a-moved-president-pa",
+      "key": "outline-loading.moved.a-moved-president-party-administration-was-in-office-in-moved-year-when-the-fami",
       "move": "moved",
       "kind": "written",
-      "text": "By {moved-year} the family had moved on from {moved-from}, while a {moved-president-party} President stayed where the term put them.",
+      "text": "A {moved-president-party} administration was in office in {moved-year} when the family left {moved-from} for {moved-to}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4663,10 +4584,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.under-a-moved-president-party-administration-in-moved-year-the-family-packed-up",
+      "key": "outline-loading.moved.the-family-moved-to-moved-to-in-moved-year-the-white-house-was-moved-president-p",
       "move": "moved",
       "kind": "written",
-      "text": "Under a {moved-president-party} administration in {moved-year}, the family packed up {moved-from} for {moved-to}. Washington did not notice.",
+      "text": "The family moved to {moved-to} in {moved-year}. The White House was {moved-president-party} and had no view on the boxes.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4686,33 +4607,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-came-in-moved-year-in-the-middle-of-a-moved",
-      "move": "moved",
-      "kind": "written",
-      "text": "The move from {moved-from} to {moved-to} came in {moved-year}, in the middle of a {moved-president-party} term and at the start of a new one for you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "moved",
-          "tie": "record",
-          "requiresFacts": [
-            "moved-year",
-            "moved-from",
-            "moved-to",
-            "moved-president-party"
-          ]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.as-start-month-start-year-opens-a-start-president-party-white-house-is-in-place",
+      "key": "outline-loading.now.the-white-house-is-start-president-party-as-start-month-start-year-begins-and-yo",
       "move": "now",
       "kind": "written",
-      "text": "As {start-month} {start-year} opens, a {start-president-party} White House is in place, and {place} gets to watch the details sort themselves out.",
+      "text": "The White House is {start-president-party} as {start-month} {start-year} begins, and you are in {place}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4732,10 +4630,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.in-start-month-start-year-place-is-under-a-start-president-party-white-house-and",
+      "key": "outline-loading.now.start-month-start-year-a-start-president-party-administration-is-in-office-and-y",
       "move": "now",
       "kind": "written",
-      "text": "In {start-month} {start-year}, {place} is under a {start-president-party} White House, and a new term starts at noon on a day the Constitution picked.",
+      "text": "{start-month} {start-year}: a {start-president-party} administration is in office, and you are in {place}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4755,10 +4653,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.start-month-start-year-the-start-president-party-party-holds-the-white-house-pla",
+      "key": "outline-loading.now.the-start-president-party-party-holds-the-white-house-in-start-month-start-year",
       "move": "now",
       "kind": "written",
-      "text": "{start-month} {start-year}: the {start-president-party} party holds the White House, {place} holds you, and neither is in a hurry.",
+      "text": "The {start-president-party} party holds the White House in {start-month} {start-year}, and {place} goes on as usual.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4778,33 +4676,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.the-start-president-party-white-house-has-a-new-term-to-fill-in-start-month-star",
+      "key": "outline-loading.now.the-white-house-is-start-president-party-again-as-start-month-start-year-begins",
       "move": "now",
       "kind": "written",
-      "text": "The {start-president-party} White House has a new term to fill in {start-month} {start-year}, and {place} has you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": [
-            "start-month",
-            "start-year",
-            "place",
-            "start-president-party"
-          ]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.the-start-president-party-party-held-the-white-house-again-going-into-start-mont",
-      "move": "now",
-      "kind": "written",
-      "text": "The {start-president-party} party held the White House again going into {start-month} {start-year}, and {place} has decided to be unsurprised.",
+      "text": "The White House is {start-president-party} again as {start-month} {start-year} begins, and {place} has seen the party before.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4825,10 +4700,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.in-start-month-start-year-the-start-president-party-white-house-is-a-repeat-in-p",
+      "key": "outline-loading.now.the-start-president-party-party-has-held-the-white-house-before-this-term-and-in",
       "move": "now",
       "kind": "written",
-      "text": "In {start-month} {start-year} the {start-president-party} White House is a repeat in {place}'s eyes, and the two-term limit means the faces change even if the party doesn't.",
+      "text": "The {start-president-party} party has held the White House before this term, and in {start-month} {start-year} it still does. Under the two-term limit, the faces change even when the party stays.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4844,52 +4719,6 @@
         }
       ],
       "elements": ["no-one-is-elected-president-more-than-twice"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.a-start-president-party-term-opens-in-start-month-start-year-place-watches-from",
-      "move": "now",
-      "kind": "written",
-      "text": "A {start-president-party} term opens in {start-month} {start-year}, {place} watches from where it sits, and the term ends on a date the Constitution already picked.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": [
-            "start-month",
-            "start-year",
-            "place",
-            "start-president-party"
-          ]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.place-in-start-month-start-year-is-a-place-with-a-start-president-party-white-ho",
-      "move": "now",
-      "kind": "written",
-      "text": "{place} in {start-month} {start-year} is a place with a {start-president-party} White House on its television and you on its roll.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": [
-            "start-month",
-            "start-year",
-            "place",
-            "start-president-party"
-          ]
-        }
-      ],
-      "elements": ["a-presidential-term-ends-at-noon-on-january-twentieth"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
