@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a46-the-vote-for-leader",
+  "kind": "situation",
+  "summary": "The vote for leader: {candidate one} and {candidate two} are running to lead your party in the body, and both want your vote.",
+  "realLife": "She moved off the Agriculture Committee to Veterans' Affairs, and later Education and Labor, after voting for Hale Boggs for majority leader.",
+  "sources": ["https://en.wikipedia.org/wiki/Shirley_Chisholm"],
+  "fits": ["journal", "news", "office"],
+  "slots": ["candidate one", "candidate two"],
+  "gates": [
+    "You hold a seat in a legislature.",
+    "A contest for party leader in the body."
+  ],
+  "weights": ["Your ties with each.", "What each offered."],
+  "pattern": "A46",
+  "choices": [
+    "promise your vote to one",
+    "keep it to yourself",
+    "ask each what they would do for your district"
+  ],
+  "branches": [
+    {
+      "when": "you back the winner",
+      "then": "You get the committee you wanted, and the leader expects your vote on the first hard bill."
+    },
+    {
+      "when": "you back the loser",
+      "then": "Your committee stays where it was, and the winner's people do not forget."
+    },
+    {
+      "when": "a long shot asks",
+      "then": "Standing with a third candidate makes you a name in the body, for better or worse."
+    }
+  ],
+  "usedBy": []
+}

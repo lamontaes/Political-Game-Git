@@ -1,0 +1,32 @@
+{
+  "id": "pattern-b51-the-order-on-the-first-day",
+  "kind": "situation",
+  "summary": "The order on the first day: You can sign an order on your first day that takes a long-held power away from the members of {the body}.",
+  "realLife": "Right after her 2019 inauguration as Chicago mayor, she signed an order curbing aldermen's long-held say over permits and licenses in their wards, leaving zoning alone. Many aldermen were surprised at its reach.",
+  "sources": [
+    "https://www.wbez.org/chicago/2019/05/20/lightfoot-inauguration",
+    "https://www.wbez.org/chicago/2019/07/01/how-far-should-mayor-lightfoot-go-to-curb-chicago-aldermen"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["the power"],
+  "gates": ["You hold an executive office.", "{the power} is on record."],
+  "weights": ["How many members use it.", "Your reform promises."],
+  "pattern": "B51",
+  "choices": [
+    "sign it on day one",
+    "negotiate with the members first",
+    "narrow it",
+    "leave it alone"
+  ],
+  "branches": [
+    {
+      "when": "members are surprised at its reach",
+      "then": "They line up against your first bill."
+    },
+    {
+      "when": "you leave one power alone",
+      "then": "Reformers say it is half done; members say you went too far."
+    }
+  ],
+  "usedBy": []
+}

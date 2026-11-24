@@ -1,0 +1,55 @@
+{
+  "id": "pattern-b6-02-the-new-face-in-the-room",
+  "kind": "situation",
+  "summary": "The new face in the room: {the newcomer} comes over to introduce themselves and the player decides how much room to make.",
+  "realLife": "One life: A University of Illinois study of engineers at a large manufacturer: about 65 percent of what new hires learned came from coworkers and 15 percent from managers. A local mentor, a meaningful early assignment and social invitations outside work helped; many newcomers left in two years. Another: A woman of 55 renovating a new house in Detroit heard a knock; her neighbor in her 90s brought a gift and the two found a shared love of architecture and became best friends. Another: Next-door neighbors for years without meeting. Their dogs met at the gate; a 79-year-old asked a 31-year-old for advice on talking with her grandson, and both told hard stories. The older woman said the friendship changed her plans for her future. Another: A University of Kansas study of 467 people (355 adults who had recently moved): moving from acquaintance to casual friend took roughly 40 to 60 hours together, and work hours counted for much less than relaxed time.",
+  "sources": [
+    "https://news.illinois.edu/relationship-building-among-co-workers-key-driver-of-workplace-socialization/",
+    "https://wdet.org/?p=24530",
+    "https://www.kunc.org/2025-01-10/a-neighbors-bond-that-transcends-age",
+    "https://news.ku.edu/2018/03/06/study-reveals-number-hours-it-takes-make-friend"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the newcomer", "the old hand", "the group"],
+  "gates": [
+    "{the newcomer} is new to the player's workplace, household or street on the records.",
+    "The player works, lives or has a home there.",
+    "{the old hand} or {the group} is on the record."
+  ],
+  "weights": [
+    "How much of the place's work or housework the newcomer will share with the player.",
+    "Whether the player has been the newcomer in the past.",
+    "Whether others on the record are also new.",
+    "Hours the two will spend together in a week."
+  ],
+  "pattern": "B6-02",
+  "choices": [
+    "show them how things run and introduce them to {the group}",
+    "invite them to something outside the work or house",
+    "answer and keep it short",
+    "leave them to find their own way"
+  ],
+  "branches": [
+    {
+      "when": "{the group} includes the newcomer in meals or outings in the first weeks",
+      "then": "The newcomer's ties on the record grow and later help the player."
+    },
+    {
+      "when": "the player is the one who shows them how things run",
+      "then": "The newcomer remembers who taught them and owes the player a small favor."
+    },
+    {
+      "when": "nobody makes room for the newcomer",
+      "then": "The newcomer's support falls in the first weeks, and a leaving record may follow."
+    },
+    {
+      "when": "the newcomer is a stranger who knocks first with a gift or a question",
+      "then": "A neighbor tie forms on the record, with shared interests and talk about the street."
+    },
+    {
+      "when": "the newcomer is from a different background",
+      "then": "The talk goes personal, and a hard story shared leaves both with a closer tie."
+    }
+  ],
+  "usedBy": ["first-meeting", "arrival"]
+}

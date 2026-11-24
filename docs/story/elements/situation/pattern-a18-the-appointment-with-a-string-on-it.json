@@ -1,0 +1,38 @@
+{
+  "id": "pattern-a18-the-appointment-with-a-string-on-it",
+  "kind": "situation",
+  "summary": "The appointment with a string on it: {appointer} tells you that your run for {the office} costs you the board seat they gave you.",
+  "realLife": "In 1976 Mayor George Moscone appointed him to San Francisco's Board of Permit Appeals; weeks later he announced for the state Assembly against the mayor's choice and was removed, which he said made him the underdog.",
+  "sources": ["https://en.wikipedia.org/wiki/Harvey_Milk"],
+  "fits": ["campaign", "journal", "office", "work-community"],
+  "slots": ["appointer", "the office"],
+  "gates": [
+    "You hold an appointed board seat.",
+    "You filed or announced for an office where {appointer} backs someone else."
+  ],
+  "weights": [
+    "How much the race matters to you.",
+    "Traits that defy authority."
+  ],
+  "pattern": "A18",
+  "choices": [
+    "run and lose the seat",
+    "withdraw and keep the seat",
+    "ask for time and tell no one"
+  ],
+  "branches": [
+    {
+      "when": "you are removed",
+      "then": "It is in the paper next morning. You can run on being the underdog or say nothing."
+    },
+    {
+      "when": "a quiet deal",
+      "then": "{appointer} offers a better post after the election if you sit this one out, a promise on both records."
+    },
+    {
+      "when": "board business first",
+      "then": "{appointer} asks how you will vote on a permit they care about, and the answer shows what you will trade."
+    }
+  ],
+  "usedBy": []
+}

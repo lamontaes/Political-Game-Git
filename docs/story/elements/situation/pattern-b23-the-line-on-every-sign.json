@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b23-the-line-on-every-sign",
+  "kind": "situation",
+  "summary": "The line on every sign: {staffer} wants one line for every sign and ad, and the pick is yours.",
+  "realLife": "Running against a 14-year incumbent in a 1970 Manhattan Democratic primary, she used the slogan that a woman's place is in the House, the House of Representatives, was known for her hats, and won.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bella_Abzug",
+    "https://www.pbs.org/wnet/americanmasters/five-ways-bella-abzug-opened-up-politics-to-women-and-fought-for-social-change/37863"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["staffer"],
+  "gates": ["Candidate."],
+  "weights": ["Humor traits.", "How well the line fits your record."],
+  "pattern": "B23",
+  "choices": [
+    "a line built from your own record and who you are (four drawn from it)",
+    "a line about {rival}",
+    "no slogan, just your name"
+  ],
+  "branches": [
+    {
+      "when": "the line plays on who you are",
+      "then": "It works where people already see you that way and costs you where they do not."
+    },
+    {
+      "when": "a symbol goes with it",
+      "then": "A hat, a color or a cap becomes yours."
+    },
+    {
+      "when": "{rival} mocks it",
+      "then": "The line becomes a target."
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,41 @@
+{
+  "id": "pattern-b18-your-name-is-the-only-reason",
+  "kind": "situation",
+  "summary": "Your name is the only reason: On the debate stage, {rival} says that without your family's name your run would be a joke.",
+  "realLife": "In a South Boston debate for the 1962 Massachusetts Senate primary, Edward McCormack said Kennedy's candidacy would be a joke if his name were Edward Moore. Kennedy's voice reportedly shook in his closing, an aide steered him out afterward, and he won the primary by more than two to one.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1962_United_States_Senate_special_election_in_Massachusetts",
+    "https://whenandwhereinboston.org/entry/edward-kennedy-and-edward-mccormack-jr-debate-in-south-boston",
+    "https://bostonirish.com/publishers-notes/2017/how-we-told-listeners-%E2%80%98eddie%E2%80%99-beat-%E2%80%98teddy%E2%80%99"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["your relative"],
+  "gates": ["Candidate in a debate.", "{your relative} is on your record."],
+  "weights": [
+    "{rival}'s aggressive traits.",
+    "Your temper traits.",
+    "How famous {your relative} is."
+  ],
+  "pattern": "B18",
+  "choices": [
+    "answer with what you have done yourself",
+    "let it pass and give your closing",
+    "hit back at {rival}'s own family ties",
+    "lose your temper (only with the traits for it)"
+  ],
+  "branches": [
+    {
+      "when": "you want to hit him",
+      "then": "Your aide steers you out of the hall before you do anything."
+    },
+    {
+      "when": "watchers and listeners split",
+      "then": "People who listened think {rival} won; people who watched think you did."
+    },
+    {
+      "when": "the line makes you the underdog",
+      "then": "A supporter says {rival} made a rich candidate the underdog."
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,62 @@
+{
+  "id": "pattern-b6-08-stopped-in-the-aisle-asked-at-the-door",
+  "kind": "situation",
+  "summary": "Stopped in the aisle, asked at the door: {the resident} or {the reporter} stops the player about an act on the record and wants an answer now.",
+  "realLife": "One life: A councilor in a small town finds residents bring up a pothole, zoning or park upkeep at the farmers market, grocery store and school pickup. She listens, takes notes and says she will look into it; she feels more accountable. Another: A Rock Springs, Wyoming, councilman was approached at a grocery store by an upset resident who called the city corrupt; the mayor said the councilman made remarks about city employees and confronted him at the end of the next meeting. The councilman said he mostly listened. Another: In rural places, residents line up behind you at the grocery store; officials share church, 4-H and sports with the people their decisions touch and have little privacy. Another: An Englewood council member answered a reporter's questions by phone, then called back and asked that parts be off the record. The reporter refused because no such deal was made beforehand, and the paper posted audio of both calls. Another: A freelance reporter followed a Vestal, New York, council member out of a town hall meeting to ask about his arrest; the town supervisor told him to leave and blocked the way. The reporter says he was shoved, the supervisor declined to prosecute. Another: Officials should answer a reporter promptly but check who is asking, the topic and the format first; a story that runs weeks later can make an official look poorly informed.",
+  "sources": [
+    "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor",
+    "https://www.sweetwaternow.com/councilman-shares-his-side-of-tuesday-night-confrontation/",
+    "https://www.producer.com/opinion/rural-communities-can-be-a-fishbowl-for-politicians-reporter/",
+    "https://coloradomedia.substack.com/p/a-colorado-reporter-explains-off",
+    "https://pressfreedomtracker.us/all-incidents/journalist-says-public-official-shoved-him-after-town-meeting",
+    "https://www.mtas.tennessee.edu/reference/part-i-know-what-you-are-getting"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": [
+    "the resident",
+    "the reporter",
+    "the outlet",
+    "a rival officeholder"
+  ],
+  "gates": [
+    "The player holds an office or is a candidate.",
+    "A vote, bill, law or act of the player is on the record and touches {the resident}, or the outlet has a story on it.",
+    "The cause is on record and the cooldown since the last stop has passed."
+  ],
+  "weights": [
+    "How much {the resident} lost or gained from the act.",
+    "How close the player's home is to {the resident}'s.",
+    "Whether the vote was split.",
+    "Whether the story is running soon."
+  ],
+  "pattern": "B6-08",
+  "choices": [
+    "listen, say what you did and why, and promise a follow-up you can keep",
+    "answer plainly on the record",
+    "ask for time and call back",
+    "say the matter is with someone else"
+  ],
+  "branches": [
+    {
+      "when": "the player listens and promises to look into it",
+      "then": "The promise is written and the resident remembers whether it was kept."
+    },
+    {
+      "when": "{the resident} says the town is corrupt or incompetent and the player agrees or stays silent",
+      "then": "What the player said is repeated by others and can reach a rival officeholder, who may confront the player in public."
+    },
+    {
+      "when": "the reporter asks for comment on the record",
+      "then": "What the player says is printed; a lie is caught by the roll call; a later request to take it off the record is refused if it was never agreed."
+    },
+    {
+      "when": "the player stalls the reporter",
+      "then": "The reporter writes that the player declined; a story may run weeks later with old facts."
+    },
+    {
+      "when": "a reporter follows an official and the official blocks them",
+      "then": "The block is itself the story; a press-freedom complaint can follow."
+    }
+  ],
+  "usedBy": ["constituent-stop", "press-interview"]
+}

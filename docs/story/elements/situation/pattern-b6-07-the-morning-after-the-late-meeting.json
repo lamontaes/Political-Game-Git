@@ -1,0 +1,56 @@
+{
+  "id": "pattern-b6-07-the-morning-after-the-late-meeting",
+  "kind": "situation",
+  "summary": "The morning after the late meeting: The morning after a late night meeting, {household member} asks where the player was and what it cost the house.",
+  "realLife": "One life: A Missouri legislator's wife says his job often takes him from home, she has adjusted her work to be a solo parent, and the children miss their father at school events and sports. She says it is worth the sacrifice. Another: A Winston-Salem council member whose job takes him from dinner time and sports pickups. He talked it over with his wife and children first, uses paid time off for council duties, and the household uses shared schedules and group chats. Another: A Utah congressman spent four days a week in Washington while his wife raised the children alone in the week; he sets aside regular family time. A former Santa Clara mayor moved her daughters to another school after a backlash over her vote. Another: Michigan governors and officials said they felt guilt about time lost with their children; one governor regretted sending his children to boarding school; the current First Family tries to eat Sunday dinners together. Another: A Salt Lake County councilwoman who took only boards that met during school hours, cut her income by half and protected date nights and tech-free family time. Her husband took on more of the house and his employer gave him less travel.",
+  "sources": [
+    "https://themissouritimes.com/behind-the-lawmakers-rebecca-plocher-wife-of-rep-dean-plocher/",
+    "https://wschronicle.com/?p=65828",
+    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye",
+    "https://www.fox2detroit.com/news/skubick-the-committment-it-takes-to-be-a-public-servants",
+    "https://www.sheshouldrun.org/blog/balancing-it-all"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["household member", "the body", "the children"],
+  "gates": [
+    "The player holds an office on {the body} that meets at night or away from home.",
+    "{household member} is on the household record.",
+    "The calendar shows a night meeting or a trip that ran late or kept the player away."
+  ],
+  "weights": [
+    "Nights away this month.",
+    "Whether {the children} are young.",
+    "Whether {household member} has a job and its hours.",
+    "Whether the pay of the office is low and the player has another job."
+  ],
+  "pattern": "B6-07",
+  "choices": [
+    "say what the night was about and what you gave",
+    "promise a night kept free each week",
+    "ask for the schedule and how to share it",
+    "say the work comes first this term"
+  ],
+  "branches": [
+    {
+      "when": "{household member} has been doing the dinners and the pickups",
+      "then": "They say plainly what the nights cost; the player's answer is written, and a plan for time or a shared schedule may follow."
+    },
+    {
+      "when": "the player keeps a night free for the family",
+      "then": "The household record warms and the change is told to {the body}."
+    },
+    {
+      "when": "{the children} miss the player at school events",
+      "then": "The children's tie falls until the player makes it up."
+    },
+    {
+      "when": "the player keeps missing",
+      "then": "A rival may read out the absences later; {household member} may not support the next race."
+    },
+    {
+      "when": "the house backs the work",
+      "then": "{household member} says it is worth it; the support is written as a favor owed."
+    }
+  ],
+  "usedBy": ["family-absence"]
+}

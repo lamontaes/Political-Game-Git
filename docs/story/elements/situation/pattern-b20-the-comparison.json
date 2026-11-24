@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b20-the-comparison",
+  "kind": "situation",
+  "summary": "The comparison: You might compare yourself on stage to {the figure}, and {rival} knew them.",
+  "realLife": "Pressed on experience in the 1988 vice-presidential debate, Quayle compared his time in Congress to John F. Kennedy's. Bentsen, who had known Kennedy, told him he was no Jack Kennedy. Quayle's advisers had warned him, and the ticket won anyway.",
+  "sources": ["https://en.wikipedia.org/wiki/Dan_Quayle"],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["the figure", "rival"],
+  "gates": [
+    "Candidate in a debate.",
+    "{the figure} is in the world's history, and {rival}'s tie to them is on record."
+  ],
+  "weights": ["How revered {the figure} is.", "How close {rival} was to them."],
+  "pattern": "B20",
+  "choices": [
+    "make the comparison",
+    "leave it out",
+    "prepare an answer in case it comes up"
+  ],
+  "branches": [
+    {
+      "when": "your advisers warned you",
+      "then": "The warning is on record, and making it anyway is your choice."
+    },
+    {
+      "when": "you are the one who knew them",
+      "then": "Deliver the rebuke, or let it go."
+    },
+    {
+      "when": "you lose the exchange and win the race",
+      "then": "The line follows you anyway."
+    }
+  ],
+  "usedBy": []
+}
