@@ -56,8 +56,7 @@
     "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row.",
     "governor-party": "The party of the governor of the player's state when the game opens, from the offices engine's governor seat.",
     "us-house-party": "The party of the U.S. Representative whose district covers the player's town when the game opens.",
-    "household-others": "How many other people live in the player's household at the opening, in words ('one other person', 'three other people'), from the household record.",
-    "lived-here-since": "The year the player's household moved into the place, from the household record."
+    "here-since-year": "The year the player's household moved into the place, from the household record (left out where the life's own records place the player here earlier)."
   },
   "maxWords": 30,
   "parts": [
@@ -3891,10 +3890,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.your-household-has-lived-in-place-since-lived-here-since",
+      "key": "outline-loading.now.someone-in-your-household-in-place-is-still-under-eighteen",
       "move": "now",
       "kind": "written",
-      "text": "Your household has lived in {place} since {lived-here-since}.",
+      "text": "Someone in your household in {place} is still under eighteen.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3904,20 +3903,20 @@
             "start-month",
             "start-year",
             "place",
-            "lived-here-since"
+            "lives-with-younger"
           ]
         }
       ],
-      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "elements": ["average-household-size-is-two-and-a-half"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.place-has-been-your-household-s-home-since-lived-here-since",
+      "key": "outline-loading.now.the-house-in-place-has-someone-younger-than-eighteen-in-it-and-you-are-not-the-y",
       "move": "now",
       "kind": "written",
-      "text": "{place} has been your household's home since {lived-here-since}.",
+      "text": "The house in {place} has someone younger than eighteen in it, and you are not the youngest.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3927,20 +3926,20 @@
             "start-month",
             "start-year",
             "place",
-            "lived-here-since"
+            "lives-with-younger"
           ]
         }
       ],
-      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "elements": ["average-household-size-is-two-and-a-half"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.your-household-moved-into-place-in-lived-here-since-and-you-are-still-there-in-s",
+      "key": "outline-loading.now.someone-in-your-household-in-place-is-a-good-deal-older-than-you",
       "move": "now",
       "kind": "written",
-      "text": "Your household moved into {place} in {lived-here-since}, and you are still there in {start-month} {start-year}.",
+      "text": "Someone in your household in {place} is a good deal older than you.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3950,23 +3949,22 @@
             "start-month",
             "start-year",
             "place",
-            "lived-here-since"
+            "lives-with-older"
           ]
         }
       ],
       "elements": [
-        "about-one-person-in-nine-changes-residence-each-year",
-        "young-adults-mostly-live-near-where-they-grew-up"
+        "household-size-peaks-with-householders-in-their-thirties-and-forties"
       ],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.you-live-in-place-with-one-other-person",
+      "key": "outline-loading.now.your-household-in-place-has-someone-much-older-than-you-and-someone-still-under",
       "move": "now",
       "kind": "written",
-      "text": "You live in {place} with one other person.",
+      "text": "Your household in {place} has someone much older than you and someone still under eighteen.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3976,20 +3974,23 @@
             "start-month",
             "start-year",
             "place",
-            "one-other-in-household"
+            "lives-with-older",
+            "lives-with-younger"
           ]
         }
       ],
-      "elements": ["average-household-size-is-two-and-a-half"],
+      "elements": [
+        "household-size-peaks-with-householders-in-their-thirties-and-forties"
+      ],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.your-household-in-place-has-one-other-person-besides-you",
+      "key": "outline-loading.now.your-household-has-lived-in-place-since-here-since-year",
       "move": "now",
       "kind": "written",
-      "text": "Your household in {place} has one other person besides you.",
+      "text": "Your household has lived in {place} since {here-since-year}.",
       "uses": [
         {
           "subject": "loading-story",
@@ -3999,20 +4000,20 @@
             "start-month",
             "start-year",
             "place",
-            "one-other-in-household"
+            "here-since-year"
           ]
         }
       ],
-      "elements": ["average-household-size-is-two-and-a-half"],
+      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.you-live-in-place-with-household-others-other-people",
+      "key": "outline-loading.now.your-household-moved-into-place-in-here-since-year-not-long-ago",
       "move": "now",
       "kind": "written",
-      "text": "You live in {place} with {household-others} other people.",
+      "text": "Your household moved into {place} in {here-since-year}, not long ago.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4022,21 +4023,21 @@
             "start-month",
             "start-year",
             "place",
-            "household-others",
-            "several-in-household"
+            "here-since-year",
+            "new-here"
           ]
         }
       ],
-      "elements": ["average-household-size-is-two-and-a-half"],
+      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.your-household-in-place-has-household-others-other-people-besides-you",
+      "key": "outline-loading.now.your-household-has-lived-in-place-since-here-since-year-a-long-time",
       "move": "now",
       "kind": "written",
-      "text": "Your household in {place} has {household-others} other people besides you.",
+      "text": "Your household has lived in {place} since {here-since-year}, a long time.",
       "uses": [
         {
           "subject": "loading-story",
@@ -4046,12 +4047,48 @@
             "start-month",
             "start-year",
             "place",
-            "household-others",
-            "several-in-household"
+            "here-since-year",
+            "long-here"
           ]
         }
       ],
-      "elements": ["average-household-size-is-two-and-a-half"],
+      "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.in-start-month-start-year-you-have-no-job-yet",
+      "move": "now",
+      "kind": "written",
+      "text": "In {start-month} {start-year} you have no job yet.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "no-job-now"]
+        }
+      ],
+      "elements": ["over-half-of-young-people-have-a-job-in-summer"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-have-no-job-in-place-in-start-month-start-year-and-the-first-one-is-still-ah",
+      "move": "now",
+      "kind": "written",
+      "text": "You have no job in {place} in {start-month} {start-year}, and the first one is still ahead.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["start-month", "start-year", "place", "no-job-now"]
+        }
+      ],
+      "elements": ["over-half-of-young-people-have-a-job-in-summer"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
