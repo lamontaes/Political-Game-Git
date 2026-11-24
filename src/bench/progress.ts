@@ -64,22 +64,21 @@ export function benchProgress(
 ) {
   const reached = playerId ? reachedSteps(core, playerId) : [];
   const ids = [...(core.peopleByPlace.get(placeId) ?? [])].sort();
+  const ageOf = (person: { birthDate: string }) =>
+    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  // Step 1 is a life at the entry age. The New game starts a player at 18 or
+  // at the age they pick, always an adult (owner, Nov 16), so a town whose
+  // opening holds nobody aged 17 or 18 still has the life: the youngest
+  // adults stand in, nearest the entry age first.
   const entrants = ids
     .map((id) => core.people.get(id)!)
-    .filter(
-      (person) =>
-        person.alive &&
-        [ENTRY_AGE - 1, ENTRY_AGE].includes(
-          ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
-        ),
-    );
-  // The core-only opening has 17-year-olds and adults starting at 19.
-  // An actual upcoming birthday remains reachable through the calendar.
-  entrants.sort(
-    (a, b) =>
-      ageOnDate(makeIsoDate(b.birthDate), makeIsoDate(core.date)) -
-      ageOnDate(makeIsoDate(a.birthDate), makeIsoDate(core.date)),
-  );
+    .filter((person) => person.alive && ageOf(person) >= ENTRY_AGE - 1);
+  // 18 first, then 17 (a birthday ahead on the calendar), then 19 and up.
+  const rank = (person: { birthDate: string }) => {
+    const age = ageOf(person);
+    return age === ENTRY_AGE ? 0 : age < ENTRY_AGE ? 0.5 : age - ENTRY_AGE;
+  };
+  entrants.sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id));
   let entrant = entrants[0];
   let contact: ReturnType<typeof availableActs>[number] | undefined;
   for (const person of entrants) {
