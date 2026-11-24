@@ -7757,6 +7757,8 @@ async function enterAs(life, personId) {
  * built world's records (/api/newlife/story, loading.ts). A click, or the
  * end of the years, finishes it. Resolves when it is done.
  */
+/** How long the loading story's last line stays before the card closes (ms). Engineering value, not a game number. */
+const LAST_LINE_MS = 2500;
 function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
@@ -7782,7 +7784,14 @@ function playLoadingStory(story) {
     };
     panel.addEventListener("click", finish);
     const next = () => {
-      if (at >= years.length) return finish();
+      // The last line is written whole and stays long enough to read before
+      // the card closes (pre-grade round 5, Nov 24: the card closed while
+      // "It's January 2025..." was still fading in).
+      if (at >= years.length) {
+        journal.classList.add("written");
+        timer = window.setTimeout(finish, LAST_LINE_MS);
+        return;
+      }
       const year = years[at];
       // The counter runs up to the year, a year at a time.
       if (shown < year.year) {
