@@ -166,3 +166,9 @@ Heads: main 1ceba440; main+#10346 925a2448 (local merge); main+ten PRs+#10391 4a
 | N8-P41 (Week speed) | **measured, no change from #10346** | none | Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, fresh life, reading time left out, three runs each side. Week press to first stop shown: main 325, 356, 372 ms (median 356 ms); main+#10346 302, 318, 374 ms (median 318 ms). New-life response to first talk open (the 9.4 s to 0.6 s claim): main 9,829, 9,913, 9,924 ms (median 9,913 ms); main+#10346 9,401, 9,404, 9,581 ms (median 9,404 ms). So the first talk still opens in about 9.4 s with #10346, not 0.6 s. |
 | N16-27, C18 | **open, art** | replay-m6aopen-03.png (Walthill NE) | In a room with a painted TV (a living room), the TV screen is dark while the LIVE box shows the President. The kitchen has no TV. |
 | C10 | **pass on main in this draw** (the earlier Pillsbury draw failed; #10338 not merged) | replay-m6d-mayor.png (card text in the table) | Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, main 1ceba440: Mayor Kelly Donovan, born 1990, mayor since 2018; story runs school 1996 to 2009, college 2009 to 2011, one job in 2011, hired again at 26, won mayor in 2018. One job in any year. |
+
+## N8-P41 re-graded (Coordinator, 08:40Z)
+
+| Row | Grade | Note |
+| --- | --- | --- |
+| N8-P41 | **pass on main** | His words: "a Week took about 3 seconds". Clean timing (Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, three runs): Week press to first stop shown, median 356 ms on main 1ceba440. The roughly 9.9 s I measured after a new life is the loading story playing on the client (src/bench/play.mjs:7904 `await playStory()`, about 6 s plus a step per year), not the Week; that pacing is the Story lead's call. #10346's server claim (talk open about 0.5 s to 0.08 s) is the Week-speed lane's measurement, not mine. |
