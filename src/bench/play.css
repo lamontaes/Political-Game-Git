@@ -4210,6 +4210,7 @@ details.entry[open] {
 }
 .travel-tile b {
   position: absolute;
+  z-index: 1;
   left: 10px;
   bottom: 8px;
   right: 10px;
@@ -4217,11 +4218,25 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
+   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
+}
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
+   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+#sheet-body.place-view .travel-screen {
+  width: 100%;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+}
+#sheet-body.place-view .travel-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+#sheet-body.place-view .travel-tile {
+  height: 84px;
 }
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,

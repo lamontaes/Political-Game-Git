@@ -16,7 +16,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { fileWhenFilingOpens, startLife } from "./start-life.mjs";
 import { scanBoxes, scanScrollers } from "./ui-look-scan.mjs";
 
 const BASELINE = new URL(
@@ -195,14 +195,21 @@ try {
     await page.waitForTimeout(700);
     return true;
   });
+  // Last, since it files for office and moves the clock: the campaign board, then its trail.
+  await drill("Campaign board", async () => {
+    const filed = await fileWhenFilingOpens(page);
+    if (!filed.contestId) return false;
+    await openRing("politics");
+    await openTab("Campaign");
+    return true;
+  });
   await drill("Campaign trail", async () => {
-    await openRing("travel");
-    const tile = page
-      .locator("#sheet-body .travel-tile", { hasText: "campaign trail" })
+    const out = page
+      .locator("#sheet-body button", { hasText: /trail/i })
       .first();
-    if (!(await tile.count())) return false;
-    await tile.click();
-    await page.waitForTimeout(700);
+    if (!(await out.count())) return false;
+    await out.click();
+    await page.waitForTimeout(900);
     return true;
   });
   console.log(
