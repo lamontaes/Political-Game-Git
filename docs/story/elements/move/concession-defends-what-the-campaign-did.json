@@ -1,0 +1,33 @@
+{
+  "id": "concession-defends-what-the-campaign-did",
+  "kind": "move",
+  "summary": "Before leaving the stage the loser lists what the campaign or their term got done.",
+  "realLife": "Four losers use a middle passage to defend what they or their campaign accomplished.",
+  "sources": [
+    "Lori Lightfoot, Chicago mayor, concession, Feb 28, 2023: https://www.americanrhetoric.com/speeches/lorilightfootconcessionspeech.htm",
+    "Stacey Abrams, Georgia governor race, concession, Nov 8, 2022: https://atlanta.capitalbnews.org/abrams-concession-speech/",
+    "Winsome Earle-Sears, Virginia governor race, concession, Nov 4, 2025: https://awpc.cattcenter.iastate.edu/2025/11/10/concession-speech-nov-4-2025",
+    "Deborah Ross, North Carolina U.S. Senate race, concession, Nov 8, 2016: https://awpc.cattcenter.iastate.edu/communication/2016-senate-concession-speech",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["record"],
+  "gates": ["lost"],
+  "weights": {
+    "concession": 0.7
+  },
+  "usedBy": [],
+  "inGame": "the incumbent's own record: bills carried, votes cast, programs funded (legislature and budget modules)",
+  "turns": [
+    {
+      "way": "The loser lists no accomplishments.",
+      "pulledBy": "a first-time candidate",
+      "writes": "the speech talks about the voters"
+    },
+    {
+      "way": "The loser lists only the incumbent's term.",
+      "pulledBy": "a losing incumbent",
+      "writes": "the term's work is the middle of the speech"
+    }
+  ]
+}
