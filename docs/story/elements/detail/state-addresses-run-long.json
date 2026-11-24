@@ -24,5 +24,20 @@
   "weights": {
     "state": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Length follows the row's sections and the `second` point (point 1) in data/english/outlines.json; maxWords bounds each bank register.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A short state address, one point.",
+      "pulledBy": "a speaker low in meticulous; a quiet year",
+      "writesBack": "The speech ends early, and the paper reports it short."
+    },
+    {
+      "turn": "partial",
+      "what": "Long with one point and many sentences.",
+      "pulledBy": "a story-driven speaker",
+      "writesBack": "The point carries the weight."
+    }
+  ]
 }

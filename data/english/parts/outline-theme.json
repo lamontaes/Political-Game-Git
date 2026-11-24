@@ -996,19 +996,34 @@
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"]
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"]
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"]
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-one"
+          ]
         }
       ],
       "after": ["today"],
@@ -3031,21 +3046,36 @@
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-one"
+          ],
           "excludesFacts": []
         }
       ],
@@ -4519,21 +4549,21 @@
           "subject": "inaugural",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -4647,21 +4677,21 @@
           "subject": "inaugural",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "question",
           "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
+          "requiresFacts": ["law-name", "law-in-force", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -7270,6 +7300,179 @@
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.stand.spoken-i-mean-to-change-that-and-are-where-i-start-plural",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I mean to change that, and {about} are where I start.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "about-many"
+          ]
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.stand.spoken-in-light-of-that-have-to-change-plural",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "In light of that, {law-name} have to change.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "about-many"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.question.spoken-are-worth-keeping-plural",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Are {law-name} worth keeping?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-theme.question.spoken-are-doing-what-they-were-meant-to-do-plural",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Are {law-name} doing what they were meant to do?",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "law-in-force", "about-many"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     }
   ]
 }
