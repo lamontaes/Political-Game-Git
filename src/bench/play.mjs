@@ -6984,17 +6984,30 @@ function growIntoRoom(box) {
   const room = tallest - sheet.getBoundingClientRect().height / uiScale();
   if (hidden <= 1 || room <= 1) return;
   const target = box.clientHeight + Math.min(hidden, Math.floor(room));
-  // A list of headlines ends on a whole row: the box takes the room only as far
-  // as the last row that fits (the rest scrolls inside it).
-  const rows = box.querySelectorAll(".news-row");
+  // A list ends on a whole row: the box takes the room only as far as the last
+  // row that fits (the rest scrolls inside it), for every pager and the News list.
+  const rows =
+    box.querySelector(".pager-grid")?.children ??
+    box.querySelectorAll(".news-row");
   let fitted = 0;
+  let whole = 0;
   if (rows.length) {
     const top = box.getBoundingClientRect().top;
     for (const row of rows) {
       const bottom = (row.getBoundingClientRect().bottom - top) / uiScale();
       if (bottom > target + 0.5) break;
       fitted = bottom;
+      whole += 1;
     }
+  }
+  // What is left under the last whole row is spread over the gaps between the rows, so the
+  // last whole row ends at the foot of the room and the panel shows no free space.
+  const grid = box.querySelector(".pager-grid");
+  const spare = target - fitted;
+  if (grid && whole > 1 && spare > 0.5) {
+    const gap = parseFloat(getComputedStyle(grid).rowGap) / uiScale() || 0;
+    grid.style.rowGap = `${gap + spare / (whole - 1)}px`;
+    fitted = target;
   }
   box.style.maxHeight = `${Math.ceil(fitted || target)}px`;
 }

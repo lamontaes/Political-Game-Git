@@ -24,10 +24,6 @@
       "nav.pick-list.roster scrolls": 1,
       "div.pager.roster-pages scrolls": 1
     },
-    "guide [sheet]": {
-      "nav.pick-list.roster scrolls": 1,
-      "div.pager.roster-pages scrolls": 1
-    },
     "Race screen [sheet]": {
       "nav.pick-list.roster scrolls": 1
     },
