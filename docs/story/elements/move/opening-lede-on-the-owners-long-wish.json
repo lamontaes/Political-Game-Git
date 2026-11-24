@@ -18,12 +18,16 @@
     {
       "name": "opens on the place",
       "pulledBy": "a business with a known address",
-      "writes": "the lede says what opened and where"
+      "writes": "the lede says what opened and where",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "opens on a closing",
       "pulledBy": "a shop that took over an old space",
-      "writes": "the lede says what was there before"
+      "writes": "the lede says what was there before",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
