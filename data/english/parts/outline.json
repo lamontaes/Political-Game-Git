@@ -3350,7 +3350,8 @@
           "subject": "journal-evening",
           "role": "said",
           "tie": "record",
-          "requiresFacts": ["about", "president-against"]
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "after": ["start", "watched", "said"],
@@ -3369,7 +3370,8 @@
           "subject": "journal-evening",
           "role": "said",
           "tie": "record",
-          "requiresFacts": ["about", "president-for"]
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
       "after": ["start", "watched", "said"],
@@ -3586,24 +3588,6 @@
       "author": "the Story lead",
       "date": "2026-11-24",
       "after": ["lede", "next"]
-    },
-    {
-      "key": "outline.run.inaugural-paychecks-have-finally-been-outrunning-prices-these-last",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Paychecks have finally been outrunning prices these last {run-span}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
     },
     {
       "key": "outline.call.inaugural-write-to-congress-about-they-read-the-mail-more-than-they-let-on",
@@ -4176,24 +4160,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.run.inaugural-wages-have-beaten-prices-for-and-you-earned-every-bit-of-that",
-      "move": "run",
-      "kind": "spoken",
-      "text": "Wages have beaten prices for {run-span}, and you earned every bit of that.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "law",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
-        }
-      ],
-      "lean": ["personality-v1:facet-supportive", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.call.inaugural-run-for-something-in-your-own-town-the-next-need-more-of-you-than-one-office-in-washington",
       "move": "call",
       "kind": "spoken",
@@ -4670,6 +4636,27 @@
       "lean": [
         "personality-v1:facet-informal",
         "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run.inaugural-a-lot-of-families-have-a-little-more-room-at-the-end-of-the-month-than-they-did-ago",
+      "move": "run",
+      "kind": "spoken",
+      "text": "A lot of families have a little more room at the end of the month than they did {run-span} ago.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "law",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-tender-hearted"
       ],
       "origin": "authored",
       "author": "the Story lead",
