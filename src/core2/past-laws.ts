@@ -60,6 +60,7 @@ import {
   seededUnit,
   shiftDays,
   type LawHistoryRow,
+  type PastBillRecord,
   type PastBillRow,
   type PastElectionRow,
   type RollCall,
@@ -363,6 +364,17 @@ export function buildPriorTerms(
         lawIds: [],
       };
       bills.push(bill);
+      putPast(api, "bills", {
+        id: `${id}|${chamber.office.id}`,
+        billId: id,
+        officeId: chamber.office.id,
+        date,
+        question,
+        position,
+        passed: call.passes,
+        yes: call.yes,
+        no: call.no,
+      } satisfies PastBillRecord);
       votes += recordVotes(
         api,
         id,
@@ -678,6 +690,17 @@ export function buildLawHistories(
       histories.push(history);
       if (stance && !century)
         rollCalls.forEach((call, i) => {
+          putPast(api, "bills", {
+            id: `${id}|${lawChambers[i]!.office.id}`,
+            billId: id,
+            officeId: lawChambers[i]!.office.id,
+            date: enactedOn,
+            question: stance.question,
+            position: stance.position,
+            passed: true,
+            yes: call.yes,
+            no: call.no,
+          } satisfies PastBillRecord);
           votes += recordVotes(
             api,
             id,
