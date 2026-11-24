@@ -90313,6 +90313,162 @@
         "key": "door"
       },
       "elements": ["door-on-a-small-town-street"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-answers-and-looks-age-band-to-you-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} answers and looks {age-band} to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-person-who-comes-to-the-door-looks-age-band-name-waits-for-you-to-speak-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The person who comes to the door looks {age-band}. {name} waits for you to speak.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-opens-up-you-d-say-name-is-age-band-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} opens up. You'd say {name} is {age-band}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-answers-and-looks-age-band-to-you-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} answers and looks {age-band} to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-person-who-comes-to-the-door-looks-age-band-name-waits-for-you-to-speak-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The person who comes to the door looks {age-band}. {name} waits for you to speak.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-opens-up-you-d-say-name-is-age-band-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} opens up. You'd say {name} is {age-band}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
     }
   ]
 }
