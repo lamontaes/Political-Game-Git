@@ -3330,7 +3330,7 @@
       "key": "scene-talk-office.state-request.when-i-get-back-to-the-counties-can-i-tell-them-you-ve-decided-to-declare",
       "move": "state-request",
       "kind": "spoken",
-      "text": "When I get back to the counties, can I tell them you've decided to declare?",
+      "text": "When I call the counties, should I say you'll take until {deadline}, or can I tell them you're declaring?",
       "uses": [
         {
           "subject": "scene",
@@ -3357,7 +3357,7 @@
       "key": "scene-talk-office.state-request.you-can-speak-to-the-people-who-recommended-it-are-you-ready-to-authorize-the-declaration-yourself",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You can speak to the people who recommended it. Are you ready to authorize the declaration yourself?",
+      "text": "If you want to check the recommendation before {deadline}, I'll put you through. Are you ready to decide now?",
       "uses": [
         {
           "subject": "scene",
@@ -3410,7 +3410,7 @@
       "key": "scene-talk-office.state-request.my-recommendation-is-to-declare-while-we-still-have-time-to-prepare-will-you-do-that-today",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My recommendation is to declare while we still have time to prepare. Will you do that today?",
+      "text": "We have until {deadline} to decide, but the people doing the preparation could use that time. Will you declare now?",
       "uses": [
         {
           "subject": "scene",
@@ -3462,7 +3462,7 @@
       "key": "scene-talk-office.state-request.i-d-like-the-local-offices-to-hear-it-from-us-first-is-there-a-declaration-for-me-to-report",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'd like the local offices to hear it from us first. Is there a declaration for me to report?",
+      "text": "Can we give the local offices an answer before {deadline}? They ought to have a chance to tell their own people.",
       "uses": [
         {
           "subject": "scene",
@@ -3489,7 +3489,7 @@
       "key": "scene-talk-office.state-request.if-someone-asks-whether-the-state-has-declared-i-want-to-give-them-your-answer-what-is-it-today",
       "move": "state-request",
       "kind": "spoken",
-      "text": "If someone asks whether the state has declared, I want to give them your answer. What is it today?",
+      "text": "People may ask where you stand before {deadline}. Should I tell them you're ready to sign?",
       "uses": [
         {
           "subject": "scene",
@@ -3515,7 +3515,7 @@
       "key": "scene-talk-office.state-request.public-health-can-still-give-you-its-assessment-would-you-declare-an-emergency-on-the-advice-you-ve-heard-so-far",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Public health can still give you its assessment. Would you declare an emergency on the advice you've heard so far?",
+      "text": "Would hearing from public health change your decision on the {disaster}, or have you heard enough to declare?",
       "uses": [
         {
           "subject": "scene",
@@ -3621,7 +3621,7 @@
       "key": "scene-talk-office.state-request.i-d-rather-the-counties-heard-your-decision-directly-can-i-call-them-with-word-that-you-re-signing",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'd rather the counties heard your decision directly. Can I call them with word that you're signing?",
+      "text": "With the decision due by {deadline}, I'd rather call the counties myself. Can I tell them you're signing?",
       "uses": [
         {
           "subject": "scene",
@@ -3648,7 +3648,7 @@
       "key": "scene-talk-office.state-request.i-ll-answer-for-this-department-when-someone-asks-if-the-governor-has-declared-what-answer-do-you-want-me-to-give",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'll answer for this department. When someone asks if the governor has declared, what answer do you want me to give?",
+      "text": "I can speak for the department about the {disaster}. What should I say when people ask what you've decided?",
       "uses": [
         {
           "subject": "scene",
@@ -3675,7 +3675,7 @@
       "key": "scene-talk-office.state-request.if-you-want-to-check-the-advice-yourself-we-can-make-the-call-here-are-you-ready-to-declare",
       "move": "state-request",
       "kind": "spoken",
-      "text": "If you want to check the advice yourself, we can make the call here. Are you ready to declare?",
+      "text": "We could fit a call in before {deadline} if you want to speak to the adviser yourself. Would it change your decision?",
       "uses": [
         {
           "subject": "scene",
@@ -3728,7 +3728,7 @@
       "key": "scene-talk-office.state-request.we-won-t-meet-again-on-this-offer-may-i-take-a-signed-declaration-back-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We won't meet again on this offer. May I take a signed declaration back with me?",
+      "text": "If you're going to sign by {deadline}, this is our last meeting to do it. May I take the declaration back with me?",
       "uses": [
         {
           "subject": "scene",
@@ -3755,7 +3755,7 @@
       "key": "scene-talk-office.reply-agree.yes-tell-the-counties-i-ve-signed-if-they-have-questions-about-why-send-those-to-my-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. Tell the counties I've signed. If they have questions about why, send those to my office.",
+      "text": "Yes. Tell the counties I've declared for the {disaster}. If they want to know why, give them my number.",
       "uses": [
         {
           "subject": "scene",
@@ -3783,7 +3783,7 @@
       "key": "scene-talk-office.reply-decline.tell-them-i-turned-it-down-they-deserve-to-hear-that-from-us-before-they-hear-it-on-the-news",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Tell them I turned it down. They deserve to hear that from us before they hear it on the news.",
+      "text": "When you call about the {disaster}, tell them I turned the request down. Let them hear it from us first.",
       "uses": [
         {
           "subject": "scene",
@@ -3811,7 +3811,7 @@
       "key": "scene-talk-office.reply-agree.i-want-their-names-so-i-can-call-them-afterward-you-have-my-authorization-to-declare-now",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I want their names so I can call them afterward. I'll sign the declaration now.",
+      "text": "Put the declaration for the {disaster} in front of me. I'd still like the names of the people behind that advice.",
       "uses": [
         {
           "subject": "scene",
@@ -3839,7 +3839,7 @@
       "key": "scene-talk-office.reply-decline.i-take-the-recommendation-seriously-i-ve-heard-enough-to-give-you-a-decision-and-it-s-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I take the recommendation seriously. I've heard enough to give you a decision, and it's no.",
+      "text": "I respect their judgment about the {disaster}. I've heard the case, and I'm turning the request down.",
       "uses": [
         {
           "subject": "scene",
@@ -3867,7 +3867,7 @@
       "key": "scene-talk-office.reply-agree.don-t-hold-the-papers-for-another-forecast-i-ll-sign-on-the-information-we-have",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Don't hold the papers for another forecast. I'll sign on the information we have.",
+      "text": "I'll sign on what we know about the {disaster}. The next forecast can come when it's ready.",
       "uses": [
         {
           "subject": "scene",
@@ -3895,7 +3895,7 @@
       "key": "scene-talk-office.reply-decline.a-forecast-that-hasn-t-come-in-can-t-be-my-reason-for-signing-i-m-declining-this-request",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "A forecast that hasn't come in can't be my reason for signing. I'm declining this request.",
+      "text": "Another forecast won't change my answer on the {disaster}. I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -3923,7 +3923,7 @@
       "key": "scene-talk-office.reply-agree.i-ll-declare-today-tell-the-people-doing-the-preparation-that-they-have-my-decision",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll declare today. Tell the people doing the preparation that they have my decision.",
+      "text": "Tell the people preparing for the {disaster} they have a declaration. I'm signing.",
       "uses": [
         {
           "subject": "scene",
@@ -3951,7 +3951,7 @@
       "key": "scene-talk-office.reply-decline.i-hear-why-you-d-act-early-i-won-t-sign-a-declaration-on-that-recommendation",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I hear why you'd act early. I won't sign a declaration on that recommendation.",
+      "text": "I understand what an early start would mean for the people handling the {disaster}. I'm declining.",
       "uses": [
         {
           "subject": "scene",
@@ -3979,7 +3979,7 @@
       "key": "scene-talk-office.reply-agree.yes-i-ll-declare-you-explain-the-department-s-work-and-i-ll-explain-the-decision",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I'll declare. You explain the department's work and I'll explain the decision.",
+      "text": "Yes, I'll sign. The decision due by {deadline} is mine to explain.",
       "uses": [
         {
           "subject": "scene",
@@ -4007,7 +4007,7 @@
       "key": "scene-talk-office.reply-decline.describe-the-work-your-department-can-do-if-someone-asks-about-a-declaration-tell-them-i-declined-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Describe the work your department can do. If someone asks about a declaration, tell them I declined it.",
+      "text": "Tell people what the department is doing about the {disaster}. If they ask about my decision, I declined.",
       "uses": [
         {
           "subject": "scene",
@@ -4035,7 +4035,7 @@
       "key": "scene-talk-office.reply-agree.call-the-local-offices-from-here-tell-them-i-m-signing-and-give-them-my-number",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Call the local offices from here. Tell them I'm signing, and give them my number.",
+      "text": "I'll sign. When you call the local offices about the {disaster}, give them a way to reach me directly.",
       "uses": [
         {
           "subject": "scene",
@@ -4063,7 +4063,7 @@
       "key": "scene-talk-office.reply-decline.call-them-first-please-tell-them-the-answer-is-no-and-that-it-was-my-decision",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Call them first, please. Tell them the answer is no, and that it was my decision.",
+      "text": "Call the local offices about the {disaster} first, please. Tell them I made the decision to decline.",
       "uses": [
         {
           "subject": "scene",
@@ -4091,7 +4091,7 @@
       "key": "scene-talk-office.reply-agree.you-can-give-them-a-yes-i-ll-sign-now-and-answer-the-questions-myself",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You can give them a yes. I'll sign now and answer the questions myself.",
+      "text": "Yes, I'm signing the declaration for the {disaster}. I'll take questions myself.",
       "uses": [
         {
           "subject": "scene",
@@ -4119,7 +4119,7 @@
       "key": "scene-talk-office.reply-decline.say-i-heard-the-request-and-turned-it-down-if-they-want-the-reason-put-them-through-to-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Say I heard the request and turned it down. If they want the reason, put them through to me.",
+      "text": "Tell them I heard the case for declaring over the {disaster} and said no. I'll explain it if they'd like to call.",
       "uses": [
         {
           "subject": "scene",
@@ -4147,7 +4147,7 @@
       "key": "scene-talk-office.reply-agree.i-ll-sign-i-d-still-like-public-health-s-assessment-for-the-people-carrying-out-the-response",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign. I'd still like public health's assessment for the people carrying out the response.",
+      "text": "You'll have my signature before {deadline}. I'd like public health's advice on what we do afterward.",
       "uses": [
         {
           "subject": "scene",
@@ -4175,7 +4175,7 @@
       "key": "scene-talk-office.reply-decline.i-won-t-declare-on-the-advice-i-ve-heard-public-health-can-still-send-me-its-assessment",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I won't declare on the advice I've heard. Public health can still send me its assessment.",
+      "text": "I'd welcome public health's assessment of the {disaster}. My answer on a declaration is no.",
       "uses": [
         {
           "subject": "scene",
@@ -4203,7 +4203,7 @@
       "key": "scene-talk-office.reply-agree.yes-let-the-counties-know-before-you-head-home-that-they-re-getting-a-declaration",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. Let the counties know before you head home that they're getting a declaration.",
+      "text": "You can take a signed declaration for the {disaster} back to the counties.",
       "uses": [
         {
           "subject": "scene",
@@ -4231,7 +4231,7 @@
       "key": "scene-talk-office.reply-decline.give-the-counties-an-answer-now-i-ve-decided-against-declaring",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Give the counties an answer now. I've decided against declaring.",
+      "text": "Let the counties know I've declined the declaration for the {disaster}. They can have that answer now.",
       "uses": [
         {
           "subject": "scene",
@@ -4259,7 +4259,7 @@
       "key": "scene-talk-office.reply-agree.bring-it-over-i-m-signing-while-the-request-is-still-open",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Bring it over. I'm signing while the request is still open.",
+      "text": "I'm signing for the {disaster} while we can still get the request in.",
       "uses": [
         {
           "subject": "scene",
@@ -4287,7 +4287,7 @@
       "key": "scene-talk-office.reply-decline.i-understand-what-expires-i-m-declining-the-request-today",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I understand what expires. I'm declining the request today.",
+      "text": "I know what's due by {deadline}. I'm turning this one down.",
       "uses": [
         {
           "subject": "scene",
@@ -4315,7 +4315,7 @@
       "key": "scene-talk-office.reply-agree.yes-bring-me-the-declaration-before-anybody-leaves-the-room",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. Bring me the declaration before anybody leaves the room.",
+      "text": "Bring me the declaration for the {disaster}. I want to sign before we leave.",
       "uses": [
         {
           "subject": "scene",
@@ -4343,7 +4343,7 @@
       "key": "scene-talk-office.reply-decline.you-can-give-the-department-my-answer-before-you-leave-i-won-t-declare",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You can give the department my answer before you leave. I won't declare.",
+      "text": "I'll give you the answer now so you can take it back by {deadline}. I've decided against signing.",
       "uses": [
         {
           "subject": "scene",
@@ -4371,7 +4371,7 @@
       "key": "scene-talk-office.reply-agree.make-the-calls-i-ll-sign-here-so-you-can-tell-the-counties-it-s-done",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Make the calls. I'll sign here so you can tell the counties it's done.",
+      "text": "Make the calls about the {disaster} from here. I'll sign while you get the counties on the line.",
       "uses": [
         {
           "subject": "scene",
@@ -4399,7 +4399,7 @@
       "key": "scene-talk-office.reply-decline.i-want-them-to-hear-it-directly-too-tell-them-i-decided-against-signing",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I want them to hear it directly too. Tell them I decided against signing.",
+      "text": "Tell the counties directly that I've declined the declaration for the {disaster}. I'll stand behind that decision.",
       "uses": [
         {
           "subject": "scene",
@@ -4427,7 +4427,7 @@
       "key": "scene-talk-office.reply-agree.tell-them-i-ve-authorized-it-send-the-questions-about-my-decision-to-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Tell them I've authorized it. Send the questions about my decision to me.",
+      "text": "Tell them I've signed and they can call my office about the decision. We got it in by {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -4455,7 +4455,7 @@
       "key": "scene-talk-office.reply-decline.you-answer-for-the-department-i-ll-tell-people-myself-why-i-declined",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You answer for the department. I'll tell people myself why I declined.",
+      "text": "You can explain the department's work on the {disaster}. I'll explain why I turned the declaration down.",
       "uses": [
         {
           "subject": "scene",
@@ -4483,7 +4483,7 @@
       "key": "scene-talk-office.reply-agree.i-ve-heard-the-advice-and-i-ll-sign-if-the-person-who-gave-it-wants-to-speak-with-me-put-them-through",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I've heard the advice and I'll sign. If the person who gave it wants to speak with me, put them through.",
+      "text": "I've heard enough about the {disaster} to sign. Whoever gave you that advice is welcome to call me afterward.",
       "uses": [
         {
           "subject": "scene",
@@ -4511,7 +4511,7 @@
       "key": "scene-talk-office.reply-decline.we-can-make-the-call-but-my-decision-on-this-offer-is-no-don-t-leave-it-pending-for-my-sake",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "We can make the call, but my decision on this offer is no. Don't leave it pending for my sake.",
+      "text": "You can put me through, but I don't need until {deadline} to give you an answer. I'm turning this down.",
       "uses": [
         {
           "subject": "scene",
@@ -4539,7 +4539,7 @@
       "key": "scene-talk-office.reply-agree.i-would-i-ll-sign-on-this-forecast-bring-me-the-next-one-when-it-comes-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I would. I'll sign on what you've brought me. Bring me the next one when it comes in.",
+      "text": "I'll sign on the forecast we have for the {disaster}. Bring me the next one when it comes in.",
       "uses": [
         {
           "subject": "scene",
@@ -4567,7 +4567,7 @@
       "key": "scene-talk-office.reply-decline.don-t-wait-for-a-different-forecast-to-give-people-my-answer-i-m-turning-down-the-declaration",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't wait for a different forecast to give people my answer. I'm turning down the declaration.",
+      "text": "You can give them my answer on the {disaster} before the next forecast. I've decided to decline.",
       "uses": [
         {
           "subject": "scene",
@@ -4595,7 +4595,7 @@
       "key": "scene-talk-office.reply-agree.yes-let-me-have-the-papers-and-you-can-take-the-declaration-back-with-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. Let me have the papers and you can take the declaration back with you.",
+      "text": "Hand me the declaration for the {disaster}. I'll sign it before you go.",
       "uses": [
         {
           "subject": "scene",
@@ -4623,7 +4623,7 @@
       "key": "scene-talk-office.reply-decline.you-ll-go-back-with-my-answer-i-m-declining-the-declaration",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You'll go back with my answer. I'm declining the declaration.",
+      "text": "Take my answer back to the department. I'm turning down the declaration for the {disaster}.",
       "uses": [
         {
           "subject": "scene",
