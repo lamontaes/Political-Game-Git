@@ -27,7 +27,7 @@ Seen: the title menu at 1440 by 900 with Patch notes open, then New game. Seen: 
 
 **Time box.** 1 hours
 
-**Rules.** Screen to mock. No hand-written player text; no label added.
+**Rules.** Screen to mock: the patch notes close the moment New game opens, as the approved title mock shows. No hand-written player text: no new label is added; existing control names only.
 
 **Done when.** A second session, in a drawn place and seed it names, opens Patch notes on the title, presses New game, and sees the notes close and the new-game choices show alone; title-patch-notes.browser.mjs passes.
 
