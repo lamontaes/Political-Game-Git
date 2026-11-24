@@ -1,0 +1,37 @@
+{
+  "id": "sotu-close-looks-ahead",
+  "kind": "move",
+  "summary": "The close looks ahead to a better time, not back at the year.",
+  "realLife": "All six addresses read ended looking ahead: a better world, the next century, a hopeful journey.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/state-the-union-message-congress",
+    "https://www.presidency.ucsb.edu/documents/annual-message-the-congress-the-state-the-union-6",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-congress-the-state-the-union",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-6",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-17",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-25",
+    "Read Nov 24, 2026: the first and last paragraphs of each address on the Presidency Project page; the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["term-left"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The `close` section with send-off and blessing; term-left looks ahead through the officials engine's term record.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The close sums up the year and looks back.",
+      "pulledBy": "a speaker low in ambitious; a hard year",
+      "writesBack": "The close is a list."
+    },
+    {
+      "turn": "neutral",
+      "what": "A close that names a date and stops.",
+      "pulledBy": "a plain speaker",
+      "writesBack": "No promise is heard."
+    }
+  ]
+}
