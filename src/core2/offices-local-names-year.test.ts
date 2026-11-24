@@ -9,6 +9,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
+import ordinanceStyle from "../../data/research/gov/local-ordinance-style-2026.json" with { type: "json" };
 import bodyNames from "./data/offices/body-names.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { localGoverningBodyName } from "./gov-rules/local-governing-body-rules";
@@ -23,6 +24,14 @@ import { coreAPI } from "./state";
 
 const seed = process.env.BODY_NAMES_SEED ?? randomBytes(8).toString("hex");
 const byKind = bodyNames.municipalByKind as Record<string, { value: string }>;
+// The enacting clause each state's statute prescribes for its towns (research
+// table): where it quotes the body's name the bill carries that name, where it
+// words the clause by the town's name (Minnesota: "The City Council of {place}
+// ordains:") the bill carries the town's name instead.
+const clauseRows = ordinanceStyle.places as unknown as Record<
+  string,
+  { municipal?: { clause: string; kinds?: string[] } }
+>;
 const byState = bodyNames.municipalByState as Record<
   string,
   Record<string, { value: string }>
@@ -66,9 +75,18 @@ it(`an uncompiled town's council is named from its state's table all year and it
         .rows() as unknown as BillRow[]
     ).filter((bill) => bill.bodyOfficeId === council.id);
     expect(bills.length, `${where}: bills on ${council.id}`).toBeGreaterThan(0);
+    const town = governmentProperName(unit.name, unit.id)
+      .split(" ")
+      .slice(2)
+      .join(" ");
+    const statute = clauseRows[unit.stateUsps]?.municipal;
+    const byTownName =
+      !!statute?.clause.includes("{place}") &&
+      !statute.clause.includes("{body}") &&
+      (statute.kinds ?? []).includes(kind);
     for (const bill of bills)
       expect(bill.form.enactingClause, `${where}: ${bill.id}`).toContain(
-        expected,
+        byTownName ? town : expected,
       );
     process.stdout.write(
       `BODY NAME ${where}: ${unit.id} (${unit.name}, ${unit.stateUsps}) ${council.id} is "${record!.bodyName}" on ${core.date}; ${bills.length} bills, e.g. ${bills[0]!.id}: "${bills[0]!.form.enactingClause}"\n`,
