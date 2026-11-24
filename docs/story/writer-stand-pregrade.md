@@ -5,7 +5,7 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `03f93d50`, every line a
 - **Result:** 96 of 194 pass (49%); 98 fail.
 - **Calibration:** C4 8/8, D2 8/8, E3 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the six-place packet at this head is not in yet; lines were read as written.
+- **Played:** the packet script at `03f93d50` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 15 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
@@ -173,6 +173,24 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `03f93d50`, every line a
 ### no-filler (1)
 
 - `outline-theme.today.inaugural-look-at-where-we-are`: "Look at where we are. {today}" — Opens on 'Look,' filler before the fact.
+
+## As played
+
+- pass: `outline-theme.creed.inaugural-my-whole-case-rests-on-one-idea-that` → **1.11** My whole case rests on one idea, that the highest earners can afford to pay a higher top rate. I'll keep pushing to raise the top income tax rate until it's done. I've changed my mind on plenty of things. Not on taxes.
+- pass: `outline-theme.answer.inaugural-not-if-i-can-help-it-because` → **5.11** People are asking whether we ought to forgive student loans. Not if I can help it, because a worker who never went to college shouldn't pay someone else's loan.
+- fail: `outline-theme.creed.inaugural-if-i-had-to-put-my-view-on-a-card-it-would-say-that` → **4.11** If I had to put my view on a card, it would say that the power we make today shouldn't poison the air tomorrow. I'm keeping limits on power plant carbon, and I'm keeping it strong. I'll take the criticism on energy if it means getting it right.
+- fail: `outline-theme.pledge.inaugural-if-comes-under-attack-i-ll-be-the-first-to-answer` → **3.12** My whole case rests on one idea, that a full day's work ought to pay enough to live on. If the higher federal minimum wage comes under attack, I'll be the first to answer. You gave me a say on pay, and I intend to use it.
+- fail: `outline-theme.pledge.inaugural-i-m-keeping-and-i-m-keeping-it-strong` → **4.11** If I had to put my view on a card, it would say that the power we make today shouldn't poison the air tomorrow. I'm keeping limits on power plant carbon, and I'm keeping it strong. I'll take the criticism on energy if it means getting it right.
+- fail: `outline-theme.stand.inaugural-against-that-looks-like-the-thing-worth-keeping` → **6.12** Let me say it as I see it: the federal floor under pay has finally moved up. Against that, the higher federal minimum wage looks like the thing worth keeping.
+- fail: `outline-theme.stand.inaugural-nothing-there-changes-my-mind-about` → **3.13** Let's be straight about it. The nation's capital is a state, with a vote in the House and the Senate. Nothing there changes my mind about statehood for the nation's capital.
+- fail: `outline-theme.value.inaugural-you-gave-me-a-say-on-and-i-intend-to-use-it` → **3.12** My whole case rests on one idea, that a full day's work ought to pay enough to live on. If the higher federal minimum wage comes under attack, I'll be the first to answer. You gave me a say on pay, and I intend to use it.
+- pass: `outline-theme.value.inaugural-i-ll-take-the-criticism-on-if-it-means-getting-it-right` → **4.11** If I had to put my view on a card, it would say that the power we make today shouldn't poison the air tomorrow. I'm keeping limits on power plant carbon, and I'm keeping it strong. I'll take the criticism on energy if it means getting it right.
+- fail: `outline-theme.send-off.inaugural-i-ll-be-here-for-working` → **4.13** I'll be here for four years, working. God bless America.
+- fail: `outline-theme.stand.inaugural-my-answer-to-them-is-that` → **5.10** Some in Congress would rather raise the federal minimum wage. My answer to them is that the states can set a wage that fits what living there costs.
+- pass: `outline-theme.question.inaugural-people-are-asking-whether-we-ought-to` → **5.11** People are asking whether we ought to forgive student loans. Not if I can help it, because a worker who never went to college shouldn't pay someone else's loan.
+- fail: `outline-theme.today.inaugural-let-s-be-straight-about-it` → **3.13** Let's be straight about it. The nation's capital is a state, with a vote in the House and the Senate. Nothing there changes my mind about statehood for the nation's capital.
+- fail: `outline-theme.today.inaugural-let-me-say-it-as-i-see-it` → **6.12** Let me say it as I see it: the federal floor under pay has finally moved up. Against that, the higher federal minimum wage looks like the thing worth keeping.
+- pass: `outline-theme.blessing.inaugural-thank-you-all` → **6.14** Thank you all.
 
 ## Passing lines
 
