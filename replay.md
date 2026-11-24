@@ -272,3 +272,23 @@ Greenwald, Minnesota, seed ba363284-169e-42d3-8b32-bba1c1aa23cd, 1440x900, dev m
 | Sheriff | Raymond Li: "Police protection: For", "Corrections: For" | **pass** | (text only) |
 
 Filing: the button reads "You can't run for this office." (disabled, a refusal on the button, no caption). The stand is a budget line, not assessment or taxes by name; it is not zoning.
+
+## #10337 at e0f055b0 (one person card), played from pull/10337/head
+
+Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-637d-433f-8ee8-a6e75f6e0f91. 1440x900.
+
+| Row | Grade | Picture |
+| --- | --- | --- |
+| P25 (one layout) | **pass**: the President (from Parties), a council member (Politics), the sheriff (Executive) and the People tab's brother share one layout: portrait left, "Who" column, story column right | replay-pcA-grid.png |
+| P14, P24 (no scroller, story in the box) | **pass**: no scroller and nothing below the panel on any of the cards measured (panels 543 to 705 px tall) | replay-pcA-grid.png |
+| P15 (name lines up with the portrait) | **pass** | replay-pcA-member0.png |
+| P23, P26 (office with its place; age, home, people) | **pass**: "Commissioner · Gaston County · Since 2018", Age 30, Home Alexis; "His people" names colleagues, parents or the vice president; no spouse field | replay-pcA-member0.png |
+| P17, C17 (empty space) | **open**: the President's and the sheriff's cards still leave a large empty block under the middle column | replay-pcA-president-parties.png, replay-pcA-exec.png |
+| Never contradicts itself | **fail**: the President's card reads "President · United States · Since 2025" and "In office since January 20, 2021" in both places drawn (Jesse Holloway, Alexis NC; Michael Montgomery, Loudon NH) | replay-pcA-president-parties.png, replay-pcB-president-parties.png |
+
+## #10400 at 5109efc2 (C10's remainder), played from pull/10400/head
+
+| Place | Grade | Picture |
+| --- | --- | --- |
+| Monserrate, Puerto Rico, seed 5b7a3d13-25d2-4d50-bcc6-b8fc1b873da6 | **pass**: mayor Leslie Henry's five-job career now stands at the last job's day: "At the age of 51, she came to Benton Supply Company after time at Daniels Family Clinic, Monserrate Register, Snyder Care Home, Boyd's Kitchen, and Monserrate Business Services" (was age 18) | replay-c10henry-exec.png |
+| Walpole, New Hampshire, seed 187cdef6-8f52-4bbf-9343-4aad945eb24d | **pass**: sheriff Sarah Chang: "Aged 29, she moved through Dominguez Family Clinic, Chapman Construction, and Lowe and Associates on the way to Walpole Campaign Works" (was 2015, age 22) | replay-c10chang-exec.png |
