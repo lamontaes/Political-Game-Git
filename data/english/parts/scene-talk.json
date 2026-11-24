@@ -85398,6 +85398,153 @@
       "elements": ["reemployment-two-thirds-after-layoff"]
     },
     {
+      "key": "scene-talk.reply-refuse.i-wish-i-could-but-i-don-t-know-anyone-hiring-for-and-i-won-t-promise-what",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I wish I could, but I don't know anyone hiring for {position}, and I won't promise what I can't do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-barely-knew-your-work-at-so-my-word-wouldn-t-help-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I barely knew your work at {workplace}, so my word wouldn't help you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["workplace"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-i-can-t-i-m-one-bad-week-from-asking-someone-for-work-as-myself",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry, I can't. I'm one bad week from asking someone for work as {position} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-know-it-s-a-lot-one-name-to-try-for-work-as-is-all-i-m-asking",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I know it's a lot. One name to try for work as {position} is all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-if-you-hear-anything-about-work-as-tell-me-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. If you hear anything about work as {position}, tell me then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
+    },
+    {
       "key": "scene-talk.state-request.will-you-visit",
       "move": "state-request",
       "kind": "spoken",
