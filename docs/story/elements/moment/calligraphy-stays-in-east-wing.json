@@ -1,0 +1,30 @@
+{
+  "id": "calligraphy-stays-in-east-wing",
+  "kind": "moment",
+  "summary": "The visiting spouse's calligraphy stays at {place} for official use.",
+  "realLife": "The East Wing retained work by calligrapher Sugako Hamazaki that Japan's prime minister's spouse had given Jill Biden.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2025-01-03/pdf/2024-31509.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{place}"],
+  "gates": ["Art retained for official use in a named office."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: art retained for official use in a named office.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A visitor asks who wrote it",
+      "what": "Identify the artist",
+      "writesBack": "The maker gets a place in the tour"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Staff plan a move",
+      "what": "Check the official-use designation",
+      "writesBack": "The piece goes on the office inventory"
+    }
+  ]
+}
