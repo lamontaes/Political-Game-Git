@@ -1,0 +1,32 @@
+{
+  "id": "sots-close-thanks-with-the-spouse",
+  "kind": "moment",
+  "summary": "The thank-you at the close is given from the governor and the spouse.",
+  "realLife": "Abbott in 2023 thanked Texans on behalf of himself and the First Lady before a prayer.",
+  "sources": [
+    "https://gov.texas.gov/news/post/governor-abbott-delivers-2023-state-of-the-state-address",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: a spouse record for the governor; the officials engine holds terms and people, not who is present.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The thank-you is from the governor alone.",
+      "pulledBy": "an unmarried speaker",
+      "writesBack": "One voice."
+    },
+    {
+      "turn": "neutral",
+      "what": "No spouse named.",
+      "pulledBy": "default",
+      "writesBack": "No trace."
+    }
+  ]
+}

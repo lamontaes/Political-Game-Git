@@ -1,0 +1,30 @@
+{
+  "id": "next-day-event-as-a-side-item",
+  "kind": "detail",
+  "summary": "A protest the next day is added as a side event with its time and place.",
+  "realLife": "A student protest at a municipal building was announced for the next day.",
+  "sources": [
+    "Patch (South Brunswick, New Jersey), 'Protestors Rally Against South Brunswick Data Center' (page title: 'At Packed Church, Protestors Turn Up Pressure On South Brunswick Data Center'), Nov. 8, 2026: https://patch.com/new-jersey/southbrunswick/packed-church-protestors-turn-pressure-south-brunswick-data-center",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "place"],
+  "gates": [],
+  "weights": {
+    "public-action": 0.7
+  },
+  "inGame": "`meetings-week` and the public-action rows; needs: a planned public action",
+  "turns": [
+    {
+      "name": "event canceled",
+      "pulledBy": "a rally called off",
+      "writes": "the story says why"
+    },
+    {
+      "name": "no side event",
+      "pulledBy": "a single protest",
+      "writes": "the story ends on the main one"
+    }
+  ],
+  "usedBy": []
+}

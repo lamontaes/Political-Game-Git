@@ -1,0 +1,30 @@
+{
+  "id": "near-upset-by-about-a-couple-hundred-votes",
+  "kind": "detail",
+  "summary": "A near upset is told by how few votes: the incumbent held on by a few hundred.",
+  "realLife": "A long-serving mayor kept the seat by about two hundred and fifty votes.",
+  "sources": [
+    "The Atlanta Journal-Constitution, 'Controversies cost small city mayoral candidates in municipal election', Nov. 2025: https://www.ajc.com/news/2025/11/controversies-cost-small-city-mayoral-candidates-in-municipal-election",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "number"],
+  "gates": [],
+  "weights": {
+    "election": 1.0
+  },
+  "inGame": "`election-result` margin; the roll-call style `by-one` read for contests",
+  "turns": [
+    {
+      "name": "the challenger wins",
+      "pulledBy": "a swing of a few hundred",
+      "writes": "the story says the incumbent lost by that few"
+    },
+    {
+      "name": "a wide win",
+      "pulledBy": "a large margin",
+      "writes": "the story gives the margin and no drama"
+    }
+  ],
+  "usedBy": []
+}

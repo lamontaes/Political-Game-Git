@@ -1,0 +1,30 @@
+{
+  "id": "quotes-alternate-with-short-paraphrase",
+  "kind": "detail",
+  "summary": "Quotes alternate with short paraphrase paragraphs so no run of quotes builds up.",
+  "realLife": "About half the paragraphs were quotes, each followed by a short line of background.",
+  "sources": [
+    "Patch (Naperville, Illinois), 'We Want Every Dish To Tell A Story: Taco Grill Cantina Now Open In Naperville', Nov. 23, 2026: https://patch.com/illinois/naperville/we-want-every-dish-tell-story-taco-grill-cantina-now-open-naperville",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["quote"],
+  "gates": [],
+  "weights": {
+    "opening": 0.7
+  },
+  "inGame": "needs: more than one quote kept per interview",
+  "turns": [
+    {
+      "name": "all paraphrase",
+      "pulledBy": "an owner with little to say",
+      "writes": "no quotes"
+    },
+    {
+      "name": "a run of quotes",
+      "pulledBy": "a talkative owner",
+      "writes": "three quotes in a row"
+    }
+  ],
+  "usedBy": []
+}

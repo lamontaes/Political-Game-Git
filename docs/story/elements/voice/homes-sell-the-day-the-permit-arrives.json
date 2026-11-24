@@ -1,0 +1,31 @@
+{
+  "id": "homes-sell-the-day-the-permit-arrives",
+  "kind": "voice",
+  "summary": "The kicker is a Realtors' leader saying homes sell the day the occupancy permit arrives.",
+  "realLife": "The last quote said homes closed the day they got an occupancy permit.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "name"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9,
+    "home-sale": 0.8
+  },
+  "inGame": "`housing.completed` and `home-sale` rows (a sale dated near a completion)",
+  "turns": [
+    {
+      "name": "homes sit unsold",
+      "pulledBy": "a slow market",
+      "writes": "the kicker says how long they sit"
+    },
+    {
+      "name": "no kicker",
+      "pulledBy": "a plain figures story",
+      "writes": "the story ends on the last figure"
+    }
+  ],
+  "usedBy": []
+}

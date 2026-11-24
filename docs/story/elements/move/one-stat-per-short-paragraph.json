@@ -1,0 +1,30 @@
+{
+  "id": "one-stat-per-short-paragraph",
+  "kind": "move",
+  "summary": "The case is built from plain figures, one per short paragraph.",
+  "realLife": "A long housing story gave one count per paragraph: homes built per year, permits so far this year and the projection.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9
+  },
+  "inGame": "`housing.completed` per year; the permits rows",
+  "turns": [
+    {
+      "name": "figures in one paragraph",
+      "pulledBy": "a short story",
+      "writes": "the counts sit in one sentence"
+    },
+    {
+      "name": "figures as a chart",
+      "pulledBy": "a screen with room",
+      "writes": "the counts are a small table"
+    }
+  ],
+  "usedBy": []
+}

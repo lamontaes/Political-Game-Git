@@ -1,0 +1,30 @@
+{
+  "id": "paraphrase-tag-then-full-quote-per-speaker",
+  "kind": "move",
+  "summary": "Each speaker gets a one-line paraphrase tag, then a full quote.",
+  "realLife": "Four speakers at a protest were each introduced by a short tag and then quoted at length.",
+  "sources": [
+    "Patch (South Brunswick, New Jersey), 'Protestors Rally Against South Brunswick Data Center' (page title: 'At Packed Church, Protestors Turn Up Pressure On South Brunswick Data Center'), Nov. 8, 2026: https://patch.com/new-jersey/southbrunswick/packed-church-protestors-turn-pressure-south-brunswick-data-center",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "public-action": 0.9
+  },
+  "inGame": "named organizers as people met or clicked; needs: more than one quote kept per event",
+  "turns": [
+    {
+      "name": "all paraphrase",
+      "pulledBy": "speakers who gave no quotes",
+      "writes": "the story relays what they said"
+    },
+    {
+      "name": "quotes only",
+      "pulledBy": "a loud event",
+      "writes": "the quotes run with no tags"
+    }
+  ],
+  "usedBy": []
+}

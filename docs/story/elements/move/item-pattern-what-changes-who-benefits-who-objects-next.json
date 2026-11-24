@@ -1,0 +1,30 @@
+{
+  "id": "item-pattern-what-changes-who-benefits-who-objects-next",
+  "kind": "move",
+  "summary": "Each item runs the same four moves: what changes, who gains, who objects, what happens next.",
+  "realLife": "Every state item in the roundup followed that order in a few short paragraphs.",
+  "sources": [
+    "Michigan Public (NPR copy), 'Rideshare union rights, social media limits and other state laws taking effect Jan. 1', Jan. 1, 2026: https://www.michiganpublic.org/2026-01-01/rideshare-union-rights-social-media-limits-and-other-state-laws-taking-effect-jan-1",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["law", "name"],
+  "gates": [],
+  "weights": {
+    "law": 1.0
+  },
+  "inGame": "`law-took-effect` (what), the bill's purpose, the roll call's dissent (who objects), the next scheduled step; needs: a next step on a law",
+  "turns": [
+    {
+      "name": "who objects first",
+      "pulledBy": "a law passed over loud objection",
+      "writes": "the item opens on the opposition"
+    },
+    {
+      "name": "no objection",
+      "pulledBy": "a unanimous law",
+      "writes": "the item skips the third move"
+    }
+  ],
+  "usedBy": []
+}
