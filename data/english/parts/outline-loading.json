@@ -17,9 +17,7 @@
     "lost-votes": "the player's votes in it, as a number",
     "winner-votes": "the winner's votes in it",
     "first-job-year": "The year of the player's first job, from the jobs module's earliest hire row.",
-    "here-since-year": "The year the player's household moved into the place, from the household record (left out where the life's own records place the player here earlier).",
-    "school-name": "The name of the first school the player attended, from the school engine's records (left out where the record holds no name).",
-    "first-employer": "The name of the player's first employer, said as the world says an employer, from the first hire row's organization."
+    "here-since-year": "The year the player's household moved into the place, from the household record (left out where the life's own records place the player here earlier)."
   },
   "maxWords": 30,
   "parts": [
@@ -415,42 +413,6 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.school.loading-story-your-first-school-was-and-it-was-in",
-      "move": "school",
-      "kind": "written",
-      "text": "Your first school was {school-name}, in {school-place}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-name", "school-place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["school-is-assigned-by-address"]
-    },
-    {
-      "key": "outline-loading.job.loading-story-your-first-job-was-with",
-      "move": "job",
-      "kind": "written",
-      "text": "Your first job, in {first-job-year}, was with {first-employer}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "job",
-          "tie": "record",
-          "requiresFacts": ["first-job-year", "first-employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["a-new-hire-fills-out-an-employment-form"]
     }
   ]
 }
