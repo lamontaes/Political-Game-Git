@@ -1218,6 +1218,12 @@
       "tag": "TUNABLE",
       "spread": "0.5 to 2",
       "note": "What each point of a speaker's summed lean facets adds to a piece's weight; a piece whose facets the speaker lacks falls to the floor of one share, never out."
+    },
+    "specificFloor": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "spread": "1 to 12",
+      "note": "The fewest pieces a move draws from: the most specific fitting pieces win (the CTO, Nov 24: Valve's dynamic dialogue), and less specific ones join only until the pool holds this many, so a fact few pieces check never makes those few every such world's words. Checked against the sameness gate over the drawn lives."
     }
   },
   "disasterWords": {
