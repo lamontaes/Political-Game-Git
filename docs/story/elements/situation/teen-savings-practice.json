@@ -1,0 +1,31 @@
+{
+  "id": "teen-savings-practice",
+  "kind": "situation",
+  "summary": "A teenager in {place} wants to try building a budget before being handed another brochure.",
+  "realLife": "Bronx voters chose hands-on financial education for young people, including saving and investing.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "A funded youth money workshop appears in the local project record."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a funded youth money workshop appears in the local project record.",
+  "turns": [
+    {
+      "turn": "a-workshop-has-room",
+      "pulledBy": "A workshop has room.",
+      "what": "Give the teenager a session time.",
+      "writesBack": "Record a workshop referral."
+    },
+    {
+      "turn": "the-project-has-only-won-funding",
+      "pulledBy": "The project has only won funding.",
+      "what": "Record the request for a start date.",
+      "writesBack": "Keep an inquiry against the funded proposal."
+    }
+  ]
+}

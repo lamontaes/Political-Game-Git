@@ -1,0 +1,34 @@
+{
+  "id": "read-an-absent-officials-rent-testimony-into-the-record",
+  "kind": "moment",
+  "summary": "Someone reads an official's written rent testimony aloud before {board}.",
+  "realLife": "During New York City's virtual apartment hearings in June 2020, a speaker read a public official's written submission into the record.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2021/06/2020-Apt-ES-52.pdf#page=3"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{board}"],
+  "gates": [
+    "The case record identifies the written submission, author, reader and hearing record."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: written submission, author, reader and hearing record.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The transcript identifies author and reader separately.",
+      "pulledBy": "The official sends a reader",
+      "writesBack": "Attributed testimony."
+    },
+    {
+      "turn": "another-way",
+      "what": "The attendance and testimony records name the same person.",
+      "pulledBy": "The official speaks in person",
+      "writesBack": "Speaker entry."
+    }
+  ]
+}
