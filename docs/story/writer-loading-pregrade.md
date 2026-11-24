@@ -2,7 +2,87 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested. Verdicts carry by exact text; lines not judged before were read blind (chunk LA, 131 lines, calibration 8/8, with 30 earlier-graded lines mixed in).
 
-## story/w-loading at `37a2a25e` (newest), on the owner's real grades: 21 of 77 pass
+## #10390 at `1ca359b2` (newest): the 60 loading-steps lines, 46 of 60 pass; the two name-fact lines, 0 of 2
+
+- These were read on the owner-calibrated reader in chunk Q2. The first two reads missed one plant ("What do you do?"), so they don't count. The third read was given the scene context the owner saw, failed all 13 of his bad plants and passed 5 of 6 good.
+- **The steps were judged by their own standard**, the one the Story lead gave: dry and a little sarcastic about what the game is really doing at that step. A joke that points at the real step passes, for example "Back-dating {place} so everyone has been there a while." and "Setting the election dates for {place}, so someone can be disappointed on time.".
+- **The step fails** are:
+  - jokes that point at nothing ("It only runs forward.", "Every one of them has an inbox.", "a view on the desk", "who were not asked either");
+  - jokes on a step the game doesn't do (counting residents twice, seating classmates);
+  - tautologies ("the places that hire people", "which is how offices usually get filled");
+  - twins.
+- **The two outline-loading name lines fail** by the life-story standard. "Your first school was {school-name}, in {school-place}." and "Your first job, in {first-job-year}, was with {first-employer}." are bare record facts, the "list of facts" the owner rejected.
+- Not played.
+
+### loading-steps.json
+
+- FAIL `loading-steps.people.counting-the-residents-of-place-twice-because-somebody-always-moves`: "Counting the residents of {place} twice, because somebody always moves." — Nov 24 quip that means nothing; misstates the step: The game does not count anyone twice, so the joke misstates the step and points at nothing real.
+- FAIL `loading-steps.past.deciding-where-place-went-to-school-and-who-sat-next-to-whom`: "Deciding where {place} went to school and who sat next to whom." — twin of a sibling; misstates the step: Repeats Q2-011's school point, and seating charts are not something the past step makes.
+- FAIL `loading-steps.economy.opening-the-shops-and-the-employers-in-place-and-the-one-place-everyone-has-opinions-about`: "Opening the shops and the employers in {place}, and the one place everyone has opinions about." — Nov 24 quip that means nothing: "What the hell does that mean?": 'The one place everyone has opinions about' names no place, so the tag has no referent.
+- FAIL `loading-steps.economy.hiring-people-in-place-to-work-at-the-places-that-hire-people`: "Hiring people in {place} to work at the places that hire people." — Nov 24 quip that means nothing: A tautology ('places that hire people') that says nothing about the step.
+- FAIL `loading-steps.core.connecting-place-to-state-and-state-to-the-country`: "Connecting {place} to {state} and {state} to the country." — twin of a sibling (Q2-022): Says the same thing as Q2-022, connecting the place to its state, with no joke or new fact.
+- FAIL `loading-steps.core.starting-the-clock-in-place-it-only-runs-forward`: "Starting the clock in {place}. It only runs forward." — Nov 24 quip that means nothing: 'It only runs forward' is a tag with no story or game fact behind it.
+- FAIL `loading-steps.government.putting-people-in-offices-in-place-which-is-how-offices-usually-get-filled`: "Putting people in offices in {place}, which is how offices usually get filled." — Nov 24 quip that means nothing; misstates the step: A tautology, and offices are filled by the history's elections, not just 'put' there.
+- FAIL `loading-steps.legislature.seating-the-lawmakers-of-state-everyone-has-a-desk-and-a-view-on-the-desk`: "Seating the lawmakers of {state}. Everyone has a desk and a view on the desk." — Nov 24 quip that means nothing: 'A view on the desk' is wordplay that reads as nonsense.
+- FAIL `loading-steps.cabinet.appointing-department-heads-in-state-who-were-not-asked-either`: "Appointing department heads in {state}, who were not asked either." — Nov 24 quip that means nothing; no-pointing-at-the-unnamed: 'Either' points back at someone else not asked, which nothing on this step has named.
+- FAIL `loading-steps.cabinet.staffing-the-agencies-of-state-every-one-of-them-has-an-inbox`: "Staffing the agencies of {state}. Every one of them has an inbox." — Nov 24 quip that means nothing: 'Every one of them has an inbox' tells no story and adds no fact.
+- FAIL `loading-steps.workings.setting-the-agenda-in-place-for-meetings-that-could-have-been-emails`: "Setting the agenda in {place} for meetings that could have been emails." — twin of a sibling (Q2-060); no-stock-phrases: Same meetings joke as Q2-060, and 'could have been emails' is a stock line.
+- FAIL `loading-steps.history.working-out-the-past-of-place-one-year-at-a-time`: "Working out the past of {place} one year at a time." — twin of a sibling (Q2-064): Repeats Q2-064's 'a year at a time' with nothing new.
+- FAIL `loading-steps.warmup.place-is-running-without-you-and-it-will-remind-you-of-that`: "{place} is running without you, and it will remind you of that." — Nov 24 quip that means nothing: 'It will remind you of that' points at nothing the game does.
+- FAIL `loading-steps.opening.putting-the-lights-on-in-the-right-house-in-place`: "Putting the lights on in the right house in {place}." — twin of a sibling (Q2-079): Says the same as Q2-079, finding the player's house, with a vaguer image.
+- PASS `loading-steps.people.making-up-everyone-who-lives-in-place-one-person-at-a-time`: "Making up everyone who lives in {place}, one person at a time."
+- PASS `loading-steps.people.giving-every-resident-of-place-a-name-an-age-and-a-reason-to-be-there`: "Giving every resident of {place} a name, an age and a reason to be there."
+- PASS `loading-steps.people.putting-people-in-houses-in-place-the-houses-were-already-there`: "Putting people in houses in {place}. The houses were already there."
+- PASS `loading-steps.people.deciding-who-lives-next-door-to-whom-in-place-bad-news-for-somebody`: "Deciding who lives next door to whom in {place}. Bad news for somebody."
+- PASS `loading-steps.past.giving-everyone-in-place-a-childhood-a-school-and-a-few-regrets`: "Giving everyone in {place} a childhood, a school and a few regrets."
+- PASS `loading-steps.past.writing-up-the-moves-and-the-layoffs-that-brought-people-to-place`: "Writing up the moves and the layoffs that brought people to {place}."
+- PASS `loading-steps.past.working-out-who-left-place-and-who-never-did`: "Working out who left {place} and who never did."
+- PASS `loading-steps.past.back-dating-place-so-everyone-has-been-there-a-while`: "Back-dating {place} so everyone has been there a while."
+- PASS `loading-steps.economy.pricing-groceries-rent-and-gas-in-place-so-the-complaints-have-something-to-be-about`: "Pricing groceries, rent and gas in {place}, so the complaints have something to be about."
+- PASS `loading-steps.economy.setting-wages-in-place-then-setting-rents-a-little-above-them`: "Setting wages in {place}, then setting rents a little above them."
+- PASS `loading-steps.economy.letting-businesses-in-place-open-hire-and-let-go-in-about-that-order`: "Letting businesses in {place} open, hire and let go, in about that order."
+- PASS `loading-steps.core.wiring-place-to-the-rest-of-state-so-one-thing-can-affect-another`: "Wiring {place} to the rest of {state}, so one thing can affect another."
+- PASS `loading-steps.core.switching-place-on-and-hoping-the-parts-agree`: "Switching {place} on and hoping the parts agree."
+- PASS `loading-steps.government.deciding-who-holds-which-office-in-place-and-since-when`: "Deciding who holds which office in {place}, and since when."
+- PASS `loading-steps.government.telling-the-people-in-charge-in-place-that-they-are-in-charge`: "Telling the people in charge in {place} that they are in charge."
+- PASS `loading-steps.government.filling-the-offices-from-the-town-hall-in-place-up-to-the-capital-of-state`: "Filling the offices from the town hall in {place} up to the capital of {state}."
+- PASS `loading-steps.government.giving-each-official-in-place-a-term-a-salary-and-a-drawer-full-of-paperwork`: "Giving each official in {place} a term, a salary and a drawer full of paperwork."
+- PASS `loading-steps.elections.setting-the-election-dates-for-place-so-someone-can-be-disappointed-on-time`: "Setting the election dates for {place}, so someone can be disappointed on time."
+- PASS `loading-steps.elections.registering-the-voters-of-place-some-of-them-will-read-the-form`: "Registering the voters of {place}. Some of them will read the form."
+- PASS `loading-steps.elections.lining-up-the-candidates-in-place-such-as-they-are`: "Lining up the candidates in {place}, such as they are."
+- PASS `loading-steps.elections.drawing-district-lines-in-state-somebody-will-complain-about-them`: "Drawing district lines in {state}. Somebody will complain about them."
+- PASS `loading-steps.elections.printing-the-ballots-for-place-the-one-thing-there-that-has-to-be-right`: "Printing the ballots for {place}, the one thing there that has to be right."
+- PASS `loading-steps.budgets.writing-the-budget-for-place-which-is-where-it-admits-what-it-can-afford`: "Writing the budget for {place}, which is where it admits what it can afford."
+- PASS `loading-steps.budgets.dividing-the-money-in-place-between-roads-schools-and-everything-else-people-want`: "Dividing the money in {place} between roads, schools and everything else people want."
+- PASS `loading-steps.budgets.opening-the-books-in-place-which-have-more-lines-than-you-would-hope`: "Opening the books in {place}, which have more lines than you would hope."
+- PASS `loading-steps.budgets.estimating-the-revenue-in-state-with-optimism`: "Estimating the revenue in {state}, with optimism."
+- PASS `loading-steps.budgets.taxes-in-services-out-and-a-gap-somebody-in-place-has-to-explain`: "Taxes in, services out, and a gap somebody in {place} has to explain."
+- PASS `loading-steps.legislature.sorting-out-who-sits-on-which-committee-in-state-which-is-where-the-work-gets-done`: "Sorting out who sits on which committee in {state}, which is where the work gets done."
+- PASS `loading-steps.legislature.counting-votes-in-state-before-anyone-has-cast-one`: "Counting votes in {state} before anyone has cast one."
+- PASS `loading-steps.legislature.writing-down-the-laws-state-already-has-so-you-can-change-them`: "Writing down the laws {state} already has, so you can change them."
+- PASS `loading-steps.legislature.assigning-parties-seats-and-the-occasional-grudge-in-state`: "Assigning parties, seats and the occasional grudge in {state}."
+- PASS `loading-steps.cabinet.choosing-who-runs-the-roads-and-the-schools-in-state`: "Choosing who runs the roads and the schools in {state}."
+- PASS `loading-steps.cabinet.handing-the-department-heads-of-state-their-keys`: "Handing the department heads of {state} their keys."
+- PASS `loading-steps.workings.sending-reporters-to-the-town-hall-in-place-they-will-wait`: "Sending reporters to the town hall in {place}. They will wait."
+- PASS `loading-steps.workings.filling-the-calendar-in-place-with-meetings-no-one-will-want-to-attend`: "Filling the calendar in {place} with meetings no one will want to attend."
+- PASS `loading-steps.workings.starting-the-press-the-courts-and-the-committees-in-place-all-at-once`: "Starting the press, the courts and the committees in {place}, all at once."
+- PASS `loading-steps.history.running-a-century-of-elections-in-state-a-year-at-a-time-so-the-country-has-a-past`: "Running a century of elections in {state}, a year at a time, so the country has a past."
+- PASS `loading-steps.history.deciding-who-won-every-election-in-state-and-who-held-office-after`: "Deciding who won every election in {state} and who held office after."
+- PASS `loading-steps.history.passing-laws-repealing-laws-and-passing-more-laws-in-state-for-decades`: "Passing laws, repealing laws and passing more laws in {state}, for decades."
+- PASS `loading-steps.history.giving-state-a-history-that-everyone-remembers-a-little-differently`: "Giving {state} a history that everyone remembers a little differently."
+- PASS `loading-steps.warmup.letting-place-run-for-a-while-before-you-are-introduced`: "Letting {place} run for a while before you are introduced."
+- PASS `loading-steps.warmup.letting-state-carry-on-for-a-while-so-there-is-news-when-you-get-there`: "Letting {state} carry on for a while, so there is news when you get there."
+- PASS `loading-steps.warmup.everyone-in-place-is-getting-a-head-start-on-you`: "Everyone in {place} is getting a head start on you."
+- PASS `loading-steps.opening.setting-the-table-for-your-first-evening-in-place`: "Setting the table for your first evening in {place}."
+- PASS `loading-steps.opening.finding-your-house-in-place-your-household-and-your-first-problem`: "Finding your house in {place}, your household and your first problem."
+- PASS `loading-steps.opening.almost-ready-place-has-been-running-without-you-this-entire-time`: "Almost ready. {place} has been running without you this entire time."
+
+### outline-loading.json, name-fact lines
+
+- FAIL `outline-loading.school.loading-story-your-first-school-was-and-it-was-in`: "Your first school was {school-name}, in {school-place}." — person-history-tells-a-story; "still just a list of facts... not written as a story" (Nov 23): A bare record fact on the life-story card, exactly the list-of-facts reading he rejected on Nov 23.
+- FAIL `outline-loading.job.loading-story-your-first-job-was-with`: "Your first job, in {first-job-year}, was with {first-employer}." — person-history-tells-a-story; "still just a list of facts" (Nov 23): Same bare fact shape as the school row, a field read aloud rather than a piece of the story.
+
+## story/w-loading at `37a2a25e`, on the owner's real grades: 21 of 77 pass
 
 - **New calibration (Nov 24, after the CTO's line 7140453049 on #9750):** the planted lines are now the owner's own grades, not obviously broken lines. There are 13 lines he graded bad: today's born, school and "usual problems" loading lines, the housemate's "So the President wants… I'm glad she said it out loud", "I'd push back on her there", the four work replies offered together, and four from his Nov 12 notes. There are 6 he graded fine. This chunk (P2) failed all 13 bad lines and passed all 6 good ones. The reader's brief states his four Nov 24 patterns as rules: quips with no referent, a policy's catalog name in speech, four replies with one answer, and narration that restates the screen.
 - Every line of the bank was read fresh. Nothing was carried from the earlier reads, which used the old calibration.
