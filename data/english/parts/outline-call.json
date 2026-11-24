@@ -1371,41 +1371,6 @@
       "elements": ["ask-of-listeners-comes-last"]
     },
     {
-      "key": "outline-call.charge.spoken-who-here-has-talked-about-at-a-kitchen-table-that-s-who-i-m-speaking-t",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Who here has talked about {theme-name} at a kitchen table? That's who I'm speaking to.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.charge.spoken-let-s-spend-the-first-stretch-of-this-term-where-the-trouble-is",
       "move": "charge",
       "kind": "spoken",
@@ -4884,29 +4849,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["parallel-run-of-to-those-addresses"]
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-the-member-of-the-who-disagrees-with-me-most-i-ll-start-w",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the member of the {body-word} who disagrees with me most: I'll start with you, in the next {term-left}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["body-word", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-humble"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",

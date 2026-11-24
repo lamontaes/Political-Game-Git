@@ -4597,10 +4597,10 @@
       "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
-      "key": "outline-theme.question.inaugural-should-stay-as-it-is",
+      "key": "outline-theme.question.what-should-become-of-law-name",
       "move": "question",
       "kind": "spoken",
-      "text": "Should {law-name} stay as it is?",
+      "text": "What should become of {law-name}?",
       "uses": [
         {
           "subject": "inaugural",
@@ -5378,10 +5378,10 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
+      "key": "outline-theme.stand.id-leave-law-name-exactly-as-written",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'd keep {law-name} just as it is.",
+      "text": "I'd leave {law-name} exactly as written.",
       "uses": [
         {
           "subject": "inaugural",
