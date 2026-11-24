@@ -30,6 +30,7 @@ import outlineThemeBank from "../../data/english/parts/outline-theme.json" with 
 import outlineDiaryBank from "../../data/english/parts/outline-diary.json" with { type: "json" };
 import outlineTalkBank from "../../data/english/parts/outline-talk.json" with { type: "json" };
 import outlineNewsBank from "../../data/english/parts/outline-news.json" with { type: "json" };
+import outlineJournalBank from "../../data/english/parts/outline-journal.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import { stableHash } from "../core2/kernel/ids";
 import { admittedParts, directorSlots } from "./bank-parts";
@@ -170,6 +171,7 @@ export const OUTLINE_BANK_PARTS: readonly TellingPart[] = [
   outlineDiaryBank,
   outlineTalkBank,
   outlineNewsBank,
+  outlineJournalBank,
 ].flatMap((bank) => (bank as unknown as { parts: TellingPart[] }).parts);
 
 const PARTS: readonly TellingPart[] = admittedParts(OUTLINE_BANK_PARTS);

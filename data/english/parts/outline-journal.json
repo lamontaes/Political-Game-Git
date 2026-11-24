@@ -1,0 +1,117 @@
+{
+  "schema": "english-parts/1",
+  "register": "outline-journal",
+  "description": "The sentence that opens a Journal chapter on a new life's first page (outline row journal-chapter-open): the birth that opens the first chapter and a move that opens the next, told through the one outline planner. Seeded with the old Journal bank's opener lines for those moves, their text unchanged, under the Journal writer's spec (#9750, 7135335379; docs/story/writer-spec.md).",
+  "slots": {
+    "place": "the town, from the household or move record"
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "outline-journal.moved.i-moved-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "I moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"],
+          "excludesFacts": ["household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-back-to-place",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved back to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "household-together"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "outline-journal.born.i-was-born-in-place",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "outline-journal.born.my-family-lived-in-place-when-i-was-born",
+      "move": "born",
+      "kind": "written",
+      "text": "My family lived in {place} when I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "outline-journal.born.place-is-where-i-was-born",
+      "move": "born",
+      "kind": "written",
+      "text": "{place} is where I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
+}

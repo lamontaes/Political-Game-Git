@@ -926,6 +926,21 @@
         "value": 4,
         "about": "TUNABLE: the shortest stump speech the planner tells, at the low end of the planner of record's 4 to 10 sentences (src/director/data/speech-outlines.json `campaign-speech`; a stump speech is short and repeated at every stop, Wikipedia, Stump speech) until the writer's pre-grade sets it."
       }
+    },
+    "journal-chapter-open": {
+      "surface": "journal",
+      "sections": [
+        {
+          "name": "born",
+          "when": ["chapter-born"],
+          "shapes": ["chapter-open-born"]
+        },
+        {
+          "name": "moved",
+          "when": ["chapter-moved"],
+          "shapes": ["chapter-open-moved"]
+        }
+      ]
     }
   },
   "shapes": {
@@ -1210,6 +1225,12 @@
     "running-alone": {
       "moves": ["running"],
       "fallback": true
+    },
+    "chapter-open-born": {
+      "moves": ["born"]
+    },
+    "chapter-open-moved": {
+      "moves": ["moved"]
     }
   },
   "weights": {
