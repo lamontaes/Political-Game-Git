@@ -10003,6 +10003,1032 @@
         "key": "favor-asked"
       },
       "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.let-me-get-you-in-touch-with-agency-to-practice-the-part-where-you-introduce-yourself",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Let me get you in touch with {agency} to practice the part where you introduce yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-d-like-somebody-at-agency-to-play-the-interviewer-i-get-stuck-as-soon-as-they-ask-me-to-tell-them-about-myself"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-ll-try-my-opening-out-loud-with-whoever-takes-the-call-at-agency",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll try my opening out loud with whoever takes the call at {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.let-me-get-you-in-touch-with-agency-to-practice-the-part-where-you-introduce-yourself"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.when-i-call-agency-i-ll-explain-that-you-want-to-practice-getting-a-question-you-can-t-answer",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "When I call {agency}, I'll explain that you want to practice getting a question you can't answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.if-an-interviewer-asks-me-something-i-don-t-know-could-i-practice-that-answer-with-someone-at-agency"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-can-try-saying-i-don-t-know-at-agency-and-see-how-it-sounds",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I can try saying I don't know at {agency} and see how it sounds.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.when-i-call-agency-i-ll-explain-that-you-want-to-practice-getting-a-question-you-can-t-answer"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-for-someone-at-agency-who-can-play-the-hiring-manager-while-you-ask-about-the-work",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask for someone at {agency} who can play the hiring manager while you ask about the work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.could-somebody-at-agency-listen-to-the-questions-i-d-ask-about-the-work-itself"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-ll-come-to-agency-with-a-question-i-d-actually-ask-in-an-interview",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll come to {agency} with a question I'd actually ask in an interview.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-for-someone-at-agency-who-can-play-the-hiring-manager-while-you-ask-about-the-work"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-call-agency-about-a-r-sum-review-i-ll-tell-them-you-d-like-a-fresh-reader-for-the-opening",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call {agency} about a r\u00e9sum\u00e9 review. I'll tell them you'd like a fresh reader for the opening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.the-opening-lines-i-d-like-somebody-at-agency-to-read-them-and-tell-me-what-job-they-think-i-m-after"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-want-to-hear-what-somebody-at-agency-gets-from-those-first-few-lines",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I want to hear what somebody at {agency} gets from those first few lines.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-call-agency-about-a-r-sum-review-i-ll-tell-them-you-d-like-a-fresh-reader-for-the-opening"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-put-you-in-touch-with-agency-you-can-let-the-reader-tell-you-what-comes-across-before-you-explain",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put you in touch with {agency}. You can let the reader tell you what comes across before you explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.let-somebody-at-agency-read-the-part-about-my-experience-before-i-explain-it-i-d-like-to-hear-what-comes-across"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.that-s-how-i-d-like-to-do-it-at-agency-i-ll-let-them-read-it-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's how I'd like to do it at {agency}. I'll let them read it first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-put-you-in-touch-with-agency-you-can-let-the-reader-tell-you-what-comes-across-before-you-explain"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-sit-down-with-you-and-compare-your-r-sum-with-that-opening",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} who could sit down with you and compare your r\u00e9sum\u00e9 with that opening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-could-bring-a-listing-to-agency-and-get-help-figuring-out-what-belongs-on-my-r-sum-for-that-job"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-ll-bring-the-listing-to-agency-along-with-the-r-sum",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll bring the listing to {agency} along with the r\u00e9sum\u00e9.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-sit-down-with-you-and-compare-your-r-sum-with-that-opening"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.my-call-to-agency-will-be-about-where-graduates-get-hired-that-sounds-like-what-you-need-before-choosing-a-class",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "My call to {agency} will be about where graduates get hired. That sounds like what you need before choosing a class.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.which-classes-does-agency-know-of-where-employers-actually-hire-the-people-who-finish"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.yes-i-d-like-to-hear-from-agency-about-what-people-went-on-to-do",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Yes. I'd like to hear from {agency} about what people went on to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.my-call-to-agency-will-be-about-where-graduates-get-hired-that-sounds-like-what-you-need-before-choosing-a-class"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-how-you-can-check-the-length-of-a-course-before-you-sign-up",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} how you can check the length of a course before you sign up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.before-i-pick-a-course-through-agency-i-d-like-to-know-how-long-it-takes-before-i-can-apply-for-work"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.that-would-help-i-can-ask-agency-about-the-schedule-before-i-commit",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That would help. I can ask {agency} about the schedule before I commit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-how-you-can-check-the-length-of-a-course-before-you-sign-up"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-put-the-question-to-agency-about-how-to-find-your-share-of-the-training-cost",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put the question to {agency} about how to find your share of the training cost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.can-agency-help-me-work-out-what-i-d-have-to-pay-for-the-training-myself"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-once-i-have-a-name-at-agency-i-can-ask-what-i-d-have-to-cover",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. Once I have a name at {agency}, I can ask what I'd have to cover.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-put-the-question-to-agency-about-how-to-find-your-share-of-the-training-cost"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-where-you-should-start-and-what-you-need-for-that-first-step",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} where you should start and what you need for that first step.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.i-need-agency-to-tell-me-where-to-start-the-claim-and-what-to-have-handy-when-i-sit-down-to-file"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-appreciate-the-call-i-ll-get-the-filing-instructions-from-agency",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate the call. I'll get the filing instructions from {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-where-you-should-start-and-what-you-need-for-that-first-step"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-get-you-in-touch-with-agency-to-check-what-they-accept-as-proof-of-pay",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get you in touch with {agency} to check what they accept as proof of pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.what-counts-as-proof-of-pay-i-d-like-somebody-at-agency-to-go-over-that-with-me"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-d-like-to-check-with-agency-before-i-start-gathering-records",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'd like to check with {agency} before I start gathering records.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-get-you-in-touch-with-agency-to-check-what-they-accept-as-proof-of-pay"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.let-me-ask-whether-somebody-at-agency-can-look-over-the-papers-before-you-send-them",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Let me ask whether somebody at {agency} can look over the papers before you send them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.if-i-bring-my-paperwork-to-agency-could-somebody-check-whether-anything-s-missing-before-i-file"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-have-my-papers-ready-when-i-talk-to-agency",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll have my papers ready when I talk to {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.let-me-ask-whether-somebody-at-agency-can-look-over-the-papers-before-you-send-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "relieved"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-tell-agency-you-d-like-help-finding-other-jobs-that-use-the-skills-behind-that-title",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll tell {agency} you'd like help finding other jobs that use the skills behind that title.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.at-employer-my-title-didn-t-tell-you-much-i-d-like-to-talk-through-the-actual-work-and-see-where-else-it-fits"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-ll-describe-what-i-did-at-employer-when-we-talk",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll describe what I did at {employer} when we talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-promise.i-ll-tell-agency-you-d-like-help-finding-other-jobs-that-use-the-skills-behind-that-title"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-help-you-find-the-job-titles-to-use-in-a-search",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} who could help you find the job titles to use in a search.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.could-they-help-me-figure-out-what-other-employers-call-the-work-i-did-at-employer-that-would-give-me-something-to-search-for"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.once-i-have-a-name-at-agency-i-can-ask-what-words-to-look-under",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Once I have a name at {agency}, I can ask what words to look under.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-help-you-find-the-job-titles-to-use-in-a-search"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-make-the-introduction-to-agency-and-leave-the-explanation-of-the-layoff-to-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make the introduction to {agency} and leave the explanation of the layoff to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.follow-answer.i-want-them-to-know-about-the-layoff-at-employer-i-d-rather-explain-it-myself-than-have-somebody-guess-why-i-left"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thank-you-i-d-like-them-to-hear-about-employer-from-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'd like them to hear about {employer} from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-promise.i-ll-make-the-introduction-to-agency-and-leave-the-explanation-of-the-layoff-to-you"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-call-agency-for-a-contact-you-can-ask-about-a-particular-opening",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call {agency} for a contact you can ask about a particular opening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.does-agency-have-a-name-i-can-use-when-i-call-about-an-opening"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thank-you-i-can-make-the-next-call-once-agency-gives-me-a-name",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I can make the next call once {agency} gives me a name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-call-agency-for-a-contact-you-can-ask-about-a-particular-opening"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.let-me-ask-agency-where-they-d-send-someone-looking-for-work-around-here-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Let me ask {agency} where they'd send someone looking for work around here this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.where-would-the-people-at-agency-look-first-if-they-needed-work-around-here-this-week"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-appreciate-it-i-d-like-a-place-i-can-start-looking-when-i-leave-agency",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. I'd like a place I can start looking when I leave {agency}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.let-me-ask-agency-where-they-d-send-someone-looking-for-work-around-here-this-week"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-go-through-the-requirements-in-a-listing-with-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask {agency} who could go through the requirements in a listing with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.follow-answer.could-somebody-at-agency-go-through-a-job-listing-with-me-there-are-times-i-can-t-tell-whether-my-experience-counts"
+        }
+      ],
+      "elements": [
+        "layoff-orientation-with-rapid-response",
+        "check-prior-action-before-promising-casework"
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-thank.thanks-i-can-take-the-listing-to-agency-and-show-them-where-i-m-unsure",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I can take the listing to {agency} and show them where I'm unsure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-promise.i-ll-ask-agency-who-could-go-through-the-requirements-in-a-listing-with-you"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "bearing": "warm"
     }
   ]
 }
