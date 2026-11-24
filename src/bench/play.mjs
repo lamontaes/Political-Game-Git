@@ -2330,7 +2330,7 @@ async function campaignParts() {
             {
               group: T.groupMoney,
               title: controls.campaignActs.circulators,
-              picture: pictures?.mail,
+              picture: pictures?.circulators,
               load: async () => {
                 const dollarsOut = numberBox({
                   value: 500,
@@ -3480,7 +3480,8 @@ function billEstimate(paper, section) {
   // again; a section that changes a rule and no amount says so.
   const shown = lines.filter(Boolean);
   return {
-    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    // A section with no figure says nothing: no line, and the strip is hidden when it is empty.
+    prose: "",
     lines: shown,
     compare,
     // A phase-in's step: the paper lists every step beside the others, in order.
@@ -5875,6 +5876,9 @@ const sheets = {
     return rosterScreen({
       title: controls.titles.bills,
       className: "bills",
+      // The list takes the sheet's room: the pager gives rows back until the sheet fits.
+      maxRows: 20,
+      reserve: 240,
       groups: stages.map((stage) => ({
         title: status[stage] ?? "",
         entries: list
@@ -7517,6 +7521,46 @@ async function listTowns() {
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
+// The portrait's size in the creator (layout, not game rules): it starts at `start`
+// and is the one part that gives way, so a tall look (a man's or a nonbinary person's
+// extra rows) with a name filled in still fits the window, and a short one fills the
+// room it has (owner, Nov 17: no empty space in the creator; the CTO's catch, Nov 24:
+// the panel's top edge ran off screen).
+const PORTRAIT_COLUMN = { start: 230, least: 140, most: 270, margin: 24 };
+/** Draws the portrait, keeping the one being left up until the new one has every piece, so it is never blank while the look changes (owner, Nov 16, N16-9). */
+function drawPortrait(view, tab, column) {
+  const portrait = drawFace(view.faces[tab], { shape: "bust", column });
+  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
+  const arrived = portrait.querySelector(".bust-stack")?.ready;
+  const put = () => {
+    $("cr-bust").replaceChildren(portrait);
+    setup.portraitShown = column;
+  };
+  if (!arrived || !$("cr-bust").firstChild) put();
+  else
+    void arrived.then(() => {
+      if (portraitTurn === setup.portraitTurn) put();
+    });
+}
+/** Resizes the portrait to the room the window leaves the panel: smaller when the panel runs past the window, larger when it has room to spare. */
+function fitPortrait(view, tab) {
+  const { least, most, margin } = PORTRAIT_COLUMN;
+  const shown =
+    setup.portraitShown ?? setup.portraitColumn ?? PORTRAIT_COLUMN.start;
+  const room = viewHeight() - margin - $("front").offsetHeight;
+  const next = Math.round(
+    Math.max(
+      least,
+      Math.min(
+        most,
+        room < 0 ? shown + room : room > 40 ? shown + room - 20 : shown,
+      ),
+    ),
+  );
+  if (next === (setup.portraitColumn ?? PORTRAIT_COLUMN.start)) return;
+  setup.portraitColumn = next;
+  drawPortrait(view, tab, next);
+}
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
 // share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
@@ -7525,18 +7569,7 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  // The look being left stays up until the new one has every piece, so the
-  // portrait is never blank while the look changes (owner, Nov 16, N16-9).
-  const portrait = drawFace(view.faces[tab], { shape: "bust", column: 220 });
-  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
-  const arrived = portrait.querySelector(".bust-stack")?.ready;
-  if (!arrived || !$("cr-bust").firstChild)
-    $("cr-bust").replaceChildren(portrait);
-  else
-    void arrived.then(() => {
-      if (portraitTurn === setup.portraitTurn)
-        $("cr-bust").replaceChildren(portrait);
-    });
+  drawPortrait(view, tab, setup.portraitColumn ?? PORTRAIT_COLUMN.start);
   const row = (r) =>
     lookRow(r, {
       onPick: (id, option) => void pickLook(id, option),
@@ -7566,6 +7599,7 @@ function showLook(view) {
       : []),
     ...view.rows.filter((r) => r.tab === tab).map(row),
   );
+  fitPortrait(view, tab);
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
   $("cr-undo").disabled = setup.previous.length === 0;
