@@ -25821,7 +25821,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "budget-cost"]
+          "requiresFacts": ["bill", "budget-cost"],
+          "excludesFacts": ["heard-cost"]
         },
         {
           "subject": "scene",
@@ -25830,7 +25831,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
+          "requiresFacts": ["bill", "no-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -25910,7 +25912,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "budget-cost"]
+          "requiresFacts": ["bill", "budget-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -25937,7 +25940,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
+          "requiresFacts": ["bill", "no-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
