@@ -6957,6 +6957,13 @@ async function openSheet(tab) {
   $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
+  // The News panel ends under its content; a headline list long enough to scroll takes the
+  // window, as it always has, so a list never scrolls in a panel with room left (the ui-look
+  // guard, Nov 24).
+  const headlines =
+    tab === "news" && $("sheet-body").querySelector(".news-list");
+  if (headlines && headlines.scrollHeight > headlines.clientHeight + 1)
+    $("sheet").classList.remove("fits");
   fitPagers($("sheet-body"));
 }
 /**

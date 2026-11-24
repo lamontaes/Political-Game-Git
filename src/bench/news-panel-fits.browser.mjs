@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, window */
 // The News panel ends under its content, in a real browser on the bench (npm run bench) (the CTO's
 // 06:46Z catch, Bloomsbury and Roaring Spring: the lower half of the panel empty; owner, Oct 27: "so
 // much dead space"): in each drawn life the panel's foot sits within 90 px of the last thing it
@@ -28,8 +28,17 @@ try {
       stories: document.querySelectorAll(".news-list > *").length,
       empty: Math.round(sheet.bottom - Math.max(...shown, 0)),
       foot: Math.round(sheet.bottom),
+      listScrolls:
+        (document.querySelector(".news-list")?.scrollHeight ?? 0) >
+        (document.querySelector(".news-list")?.clientHeight ?? 0) + 1,
+      room: Math.round(window.innerHeight - sheet.bottom),
     };
   });
+  // The headline list scrolls only in a panel that already takes the window (the ui-look guard).
+  assert.ok(
+    !gap.listScrolls || gap.room <= 60,
+    `the headline list scrolls in a panel with ${gap.room}px of window left`,
+  );
   assert.ok(
     gap.empty <= 90,
     `the News panel has ${gap.empty}px empty under its content`,
