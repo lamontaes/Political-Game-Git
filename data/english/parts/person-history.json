@@ -5771,6 +5771,249 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "kind": "written"
+    },
+    {
+      "key": "person-history.then.teens.third",
+      "move": "then",
+      "text": "in {their} teens",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.teens.they",
+      "move": "then",
+      "text": "in their teens",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.teens.i",
+      "move": "then",
+      "text": "in my teens",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.twenties.third",
+      "move": "then",
+      "text": "in {their} twenties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.twenties.they",
+      "move": "then",
+      "text": "in their twenties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.twenties.i",
+      "move": "then",
+      "text": "in my twenties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.thirties.third",
+      "move": "then",
+      "text": "in {their} thirties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.thirties.they",
+      "move": "then",
+      "text": "in their thirties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.thirties.i",
+      "move": "then",
+      "text": "in my thirties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.forties.third",
+      "move": "then",
+      "text": "in {their} forties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.forties.they",
+      "move": "then",
+      "text": "in their forties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.forties.i",
+      "move": "then",
+      "text": "in my forties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.fifties.third",
+      "move": "then",
+      "text": "in {their} fifties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.fifties.they",
+      "move": "then",
+      "text": "in their fifties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.fifties.i",
+      "move": "then",
+      "text": "in my fifties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.sixties.third",
+      "move": "then",
+      "text": "in {their} sixties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.sixties.they",
+      "move": "then",
+      "text": "in their sixties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.sixties.i",
+      "move": "then",
+      "text": "in my sixties",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.seventies.third",
+      "move": "then",
+      "text": "in {their} seventies",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.seventies.they",
+      "move": "then",
+      "text": "in their seventies",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.seventies.i",
+      "move": "then",
+      "text": "in my seventies",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.child.any",
+      "move": "then",
+      "text": "as a child",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.child.any.w2",
+      "move": "then",
+      "text": "early in life",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.teens.any",
+      "move": "then",
+      "text": "as a teenager",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.twenties.any",
+      "move": "then",
+      "text": "in young adulthood",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.late.any",
+      "move": "then",
+      "text": "late in life",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.then.late.any.w2",
+      "move": "then",
+      "text": "in old age",
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "kind": "written"
     }
   ]
 }

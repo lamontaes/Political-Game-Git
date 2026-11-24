@@ -957,7 +957,7 @@ function lastElsewhere(
 }
 
 /** The stretch of life an age falls in, for the bank's `when.band.<stretch>` openings. */
-function stretchOfLife(age: number): string {
+export function stretchOfLife(age: number): string {
   if (age <= 12) return "child";
   if (age <= 19) return "teens";
   if (age >= 80) return "late";
@@ -1093,8 +1093,38 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // they form when their record holds none.
     const first = teller.form !== "you" && !named;
     const form = first ? "third" : voice;
+    // Their stretch of life then ("in their forties"), said by the bank, for
+    // a sentence that tells when by it where the year is not the point.
+    const lived =
+      teller.born && line.date > teller.born
+        ? ageInYears(teller.born, line.date)
+        : undefined;
+    const stretch =
+      lived !== undefined && lived > 0 ? stretchOfLife(lived) : undefined;
+    const stretchWay =
+      stretch !== undefined
+        ? pickWay(
+            ["third", "they", "i"].includes(voice)
+              ? [
+                  ...screenWays(
+                    "person-history",
+                    `person-history.then.${stretch}.${voice}`,
+                  ),
+                  ...screenWays(
+                    "person-history",
+                    `person-history.then.${stretch}.any`,
+                  ),
+                ]
+              : [],
+            new Set(),
+            line.recordId,
+            { their: teller.words?.possessive ?? "their" },
+            ":then",
+          )
+        : null;
     const slots = {
       ...line.slots,
+      ...(stretchWay ? { then: stretchWay.text } : {}),
       ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
       who: first ? teller.name : (teller.words?.subject ?? ""),
       whom: first ? teller.name : (teller.words?.object ?? ""),
@@ -1112,7 +1142,15 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         : screenWays("person-history", `person-history.story.${kind}.any`);
     };
     const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
-    const ways = second.length ? second : waysOf(again);
+    const allWays = second.length ? second : waysOf(again);
+    // With the stretch of life known, a wording that tells time by it is
+    // said before one that names the year.
+    const byStretch = stretchWay
+      ? allWays.filter((key) =>
+          partText("person-history", key).includes("{then}"),
+        )
+      : [];
+    const ways = byStretch.length ? byStretch : allWays;
     const wording = pickWay(ways, used, line.recordId, slots);
     if (!wording) return [];
     used.add(wording.key);
@@ -1131,7 +1169,9 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // and never on a sentence that says how long ("worked for seven years").
     const gap = lastYear ? Number(year) - Number(lastYear) : Infinity;
     const frame =
-      !/\{(?:years?|span)\}/.test(partText("person-history", wording.key)) &&
+      !/\{(?:years?|span|then)\}/.test(
+        partText("person-history", wording.key),
+      ) &&
       (!last?.framed || gap > 1);
     if (frame) {
       // Their age then, said as a stretch of life ("in their teens") where
