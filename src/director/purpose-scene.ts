@@ -14,7 +14,12 @@ import { placeChain, placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
-import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
+import {
+  appointmentsIn,
+  EMERGENCY_OFFERED,
+  EXECUTIVE_MODULE_ID,
+  pendingEmergencyOffers,
+} from "../core2/modules/executive";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -3647,9 +3652,34 @@ export function replyInScene(
   // One record per scene of the moment and reply path: a record that stages
   // several scenes keeps each one's replies apart.
   const unit = scene.unit ?? scene.typeKey;
-  const id = `scene-reply:${entry.momentId}:${unit}:${path.join(".")}`;
+  const replyPrefix = `scene-reply:${entry.momentId}:${unit}:`;
+  const id = replyPrefix + path.join(".");
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
+  // Replaying a recorded answer is safe. A different answer needs an open
+  // meeting and an offer the sitting governor can still decide.
+  if (scene.typeKey === "emergency-briefing") {
+    // The player screen saves each step. A later step must continue the
+    // same path, including when an earlier question left the offer open.
+    if (
+      entry.replies?.some(
+        (prior) => prior.startsWith(replyPrefix) && !id.startsWith(prior + "."),
+      ) ||
+      !core.modules.has(EXECUTIVE_MODULE_ID)
+    )
+      return null;
+    const api = coreAPI(core);
+    const governor = townSeats(api).find(
+      (seat) => seat.office.kind === "governor",
+    )?.holder;
+    if (
+      governor?.personId !== scene.askedId ||
+      !pendingEmergencyOffers(api, scene.askedId).some(
+        (offer) => offer.hazardRecordId === scene.cause.facts.hazardRecordId,
+      )
+    )
+      return null;
+  }
   if (!entry.answered?.includes(unit))
     entry.answered = [...(entry.answered ?? []), unit];
   // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a

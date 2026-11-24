@@ -169,17 +169,61 @@ describe(`the governor's briefing room (${where})`, () => {
       (reply) => reply.line.move === "agree",
     );
     expect(yes, where).toBeGreaterThanOrEqual(0);
+    const entryBeforeAnswer = { ...entry! };
+    const question = scene.scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "ask",
+    );
+    expect(question, where).toBeGreaterThanOrEqual(0);
+    const answer = scene.scene.talk.tree.replies[
+      question
+    ]!.next!.replies.findIndex((reply) => reply.line.move === "agree");
+    expect(answer, where).toBeGreaterThanOrEqual(0);
+    const options = { typeKey: "emergency-briefing" };
+    expect(
+      replyInScene(core, world.director, playerId, entry!, [question], options),
+      where,
+    ).toBeTruthy();
+    expect(
+      replyInScene(core, world.director, playerId, entry!, [yes], options),
+      where,
+    ).toBeNull();
     const replyId = replyInScene(
       core,
       world.director,
       playerId,
       entry!,
-      [yes],
+      [question, answer],
       {
         typeKey: "emergency-briefing",
       },
     );
     expect(replyId, where).toBeTruthy();
+    const no = scene.scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "decline",
+    );
+    expect(no, where).toBeGreaterThanOrEqual(0);
+    const replyAgain = (choice: number) =>
+      replyInScene(core, world.director, playerId, entry!, [choice], {
+        typeKey: "emergency-briefing",
+      });
+    expect(
+      replyInScene(
+        core,
+        world.director,
+        playerId,
+        entry!,
+        [question, answer],
+        options,
+      ),
+      where,
+    ).toBe(replyId);
+    expect(replyAgain(no), where).toBeNull();
+    expect(
+      replyInScene(core, world.director, playerId, entryBeforeAnswer, [no], {
+        typeKey: "emergency-briefing",
+      }),
+      where,
+    ).toBeNull();
     const declared = api
       .moduleState(EXECUTIVE_MODULE_ID)
       .table("emergencies")
@@ -250,9 +294,23 @@ describe(`the governor's briefing room (${where})`, () => {
           entry.momentId.includes("~again~"),
         `${where}: a return meeting offers the question again`,
       ).toBe(false);
-      return !!replyInScene(core, world.director, playerId, entry, [ask], {
-        typeKey: "emergency-briefing",
-      });
+      const options = { typeKey: "emergency-briefing" };
+      const recorded = replyInScene(
+        core,
+        world.director,
+        playerId,
+        entry,
+        [ask],
+        options,
+      );
+      expect(recorded, where).toBeTruthy();
+      const yes = replies.findIndex((reply) => reply.line.move === "agree");
+      expect(yes, where).toBeGreaterThanOrEqual(0);
+      expect(
+        replyInScene(core, world.director, playerId, entry, [yes], options),
+        where,
+      ).toBeNull();
+      return !!recorded;
     };
     for (
       let guard = 0;
