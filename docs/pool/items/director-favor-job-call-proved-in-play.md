@@ -23,7 +23,7 @@ root: none
 
 **Cause.** Found in code: nothing in the engine. The call is a scene from circumstance, which the director makes only for an explicitly controlled player (`controlled` in src/director/ledger.ts) and only when a day closes. A probe that advances the core outside the player's clock, or stops the clock at midnight so no day closes, sees nothing. Through the player's own clock (`advancePlayerV1` past midnight), the jobs engine's `work.job-lost` from `layOffWorker` stages `circumstance:job-lost-calls` the same day and the scene composes.
 
-**Fix.** A drawn-place played test, `src/director/favor-job-played.test.ts`: dev mode's layoff for a working friend apart (`forceScene` with `forId`, the existing `layoff` recipe), days through the player's clock, and the call staged with the one laid off as the caller and composed. No engine change, no new hook.
+**Fix.** Dev mode could not bring the call on from its screen: the Scenes panel's For list holds only the people the director tells stories for (the player and their home), and with no one picked the layoff recipe laid off the player first. Now, for a type whose circumstance row says the caller lives apart, a press with no one picked lays off the first person the player knows in another home who works and can be laid off today, through `layOffWorker` (src/bench/dev-mode.ts). And a drawn-place played test, `src/director/favor-job-played.test.ts`: dev mode's layoff for a working friend apart (`forceScene` with `forId`, the existing `layoff` recipe), days through the player's clock, and the call staged with the one laid off as the caller and composed. No engine change, no new hook.
 
 **Time box.** 1 hour.
 
@@ -33,6 +33,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/favor-job-played.test.ts (new)
+**Files.** src/bench/dev-mode.ts, src/director/favor-job-played.test.ts (new)
 
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator's brief was to stack this on the tracer's #10526 (`director.runningFor`); the call needs no `runningFor` when days pass through the player's clock, and the test passes on main at Washington, D.C., so it is cut from main. Dev mode's Run until is the path `runningFor` serves.

@@ -1,9 +1,10 @@
 /**
  * Someone the player knows, laid off, calls the working player to ask for a
  * word, in a played world (scene-producers, step 5). The cause is the jobs
- * engine's own record: dev mode's layoff for that person (`DevMode.forceScene`
- * with `forId`, recipe "layoff") ends their job through `layOffWorker`, which
- * writes `work.job-lost`. The director's circumstance row `job-lost-calls`
+ * engine's own record: dev mode's scene control with no one picked (as the
+ * Scenes panel's For: Any sends it; `DevMode.forceScene`, recipe "layoff")
+ * lays off the first person the player knows in another home who works, through
+ * `layOffWorker`, which writes `work.job-lost`. The director's circumstance row `job-lost-calls`
  * reads it for a player who works or holds or seeks office, casts the one the
  * record names if the player knows them and they live apart, and stages the
  * `reach-out` scene (purpose `favor-job`) as a phone call. Circumstances come
@@ -69,35 +70,34 @@ it(`a laid-off friend calls the working player to ask for a word (seed ${seed})`
       passed.push(`${where}: the player has no job`);
       continue;
     }
-    // Someone the player knows who lives apart and works, so has a job to lose.
-    const friend = [...player.knownIds]
-      .sort()
-      .map((id) => core.people.get(id))
-      .find(
-        (p) =>
-          p?.alive &&
-          p.householdId !== player.householdId &&
-          p.jobId &&
-          core.jobs.get(p.jobId)?.endsAt === undefined,
-      );
-    if (!friend) {
-      passed.push(`${where}: no working friend apart`);
-      continue;
-    }
     director.watch(core, me);
     const dev = new DevMode(core, director, undefined, place.key);
-    const forced = dev.forceScene({ typeKey: "reach-out", forId: friend.id });
+    let forced: { personId?: string };
+    try {
+      forced = dev.forceScene({ typeKey: "reach-out" }) as {
+        personId?: string;
+      };
+    } catch (error) {
+      passed.push(`${where}: ${(error as Error).message}`);
+      continue;
+    }
+    const friend = core.people.get(forced.personId as PersonId)!;
+    expect(
+      friend.householdId,
+      `${where}: dev mode lays off someone in another home`,
+    ).not.toBe(player.householdId);
+    expect(
+      player.knownIds.has(friend.id) || player.familyIds.has(friend.id),
+    ).toBe(true);
     const recordId = [...core.durableLog.keys()].find(
       (id) =>
         String(id).startsWith("event:work.job-lost:") &&
         core.durableLog.get(id)?.personIds.includes(friend.id),
     );
-    if (!recordId) {
-      passed.push(
-        `${where}: dev mode's layoff wrote no work.job-lost for ${friend.id} (${JSON.stringify(forced).slice(0, 160)})`,
-      );
-      continue;
-    }
+    expect(
+      recordId,
+      `${where}: dev mode's layoff of ${friend.id} wrote work.job-lost`,
+    ).toBeDefined();
     const book = director.ledger.people.get(me)!;
     const staged = () =>
       book.schedule.find(
@@ -134,6 +134,6 @@ it(`a laid-off friend calls the working player to ask for a word (seed ${seed})`
     return;
   }
   throw new Error(
-    `none of ${DRAWS} drawn places has a working player with a working friend apart (run seed ${seed}): ${passed.join("; ")}`,
+    `none of ${DRAWS} drawn places has a working player with someone they know in another home to lay off (run seed ${seed}): ${passed.join("; ")}`,
   );
 }, 1_800_000);
