@@ -1,0 +1,33 @@
+{
+  "id": "a-fruit-ruling-does-not-settle-the-mushroom-levy",
+  "kind": "consequence",
+  "summary": "The court considering the levy at {place} asks what decisions growers already make together.",
+  "realLife": "The Supreme Court distinguished compulsory mushroom advertising from the broader California tree-fruit system and held the mushroom assessment at issue unconstitutional.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep533/usrep533405/usrep533405.pdf#page=1",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep533/usrep533405/usrep533405.pdf#page=2"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the governing market program and controlling opinion."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: governing market program and controlling opinion.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Apply the mushroom ruling to the disputed charge.",
+      "pulledBy": "The assessment matches the program the court reviewed.",
+      "writesBack": "Ruling and scope of the disputed charge."
+    },
+    {
+      "turn": "another-way",
+      "what": "Examine a different crop order on its own terms.",
+      "pulledBy": "The order regulates production as well as advertising.",
+      "writesBack": "Ruling and scope of the disputed charge."
+    }
+  ]
+}
