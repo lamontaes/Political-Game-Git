@@ -78,7 +78,7 @@ try {
         );
       await shot(`government-${level}-${branch}`);
       // A bill from the recent votes, once: no Back on its page.
-      const openable = page.locator(".vote-rows .pick");
+      const openable = page.locator(".vote-rows .open-row");
       if (
         !billFromGovernment &&
         branch === "legislative" &&

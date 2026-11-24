@@ -1678,6 +1678,28 @@ export function coreAPI(core: CoreState): CoreAPI {
         const member = core.people.get(id);
         if (member && member.familyName === drawn) member.familyName = family;
       }
+      // The family the player is born into carries the chosen name wherever its
+      // members live: parents, brothers and sisters, children, grandparents,
+      // aunts, uncles, nieces and nephews who carried the drawn name, or the
+      // name the player's parents carried (a second adult's own birth name).
+      const lines = new Set([drawn.toLowerCase()]);
+      const kin = (actor.pastFacts ?? []).flatMap((fact) => {
+        const id = fact.facts?.otherPersonId;
+        const other = id
+          ? (core.people.get(id) ?? core.husks.get(id))
+          : undefined;
+        const relation = fact.kind.startsWith("family:")
+          ? fact.kind.slice("family:".length)
+          : "";
+        return other && !["partner", "other-parent"].includes(relation)
+          ? [{ other, relation }]
+          : [];
+      });
+      for (const { other, relation } of kin)
+        if (relation === "parent") lines.add(other.familyName.toLowerCase());
+      for (const { other } of kin)
+        if (lines.has(other.familyName.toLowerCase()))
+          other.familyName = family;
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;

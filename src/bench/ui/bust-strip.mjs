@@ -70,6 +70,8 @@ export function bustStrip({
   strip.dataset.speaker = speakingId ? "1" : "0";
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));
+  // Someone speaks: the rest stand back, small and dimmed (play.css).
+  strip.dataset.speaker = speakingId ? "1" : "0";
   strip.append(
     el("div", { className: "busts-glass" }),
     ...(words.label
