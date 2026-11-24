@@ -171,13 +171,13 @@
       {
        "who": "President John Cunningham",
        "text": "Fellow citizens. I swore to protect the Constitution, and for four years, that comes before everything else on my list. Let me get right to what health care costs.",
-       "piece": "opening-speech.ask.n19-both-belief-sentence, outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list, outline-call.charge.inaugural-let-me-get-right-to",
+       "piece": "outline-call.greeting.state-of-the-union-spoken-fellow-citizens, outline.greeting.inaugural-fellow-citizens, outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list, outline-call.charge.inaugural-let-me-get-right-to",
        "elements": [
         "point-opens-on-a-claim"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "President John Cunningham",
@@ -736,13 +736,14 @@
        "who": "Governor Wendy Snow",
        "text": "Are the right-to-work rules doing what they were meant to do? I'm a no on that. Everybody who gets the union's raise should pay a share of winning it.",
        "where": "KTJX-TV",
-       "piece": "outline-theme.question.spoken-are-doing-what-they-were-meant-to-do-plural, conversation.own-work-new-answer-brief.i-m-my-position, headlines.court.name-gets-term",
+       "piece": "outline-theme.question.spoken-are-doing-what-they-were-meant-to-do-plural, conversation.own-work-new-answer-brief.i-m-my-position, headlines.court.name-gets-term, headlines.law.place-gets-law, headlines.appointed.name-gets-post",
        "elements": [
-        "inaugural-point-opens-on-a-question-to-the-listeners"
+        "inaugural-point-opens-on-a-question-to-the-listeners",
+        "law-takes-effect-story"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Governor Wendy Snow",
@@ -803,14 +804,14 @@
        "who": "Mayor Mackenzie McNeil",
        "text": "I've held the view for years that a family in trouble shouldn't wait weeks for aid it qualifies for. I'll push for more assistance spending at every meeting.",
        "where": "KTJX-TV",
-       "piece": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that, outline-local.pledge.i-ll-push-for-at-every-meeting",
+       "piece": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that, outline-local.creed.i-ve-held-the-view-for-years-that, outline-local.pledge.i-ll-push-for-at-every-meeting",
        "elements": [
         "inaugural-leans-on-belief-image-pledge",
         "stump-platform-as-a-topic-by-topic-list"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Mayor Mackenzie McNeil",
@@ -1007,13 +1008,13 @@
       {
        "who": "President Monica Benton",
        "text": "Fellow citizens. The election ended in November. The job starts today and runs four years. I came here to get one thing moving first, and that's trust in government.",
-       "piece": "opening-speech.ask.n19-both-belief-sentence, headlines.trip.name-in-place, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
+       "piece": "outline-call.greeting.state-of-the-union-spoken-fellow-citizens, outline.greeting.inaugural-fellow-citizens, headlines.trip.name-in-place, opening-speech.ask.n19-both-belief-sentence, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
        "elements": [
         "point-opens-on-a-claim"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "President Monica Benton",
@@ -1438,11 +1439,11 @@
        "who": "Governor Joseph McBride",
        "text": "I think every vote counts only if every voter is checked. I always have. I'll keep pushing to require photo ID to vote until it's done. I'll take the criticism on elections if it means getting it right.",
        "where": "KPOI-TV",
-       "piece": "journal.home-livelihood-office-plain.other-is-office, opening-speech.ask.n19-both-belief-sentence, outline-theme.pledge.inaugural-i-ll-keep-pushing-to-until-it-s-done, outline-theme.value.inaugural-i-ll-take-the-criticism-on-if-it-means-getting-it-right",
+       "piece": "journal.home-livelihood-office-plain.other-is-office, news.profile-office.name-is-office, opening-speech.ask.n19-both-belief-sentence, outline-theme.pledge.inaugural-i-ll-keep-pushing-to-until-it-s-done, outline-theme.value.inaugural-i-ll-take-the-criticism-on-if-it-means-getting-it-right",
        "elements": [],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Governor Joseph McBride",
@@ -1504,13 +1505,14 @@
        "who": "Chair John Clayton",
        "text": "Some want to block a bigger police budget, and I disagree. People in Montezuma County want an officer who gets there fast. I'm for paying for more of them.",
        "where": "KPOI-TV",
-       "piece": "outline-theme.contrast.inaugural-some-want-to-and-i-disagree, headlines.grant.purpose-in-place-gets-money, conversation.own-work-new-answer-brief.i-m-my-position",
+       "piece": "outline-theme.contrast.inaugural-some-want-to-and-i-disagree, outline-local.contrast.some-want-to-and-i-disagree, headlines.grant.purpose-in-place-gets-money, conversation.government-news-answer-for.i-m-for-about, outline-local.stand.i-m-for",
        "elements": [
-        "inaugural-point-opens-on-a-contrast"
+        "inaugural-point-opens-on-a-contrast",
+        "stump-platform-as-a-topic-by-topic-list"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 2 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Chair John Clayton",
@@ -1753,13 +1755,13 @@
       {
        "who": "President Brenda Vaughan",
        "text": "My fellow Americans. November's votes are counted, and today I start earning them for four years. I came here to get one thing moving first, and that's what work pays.",
-       "piece": "outline-call.greeting.state-of-the-union-spoken-my-fellow-americans, outline.hired.inaugural-november-s-votes-are-counted-and-today-i-start-earning-them-for, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
+       "piece": "outline-call.greeting.state-of-the-union-spoken-my-fellow-americans, outline.greeting.inaugural-my-fellow-americans, outline.hired.inaugural-november-s-votes-are-counted-and-today-i-start-earning-them-for, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
        "elements": [
         "point-opens-on-a-claim"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "President Brenda Vaughan",
@@ -1795,8 +1797,9 @@
       {
        "who": "President Brenda Vaughan",
        "text": "Thank you again. On whether to raise the federal minimum wage, my first step is a meeting, not a speech, and it's tomorrow.",
-       "piece": "opening-speech.ask.n19-both-belief-sentence, outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
+       "piece": "outline-theme.blessing.spoken-thank-you-again, outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
        "elements": [
+        "closes-on-a-blessing-after-a-pledge",
         "victory-ends-on-a-call-to-work"
        ],
        "issues": [],
@@ -1840,7 +1843,7 @@
       {
        "who": "Robin Yates",
        "text": "I'm with you on that, Dad.",
-       "piece": "outline-talk.verdict-cold.talk-address-point-i-m-with-on",
+       "piece": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
        "elements": [],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
@@ -2271,13 +2274,13 @@
        "who": "Governor Ruth McLeod",
        "text": "Members of the legislature, and people of Michigan. The people of Michigan have waited a long time for some of what's on the table this year. I didn't run to keep a chair warm. What I came to talk about is how families are treated when they buy and borrow.",
        "where": "WGOA-TV",
-       "piece": "outline-call.greeting.state-of-the-state-spoken-members-of-the-and-people-of, outline-call.report.state-of-the-state-the-people-of-realmname-have-waited-a-long-time-for, opening-speech.ask.n19-both-belief-sentence, journal.home-livelihood-office-plain.other-is-office",
+       "piece": "outline-call.greeting.state-of-the-state-spoken-members-of-the-and-people-of, outline-call.report.state-of-the-state-the-people-of-realmname-have-waited-a-long-time-for, opening-speech.ask.n19-both-belief-sentence, journal.home-livelihood-office-plain.other-is-office, news.profile-office.name-is-office",
        "elements": [
         "sots-opens-with-a-salutation-to-named-officials"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Governor Ruth McLeod",
@@ -2296,26 +2299,27 @@
        "who": "Governor Ruth McLeod",
        "text": "At the moment, cannabis is sold legally, in licensed stores, and the money is taxed. I'd keep legal cannabis sales just as it is.",
        "where": "WGOA-TV",
-       "piece": "opening-speech.today.polished-at-the-moment-today-clause-second, outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
+       "piece": "outline-theme.today.inaugural-at-the-moment, opening-speech.today.polished-at-the-moment-today-clause-third, opening-speech.today.polished-at-the-moment-today-clause-second, opening-speech.today.polished-at-the-moment-today-clause, outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
        "elements": [
+        "diagnosis-before-acts",
         "point-opens-on-a-claim"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Governor Ruth McLeod",
        "text": "Should age checks for social media stay as it is? I wouldn't, since adults shouldn't hand over an ID to use a website.",
        "where": "WGOA-TV",
-       "piece": "outline-theme.question.inaugural-should-stay-as-it-is, outline-theme.answer.inaugural-i-wouldn-t-since",
+       "piece": "outline-theme.question.inaugural-should-stay-as-it-is, outline-theme.answer.inaugural-i-wouldn-t-since, outline-local.answer.i-wouldn-t-since",
        "elements": [
         "inaugural-leans-on-belief-image-pledge",
         "inaugural-point-opens-on-a-question-to-the-listeners"
        ],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Governor Ruth McLeod",
@@ -2358,11 +2362,11 @@
       {
        "who": "Robin Yates",
        "text": "Same here, Joseph.",
-       "piece": "conversation.address-point-answer-agree.same-here-name",
+       "piece": "conversation.address-point-answer-agree.same-here-name, conversation.news-back-core.same-here-you",
        "elements": [],
        "issues": [],
        "note": "no piece key: a screen label, a fallback, or a line built from the planner",
-       "piece_source": "matched to bank text templates by sentence"
+       "piece_source": "matched to bank text templates by sentence; 1 sentence(s) are shared by more than one bank piece, every key listed"
       },
       {
        "who": "Joseph Yates",
