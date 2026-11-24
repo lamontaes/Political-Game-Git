@@ -10904,6 +10904,626 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-lives-right-here-in-anchortown-with-no-health-insurance",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} lives right here in {anchor-town} with no health insurance, and a town that knows that has to decide what it owes {anchor-first}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-think-of-anchorname-on-the-next-street-in-anchortown-going",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Think of {anchor-name} on the next street in {anchor-town}, going without a doctor, and ask what we are willing to do about it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-i-know-anchorname-in-anchortown-has-no-coverage-and-i",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "I know {anchor-name} in {anchor-town} has no coverage, and I won't pretend that is somebody else's problem.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-is-sick-and-what-anchorfirst-asks",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} is sick, and what {anchor-first} asks of us is not charity, only that care be within reach.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-down-the-road-in-anchortown-anchorname-is-fighting-an-illness",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Down the road in {anchor-town}, {anchor-name} is fighting an illness, and {anchor-town} should be the kind that shows up.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-is-sick-and-lives-in-anchortown-and-how-we",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} is sick and lives in {anchor-town}, and how we treat {anchor-first} says a lot about us.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-in-anchortown-needs-care-at-home-and-the-question",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} needs care at home, and the question for {anchor-town} is who takes the weight off {anchor-first}'s family.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-right-here-in-anchortown-anchorname-needs-care-that-the-family",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Right here in {anchor-town}, {anchor-name} needs care that the family cannot give alone, and we can help close that gap.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-there-is-a-family-in-anchortown-where-anchorname-needs-care",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "There is a family in {anchor-town} where {anchor-name} needs care every day, and I want us to see them.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-works-for-the-smallest-pay-in",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} works for the smallest pay in town, and a town that works for everyone owes {anchor-first} better.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-meet-anchorname-in-anchortown-who-works-hard-for-the-least",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Meet {anchor-name} in {anchor-town}, who works hard for the least of anyone here, and who is asking only for a fair wage.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-the-lowest-pay-in-anchortown-goes-to-anchorname-and-i",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "The lowest pay in {anchor-town} goes to {anchor-name}, and I do not think that is the town we want to be.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-lives-on-the-smallest-income-in-anchortown-and-what",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} lives on the smallest income in {anchor-town}, and what {anchor-first} needs is a town that does not look away.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-in-anchortown-anchorname-has-less-coming-in-than-anyone-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} has less coming in than anyone, and I want {anchor-town} to be the one that notices.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-gets-by-on-very-little-here-in-anchortown-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} gets by on very little here in {anchor-town}, and a good town makes room for {anchor-first}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-was-the-victim-of-a-crime",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} was the victim of a crime, and {anchor-first} is asking whether {anchor-town} will stand behind the people it failed to protect.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-someone-in-anchortown-named-anchorname-was-wronged-and-we-owe",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Someone in {anchor-town} named {anchor-name} was wronged, and we owe {anchor-first} a town that answers.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-in-anchortown-wants-to-feel-safe-again-and-what",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} wants to feel safe again, and what that takes from {anchor-town} is more than words.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
