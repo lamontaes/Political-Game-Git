@@ -617,7 +617,7 @@
         {
           "name": "body",
           "joins": true,
-          "shapes": ["margin"]
+          "shapes": ["margin-then-who-then-effect", "margin"]
         }
       ]
     },
@@ -1210,6 +1210,9 @@
     "running-alone": {
       "moves": ["running"],
       "fallback": true
+    },
+    "margin-then-who-then-effect": {
+      "moves": ["margin", "who?", "why?", "effect?"]
     }
   },
   "weights": {
