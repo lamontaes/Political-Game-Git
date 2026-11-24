@@ -17,6 +17,8 @@ import {
 
 interface ScreenPart {
   key: string;
+  move?: string;
+  own?: boolean;
   text: string;
 }
 const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
@@ -49,6 +51,40 @@ export function screenLine(
     return String(value ?? "");
   });
   return missing ? null : text;
+}
+
+/**
+ * The words of a bank's move (what the line tells: `election`, `birthday`)
+ * for one variant of it, with its slots filled from `facts`: the player's own
+ * (`own`, else the plain part of the move), several seats at once (`seats`, the
+ * part that says a `{count}`), or one (the plain part). The first playable
+ * part the facts fill, in the bank's order; null when there is none. A screen
+ * reads the bank by what a line says, so a part renamed in the bank is still
+ * found.
+ */
+export function screenLineByMove(
+  bank: string,
+  move: string,
+  variant: "own" | "seats" | "plain",
+  facts: Readonly<Record<string, string | number>>,
+): string | null {
+  const parts = [...(BANKS[bank]?.values() ?? [])].filter(
+    (part) => part.move === move && playable(part),
+  );
+  const says = (part: ScreenPart) => /\{count\}/.test(part.text);
+  const own = parts.filter((part) => part.own === true);
+  const plain = parts.filter((part) => part.own !== true);
+  const order =
+    variant === "own"
+      ? [...own, ...plain.filter((part) => !says(part))]
+      : variant === "seats"
+        ? plain.filter(says)
+        : plain.filter((part) => !says(part));
+  for (const part of order) {
+    const text = screenLine(bank, part.key, facts);
+    if (text) return text;
+  }
+  return null;
 }
 
 /**
