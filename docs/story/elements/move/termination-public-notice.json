@@ -1,0 +1,32 @@
+{
+  "id": "termination-public-notice",
+  "kind": "move",
+  "summary": "After signature, {person} asks when people outside the capitol can see the termination notice.",
+  "realLife": "California's governor directed that the September 2024 county termination be filed with the secretary of state and publicized widely.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2024/09/9.4.24-Drought-termination-proclamation.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": [
+    "A signed termination has an effective date and a record of the filing or public notice process."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a signed termination has an effective date and a record of the filing or public notice process.",
+  "turns": [
+    {
+      "turn": "published",
+      "pulledBy": "A dated public notice is available.",
+      "what": "Send the county the public copy.",
+      "writesBack": "Save where and when it appeared."
+    },
+    {
+      "turn": "pending",
+      "pulledBy": "The file still shows a pending decision or response.",
+      "what": "Ask the filing office for the publication status.",
+      "writesBack": "Track the notice separately from the effective date."
+    }
+  ]
+}
