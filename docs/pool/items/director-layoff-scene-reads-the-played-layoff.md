@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/pt-board-layoff-terms
-pr:
+pr: #10519
 blocked-on:
 source: CTO 17:40Z item 5 on #10377 (comment 7139529302), the six work-scene producers; lane 8 took 4 to 6
 claimed-at: 2026-11-24T19:20:00.000Z
