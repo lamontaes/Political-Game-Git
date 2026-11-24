@@ -5,7 +5,7 @@ Pre-grader, 2026-11-24. Branch `story/w-diary` at `96f15060`, every line authore
 - **Result:** 177 of 280 pass (63%); 103 fail.
 - **Calibration:** C1 8/8, D2 8/8, H1 8/8, H2 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the six-place packet at this head is not in yet; lines were read as written.
+- **Played:** the packet script at `96f15060` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 20 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
@@ -154,6 +154,29 @@ Pre-grader, 2026-11-24. Branch `story/w-diary` at `96f15060`, every line authore
 ### plain-american-spelling-and-phrasing (1)
 
 - `journal.memoir-againPay.an-hour-was-on-offer-at`: "{wage} an hour was on offer at {employer}." — 'On offer' leans British and reads stiff.
+
+## As played
+
+- pass: `outline-diary.said.journal-evening-the-speech-spent-its-time-on-with-little-room-for-anything-else` → **6.27**   The President wants to keep a higher federal minimum wage. The speech spent its time on what work pays, with little room for anything else. When pay came up, I leaned forward.
+- pass: `outline-diary.mine.journal-evening-the-speech-made-its-case-on-and-the-case-did-not-work-on-me` → **3.28**   All of us watched Jennifer Willis's first speech together. Leave a higher federal minimum wage as it is, the President argued. The President spoke about what work pays. The speech made its case on pay, and the case did not work on me.
+- pass: `outline-diary.stance.journal-evening-sooner-or-later-the-president-said-will-happen` → **1.34**   Sooner or later, the President said, a higher top income tax rate will happen. The President talked about what families pay in taxes for most of the speech. When taxes came up, I leaned forward.
+- pass: `outline-diary.stance.journal-evening-the-president-drew-a-line-at` → **2.41**   Barbara Newton's speech was on, and the whole house watched. The President drew a line at a cap on consumer loan interest. When fair lending came up, I leaned forward. Tomorrow in Chipley I plan to ask questions and keep my own answers to myself for now.
+- pass: `outline-diary.mine.journal-evening-when-came-up-i-leaned-forward` → **1.34**   Sooner or later, the President said, a higher top income tax rate will happen. The President talked about what families pay in taxes for most of the speech. When taxes came up, I leaned forward.
+- pass: `outline-diary.watched.journal-evening-everyone-under-this-roof-heard-out` → **5.29**   Everyone under this roof heard Daniel Rush out. The President does not want a higher federal minimum wage. When pay came up, I leaned forward. Roberts will still be here in the morning, and so will I.
+- pass: `outline-diary.ahead.journal-evening-tomorrow-in-i-plan-to-ask-questions-and-keep-my-own-answers-to-myself-for-now` → **2.41**   Barbara Newton's speech was on, and the whole house watched. The President drew a line at a cap on consumer loan interest. When fair lending came up, I leaned forward. Tomorrow in Chipley I plan to ask questions and keep my own answers to myself for now.
+- pass: `outline-diary.stance.journal-evening-leave-as-it-is-the-president-argued` → **3.28**   All of us watched Jennifer Willis's first speech together. Leave a higher federal minimum wage as it is, the President argued. The President spoke about what work pays. The speech made its case on pay, and the case did not work on me.
+- pass: `outline-diary.watched.journal-evening-we-all-watched-s-speech-together-tonight` → **4.35**   We all watched Robert Fletcher's speech together tonight. The President wants limits on power plant carbon to stay the law. Tomorrow I will ask around Whitmore Village about the speech.
+- pass: `outline-diary.watched.journal-evening-s-speech-was-on-and-the-whole-house-watched` → **2.41**   Barbara Newton's speech was on, and the whole house watched. The President drew a line at a cap on consumer loan interest. When fair lending came up, I leaned forward. Tomorrow in Chipley I plan to ask questions and keep my own answers to myself for now.
+- fail: `outline-diary.watched.journal-evening-all-of-us-watched-s-first-speech-together` → **3.28**   All of us watched Jennifer Willis's first speech together. Leave a higher federal minimum wage as it is, the President argued. The President spoke about what work pays. The speech made its case on pay, and the case did not work on me.
+- pass: `outline-diary.said.journal-evening-the-president-spoke-about` → **3.28**   All of us watched Jennifer Willis's first speech together. Leave a higher federal minimum wage as it is, the President argued. The President spoke about what work pays. The speech made its case on pay, and the case did not work on me.
+- pass: `outline-diary.said.journal-evening-the-president-talked-about-for-most-of-the-speech` → **1.34**   Sooner or later, the President said, a higher top income tax rate will happen. The President talked about what families pay in taxes for most of the speech. When taxes came up, I leaned forward.
+- pass: `outline-diary.stance.journal-evening-the-president-does-not-want` → **5.29**   Everyone under this roof heard Daniel Rush out. The President does not want a higher federal minimum wage. When pay came up, I leaned forward. Roberts will still be here in the morning, and so will I.
+- fail: `outline-diary.stance.journal-evening-the-president-wants-to-keep` → **6.27**   The President wants to keep a higher federal minimum wage. The speech spent its time on what work pays, with little room for anything else. When pay came up, I leaned forward.
+- fail: `outline-diary.stance.journal-evening-the-president-wants-to-stay-the-law` → **4.35**   We all watched Robert Fletcher's speech together tonight. The President wants limits on power plant carbon to stay the law. Tomorrow I will ask around Whitmore Village about the speech.
+- pass: `outline-diary.ahead.journal-evening-tomorrow-i-will-ask-around-about-the-speech` → **4.35**   We all watched Robert Fletcher's speech together tonight. The President wants limits on power plant carbon to stay the law. Tomorrow I will ask around Whitmore Village about the speech.
+- pass: `journal.memoir-whenAge.this-was-when-i-was` → **5.25**   This was when I was 10, I began school at Roberts Public Schools.
+- fail: `journal.memoir-whenAge.that-was-the-year-i-was` → **4.31**   That was the year I was 10, I started at Whitmore Village Public Schools.
+- pass: `journal.memoir-joinLater.on` → **2.14** It's the evening of January 20. The news is still on President Newton.
 
 ## Passing lines
 
