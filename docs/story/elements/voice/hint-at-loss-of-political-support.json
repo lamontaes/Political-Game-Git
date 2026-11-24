@@ -26,5 +26,6 @@
       "pulledBy": "The local’s rules reserve endorsement to the members, and no vote has occurred.",
       "writesBack": "The office removes the supposed commitment from its count."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
