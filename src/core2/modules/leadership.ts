@@ -217,6 +217,15 @@ const yearsServed = (t: TermRow, date: string) =>
 let leans: Map<string, number> | null = null;
 /** How one member rates another, worked out once per organization: every post's vote reads the same pair again. */
 let ratings: Map<string, number> | null = null;
+/**
+ * A debug switch (the check beside it, leadership-rating-reuse.test.ts): off,
+ * every post works out each pair's rating again, which must give the same
+ * holders, votes and committee seats as the once-per-organization reuse.
+ */
+let reuseRatings = true;
+export function setRatingReuse(on: boolean): void {
+  reuseRatings = on;
+}
 function leanFor(api: CoreAPI, t: TermRow): number {
   const key = memberKey(t);
   const known = leans?.get(key);
@@ -454,7 +463,7 @@ export function organize(api: CoreAPI, body: string): readonly PostRow[] {
       chamber,
     ]) as unknown as PostRow[];
   leans = new Map();
-  ratings = new Map();
+  ratings = reuseRatings ? new Map() : null;
   try {
     return organizeNow(api, chamber, all, signature, done);
   } finally {

@@ -30,7 +30,7 @@ const LOOKUPS = 50;
 
 describe("leadership keeps a chamber's membership until it can change", () => {
   it("reads each member list once a day in play, and the posts agree", () => {
-    const seed = randomBytes(8).toString("hex");
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
     const draw = drawPlace(seed, "leadership-membership-kept");
     const where = `${draw.key}, seed ${seed}`;
     const world = buildBenchWorld(draw.seed, gameStartDate(), {

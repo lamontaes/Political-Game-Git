@@ -5,8 +5,9 @@
  * gets the one post that changed hands, and a body whose majority changed
  * hands organizes in full. Every test runs in the one world drawn at Vilas,
  * South Dakota (place 4667340, seed c200623d…): the player's state's House,
- * Ohio's House (a played death of its speaker in spring 2025) and Minnesota's
- * Senate (34 to 33). Tests marked "(vacancy writer)" end a term with the
+ * the chamber whose presiding officer dies first in the played years and the
+ * state chamber with the narrowest majority (found by looking, since party
+ * control and deaths come from the world's own history). Tests marked "(vacancy writer)" end a term with the
  * offices engine's own `vacateSeat`, not a played event. Each test's limit is
  * near twice its slower measured time (alone and beside the file's other
  * tests, Nov 15): about 14 and 19 s, 11 and 15 s, 32 and 36 s, 15 and 18 s, 35
@@ -21,7 +22,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
 import { partySide } from "./appointments";
 import { memberKey, members } from "./modules/legislature";
-import { vacateSeat } from "./modules/offices";
+import { OFFICES_MODULE_ID, vacateSeat } from "./modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   organize,
@@ -194,11 +195,37 @@ describe("a vacancy fills what its holder held", () => {
   }, 30_000);
 
   it("(vacancy writer) a majority that changes hands organizes in full, and every committee keeps its party ratio", () => {
-    // Minnesota's Senate sits 34 to 33 in this world; the game's own vacancy
-    // writer ends a majority member's term and the seat awaits its special
-    // election, so the sides stand level and the other side leads.
+    // The world's own closest chamber (party control comes from the century
+    // the world simulated, so no count is pinned): the game's own vacancy
+    // writer ends majority members' terms one at a time, their seats await
+    // special elections, and when the sides stand level the other side leads.
     const { core, api } = setup();
-    const chamber = "office:US-MN:legislature-upper";
+    const kinds = new Set(["legislature-upper", "legislature-lower"]);
+    const margins = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    )
+      .filter((o) => kinds.has(o.kind))
+      .map((o) => {
+        const all = members(api, o.id);
+        const sides = new Map<number, number>();
+        for (const t of all) {
+          const side = partySide(t.party);
+          sides.set(side, (sides.get(side) ?? 0) + 1);
+        }
+        const counts = [...sides.values()].sort((x, y) => y - x);
+        return {
+          id: o.id,
+          margin: (counts[0] ?? 0) - (counts[1] ?? 0),
+          n: counts.length,
+        };
+      })
+      .filter((c) => c.n >= 2 && c.margin > 0)
+      .sort((x, y) => x.margin - y.margin || x.id.localeCompare(y.id));
+    expect(margins.length, "chambers with two sides").toBeGreaterThan(0);
+    const { id: chamber, margin } = margins[0]!;
     organize(api, chamber);
     advanceCore(core, addDays(makeIsoDate(core.date), 20));
     const side = () =>
@@ -210,12 +237,21 @@ describe("a vacancy fills what its holder held", () => {
       ).side;
     const before = side();
     ratioHolds(api, chamber);
-    const leaver = members(api, chamber).find(
+    const leavers = members(api, chamber).filter(
       (t) => partySide(t.party) === before,
-    )!;
-    vacateSeat(api, leaver.seatId, "resigned");
-    organize(api, chamber);
-    expect(side()).not.toBe(before);
+    );
+    let vacated = 0;
+    while (side() === before && vacated < leavers.length) {
+      vacateSeat(api, leavers[vacated]!.seatId, "resigned");
+      vacated += 1;
+      organize(api, chamber);
+    }
+    // Level sides give the other side the lead: no more resignations than
+    // the majority's margin, and one more at most if a tie keeps the order.
+    expect(side(), `${chamber}: margin ${margin}, ${vacated} vacated`).not.toBe(
+      before,
+    );
+    expect(vacated, chamber).toBeLessThanOrEqual(margin + 1);
     for (const post of posts(api, chamber))
       expect(post.since, post.post).toBe(core.date);
     ratioHolds(api, chamber);
@@ -224,7 +260,10 @@ describe("a vacancy fills what its holder held", () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 60));
     organize(api, chamber);
     ratioHolds(api, chamber);
-  }, 75_000);
+    process.stdout.write(
+      `majority change: ${chamber}, margin ${margin}, ${vacated} seats vacated\n`,
+    );
+  }, 180_000);
 
   it("(unit check of the ratio rule, eleven resignations at once) a committee that no longer fits its party ratio is seated again by the assigner's rule", () => {
     // Eleven members of Minnesota's Senate minority resign through the
@@ -255,28 +294,65 @@ describe("a vacancy fills what its holder held", () => {
     ratioHolds(api, chamber);
   }, 40_000);
 
-  it("(played) Ohio's House loses its speaker to a death in the played year and fills the post, nothing else", () => {
-    // In this world (Vilas, place 4667340, the seed above) the health engine
-    // brings two Ohio House deaths in spring 2025, the second the speaker's
-    // (2025-05-04): no one chose it; the offices engine's own death rule
-    // vacates the seat.
+  it("(played) a chamber loses its presiding officer to a death in the played years and fills the post, nothing else", () => {
+    // No one chose the death: the health engine brings it and the offices
+    // engine's own death rule vacates the seat. The world's party counts and
+    // deaths come from its own simulated history, so the test organizes every
+    // state chamber, plays on (up to four years, a fortnight at a time) until
+    // some chamber's speaker or presiding officer has died, and names the
+    // chamber it found.
     const { core, api } = setup();
-    const ohio = "office:US-OH:legislature-lower";
-    organize(api, ohio);
-    const before = posts(api, ohio);
-    const seatsBefore = committees(api, ohio);
-    const speaker = before.find((p) => p.post === "speaker")!;
+    const kinds = new Set(["legislature-upper", "legislature-lower"]);
+    const chambers = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    )
+      .filter((o) => kinds.has(o.kind))
+      .map((o) => o.id)
+      .sort();
+    const startPosts = new Map<string, PostRow[]>();
+    const startSeats = new Map<string, CommitteeRow[]>();
+    for (const chamber of chambers) {
+      organize(api, chamber);
+      startPosts.set(chamber, posts(api, chamber));
+      startSeats.set(chamber, committees(api, chamber));
+    }
+    const presiding = (chamber: string) => {
+      const all = startPosts.get(chamber)!;
+      return all.find((p) => p.post === "speaker") ?? all[0];
+    };
+    const died = (chamber: string) => {
+      const holder = presiding(chamber)?.holderId;
+      return (
+        !!holder && !members(api, chamber).some((t) => memberKey(t) === holder)
+      );
+    };
+    let lost: string | undefined;
+    const end = addDays(makeIsoDate(core.date), 4 * 365);
+    while (!lost && core.date < end) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 14));
+      lost = chambers.find(died);
+    }
+    expect(
+      lost,
+      `a presiding officer died within four years among ${chambers.length} chambers (${core.date})`,
+    ).toBeDefined();
+    process.stdout.write(`played death: ${lost} by ${core.date}\n`);
+    const before = startPosts.get(lost!)!;
+    const seatsBefore = startSeats.get(lost!)!;
+    const speaker = presiding(lost!)!;
     const seen: CoreEventInput[] = [];
     const emit = api.emit.bind(api);
     api.emit = (event: CoreEventInput) => {
       if (event.kind === "chamber-organized") seen.push(event);
       return emit(event);
     };
-    advanceCore(core, makeIsoDate("2025-05-06"));
-    organize(api, ohio);
-    const sitting = new Set(members(api, ohio).map(memberKey));
+    organize(api, lost!);
+    const sitting = new Set(members(api, lost!).map(memberKey));
     expect(sitting.has(speaker.holderId!), "the speaker died").toBe(false);
-    const after = posts(api, ohio);
+    const after = posts(api, lost!);
     const now = after.find((p) => p.post === "speaker")!;
     expect(sitting.has(now.holderId!)).toBe(true);
     // The posts whose holders live stand as they were.
@@ -299,7 +375,7 @@ describe("a vacancy fills what its holder held", () => {
     for (const row of seatsBefore)
       if (row.memberIds.every((id) => sitting.has(id)))
         expect(
-          committees(api, ohio).find((c) => c.committee === row.committee),
+          committees(api, lost!).find((c) => c.committee === row.committee),
         ).toEqual(row);
     // The paper words a refill as a post filled, never as a body that
     // organized (Words lead, Nov 15): across sixty outlets' draws, none.
@@ -319,5 +395,5 @@ describe("a vacancy fills what its holder held", () => {
       );
     }
     expect(printed).toBeGreaterThan(0);
-  }, 80_000);
+  }, 900_000);
 });
