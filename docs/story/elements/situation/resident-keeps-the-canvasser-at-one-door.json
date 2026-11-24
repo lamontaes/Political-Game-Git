@@ -26,5 +26,6 @@
       "pulledBy": "The canvasser left the office number after offering an invitation at the door.",
       "writesBack": "The organizer gives the resident the venue and records that the invitation reached them."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

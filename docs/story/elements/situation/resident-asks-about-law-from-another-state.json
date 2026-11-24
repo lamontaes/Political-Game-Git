@@ -28,5 +28,6 @@
       "pulledBy": "The state has released claims by town since the first meeting.",
       "writesBack": "The clerk attaches the town figures to her earlier comparison and dates them to the reporting year."
     }
-  ]
+  ],
+  "issues": ["question:us-policy-positions:labor-workforce.paid-family-leave"]
 }

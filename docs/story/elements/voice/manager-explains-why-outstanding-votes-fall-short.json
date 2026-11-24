@@ -26,5 +26,6 @@
       "pulledBy": "An updated count from the same election office supersedes the number used in the first calculation.",
       "writesBack": "The tally sheet shows the correction time and a fresh comparison with the lead."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

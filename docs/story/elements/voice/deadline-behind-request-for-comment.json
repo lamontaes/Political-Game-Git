@@ -26,5 +26,6 @@
       "pulledBy": "The clerk can verify the intake stamp, while the official responsible for releasing records has yet to reply.",
       "writesBack": "The evening report gives the receipt date and the assignment desk puts the promised answer on tomorrow’s list."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

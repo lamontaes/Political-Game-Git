@@ -26,5 +26,9 @@
       "pulledBy": "The time sheets show fewer hours for that cook and the roster still includes everyone from the last pay period.",
       "writesBack": "The district office records the lost shift under hours worked and leaves the diner’s headcount unchanged."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.raise-minimum-wage",
+    "law:minimum-wage"
   ]
 }

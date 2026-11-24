@@ -29,5 +29,6 @@
       "pulledBy": "The official can describe the request but has no copy of the release decision at the event.",
       "writesBack": "The reporter keeps the public answer and logs the custodian as the next call."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

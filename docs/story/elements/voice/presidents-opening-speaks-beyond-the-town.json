@@ -26,5 +26,6 @@
       "pulledBy": "Its broadcast log gives the time the national feed replaced the local program.",
       "writesBack": "The station’s news recap draws on the portion its listeners heard."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

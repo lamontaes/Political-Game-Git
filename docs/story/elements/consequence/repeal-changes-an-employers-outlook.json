@@ -26,5 +26,6 @@
       "pulledBy": "The employer has signed the construction contract and the equipment delivery is still ahead.",
       "writesBack": "The town’s employment report dates the construction work and leaves brewery hiring pending."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

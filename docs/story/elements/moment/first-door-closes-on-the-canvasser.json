@@ -26,5 +26,6 @@
       "pulledBy": "The canvasser left a leaflet on the mat and can still hear the resident.",
       "writesBack": "The canvasser retrieves it and marks the address as having declined literature."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

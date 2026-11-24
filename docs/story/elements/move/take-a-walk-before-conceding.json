@@ -26,5 +26,6 @@
       "pulledBy": "An election official corrected the return while the candidate was away.",
       "writesBack": "The manager dates the revised count and asks the candidate to read it before placing a call."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

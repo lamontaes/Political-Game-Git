@@ -26,5 +26,6 @@
       "pulledBy": "The member has agreed in private and supplied a release time.",
       "writesBack": "The campaign puts the member’s name on the next printing and dates the public endorsement to the announcement."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

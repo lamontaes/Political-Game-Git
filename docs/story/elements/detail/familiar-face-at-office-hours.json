@@ -26,5 +26,6 @@
       "pulledBy": "The visitor mentions the earlier meeting where the two discussed the same case.",
       "writesBack": "With the visitor’s permission, the caseworker reopens the earlier file instead of starting a second one."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

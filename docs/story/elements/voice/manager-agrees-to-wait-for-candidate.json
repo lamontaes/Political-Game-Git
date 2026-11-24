@@ -26,5 +26,6 @@
       "pulledBy": "The candidate has made a decision and wants company for the conversation.",
       "writesBack": "The manager cancels the planned break and records the call only after the two candidates speak."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -26,5 +26,6 @@
       "pulledBy": "The county reports precinct returns and outstanding absentee ballots separately.",
       "writesBack": "The campaign marks the precinct list complete and carries the absentee count into its next briefing."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

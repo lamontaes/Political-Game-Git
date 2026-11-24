@@ -28,5 +28,6 @@
       "pulledBy": "The resident has the meeting address from their first conversation and the post is still vacant.",
       "writesBack": "The secretary gives the resident a precinct map and records their interest."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

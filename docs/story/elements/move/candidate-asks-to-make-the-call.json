@@ -26,5 +26,6 @@
       "pulledBy": "An aide takes the caller’s name and agrees to arrange a private conversation after the speech.",
       "writesBack": "The call log records a requested callback and leaves the concession unconfirmed."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

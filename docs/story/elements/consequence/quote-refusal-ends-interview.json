@@ -26,5 +26,6 @@
       "pulledBy": "The reporter is still within earshot and both agree that the new sentence is on the record.",
       "writesBack": "The story file marks that sentence as attributable and leaves the earlier exchange private."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -26,5 +26,6 @@
       "pulledBy": "Both headquarters have exchanged numbers and neither candidate has spoken.",
       "writesBack": "The manager records a staff call and leaves the candidate’s decision open."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -26,5 +26,6 @@
       "pulledBy": "The route card distinguishes unanswered doors from residents who declined to sign.",
       "writesBack": "The organizer copies the unanswered addresses to the next shift’s route."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
