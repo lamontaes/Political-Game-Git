@@ -1495,44 +1495,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.someone-in-your-household-in-place-is-under-eighteen",
-      "move": "now",
-      "kind": "written",
-      "text": "Someone in your household in {place} is under eighteen.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["lives-with-younger", "place"]
-        }
-      ],
-      "elements": ["average-household-size-is-two-and-a-half"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.someone-in-your-household-in-place-is-a-good-deal-older-than-you",
-      "move": "now",
-      "kind": "written",
-      "text": "Someone in your household in {place} is a good deal older than you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["lives-with-older", "place"]
-        }
-      ],
-      "elements": [
-        "household-size-peaks-with-householders-in-their-thirties-and-forties"
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.now.your-household-has-lived-in-place-since-here-since-year",
       "move": "now",
       "kind": "written",
@@ -1546,6 +1508,26 @@
         }
       ],
       "elements": ["about-one-person-in-nine-changes-residence-each-year"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.now.you-share-the-house-in-place-with-kids-and-with-grown-ups-much-older-than-you",
+      "move": "now",
+      "kind": "written",
+      "text": "You share the house in {place} with kids and with grown-ups much older than you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "now",
+          "tie": "record",
+          "requiresFacts": ["place", "lives-with-younger", "lives-with-older"]
+        }
+      ],
+      "elements": [
+        "household-size-peaks-with-householders-in-their-thirties-and-forties"
+      ],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
