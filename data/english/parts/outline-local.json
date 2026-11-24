@@ -126,26 +126,6 @@
       "elements": ["mayor-opens-by-thanking-host-and-officials"]
     },
     {
-      "key": "outline-local.greeting.neighbors-and-members-of-welcome",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Neighbors, and members of {body-name}: welcome.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
       "key": "outline-local.greeting.neighbors-across-thank-you-for-coming-out",
       "move": "greeting",
       "kind": "spoken",
@@ -160,26 +140,6 @@
         }
       ],
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "outline-local.greeting.thank-you-for-coming-out-to-hear-me",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Thank you for coming out to hear me, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -207,52 +167,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "outline-local.report.the-year-s-work-in-comes-down-to",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The year's work in {realm-name} comes down to {theme-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.over-the-year-in-took-most-of-our-attention",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Over the year in {realm-name}, {theme-name} took most of our attention.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
     },
     {
       "key": "outline-local.report.the-budget-came-in-ahead-this-year-in-and-is-where-i-d-put-the-differe",
@@ -388,33 +302,6 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "outline-local.creed.my-view-is-that",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "My view is that {belief}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.creed.i-think-i-always-have",
       "move": "creed",
       "kind": "spoken",
@@ -466,33 +353,6 @@
         "personality-v1:facet-devoted",
         "personality-v1:facet-persistent"
       ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.creed.i-m-sure-that",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I'm sure that {belief}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -592,34 +452,6 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.my-name-won-t-go-on",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "My name won't go on {about}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.pledge.i-ll-be-against-every-time-it-comes-up",
       "move": "pledge",
       "kind": "spoken",
@@ -710,37 +542,6 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-defend-at-every-meeting",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll defend {law-name} at every meeting.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-persistent"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.pledge.i-ll-work-to-repeal",
       "move": "pledge",
       "kind": "spoken",
@@ -803,34 +604,6 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-won-t-stop-pressing-to-be-rid-of",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't stop pressing to be rid of {law-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-persistent", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.today.",
       "move": "today",
       "kind": "spoken",
@@ -882,33 +655,6 @@
         "personality-v1:facet-practical",
         "personality-v1:facet-studious"
       ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.today.as-things-stand-in",
-      "move": "today",
-      "kind": "spoken",
-      "text": "As things stand in {realm-name}, {today-clause}",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "today",
-          "tie": "law",
-          "requiresFacts": ["today-clause", "realm-name"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "today",
-          "tie": "law",
-          "requiresFacts": ["today-clause", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -1060,34 +806,6 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.stand.i-m-for-and-i-ll-back-it",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm for {about}, and I'll back it.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.stand.i-d-back-the-day-it-comes-up",
       "move": "stand",
       "kind": "spoken",
@@ -1113,34 +831,6 @@
         "personality-v1:facet-ambitious",
         "personality-v1:facet-practical"
       ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.stand.i-m-against-and-i-d-vote-no",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm against {about}, and I'd vote no.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -1231,37 +921,6 @@
       "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
-      "key": "outline-local.stand.i-disagree-with-that-because",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I disagree with that, because {belief}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["contrast"],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-argumentative"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-contrast"]
-    },
-    {
       "key": "outline-local.contrast.some-people-argue-that-we-should",
       "move": "contrast",
       "kind": "spoken",
@@ -1344,63 +1003,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["inaugural-point-opens-on-a-contrast"]
-    },
-    {
-      "key": "outline-local.contrast.others-would-rather",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "Others would rather {other-side}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-contrast"]
-    },
-    {
-      "key": "outline-local.question.do-we-or-do-we-leave-things-as-they-are",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Do we {to}, or do we leave things as they are?",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-local.question.is-it-time-to",
@@ -1885,86 +1487,6 @@
       "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
-      "key": "outline-local.stand-reason.i-m-for-repealing",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I'm for repealing {law-name}. {belief-sentence}",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief-sentence"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief-sentence"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
-    },
-    {
-      "key": "outline-local.send-off.meets-again-soon-and-i-hope-you-ll-come-and-say-what-you-think-about",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{body-name} meets again soon, and I hope you'll come and say what you think about {theme-short}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.send-off.if-you-have-a-view-on-bring-it-to-the-next-meeting-of",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "If you have a view on {theme-short}, bring it to the next meeting of {body-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
       "key": "outline-local.send-off.thank-you-for-coming-out",
       "move": "send-off",
       "kind": "spoken",
@@ -1983,46 +1505,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.send-off.i-d-be-glad-to-have-your-vote-and-thank-you-for-listening",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'd be glad to have your vote, {realm-bare}, and thank you for listening.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "outline-local.send-off.i-d-be-proud-to-have-your-vote-for",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'd be proud to have your vote for {office-title}, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-proud"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "outline-local.send-off.please-vote-and-thank-you-for-hearing-me-out",
@@ -2048,26 +1530,6 @@
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
-      "key": "outline-local.send-off.thank-you-for-hearing-me-out-i-d-like-to-be-your",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for hearing me out, {realm-bare}. I'd like to be your {office-title}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
       "key": "outline-local.send-off.i-d-be-proud-to-speak-for-as-your",
       "move": "send-off",
       "kind": "spoken",
@@ -2086,176 +1548,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "outline-local.blessing.thank-you",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.blessing.thank-you-all",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you all.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.blessing.god-bless",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "God bless {realm-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-devoted",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.greeting.thank-you-all-for-coming-and-thank-you",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Thank you all for coming, and thank you, {body-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "outline-local.greeting.and-members-of-good-to-see-you",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "{realm-bare}, and members of {body-name}: good to see you.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare", "body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "outline-local.greeting.members-of-and-residents-of",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Members of {body-name}, and residents of {realm-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "outline-local.greeting.to-the-people-of-and-to",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "To the people of {realm-name}, and to {body-name}:",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
     },
     {
       "key": "outline-local.greeting.residents-of-and-members-of-thank-you-for-being-here",
@@ -2294,49 +1586,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "outline-local.greeting.welcome-everyone-and-thank-you",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Welcome, everyone, and thank you, {body-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "outline-local.greeting.residents-and-guests-welcome",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "{body-name}, residents, and guests: welcome.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -2407,66 +1656,6 @@
       "elements": ["stump-announcement-situation"]
     },
     {
-      "key": "outline-local.greeting.i-m-glad-to-see-you",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "I'm glad to see you, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "outline-local.greeting.neighbors-in-thanks-for-giving-me-your-time",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Neighbors in {realm-bare}, thanks for giving me your time.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "outline-local.greeting.thank-you-for-being-here-neighbors-of",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Thank you for being here, neighbors of {realm-name}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
       "key": "outline-local.report.the-thing-kept-coming-back-to-this-year-was",
       "move": "report",
       "kind": "spoken",
@@ -2484,89 +1673,6 @@
         "personality-v1:facet-analytical",
         "personality-v1:facet-sincere"
       ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.if-one-subject-ran-through-the-year-in-it-was",
-      "move": "report",
-      "kind": "spoken",
-      "text": "If one subject ran through the year in {realm-name}, it was {theme-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.of-the-year-s-work-in-is-what-i-d-point-to",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Of the year's work in {realm-name}, {theme-name} is what I'd point to.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.the-year-had-a-lot-in-it-for-and-was-near-the-middle-of-it",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The year had a lot in it for {realm-name}, and {theme-name} was near the middle of it.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.for-this-year-was-the-main-thing",
-      "move": "report",
-      "kind": "spoken",
-      "text": "For {realm-name} this year, {theme-name} was the main thing.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -2598,69 +1704,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.report.we-ended-the-year-ahead-on-the-budget-so-gets-my-attention-first",
-      "move": "report",
-      "kind": "spoken",
-      "text": "We ended the year ahead on the budget, so {theme-name} gets my attention first.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "record",
-          "requiresFacts": ["theme-name", "condition-budget-ahead"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "outline-local.running.the-job-i-m-asking-for-is-and-i-m-asking-because-of",
-      "move": "running",
-      "kind": "spoken",
-      "text": "The job I'm asking for is {office-title}, and I'm asking because of {theme-name}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "outline-local.running.if-you-ask-why-i-want-to-be-your-my-answer-is",
-      "move": "running",
-      "kind": "spoken",
-      "text": "If you ask why I want to be your {office-title}, my answer is {theme-name}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "outline-local.running.i-m-asking-for-your-vote-for-and-is-what-i-d-work-on",
@@ -2749,52 +1792,6 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "outline-local.running.running-for-i-keep-coming-back-to",
-      "move": "running",
-      "kind": "spoken",
-      "text": "Running for {office-title}, I keep coming back to {theme-name}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "outline-local.send-off.please-come-to-a-meeting-of-and-tell-us-how-we-re-doing-on",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Please come to a meeting of {body-name} and tell us how we're doing on {theme-short}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
       "key": "outline-local.send-off.and-i-would-like-to-hear-from-you-on",
       "move": "send-off",
       "kind": "spoken",
@@ -2861,72 +1858,6 @@
       "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
-      "key": "outline-local.send-off.the-next-meeting-of-is-a-good-place-to-tell-us-what-you-think",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The next meeting of {body-name} is a good place to tell us what you think.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["body-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.send-off.thank-you-for-the-year",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for the year, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
-      "key": "outline-local.send-off.thank-you-and-thank-you",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you, {body-name}, and thank you, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
       "key": "outline-local.send-off.come-tell-what-you-think-about",
       "move": "send-off",
       "kind": "spoken",
@@ -2967,26 +1898,6 @@
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
-      "key": "outline-local.send-off.thank-you-i-hope-i-ve-earned-a-hearing-for",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you, {realm-bare}. I hope I've earned a hearing for {office-title}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
       "key": "outline-local.send-off.if-you-vote-for-me-i-ll-work-for-you-as-your",
       "move": "send-off",
       "kind": "spoken",
@@ -3004,26 +1915,6 @@
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-sincere"
       ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "outline-local.send-off.i-d-like-your-vote-for-and-i-thank-you-for-listening",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'd like your vote for {office-title}, {realm-bare}, and I thank you for listening.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "realm-bare"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -3048,6 +1939,740 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.report.as-i-spent-a-good-part-of-this-year-on",
+      "move": "report",
+      "kind": "spoken",
+      "text": "As {office-title}, I spent a good part of this year on {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.gave-plenty-of-work-on-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} gave {body-name} plenty of work on {theme-name} this year.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "body-name", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.nothing-took-more-of-my-time-this-year-than",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Nothing took more of my time this year than {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.looking-back-on-the-year-the-choices-that-mattered-most-in-were-about",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Looking back on the year, the choices that mattered most in {realm-name} were about {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.i-measure-this-year-in-by-what-we-did-on",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I measure this year in {realm-name} by what we did on {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.people-in-don-t-ask-me-about-the-year-they-ask-me-about",
+      "move": "report",
+      "kind": "spoken",
+      "text": "People in {realm-name} don't ask me about the year. They ask me about {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.with-the-budget-ahead-this-year-has-room-to-do-more-on",
+      "move": "report",
+      "kind": "spoken",
+      "text": "With the budget ahead this year, {realm-name} has room to do more on {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "realm-name",
+            "theme-name",
+            "condition-budget-ahead"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.the-budget-stayed-steady-this-year-and-that-let-us-keep-working-on",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The budget stayed steady this year, and that let us keep working on {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "condition-budget-steady"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.running.i-m-running-because-needs-somebody-s-full-attention",
+      "move": "running",
+      "kind": "spoken",
+      "text": "I'm running because {theme-name} needs somebody's full attention.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.running.most-of-what-i-d-do-as-comes-back-to",
+      "move": "running",
+      "kind": "spoken",
+      "text": "Most of what I'd do as {office-title} comes back to {theme-name}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.greeting.good-to-be-with-you-all-here-in",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Good to be with you all here in {realm-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "outline-local.greeting.friends-from-across-thank-you-for-coming",
+      "move": "greeting",
+      "kind": "spoken",
+      "text": "Friends from across {realm-name}, thank you for coming.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "greeting",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "outline-local.send-off.i-ll-stay-a-while-after-this-if-you-d-like-to-talk-about",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll stay a while after this, if you'd like to talk about {theme-short}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "outline-local.send-off.thank-you-for-the-work-you-do-for-all-of-you",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for the work you do for {realm-name}, all of you.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "outline-local.send-off.that-s-the-year-in-thank-you",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "That's the year in {realm-name}. Thank you.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["report"],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "outline-local.send-off.if-you-d-like-to-talk-about-i-ll-be-right-here",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If you'd like to talk about {theme-short}, I'll be right here.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.send-off.whoever-you-vote-for-please-vote",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Whoever you vote for, please vote, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.send-off.thank-you-for-listening-i-hope-to-see-you-at-the-polls",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for listening. I hope to see you at the polls, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.creed.from-where-i-stand-in-i-think",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "From where I stand in {realm-name}, I think {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["realm-name", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["realm-name", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
+    },
+    {
+      "key": "outline-local.stand.i-m-for",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm for {about}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
+    },
+    {
+      "key": "outline-local.stand.i-m-against",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against {about}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
+    },
+    {
+      "key": "outline-local.stand.i-disagree-and-here-s-why",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I disagree, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
+    },
+    {
+      "key": "outline-local.contrast.some-of-you-will-want-to-and-i-understand-why",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Some of you will want to {other-side}, and I understand why.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
+    },
+    {
+      "key": "outline-local.contrast.some-people-around-here-would",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Some people around here would {other-side}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
+    },
+    {
+      "key": "outline-local.stand-reason.i-d-repeal-and-here-s-why",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'd repeal {law-name}, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-against",
+            "law-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
+    },
+    {
+      "key": "outline-local.stand-reason.i-d-keep-and-here-s-why",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'd keep {law-name}, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
+    },
+    {
+      "key": "outline-local.stand-reason.i-d-say-yes-to-and-here-s-why",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'd say yes to {about}, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-for",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
+    },
+    {
+      "key": "outline-local.stand-reason.i-d-say-no-to-and-here-s-why",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'd say no to {about}, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
+    },
+    {
+      "key": "outline-local.today.today",
+      "move": "today",
+      "kind": "spoken",
+      "text": "Today, {today-clause}",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "today",
+          "tie": "law",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "today",
+          "tie": "law",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"]
     }
   ]
 }
