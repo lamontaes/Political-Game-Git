@@ -4,6 +4,17 @@ This re-grades draft PR #10390 at head c1802e5c4dec01f00ccbf9b5324cb33ac13c83fb,
 
 **Result: 131 of 336 lines pass; 130 rewrite, 75 cut. Calibration: 15 of 16.**
 
+**By place:**
+
+| Places                                         | Pass | Rewrite | Cut | Lines |
+| ---------------------------------------------- | ---- | ------- | --- | ----- |
+| The three old places (Meadow, Chipley, Bethel) | 67   | 73      | 39  | 179   |
+| Fresh: Whitmore Village, Hawaii                | 22   | 21      | 13  | 56    |
+| Fresh: Roberts, Idaho                          | 21   | 20      | 6   | 47    |
+| Fresh: Oakton, Virginia                        | 21   | 16      | 17  | 54    |
+
+The old places' lines were read in round 1, with round 1's numbering. Line for line, round 1's file is `docs/story/first-evening-pregrade.md`.
+
 - **The six lives:**
   - The Story lead's three seeds, so each fix can be checked: Meadow, Utah (aecea4), Chipley, Florida (66265b) and Bethel, Maine (bd3806).
   - Three fresh draws, so a fix that only fits those seeds shows up: Whitmore Village, Hawaii (2d2283), Roberts, Idaho (3c42e6) and Oakton, Virginia (d8e52e).
