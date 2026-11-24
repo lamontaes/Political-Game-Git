@@ -1361,7 +1361,34 @@
             "about",
             "president",
             "president-against",
-            "law-in-force"
+            "law-in-force",
+            "about-one"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-if-gets-a-say-are-on-their-way-out",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "If {president} gets a say, {about} are on their way out.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "president",
+            "president-against",
+            "law-in-force",
+            "about-many"
           ],
           "excludesFacts": []
         }
