@@ -973,6 +973,67 @@
         "a-move-told-by-its-reason-and-how-they-went",
         "a-turning-year-stated-in-the-life-story"
       ]
+    },
+    {
+      "key": "outline-journal.moved.i-was-only-when-we-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "I was only {age-then} when we moved to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "age-then",
+            "own-moment",
+            "household-together",
+            "young-then"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-observant"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.we-moved-to-while-i-was-still-a-child",
+      "move": "moved",
+      "kind": "written",
+      "text": "We moved to {place} while I was still a child.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "own-moment",
+            "household-together",
+            "young-then"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     }
   ]
 }
