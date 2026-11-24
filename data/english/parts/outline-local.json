@@ -1798,10 +1798,10 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "outline-local.send-off.and-i-would-like-to-hear-from-you-on",
+      "key": "outline-local.send-off.i-d-like-to-hear-from-you-on-and-so-would",
       "move": "send-off",
       "kind": "spoken",
-      "text": "{body-name} and I would like to hear from you on {theme-short}.",
+      "text": "I'd like to hear from you on {theme-short}, and so would {body-name}.",
       "uses": [
         {
           "subject": "town-address",
@@ -2859,10 +2859,10 @@
       "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
-      "key": "outline-local.send-off.thank-you-all-and-i-have-work-to-do-on",
+      "key": "outline-local.send-off.thank-you-all-i-have-work-to-do-on-with",
       "move": "send-off",
       "kind": "spoken",
-      "text": "Thank you all. {body-name} and I have work to do on {theme-short}.",
+      "text": "Thank you all. I have work to do on {theme-short}, with {body-name}.",
       "uses": [
         {
           "subject": "town-address",
@@ -3409,29 +3409,6 @@
       "elements": ["stump-announcement-situation"]
     },
     {
-      "key": "outline-local.send-off.please-vote",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Please vote.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
       "key": "outline-local.send-off.will-you-vote-for-me-i-d-be-grateful",
       "move": "send-off",
       "kind": "spoken",
@@ -3607,26 +3584,6 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "outline-local.running.i-d-like-to-be-your-and-i-care-a-lot-about",
-      "move": "running",
-      "kind": "spoken",
-      "text": "I'd like to be your {office-title}, and I care a lot about {theme-name}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
       "key": "outline-local.running.as-i-d-make-a-priority",
       "move": "running",
       "kind": "spoken",
@@ -3650,49 +3607,6 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "outline-local.running.i-think-deserves-more-from-your-and-i-d-give-it",
-      "move": "running",
-      "kind": "spoken",
-      "text": "I think {theme-name} deserves more from your {office-title}, and I'd give it.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "outline-local.running.your-should-be-paying-attention-to-i-would",
-      "move": "running",
-      "kind": "spoken",
-      "text": "Your {office-title} should be paying attention to {theme-name}. I would.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
       "key": "outline-local.running.i-m-running-so-that-gets-a-fair-hearing-from-your",
       "move": "running",
       "kind": "spoken",
@@ -3709,29 +3623,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "outline-local.running.i-d-bring-to-the-table-as-your-and-i-d-keep-it-there",
-      "move": "running",
-      "kind": "spoken",
-      "text": "I'd bring {theme-name} to the table as your {office-title}, and I'd keep it there.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-practical"
       ],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -3854,10 +3745,10 @@
       "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
     },
     {
-      "key": "outline-local.report.and-i-spent-a-lot-of-the-year-on",
+      "key": "outline-local.report.i-spent-a-lot-of-the-year-on-and-so-did",
       "move": "report",
       "kind": "spoken",
-      "text": "{body-name} and I spent a lot of the year on {theme-name}.",
+      "text": "I spent a lot of the year on {theme-name}, and so did {body-name}.",
       "uses": [
         {
           "subject": "town-address",
