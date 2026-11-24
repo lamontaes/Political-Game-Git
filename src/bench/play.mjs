@@ -5668,6 +5668,10 @@ const sheets = {
                   !race.mayAnnounce &&
                   !race.announced &&
                   race.bar &&
+                  // A race not yet open to file for says so through its dates and its Sim
+                  // button, never a caption under the buttons (the CTO's 06:46Z catch; the
+                  // Nov 8 no-subtext rule).
+                  race.bar !== "window-not-open" &&
                   labels.refusal[race.bar]
                 ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
