@@ -35,5 +35,6 @@
       "pulledBy": "A campaign for the same office.",
       "writesBack": "Adds the rule to the child's stump story."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
