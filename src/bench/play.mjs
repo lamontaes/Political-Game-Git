@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, requestAnimationFrame */
+/* global document, getComputedStyle, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, requestAnimationFrame */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -3063,6 +3063,35 @@ async function balanceLife(root) {
       const own = last.getBoundingClientRect().height;
       if (height(at) - level < own / 2) break;
       homes[at + 1].prepend(last);
+    }
+  // A column left taller than the one before it by more than a paragraph hands
+  // that paragraph back, so the story ends level rather than piling on the right.
+  for (let at = parts.length - 1; at > 0; at--)
+    while (homes[at].children.length > 1) {
+      const first = homes[at].firstElementChild;
+      if (
+        bottom(parts[at]) - bottom(parts[at - 1]) <=
+        first.getBoundingClientRect().height
+      )
+        break;
+      homes[at - 1].append(first);
+    }
+  // A column that still runs past the panel hands its first paragraphs back to
+  // the column before it, where there is room.
+  const panel = root.closest(".roster-page, #person");
+  const limit = panel
+    ? panel.getBoundingClientRect().bottom -
+      parseFloat(getComputedStyle(panel).paddingBottom) -
+      8
+    : Infinity;
+  for (let at = parts.length - 1; at > 0; at--)
+    while (homes[at].children.length && bottom(parts[at]) > limit) {
+      const first = homes[at].firstElementChild;
+      homes[at - 1].append(first);
+      if (bottom(parts[at - 1]) > limit) {
+        homes[at].prepend(first);
+        break;
+      }
     }
   for (const [at, home] of homes.entries())
     if (!home.children.length && at) home.parentElement.remove();
