@@ -1,0 +1,31 @@
+{
+  "id": "record-count-with-its-cause-in-the-same-sentence",
+  "kind": "move",
+  "summary": "The record count and its cause are in the same sentence.",
+  "realLife": "The record number of small backyard units was given with the rule changes that made it possible.",
+  "sources": [
+    "Patch (Redwood City, California), 'Record Number Of ADU Approvals In Redwood City Last Year: Report', Mar. 18, 2022: https://patch.com/california/redwoodcity-woodside/record-number-adu-approvals-redwood-city-last-year-report",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "law"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9,
+    "law": 0.8
+  },
+  "inGame": "`housing.completed` of a unit kind and the law in force that allowed it (`law-took-effect`)",
+  "turns": [
+    {
+      "name": "a drop with its cause",
+      "pulledBy": "a rule that got stricter",
+      "writes": "the sentence says the count fell and the rule"
+    },
+    {
+      "name": "a record with no cause named",
+      "pulledBy": "an unexplained rise",
+      "writes": "the sentence says it is not yet known why"
+    }
+  ],
+  "usedBy": []
+}
