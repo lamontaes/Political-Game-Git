@@ -27,7 +27,7 @@ root: none
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Screen to mock: MENU-LOOK, "No box around every item" and "Menus never scroll as a page". No loosened check: the baseline only shrinks.
+**Rules.** This is a game, not a spreadsheet: every menu follows MENU-LOOK, with no box around items and no scrolling while the panel has free space, checked in a browser. No loosened check: the baseline only shrinks, and a new entry fails the run.
 
 **Done when.** A second session starts the bench on main in a drawn place (named with its seed) and runs `npm run ui-look`: it passes; puts the tray back (revert the tray deletion) and empties the baseline and it fails naming `div.tray` on the race screen.
 
