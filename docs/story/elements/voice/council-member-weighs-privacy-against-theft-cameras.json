@@ -1,0 +1,52 @@
+{
+  "id": "council-member-weighs-privacy-against-theft-cameras",
+  "kind": "voice",
+  "summary": "A council member says the tool may help catch thieves but worries where the data goes.",
+  "realLife": "In two cities, officials debated plate-reading cameras: the chief said any tool that speeds arrests is welcome and cited car thefts, while a council member worried about cloud storage and privacy, and another said the data is already captured elsewhere.",
+  "sources": [
+    "FOX19 (Bellevue, Kentucky), 'Bellevue approves installation of new Flock cameras', Dec 10, 2025: https://www.fox19.com/2025/12/11/bellevue-approves-installation-new-flock-cameras/",
+    "KTVU FOX 2 (Alameda, California), 'City of Alameda approves funding controversial license plate readers but holds off on their use', Feb 8, 2018: https://www.ktvu.com/news/city-of-alameda-approves-funding-controversial-license-plate-readers-but-holds-off-on-their-use",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "law",
+    "quote",
+    "count",
+    "place"
+  ],
+  "gates": [],
+  "weights": {
+    "crime": 0.4
+  },
+  "inGame": "council stances on a camera purchase and the police stated reasons; needs: a data-use policy on a camera program",
+  "issues": [
+    "budget:police"
+  ],
+  "turns": [
+    {
+      "name": "the council member backs it",
+      "pulledBy": "a rise in car thefts",
+      "writes": "the story quotes the member's support",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the council member objects",
+      "pulledBy": "a worry about data access",
+      "writes": "the story names the privacy objection",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the council member says the data is already everywhere",
+      "pulledBy": "cameras already in nearby towns",
+      "writes": "the story reports the shrug and the vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

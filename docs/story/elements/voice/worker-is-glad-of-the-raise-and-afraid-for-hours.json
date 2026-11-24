@@ -1,0 +1,58 @@
+{
+  "id": "worker-is-glad-of-the-raise-and-afraid-for-hours",
+  "kind": "voice",
+  "summary": "A worker welcomes the new pay and says the worry is fewer shifts.",
+  "realLife": "In one story a long-time fast-food worker said a raise from sixteen to twenty dollars was good for workers but feared cut hours. In another, a cashier at a big chain was overjoyed that a city raise would ease money stress, while owners around him said they would cut hours.",
+  "sources": [
+    "CBS News Bay Area (San Jose, California), 'Fast food franchise owners, workers see $20 hourly wage increase with some concern', April 1, 2024: https://www.cbsnews.com/amp/sanfrancisco/news/fast-food-franchise-owners-workers-see-20-hourly-wage-increase-with-some-concern",
+    "CBS News Bay Area (Oakland, California), 'A Tale Of Two Cities: Oakland Workers Celebrate Minimum Wage Hike As Business Owners Worry', February 27, 2015: https://www.cbsnews.com/amp/sanfrancisco/news/a-tale-of-two-cities-oakland-workers-celebrate-minimum-wage-hike-as-business-owners-worry",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "name",
+    "quote",
+    "law"
+  ],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.5
+  },
+  "inGame": "a worker's wage, hours and money-stress drive; the employer's hours decision",
+  "issues": [
+    "law:minimum-wage"
+  ],
+  "turns": [
+    {
+      "name": "pure joy at the raise",
+      "pulledBy": "a worker whose employer has not cut hours",
+      "writes": "the story quotes relief about money",
+      "requiresFacts": [],
+      "excludesFacts": [
+        "down"
+      ]
+    },
+    {
+      "name": "glad but afraid for shifts",
+      "pulledBy": "a worker whose employer talks of cutting hours",
+      "writes": "the story quotes the raise and the fear together",
+      "requiresFacts": [
+        "down"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "the fear comes true",
+      "pulledBy": "an employer who cut the hours after the step",
+      "writes": "the story follows up with a smaller paycheck",
+      "requiresFacts": [
+        "down",
+        "delayed"
+      ],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,56 @@
+{
+  "id": "noise-rule-eases-complaints-until-busy-season",
+  "kind": "consequence",
+  "summary": "A looser-to-enforce noise rule quiets one neighborhood, but its test is the busy season.",
+  "realLife": "A city let police act on noise a reasonable person would find loud, rather than only noise over a fixed level. Neighbors in a nightlife district reported slightly less noise and called themselves cautiously optimistic. Officers explained to bars what was acceptable. The neighborhood group said the cool season might explain part of the calm and that summer would be the real test.",
+  "sources": [
+    "WTVD ABC11 (Raleigh, North Carolina), 'Glenwood South neighbors, businesses cautiously optimistic as noise ordinance takes effect', date not shown on the page: https://abc11.com/post/raleigh-glenwood-south-noise-ordinance-acceptable-unacceptable/14385832/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "law",
+    "count",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.8
+  },
+  "inGame": "noise ordinance, complaint counts and police contact records; needs: a noise-complaint tally by district",
+  "issues": [
+    "none"
+  ],
+  "turns": [
+    {
+      "name": "quiet holds into summer",
+      "pulledBy": "bars that took the warnings to heart",
+      "writes": "complaints stay low",
+      "requiresFacts": [
+        "up"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "complaints return in the busy season",
+      "pulledBy": "crowds that outgrow the warnings",
+      "writes": "residents call again and police enforce",
+      "requiresFacts": [
+        "down"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "the district splits over enforcement",
+      "pulledBy": "owners who say the standard is vague",
+      "writes": "a hearing is called",
+      "requiresFacts": [
+        "delayed"
+      ],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

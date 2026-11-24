@@ -1,0 +1,51 @@
+{
+  "id": "students-and-staff-plead-for-programs-at-the-microphone",
+  "kind": "voice",
+  "summary": "Students, a counselor and a veteran teacher speak for the programs and jobs on a cut list.",
+  "realLife": "At school board hearings, a high school senior praised teachers as mentors for the whole school, a counselor whose job was cut to part time said mental health needs cannot be scheduled around a short week, a spouse spoke of a lost job and being called waste, and a teacher of twenty-five years said morale had never been so fragile.",
+  "sources": [
+    "NCTV17 (Naperville, Illinois), 'Naperville District 203 votes down plan to cut teachers after community outcry', March 2026: https://www.nctv17.org/news/naperville-district-203-votes-down-plan-to-cut-teachers-after-community-outcry/",
+    "WGCU (Lee County, Florida), 'Budget cuts prompt packed board room, impassioned speakers at Lee County school board meeting', May 14, 2026: https://www.wgcu.org/education/2026-05-14/budget-cuts-prompt-packed-board-room-impassioned-speakers-at-lee-county-school-board-meeting",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "quote",
+    "count"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.6,
+    "schools": 0.5
+  },
+  "inGame": "school staff records and the cut list; the board's stated reasons; needs: a hearing speaker record and a school program list that a cut can remove",
+  "issues": [
+    "budget:schools"
+  ],
+  "turns": [
+    {
+      "name": "a student speaks and the room applauds",
+      "pulledBy": "a teacher or program on the list that students know",
+      "writes": "the story notes the applause and that the chair asked the room to stop",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a staff member speaks about a job cut to part time",
+      "pulledBy": "a position reduced rather than removed",
+      "writes": "the story quotes the staff member on what the reduced job can no longer do",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a former board member asks for more information",
+      "pulledBy": "the district has not shown the cut list's reasons",
+      "writes": "the story records a call for more public information",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

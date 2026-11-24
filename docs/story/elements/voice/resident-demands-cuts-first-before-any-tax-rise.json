@@ -1,0 +1,51 @@
+{
+  "id": "resident-demands-cuts-first-before-any-tax-rise",
+  "kind": "voice",
+  "summary": "A resident says she will oppose any rate rise until named spending is cut or canceled.",
+  "realLife": "At a town council hearing more than thirty residents spoke about inflation and living costs while the council listened without reply, some openly hostile. The leader of a residents' group said she opposed any increase and tied it to three demands: smaller staff pay, no town hall expansion and an end to developer incentives.",
+  "sources": [
+    "StarNews via Yahoo (Leland, North Carolina), 'Amid cries for no tax increase, Leland asks for less from residents in new budget', Apr 19, 2024: https://www.yahoo.com/news/amid-cries-no-tax-increase-150436491.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "name",
+    "quote",
+    "count"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.6
+  },
+  "inGame": "a town's budget lines for staff pay, buildings and development incentives; a resident group's stated demands; needs: a resident group record with demands",
+  "issues": [
+    "law:property-tax",
+    "budget:administration"
+  ],
+  "turns": [
+    {
+      "name": "the demand is met in part",
+      "pulledBy": "the council sends the budget back to staff",
+      "writes": "the story carries the group's demands and what the revised budget dropped",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the demand is met in none",
+      "pulledBy": "the council keeps the buildings and incentive lines",
+      "writes": "the story reports the group still opposing the rise",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a hostile speaker crosses a line",
+      "pulledBy": "speakers who speak to jeer rather than to argue",
+      "writes": "the story notes the tone and that the council did not reply",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

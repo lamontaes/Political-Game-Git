@@ -1,0 +1,52 @@
+{
+  "id": "speaker-says-landlords-will-pass-tax-to-renters",
+  "kind": "voice",
+  "summary": "A speaker says a tax rise will not stay with owners but will reach renters through higher rent.",
+  "realLife": "At budget hearings in two cities, residents warned that a property tax increase would move into rents and would fall hardest on the lowest-income households; one small landlord at the other end said rent rises would be smaller than the full tax rise.",
+  "sources": [
+    "WBFO (Buffalo, New York), 'Buffalo residents sound off on tax hike at Buffalo Common Council budget hearing', Apr 29, 2026: https://www.btpm.org/local/2026-04-29/buffalo-residents-sound-off-on-tax-hike-at-buffalo-common-council-budget-hearing",
+    "Yahoo News (Providence, Rhode Island), 'Providence residents, business owners weigh in on mayor's budget proposal', date not shown on the page: https://www.yahoo.com/news/providence-residents-business-owners-weigh-015815807.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "quote",
+    "percent"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.5,
+    "property-tax": 0.5
+  },
+  "inGame": "rent paid by renter households and landlord costs; the tax a rental property pays; needs: a pass-through of tax into rent that a speaker can cite",
+  "issues": [
+    "law:property-tax",
+    "budget:housing"
+  ],
+  "turns": [
+    {
+      "name": "a renter says the pass-through already happened",
+      "pulledBy": "a rental property's tax went up and its rent followed",
+      "writes": "the story quotes a renter and names the rent change",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a small landlord says the rent rise would be smaller than the tax rise",
+      "pulledBy": "an owner of a few units with thin margins",
+      "writes": "the story carries a supporter of the budget from the owner side",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a speaker asks for savings, not a levy, to spare small owners",
+      "pulledBy": "the city has spending lines a resident can name",
+      "writes": "the story records the alternative the resident asked for and the council's reply",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

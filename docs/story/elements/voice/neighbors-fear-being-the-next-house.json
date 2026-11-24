@@ -1,0 +1,52 @@
+{
+  "id": "neighbors-fear-being-the-next-house",
+  "kind": "voice",
+  "summary": "Neighbors at a crime meeting talk about being next and ask for patrols and alarms.",
+  "realLife": "Residents at two meetings said the recent run of break-ins made them anxious, asked for more patrols in named areas, suggested alarms and cameras, and some said the criminals seemed bolder than before.",
+  "sources": [
+    "ABC7 San Francisco (Lafayette, California), 'Lafayette Police Chief address spike in crime at special meeting with residents', Dec 5, 2019: https://abc7news.com/east-bay-lafayette-home-invasion-building-a-better-area/5734751/",
+    "WTKR News 3 (Chesapeake, Virginia), 'Chesapeake Police Chief addresses burglaries in Western Branch with neighbors', Dec 6, 2016: https://www.wtkr.com/2016/12/06/chesapeake-police-chief-addresses-burglaries-in-western-branch-with-neighbors",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "burglary",
+    "robbery",
+    "body",
+    "place"
+  ],
+  "gates": [],
+  "weights": {
+    "crime": 0.5
+  },
+  "inGame": "resident opinion on safety and recent crimes near them; needs: a fear-of-crime reading per neighborhood",
+  "issues": [
+    "budget:police"
+  ],
+  "turns": [
+    {
+      "name": "neighbors ask for patrols",
+      "pulledBy": "a cluster of crimes in one area",
+      "writes": "the story lists the patrol requests",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "neighbors say they feel heard",
+      "pulledBy": "an open meeting with a chief who answered questions",
+      "writes": "the story notes thanks to the chief and council",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "neighbors say nothing changed",
+      "pulledBy": "no update on their own cases",
+      "writes": "the story reports victims who did not hear back",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

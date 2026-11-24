@@ -1,0 +1,51 @@
+{
+  "id": "resident-says-tax-bill-rose-sharply-in-four-years",
+  "kind": "voice",
+  "summary": "A homeowner at the microphone says the tax bill climbed so fast that it upended a settled life.",
+  "realLife": "At a town budget hearing, a homeowner who moved in a few years earlier described her yearly tax bill rising by more than half and said it broke the plans she had made. Others said the burden lands on working families and retirees, that being ignored was disrespectful, and that the tax bill made owning a home feel like a punishment.",
+  "sources": [
+    "Riverhead News Review (Riverhead, New York), 'Residents push back on tax hikes in prelim 2026 town budget', Nov 11, 2025: https://riverheadnewsreview.timesreview.com/2025/11/129921/residents-push-back-on-tax-hikes-in-prelim-2026-riverhead-town-budget/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "quote",
+    "percent",
+    "count"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.6,
+    "property-tax": 0.5
+  },
+  "inGame": "a household's tax paid year over year from the property-tax record and its income; the resident's stated reasons; needs: a hearing speaker record that keeps what a person said at the microphone",
+  "issues": [
+    "law:property-tax"
+  ],
+  "turns": [
+    {
+      "name": "the bill rose and the speaker names the dollar change",
+      "pulledBy": "the household's tax paid this year is well above what it paid four years ago",
+      "writes": "the story quotes the speaker's own before-and-after in dollars",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the speaker speaks for a group, not herself",
+      "pulledBy": "a civic or neighbors' group the speaker belongs to",
+      "writes": "the story names the group and the people it says are hit hardest",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the speaker says the bill is fair but the pace is not",
+      "pulledBy": "the household's tax rose slowly but the rate is set to rise faster next year",
+      "writes": "the story quotes a resident who accepts a rise but asks for it to be spread out",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

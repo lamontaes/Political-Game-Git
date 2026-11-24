@@ -1,0 +1,57 @@
+{
+  "id": "tie-vote-approves-plate-cameras-with-two-year-term",
+  "kind": "consequence",
+  "summary": "A split council passes plate cameras on the mayor's tiebreak, for two years with a renewal decision.",
+  "realLife": "A council tied three to three on a camera contract after long debate and the mayor broke the tie for the first time. Cameras go at the town's entrances, with a two-year first term and a later decision on renewal.",
+  "sources": [
+    "FOX19 (Bellevue, Kentucky), 'Bellevue approves installation of new Flock cameras', Dec 10, 2025: https://www.fox19.com/2025/12/11/bellevue-approves-installation-new-flock-cameras/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "law",
+    "count",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "crime": 0.5
+  },
+  "inGame": "council vote record with a tie-break and a contract end date; needs: a contract term and renewal date on a budget item",
+  "issues": [
+    "budget:police"
+  ],
+  "turns": [
+    {
+      "name": "the mayor breaks the tie for",
+      "pulledBy": "a tied council",
+      "writes": "the contract is signed",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the mayor breaks the tie against",
+      "pulledBy": "a mayor who sides with privacy",
+      "writes": "the contract fails and the story says why",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote passes by a wide margin",
+      "pulledBy": "a council that agrees early",
+      "writes": "the story skips the drama",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "renewal comes up",
+      "pulledBy": "the two-year date arriving",
+      "writes": "the story compares thefts before and after",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

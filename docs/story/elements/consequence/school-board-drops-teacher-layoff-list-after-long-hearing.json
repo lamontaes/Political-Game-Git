@@ -1,0 +1,50 @@
+{
+  "id": "school-board-drops-teacher-layoff-list-after-long-hearing",
+  "kind": "consequence",
+  "summary": "After a hearing of more than four hours, a school board votes not to lay off any listed teacher and keeps the deficit.",
+  "realLife": "A school board heard about eighty speakers over four hours, then moved not to dismiss any of thirty-eight named teachers for the coming year. A board member said the feedback changed her position. The district still faced a deficit near twelve million dollars, had found about four million in non-staff cuts and planned to shrink staffing through retirements and unfilled posts; the budget was due in May.",
+  "sources": [
+    "NCTV17 (Naperville, Illinois), 'Naperville District 203 votes down plan to cut teachers after community outcry', March 2026: https://www.nctv17.org/news/naperville-district-203-votes-down-plan-to-cut-teachers-after-community-outcry/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "count",
+    "name"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.7,
+    "schools": 0.5
+  },
+  "inGame": "a layoff list held in a board's staffing record; the deficit in the district's books; needs: a reduction-in-force record that a board vote can clear",
+  "issues": [
+    "budget:schools"
+  ],
+  "turns": [
+    {
+      "name": "the list is dropped and the deficit stays",
+      "pulledBy": "a board member who changes position after public comment",
+      "writes": "the layoffs are cleared and the shortfall carries into next year's budget",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the list is cut down, not dropped",
+      "pulledBy": "a board that wants some savings now",
+      "writes": "some names stay on the list and others are cleared",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the list stands",
+      "pulledBy": "a board that holds to the superintendent's plan",
+      "writes": "the layoffs go ahead and the board names the reason",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

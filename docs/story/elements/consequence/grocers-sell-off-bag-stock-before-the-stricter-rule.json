@@ -1,0 +1,57 @@
+{
+  "id": "grocers-sell-off-bag-stock-before-the-stricter-rule",
+  "kind": "consequence",
+  "summary": "Stores run down old bag stock before a stricter bag law, then offer paid reusables.",
+  "realLife": "A state closed the loophole that let thicker plastic bags count as reusable. A store ran out of its remaining plastic bags around New Year's Eve and was compliant the next day. A grocers' group said stores sold off bulk stock and moved to paper or canvas, and smaller stores faced higher bag costs, over a dollar each for paper, against margins near two percent. Advocates cited a study showing bag bans cut bags in the environment by a quarter to nearly half.",
+  "sources": [
+    "Santa Barbara Independent (Santa Barbara, California), 'With Plastic Reusable Bags Gone, Santa Barbara Shoppers and Stores Adjust to California's New Bag Rules', January 10, 2026: https://www.independent.com/2026/01/10/with-plastic-reusable-bags-gone-santa-barbara-shoppers-and-stores-adjust-to-californias-new-bag-rules/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "law",
+    "percent",
+    "count",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.8
+  },
+  "inGame": "a store's supply and cost rows, a bag-fee law record and a litter tally; needs: a household reusable-bag stock",
+  "issues": [
+    "none"
+  ],
+  "turns": [
+    {
+      "name": "stores comply on day one",
+      "pulledBy": "a store that ran down stock in time",
+      "writes": "paid reusable bags appear at the register",
+      "requiresFacts": [
+        "up"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "a small grocer eats the cost",
+      "pulledBy": "a store with a thin margin and costly paper bags",
+      "writes": "the owner raises prices or absorbs the loss",
+      "requiresFacts": [
+        "down"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "shoppers carry goods loose",
+      "pulledBy": "customers who forgot bags and will not buy another",
+      "writes": "fewer bags sold and more loose carrying",
+      "requiresFacts": [
+        "delayed"
+      ],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

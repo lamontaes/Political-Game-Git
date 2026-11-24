@@ -1,0 +1,57 @@
+{
+  "id": "curfew-expands-while-owners-lose-late-hours",
+  "kind": "consequence",
+  "summary": "A late-night closing rule is widened after officials credit it, while owners cut workers' hours.",
+  "realLife": "A city council ordered some corner stores, take-out shops and food trucks in one neighborhood to close overnight to curb violent crime. After a sponsor credited it with a large drop in killings, the council twice widened the area, the mayor let the second widening become law unsigned, and a coalition of business groups asked for a recall. A food truck owner said late sales were essential, that he lost customers after the first widening and cut his workers' hours.",
+  "sources": [
+    "CBS News Philadelphia (Philadelphia, Pennsylvania), 'Philadelphia's overnight business curfew expands again, covering more North Philly neighborhoods', September 11, 2025: https://www.cbsnews.com/amp/philadelphia/news/kensington-curfew-philadelphia-food-trucks",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "law",
+    "count",
+    "percent",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.8
+  },
+  "inGame": "ordinance record, crime counts, business hours and sales; needs: overnight closing as a local-power law and a crime tally by neighborhood",
+  "issues": [
+    "none"
+  ],
+  "turns": [
+    {
+      "name": "the sponsor credits the rule and widens it",
+      "pulledBy": "a sharp fall in violent crime after the rule",
+      "writes": "the council widens the area and the rule spreads",
+      "requiresFacts": [
+        "up"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "business groups force a recall vote",
+      "pulledBy": "a coalition of owners with a legal backer",
+      "writes": "the council reconsiders the widened rule",
+      "requiresFacts": [
+        "down"
+      ],
+      "excludesFacts": []
+    },
+    {
+      "name": "the mayor lets it pass unsigned",
+      "pulledBy": "an executive whose lawyers have doubts",
+      "writes": "the law takes effect without her signature",
+      "requiresFacts": [
+        "delayed"
+      ],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

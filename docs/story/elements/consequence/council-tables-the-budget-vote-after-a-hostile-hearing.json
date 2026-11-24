@@ -1,0 +1,51 @@
+{
+  "id": "council-tables-the-budget-vote-after-a-hostile-hearing",
+  "kind": "consequence",
+  "summary": "A council sets aside its budget vote after nearly every speaker opposes it, trims small lines and returns later.",
+  "realLife": "A city's hearing drew fourteen speakers, all but one against a tax rise that would lift the average bill by about fifteen percent on top of an earlier levy override. At the meeting, a cut to a bike share line passed, a cut to staff training failed, a cut to council travel passed and a mayor's pay raise was reversed. Three hours in, the council moved to table the rest.",
+  "sources": [
+    "The Cornell Daily Sun (Ithaca, New York), 'Common Council tables budget vote after residents criticize proposed tax increases', Nov 7, 2024: https://cornellsun.com/2024/11/08/common-council-tables-budget-vote-after-residents-criticize-proposed-tax-increases/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "count",
+    "percent",
+    "body"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.7
+  },
+  "inGame": "the budget record's stage and amendments; the hearing record; the council's votes by member; needs: a tabled stage that carries amendments to a later meeting",
+  "issues": [
+    "law:property-tax",
+    "budget:administration"
+  ],
+  "turns": [
+    {
+      "name": "the vote is tabled and returns with more cuts",
+      "pulledBy": "amendments pile up after a hostile hearing",
+      "writes": "the budget stays unpassed and the amendments carry to a later meeting",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote goes ahead the same night",
+      "pulledBy": "a majority that wants it done",
+      "writes": "the budget passes with the small cuts adopted that night",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote is tabled and the rest of the agenda goes on",
+      "pulledBy": "other items such as utility rates are ready",
+      "writes": "the unrelated items pass the same session while the budget waits",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
