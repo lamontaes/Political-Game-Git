@@ -787,5 +787,89 @@
       "key": "news-received"
     },
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-press.i-can-bring-my-pay-stub-would-you-need-one-from-before-law-took-effect-too",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "I can bring my pay stub. Would you need one from before {law} took effect, too?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"],
+        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-press.who-could-go-through-the-stub-with-me-i-want-to-know-how-they-got-to-withheld",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Who could go through the stub with me? I want to know how they got to {withheld}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"],
+        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-press.is-there-somewhere-i-can-look-up-which-part-of-my-pay-counts-under-law",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Is there somewhere I can look up which part of my pay counts under {law}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"],
+        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   }
 ]
