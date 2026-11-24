@@ -100,6 +100,8 @@ interface OutlineRow {
   readonly leastSentences?: { readonly value: number };
   /** This kind's own floor on how many pieces a move draws from (the weights' specificFloor otherwise). */
   readonly specificFloor?: { readonly value: number };
+  /** Whether a section that opens a new paragraph leads with a `bridge` piece that follows the sentence before (the owner, Nov 24, P20). */
+  readonly bridges?: boolean;
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -685,6 +687,43 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
       input.onMiss?.(section.name, "", "");
       if (section.required) return null;
       continue;
+    }
+    // No jump without a bridge (the owner, Nov 24, P20: "you just went from
+    // the Constitution to... healthcare"): a section that opens a new
+    // paragraph after another leads with a bridge where the row has them and
+    // a bridge piece follows the sentence before (its `after` names that
+    // sentence's move). With none that fits, the section opens as it would.
+    if (opens && last && row.bridges) {
+      const spending = new Map(spent);
+      const bridge = wordMove(
+        knownHere,
+        row.surface,
+        "bridge",
+        last.move,
+        new Set(saidHere),
+        `${section.name}/bridge`,
+        spending,
+      );
+      if (bridge) {
+        for (const said of new Set(
+          slotsOf(bridge.part.text).map((slot) => saidOf(here, slot)),
+        ))
+          spent.set(said, (spent.get(said) ?? 0) + 1);
+        told = [
+          {
+            section: section.name,
+            shape: "bridge",
+            move: "bridge",
+            text: bridge.text,
+            piece: bridge.part.key,
+            paragraph: paragraph + 1,
+            camera: section.camera ?? null,
+            facts: bridge.facts,
+            sourceRecordIds: bridge.ids,
+          },
+          ...told,
+        ];
+      }
     }
     if (opens) paragraph += 1;
     for (const sentence of told) saidHere.add(sentence.piece);
