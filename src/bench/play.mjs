@@ -2260,7 +2260,7 @@ async function campaignParts() {
         picture: pictures?.[kind],
         // A poll's price is said where it is bought, not among where the race stands.
         load: async () =>
-          kind === "poll" && pollPrice ? { does: [pollPrice] } : {},
+          kind === "poll" && pollPrice ? { nodes: [line(pollPrice)] } : {},
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
       })),
