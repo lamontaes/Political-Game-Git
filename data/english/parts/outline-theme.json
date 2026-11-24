@@ -2874,29 +2874,6 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-theme.question.inaugural-do-we-or-do-we-leave-things-as-they-are",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Do we {to}, or do we leave things as they are?",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
-    },
-    {
       "key": "outline-theme.question.inaugural-is-it-time-to",
       "move": "question",
       "kind": "spoken",
