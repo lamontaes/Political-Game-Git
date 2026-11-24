@@ -210,7 +210,12 @@ export function dotRows(rows, { oneLine = false } = {}) {
         el("span", { className: "dotleader" }),
         row.value instanceof Node
           ? el("span", { className: "dotvalue" }, row.value)
-          : el("span", { className: "dotvalue", textContent: row.value }),
+          : el("span", {
+              // Tabular digits are for figures only; words keep normal spacing
+              // (MENU-LOOK; CTO, Nov 24: "Bloomsbury ,  New  Jersey").
+              className: `dotvalue${/^[\d$%.,\s\u2013-]+$/.test(String(row.value)) ? " num" : ""}`,
+              textContent: row.value,
+            }),
       ),
     ),
   );
@@ -520,9 +525,3 @@ export const rosterCols = (...nodes) =>
   el("div", { className: "roster-cols" }, ...nodes);
 export const rosterSide = (...nodes) =>
   el("div", { className: "roster-side" }, ...nodes);
-
-/** A section with no heading that carries on a story from another column (the person card's story, split across its columns): the section and its body. */
-export function storyContinued() {
-  const rest = el("div", { className: "secbody life-rest" });
-  return { section: el("div", { className: "sec strips dp5" }, rest), rest };
-}

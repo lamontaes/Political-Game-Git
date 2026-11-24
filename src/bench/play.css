@@ -2976,9 +2976,8 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .strip-name {
   line-height: 1;
 }
-/* The story stands under the bust and runs on into the second column (split in
-   play.mjs balanceLife) so no column stands empty (owner, Nov 23, P17, P24,
-   P25). */
+/* The story is one column read in one place, in order (owner, Nov 23, P17, P24,
+   P25; CTO, Nov 24); who they are stands under the bust. */
 .strip-screen .dotvalue {
   text-align: right;
 }
@@ -4918,8 +4917,13 @@ select.release-pick {
 }
 .strip-screen .dotvalue,
 .candidate .dotvalue {
-  font-variant-numeric: lining-nums tabular-nums;
+  font-variant-numeric: lining-nums;
   color: #f6dfae;
+}
+/* Tabular digits are for figures only. */
+.strip-screen .dotvalue.num,
+.candidate .dotvalue.num {
+  font-variant-numeric: lining-nums tabular-nums;
 }
 #person.dossier .sheet-head {
   position: absolute;

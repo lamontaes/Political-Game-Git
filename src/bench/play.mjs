@@ -107,7 +107,6 @@ import {
   peopleSentence,
   nameLink,
   dotRows,
-  storyContinued,
   stripBoard,
   typedRow,
   departmentRow,
@@ -2925,7 +2924,12 @@ async function personCardNode(
       onOpen: () => openOther({ personId: k.personId }),
     })),
   ]);
-  const firstColumn = [
+  // The two sections that say who they are stand under the bust (the portrait
+  // column leaves no hole); their politics, people and public record stand
+  // beside it; and their story stands alone in the last column, one story read in
+  // one place, in order (owner, Nov 23, P17, P24, P25; CTO, Nov 24: a story is
+  // never split between columns).
+  const whoSections = [
     ...(factRows.length || c.offices?.length
       ? [
           stripSection(
@@ -2952,6 +2956,23 @@ async function personCardNode(
           ),
         ]
       : []),
+  ];
+  const storySection = [
+    // Their life from the records, oldest first, as the card has told it since
+    // #6772 and #7090: the card is sent the story and draws it (owner's
+    // playtest, Nov 8).
+    ...(c.history?.length
+      ? [
+          stripSection(
+            5,
+            capital(heading("lifeStory", "lifeStoryThey")),
+            ...lifeParagraphs(c.history),
+          ),
+        ]
+      : []),
+  ];
+  const firstColumn = [
+    ...(c.face ? [] : whoSections),
     // Where they place themselves politically, once the player has learned it; until then the
     // card says so (the world still holds the real view).
     ...(c.view || c.viewUnknown
@@ -2979,28 +3000,6 @@ async function personCardNode(
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
-    // Their life from the records, oldest first, as the card has told it since
-    // #6772 and #7090: the card is sent the story and draws it (owner's
-    // playtest, Nov 8).
-    ...(c.history?.length
-      ? [
-          markLife(
-            stripSection(
-              5,
-              capital(heading("lifeStory", "lifeStoryThey")),
-              ...lifeParagraphs(c.history),
-            ),
-          ),
-        ]
-      : []),
-  ];
-  // Their life stands under the bust and runs on into the second column, split
-  // so neither column stands empty (owner, Nov 23, P17, P24, P25); with no bust
-  // it stands in the second column.
-  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
-  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
-  const secondColumn = [
-    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -3008,6 +3007,7 @@ async function personCardNode(
       ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
       : []),
   ];
+  const secondColumn = [...storySection];
   // Dev mode: what they remember, a section only while dev mode is on.
   const memory = devModeOn()
     ? await devMemorySection({
@@ -3016,9 +3016,9 @@ async function personCardNode(
         dateOf: (iso) => dateWords(iso),
       })
     : null;
-  if (memory) secondColumn.push(memory);
+  if (memory) firstColumn.push(memory);
   if (devModeOn())
-    secondColumn.push(
+    firstColumn.push(
       await devRecordsSection({
         personId: person.personId,
         labels: controls.devRecords,
@@ -3041,101 +3041,43 @@ async function personCardNode(
     nameBeside: true,
     // The approved card's bust stands as tall as its sections (pl-people).
     bustColumn: PERSON_CARD_BUST,
-    ...(c.face ? { underBust: life } : { foot: life }),
+    ...(c.face ? { underBust: whoSections } : {}),
     face: c.face ?? null,
     columns: secondColumn.length ? [firstColumn, secondColumn] : [firstColumn],
   });
-  balanceLife(node);
+  fitCard(node);
   return { name: c.name, node };
 }
 /**
- * Splits a card's story between the bust's column and the second column so the
- * two end level and neither stands empty (owner, Nov 23, P17 and P24: "so much
- * empty area here"); the story's paragraphs keep their order, the left column
- * first. Waits until the card is on screen, because it measures it.
+ * Sets a card's text a step smaller, in steps, while any column still runs past
+ * the panel (a very long story is one column and is never split or cut off,
+ * owner, Nov 23 and CTO, Nov 24). Waits until the card is on screen, because it
+ * measures it.
  */
-async function balanceLife(root) {
+async function fitCard(root) {
   for (
     let frame = 0;
     frame < 120 && !root.getBoundingClientRect().height;
     frame++
   )
     await new Promise((resolve) => requestAnimationFrame(resolve));
-  const left = root.querySelector(".mx3left");
-  const story = left?.querySelector('[data-life="1"] .secbody');
-  if (!story || !root.getBoundingClientRect().height) return;
-  // The story's own columns, left to right: under the bust, then each section column.
-  const homes = [story];
-  const parts = [left];
-  for (const column of root.querySelectorAll(".mx3col")) {
-    const { section, rest } = storyContinued();
-    column.append(section);
-    homes.push(rest);
-    parts.push(column);
-  }
-  const bottom = (column) => {
-    const marks = column.querySelectorAll(".mxbust, p, .dotrow, h3, .perk");
-    return Math.max(
-      column.getBoundingClientRect().top,
-      ...[...marks].map((mark) => mark.getBoundingClientRect().bottom),
-    );
-  };
-  const height = (at) =>
-    bottom(parts[at]) - parts[at].getBoundingClientRect().top;
-  // Level the columns: each ends near the average, the story's paragraphs kept in order.
-  const level =
-    parts.reduce((sum, _part, at) => sum + height(at), 0) / parts.length;
-  for (let at = 0; at < parts.length - 1; at++)
-    while (homes[at].children.length > 1) {
-      const last = homes[at].lastElementChild;
-      const own = last.getBoundingClientRect().height;
-      if (height(at) - level < own / 2) break;
-      homes[at + 1].prepend(last);
-    }
-  // A column left taller than the one before it by more than a paragraph hands
-  // that paragraph back, so the story ends level rather than piling on the right.
-  for (let at = parts.length - 1; at > 0; at--)
-    while (homes[at].children.length > 1) {
-      const first = homes[at].firstElementChild;
-      if (
-        bottom(parts[at]) - bottom(parts[at - 1]) <=
-        first.getBoundingClientRect().height
-      )
-        break;
-      homes[at - 1].append(first);
-    }
-  // A column that still runs past the panel hands its first paragraphs back to
-  // the column before it, where there is room.
   const panel = root.closest(".roster-page, #person");
-  const limit = panel
-    ? panel.getBoundingClientRect().bottom -
-      parseFloat(getComputedStyle(panel).paddingBottom) -
-      8
-    : Infinity;
-  for (let at = parts.length - 1; at > 0; at--)
-    while (homes[at].children.length && bottom(parts[at]) > limit) {
-      const first = homes[at].firstElementChild;
-      homes[at - 1].append(first);
-      if (bottom(parts[at - 1]) > limit) {
-        homes[at].prepend(first);
-        break;
-      }
-    }
-  // A story still too long for the panel (one long paragraph cannot be split) is
-  // set a little smaller, in steps, until it fits; it is never cut off.
-  const runsPast = () => parts.some((part) => bottom(part) > limit);
+  if (!panel || !root.getBoundingClientRect().height) return;
+  const limit =
+    panel.getBoundingClientRect().bottom -
+    parseFloat(getComputedStyle(panel).paddingBottom) -
+    8;
+  const runsPast = () =>
+    [...root.querySelectorAll(".mx3left, .mx3col")].some((column) =>
+      [...column.querySelectorAll(".mxbust, p, .dotrow, h3, .perk")].some(
+        (mark) => mark.getBoundingClientRect().bottom > limit,
+      ),
+    );
   for (let scale = 0.96; runsPast() && scale >= 0.7; scale -= 0.04)
     root.style.setProperty("--card-scale", String(scale));
-  for (const [at, home] of homes.entries())
-    if (!home.children.length && at) home.parentElement.remove();
 }
 /** The person card's bust column, in pixels: --card-bust in play.css. */
 const PERSON_CARD_BUST = 380;
-/** A card's life story section, marked so the card can set it in its second column. */
-function markLife(node) {
-  node.dataset.life = "1";
-  return node;
-}
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
