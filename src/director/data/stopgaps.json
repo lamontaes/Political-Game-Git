@@ -947,5 +947,17 @@
     "addedAt": "2026-11-24",
     "replacement": "Each address kind gets its outline row and pieces in the planner's bank, and composeBlocks, pointShapes and the old opening-speech pieces are deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-chapter-opener-awaits-outline",
+    "kind": "missing-hook",
+    "file": "src/director/journal.ts",
+    "line": 1,
+    "whatItFakes": "The sentence that opens a Journal chapter (a birth or the player's own move) is told by the one outline planner's journal-chapter-open row (src/director/journal-chapter-open.ts) where its bank, data/english/parts/outline-journal.json, can say it; where it cannot, the Journal's row composer and its mined journal.json lines stand in.",
+    "why": "The owner's plan of Nov 24 (via the CTO): one stretch, the first evening, until he says it is right in the installed game; the outline-journal bank is seeded with the row composer's own opener lines until the Journal writer fills it (#9750, 7135335379).",
+    "addedBy": "Story helper, for the Story lead, Nov 24",
+    "addedAt": "2026-11-24",
+    "replacement": "The Journal writer fills outline-journal for every chapter-opening move, every chapter-opening moment goes through the planner, and the row composer's opener lines and this fallback are deleted.",
+    "status": "open"
   }
 ]

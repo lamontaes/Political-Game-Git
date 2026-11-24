@@ -50,6 +50,9 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import { eveningChapter } from "./journal-evening";
+import { chapterOpenTelling } from "./journal-chapter-open";
+import { markWordsStopgap } from "./stopgaps";
+import { tell, type TellingInput } from "../english/outline-planner";
 import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
@@ -969,23 +972,50 @@ function officeActMoments(
     });
 }
 
+/** What composeJournal reads besides the person: the page's last day, its words, who holds which office. */
+export interface JournalOptions {
+  through?: IsoDate;
+  /** The words the English engine writes it with; the mined bank's by default. */
+  words?: JournalWords;
+  /** Who holds which office now; the offices engine's serving terms by default. */
+  officeOf?: (personId: PersonId) => Fact | undefined;
+}
+
 export function composeJournal(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
-  options: {
-    through?: IsoDate;
-    /** The words the English engine writes it with; the mined bank's by default. */
-    words?: JournalWords;
-    /** Who holds which office now; the offices engine's serving terms by default. */
-    officeOf?: (personId: PersonId) => Fact | undefined;
-  } = {},
+  options: JournalOptions = {},
 ): JournalChapter[] {
+  return journalTold(core, director, personId, options).chapters;
+}
+
+/**
+ * The outline planner's inputs for the sentences that opened the Journal's
+ * chapters (`chapterOpenTelling`), one per chapter the planner told, in
+ * order: what the sameness gate measures the row by
+ * (scripts/sameness/record-journal-chapter-inputs.mts).
+ */
+export function journalChapterOpeners(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  options: JournalOptions = {},
+): TellingInput[] {
+  return journalTold(core, director, personId, options).openers;
+}
+
+function journalTold(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  options: JournalOptions,
+): { chapters: JournalChapter[]; openers: TellingInput[] } {
   const words = options.words;
   const rows = journalRows(words);
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
-  if (!person || !book) return [];
+  if (!person || !book) return { chapters: [], openers: [] };
   const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   // Whose moment it is, when it is someone else's: a relative first, then
@@ -1535,6 +1565,8 @@ export function composeJournal(
     core.data.parameters.yearSpanDays!.value / (P.two * P.two * P.two);
 
   const chapters: JournalChapter[] = [];
+  // The planner's inputs for the sentences that opened a chapter.
+  const openers: TellingInput[] = [];
   // Where life happened (a school, a job): never a chapter or an entry, only
   // where the person knew someone who matters later.
   const employerIds: string[] = [];
@@ -1768,7 +1800,43 @@ export function composeJournal(
           sourceIds,
         );
     else {
+      // The sentence that opens a chapter is told by the one outline planner
+      // (journal-chapter-open.ts) where its row tells the moment; where the
+      // planner's bank cannot say it, the row composer stands in
+      // (SG-WORDS-chapter-opener-awaits-outline).
+      const opens = chapter!.key === moment.id;
+      const opened: { by?: TellingInput } = {};
+      const planned = (key: string) => {
+        const input = opens
+          ? chapterOpenTelling(
+              core,
+              personId,
+              moment,
+              row,
+              facts,
+              { own, together, young, named: !!facts.other },
+              key,
+            )
+          : null;
+        delete opened.by;
+        if (!input) return null;
+        const said = tell(input);
+        if (!said) {
+          // stopgapId: SG-WORDS-chapter-opener-awaits-outline
+          markWordsStopgap("SG-WORDS-chapter-opener-awaits-outline");
+          return null;
+        }
+        opened.by = input;
+        const text = said.paragraphs.join(" ");
+        return {
+          text: text.charAt(zero).toUpperCase() + text.slice(one),
+          sourceRecordIds: [
+            ...new Set(said.sentences.flatMap((row) => row.sourceRecordIds)),
+          ] as string[],
+        };
+      };
       const wordLine = (key: string) =>
+        planned(key) ??
         render(
           {
             part: "line",
@@ -1803,6 +1871,7 @@ export function composeJournal(
       )
         event = wordLine(`${moment.id}:again:${again}`);
       if (event && said?.includes(event.text.toLowerCase())) event = null;
+      if (event && opened.by) openers.push(opened.by);
     }
     if (!event) continue;
     // The same thing is told once in a beat: the same kind, the same people
@@ -2223,7 +2292,7 @@ export function composeJournal(
     line.text = joined.text;
     line.sourceRecordIds = joined.sourceRecordIds;
   }
-  return kept;
+  return { chapters: kept, openers };
 }
 
 /** The names a record carries: its own id, its people and its facts' ids. */
