@@ -1565,13 +1565,24 @@
     "VT": {
       "prosecutor": {
         "title": "State's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/vt/II/50",
+        "note": "Vt. Const. ch. II, sec. 50: assistant judges, sheriffs and state's attorneys are \"elected by the voters of their respective districts as established by law\", for \"four years\". That those districts are the counties is an inference.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/vt/II/50",
+        "note": "Vt. Const. ch. II, sec. 50: assistant judges, sheriffs and state's attorneys are \"elected by the voters of their respective districts as established by law\", for \"four years\". That those districts are the counties is an inference.",
+        "termYears": 4
       }
     },
     "WA": {
@@ -1694,6 +1705,24 @@
       "prosecutor": {
         "title": "County and prosecuting attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-201/",
+        "note": "W.S. 18-3-201 (2012): \"There shall be elected in each county a county assessor\". No term given, so the county's term stands."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-401/",
+        "note": "W.S. 18-3-401 (2012): \"There shall be elected in each county a county clerk.\" No term given."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-601/",
+        "note": "W.S. 18-3-601 (2012): \"There shall be elected in each county a county sheriff.\" No term given."
       }
     }
   }
