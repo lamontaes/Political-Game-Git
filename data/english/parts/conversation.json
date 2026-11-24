@@ -36632,6 +36632,78 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-ve-gone-back-and-forth-on-myself",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I've gone back and forth on {about} myself.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "Honestly, {about} bothers me more than I let on.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.maybe-i-ve-been-too-quick-on",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Maybe I've been too quick on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I hadn't looked at {about} that way before.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
     }
   ]
 }
