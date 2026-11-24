@@ -224,12 +224,19 @@
     "mobile-home": ["door-knocking-mobile-home"],
     "farmhouse": ["door-knocking-farmhouse"]
   },
-  "phoneBankPlace": "phone-bank-room",
-  "volunteerOfficePlace": "campaign-office-storefront",
-  "adBuyPlace": "local-newspaper-office",
-  "interviewPlace": "newsroom",
-  "debatePlace": "tv-studio",
-  "endorsementMeetingPlace": "campaign-office-storefront",
+  "trailPlaces": {
+    "about": "Where each act on the campaign trail happens before anyone is met, read by the act's scene and by its tile on the trail, so the tile shows the place the act opens in (owner, Oct 20: campaign acts are scenes you go to). Names are tried in order and the first painted wins: a wanted picture first, a painted stand-in after it. Every act has a picture of its own (CTO, Nov 24, #10377: four tiles shared the campaign office). The doors, the speech and the forum read doorKnockingPlaces, speechPlaces and sceneSettings.venue.",
+    "calls": ["phone-bank-room"],
+    "event": ["lodge-hall"],
+    "interview": ["newsroom"],
+    "volunteer": ["campaign-volunteer-table", "campaign-office-storefront"],
+    "endorsement": ["endorsement-meeting", "coffee-shop"],
+    "ad": ["local-newspaper-office"],
+    "mail": ["campaign-mail-table", "post-office"],
+    "poll": ["phone-survey-room", "office"],
+    "circulators": ["petition-table-outside-store", "strip-mall-parking-lot"],
+    "debate": ["tv-studio"]
+  },
   "dwellingPlaces": {
     "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
     "house": {
@@ -533,6 +540,11 @@
   },
   "wantedPictures": {
     "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
+    "campaign-volunteer-table": "Volunteers signing up at a folding table in a storefront campaign office: clipboards, sign-up sheets and a stack of yard signs, by day.",
+    "endorsement-meeting": "A candidate and one person they know talking across a small table about an endorsement, in a quiet corner of a coffee shop or a back room, by day.",
+    "phone-survey-room": "A small phone-survey room: a few people at desks with headsets reading questions from screens, tally sheets beside them, by day.",
+    "campaign-mail-table": "A long table in a campaign office stacked with mailers, envelopes, address labels and mail trays ready for the post office, by day.",
+    "petition-table-outside-store": "Paid circulators with clipboards at a folding table outside a grocery or hardware store, asking shoppers to sign a candidate's petition, by day.",
     "us-house-floor-in-session": "The House floor during the President's address: the members in their rows facing the rostrum, the Speaker and the Vice President behind it, the gallery above, by day and at night.",
     "white-house-residence-living": "The President's living room in the White House residence, by day and at night.",
     "white-house-residence-dining": "The residence's family dining room and kitchen.",
