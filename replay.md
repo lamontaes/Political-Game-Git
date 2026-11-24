@@ -124,3 +124,10 @@ Grade words: pass / fail (no open PR claims it) / open, fix in #N (not merged) /
 | Bills list scroller | **fail, with Box and scroll** | Overflow auto with the fourth bill cut off. |
 | N8-P21 | "File for it" after filing (#9856) | main d679d71c | Pillsbury ND, 830250bf | **not reached** (dev mode's run-until-may-file opened the window on Mar 30; pressing File for it left the button in place and put a badge on the talk icon; the filing visit was not played to its end) | replay-m3e-may-file.png, replay-m3e-after-file.png | Elections lists Council member and Mayor with "File for it"; after the press nothing on the sheet changed. |
 | N8-C20 | a state income tax shown at 43.99% | main d679d71c | same | **not reached** (Issues shows "Adopt income tax: In force, state law, since January 1, 1926"; no state tax rate figure on Issues or Metrics in North Dakota) | replay-m3e-incometax.png | No percentage shown on either screen. |
+
+## #10381 at add7e4fc (Talk layout: no plate or band behind busts), played locally (fetch pull/10381/head), never pushed
+
+| Route | Place and seed | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- |
+| A call: Announce, ask the paper for an interview, play into the call | Bloomsbury, New Jersey, seed 889339ca-07b9-48da-a6cc-ba33e16330ab | **no plate and no band** | replay-p381-porch-1.png | The call came the next morning (Jan 21, 8:00 AM): Emily Rogers' bust stands in the player's kitchen with a soft light pool and her name under it; no dark plate behind her. (The caller standing in the room is N16-44.) |
+| The porch talk: Announce, Campaign, Knock on doors, Go | same | **no plate and no band** | replay-p381-porch-5.png | Jan 21, 10:00 AM: Robin Mullen on a brick-row porch scene with a soft light pool, no plate. The talk plays on the first Go here (the interview call, a day later, came first). Day was not pressed (the Day control was covered by the sheet), so this is not the Player's Jan 22 route. |
