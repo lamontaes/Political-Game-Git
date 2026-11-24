@@ -80,7 +80,13 @@ const open = async () => {
   ).newPage();
   fresh.setDefaultTimeout(120000);
   fresh.on("pageerror", (e) =>
-    errors.push(`${menus.at(-1) ?? "start"}: ${e.message}`),
+    errors.push(
+      `after ${menus.at(-1) ?? "start"}: ${e.message} (${String(e.stack)
+        .split("\n")
+        .slice(1, 4)
+        .map((l) => l.trim())
+        .join(" | ")})`,
+    ),
   );
   return fresh;
 };
