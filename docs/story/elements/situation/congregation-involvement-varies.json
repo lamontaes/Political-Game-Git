@@ -1,0 +1,35 @@
+{
+  "id": "congregation-involvement-varies",
+  "kind": "situation",
+  "summary": "Some members go to services but never join a prayer or study group, so involvement is uneven.",
+  "realLife": "Pew rated only about one in five mainline Protestants and one in six Catholics as highly involved: members who attend weekly and join small groups.",
+  "sources": [
+    "Pew Research Center, church involvement among U.S. Christians: https://www.pewresearch.org/short-reads/2015/11/16/church-involvement-varies-widely-among-u-s-christians/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: congregation membership and small-group records",
+  "turns": [
+    {
+      "turn": "joins-a-group",
+      "summary": "A newcomer joins a weekly group within a month.",
+      "pulledBy": ["sociable", "invited by a member"],
+      "writesBack": "several new ties"
+    },
+    {
+      "turn": "stays-in-the-pew",
+      "summary": "The newcomer attends for a year without meeting anyone.",
+      "pulledBy": ["shy", "no one asked"],
+      "writesBack": "stays an outsider"
+    },
+    {
+      "turn": "leaves-quietly",
+      "summary": "The newcomer drifts away after a few weeks.",
+      "pulledBy": ["no welcome"],
+      "writesBack": "no tie formed; no record"
+    }
+  ]
+}

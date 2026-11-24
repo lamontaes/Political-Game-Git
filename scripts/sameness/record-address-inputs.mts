@@ -18,8 +18,11 @@
  *
  * Run: node --import tsx scripts/sameness/record-address-inputs.mts
  *   SEEDS=aecea4,66265b,... to choose the worlds (the six packet worlds by default).
+ *   DRAWN=1 appends one freshly drawn world to the `-drawn.jsonl` files
+ *   instead, so a shell loop gathers 60 lives one process at a time.
  */
 import { appendFileSync, writeFileSync } from "node:fs";
+import { randomBytes } from "node:crypto";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { officialsIn } from "../../src/core2/modules/officials";
@@ -40,16 +43,21 @@ import { townSeats } from "../../src/core2/modules/offices";
 import { headsLocalExecutive } from "../../src/core2/offices-executives";
 
 setBookkeeping(false);
-const seeds = (
-  process.env.SEEDS ?? "aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e"
-).split(",");
+const drawn = !!process.env.DRAWN;
+const seeds = drawn
+  ? [randomBytes(8).toString("hex")]
+  : (process.env.SEEDS ?? "aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e").split(
+      ",",
+    );
+const file = (kind: string) =>
+  `scripts/sameness/inputs/${kind}-${drawn ? "drawn" : "six"}.jsonl`;
 const out = {
-  "state-of-the-union": "scripts/sameness/inputs/state-of-the-union-six.jsonl",
-  "state-of-the-state": "scripts/sameness/inputs/state-of-the-state-six.jsonl",
-  "town-address": "scripts/sameness/inputs/town-address-six.jsonl",
-  "campaign-speech": "scripts/sameness/inputs/campaign-speech-six.jsonl",
+  "state-of-the-union": file("state-of-the-union"),
+  "state-of-the-state": file("state-of-the-state"),
+  "town-address": file("town-address"),
+  "campaign-speech": file("campaign-speech"),
 };
-for (const file of Object.values(out)) writeFileSync(file, "");
+if (!drawn) for (const path of Object.values(out)) writeFileSync(path, "");
 
 /** One gate input line from a telling. */
 const line = (telling: AddressTelling) =>
