@@ -78,6 +78,15 @@ try {
     newest.text,
     "the notes did not change with the build",
   );
+  // New game closes the notes (owner, Nov 23, P2: "when I click new game, the patch notes
+  // still stay on top of it").
+  await page.locator("#new-life").evaluate((b) => b.click());
+  await page.locator("#front-new:not([hidden])").waitFor();
+  assert.equal(
+    await page.locator("#sheet").isHidden(),
+    true,
+    "the patch notes stay open over New game",
+  );
   assert.deepEqual(errors, [], errors.join("; "));
   console.log("ok: Patch notes opens from the title");
 } finally {
