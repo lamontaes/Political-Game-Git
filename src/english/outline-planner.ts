@@ -117,6 +117,7 @@ const OUTLINES = outlineData as unknown as {
   readonly weights: {
     readonly pieceLean: { readonly value: number };
     readonly pieceBase: { readonly value: number };
+    readonly specificFloor: { readonly value: number };
   };
 };
 
@@ -372,6 +373,37 @@ function shapeOrder(
  * before, and were not said in this text; those said in earlier texts give
  * way while another fits. Null when none can say it.
  */
+/**
+ * How many facts of the world a piece checks before it may be said (the
+ * facts it names or needs, and the move it must follow): the more it checks,
+ * the more specific it is (words rule most-specific-line-wins; the CTO, Nov
+ * 24, 7135469055 on #9750: Valve's dynamic dialogue, "the line or turn whose
+ * conditions match the most facts wins, and general ones are the fallback").
+ */
+const specificityOf = (part: {
+  readonly after?: readonly string[];
+  readonly use: { readonly requiresFacts?: readonly string[] };
+}) => (part.use.requiresFacts?.length ?? 0) + (part.after ? 1 : 0);
+
+/**
+ * The sayable pieces from the most specific down: the most specific tier
+ * wins, and less specific tiers join it only until the pool holds
+ * `specificFloor` pieces (TUNABLE), so a fact a few pieces check never
+ * makes those few the only words every such world says.
+ */
+function mostSpecific<P extends Parameters<typeof specificityOf>[0]>(
+  sayable: readonly P[],
+): P[] {
+  const floor = OUTLINES.weights.specificFloor.value;
+  const tiers = [...new Set(sayable.map(specificityOf))].sort((a, b) => b - a);
+  const pool: P[] = [];
+  for (const tier of tiers) {
+    if (pool.length >= floor) break;
+    pool.push(...sayable.filter((part) => specificityOf(part) === tier));
+  }
+  return pool;
+}
+
 function wordMove(
   input: TellingInput,
   surface: EnglishSurface,
@@ -408,11 +440,12 @@ function wordMove(
   const oldest = (input.said ?? []).find((key) =>
     fitting.some((part) => part.key === key && sayable(part)),
   );
-  const pool = fresh.some(sayable)
+  const open = fresh.some(sayable)
     ? fresh
     : oldest
       ? fitting.filter((part) => part.key === oldest)
       : fitting;
+  const pool = mostSpecific(open.filter(sayable));
   if (!pool.length) return null;
   const base = OUTLINES.weights.pieceBase.value;
   const per = OUTLINES.weights.pieceLean.value;

@@ -4,8 +4,8 @@
   "summary": "A diary entry on the evening of a public event says who was listening, what it was about and how the writer's day ended.",
   "realLife": "Mass Observation diarists wrote coronation day as an ordinary day: who listened to the broadcast, who did not, and what each person did instead.",
   "sources": [
-    "Sussex Library, Mass Observation 12 May 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/",
-    "Diary of Samuel Pepys, April 1661 (coronation day, 23 April), Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1661/April"
+    "Sussex Library, Mass Observation May 12, 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/",
+    "Diary of Samuel Pepys, April 1661 (coronation day, April 23), Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1661/April"
   ],
   "fits": ["journal"],
   "slots": ["we", "president-name", "theme-name"],

@@ -4,7 +4,7 @@
   "summary": "A diary records a person in the household or the room who did not take part in the public event.",
   "realLife": "A London diarist wrote that his father stayed in the garage with his car and skipped the broadcast, and a Birmingham diarist noted nobody in a pub was listening.",
   "sources": [
-    "Sussex Library, Mass Observation 12 May 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/"
+    "Sussex Library, Mass Observation May 12, 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/"
   ],
   "fits": ["journal"],
   "slots": ["us"],
