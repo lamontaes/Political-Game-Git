@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow } from "./ui/button.mjs";
@@ -6964,6 +6964,46 @@ document.addEventListener("fullscreenchange", () => {
 
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
+
+// A dock that comes into view under a resting pointer (the click that began the
+// life, a scene that ends, a sheet that closes) shows no hover light until the
+// pointer moves: nothing glows on its own (owner, Nov 23, N8-P12). It watches
+// every panel that hides the dock, not only the rail's own `hidden`.
+{
+  const dock = $("dock");
+  const dockShown = () =>
+    !$("rings").hidden && getComputedStyle($("rings")).display !== "none";
+  let wasShown = dockShown();
+  const unsettle = () => dock.classList.remove("settling");
+  const watch = () => {
+    const shown = dockShown();
+    if (shown && !wasShown) {
+      dock.classList.add("settling");
+      window.addEventListener("pointermove", unsettle, {
+        once: true,
+        capture: true,
+      });
+    }
+    wasShown = shown;
+  };
+  const observer = new MutationObserver(watch);
+  for (const id of [
+    "rings",
+    "game",
+    "talk",
+    "meeting",
+    "desk",
+    "election-day",
+    "returns",
+    "ballot",
+    "sheet",
+  ])
+    if ($(id))
+      observer.observe($(id), {
+        attributes: true,
+        attributeFilter: ["hidden", "class"],
+      });
+}
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
