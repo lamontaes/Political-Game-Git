@@ -1,0 +1,31 @@
+{
+  "id": "literature-goes-at-the-door-never-in-the-mailbox",
+  "kind": "detail",
+  "summary": "When no one answers, the canvasser leaves a flyer on the door and never in the mailbox.",
+  "realLife": "A volunteer guide says to leave literature on the doorstep or with someone else, and another account says canvassers left flyers in the door, not the mailbox.",
+  "sources": [
+    "Commons Library, Tools roundup: canvassing and door knocking, undated: https://commonslibrary.org/tools-roundup-canvassing-and-door-knocking/",
+    "Ronald Claiborne Substack, Confessions of a campaign canvasser, undated: https://ronaldclaiborne.substack.com/p/confessions-of-a-campaign-canvasser"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "campaign literature stock on the shift record",
+  "weights": {
+    "door": 0.5
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "A flyer is left and the resident reads it later",
+      "pulledBy": "the resident's later mail or door record",
+      "writesBack": "a first-name mention at the next knock"
+    },
+    {
+      "turn": "The stock runs out partway down the street",
+      "pulledBy": "few flyers in the bag",
+      "writesBack": "blank doors are marked and not served"
+    }
+  ]
+}

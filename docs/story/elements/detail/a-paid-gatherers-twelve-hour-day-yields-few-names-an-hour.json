@@ -1,0 +1,31 @@
+{
+  "id": "a-paid-gatherers-twelve-hour-day-yields-few-names-an-hour",
+  "kind": "detail",
+  "summary": "A paid gatherer works twelve-hour days and some hours produce only a handful of names.",
+  "realLife": "A Seattle gatherer in 2004 worked twelve hours a day, six days a week, and in one stadium hour got only a few names for two measures.",
+  "sources": [
+    "The Spokesman-Review, Paid signature gatherers defend work, 2004-07-05: https://spokesman.com/stories/2004/jul/05/paid-signature-gatherers-defend-work-law-on-paid",
+    "HeraldNet, Up to $5 a pop: signature gatherers cash in on petitions, undated: https://www.heraldnet.com/news/up-to-5-a-pop-signature-gatherers-cash-in-on-petitions"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "circulator shift record: hours on site and lines gained",
+  "weights": {
+    "signature": 0.6
+  },
+  "usedBy": ["news"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "A big event brings a thick crowd and many names",
+      "pulledBy": "an event day",
+      "writesBack": "the sheet fills"
+    },
+    {
+      "turn": "Most people wave the gatherer off",
+      "pulledBy": "a thin crowd",
+      "writesBack": "a few lines for hours of work"
+    }
+  ]
+}
