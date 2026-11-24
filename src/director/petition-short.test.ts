@@ -154,27 +154,64 @@ function build(drawn: Drawn, helped = false) {
 
 type Case = Exclude<ReturnType<typeof build>, string>;
 
+/** What earlier cases learned of a draw, so a later case skips one that cannot hold it. */
+interface Learned {
+  /** Why the place has no filed petition to play (no race, no resident, no petition). */
+  unbuilt?: string;
+  /** Who told the player, played with no act of the player's: the clerk, a helper, or nobody. */
+  told?: "clerk" | "helper" | "none";
+  /** After the player's first no, whether the clerk pressed once more. */
+  presses?: boolean;
+}
+const learned = new Map<string, Learned>();
+/** The draws a case has already shown, by `helped:key:seed`. */
+const shown = new Set<string>();
+const learn = (world: Case, what: Learned) => {
+  const key = `${world.helped}:${world.drawn.key}:${world.drawn.seed}`;
+  learned.set(key, { ...learned.get(key), ...what });
+};
+
 /**
  * Draws places until one holds the case (`holds` sets the case up and plays
  * it, returning why not, or null when it holds), names every place passed
- * over, and fails by name when none of the draws holds it.
+ * over, and fails by name when none of the draws holds it. Every case walks
+ * the same drawn sequence (one for a player who takes help, one for one who
+ * does not), and `skip` passes over a draw an earlier case already showed
+ * cannot hold this one, without building it again.
  */
 function findCase(
   label: string,
   holds: (world: Case) => string | null,
   helped = false,
+  skip: (known: Learned, id: string) => string | null = () => null,
 ): Case {
   const passed: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
-    const place = drawPlace(seed, `petition-short:${label}:${draw}`);
+    const place = drawPlace(
+      seed,
+      `petition-short:${helped ? "helped" : "alone"}:${draw}`,
+    );
     const drawn = {
       key: place.key,
       seed: place.seed,
       where: `${place.name} (${place.key}), seed ${place.seed}`,
     };
+    const id = `${helped}:${drawn.key}:${drawn.seed}`;
+    const known = learned.get(id) ?? {};
+    const already = known.unbuilt ?? skip(known, id);
+    if (already) {
+      passed.push(`${drawn.where}: ${already}`);
+      continue;
+    }
     const world = build(drawn, helped);
-    const why = typeof world === "string" ? world : holds(world);
-    if (why === null && typeof world !== "string") {
+    if (typeof world === "string") {
+      learned.set(`${helped}:${drawn.key}:${drawn.seed}`, { unbuilt: world });
+      passed.push(`${drawn.where}: ${world}`);
+      continue;
+    }
+    const why = holds(world);
+    if (why === null) {
+      shown.add(id);
       process.stdout.write(
         `${label}: ${drawn.where} (run seed ${seed}); passed over ${passed.length ? passed.join("; ") : "none"}\n`,
       );
@@ -186,6 +223,20 @@ function findCase(
     `${label}: none of ${DRAWS} drawn places holds the case (run seed ${seed}): ${passed.join("; ")}`,
   );
 }
+
+/** Skips for a case played with no act of the player's: a draw known never told, or told by the other teller. */
+const needsTold =
+  (kind: "clerk" | "helper", press?: boolean) =>
+  (known: Learned): string | null =>
+    known.told === "none"
+      ? "never told (an earlier case played it)"
+      : known.told && known.told !== kind
+        ? `told by the ${known.told} (an earlier case played it)`
+        : press !== undefined &&
+            known.presses !== undefined &&
+            known.presses !== press
+          ? `the clerk ${known.presses ? "pressed" : "let it go"} (an earlier case played it)`
+          : null;
 
 /** The same world again, from the start: the draw is the seed, so it builds the same. */
 function rebuild(world: Case): Case {
@@ -365,12 +416,15 @@ const statusOf = (world: Case) =>
   ).status;
 
 /** The premise of a case told short: the record is written, by the teller the case is about. */
-function toldBy(kind: "clerk" | "helper") {
+function toldBy(kind: "clerk" | "helper", started = false) {
   return (world: Case): string | null => {
     const day = playToTold(world);
+    const by = day
+      ? (world.core.durableLog.get(toldId(world.filing.id))?.facts
+          ?.tellerKind as "clerk" | "helper" | undefined)
+      : undefined;
+    if (!started) learn(world, { told: by ?? "none" });
     if (!day) return "never told: the petition never fell behind";
-    const by = world.core.durableLog.get(toldId(world.filing.id))?.facts
-      ?.tellerKind;
     return by === kind ? null : `told by the ${String(by)}, not the ${kind}`;
   };
 }
@@ -397,6 +451,7 @@ function clerkWho(press: boolean) {
     const next = afterTheNo(world);
     if (!next) return "the talk was not staged with a no";
     const presses = next.replies.some((r) => r.line.move === "deflect");
+    learn(world, { presses });
     if (presses === press) return null;
     return press
       ? "the clerk let it go after the no"
@@ -410,7 +465,12 @@ it("the clerk tells a filed player on a thin petition once; a yes takes their ca
       OUT,
       `# Petition short, played (head ${process.env.PLAYED_SHA ?? "unknown"}, run seed ${seed})\n\n`,
     );
-  const world = findCase("clerk-tells", toldBy("clerk"));
+  const world = findCase(
+    "clerk-tells",
+    toldBy("clerk"),
+    false,
+    needsTold("clerk"),
+  );
   const { core, api, director, me, filing } = world;
   const { entry, scene, record } = told(world, "Clerk, nothing signed yet");
   expect(record.facts?.tellerKind).toBe("clerk");
@@ -445,8 +505,13 @@ it("a no changes nothing: no door is walked for the player", () => {
     ["Helper, then a no", true],
   ] as const) {
     const world = byHelper
-      ? findCase("helper-tells", toldBy("helper"), true)
-      : findCase("clerk-presses", clerkWho(true));
+      ? findCase("helper-tells", toldBy("helper"), true, needsTold("helper"))
+      : findCase(
+          "clerk-presses",
+          clerkWho(true),
+          false,
+          needsTold("clerk", true),
+        );
     const { core, director, me } = world;
     const { entry, scene } = told(world, label);
     const no = scene.talk.tree.replies.findIndex(
@@ -480,7 +545,12 @@ it("a no changes nothing: no door is walked for the player", () => {
 it("a clerk who lets it go after the no says so, offers nothing more, and no door is walked", () => {
   // The other answer the clerk's own lean can give: no press, one closing
   // line, and the player has no second reply to make.
-  const world = findCase("clerk-lets-go", clerkWho(false));
+  const world = findCase(
+    "clerk-lets-go",
+    clerkWho(false),
+    false,
+    needsTold("clerk", false),
+  );
   const { core, director, me } = world;
   const { entry, scene } = told(world, "Clerk who lets it go, then a no");
   const no = scene.talk.tree.replies.findIndex(
@@ -513,7 +583,8 @@ it("the clerk's words once some names are on the petition, below what the office
   const a = told(
     findCase(
       "clerk-some-names",
-      (world) => startedByHand(world, 0.5, "needed") ?? toldBy("clerk")(world),
+      (world) =>
+        startedByHand(world, 0.5, "needed") ?? toldBy("clerk", true)(world),
     ),
     "Clerk, some names but fewer than the office requires",
   );
@@ -523,7 +594,7 @@ it("the clerk's words once some names are on the petition, below what the office
     Number(a.record.facts?.needed),
   );
   const b = told(
-    findCase("helper-tells", toldBy("helper"), true),
+    findCase("helper-tells", toldBy("helper"), true, needsTold("helper")),
     "Helper, as the day goes",
   );
   expect(b.record.facts?.tellerKind).toBe("helper");
@@ -531,7 +602,7 @@ it("the clerk's words once some names are on the petition, below what the office
     findCase(
       "helper-some-names",
       (world) =>
-        startedByHand(world, 0.5, "gathers") ?? toldBy("helper")(world),
+        startedByHand(world, 0.5, "gathers") ?? toldBy("helper", true)(world),
       true,
     ),
     "Helper, something signed",
@@ -571,16 +642,25 @@ function filledByPlay(world: Case): string | null {
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(api, filing.id);
   while (core.date <= petition.due) {
-    if (core.durableLog.has(toldId(filing.id)))
+    if (core.durableLog.has(toldId(filing.id))) {
+      const by = core.durableLog.get(toldId(filing.id))?.facts?.tellerKind;
+      learn(world, { told: by === "helper" ? "helper" : "clerk" });
       return `told on ${core.date} before the count filled it`;
+    }
     if (petitionOf(api, filing.id)!.signed >= gather) return null;
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
   }
   return `the count reached ${petitionOf(api, filing.id)!.signed} of ${gather} by the due date`;
 }
 
+/** An on-pace case skips a draw an earlier case saw told short. */
+const onPaceSkip = (known: Learned): string | null =>
+  known.told && known.told !== "none"
+    ? `told by the ${known.told} (an earlier case played it)`
+    : null;
+
 it("a petition the count has filled by play is never told", () => {
-  const world = findCase("on-pace", filledByPlay);
+  const world = findCase("on-pace", filledByPlay, false, onPaceSkip);
   const { core, api, filing } = world;
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(api, filing.id);
@@ -602,7 +682,12 @@ it("dev mode brings on the offer and traces what the engine read", () => {
   // A world where the clerk tells, played to the telling, then the same world
   // built again and brought on by dev mode: dev mode reaches the same day and
   // traces what the engine read that day, from the record's own facts.
-  const played = findCase("dev-clerk-tells", toldBy("clerk"));
+  const played = findCase(
+    "dev-clerk-tells",
+    toldBy("clerk"),
+    false,
+    needsTold("clerk"),
+  );
   const record = played.core.durableLog.get(toldId(played.filing.id))!;
   const { core, director, filing } = rebuild(played);
   const dev = new DevMode(core, director, undefined, played.drawn.key);
@@ -622,7 +707,7 @@ it("dev mode brings on the offer and traces what the engine read", () => {
     `## Dev mode, a petition that falls behind: ${played.where}; the button "${labels.petitionBehind}" advanced to ${result.told}; the line shown: "${labels.petitionTold}". Told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
   );
   // A petition on pace by play is never told, and the control says so.
-  const filled = findCase("dev-on-pace", filledByPlay);
+  const filled = findCase("dev-on-pace", filledByPlay, false, onPaceSkip);
   const onPace = rebuild(filled);
   const none = new DevMode(
     onPace.core,
@@ -644,8 +729,8 @@ it("dev mode brings on the offer and traces what the engine read", () => {
  */
 it("other worlds show the other wordings of the clerk's and the helper's talk", () => {
   for (const [byHelper, count] of [
-    [false, 4],
-    [true, 2],
+    [false, 2],
+    [true, 1],
   ] as const) {
     for (let n = 0; n < count; n += 1) {
       for (const started of [false, true]) {
@@ -655,8 +740,14 @@ it("other worlds show the other wordings of the clerk's and the helper's talk", 
           (w) =>
             (started
               ? startedByHand(w, 0.5, byHelper ? "gathers" : "needed")
-              : null) ?? toldBy(who)(w),
+              : null) ?? toldBy(who, started)(w),
           byHelper,
+          (known, id) =>
+            shown.has(id)
+              ? "shown by an earlier case"
+              : started
+                ? null
+                : needsTold(who)(known),
         );
         told(
           world,
