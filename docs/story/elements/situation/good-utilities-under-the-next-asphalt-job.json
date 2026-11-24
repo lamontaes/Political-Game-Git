@@ -1,0 +1,32 @@
+{
+  "id": "good-utilities-under-the-next-asphalt-job",
+  "kind": "situation",
+  "summary": "{director} puts a street forward because the infrastructure beneath it is in good condition.",
+  "realLife": "Sulphur’s manager identified two candidate street segments on the grounds that their underlying infrastructure was sound.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{director}"],
+  "gates": [
+    "Documented condition of the infrastructure below a candidate street."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: documented condition of the infrastructure below a candidate street.",
+  "turns": [
+    {
+      "turn": "verified",
+      "pulledBy": "The underground condition has been verified.",
+      "what": "Keep the street under consideration for resurfacing.",
+      "writesBack": "Record the reason for its place on the draft list.."
+    },
+    {
+      "turn": "unknown",
+      "pulledBy": "The condition report is missing.",
+      "what": "Ask utilities to check the segment.",
+      "writesBack": "Leave its readiness unconfirmed.."
+    }
+  ]
+}

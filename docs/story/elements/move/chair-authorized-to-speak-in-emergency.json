@@ -25,5 +25,6 @@
       "pulledBy": "The members delegate authority for an interim period.",
       "writesBack": "The delegation ends at the meeting."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

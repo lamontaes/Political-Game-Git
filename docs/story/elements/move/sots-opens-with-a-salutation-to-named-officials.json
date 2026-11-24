@@ -1,0 +1,35 @@
+{
+  "id": "sots-opens-with-a-salutation-to-named-officials",
+  "kind": "move",
+  "summary": "A State of the State opens by greeting the officials and bodies in the room.",
+  "realLife": "Four of six governors read opened with a salutation naming officials or the legislature: Texas 2023, Ohio 2023, Wisconsin 2024, Tennessee 2023.",
+  "sources": [
+    "https://gov.texas.gov/news/post/governor-abbott-delivers-2023-state-of-the-state-address",
+    "https://abc6onyourside.com/news/local/transcript-gov-dewines-2023-state-of-the-state-address-ohio-governor-mike-dewine-state-government-speech",
+    "https://urbanmilwaukee.com/pressrelease/press-release-gov-evers-delivers-2024-state-of-the-state-address/",
+    "https://www.wsmv.com/2023/02/07/gov-bill-lee-state-state-remarks/",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["realm-name", "body-word"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The `greeting` move with `{realm-name}` and `{body-word}`; needs: the lieutenant governor and presiding officers as named slots.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A one-word welcome and no list.",
+      "pulledBy": "a blunt speaker; Colorado's governor in 2025",
+      "writesBack": "The first line is the point."
+    },
+    {
+      "turn": "partial",
+      "what": "The legislature named, the officials not.",
+      "pulledBy": "default",
+      "writesBack": "One group is named."
+    }
+  ]
+}

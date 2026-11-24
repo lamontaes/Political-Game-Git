@@ -27,5 +27,8 @@
       "pulledBy": "The governor needs confirmation before the damage report is complete.",
       "writesBack": "The aid file records both the call and the later application."
     }
+  ],
+  "issues": [
+    "question:us-federal-positions:emergencies.states-share-disaster-costs"
   ]
 }

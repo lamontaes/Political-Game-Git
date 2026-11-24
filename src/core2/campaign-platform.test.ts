@@ -26,6 +26,7 @@ import { coreAPI } from "./state";
 import {
   candidatePlatform,
   candidateStance,
+  stanceReader,
   platformScores,
 } from "./campaign-stances";
 import { campaignParameter } from "./campaign-data";
@@ -119,6 +120,9 @@ function attempt(draw: number): { proven: string } | { tried: string } {
       for (const question of positions) {
         const position = candidateStance(api, adult.id, null, question);
         if (position === null || position === 0) continue;
+        // A stand needs a reason in the candidate's own record.
+        if (stanceReader(api, adult.id, null).ground(question) === null)
+          continue;
         let s = supportOf.get(question);
         if (!s)
           supportOf.set(question, (s = sidesByAgreement(api, question, VIEWS)));

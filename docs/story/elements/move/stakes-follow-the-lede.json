@@ -21,12 +21,17 @@
     {
       "name": "stakes arrive in the lede",
       "pulledBy": "a change that touches every household at once",
-      "writes": "the first sentence says what changes for residents"
+      "writes": "the first sentence says what changes for residents",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "stakes never arrive",
       "pulledBy": "an item of procedure with no effect on residents",
-      "writes": "the story ends on the next step instead"
+      "writes": "the story ends on the next step instead",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "the bill's `purpose`, `law-reach` and `law-purpose` rows; needs: a household count"
 }

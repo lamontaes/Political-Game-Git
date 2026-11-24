@@ -27,5 +27,6 @@
       "pulledBy": "The council limits it to immediate supplies.",
       "writesBack": "The purchasing office records separate procurement routes."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

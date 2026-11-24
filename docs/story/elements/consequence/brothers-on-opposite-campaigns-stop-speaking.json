@@ -1,0 +1,43 @@
+{
+  "id": "brothers-on-opposite-campaigns-stop-speaking",
+  "kind": "consequence",
+  "summary": "Two brothers who worked for opposite parties in an election year stopped speaking that summer, and their mother grieved.",
+  "realLife": "Two sons of a North Carolina family, one running a state party and the other a super PAC for the opposite side, were known for clashing on cable news in 2016. That summer they stopped speaking entirely. Their mother said it was the first time the disagreement made her very sad and that she cried often. The report says they were talking again later but gives no account of how.",
+  "sources": [
+    "https://www.cbsnews.com/news/contentious-election-driving-wedge-through-political-family"
+  ],
+  "fits": ["home"],
+  "slots": ["{the brother}", "{the other brother}", "{the mother}"],
+  "gates": [
+    "Both brothers hold jobs or roles tied to opposite sides of one race.",
+    "The mother is alive and tied to both."
+  ],
+  "weights": [
+    "Their jobs and public roles in the race.",
+    "The mother's distress as a pull toward repair.",
+    "Closeness of the brothers before the race."
+  ],
+  "inGame": "Needs: a quarrel record with a silence span; kin ties, stands and work roles exist, and the mother's feelings could ride a household talk.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The silence outlasts the race and the mother dies before it ends.",
+      "pulledBy": "Hard stands, no mediating kin.",
+      "writesBack": "A permanent break on the tie."
+    },
+    {
+      "turn": "partial",
+      "what": "They speak only about family matters, never the race.",
+      "pulledBy": "Mother's pressure.",
+      "writesBack": "Tie recovers to a limited level."
+    },
+    {
+      "turn": "late",
+      "what": "They reconcile after election day, when the job pressure ends.",
+      "pulledBy": "Race over.",
+      "writesBack": "Quarrel closed."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -21,12 +21,17 @@
     {
       "name": "an unnamed official",
       "pulledBy": "an official who asked not to be named",
-      "writes": "the story says an official said"
+      "writes": "the story says an official said",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a view with no name",
       "pulledBy": "a body that spoke as one",
-      "writes": "the story attributes it to the body"
+      "writes": "the story attributes it to the body",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "the officials table and the officer's stated reasons; the `interview` record"
 }

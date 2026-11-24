@@ -1,0 +1,34 @@
+{
+  "id": "before-and-after-lot-count",
+  "kind": "detail",
+  "summary": "A compact change record: the plan was approved at one count and cut to another.",
+  "realLife": "Lots were 130 at the first approval and 110 after a later change.",
+  "sources": [
+    "Community Impact (San Antonio edition), 'Final plat for 55-lot single-family development approved in Fair Oaks Ranch', April 4, 2025: https://communityimpact.com/san-antonio/boerne-fair-oaks-ranch/government/2025/04/04/final-plat-for-55-lot-single-family-development-approved-in-fair-oaks-ranch",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.8
+  },
+  "inGame": "`housing.completed` unit counts; needs: a plan's earlier count",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a plan with more lots",
+      "pulledBy": "a revised plan that grew",
+      "writes": "the story says the count went up",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "an unchanged count",
+      "pulledBy": "a plan that held",
+      "writes": "the story says nothing changed",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}

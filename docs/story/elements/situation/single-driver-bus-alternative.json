@@ -1,0 +1,30 @@
+{
+  "id": "single-driver-bus-alternative",
+  "kind": "situation",
+  "summary": "In {place}, the proposal to save fuel depends partly on whether commuters can catch a bus.",
+  "realLife": "Carter paired his account of mostly empty commuter cars with a call for better public transportation.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["The plan addresses fuel used in commuting."],
+  "weights": ["More commuters lack a usable transit route."],
+  "usedBy": [],
+  "inGame": "needs: shift times, commute routes and transit schedules.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Workers organize a carpool.",
+      "pulledBy": "Their shifts overlap and they share a route.",
+      "writesBack": "The commute survey records shared rides."
+    },
+    {
+      "turn": "partial",
+      "what": "The bus helps only the early shift.",
+      "pulledBy": "Service ends before later workers leave.",
+      "writesBack": "The route review records the uncovered shift."
+    }
+  ],
+  "issues": ["budget:federal:transportation"]
+}

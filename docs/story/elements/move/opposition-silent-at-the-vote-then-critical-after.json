@@ -1,0 +1,34 @@
+{
+  "id": "opposition-silent-at-the-vote-then-critical-after",
+  "kind": "move",
+  "summary": "The opposition said nothing at the vote and spoke sharply afterward.",
+  "realLife": "The minority members were quiet during the vote; one was strongly critical later.",
+  "sources": [
+    "Patch (Brick, New Jersey), 'New Councilmember Appointed In Brick After Resignation', Oct. 15, 2026: https://patch.com/new-jersey/brick/new-councilmember-appointed-brick-after-resignation",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "vacancy": 0.8
+  },
+  "inGame": "the roll call and the member's later `interview` or letter",
+  "turns": [
+    {
+      "name": "opposition speaks at the vote",
+      "pulledBy": "an open debate",
+      "writes": "the story quotes the floor debate",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no criticism",
+      "pulledBy": "a unanimous pick",
+      "writes": "the story ends on the appointee",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

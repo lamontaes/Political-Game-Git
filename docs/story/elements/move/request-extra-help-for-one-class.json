@@ -1,0 +1,32 @@
+{
+  "id": "request-extra-help-for-one-class",
+  "kind": "move",
+  "summary": "{resident} takes a particular class price to program staff after the regular discount still leaves too much to pay.",
+  "realLife": "Portland invited participants to ask program staff or customer service for further help with an individual activity.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=additional%20support"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: the activity price, existing discount and a request for additional support.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A fee increase puts the class beyond the resident's discounted budget.",
+      "what": "Staff consider the individual request.",
+      "writesBack": "The case lists the amount still needed."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A lower class price closes the gap before the request is decided.",
+      "what": "The resident confirms they can enroll.",
+      "writesBack": "The assistance case records why it closed."
+    }
+  ]
+}

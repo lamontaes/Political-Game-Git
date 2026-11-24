@@ -1,0 +1,32 @@
+{
+  "id": "is-the-city-engineer-already-hired-for-this",
+  "kind": "voice",
+  "summary": "{member} remembers the city already has an engineer and asks what still needs a vote.",
+  "realLife": "A Sulphur council member thought the engineer had already been engaged; the manager asked for authority to spend money on this particular project.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [
+    "An existing engineering relationship and a proposed project-specific expenditure."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "needs: an existing engineering relationship and a proposed project-specific expenditure.",
+  "turns": [
+    {
+      "turn": "covered",
+      "pulledBy": "The existing authorization covers this work.",
+      "what": "Identify the relevant agreement.",
+      "writesBack": "Enter the authority beside the request.."
+    },
+    {
+      "turn": "authority-needed",
+      "pulledBy": "The existing agreement leaves the project unassigned.",
+      "what": "Put the proposed additional service to a vote.",
+      "writesBack": "Record the decision separately.."
+    }
+  ]
+}

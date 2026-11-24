@@ -1,0 +1,32 @@
+{
+  "id": "state-review-before-the-fuel-farm-can-reopen",
+  "kind": "consequence",
+  "summary": "{manager} outlines the approval and construction steps that still stand between an airport fuel facility and reopening.",
+  "realLife": "Sulphur’s manager reported that the engineering firm was preparing fuel-facility plans for state approval before construction and a return to operation.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{manager}"],
+  "gates": [
+    "Facility awaiting regulatory review, a proposed correction and a reopening decision."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: facility awaiting regulatory review, a proposed correction and a reopening decision.",
+  "turns": [
+    {
+      "turn": "approved",
+      "pulledBy": "The regulator approves the plans.",
+      "what": "Release the correction for construction.",
+      "writesBack": "Record approval while keeping the facility closed until ready.."
+    },
+    {
+      "turn": "revisions",
+      "pulledBy": "The regulator asks for revisions.",
+      "what": "Return the plans to the engineer.",
+      "writesBack": "Move the projected next step back to review.."
+    }
+  ]
+}

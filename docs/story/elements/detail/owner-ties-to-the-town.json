@@ -19,12 +19,16 @@
     {
       "name": "no tie",
       "pulledBy": "an owner from elsewhere",
-      "writes": "the story says why the town anyway"
+      "writes": "the story says why the town anyway",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a tie that lapsed",
       "pulledBy": "an owner who left and returned",
-      "writes": "the story says when they left"
+      "writes": "the story says when they left",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

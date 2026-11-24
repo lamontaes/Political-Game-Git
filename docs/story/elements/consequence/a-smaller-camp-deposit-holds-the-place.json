@@ -1,0 +1,32 @@
+{
+  "id": "a-smaller-camp-deposit-holds-the-place",
+  "kind": "consequence",
+  "summary": "{parent} compares the money due today for a camp place with the larger sum due for the whole session.",
+  "realLife": "Portland illustrated that its camp discount reduced both the total charge and the deposit due when the family registered.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=deposit%20is%20due"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{parent}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a deposit rule, camp price and available money at registration.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The increased deposit exceeds what the family can pay today.",
+      "what": "The parent asks whether additional support is available before the place is taken.",
+      "writesBack": "The registration stays pending."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A lower deposit fits the family's budget today.",
+      "what": "The parent pays it to secure the place.",
+      "writesBack": "The booking shows the remaining balance."
+    }
+  ]
+}

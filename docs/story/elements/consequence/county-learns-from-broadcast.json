@@ -29,5 +29,6 @@
       "pulledBy": "A local office misses the briefing but receives the signed order.",
       "writesBack": "The county log distinguishes the first report from official confirmation."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

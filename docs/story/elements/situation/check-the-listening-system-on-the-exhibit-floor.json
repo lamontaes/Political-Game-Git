@@ -1,0 +1,32 @@
+{
+  "id": "check-the-listening-system-on-the-exhibit-floor",
+  "kind": "situation",
+  "summary": "{organizer} asks what a visitor can use to hear a presentation on the fairgrounds exhibit floor.",
+  "realLife": "The Los Banos Fairgrounds survey found that the Exhibit Building had no assistive listening system.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=4.7.%20Exhibit%20Building"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{organizer}"],
+  "gates": [
+    "A county event schedules amplified speech in an exhibit space with a documented listening barrier."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the presentation room, listening equipment and on-site test.",
+  "turns": [
+    {
+      "turn": "loaned receiver",
+      "what": "Staff try a receiver on the exhibit floor.",
+      "pulledBy": "A loan system arrives before the event.",
+      "writesBack": "The setup log records the test location."
+    },
+    {
+      "turn": "different room",
+      "what": "Organizers investigate another space with listening equipment.",
+      "pulledBy": "No system is available for that room.",
+      "writesBack": "The booking remains provisional."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

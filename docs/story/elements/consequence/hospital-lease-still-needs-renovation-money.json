@@ -1,0 +1,32 @@
+{
+  "id": "hospital-lease-still-needs-renovation-money",
+  "kind": "consequence",
+  "summary": "After the lease question, {person} asks how the county intends to pay for turning unused rooms into usable facilities.",
+  "realLife": "The county planned to draw on grants and state funding to develop the proposed Los Angeles mental health campus.",
+  "sources": [
+    "https://sd30.senate.ca.gov/news/press-release/ca-legislature-approves-archuleta-bill-convert-unused-property-metropolitan"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "A project plan distinguishes the authority to lease from the funding to develop the site."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:healthAndHospitals"],
+  "inGame": "needs: a project plan distinguishes the authority to lease from the funding to develop the site.",
+  "turns": [
+    {
+      "turn": "awarded",
+      "pulledBy": "A dated grant covers identified work.",
+      "what": "Match the award to that phase.",
+      "writesBack": "Record the covered amount in the project budget."
+    },
+    {
+      "turn": "proposed",
+      "pulledBy": "The plan lists a prospective funding source.",
+      "what": "Explain which work depends on it.",
+      "writesBack": "Keep the prospective award out of committed funds."
+    }
+  ]
+}
