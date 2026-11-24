@@ -254,3 +254,9 @@ Grade words: **pass** / **open since v0.114.0, no worse** / **worse on this head
 | N16-21 (Quorum text in the Guide) | **Story's** | replay-fm3a-guide-term.png |
 | P5, P6, P7, P11, P17 text, P19, P20 line, P34, P36, P39, P42, P43, P45, C13, C20 and the English-held carryover rows | **Story's** | none |
 | Rows not replayed on this exact head (graded earlier, no change since): N8-P1, N8-P8 (pass), N8-P21, N8-P33, N8-C28, N16-67, C19, C9, C1, C3 | **not replayed on a227f3a2**; last grade stands | none |
+
+## P1 re-graded (Coordinator, 13:08Z)
+
+| Row | Grade | Note |
+| --- | --- | --- |
+| P1 | **pass on a227f3a2** | Box and scroll measured it (comment 7132366917): the builds list (`div.pager.roster-pages`) and the notes are two sibling scroll boxes, and `#sheet-body` has overflow auto but no overflow (728 of 728), so it never scrolls. My "two overflow-auto containers" counted that rule; the count is boxes whose content is taller than the box. |
