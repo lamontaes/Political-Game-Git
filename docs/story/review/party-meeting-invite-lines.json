@@ -466,5 +466,379 @@
       "key": "favor-asked"
     },
     "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.it-was-good-to-see-you-at-the-last-committee-meeting-can-you-join-us-again-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "It was good to see you at the last committee meeting. Can you join us again {meeting-when}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.we-re-getting-back-together-meeting-when-shall-i-count-you-in-again",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "We're getting back together {meeting-when}. Shall I count you in again?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.will-you-be-with-us-meeting-when-i-d-be-glad-to-see-you-back-at-the-committee",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Will you be with us {meeting-when}? I'd be glad to see you back at the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-be-back-meeting-when-there-are-a-few-people-i-d-like-to-get-to-know-better",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll be back {meeting-when}. There are a few people I'd like to get to know better.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.count-me-in-again-i-d-like-to-speak-up-this-time",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Count me in again. I'd like to speak up this time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-was-glad-i-went-last-time-i-ll-have-to-miss-the-meeting-meeting-when",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I was glad I went last time. I'll have to miss the meeting {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-skip-this-one-please-keep-asking-me-though",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll skip this one. Please keep asking me, though.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.you-passed-on-the-last-meeting-would-meeting-when-work-any-better-for-you",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "You passed on the last meeting. Would {meeting-when} work any better for you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.should-i-leave-you-off-the-list-again-or-can-you-join-us-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Should I leave you off the list again, or can you join us {meeting-when}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.we-re-meeting-meeting-when-i-thought-i-d-ask-again-in-case-you-can-come-this-time",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "We're meeting {meeting-when}. I thought I'd ask again in case you can come this time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-can-make-this-one-i-ll-see-you-meeting-when",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I can make this one. I'll see you {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.this-time-put-me-down-as-coming-i-d-like-to-meet-the-committee",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "This time, put me down as coming. I'd like to meet the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-appreciate-you-asking-again-i-ll-pass-on-this-meeting-too",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I appreciate you asking again. I'll pass on this meeting too.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.no-i-still-won-t-be-coming-go-ahead-without-me-meeting-when",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "No, I still won't be coming. Go ahead without me {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
