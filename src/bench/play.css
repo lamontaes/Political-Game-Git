@@ -4910,14 +4910,16 @@ select.release-pick {
   box-shadow: var(--pick-hover-glow);
 }
 /* Typed rows: label, a dot leader, the figure. */
-.strip-screen .dotrow {
+.strip-screen .dotrow,
+.candidate .dotrow {
   display: flex;
   align-items: baseline;
   gap: 8px;
   font: 400 var(--t-read)/1.7 var(--f-story);
   color: #efe6d4;
 }
-.strip-screen .dotleader {
+.strip-screen .dotleader,
+.candidate .dotleader {
   flex: 1;
   min-width: 16px;
   border-bottom: 2px dotted rgba(226, 191, 110, 0.4);
@@ -4928,7 +4930,8 @@ select.release-pick {
 .strip-screen .dotrows.one-line .dotvalue {
   white-space: nowrap;
 }
-.strip-screen .dotvalue {
+.strip-screen .dotvalue,
+.candidate .dotvalue {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
 }
