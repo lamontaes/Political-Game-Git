@@ -13,5 +13,6 @@
   "weights": {
     "inaugural": 0.1
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a record of the other party or body the speech turns to. party-holds-body and other-side exist for the stand only."
 }

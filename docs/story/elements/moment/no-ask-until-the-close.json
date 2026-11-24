@@ -13,5 +13,6 @@
   "weights": {
     "inaugural": 0.05
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "A world without a stand (no `about` fact) skips the `theme` and `second` sections, and the optional `call` leaves a speech with no ask; traits pull toward shapes with fewer moves."
 }

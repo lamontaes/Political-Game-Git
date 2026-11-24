@@ -17,5 +17,6 @@
     "inaugural": 0.33,
     "state": 0.33
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the planner reusing an opening piece's slot value in the close. The close shapes exist (send-off-then-blessing, blessing-then-send-off, blessing-alone, send-off-alone)."
 }

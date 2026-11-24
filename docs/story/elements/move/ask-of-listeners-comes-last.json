@@ -14,5 +14,6 @@
   "weights": {
     "inaugural": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Section order in the inaugural row: `call` comes after `theme` and `second`; shapes call-alone and address-run."
 }

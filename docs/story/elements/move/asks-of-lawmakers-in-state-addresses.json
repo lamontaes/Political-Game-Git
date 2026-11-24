@@ -18,5 +18,6 @@
   "weights": {
     "state": 0.13
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The state-of-the-state row (kinds.state-of-the-state in data/english/outlines.json) with body-word (the legislature) and realm-name; stance and law facts gate pledge and stand."
 }

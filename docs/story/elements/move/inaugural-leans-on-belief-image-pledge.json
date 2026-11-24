@@ -18,5 +18,6 @@
   "weights": {
     "inaugural": 0.82
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The inaugural row, moves creed, pledge and value (data/english/parts/outline-theme.json); the planner weights pieces by the speaker's traits."
 }

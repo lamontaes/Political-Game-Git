@@ -24,5 +24,6 @@
   "weights": {
     "all": 0.58
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Sections `greeting` and `occasion` (oath-then-charge, hired-then-charge, report-then-charge) with took-oath, elected-last-fall, term-left and the-vice-president from the officials engine's term and seat records."
 }

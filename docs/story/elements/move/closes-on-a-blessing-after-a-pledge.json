@@ -24,5 +24,6 @@
   "weights": {
     "all": 0.75
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Section `close`, shapes send-off-then-blessing and blessing-alone; the `blessing` move in outline-theme.json."
 }

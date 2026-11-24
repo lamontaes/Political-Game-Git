@@ -24,5 +24,6 @@
   "weights": {
     "inaugural": 0.45
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The `joins` flag on a section in data/english/outlines.json: a section without it starts a new paragraph (a hard cut), one with it stays in the paragraph."
 }

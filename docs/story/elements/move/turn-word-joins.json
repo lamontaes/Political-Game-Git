@@ -25,5 +25,6 @@
     "state": 0.3,
     "inaugural": 0.16
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The planner orders pieces through `after`. needs: turn-word openers (But, Now, And so) written as pieces after the move before."
 }

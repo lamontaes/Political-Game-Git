@@ -25,5 +25,6 @@
     "state": 0.24,
     "inaugural": 0.14
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Partly: pieces can follow a named move through `after`, and `told-theme` marks that the stand was said. needs: a piece that repeats an earlier sentence's slot value on purpose (the planner counts slot mentions in its budgets but gives a piece no access to earlier text)."
 }

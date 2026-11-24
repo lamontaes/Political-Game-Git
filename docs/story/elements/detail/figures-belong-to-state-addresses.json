@@ -25,5 +25,6 @@
     "state": 0.71,
     "inaugural": 0.13
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "context-years and context-name facts (contextFacts in src/director/speech-outline.ts) carry a span and measure said in words (countSaid), never as figures."
 }

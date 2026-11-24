@@ -25,5 +25,6 @@
     "inaugural": 0.11,
     "state": 0.17
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The `call` section is optional and its shapes (call-alone, address-run) are picked by the speaker's trait `pull`, so asks per speech vary with the speaker; there is no per-point ask."
 }

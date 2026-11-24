@@ -24,5 +24,6 @@
   "weights": {
     "state": 0.5
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Length follows the row's sections and the `second` point (point 1) in data/english/outlines.json; maxWords bounds each bank register."
 }

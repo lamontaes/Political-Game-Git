@@ -13,5 +13,6 @@
   "weights": {
     "state": 0.08
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Section `story` with the macro-month records and the year's disaster row; mood-better, mood-hard and mood-mixed facts (src/director/speech-outline.ts) say how the year went."
 }

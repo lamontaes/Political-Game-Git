@@ -13,5 +13,6 @@
   "weights": {
     "inaugural": 0.15
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the outgoing President as a named slot. The officials engine keeps earlier terms for the seat, but no slot names the predecessor."
 }
