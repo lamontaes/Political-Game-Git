@@ -29,5 +29,6 @@
       "pulledBy": "The newest assessment places only that neighborhood inside the affected area.",
       "writesBack": "The revised notice lists the affected streets."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

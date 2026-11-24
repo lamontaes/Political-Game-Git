@@ -1,0 +1,34 @@
+{
+  "id": "monthly-pass-still-needed",
+  "kind": "detail",
+  "summary": "When {person} asks what riders saved, a commuter pulls out the pass they still needed for other trips.",
+  "realLife": "Boston's evaluation counted riders who continued buying their passes separately from those who saved money on individual fares.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=15"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": [
+    "A fare evaluation records both pass purchases and use of the free service."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: a fare evaluation records both pass purchases and use of the free service.",
+  "turns": [
+    {
+      "turn": "retained",
+      "pulledBy": "The rider continued buying the same pass.",
+      "what": "Describe the service benefit without assigning a cash saving.",
+      "writesBack": "Record the continuing pass purchase."
+    },
+    {
+      "turn": "dropped",
+      "pulledBy": "The rider stopped buying the pass.",
+      "what": "Ask which trips now require individual fares.",
+      "writesBack": "Estimate savings from the changed purchases."
+    }
+  ]
+}
