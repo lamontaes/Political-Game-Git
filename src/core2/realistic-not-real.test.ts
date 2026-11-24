@@ -138,6 +138,7 @@ import { contestedStates2024 } from "./officials-president";
 import { worldRoster } from "./modules/elections";
 import partyCountsData from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import type { CoreState } from "./types";
+import { housingWorldOffset } from "./housing-prices";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
@@ -438,10 +439,34 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     );
     const whole = (row: typeof area.mine) =>
       JSON.stringify([row.rents, row.veryLow4, row.low4]);
+    // The two worlds each draw their own offset for the area (the draw is by
+    // seed), and the draw must differ. Whole dollars can only show a gap in
+    // the offsets bigger than a dollar on the area's largest figure, so rows
+    // that match are allowed only when the two worlds' shares are closer than
+    // that (Prophetstown, Illinois, seed 4219dae64a43b314: shares -0.0356202
+    // and -0.0356220 move 71,123 by 0.13 dollars, two draws about one in
+    // five thousand apart). A world that ignored its seed draws the same
+    // offset twice and fails the first line.
+    const offset = (s: string) =>
+      housingWorldOffset(
+        s,
+        `hud:${area.mine.area}`,
+        "housingWorldHudRentSpreadShare",
+      );
+    const largest = Math.max(
+      ...area.real.rents,
+      area.real.veryLow4 ?? 0,
+      area.real.low4 ?? 0,
+    );
     expect(
-      whole(area.mine),
-      `${where} HUD row (${area.mine.area}): other world`,
-    ).not.toBe(whole(area.other));
+      offset(a.seed),
+      `${where} HUD offset (${area.mine.area}): other world's draw`,
+    ).not.toBe(offset(b.seed));
+    if (Math.abs(offset(a.seed) - offset(b.seed)) * largest >= 1)
+      expect(
+        whole(area.mine),
+        `${where} HUD row (${area.mine.area}): other world`,
+      ).not.toBe(whole(area.other));
     // Row 9: shelter beds and permits per the state's people.
     differs(
       `shelter beds per 10,000 in ${usps}`,
