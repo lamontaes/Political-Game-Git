@@ -1,0 +1,30 @@
+{
+  "id": "weekly-tally-without-the-oldest-call",
+  "kind": "detail",
+  "summary": "{member} can see how many sidewalk requests are open but cannot tell how long the oldest caller has waited.",
+  "realLife": "Auditors found that the weekly borough reports counted incoming requests, pending requests and inspections without measuring elapsed wait.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{member}"],
+  "gates": ["A weekly count report and dated case records."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a weekly count report and dated case records.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The dated case history is available.",
+      "what": "Calculate the age of the oldest open request.",
+      "writesBack": "Add it to the meeting record.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Only the weekly totals are available.",
+      "what": "Ask for the underlying dates.",
+      "writesBack": "Leave the wait unanswered.."
+    }
+  ]
+}

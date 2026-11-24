@@ -1,0 +1,30 @@
+{
+  "id": "reserve-against-fuel-interruption",
+  "kind": "move",
+  "summary": "{person} asks to store fuel while deliveries are still arriving.",
+  "realLife": "Carter proposed building a petroleum reserve to cushion a future interruption in imports.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["An energy plan addresses an identified supply risk."],
+  "weights": ["The area relies heavily on imported fuel."],
+  "usedBy": [],
+  "inGame": "needs: fuel reserve capacity, current inventory and import exposure.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Existing reserves already cover the target.",
+      "pulledBy": "The inventory meets the proposed level.",
+      "writesBack": "The request becomes a maintenance item."
+    },
+    {
+      "turn": "partial",
+      "what": "Storage fills in stages.",
+      "pulledBy": "Only part of the capacity is ready.",
+      "writesBack": "The inventory lists the first delivery."
+    }
+  ],
+  "issues": ["none"]
+}

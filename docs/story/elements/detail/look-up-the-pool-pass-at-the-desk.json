@@ -1,0 +1,32 @@
+{
+  "id": "look-up-the-pool-pass-at-the-desk",
+  "kind": "detail",
+  "summary": "{attendant} looks up a drop-in swimmer's discount when the swimmer has no printed pass.",
+  "realLife": "Portland instructed drop-in users to mention their discount so staff could retrieve it or print a pass.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=have%20a%20pass%20printed"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{attendant}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: an active discount, a drop-in admission and a matching participant record.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "At the higher walk-in price the swimmer asks staff to find the account.",
+      "what": "The attendant applies the verified discount.",
+      "writesBack": "The admission receipt shows the reduced amount."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The lower walk-in price is posted while the swimmer's discount remains active.",
+      "what": "Staff look up the discount against the new rate.",
+      "writesBack": "The till records the amount actually paid."
+    }
+  ]
+}

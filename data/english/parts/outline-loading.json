@@ -432,7 +432,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["birth-is-a-form-the-state-keeps"]
     },
     {
       "key": "outline-loading.lost.you-ran-for-lost-office-in-lost-year-the-year-you-finished-high-school-and-lost",

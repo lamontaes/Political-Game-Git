@@ -1905,7 +1905,8 @@
       ],
       "origin": "authored",
       "author": "the news writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["vote-margin-right-after-the-scene"]
     },
     {
       "key": "outline-news.margin.news-roll-call-the-body-could-not-have-been-closer",

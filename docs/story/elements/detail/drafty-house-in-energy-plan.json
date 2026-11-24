@@ -1,0 +1,30 @@
+{
+  "id": "drafty-house-in-energy-plan",
+  "kind": "detail",
+  "summary": "The energy plan reaches {place} through the heat that escapes from people's homes.",
+  "realLife": "Carter linked wasted heating fuel to poor insulation and proposed insulating existing homes and new construction.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{place}"],
+  "gates": ["The conservation proposal covers residential buildings."],
+  "weights": ["Older homes make up more of the local housing stock."],
+  "usedBy": [],
+  "inGame": "needs: housing eligibility and permission for insulation work.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Only new construction qualifies.",
+      "pulledBy": "The adopted standard excludes existing homes.",
+      "writesBack": "Permit reviewers apply the new rule."
+    },
+    {
+      "turn": "partial",
+      "what": "Renters have to wait for the owner.",
+      "pulledBy": "The program requires owner approval.",
+      "writesBack": "The application stays pending."
+    }
+  ],
+  "issues": ["none"]
+}
