@@ -487,106 +487,6 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-m-speaking-as-the-sponsor-of-bill-name-i-brought-it-here-and-i-ll-answer-for-what-it-says",
-    "move": "follow-answer",
-    "kind": "spoken",
-    "text": "I'm speaking as the sponsor of {bill-name}. I brought it here, and I'll answer for what it says.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
-      },
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "answer",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
-        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "answer",
-      "key": "honor"
-    },
-    "elements": [
-      "rehearse-floor-questions-at-home",
-      "floor-reasons-are-facts-not-stories"
-    ]
-  },
-  {
     "key": "scene-talk.follow-answer.yes-bring-me-the-section-of-bill-name-you-want-to-change-i-ll-read-it-with-you",
     "move": "follow-answer",
     "kind": "spoken",
@@ -843,6 +743,246 @@
     "date": "2026-11-24",
     "tag": {
       "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.mine-i-put-bill-name-before-this-body-any-member-joining-me-can-speak-for-themselves",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Mine. I put {bill-name} before this body. Any member joining me can speak for themselves.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.back-home-you-can-say-it-came-from-the-person-who-introduced-bill-name-if-somebody-has-a-question-about-the-wording-send-them-my-way",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Back home you can say it came from the person who introduced {bill-name}. If somebody has a question about the wording, send them my way.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.tell-your-neighbors-i-brought-bill-name-here-they-can-ask-me-why-i-wrote-it-that-way",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Tell your neighbors I brought {bill-name} here. They can ask me why I wrote it that way.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.for-myself-sponsoring-bill-name-lets-me-explain-what-i-meant-when-i-wrote-it-it-doesn-t-let-me-answer-for-everybody-here",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "For myself. Sponsoring {bill-name} lets me explain what I meant when I wrote it. It doesn't let me answer for everybody here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-judgment-was-mine-when-i-introduced-bill-name-and-it-s-mine-today",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "That judgment was mine when I introduced {bill-name}, and it's mine today.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.name-me-anyone-reading-the-debate-should-be-able-to-tell-what-the-sponsor-of-bill-name-had-in-mind",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Name me. Anyone reading the debate should be able to tell what the sponsor of {bill-name} had in mind.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-point-me-out-i-d-be-happy-to-stay-and-talk-about-why-i-brought-bill-name-in",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can point me out. I'd be happy to stay and talk about why I brought {bill-name} in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-side-as-the-one-who-wrote-bill-name-you-ll-have-to-ask-the-others-where-they-stand",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "My side, as the one who wrote {bill-name}. You'll have to ask the others where they stand.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
       "key": "honor"
     },
     "elements": [
