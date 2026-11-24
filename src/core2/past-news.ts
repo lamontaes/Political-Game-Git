@@ -120,10 +120,10 @@ export function buildNewsArchive(
       jurisdiction: history.jurisdiction,
       body: history.body,
     };
-    // A law that moved nothing is not news (the amount in force the day it
-    // took effect is the amount in force the day before): the rate "still 16%".
-    // Only an amount law of the town's own chain can be read this way; a
-    // policy law, and another state's, are told as they are.
+    // What stood the day before the law took effect and what stands that day,
+    // on the record: the desk's one rule (`wireItem`) drops a law that moved
+    // nothing, as it does a live one. Only an amount law of the town's own
+    // chain carries them; a policy law, and another state's, are told as they are.
     const amount = row && row.unit && row.unit !== "program";
     const before = amount
       ? lawInForce(api, history.series, shiftDays(history.effectiveDate, -1))
@@ -132,12 +132,10 @@ export function buildNewsArchive(
     const after = amount
       ? lawInForce(api, history.series, history.effectiveDate).value
       : null;
-    if (
-      typeof before === "number" &&
-      typeof after === "number" &&
-      before === after
-    )
-      continue;
+    if (typeof before === "number" && typeof after === "number") {
+      (facts as Record<string, string>).priorValue = String(before);
+      (facts as Record<string, string>).inForceValue = String(after);
+    }
     add("law-enacted", history.id, history.enactedOn, facts, {
       topic: history.series,
       desiredChange: "enact",
