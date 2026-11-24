@@ -422,26 +422,30 @@
       "assessor": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "County assessor is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "County treasurer is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "Sheriff is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "Coroner is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       }
     },
     "IL": {
@@ -981,38 +985,67 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
       }
     },
     "NV": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected sheriffs."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "prosecutor": {
+        "title": "District attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected district attorneys."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "clerk": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county clerks."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county treasurers."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "assessor": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county assessors."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "coroner": {
         "elected": false,
