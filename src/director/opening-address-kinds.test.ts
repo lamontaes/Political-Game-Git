@@ -16,6 +16,9 @@ import {
 import { composeOpeningStory } from "./opening-story";
 import { ADDRESS_KINDS } from "./address-kind";
 import { composeLocalAddress } from "./local-address";
+import { composeCampaignSpeech } from "./local-speeches";
+import { townSeats } from "../core2/modules/offices";
+import { headsLocalExecutive } from "../core2/offices-executives";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
 
 // Which kinds' outline banks the test lets say every required section: a
@@ -37,6 +40,12 @@ vi.mock("../english/outline-planner", async (importOriginal) => {
               ...input.facts,
               "took-oath": {
                 text: "yes",
+                sourceRecordIds: input.sourceRecordIds,
+              },
+              // The inaugural's oath pieces say the years left; a mayor with
+              // no term end on the record has none, so the bank stands in.
+              "term-left": input.facts["term-left"] ?? {
+                text: "two years",
                 sourceRecordIds: input.sourceRecordIds,
               },
             },
@@ -248,6 +257,58 @@ describe("the State of the Union and the State of the State are told through the
           local.sentences.flatMap((row) => row.pieces).every(outlinePiece),
           `${where}: ${local.text}`,
         ).toBe(true);
+      expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
+        false,
+      );
+    } finally {
+      banks.say = new Set();
+    }
+  });
+});
+
+describe("the mayor's address and the campaign speech are told through the one outline planner", () => {
+  const outlinePiece = (piece: string) =>
+    partsOf("inaugural").some((part) => part.key === piece);
+  const seat = townSeats(coreAPI(core)).find((row) =>
+    headsLocalExecutive(row.office.kind),
+  );
+  /** The player's campaign speech for the town's executive seat, where the platform gives one. */
+  const campaign = () =>
+    seat && world.playerId
+      ? composeCampaignSpeech(core, world.playerId, seat.office.id, null)
+      : null;
+
+  it("falls back to the old composer while the kind's outline bank cannot say a required section", () => {
+    banks.say.clear();
+    WORDS_STOPGAP_HITS.clear();
+    const town = composeLocalAddress(core, "town");
+    const speech = campaign();
+    for (const told of [town, speech])
+      if (told)
+        expect(
+          told.sentences.flatMap((row) => row.pieces).some(outlinePiece),
+          `${where}: ${told.sentences.map((row) => row.text).join(" ")}`,
+        ).toBe(false);
+    if (town || speech)
+      expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
+        true,
+      );
+  });
+
+  it("says the outline planner's sentences where the kind's bank can say it", () => {
+    banks.say = new Set(["town-address", "campaign-speech"]);
+    try {
+      WORDS_STOPGAP_HITS.clear();
+      const town = composeLocalAddress(core, "town");
+      const speech = campaign();
+      for (const told of [town, speech])
+        if (told) {
+          expect(told.sentences.length, where).toBeGreaterThan(0);
+          expect(
+            told.sentences.flatMap((row) => row.pieces).every(outlinePiece),
+            `${where}: ${told.sentences.map((row) => row.text).join(" ")}`,
+          ).toBe(true);
+        }
       expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
         false,
       );
