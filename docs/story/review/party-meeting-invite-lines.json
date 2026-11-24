@@ -840,5 +840,171 @@
       "key": "favor-asked"
     },
     "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.last-time-you-heard-me-talk-about-prior-meeting-topic-will-you-come-back-meeting-when-i-d-like-to-hear-your-take",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Last time you heard me talk about {prior-meeting-topic}. Will you come back {meeting-when}? I'd like to hear your take.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when", "prior-meeting-topic"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-give-me-a-chance-to-hear-the-others-on-prior-meeting-topic-before-you-call-on-me",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come. Give me a chance to hear the others on {prior-meeting-topic} before you call on me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic"],
+        "after": "scene-talk.state-request.last-time-you-heard-me-talk-about-prior-meeting-topic-will-you-come-back-meeting-when-i-d-like-to-hear-your-take"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-pass-this-time-if-you-want-my-take-on-prior-meeting-topic-you-can-ask-me-here",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll pass this time. If you want my take on {prior-meeting-topic}, you can ask me here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic"],
+        "after": "scene-talk.state-request.last-time-you-heard-me-talk-about-prior-meeting-topic-will-you-come-back-meeting-when-i-d-like-to-hear-your-take"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.can-you-come-meeting-when-i-did-the-talking-on-prior-meeting-topic-last-time-what-did-i-leave-out",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Can you come {meeting-when}? I did the talking on {prior-meeting-topic} last time. What did I leave out?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when", "prior-meeting-topic"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.save-me-a-seat-there-s-a-question-on-prior-meeting-topic-i-d-rather-put-to-the-whole-room",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Save me a seat. There's a question on {prior-meeting-topic} I'd rather put to the whole room.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic"],
+        "after": "scene-talk.state-request.can-you-come-meeting-when-i-did-the-talking-on-prior-meeting-topic-last-time-what-did-i-leave-out"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-couldn-t-tell-you-what-you-missed-and-i-ll-have-to-miss-the-meeting-meeting-when",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I couldn't tell you what you missed. And I'll have to miss the meeting {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.can-you-come-meeting-when-i-did-the-talking-on-prior-meeting-topic-last-time-what-did-i-leave-out"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
