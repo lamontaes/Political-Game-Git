@@ -18,12 +18,16 @@
     {
       "name": "event canceled",
       "pulledBy": "a rally called off",
-      "writes": "the story says why"
+      "writes": "the story says why",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no side event",
       "pulledBy": "a single protest",
-      "writes": "the story ends on the main one"
+      "writes": "the story ends on the main one",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

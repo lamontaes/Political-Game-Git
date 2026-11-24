@@ -19,12 +19,16 @@
     {
       "name": "no successor yet",
       "pulledBy": "a search under way",
-      "writes": "the story says one has not been named"
+      "writes": "the story says one has not been named",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "an outside hire",
       "pulledBy": "a search that found someone",
-      "writes": "the story names where they come from"
+      "writes": "the story names where they come from",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

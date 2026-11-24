@@ -18,12 +18,16 @@
     {
       "name": "praise for the person",
       "pulledBy": "a short tribute",
-      "writes": "the mayor praises her service"
+      "writes": "the mayor praises her service",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no praise",
       "pulledBy": "a tense exit",
-      "writes": "the story gives only the dates"
+      "writes": "the story gives only the dates",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

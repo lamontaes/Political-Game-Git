@@ -18,12 +18,16 @@
     {
       "name": "opens on the ceremony",
       "pulledBy": "a night of tributes",
-      "writes": "the lede says what the council gave"
+      "writes": "the lede says what the council gave",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "opens on the number",
       "pulledBy": "a long service",
-      "writes": "the lede gives the years"
+      "writes": "the lede gives the years",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
