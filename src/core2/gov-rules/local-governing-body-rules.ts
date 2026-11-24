@@ -119,7 +119,7 @@ export function localGoverningBodyRules(
     termYears:
       readYears !== null
         ? { value: readYears, basis: "read" }
-        : form
+        : form?.termYears !== undefined
           ? { value: form.termYears, basis: "class-law" }
           : modalShare(typical.termYears),
   };

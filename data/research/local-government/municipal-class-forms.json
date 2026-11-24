@@ -77,6 +77,139 @@
         "citation": "Wis. Stat. § 61.20(1): \"Villages shall have 6 trustees, except as provided otherwise in sub. (3)\", \"whose term of office shall be 2 years, 3 of whom shall be elected each year\"; § 61.19: \"At the annual spring election in each village in odd-numbered years\" the electors choose \"A president\". A village of 350 or less has 2 trustees (§ 61.20(3)) and any village may change the number by ordinance (§ 61.20(4)): neither is read.",
         "url": "https://docs.legis.wisconsin.gov/statutes/statutes/61/23"
       }
+    },
+    "IA": {
+      "city": {
+        "seats": 5,
+        "termYears": 2,
+        "staggered": false,
+        "atLarge": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 2
+        },
+        "citation": "Iowa Code § 372.4(1)(a): \"A city governed by the mayor-council form has a mayor and five council members elected at large\"; § 376.2(2): \"Except as otherwise provided by state law or the city charter, terms for elective offices are two years\", and terms are staggered only after the voters change council terms to four years (§ 376.2(3)); § 376.1(1): \"A city shall hold a regular city election on the first Tuesday after the first Monday in November of each odd-numbered year.\" A city that reduced its council to three, elects by district, or changed its terms by petition and election is not read.",
+        "url": "https://www.legis.iowa.gov/docs/code/2026/372.4.pdf",
+        "timing": "odd-year-november-consolidated"
+      }
+    },
+    "OH": {
+      "village": {
+        "seats": 6,
+        "termYears": 4,
+        "staggered": true,
+        "atLarge": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
+        "citation": "Ohio Rev. Code § 731.09: \"the legislative authority, composed of six members, who shall be elected by the electors of the village at large, for terms of four years\", two elected at one municipal election and four at the next; § 733.24: \"The mayor of a village shall be elected for a term of four years\"; § 3501.01(B): \"Regular municipal election\" means the election held on the first Tuesday after the first Monday in November in each odd-numbered year. A village whose voters reduced its council to five (§ 731.09(B) to (D)) is not read.",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-731.09",
+        "timing": "odd-year-november-consolidated"
+      }
+    },
+    "NE": {
+      "village": {
+        "seats": 5,
+        "termYears": 4,
+        "staggered": true,
+        "chief": {
+          "title": "Chairperson of the Board of Trustees",
+          "directlyElected": false
+        },
+        "citation": "Neb. Rev. Stat. § 17-202: \"The corporate powers and duties of every village shall be vested in a board of trustees which shall consist of five members\"; at the first election \"two trustees shall be elected to serve two years and three trustees shall be elected to serve four years\", so the terms take turns; the statute provides no separately elected chief, and § 17-208 names \"the chairperson of the village board of trustees\". Whether trustees are elected at large is not stated: not read.",
+        "url": "https://law.justia.com/codes/nebraska/2020/chapter-17/statute-17-202/"
+      }
+    },
+    "AL": {
+      "town": {
+        "seats": 5,
+        "termYears": 4,
+        "staggered": false,
+        "atLarge": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
+        "citation": "Code of Ala. § 11-43-2(a): \"there shall be elected a mayor\" at the general election \"and quadrennially thereafter\"; (b): in cities and towns under 12,000, \"the legislative functions shall be exercised by the mayor and five aldermen\"; (d): \"The aldermen in the cities or towns shall be elected by the city or town at large at the general election held at the time provided by law, and quadrennially thereafter\", all at the one election. A town whose council chose wards (d), or that a local act changed, is not read; a city may be over 12,000 and is not read here.",
+        "url": "https://law.justia.com/codes/alabama/title-11/title-2/chapter-43/article-1/section-11-43-2"
+      }
+    },
+    "CO": {
+      "town": {
+        "seats": 6,
+        "termYears": 2,
+        "staggered": false,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 2
+        },
+        "citation": "C.R.S. § 31-4-301(1): a board of trustees \"consisting of one mayor and six trustees\"; (2): \"At the regular election, there shall be elected a mayor for a term of two years and six trustees for terms of two years.\" A town whose board adopted four-year overlapping terms by ordinance (31-4-301(5)) is not read; whether trustees are elected at large is not stated in these sections: not read.",
+        "url": "https://colorado.public.law/statutes/crs_31-4-301"
+      }
+    },
+    "MI": {
+      "village": {
+        "seats": 6,
+        "chief": {
+          "title": "Village President",
+          "directlyElected": true
+        },
+        "citation": "MCL 62.1(1): \"in each village, the following officers shall be elected: a president, 6 trustees, 1 clerk, and 1 treasurer\"; \"The president and trustees constitute the council.\" The section does not state the default term of a trustee or the president, or whether trustees are elected at large: not read. A village that reduced its trustees to 4 by ordinance (62.1(2)) is not read.",
+        "url": "https://www.legislature.mi.gov/documents/mcl/pdf/mcl-62-1.pdf"
+      }
+    },
+    "LA": {
+      "village": {
+        "seats": 3,
+        "atLarge": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true
+        },
+        "citation": "La. R.S. 33:382(A): \"the number of aldermen in a village shall be three\"; (B): \"Aldermen in villages shall be elected at large\"; R.S. 33:381(B): \"The mayor and chief of police in all municipalities shall be elected at large.\" The terms are not stated in these sections: not read. A board that changed its method by ordinance (33:382(D)) is not read.",
+        "url": "https://legis.la.gov/Legis/Law.aspx?d=90367"
+      },
+      "town": {
+        "seats": 5,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true
+        },
+        "citation": "La. R.S. 33:382(A): \"the number of aldermen in a town shall be five\"; R.S. 33:381(B): \"The mayor and chief of police in all municipalities shall be elected at large.\" A town may be divided into districts (33:382(B)), so the method is not read; the terms are not stated in these sections: not read.",
+        "url": "https://legis.la.gov/Legis/Law.aspx?d=90367"
+      }
+    },
+    "WA": {
+      "town": {
+        "seats": 5,
+        "termYears": 4,
+        "staggered": true,
+        "chief": {
+          "title": "Mayor",
+          "directlyElected": true,
+          "termYears": 4
+        },
+        "citation": "RCW 35.27.070: \"The government of a town shall be vested in a mayor and a council consisting of five members\", all elective; RCW 35.27.090: \"The term of office of the mayor and treasurer shall be four years\", \"Councilmembers shall be elected for four year terms\", \"three at one election and two at the next succeeding biennial election\", and \"All general municipal elections in towns shall be held biennially in the odd-numbered years\". Whether councilmembers are elected at large is not stated in these sections: not read.",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=35.27.090"
+      }
+    },
+    "MO": {
+      "village": {
+        "seats": 5,
+        "termYears": 2,
+        "staggered": true,
+        "chief": {
+          "title": "Chairman of the Board of Trustees",
+          "directlyElected": false
+        },
+        "citation": "RSMo 80.040: the board of trustees is \"to consist of five members, unless such town shall contain more than twenty-five hundred inhabitants\" and its voters choose nine; the first board serves terms of two and one years, and \"Thereafter all members shall serve for terms of two years\", so the terms take turns; RSMo 80.060: the board shall \"choose a chairman of their number\". Whether trustees are elected at large is not stated: not read. A village whose voters chose nine trustees is not read.",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=80.040"
+      }
     }
   }
 }

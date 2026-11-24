@@ -27,11 +27,21 @@ export interface MunicipalClassForm {
   readonly stateUsps: string;
   readonly municipalClass: string;
   readonly seats: number;
-  readonly termYears: number;
-  /** Whether the seats take turns, some up at each regular election. */
-  readonly staggered: boolean;
-  /** Whether every seat is elected by the whole town. */
-  readonly atLarge: boolean;
+  /**
+   * The statute's term for a member; absent where it gives none, and the
+   * term falls to the typical council's.
+   */
+  readonly termYears?: number;
+  /**
+   * Whether the seats take turns, some up at each regular election; absent
+   * where the statute does not say, and the seats take turns.
+   */
+  readonly staggered?: boolean;
+  /**
+   * Whether every seat is elected by the whole town; absent where the
+   * statute does not say, and the method stays the national estimate.
+   */
+  readonly atLarge?: boolean;
   /** When the class votes, where its statute sets it; else its state's timing. */
   readonly timing?: MunicipalElectionTiming;
   readonly chief: {

@@ -25,9 +25,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 interface Row {
   readonly seats: number;
-  readonly termYears: number;
-  readonly staggered: boolean;
-  readonly atLarge: boolean;
+  readonly termYears?: number;
+  readonly staggered?: boolean;
+  readonly atLarge?: boolean;
   readonly timing?: string;
   readonly chief: {
     readonly title: string;
@@ -97,9 +97,12 @@ describe(`a town has the council its class has in its state's law (seed ${seed})
         const { council, chief } = officesOf(unit!);
         const where = `${unit!.name} (${unit!.placeGeoid})`;
         expect(council!.seats, where).toBe(row.seats);
-        expect(council!.termYears, where).toBe(row.termYears);
-        expect(council!.staggered ?? true, where).toBe(row.staggered);
-        expect(council!.estimate, where).toBe(false);
+        // A term or staggering the statute does not give stays the typical
+        // council's: the seats take turns.
+        if (row.termYears !== undefined)
+          expect(council!.termYears, where).toBe(row.termYears);
+        expect(council!.staggered ?? true, where).toBe(row.staggered ?? true);
+        expect(council!.estimate, where).toBe(row.termYears === undefined);
         expect(council!.source, where).toContain(row.url);
         if (row.atLarge) {
           expect(council!.districted, where).toBe(false);

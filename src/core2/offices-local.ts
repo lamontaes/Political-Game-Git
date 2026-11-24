@@ -243,6 +243,11 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       title: "Council member",
       seats: body.seats.value,
       termYears: body.termYears?.value ?? null,
+      // A class whose statute elects the whole council at once (an Iowa
+      // city's five members, every two years).
+      ...(body.seats.basis === "class-law" && form?.staggered === false
+        ? { staggered: false }
+        : {}),
       elected: true,
       districted: (method?.wardSeats ?? 0) > 0,
       ...(method && method.wardSeats > 0
@@ -257,7 +262,12 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
         : form && body.seats.basis === "class-law"
           ? municipalClassSource(form)
           : "ICMA municipal form of government survey: the national typical council size and term",
-      estimate: body.seats.basis === "typical",
+      // An estimate where the size or the term is the national typical
+      // council's (a class whose statute gives the size but not the term).
+      estimate:
+        body.seats.basis === "typical" ||
+        (body.seats.basis === "class-law" &&
+          body.termYears?.basis === "typical"),
     });
   const chief = localChiefExecutiveRules(unit);
   if (chief)
