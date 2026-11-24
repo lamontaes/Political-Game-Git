@@ -22,6 +22,15 @@ const input = buildPopulation({
 });
 const core = createLifeCore(input, { modules: [viewsModule, newsModule] });
 const api = coreAPI(core);
+// The town runs its first week before the story, as a played world has run
+// before day one: a fresh core's housemates first share their week's home
+// time on its seventh day (people.ts, shareHomeTime), so a story published
+// on the core's first day could reach every resident of a town whose
+// outlets are quick before anyone has had a chance to tell it.
+advanceCore(
+  core,
+  addDays(makeIsoDate(core.date), api.parameter("daysPerWeek")),
+);
 const subject = [...core.people.values()].find(
   (row) => row.tier !== "husk" && row.alive,
 )!;
