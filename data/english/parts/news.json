@@ -1797,6 +1797,260 @@
       }
     },
     {
+      "key": "news.law.the-law-took-effect-in-place-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.place-has-been-under-the-law-since-date",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} has been under the {law} since {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.starting-date-the-law-is-the-rule-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "Starting {date}, the {law} is the rule in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-rules-under-the-law-came-into-effect-in-place-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The rules under the {law} came into effect in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.on-date-the-law-became-part-of-life-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "On {date}, the {law} became part of life in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.in-place-the-law-has-been-the-rule-since-date",
+      "move": "law",
+      "kind": "written",
+      "text": "In {place}, the {law} has been the rule since {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.date-was-the-first-day-of-the-law-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{date} was the first day of the {law} in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.what-the-law-requires-now-applies-in-place-as-of-date",
+      "move": "law",
+      "kind": "written",
+      "text": "What the {law} requires now applies in {place}, as of {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.people-in-place-have-been-living-under-the-law-since-date",
+      "move": "law",
+      "kind": "written",
+      "text": "People in {place} have been living under the {law} since {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-came-into-force-in-place-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} came into force in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-took-effect-on-date-in-place-and-the-rule-it-replace",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect on {date} in {place}, and the rule it replaced no longer applies.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.since-date-the-law-has-stood-in-place-of-the-old-rule-in-pla",
+      "move": "law",
+      "kind": "written",
+      "text": "Since {date}, the {law} has stood in place of the old rule in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
       "move": "law-amount",
       "kind": "written",
