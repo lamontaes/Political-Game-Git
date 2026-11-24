@@ -144,7 +144,7 @@
       "again": "the fee"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
-      "about": "public broadband",
+      "about": "public internet service for every home",
       "said": "internet service",
       "to": "build public broadband",
       "for": "build public broadband",
@@ -434,7 +434,7 @@
       "again": "the work requirement for assistance"
     },
     "us-policy-positions:education.universal-preschool": {
-      "about": "universal preschool",
+      "about": "preschool for every child",
       "said": "preschool",
       "to": "offer preschool to every child",
       "for": "offer preschool to every child",
@@ -1124,7 +1124,7 @@
       "again": "the affordable-housing requirement for new buildings"
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
-      "about": "rent stabilization",
+      "about": "a limit on how much rents can rise in a year",
       "said": "rents",
       "to": "limit how much rents can rise",
       "for": "limit how much rents can rise",
@@ -1427,7 +1427,7 @@
       "again": "the higher minimum wage"
     },
     "us-policy-positions:labor-workforce.paid-family-leave": {
-      "about": "paid family leave",
+      "about": "paid time off for a new baby or a sick relative",
       "said": "family leave",
       "to": "give workers paid family leave",
       "for": "give workers paid family leave",
@@ -2762,7 +2762,7 @@
       "again": "mail ballots"
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
-      "about": "automatic voter registration",
+      "about": "signing up eligible voters automatically",
       "said": "voter registration",
       "to": "register eligible voters automatically",
       "for": "register eligible voters automatically",
@@ -2817,7 +2817,7 @@
       "again": "automatic voter registration"
     },
     "us-policy-positions:government-operations.independent-redistricting": {
-      "about": "independent redistricting",
+      "about": "an independent commission to draw the district lines",
       "said": "the district lines",
       "to": "draw district lines with an independent commission",
       "for": "draw district lines with an independent commission",
