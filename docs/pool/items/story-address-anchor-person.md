@@ -34,3 +34,7 @@ checked:
 **Waits on.** Nothing. The packet code is on story/first-evening until it merges.
 
 **Files.** src/director/address-telling.ts (new), src/core2/modules/coverage.ts, src/core2/modules/health.ts, src/core2/modules/jobs.ts
+
+## Notes
+
+Nov 24, 21:04Z (the Story lead): built for two themes on #10390 (5321fa01), in its new address-anchor reader. Health is a care need with no coverage (`careNeedOf` and `coverageOf`); wages is the lowest hourly pay. The reader picks from the town where the address is watched, by the largest burden on record and never a draw. Its facts are `anchor-name`, `anchor-first`, `anchor-town` and touch flags, each cited, proven in four drawn worlds. Three themes still need a burden reader in their own module, each for that module's owner: housing (a rent-burden reader), hard times and the safety net (a household-income or assistance reader per person, since the residents module's `householdIncome` is per counted household), and public safety (a person's crime exposure or victimization record, since the crime module keeps place-level months only). Each theme is added the day its reader exists.
