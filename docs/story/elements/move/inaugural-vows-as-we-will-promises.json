@@ -1,0 +1,18 @@
+{
+  "id": "inaugural-vows-as-we-will-promises",
+  "kind": "move",
+  "summary": "A new mayor's swearing-in speech makes four parallel 'we will' promises.",
+  "realLife": "One mayor's inauguration made four 'we will' promises, listen, partner, put safety and housing first, build on local assets.",
+  "sources": [
+    "Kerry Thomson, Bloomington (Indiana) mayor, inauguration remarks, Jan 1, 2024: https://bloomington.in.gov/sites/default/files/2024-01/swearing%20in%20speech%201.1.24_0.pdf",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["office-title", "realm-name"],
+  "gates": ["inaugural"],
+  "weights": {
+    "town-address": 0.4
+  },
+  "usedBy": [],
+  "inGame": "candidate platform and the office's powers; the term start from offices"
+}

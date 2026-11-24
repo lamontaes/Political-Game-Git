@@ -1,0 +1,21 @@
+{
+  "id": "stump-the-vote-ask-is-soft",
+  "kind": "move",
+  "summary": "The ask is to join the campaign or work together; only one names the date and asks for support and money.",
+  "realLife": "Three of four ask people to join, work or help; one names the primary date and asks for support, volunteers and donations.",
+  "sources": [
+    "John Connolly, Boston city councilor, announcing for mayor, Feb 26, 2013 (Dorchester Reporter text): https://temp.dotnews.com/?p=61218",
+    "Jen Giattino, Hoboken councilmember, mayoral campaign kickoff, July 17, 2017 (Patch): https://patch.com/new-jersey/hoboken/hoboken-mayor-race-giattino-holds-campaign-kickoff",
+    "Michelle Mosby, former Richmond council president, announcing for mayor, Jan 25, 2024 (WTVR): https://wtvr.com/news/local-news/michelle-mosby-richmond-mayor-jan-25-2024",
+    "Bill Humphrey, Newton city councilor, kickoff for the 12th Middlesex state representative seat, Mar 26, 2024: https://bill-humphrey-9a8n.squarespace.com/newsletter/2024/3/27/state-representative-campaign-kickoff-speech-32624",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["office-title"],
+  "gates": ["campaign"],
+  "weights": {
+    "campaign-speech": 0.8
+  },
+  "usedBy": [],
+  "inGame": "the contest row gives the election date; donor and volunteer records exist in the campaigns module"
+}

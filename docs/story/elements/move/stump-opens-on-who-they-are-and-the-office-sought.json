@@ -1,0 +1,21 @@
+{
+  "id": "stump-opens-on-who-they-are-and-the-office-sought",
+  "kind": "move",
+  "summary": "The stump speech opens within a sentence or two on who the candidate is and the seat they want.",
+  "realLife": "All four campaign speeches read open with the speaker's identity and the office, a councilor, a former council president, a parent and teacher.",
+  "sources": [
+    "John Connolly, Boston city councilor, announcing for mayor, Feb 26, 2013 (Dorchester Reporter text): https://temp.dotnews.com/?p=61218",
+    "Jen Giattino, Hoboken councilmember, mayoral campaign kickoff, July 17, 2017 (Patch): https://patch.com/new-jersey/hoboken/hoboken-mayor-race-giattino-holds-campaign-kickoff",
+    "Michelle Mosby, former Richmond council president, announcing for mayor, Jan 25, 2024 (WTVR): https://wtvr.com/news/local-news/michelle-mosby-richmond-mayor-jan-25-2024",
+    "Bill Humphrey, Newton city councilor, kickoff for the 12th Middlesex state representative seat, Mar 26, 2024: https://bill-humphrey-9a8n.squarespace.com/newsletter/2024/3/27/state-representative-campaign-kickoff-speech-32624",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["office-title", "realm-name"],
+  "gates": ["campaign"],
+  "weights": {
+    "campaign-speech": 0.9
+  },
+  "usedBy": [],
+  "inGame": "candidate filing and office rows, and the person's current and past offices"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "mayor-closes-on-community-with-an-invitation",
+  "kind": "move",
+  "summary": "The close returns to the community and invites residents to take part or write.",
+  "realLife": "Five of six end by asking residents or partners to stay involved or by returning to a theme.",
+  "sources": [
+    "Kerry Thomson, Bloomington (Indiana) mayor, inauguration remarks, Jan 1, 2024: https://bloomington.in.gov/sites/default/files/2024-01/swearing%20in%20speech%201.1.24_0.pdf",
+    "Charles Patricelli, Watervliet (New York) mayor, State of the City, Feb 20, 2025: https://watervlietny.gov/wp-content/uploads/2025/02/State-of-City-2025_JPR-Edits.pdf",
+    "Jen Metzger, Ulster County (New York) executive, State of the County, Feb 18, 2026: https://www.ulstercountyny.gov/files/assets/countysite/v/1/county-executive/documents/state-of-the-county-2026/ulster-county-executive-2026-state-of-the-county-address-english.pdf",
+    "Derrick Wood, Dumfries (Virginia) mayor, State of the Town, June 5, 2025: https://derrickrwood.com/news/2025-state-of-town-transcript",
+    "Joseph Winfield, Oro Valley (Arizona) mayor, State of the Town, Oct 30, 2025: https://www.orovalleyaz.gov/files/assets/public/v/1/documents/mayor-and-council/state-of-the-town/2025-state-of-the-town-address-transcript.pdf",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["realm-name"],
+  "gates": ["state-of-the-city"],
+  "weights": {
+    "town-address": 0.8
+  },
+  "usedBy": [],
+  "inGame": "the place record and the town's own civic bodies"
+}

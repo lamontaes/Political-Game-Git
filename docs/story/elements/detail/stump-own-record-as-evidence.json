@@ -1,0 +1,20 @@
+{
+  "id": "stump-own-record-as-evidence",
+  "kind": "detail",
+  "summary": "The candidate's own votes or committee work stand in for proof.",
+  "realLife": "Three of four candidates cite their own record on a council or committee as proof.",
+  "sources": [
+    "John Connolly, Boston city councilor, announcing for mayor, Feb 26, 2013 (Dorchester Reporter text): https://temp.dotnews.com/?p=61218",
+    "Jen Giattino, Hoboken councilmember, mayoral campaign kickoff, July 17, 2017 (Patch): https://patch.com/new-jersey/hoboken/hoboken-mayor-race-giattino-holds-campaign-kickoff",
+    "Michelle Mosby, former Richmond council president, announcing for mayor, Jan 25, 2024 (WTVR): https://wtvr.com/news/local-news/michelle-mosby-richmond-mayor-jan-25-2024",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["record"],
+  "gates": ["campaign"],
+  "weights": {
+    "campaign-speech": 0.7
+  },
+  "usedBy": [],
+  "inGame": "votes cast and bills carried by the candidate in the legislature module"
+}
