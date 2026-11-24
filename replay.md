@@ -326,3 +326,9 @@ Alexis NC 85a230de12f5, Loudon NH 03475ffc-637d-433f-8ee8-a6e75f6e0f91. Picture:
 - Since / In office since: pass (both 2021).
 - P17, C17 on the President: **pass**: the record and the story balance across the two right columns (card 506 px at Alexis, 539 px at Loudon); no empty column; stands in plain words ("A lawyer for tenants facing eviction: Against", "Photo ID to vote: For", "A higher age for juvenile court: For").
 - Sheriff (481 px) and commissioner: pass, no scroller, nothing below the panel.
+
+## #10337 at b9ab1b05, the Coordinator's three checks (21:13Z)
+
+1. President's card columns end together, no empty third: **pass** (506 px Alexis, 539 px Loudon; replay-phA-grid.png).
+2. Stands on the public record in the question's plain words: **partial**: "A lawyer for tenants facing eviction: Against", "Photo ID to vote: For" and "A higher age for juvenile court: For" are plain, but "Public broadband: For" (Alexis) and "Universal preschool: Against" (both places) still read as catalog names. My earlier "stands in plain words" was too broad.
+3. Sheriff and commissioner: **pass**.
