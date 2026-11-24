@@ -2,7 +2,24 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested. Verdicts carry by exact text; lines not judged before were read blind (chunk LA, 131 lines, calibration 8/8, with 30 earlier-graded lines mixed in).
 
-## story/w-loading at `399d8886` (newest): 201 of 220 pass
+## story/w-loading at `5f0e9b99` (newest): 201 of 206 pass
+
+- Since 399d8886: the 13 failed "now" lines and the 6 older failed lines were cut (94798d88, 00922c81), and 5 new "now" lines were added (5f0e9b99). The 5 were read blind in chunk NI (calibration 8/8; 21 of 30 earlier-graded lines got the same verdict again). None of the 5 pass.
+- Two of the fails are about the facts, not taste, and I checked them against the drawn input on this branch (`scripts/sameness/inputs/loading-story-drawn.jsonl`):
+  - {governor-party} fills "Democratic" or "Republican", so "is a {governor-party}" plays "The governor of Nebraska is a Democratic".
+  - "the state of {state}" is false where the place is in D.C. or a territory, and one drawn place is Piñas, Puerto Rico. D.C. also has no governor or state legislature.
+- The other fails are this reader's call. Four of the five end on "you can look up who / it's easy to find / you can visit / you can look it up". So does the passing "Someone in {place} runs the town, and in {start-month} {start-year} you can find out who." Read together, the reader judged them one shape, and judged that they withhold a name the records hold.
+- Not played: one "now" line shows per life.
+
+### Failing lines (new)
+
+- `outline-loading.now.someone-speaks-for-place-in-congress-and-in-start-month-start-year-you-can-look`: "Someone speaks for {place} in Congress, and in {start-month} {start-year} you can look up who." — never-met-is-never-the-only-line: It hides a name the records hold behind 'someone... you can look up who', which tells the player nothing about where they stand.
+- `outline-loading.now.in-start-month-start-year-the-state-of-state-has-a-legislature-a-governor-and-co`: "In {start-month} {start-year}, the state of {state} has a legislature, a governor and courts, and you can visit all of them." — vary-the-shape: A list of facts true of every state with a 'you can visit' tag, the same shape as the other now rows, and false for D.C. or a territory filling 'the state of'.
+- `outline-loading.now.the-white-house-is-start-president-party-in-start-month-start-year-and-the-perso`: "The White House is {start-president-party} in {start-month} {start-year}, and the person who holds it was elected by people who live in places like {place}." — vary-the-shape: 'The White House is Democratic' is awkward, 'the person who holds it' hides a name the records hold, and 'places like' may be false for how the town voted.
+- `outline-loading.now.the-governor-of-state-is-a-governor-party-and-the-name-is-easy-to-find-in-start`: "The governor of {state} is a {governor-party}, and the name is easy to find in {start-month} {start-year}." — vary-the-shape: The adjective fill makes 'is a Democratic' ungrammatical, and 'the name is easy to find' hides the governor's name in the same dodge as the other now rows.
+- `outline-loading.now.what-you-know-about-place-in-start-month-start-year-is-mostly-what-you-have-seen`: "What you know about {place} in {start-month} {start-year} is mostly what you have seen. The rest is on record, and you can look it up." — vary-the-shape: Same 'you can look it up' dodge as the other now rows, and it says nothing about where the player stands.
+
+## story/w-loading at `399d8886`: 201 of 220 pass
 
 - Since 342ea9a9: the 3 failed lines were cut (5bf8ab05), and 17 plain "now" lines were added (399d8886). The 17 were read blind in chunk NH (calibration 8/8; 22 of 30 earlier-graded lines got the same verdict again). 4 of the 17 pass.
 - Several of the 17 fail for sharing one shape ("..., and in {start-month} {start-year} you ...") or one idea (the town ran without you; the levels of government). Where rows repeat each other, the reader kept one; a cut of the kept row leaves its twin a candidate for a regrade.
