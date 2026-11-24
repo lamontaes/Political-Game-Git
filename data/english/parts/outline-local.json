@@ -2834,26 +2834,6 @@
       "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
-      "key": "outline-local.running.i-m-asking-you-to-keep-me-as-your-and-is-the-reason",
-      "move": "running",
-      "kind": "spoken",
-      "text": "I'm asking you to keep me as your {office-title}, and {theme-name} is the reason.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "running",
-          "tie": "record",
-          "requiresFacts": ["office-title", "theme-name", "incumbent"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-proud", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
       "key": "outline-local.running.i-ve-held-this-seat-and-the-work-on-isn-t-finished",
       "move": "running",
       "kind": "spoken",
@@ -2937,26 +2917,6 @@
         }
       ],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "outline-local.send-off.give-someone-new-a-chance-as",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Give someone new a chance as {office-title}, {realm-bare}.",
-      "uses": [
-        {
-          "subject": "campaign-speech",
-          "role": "send-off",
-          "tie": "record",
-          "requiresFacts": ["office-title", "realm-bare", "challenger"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-ambitious", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
