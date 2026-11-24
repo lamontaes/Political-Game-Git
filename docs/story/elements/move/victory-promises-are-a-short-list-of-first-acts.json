@@ -30,5 +30,11 @@
       "pulledBy": "a modest or cautious speaker; a seat with few powers",
       "writes": "the speech says only that the work starts tomorrow"
     }
+  ],
+  "issues": [
+    "law:property-tax",
+    "budget:housing",
+    "budget:police",
+    "budget:highways"
   ]
 }
