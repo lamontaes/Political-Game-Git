@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // A list row with a long name and an aside keeps its words whole, in a real browser on the bench
 // (npm run bench) (owner, Nov 16, N16-58: "it's squished right here"): in a 290 px list, "Council
 // member (District 2) · County office" with "Filing opens April 3, 2026" takes at most two lines
