@@ -246,6 +246,11 @@
       "h3.travel-group wraps under 1.3 leading": 1,
       "h2 wraps under 1.3 leading": 1,
       "h3.sechead wraps under 1.3 leading": 1
+    },
+    "Person card from Politics [person]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
     }
   },
   "title": {
@@ -254,6 +259,9 @@
     },
     "news [sheet]": {
       "b.news-headline over a picture": 1
+    },
+    "Person card from Politics [person]": {
+      "h2.strip-name over a picture": 1
     }
   }
 }
