@@ -3557,6 +3557,540 @@
         "key": "favor-asked"
       },
       "bearing": "tired"
+    },
+    {
+      "key": "scene-talk-office.state-request.does-agency-help-people-practice-for-interviews-i-d-like-to-talk-to-somebody-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Does {agency} help people practice for interviews? I'd like to talk to somebody there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-could-use-another-pair-of-eyes-on-my-r-sum-could-you-introduce-me-to-someone-at-agency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I could use another pair of eyes on my r\u00e9sum\u00e9. Could you introduce me to someone at {agency}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-want-to-know-what-training-i-could-get-through-agency-can-you-help-me-reach-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to know what training I could get through {agency}. Can you help me reach them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.who-at-agency-could-tell-me-how-to-apply-for-unemployment",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Who at {agency} could tell me how to apply for unemployment?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-knew-where-to-look-for-work-like-my-job-at-employer-where-do-i-go-if-i-want-to-try-something-else",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I knew where to look for work like my job at {employer}. Where do I go if I want to try something else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "solemn"
+    },
+    {
+      "key": "scene-talk-office.state-request.i-want-to-work-again-could-you-ask-agency-who-s-hiring",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to work again. Could you ask {agency} who's hiring?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"]
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-like-someone-at-agency-to-read-my-r-sum-with-me-i-don-t-know-what-to-leave-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd like someone at {agency} to read my r\u00e9sum\u00e9 with me. I don't know what to leave in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-d-like-agency-to-run-through-an-interview-with-me-so-i-can-practice-answering-out-loud",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd like {agency} to run through an interview with me so I can practice answering out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.ask-agency-where-i-can-train-for-a-different-kind-of-work",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask {agency} where I can train for a different kind of work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-ask-agency-about-training-what-do-you-want-to-find-out"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.ask-agency-what-paperwork-i-ll-need-to-file-for-unemployment",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask {agency} what paperwork I'll need to file for unemployment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "anxious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.tell-them-what-i-did-at-employer-i-want-to-know-who-else-needs-somebody-with-that-experience",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Tell them what I did at {employer}. I want to know who else needs somebody with that experience.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.reply-ask.what-would-you-like-agency-to-know-about-your-last-job"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "solemn"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.a-name-at-agency-would-help-i-d-like-to-speak-to-the-person-who-knows-about-openings",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A name at {agency} would help. I'd like to speak to the person who knows about openings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.reply-ask.if-i-get-someone-from-agency-on-the-phone-what-do-you-want-to-ask-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.could-agency-help-me-explain-the-layoff-at-employer-when-i-interview",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Could {agency} help me explain the layoff at {employer} when I interview?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "ask"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-want-to-ask-agency-what-happens-to-health-coverage-after-a-layoff-like-mine-at-employer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want to ask {agency} what happens to health coverage after a layoff like mine at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "ask"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you want to practice with someone from {agency}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.does-agency-help-people-practice-for-interviews-i-d-like-to-talk-to-somebody-there"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What should the person at {agency} look at first on your r\u00e9sum\u00e9?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-could-use-another-pair-of-eyes-on-my-r-sum-could-you-introduce-me-to-someone-at-agency"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-i-ask-agency-about-training-what-do-you-want-to-find-out",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If I ask {agency} about training, what do you want to find out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-want-to-know-what-training-i-could-get-through-agency-can-you-help-me-reach-them"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need to know from {agency} before you file?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.who-at-agency-could-tell-me-how-to-apply-for-unemployment"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.what-would-you-like-agency-to-know-about-your-last-job",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you like {agency} to know about your last job?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency", "employer"],
+          "after": "scene-talk-office.state-request.i-knew-where-to-look-for-work-like-my-job-at-employer-where-do-i-go-if-i-want-to-try-something-else"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.if-i-get-someone-from-agency-on-the-phone-what-do-you-want-to-ask-them",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If I get someone from {agency} on the phone, what do you want to ask them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-work", "agency"],
+          "after": "scene-talk-office.state-request.i-want-to-work-again-could-you-ask-agency-who-s-hiring"
+        }
+      ],
+      "elements": ["layoff-orientation-with-rapid-response"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
     }
   ]
 }
