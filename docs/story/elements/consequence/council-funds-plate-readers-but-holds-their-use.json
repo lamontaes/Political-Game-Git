@@ -7,23 +7,14 @@
     "KTVU FOX 2 (Alameda, California), 'City of Alameda approves funding controversial license plate readers but holds off on their use', Feb 8, 2018: https://www.ktvu.com/news/city-of-alameda-approves-funding-controversial-license-plate-readers-but-holds-off-on-their-use",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "law",
-    "count",
-    "percent",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "percent", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "a budget line for equipment and a policy hold on its use; needs: a conditional spend on a budget line",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "the money is approved but locked",

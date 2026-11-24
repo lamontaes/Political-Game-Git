@@ -7,25 +7,15 @@
     "Fox News (Purcellville, Virginia), 'Virginia town backs away from dissolving police department after citizen uproar', April 23, 2025: https://www.foxnews.com/us/virginia-town-backs-away-from-dissolving-police-department-after-citizen-uproar.amp",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "date"],
   "gates": [],
   "weights": {
     "roll-call": 0.5,
     "budget-vote": 0.5
   },
   "inGame": "the police budget line, the recall petitions, a conflict-of-interest finding; needs: a reversal vote and a recall petition record",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "the reversal a week later",

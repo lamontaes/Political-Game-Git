@@ -8,23 +8,14 @@
     "WTKR News 3 (Chesapeake, Virginia), 'Chesapeake Police Chief addresses burglaries in Western Branch with neighbors', Dec 6, 2016: https://www.wtkr.com/2016/12/06/chesapeake-police-chief-addresses-burglaries-in-western-branch-with-neighbors",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "burglary",
-    "robbery",
-    "body",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["burglary", "robbery", "body", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "resident opinion on safety and recent crimes near them; needs: a fear-of-crime reading per neighborhood",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "neighbors ask for patrols",

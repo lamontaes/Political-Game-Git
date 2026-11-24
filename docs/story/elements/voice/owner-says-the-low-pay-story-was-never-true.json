@@ -7,23 +7,14 @@
     "CBS News Chicago (Chicago, Illinois), 'Tipped minimum wage set to go up in Chicago July 1, and some restaurateurs aren't pleased', June 23, 2025: https://www.cbsnews.com/amp/chicago/news/tipped-minimum-wage-chicago-some-restaurateurs-not-pleased",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "law",
-    "count",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "law", "count", "body"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.5
   },
   "inGame": "tipped-wage law record, business payroll and prices; needs: tips as a separate pay record",
-  "issues": [
-    "law:minimum-wage"
-  ],
+  "issues": ["law:minimum-wage"],
   "turns": [
     {
       "name": "owner disputes the premise",
@@ -37,17 +28,13 @@
       "pulledBy": "a trade group asked about compliance",
       "writes": "the story quotes the group telling owners to pay the shortfall",
       "requiresFacts": [],
-      "excludesFacts": [
-        "owner-dispute"
-      ]
+      "excludesFacts": ["owner-dispute"]
     },
     {
       "name": "advocates say owners are not paying it",
       "pulledBy": "an advocate group that checked pay stubs",
       "writes": "the story quotes a compliance dispute and no resolution",
-      "requiresFacts": [
-        "delayed"
-      ],
+      "requiresFacts": ["delayed"],
       "excludesFacts": []
     }
   ],

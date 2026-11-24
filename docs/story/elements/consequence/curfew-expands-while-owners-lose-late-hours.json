@@ -7,49 +7,34 @@
     "CBS News Philadelphia (Philadelphia, Pennsylvania), 'Philadelphia's overnight business curfew expands again, covering more North Philly neighborhoods', September 11, 2025: https://www.cbsnews.com/amp/philadelphia/news/kensington-curfew-philadelphia-food-trucks",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "law",
-    "count",
-    "percent",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "percent", "date"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.8
   },
   "inGame": "ordinance record, crime counts, business hours and sales; needs: overnight closing as a local-power law and a crime tally by neighborhood",
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "turns": [
     {
       "name": "the sponsor credits the rule and widens it",
       "pulledBy": "a sharp fall in violent crime after the rule",
       "writes": "the council widens the area and the rule spreads",
-      "requiresFacts": [
-        "up"
-      ],
+      "requiresFacts": ["up"],
       "excludesFacts": []
     },
     {
       "name": "business groups force a recall vote",
       "pulledBy": "a coalition of owners with a legal backer",
       "writes": "the council reconsiders the widened rule",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     },
     {
       "name": "the mayor lets it pass unsigned",
       "pulledBy": "an executive whose lawyers have doubts",
       "writes": "the law takes effect without her signature",
-      "requiresFacts": [
-        "delayed"
-      ],
+      "requiresFacts": ["delayed"],
       "excludesFacts": []
     }
   ],

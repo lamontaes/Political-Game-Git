@@ -7,25 +7,15 @@
     "TownLift (Park City, Utah), 'Park City Council rescinds doubled salaries, directs staff to draft a smaller raise', June 12, 2026: https://townlift.com/2026/06/park-city-council-rescinds-doubled-salaries-directs-staff-to-draft-a-smaller-raise/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "percent",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "percent", "date"],
   "gates": [],
   "weights": {
     "pay-vote": 0.7,
     "roll-call": 0.4
   },
   "inGame": "the pay ordinance, the salary schedule, the public-comment record; needs: a rescission step and a straw poll record",
-  "issues": [
-    "government"
-  ],
+  "issues": ["government"],
   "turns": [
     {
       "name": "a smaller raise is drafted",

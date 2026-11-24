@@ -8,49 +8,34 @@
     "CBS News Bay Area (Oakland, California), 'A Tale Of Two Cities: Oakland Workers Celebrate Minimum Wage Hike As Business Owners Worry', February 27, 2015: https://www.cbsnews.com/amp/sanfrancisco/news/a-tale-of-two-cities-oakland-workers-celebrate-minimum-wage-hike-as-business-owners-worry",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "quote",
-    "law"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "quote", "law"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.5
   },
   "inGame": "a worker's wage, hours and money-stress drive; the employer's hours decision",
-  "issues": [
-    "law:minimum-wage"
-  ],
+  "issues": ["law:minimum-wage"],
   "turns": [
     {
       "name": "pure joy at the raise",
       "pulledBy": "a worker whose employer has not cut hours",
       "writes": "the story quotes relief about money",
       "requiresFacts": [],
-      "excludesFacts": [
-        "down"
-      ]
+      "excludesFacts": ["down"]
     },
     {
       "name": "glad but afraid for shifts",
       "pulledBy": "a worker whose employer talks of cutting hours",
       "writes": "the story quotes the raise and the fear together",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     },
     {
       "name": "the fear comes true",
       "pulledBy": "an employer who cut the hours after the step",
       "writes": "the story follows up with a smaller paycheck",
-      "requiresFacts": [
-        "down",
-        "delayed"
-      ],
+      "requiresFacts": ["down", "delayed"],
       "excludesFacts": []
     }
   ],

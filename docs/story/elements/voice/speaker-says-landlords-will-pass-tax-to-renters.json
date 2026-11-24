@@ -8,23 +8,15 @@
     "Yahoo News (Providence, Rhode Island), 'Providence residents, business owners weigh in on mayor's budget proposal', date not shown on the page: https://www.yahoo.com/news/providence-residents-business-owners-weigh-015815807.html",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "quote",
-    "percent"
-  ],
+  "fits": ["news"],
+  "slots": ["quote", "percent"],
   "gates": [],
   "weights": {
     "budget": 0.5,
     "property-tax": 0.5
   },
   "inGame": "rent paid by renter households and landlord costs; the tax a rental property pays; needs: a pass-through of tax into rent that a speaker can cite",
-  "issues": [
-    "law:property-tax",
-    "budget:housing"
-  ],
+  "issues": ["law:property-tax", "budget:housing"],
   "turns": [
     {
       "name": "a renter says the pass-through already happened",

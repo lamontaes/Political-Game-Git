@@ -7,25 +7,15 @@
     "StarNews via Yahoo (Leland, North Carolina), 'Amid cries for no tax increase, Leland asks for less from residents in new budget', Apr 19, 2024: https://www.yahoo.com/news/amid-cries-no-tax-increase-150436491.html",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "percent",
-    "count",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["percent", "count", "body"],
   "gates": [],
   "weights": {
     "budget": 0.7,
     "property-tax": 0.6
   },
   "inGame": "the town's levy rate and its capital lines for roads and parks; the council's vote to hold another hearing; needs: a revised-budget stage that keeps the first proposal beside the second",
-  "issues": [
-    "law:property-tax",
-    "budget:highways",
-    "budget:parks"
-  ],
+  "issues": ["law:property-tax", "budget:highways", "budget:parks"],
   "turns": [
     {
       "name": "the revised rate is still opposed",

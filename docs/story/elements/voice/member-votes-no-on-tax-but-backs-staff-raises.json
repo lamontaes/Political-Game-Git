@@ -7,25 +7,15 @@
     "WFDD (Greensboro, North Carolina), 'Greensboro City Council passes $751M budget with property tax increase', June 21, 2023: https://wfdd.org/story/greensboro-city-council-passes-751m-budget-property-tax-increase-0",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "percent",
-    "count"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "percent", "count"],
   "gates": [],
   "weights": {
     "roll-call": 0.6,
     "budget-vote": 0.5
   },
   "inGame": "the vote record with each member's side, the budget's tax-rate change, the public-safety departure count; needs: a stated reason kept per member beside the vote",
-  "issues": [
-    "taxes-finance"
-  ],
+  "issues": ["taxes-finance"],
   "turns": [
     {
       "name": "no on the tax, yes on the raises",

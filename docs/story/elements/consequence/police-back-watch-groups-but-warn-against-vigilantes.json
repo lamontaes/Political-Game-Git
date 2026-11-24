@@ -7,23 +7,14 @@
     "Patch (East Brunswick, New Jersey), 'Highlights From East Brunswick Police Public Meeting On Burglaries', Nov 28, 2022: https://patch.com/new-jersey/eastbrunswick/highlights-east-brunswick-police-public-meeting-burglaries",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "burglary",
-    "count",
-    "percent",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["burglary", "count", "percent", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "a watch-group membership record and a home-check service; needs: a neighborhood-group tie in the people records",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "residents form a watch group",

@@ -7,22 +7,14 @@
     "FOX19 (Bellevue, Kentucky), 'Bellevue approves installation of new Flock cameras', Dec 10, 2025: https://www.fox19.com/2025/12/11/bellevue-approves-installation-new-flock-cameras/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "law",
-    "count",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "date"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "council vote record with a tie-break and a contract end date; needs: a contract term and renewal date on a budget item",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "the mayor breaks the tie for",

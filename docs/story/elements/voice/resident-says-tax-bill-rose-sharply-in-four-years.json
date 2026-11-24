@@ -7,23 +7,15 @@
     "Riverhead News Review (Riverhead, New York), 'Residents push back on tax hikes in prelim 2026 town budget', Nov 11, 2025: https://riverheadnewsreview.timesreview.com/2025/11/129921/residents-push-back-on-tax-hikes-in-prelim-2026-riverhead-town-budget/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "quote",
-    "percent",
-    "count"
-  ],
+  "fits": ["news"],
+  "slots": ["quote", "percent", "count"],
   "gates": [],
   "weights": {
     "budget": 0.6,
     "property-tax": 0.5
   },
   "inGame": "a household's tax paid year over year from the property-tax record and its income; the resident's stated reasons; needs: a hearing speaker record that keeps what a person said at the microphone",
-  "issues": [
-    "law:property-tax"
-  ],
+  "issues": ["law:property-tax"],
   "turns": [
     {
       "name": "the bill rose and the speaker names the dollar change",

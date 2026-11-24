@@ -7,25 +7,15 @@
     "12 On Your Side (Richmond, Virginia), 'Lawsuit challenges Diamond District baseball stadium plan', May 10, 2024: https://www.12onyourside.com/2024/05/10/lawsuit-challenges-diamond-district-baseball-stadium-plan/?outputType=amp",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "date"],
   "gates": [],
   "weights": {
     "roll-call": 0.5,
     "bond-vote": 0.6
   },
   "inGame": "the bond ordinance, a petition-for-referendum path, a court filing; needs: a lawsuit record and a referendum step",
-  "issues": [
-    "infrastructure"
-  ],
+  "issues": ["infrastructure"],
   "turns": [
     {
       "name": "a suit the next morning",

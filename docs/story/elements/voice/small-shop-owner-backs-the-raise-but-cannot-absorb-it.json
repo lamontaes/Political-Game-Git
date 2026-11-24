@@ -7,23 +7,14 @@
     "KSTP (St. Paul, Minnesota), 'St. Paul's new minimum wage for small businesses is helping workers, posing challenges for owners', July 2025: https://kstp.com/kstp-news/top-news/st-pauls-new-minimum-wage-for-small-businesses-is-helping-workers-not-so-much-owners/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "law",
-    "body",
-    "percent"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "law", "body", "percent"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.5
   },
   "inGame": "a business owner's stated reasons, the minimum-wage law record and the owner's payroll and menu prices; needs: a business owner's spoken stance kept on the interview record",
-  "issues": [
-    "law:minimum-wage"
-  ],
+  "issues": ["law:minimum-wage"],
   "turns": [
     {
       "name": "agrees in principle, then lists the costs",
@@ -37,17 +28,13 @@
       "pulledBy": "an owner whose pay was already above the new level",
       "writes": "the story quotes approval and no cost",
       "requiresFacts": [],
-      "excludesFacts": [
-        "thin-margins"
-      ]
+      "excludesFacts": ["thin-margins"]
     },
     {
       "name": "the complaint comes later",
       "pulledBy": "an owner who adjusts first and talks only after the first full payroll",
       "writes": "the story waits a month to quote the strain",
-      "requiresFacts": [
-        "delayed"
-      ],
+      "requiresFacts": ["delayed"],
       "excludesFacts": []
     }
   ],

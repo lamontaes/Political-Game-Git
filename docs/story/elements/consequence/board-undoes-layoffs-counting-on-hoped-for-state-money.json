@@ -7,22 +7,15 @@
     "Chalkbeat Chicago (Chicago, Illinois), 'Seeking to reverse layoffs, Chicago school board approves budget, assuming more state money will come', Jul 31, 2026: https://www.chalkbeat.org/chicago/2026/07/31/seeking-to-reverse-layoffs-chicago-school-board-approves-budget-assuming-more-state-money-will-come/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "count",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["count", "body"],
   "gates": [],
   "weights": {
     "budget": 0.7,
     "schools": 0.6
   },
   "inGame": "a district's budget with a revenue line that depends on a state decision; borrowing for payroll; needs: an assumed-revenue line and a payroll-borrowing check",
-  "issues": [
-    "budget:schools"
-  ],
+  "issues": ["budget:schools"],
   "turns": [
     {
       "name": "the state money arrives",

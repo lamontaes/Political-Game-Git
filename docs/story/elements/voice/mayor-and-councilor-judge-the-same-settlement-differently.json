@@ -7,25 +7,15 @@
     "Yahoo News (Pueblo, Colorado), 'Pueblo City Council votes against mayor, approves settlement with church over RV code', September 27, 2023: https://www.yahoo.com/news/pueblo-city-council-votes-against-214756284.html",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "law"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "law"],
   "gates": [],
   "weights": {
     "roll-call": 0.5,
     "settlement-vote": 0.6
   },
   "inGame": "the settlement record, the insurance deductible, the enforcement rule; needs: an executive who is on record against a settlement the body passes",
-  "issues": [
-    "government"
-  ],
+  "issues": ["government"],
   "turns": [
     {
       "name": "the mayor calls it a surrender",

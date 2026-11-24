@@ -7,23 +7,14 @@
     "Patch (Berlin, Connecticut), 'Deja vu: Berlin voters reject town, school budgets, now town officials', May 27, 2026: https://patch.com/connecticut/berlin/deja-vu-berlin-voters-reject-town-school-budgets-now-town-officials",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "count",
-    "percent",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["count", "percent", "body"],
   "gates": [],
   "weights": {
     "budget": 0.7
   },
   "inGame": "a budget referendum record with its turnout and advisory answers; the charter's referendum limit; needs: a charter limit on referendum rounds and an advisory-reason record",
-  "issues": [
-    "law:property-tax",
-    "budget:schools"
-  ],
+  "issues": ["law:property-tax", "budget:schools"],
   "turns": [
     {
       "name": "the second vote also fails and the council decides",

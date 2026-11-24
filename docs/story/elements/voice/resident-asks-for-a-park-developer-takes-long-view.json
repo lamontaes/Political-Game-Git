@@ -7,25 +7,15 @@
     "CBS Sacramento (Sacramento, California), 'East Sacramento residents vowing to stop McKinley Park Village after council vote', April 30, 2014: https://cbsnews.com/sacramento/news/east-sacramento-residents-vowing-to-stop-mckinley-park-village-after-council-vote/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "place"],
   "gates": [],
   "weights": {
     "public-comment": 0.6,
     "roll-call": 0.4
   },
   "inGame": "the public-comment list, the housing project record, the vote; needs: a resident's stated alternative kept with the comment",
-  "issues": [
-    "housing"
-  ],
+  "issues": ["housing"],
   "turns": [
     {
       "name": "a resident asks for a park",

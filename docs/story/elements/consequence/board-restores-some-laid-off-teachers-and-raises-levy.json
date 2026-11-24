@@ -7,24 +7,15 @@
     "ABC7 New York (Bayonne, New Jersey), 'Bayonne BOE votes to restore some laid off teachers, but raise property taxes', date not shown on the page: https://abc7ny.com/post/bayonne-boe-votes-to-restore-some-laid-off-teachers-but-raise-property-taxes/1970099/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "count",
-    "percent",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["count", "percent", "body"],
   "gates": [],
   "weights": {
     "budget": 0.7,
     "schools": 0.6
   },
   "inGame": "school staff records of layoffs and rehiring; the district's levy and deficit; needs: a rehire date on a laid-off job",
-  "issues": [
-    "budget:schools",
-    "law:property-tax"
-  ],
+  "issues": ["budget:schools", "law:property-tax"],
   "turns": [
     {
       "name": "some staff return at once and some later",

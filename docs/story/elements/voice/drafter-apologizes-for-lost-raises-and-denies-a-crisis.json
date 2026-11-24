@@ -7,25 +7,15 @@
     "WPLN (Nashville, Tennessee), 'Nashville council rejects property tax hike, finalizing budget that pinches schools and city staff', June 20, 2018: https://wpln.org/post/nashville-council-rejects-property-tax-hike-finalizing-budget-that-pinches-schools-and-city-staff/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "quote"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "quote"],
   "gates": [],
   "weights": {
     "roll-call": 0.5,
     "budget-vote": 0.6
   },
   "inGame": "the budget's raise line, the failed tax measure, reserve and debt-payment records; needs: a promise kept per employee group that the vote can break",
-  "issues": [
-    "taxes-finance"
-  ],
+  "issues": ["taxes-finance"],
   "turns": [
     {
       "name": "an apology to employees",

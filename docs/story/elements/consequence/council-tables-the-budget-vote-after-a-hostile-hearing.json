@@ -7,23 +7,14 @@
     "The Cornell Daily Sun (Ithaca, New York), 'Common Council tables budget vote after residents criticize proposed tax increases', Nov 7, 2024: https://cornellsun.com/2024/11/08/common-council-tables-budget-vote-after-residents-criticize-proposed-tax-increases/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "count",
-    "percent",
-    "body"
-  ],
+  "fits": ["news"],
+  "slots": ["count", "percent", "body"],
   "gates": [],
   "weights": {
     "budget": 0.7
   },
   "inGame": "the budget record's stage and amendments; the hearing record; the council's votes by member; needs: a tabled stage that carries amendments to a later meeting",
-  "issues": [
-    "law:property-tax",
-    "budget:administration"
-  ],
+  "issues": ["law:property-tax", "budget:administration"],
   "turns": [
     {
       "name": "the vote is tabled and returns with more cuts",

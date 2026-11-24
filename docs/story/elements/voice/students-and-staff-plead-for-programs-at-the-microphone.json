@@ -8,22 +8,15 @@
     "WGCU (Lee County, Florida), 'Budget cuts prompt packed board room, impassioned speakers at Lee County school board meeting', May 14, 2026: https://www.wgcu.org/education/2026-05-14/budget-cuts-prompt-packed-board-room-impassioned-speakers-at-lee-county-school-board-meeting",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "quote",
-    "count"
-  ],
+  "fits": ["news"],
+  "slots": ["quote", "count"],
   "gates": [],
   "weights": {
     "budget": 0.6,
     "schools": 0.5
   },
   "inGame": "school staff records and the cut list; the board's stated reasons; needs: a hearing speaker record and a school program list that a cut can remove",
-  "issues": [
-    "budget:schools"
-  ],
+  "issues": ["budget:schools"],
   "turns": [
     {
       "name": "a student speaks and the room applauds",

@@ -7,25 +7,15 @@
     "The Daily Northwestern (Evanston, Illinois), 'Most Livable City Association files complaint, asks Cook County to invalidate Ryan Field rezoning', November 30, 2023: https://dailynorthwestern.com/2023/11/30/lateststories/most-livable-city-association-files-complaint-asks-cook-county-to-invalidate-ryan-field-rezoning",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "surname",
-    "body",
-    "count",
-    "percent"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "percent"],
   "gates": [],
   "weights": {
     "roll-call": 0.6,
     "rezoning-vote": 0.5
   },
   "inGame": "the roll call, the protest-petition share, the zoning ordinance; needs: a supermajority rule keyed to the share of objecting neighbors, and a court filing",
-  "issues": [
-    "business"
-  ],
+  "issues": ["business"],
   "turns": [
     {
       "name": "the count is challenged",

@@ -7,48 +7,34 @@
     "WTVD ABC11 (Raleigh, North Carolina), 'Glenwood South neighbors, businesses cautiously optimistic as noise ordinance takes effect', date not shown on the page: https://abc11.com/post/raleigh-glenwood-south-noise-ordinance-acceptable-unacceptable/14385832/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "law",
-    "count",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "date"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.8
   },
   "inGame": "noise ordinance, complaint counts and police contact records; needs: a noise-complaint tally by district",
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "turns": [
     {
       "name": "quiet holds into summer",
       "pulledBy": "bars that took the warnings to heart",
       "writes": "complaints stay low",
-      "requiresFacts": [
-        "up"
-      ],
+      "requiresFacts": ["up"],
       "excludesFacts": []
     },
     {
       "name": "complaints return in the busy season",
       "pulledBy": "crowds that outgrow the warnings",
       "writes": "residents call again and police enforce",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     },
     {
       "name": "the district splits over enforcement",
       "pulledBy": "owners who say the standard is vague",
       "writes": "a hearing is called",
-      "requiresFacts": [
-        "delayed"
-      ],
+      "requiresFacts": ["delayed"],
       "excludesFacts": []
     }
   ],

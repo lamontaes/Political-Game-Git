@@ -8,23 +8,14 @@
     "WTKR News 3 (Chesapeake, Virginia), 'Chesapeake Police Chief addresses burglaries in Western Branch with neighbors', Dec 6, 2016: https://www.wtkr.com/2016/12/06/chesapeake-police-chief-addresses-burglaries-in-western-branch-with-neighbors",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "count",
-    "burglary",
-    "date",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["count", "burglary", "date", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "the 911 and tip records tied to arrests; needs: a tip-to-arrest link on the case record",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "residents call and the chief thanks them",

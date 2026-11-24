@@ -7,23 +7,14 @@
     "CBS News Bay Area (San Jose, California), 'Fast food franchise owners, workers see $20 hourly wage increase with some concern', April 1, 2024: https://www.cbsnews.com/amp/sanfrancisco/news/fast-food-franchise-owners-workers-see-20-hourly-wage-increase-with-some-concern",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "count",
-    "percent",
-    "law"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "count", "percent", "law"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.5
   },
   "inGame": "owner records, business payroll and hours records, menu price rows; needs: an owner's own worked hours as a record",
-  "issues": [
-    "law:minimum-wage"
-  ],
+  "issues": ["law:minimum-wage"],
   "turns": [
     {
       "name": "owner covers the hours himself",
@@ -36,18 +27,14 @@
       "name": "prices rise together and customers stay",
       "pulledBy": "a whole trade facing the same cost",
       "writes": "the story quotes prices up a few cents and no lost customers",
-      "requiresFacts": [
-        "up"
-      ],
+      "requiresFacts": ["up"],
       "excludesFacts": []
     },
     {
       "name": "the owner sells or closes a store",
       "pulledBy": "an owner whose margin runs out",
       "writes": "the story reports a closure instead of long hours",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     }
   ],

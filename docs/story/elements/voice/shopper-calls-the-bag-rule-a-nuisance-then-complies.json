@@ -8,22 +8,14 @@
     "Santa Barbara Independent (Santa Barbara, California), 'With Plastic Reusable Bags Gone, Santa Barbara Shoppers and Stores Adjust to California's New Bag Rules', January 10, 2026: https://www.independent.com/2026/01/10/with-plastic-reusable-bags-gone-santa-barbara-shoppers-and-stores-adjust-to-californias-new-bag-rules/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "name",
-    "law",
-    "quote"
-  ],
+  "fits": ["news"],
+  "slots": ["name", "law", "quote"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.5
   },
   "inGame": "a shopper's habits and views and a store's bag price row; needs: a household's reusable-bag habit",
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "turns": [
     {
       "name": "grumbles and complies",
@@ -36,18 +28,14 @@
       "name": "supports it and forgets anyway",
       "pulledBy": "a shopper who backs the goal and missed the start date",
       "writes": "the story quotes support and a free bag",
-      "requiresFacts": [
-        "up"
-      ],
+      "requiresFacts": ["up"],
       "excludesFacts": []
     },
     {
       "name": "refuses and works around it",
       "pulledBy": "a shopper who resents the rule",
       "writes": "the story quotes defiance and a homemade fix",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     }
   ],

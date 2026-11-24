@@ -7,23 +7,14 @@
     "Patch (Arlington, Virginia), 'Police Arrest Suspect In Wave Of Broken Car Windows Across Arlington', Oct 28, 2022: https://patch.com/virginia/arlington-va/police-arrest-suspect-wave-broken-car-windows-across-arlington",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "vandalism",
-    "count",
-    "date",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["vandalism", "count", "date", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5
   },
   "inGame": "a vandalism series on the crime records and an arrest with charges; needs: a link grouping crimes into one series",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "an officer spots the car on patrol",

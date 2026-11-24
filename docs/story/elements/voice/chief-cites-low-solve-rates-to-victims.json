@@ -7,24 +7,15 @@
     "The Almanac (Atherton, California), 'Atherton police: At least $2M in jewelry, other items stolen this year', Feb 5, 2019: https://www.almanacnews.com/news/print/2019/02/05/atherton-police-at-least-2m-in-jewelry-other-items-stolen-this-year",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "percent",
-    "count",
-    "burglary",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["percent", "count", "burglary", "date"],
   "gates": [],
   "weights": {
     "crime": 0.5,
     "burglary": 0.4
   },
   "inGame": "case clearance counts by crime kind; needs: a clearance-rate view on the police record",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "the chief cites the national rate",

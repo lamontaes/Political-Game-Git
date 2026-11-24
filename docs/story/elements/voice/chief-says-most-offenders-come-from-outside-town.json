@@ -7,25 +7,15 @@
     "ABC7 San Francisco (Lafayette, California), 'Lafayette Police Chief address spike in crime at special meeting with residents', Dec 5, 2019: https://abc7news.com/east-bay-lafayette-home-invasion-building-a-better-area/5734751/",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "date",
-    "count",
-    "burglary",
-    "robbery",
-    "place"
-  ],
+  "fits": ["news"],
+  "slots": ["date", "count", "burglary", "robbery", "place"],
   "gates": [],
   "weights": {
     "crime": 0.5,
     "burglary": 0.4
   },
   "inGame": "the crime records and the offender's home place on each case; needs: an offender-home-place field on a crime record",
-  "issues": [
-    "budget:police"
-  ],
+  "issues": ["budget:police"],
   "turns": [
     {
       "name": "the chief names outsiders",

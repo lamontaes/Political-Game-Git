@@ -7,49 +7,34 @@
     "CBS News New York (New York City), 'Bins not bags: New trash rule takes effect for NYC restaurants, grocery stores & more', August 1, 2023: https://www.cbsnews.com/amp/newyork/news/bins-not-bags-new-trash-rule-takes-effect-for-nyc-restaurants-grocery-stores-more",
     "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
   ],
-  "fits": [
-    "news"
-  ],
-  "slots": [
-    "law",
-    "count",
-    "percent",
-    "date"
-  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "percent", "date"],
   "gates": [],
   "weights": {
     "law-takes-effect": 0.8
   },
   "inGame": "sanitation ordinance, complaint counts and business fine records; needs: a rat or pest complaint tally",
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "turns": [
     {
       "name": "fines begin and compliance rises",
       "pulledBy": "a month of warnings that ends in fines",
       "writes": "owners buy bins and complaints fall",
-      "requiresFacts": [
-        "up"
-      ],
+      "requiresFacts": ["up"],
       "excludesFacts": []
     },
     {
       "name": "owners say they cannot afford it",
       "pulledBy": "small businesses with thin margins",
       "writes": "the city extends the grace period",
-      "requiresFacts": [
-        "down"
-      ],
+      "requiresFacts": ["down"],
       "excludesFacts": []
     },
     {
       "name": "complaints do not fall",
       "pulledBy": "a rule with spills still drawing pests",
       "writes": "residents say the problem remains",
-      "requiresFacts": [
-        "delayed"
-      ],
+      "requiresFacts": ["delayed"],
       "excludesFacts": []
     }
   ],
