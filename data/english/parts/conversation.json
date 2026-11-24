@@ -4371,28 +4371,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-closer.am-i-wrong-to-see-it-that-way",
-      "move": "address-point-closer",
-      "kind": "spoken",
-      "text": "Am I wrong to see it that way?",
-      "uses": [
-        {
-          "move": "address-point-closer",
-          "subject": "address-point",
-          "role": "closer",
-          "setsFacts": ["asks-player"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "closer"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-closer.what-do-you-think-about-that-part",
       "move": "address-point-closer",
       "kind": "spoken",
