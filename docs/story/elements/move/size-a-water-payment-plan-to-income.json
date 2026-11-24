@@ -1,0 +1,38 @@
+{
+  "id": "size-a-water-payment-plan-to-income",
+  "kind": "move",
+  "summary": "A resident in {place} shows a caseworker why the proposed installment would swallow too much of a fixed income.",
+  "realLife": "Portland agreed to renegotiate a mother's water payment plan using her actual ability to pay after the original schedule proved unaffordable.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20first-time%20renter%20raised%20concerns%20about%20the%20Portland%20Water"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The customer has an installment offer and asks for an affordability review."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the customer has an installment offer and asks for an affordability review.",
+  "turns": [
+    {
+      "turn": "the-bureau-approves-an-affordable-installment",
+      "pulledBy": "The bureau approves an affordable installment.",
+      "what": "Give the customer the due dates in writing.",
+      "writesBack": "The customer has a written installment schedule."
+    },
+    {
+      "turn": "the-offered-installment-still-exceeds-the-documented-budget",
+      "pulledBy": "The offered installment still exceeds the documented budget.",
+      "what": "Return the calculation to the reviewer.",
+      "writesBack": "The file shows the gap between requested payment and available income."
+    }
+  ]
+}

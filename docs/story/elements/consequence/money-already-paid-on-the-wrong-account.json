@@ -1,0 +1,39 @@
+{
+  "id": "money-already-paid-on-the-wrong-account",
+  "kind": "consequence",
+  "summary": "A resident asks {person} what happens to the money they already paid toward somebody else's water bill.",
+  "realLife": "Portland's water bureau accepted a recommendation to reverse a debt transfer and return any money the new customer had paid on it.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20community%20member%20opened%20an%20account%20with%20the%20Portland"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A transfer has been reversed and the account ledger is available."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a transfer has been reversed and the account ledger is available.",
+  "turns": [
+    {
+      "turn": "the-ledger-shows-a-payment-against-the-transfer",
+      "pulledBy": "The ledger shows a payment against the transfer.",
+      "what": "Request a refund for that payment.",
+      "writesBack": "The refund request carries the payment amount and date."
+    },
+    {
+      "turn": "the-transfer-attracted-no-payments",
+      "pulledBy": "The transfer attracted no payments.",
+      "what": "Confirm the corrected balance with the customer.",
+      "writesBack": "The resident has a statement showing the debt removed."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "sewer-project-bill-after-basement-backup",
+  "kind": "situation",
+  "summary": "A homeowner in {place} receives a construction bill years after a city job left the basement damaged.",
+  "realLife": "A Portland contractor repaired a defective sewer connection after a backup, but the affected homeowner received a bill nearly four years later.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20Bureau%20of%20Environmental%20Services%20project%20required%20a%20homeowner"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The resident has a bill and a repair history from the same public project."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the resident has a bill and a repair history from the same public project.",
+  "turns": [
+    {
+      "turn": "the-work-orders-connect-the-damage-and-the-repair",
+      "pulledBy": "The work orders connect the damage and the repair.",
+      "what": "Send the chronology with the request for relief.",
+      "writesBack": "The reviewer has the repair history and the billing demand together."
+    },
+    {
+      "turn": "the-bill-refers-to-a-different-job-number",
+      "pulledBy": "The bill refers to a different job number.",
+      "what": "Ask the bureau to trace which work the charge covers.",
+      "writesBack": "The charge remains unassigned to a verified work order."
+    }
+  ]
+}

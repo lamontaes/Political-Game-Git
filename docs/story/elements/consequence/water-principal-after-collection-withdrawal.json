@@ -1,0 +1,39 @@
+{
+  "id": "water-principal-after-collection-withdrawal",
+  "kind": "consequence",
+  "summary": "A resident in {place} still needs to know what to pay after the collection agency withdraws.",
+  "realLife": "Portland recalled one improperly referred water bill, leaving the customer owing the final bill and saving them nearly five hundred dollars.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20disabled%20community%20member%20received%20a%20letter%20saying%20that"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A collection referral has been withdrawn and the utility has recalculated the balance."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a collection referral has been withdrawn and the utility has recalculated the balance.",
+  "turns": [
+    {
+      "turn": "the-closing-statement-shows-remaining-principal",
+      "pulledBy": "The closing statement shows remaining principal.",
+      "what": "Give the resident the amount and payment contact.",
+      "writesBack": "The customer knows which portion of the balance remains payable."
+    },
+    {
+      "turn": "the-agency-is-still-demanding-its-fees",
+      "pulledBy": "The agency is still demanding its fees.",
+      "what": "Send the conflicting statements to the bureau.",
+      "writesBack": "The disputed fees stay open for reconciliation."
+    }
+  ]
+}

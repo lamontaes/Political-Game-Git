@@ -1,0 +1,39 @@
+{
+  "id": "tenant-first-hears-from-collections",
+  "kind": "moment",
+  "summary": "A renter in {place} who thought water came with the rent learns a landlord opened a utility account in the renter's name.",
+  "realLife": "A Portland tenant reached collections after the landlord enrolled them for water service without their permission.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20landlord%20signed%20their%20tenant%20up%20for%20water%20service"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The resident reports an unexpected account and can identify the property and tenancy."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the resident reports an unexpected account and can identify the property and tenancy.",
+  "turns": [
+    {
+      "turn": "the-account-was-opened-by-the-landlord",
+      "pulledBy": "The account was opened by the landlord.",
+      "what": "Request the enrollment record and the lease terms.",
+      "writesBack": "The case file identifies who submitted the enrollment and what the lease says."
+    },
+    {
+      "turn": "the-application-names-another-applicant",
+      "pulledBy": "The application names another applicant.",
+      "what": "Trace who accepted responsibility before discussing payment.",
+      "writesBack": "The disputed debt stays separate from any repayment discussion."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "old-address-on-a-new-water-account",
+  "kind": "moment",
+  "summary": "A resident opens a water account in {place} and finds another customer's balance on it.",
+  "realLife": "Portland utility staff matched a new customer's former address to postal records and moved a debt in someone else's name onto the new account.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20community%20member%20opened%20an%20account%20with%20the%20Portland"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The utility has made an address-based transfer between identifiable accounts."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the utility has made an address-based transfer between identifiable accounts.",
+  "turns": [
+    {
+      "turn": "the-old-account-names-a-different-customer",
+      "pulledBy": "The old account names a different customer.",
+      "what": "Request the agreement that made the resident responsible for it.",
+      "writesBack": "The account transfer has a named document request."
+    },
+    {
+      "turn": "the-resident-recognizes-the-account",
+      "pulledBy": "The resident recognizes the account.",
+      "what": "Check its closing date and payments with them.",
+      "writesBack": "The dispute now concerns the prior account's closing balance."
+    }
+  ]
+}

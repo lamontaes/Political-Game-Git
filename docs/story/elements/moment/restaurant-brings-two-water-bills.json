@@ -1,0 +1,39 @@
+{
+  "id": "restaurant-brings-two-water-bills",
+  "kind": "moment",
+  "summary": "A restaurant owner in {place} puts a routine water bill beside one that dwarfs it.",
+  "realLife": "An unusually high bill prompted a Portland restaurant to call the utility, and an inspection attributed the extra use to likely theft.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20restaurant%20received%20a%20water%20bill%20showing%20significantly%20higher"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The business has comparable billing periods and an unexplained increase."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the business has comparable billing periods and an unexplained increase.",
+  "turns": [
+    {
+      "turn": "an-inspection-has-already-identified-a-likely-cause",
+      "pulledBy": "An inspection has already identified a likely cause.",
+      "what": "Attach its finding to the review request.",
+      "writesBack": "The reviewer gets the inspector's finding alongside the two bills."
+    },
+    {
+      "turn": "the-cause-is-still-unknown",
+      "pulledBy": "The cause is still unknown.",
+      "what": "Request an inspection before assigning the loss.",
+      "writesBack": "The business has an inspection request on file."
+    }
+  ]
+}

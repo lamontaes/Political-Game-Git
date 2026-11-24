@@ -1,0 +1,39 @@
+{
+  "id": "hearing-right-the-utility-counter-missed",
+  "kind": "moment",
+  "summary": "A resident in {place} finds a direct hearing route after utility staff could not tell them how to challenge enforcement.",
+  "realLife": "Portland's ombudsman located a direct appeal provision that water staff had overlooked, and the bureau agreed two complainants could appeal.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20resident%20and%20a%20condominium%20association%20separately%20contacted%20the"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A local code provision applies to the enforcement action and identifies the hearing authority."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a local code provision applies to the enforcement action and identifies the hearing authority.",
+  "turns": [
+    {
+      "turn": "the-provision-covers-the-disputed-action",
+      "pulledBy": "The provision covers the disputed action.",
+      "what": "Give the resident the filing destination.",
+      "writesBack": "The resident has the hearing office contact for this enforcement action."
+    },
+    {
+      "turn": "its-scope-is-disputed",
+      "pulledBy": "Its scope is disputed.",
+      "what": "Ask the hearing authority to clarify jurisdiction.",
+      "writesBack": "The case awaits an answer about the proper forum."
+    }
+  ]
+}

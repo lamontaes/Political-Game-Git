@@ -1,0 +1,39 @@
+{
+  "id": "commissioner-finishes-a-partial-water-waiver",
+  "kind": "consequence",
+  "summary": "A resident in {place} brings back a corrected bill that still carries part of a disputed foreclosure balance.",
+  "realLife": "Portland's water bureau granted partial relief, and the commissioner later directed it to waive the remaining charges in that case.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=After%20suffering%20multiple%20heart%20attacks%20and%20losing%20his%20job%2C"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A partial adjustment exists and an authorized official can review the remaining balance."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a partial adjustment exists and an authorized official can review the remaining balance.",
+  "turns": [
+    {
+      "turn": "the-official-orders-the-remainder-waived",
+      "pulledBy": "The official orders the remainder waived.",
+      "what": "Verify that the next statement reflects the order.",
+      "writesBack": "The file includes the corrected closing balance."
+    },
+    {
+      "turn": "the-official-upholds-the-remainder",
+      "pulledBy": "The official upholds the remainder.",
+      "what": "Give the resident the written basis for the amount left due.",
+      "writesBack": "The remaining charges have an explanation the resident can challenge."
+    }
+  ]
+}

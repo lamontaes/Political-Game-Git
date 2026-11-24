@@ -1,0 +1,38 @@
+{
+  "id": "base-charge-after-water-shutoff",
+  "kind": "detail",
+  "summary": "A former resident asks {person} how a closed tap kept running up a bill.",
+  "realLife": "While a bank delayed completing a foreclosure, Portland continued to assess base charges and penalties in the former owner's name even after shutting off service.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20homeowner%20declared%20bankruptcy%20in%202008%20and%20agreed%20to"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "The ledger distinguishes usage, fixed charges and penalties after a shutoff."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the ledger distinguishes usage, fixed charges and penalties after a shutoff.",
+  "turns": [
+    {
+      "turn": "the-post-shutoff-charges-are-fixed-fees",
+      "pulledBy": "The post-shutoff charges are fixed fees.",
+      "what": "Ask who held responsibility for the service account during that period.",
+      "writesBack": "The dispute follows the fixed charges back to the account holder."
+    },
+    {
+      "turn": "the-ledger-also-shows-metered-use",
+      "pulledBy": "The ledger also shows metered use.",
+      "what": "Ask for the meter readings and service dates.",
+      "writesBack": "The review tracks both the meter record and the shutoff."
+    }
+  ]
+}

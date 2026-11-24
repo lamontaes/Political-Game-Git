@@ -1,0 +1,38 @@
+{
+  "id": "contractor-prediction-at-the-billing-desk",
+  "kind": "voice",
+  "summary": "A homeowner tells {person} that the person who fixed the sewer had expected the city to waive the bill.",
+  "realLife": "In a Portland case a contractor suggested the owner likely would not have to pay, and the bureau agreed to waive the charge only after ombudsman review.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20Bureau%20of%20Environmental%20Services%20project%20required%20a%20homeowner"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A contractor's reported assurance and the bureau's billing decision can be distinguished."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a contractor's reported assurance and the bureau's billing decision can be distinguished.",
+  "turns": [
+    {
+      "turn": "the-bureau-has-authorized-a-waiver",
+      "pulledBy": "The bureau has authorized a waiver.",
+      "what": "Send the written adjustment to the homeowner.",
+      "writesBack": "The homeowner has the bureau's decision in writing."
+    },
+    {
+      "turn": "only-the-contractor-s-assurance-is-documented",
+      "pulledBy": "Only the contractor's assurance is documented.",
+      "what": "Ask the bureau for a formal decision.",
+      "writesBack": "The contractor's statement is retained as evidence."
+    }
+  ]
+}
