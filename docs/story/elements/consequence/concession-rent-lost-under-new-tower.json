@@ -4,7 +4,7 @@
   "summary": "The rent promised by a developer has to cover income the owner will lose from people already doing business there.",
   "realLife": "Penn Central’s agreement for offices above Grand Central promised annual payments, but the project would displace concessionaires whose rents already supported the railroad.",
   "sources": [
-    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf"
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf#page=13"
   ],
   "inGame": "needs: a permit case record with owner, tenant, rent. A board member can ask which existing tenants the revenue projection assumes will leave.",
   "fits": ["office", "journal", "news", "home", "work-community"],

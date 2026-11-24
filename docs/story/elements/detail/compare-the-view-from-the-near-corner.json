@@ -4,7 +4,7 @@
   "summary": "Where a person stands changes which tower appears above a familiar building.",
   "realLife": "New York’s landmarks commissioners observed that nearby towers fell out of sight on a closer approach to Grand Central. A tower directly on the terminal would stay in view.",
   "sources": [
-    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf"
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf#page=14"
   ],
   "inGame": "needs: a permit case record with street, landmark, tower. A commissioner can give a resident a street approach from which to check the finding.",
   "fits": ["office", "journal", "news", "home", "work-community"],

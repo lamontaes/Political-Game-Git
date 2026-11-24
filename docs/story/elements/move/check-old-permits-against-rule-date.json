@@ -4,7 +4,7 @@
   "summary": "A commission checks the dates on neighboring permits before treating a missing condition as an exception.",
   "realLife": "In defending the Nollan easement, the Coastal Commission counted other permits along the tract and explained that many without the condition predated the regulations authorizing it.",
   "sources": [
-    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf"
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf#page=5"
   ],
   "inGame": "needs: a permit case record with commission, permit, rule date. A neighbor who remembers a different result can ask which rule applied at the time.",
   "fits": ["office", "journal", "news", "speeches"],

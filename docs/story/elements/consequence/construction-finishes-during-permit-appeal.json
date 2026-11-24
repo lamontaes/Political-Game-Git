@@ -4,7 +4,8 @@
   "summary": "The house at the center of a permit fight is already standing while the appeal is still pending.",
   "realLife": "While the Coastal Commission’s appeal was pending in state court, the Nollans replaced the bungalow and bought the property without notifying the commission of the work.",
   "sources": [
-    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf"
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf#page=5",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf#page=6"
   ],
   "inGame": "needs: a permit case record with house, appeal, owner. A reporter returning to the block can see the new house while the access dispute is still unresolved.",
   "fits": ["office", "journal", "news", "speeches"],

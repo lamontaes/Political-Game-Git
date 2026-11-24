@@ -4,7 +4,7 @@
   "summary": "A builder brings a drawing that answers a neighbor’s question about what an apartment looks like from the street.",
   "realLife": "Lincoln Green’s plans gave each apartment an outside entrance and placed plantings along the edge facing existing homes.",
   "sources": [
-    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf#page=6"
   ],
   "inGame": "needs: a permit case record with drawing, building, neighbor. A neighbor can point to their own house on the drawing and ask what they would see.",
   "fits": ["office", "journal", "news", "home", "work-community"],
