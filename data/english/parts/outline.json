@@ -4614,6 +4614,66 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-i-m-with-the-president-on-for-what-that-s-worth",
+      "move": "mine",
+      "kind": "written",
+      "text": "I'm with the President on {theme-short}, for what that's worth.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-on-the-president-lost-me",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {theme-short}, the President lost me.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.mine.journal-evening-i-didn-t-buy-it-not-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I didn't buy it, not on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-argumentative"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }

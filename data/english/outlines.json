@@ -178,7 +178,7 @@
         {
           "name": "evening",
           "required": true,
-          "shapes": ["watched-said-mine", "said-then-mine"]
+          "shapes": ["watched-said-mine", "said-then-mine", "watched-said"]
         },
         {
           "name": "ahead",
@@ -455,7 +455,7 @@
       "moves": ["now"]
     },
     "watched-said-mine": {
-      "moves": ["watched", "said", "said?", "mine?"],
+      "moves": ["watched", "said", "said?", "mine"],
       "pull": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-devoted",
@@ -483,7 +483,7 @@
       "moves": ["margin"]
     },
     "said-then-mine": {
-      "moves": ["said", "said", "mine?"],
+      "moves": ["said", "said", "mine"],
       "needs": ["about"],
       "pull": [
         "personality-v1:facet-analytical",
@@ -491,6 +491,10 @@
         "personality-v1:facet-skeptical",
         "personality-v1:facet-blunt"
       ]
+    },
+    "watched-said": {
+      "moves": ["watched", "said", "said?"],
+      "fallback": true
     }
   },
   "weights": {
