@@ -11085,6 +11085,1102 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.a-few-workers-have-walked-off-the-job-comes-over-from-the-line-to-ask-you-a",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A few workers have walked off the job. {name} comes over from the line to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike", "turnout-few"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-knot-of-workers-stands-together-with-their-tools-put-down-breaks-away-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A knot of workers stands together with their tools put down. {name} breaks away to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike", "turnout-group"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-whole-shift-has-stopped-work-and-walks-out-in-front-of-them-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The whole shift has stopped work, and {name} walks out in front of them to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike", "turnout-crowd"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.lowers-a-sign-about-and-crosses-the-sidewalk-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} lowers a sign about {issue} and crosses the sidewalk to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-chanting-about-breaks-off-when-spots-you-and-comes-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chanting about {issue} breaks off when {name} spots you and comes over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-many"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.only-a-handful-came-and-is-the-one-who-steps-up-to-you-about",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Only a handful came, and {name} is the one who steps up to you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-few"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.leaves-the-picket-line-and-stops-in-front-of-you-ready-to-talk-about",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} leaves the picket line and stops in front of you, ready to talk about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-stopped-work-over-where-do-you-stand-on-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We stopped work over {issue}. Where do you stand on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.nobody-walks-off-a-job-for-fun-what-are-you-going-to-do-about",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Nobody walks off a job for fun. What are you going to do about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike", "turnout-many"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.there-are-only-a-few-of-us-on-this-line-but-is-real-will-you-say-where-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "There are only a few of us on this line, but {issue} is real. Will you say where you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike", "turnout-few"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-can-hear-the-answer-from-all-of-us-or-from-me-what-do-you-say-about",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You can hear the answer from all of us or from me. What do you say about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-many"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-ve-been-out-here-for-and-nobody-from-the-town-has-said-a-word-will-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We've been out here for {issue}, and nobody from the town has said a word. Will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-with-you-on-and-i-ll-say-it-plainly-where-people-can-hear",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm with you on {issue}, and I'll say it plainly where people can hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-have-a-different-view-on-and-i-d-rather-tell-you-to-your-face",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I have a different view on {issue}, and I'd rather tell you to your face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-ve-made-your-point-on-i-ll-take-it-back-with-me-and-push-on-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You've made your point on {issue}. I'll take it back with me and push on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.i-didn-t-know-had-gotten-this-far-i-ll-look-into-it-this-week",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "I didn't know {issue} had gotten this far. I'll look into it this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.send-two-of-your-people-to-talk-with-me-about-and-i-ll-listen-to-all-of-it",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Send two of your people to talk with me about {issue}, and I'll listen to all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-settle-standing-on-a-sidewalk-with-everyone-watching",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't settle {issue} standing on a sidewalk with everyone watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-not-something-i-can-answer-alone-other-people-have-a-say-on",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's not something I can answer alone. Other people have a say on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-ve-been-working-on-behind-the-scenes-for-a-while-now",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I've been working on {issue} behind the scenes for a while now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-i-won-t-forget-what-you-said-about",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I won't forget what you said about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-m-with-the-workers-on-and-i-ll-say-it-where-the-people-who-run-this-place",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm with the workers on {issue}, and I'll say it where the people who run this place can hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-see-differently-than-the-line-does-and-i-d-rather-say-so-to-your-face",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I see {issue} differently than the line does, and I'd rather say so to your face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-ve-made-your-point-on-i-ll-carry-it-to-the-table-and-push-on-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You've made your point on {issue}. I'll carry it to the table and push on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.i-didn-t-know-had-cost-people-this-much-i-ll-look-into-it-this-week",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "I didn't know {issue} had cost people this much. I'll look into it this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.pick-two-people-from-the-line-to-sit-down-with-me-on-and-i-ll-listen-to-all",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Pick two people from the line to sit down with me on {issue}, and I'll listen to all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-settle-next-to-a-picket-line-with-everyone-watching",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't settle {issue} next to a picket line with everyone watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-not-mine-alone-to-answer-the-company-and-the-workers-both-have-a-say",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's not mine alone to answer. The company and the workers both have a say on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-ve-been-pressing-the-company-on-behind-the-scenes-for-a-while-now",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I've been pressing the company on {issue} behind the scenes for a while now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-i-won-t-forget-what-the-line-told-me-about",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I won't forget what the line told me about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-an-answer-to-nobody-what-happens-to-after-you-walk-away",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's an answer to nobody. What happens to {issue} after you walk away?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer",
+          "requiresFacts": ["issue", "protest"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-it-so-the-people-behind-me-hear-it-what-about",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say it so the people behind me hear it. What about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer",
+          "requiresFacts": ["issue", "strike"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-people-here-have-lost-real-pay-over",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. People here have lost real pay over {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["issue", "strike"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-just-tell-us-something-we-can-take-back-about",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, just tell us something we can take back about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["issue", "protest"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-that-s-a-start-on-we-ll-hold-you-to-what-you-said",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then that's a start on {issue}. We'll hold you to what you said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "relent",
+          "requiresFacts": ["issue", "protest"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.alright-i-ll-tell-the-line-you-re-willing-to-talk-about",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Alright. I'll tell the line you're willing to talk about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "relent",
+          "requiresFacts": ["issue", "strike"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-on-you-told-us-the-truth-and-that-counts-for-something",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough on {issue}. You told us the truth, and that counts for something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-won-t-agree-on-but-i-respect-that-you-came-out-to-say-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I won't agree on {issue}, but I respect that you came out to say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.we-ll-be-here-when-you-have-something-on",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We'll be here when you have something on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.this-isn-t-over-on-the-town-will-hear-from-us-again",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "This isn't over on {issue}. The town will hear from us again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "open",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-before-the-next-meeting-we-will",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about {issue} before the next meeting. We will.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "open",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.stops-you-with-a-clipboard-and-a-flyer-about",
       "move": "narrate-narrate",
       "kind": "spoken",
