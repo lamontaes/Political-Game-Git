@@ -1,9 +1,14 @@
 /**
- * Labor and pay laws, wired end to end in one played world (buildBenchWorld,
+ * Labor and pay laws, wired end to end in a played world (buildBenchWorld,
  * two levels, economy on) in a place drawn from all 56: each law, once law,
  * reaches named workers, counted worker groups, employers or governments
  * through the engine that applies it, moves money through the journal, and
  * a repeal ends the reach. Failures name the seed and the place.
+ *
+ * One subject per test: each group of laws below has its own test, its own
+ * world and its own subject (a worker under the floor, a council member, a
+ * teacher, a claimant), so a town missing one law's subject is redrawn for
+ * that law alone and never holds up the others.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -37,7 +42,7 @@ import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, JobInput } from "./types";
 
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-/** Every law here needs its subject in the drawn town (a worker under the federal floor, a seated council member, a teacher, a full and a counted claimant, a claimant above the weekly maximum), so a draw often has none. */
+/** A group of laws needs its subject in the drawn town (a worker under the federal floor, a seated council member, a teacher, a claimant above the weekly maximum), so a draw may have none; each group is redrawn for its own subject. */
 const TRIES = 10;
 const WINDOW = 35;
 const Q = (s: string) => `us-policy-positions:${s}`;
@@ -52,6 +57,29 @@ const KEYS = {
 };
 
 class NoSubject extends Error {}
+/** The place the last `run` drew, so a place passed over is named. */
+let lastWhere = "";
+
+/** The laws one test follows, each with its own world. */
+type Subject =
+  | "wage"
+  | "leave"
+  | "bargaining"
+  | "rtw"
+  | "teacher"
+  | "taxes"
+  | "unemployment"
+  | "maximum";
+/** The question each key belongs to (the series laws belong to their group in `run`). */
+const KEY_GROUP: Record<keyof typeof KEYS, Subject> = {
+  raise: "wage",
+  federal: "wage",
+  authority: "wage",
+  leave: "leave",
+  bargaining: "bargaining",
+  rtw: "rtw",
+  teacher: "teacher",
+};
 
 interface JournalEntry {
   readonly id: string;
@@ -137,9 +165,10 @@ function amountAt(api: CoreAPI, series: string, factor: number, tag: string) {
   });
 }
 
-function run(specId: string) {
+function run(specId: string, subject: Subject) {
   const drawn = drawPlace(SEED, specId);
   const where = `seed ${SEED}, place ${drawn.name} (${drawn.key})`;
+  lastWhere = `${drawn.name} (${drawn.key})`;
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     settings: { history: "today" },
@@ -148,6 +177,10 @@ function run(specId: string) {
   const core = world.core as CoreState;
   const api = coreAPI(core);
   const problems: string[] = [];
+  const is = (...groups: Subject[]) => groups.includes(subject);
+  const keysHere = Object.entries(KEYS).filter(
+    ([name]) => KEY_GROUP[name as keyof typeof KEYS] === subject,
+  ) as [keyof typeof KEYS, string][];
   const need = (ok: unknown, what: string) => {
     if (!ok) problems.push(what);
   };
@@ -184,13 +217,17 @@ function run(specId: string) {
   const fullJobs = namedJobs.filter(
     (j) => core.people.get(j.personId)?.placeId === town,
   );
-  if (!fullJobs.length || !countedJobs.length)
+  if (
+    is("wage", "bargaining", "taxes", "unemployment") &&
+    (!fullJobs.length || !countedJobs.length)
+  )
     throw new NoSubject("no full or counted jobs");
   // The nation's floor binds only workers paid under it, full and counted.
   const federalFloor = reachA("federalMinimumWageTargetMinor");
   if (
-    !fullJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor) ||
-    !countedJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor)
+    is("wage") &&
+    (!fullJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor) ||
+      !countedJobs.some((j) => (j.hourlyMinor ?? Infinity) < federalFloor))
   )
     throw new NoSubject(
       "no full and counted worker paid under the federal floor",
@@ -201,12 +238,15 @@ function run(specId: string) {
   // fifths of it, a school that underpays; a town with no teacher at all
   // has no one the floor applies to.
   const floorYear = reachParameter("teacherMinimumSalaryDollars") * 100;
-  const teachers = jobsAt(api, ["service:school"], "profession:teacher");
+  const teachers = is("teacher")
+    ? jobsAt(api, ["service:school"], "profession:teacher")
+    : [];
   const underpaid = [
     teachers.find((j) => core.jobs.has(j.id)),
     teachers.find((j) => !core.jobs.has(j.id)),
   ].filter((j): j is JobInput => !!j);
-  if (!underpaid.length) throw new NoSubject("no teacher in the town");
+  if (is("teacher") && !underpaid.length)
+    throw new NoSubject("no teacher in the town");
   for (const job of underpaid) {
     const hourly = job.hourlyMinor ?? 0;
     const target = Math.floor(
@@ -224,9 +264,9 @@ function run(specId: string) {
   }
 
   // Day 0: repeal the starting yeses, change the amounts.
-  const repealed = Object.values(KEYS).filter(
-    (k) => yesLevels(api, k).length > 0 && !k.startsWith("us-federal"),
-  );
+  const repealed = keysHere
+    .map(([, k]) => k)
+    .filter((k) => yesLevels(api, k).length > 0 && !k.startsWith("us-federal"));
   for (const k of repealed) setQuestion(api, k, 0, "repeal");
   const taxes = [
     "social-security-tax",
@@ -235,14 +275,21 @@ function run(specId: string) {
     "federal-unemployment-tax",
   ];
   const taxLaw: Record<string, string> = {};
-  for (const s of taxes) taxLaw[s] = amountAt(api, s, 1.1, s).id;
-  const maxLaw = amountAt(api, "unemployment-weekly-maximum", 1.1, "max").id;
+  if (is("taxes"))
+    for (const s of taxes) taxLaw[s] = amountAt(api, s, 1.1, s).id;
+  // A claimant above the maximum is built through the law, not searched for:
+  // the state's maximum is cut to a quarter, so the best-paid worker who files
+  // draws more than the maximum allows and the maximum is their benefit.
+  const maxLaw = is("maximum")
+    ? amountAt(api, "unemployment-weekly-maximum", 0.25, "max").id
+    : "";
   const council = townSeats(api).find(
     (s) => s.office.kind === "council" && s.holder?.personId,
   );
-  if (!council) throw new NoSubject("no seated council member");
+  if (is("wage") && !council) throw new NoSubject("no seated council member");
   /** The council drafts a local wage a dollar over the floor; the grant it drafts under is read. */
   const draftWage = () => {
+    if (!council) return "";
     const floor = lawInForce(api, "minimum-wage").value ?? 0;
     draftBill(api, {
       bodyOfficeId: council.office.id,
@@ -262,41 +309,42 @@ function run(specId: string) {
   // the day-0 repeals do: where the authority question started yes, its repeal
   // and a grant on the same day tie, and the repeal's enactment wins the tie
   // (laws-same-day-authority-tiebreak). The council reads the grant on day 2.
-  const seriesGrant = enactLaw(api, {
-    jurisdiction: lawChain(api).stateKey,
-    level: "state",
-    series: "local-minimum-wage-authority",
-    value: 1,
-    effectiveDate: addDays(makeIsoDate(api.state.date), 2),
-    measureId: "labor-authority-series",
-    citation: "Labor law-wiring test",
-  });
+  const seriesGrant = is("wage")
+    ? enactLaw(api, {
+        jurisdiction: lawChain(api).stateKey,
+        level: "state",
+        series: "local-minimum-wage-authority",
+        value: 1,
+        effectiveDate: addDays(makeIsoDate(api.state.date), 2),
+        measureId: "labor-authority-series",
+        citation: "Labor law-wiring test",
+      })
+    : undefined;
   step(2);
   // Day 2: a council drafts under the series; then every question is enacted as yes.
-  draftWage();
+  if (is("wage")) draftWage();
   const enacted: Record<string, string[]> = {};
-  for (const [name, key] of Object.entries(KEYS))
+  for (const [name, key] of keysHere)
     if (name !== "raise") enacted[name] = setQuestion(api, key, 1, name);
   step(3);
   // Day 5: the local wage bill is drafted under the state's grant; claims are
   // filed by the jobs engine for a full and a counted worker.
-  const draftedAt = draftWage();
+  const draftedAt = is("wage") ? draftWage() : "";
   const claims = api.moduleState("jobs").table("claims");
   const filed = { full: "", counted: "" };
-  for (const job of fullJobs) {
+  for (const job of is("unemployment") ? fullJobs : []) {
     if (filed.full) break;
     if (fileClaim(api, claims, job as JobInput, "labor-test", 52))
       filed.full = job.personId;
   }
-  for (const job of countedJobs) {
+  for (const job of is("unemployment") ? countedJobs : []) {
     if (filed.counted) break;
     if (fileClaim(api, claims, job as JobInput, "labor-test", 52))
       filed.counted = job.personId;
   }
-  if (!filed.full || !filed.counted)
+  if (is("unemployment") && (!filed.full || !filed.counted))
     throw new NoSubject("no full and counted worker could file a claim");
   // The weekly maximum fixes the benefit of a claimant whose share of pay is above it: the town's best-paid full worker files too.
-  // A resident of the town if one earns above the maximum; else the best-paid named person.
   const byPay = (list: readonly JobInput[]) =>
     [...list]
       .filter((j) => j.personId !== filed.full)
@@ -304,30 +352,37 @@ function run(specId: string) {
   const maxNow =
     (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
     api.parameter("minorPerDollar");
-  const resident = byPay(fullJobs)[0];
-  const top =
-    resident && (resident.wageDailyMinor ?? 0) * 7 * 0.6 > maxNow
-      ? resident
-      : byPay(namedJobs)[0];
-  const capped =
-    top && fileClaim(api, claims, top as JobInput, "labor-test", 52)
-      ? top.personId
-      : "";
+  // The best-paid worker who files: the best paid often decide not to file,
+  // so the town's workers are tried from the best paid down (residents first)
+  // until one files with a share of pay above the maximum.
+  let capped = "";
+  if (is("maximum"))
+    for (const job of [...byPay(fullJobs), ...byPay(namedJobs)]) {
+      if ((job.wageDailyMinor ?? 0) * 7 * 0.6 <= maxNow) continue;
+      if (fileClaim(api, claims, job as JobInput, "labor-test", 52)) {
+        capped = job.personId;
+        break;
+      }
+    }
   step(WINDOW);
   const date = core.date;
   // The nation's floor first (it binds everyone under it); then the state's
   // raise question over it, then a wage law raised a tenth over both.
-  need(
-    rows(api, KEYS.federal).some((r) => r.amountMinor > 0),
-    `federal: no pay raised under ${enacted.federal?.join(",")}`,
-  );
-  enacted.raise = setQuestion(api, KEYS.raise, 1, "raise");
-  step(5);
-  need(
-    rows(api, KEYS.raise).some((r) => r.amountMinor > 0),
-    `raise: no pay raised under ${enacted.raise?.join(",")}`,
-  );
-  const wageLaw = amountAt(api, "minimum-wage", 1.1, "wage");
+  if (is("wage")) {
+    need(
+      rows(api, KEYS.federal).some((r) => r.amountMinor > 0),
+      `federal: no pay raised under ${enacted.federal?.join(",")}`,
+    );
+    enacted.raise = setQuestion(api, KEYS.raise, 1, "raise");
+    step(5);
+    need(
+      rows(api, KEYS.raise).some((r) => r.amountMinor > 0),
+      `raise: no pay raised under ${enacted.raise?.join(",")}`,
+    );
+  }
+  const wageLaw = is("wage")
+    ? amountAt(api, "minimum-wage", 1.1, "wage")
+    : undefined;
   // Payroll runs on the raised wages before the chain is read.
   step(35);
   // A legislature in play may repeal or replace one of the test's laws in the
@@ -337,9 +392,9 @@ function run(specId: string) {
   const ours = new Set([
     ...Object.values(enacted).flat(),
     ...Object.values(taxLaw),
-    maxLaw,
-    wageLaw.id,
-    seriesGrant.id,
+    ...(maxLaw ? [maxLaw] : []),
+    ...(wageLaw ? [wageLaw.id] : []),
+    ...(seriesGrant ? [seriesGrant.id] : []),
   ]);
   const reached = (key: string): LawAppliedRow[] => [
     ...rows(api, key),
@@ -347,24 +402,30 @@ function run(specId: string) {
   ];
   // ---- minimum wage (amount) ---------------------------------------------
   const wage = reached("minimum-wage");
-  need(
-    wage.some((r) => r.target === "person" && r.amountMinor > 0),
-    `minimum-wage: no worker raised (${wageLaw.id})`,
-  );
-  need(
-    wage.some((r) => r.target === "group" && r.count > 0 && r.amountMinor > 0),
-    "minimum-wage: no counted worker group raised",
-  );
+  if (is("wage")) {
+    need(
+      wage.some((r) => r.target === "person" && r.amountMinor > 0),
+      `minimum-wage: no worker raised (${wageLaw?.id})`,
+    );
+    need(
+      wage.some(
+        (r) => r.target === "group" && r.count > 0 && r.amountMinor > 0,
+      ),
+      "minimum-wage: no counted worker group raised",
+    );
+  }
   // ---- local authority -----------------------------------------------------
   const authority = reached(KEYS.authority);
-  need(
-    authority.some((r) => r.target === "government"),
-    `authority: no government reached (${enacted.authority?.join(",")})`,
-  );
-  need(
-    authority.some((r) => r.targetId === draftedAt),
-    `authority: the drafting body ${draftedAt} was not reached`,
-  );
+  if (is("wage")) {
+    need(
+      authority.some((r) => r.target === "government"),
+      `authority: no government reached (${enacted.authority?.join(",")})`,
+    );
+    need(
+      authority.some((r) => r.targetId === draftedAt),
+      `authority: the drafting body ${draftedAt} was not reached`,
+    );
+  }
   // ---- paid leave, bargaining, right to work, teacher ---------------------
   const leave = reached(KEYS.leave);
   // What the state's leave law is now, and the records it ended, for a failure's message.
@@ -372,143 +433,171 @@ function run(specId: string) {
     const answer = lawInForce(api, KEYS.leave);
     return `law now ${answer.value} under ${answer.governing?.id ?? "none"}; ${rows(api, KEYS.leave, false).length} records ended`;
   };
-  need(
-    leave.some((r) => r.target === "person" && r.amountMinor > 0),
-    `leave: no worker paid a premium (${leaveNow()})`,
-  );
-  need(
-    leave.some((r) => r.target === "group" && r.count > 0),
-    "leave: no counted group paid a premium",
-  );
+  if (is("leave")) {
+    need(
+      leave.some((r) => r.target === "person" && r.amountMinor > 0),
+      `leave: no worker paid a premium (${leaveNow()})`,
+    );
+    need(
+      leave.some((r) => r.target === "group" && r.count > 0),
+      "leave: no counted group paid a premium",
+    );
+  }
   // A public unit's contract settles the day after its funding government's
   // budget year begins (law-reach/group-a-bargaining.ts), a date the town's
   // calendar sets, so the world runs on until the law has reached a worker
   // (a year at most: every government's budget year begins inside it), then
   // a payroll month, so the raise is on a paycheck.
-  for (let waited = 0; waited < 380 && !reached(KEYS.bargaining).length;) {
-    step(14);
-    waited += 14;
+  if (is("bargaining")) {
+    for (let waited = 0; waited < 380 && !reached(KEYS.bargaining).length;) {
+      step(14);
+      waited += 14;
+    }
+    step(35);
   }
-  step(35);
   const bargaining = reached(KEYS.bargaining);
-  need(bargaining.length > 0, "bargaining: no public worker reached");
+  if (is("bargaining"))
+    need(bargaining.length > 0, "bargaining: no public worker reached");
   const rtw = reached(KEYS.rtw);
-  need(
-    rtw.some((r) => r.target === "organization"),
-    "right-to-work: no union local reached",
-  );
-  need(
-    rtw.some((r) => r.target === "group" && r.count > 0),
-    "right-to-work: no worker group reached",
-  );
+  if (is("rtw")) {
+    need(
+      rtw.some((r) => r.target === "organization"),
+      "right-to-work: no union local reached",
+    );
+    need(
+      rtw.some((r) => r.target === "group" && r.count > 0),
+      "right-to-work: no worker group reached",
+    );
+  }
   const teacher = reached(KEYS.teacher);
-  need(teacher.length > 0, "teacher: no teacher raised");
+  if (is("teacher")) need(teacher.length > 0, "teacher: no teacher raised");
   // ---- payroll taxes and unemployment ---------------------------------------
-  for (const s of taxes) {
+  for (const s of is("taxes") ? taxes : []) {
     const list = reached(s);
     need(
       list.some((r) => r.amountMinor > 0 && r.lawId === taxLaw[s]),
       `${s}: no reach row under ${taxLaw[s]}`,
     );
   }
-  for (const s of ["social-security-tax", "medicare-tax"])
+  for (const s of is("taxes") ? ["social-security-tax", "medicare-tax"] : [])
     need(
       reached(s).some((r) => r.target === "person") &&
         reached(s).some((r) => r.target === "group"),
       `${s}: needs full and counted reach`,
     );
   const ui = reached("unemployment-insurance");
-  need(filed.full !== "" || filed.counted !== "", "no claim could be filed");
-  // A claimant who moves away before the first benefit ends the claim unpaid
-  // (Lebanon, Kansas, seed 382de6b9...: a counted claimant left on day 21):
-  // the town then has no claimant to follow.
-  for (const c of claims.rows() as unknown as {
-    personId: string;
-    paidMinor: number;
-    endReason?: string;
-  }[])
-    if (
-      (c.personId === filed.full || c.personId === filed.counted) &&
-      c.paidMinor === 0 &&
-      c.endReason === "left"
-    )
-      throw new NoSubject(
-        `the claimant ${c.personId} left before the first benefit`,
-      );
-  for (const who of [filed.full, filed.counted].filter(Boolean))
-    need(
-      ui.some(
-        (r) =>
-          (r.targetId === who || r.targetId === `counted-claimants:${who}`) &&
-          r.amountMinor > 0 &&
-          r.count >= 1,
-      ),
-      `unemployment-insurance: no benefit paid to ${who}`,
-    );
-  // A counted claimant's benefit is paid times the people the claim stands
-  // for, the way counted wages are, at the count of each payday: a group's
-  // count changes as its households do. The row's money is what the journal
-  // paid for that claim, within a cent a payment for rounding.
-  {
-    const claim = (
-      claims.rows() as unknown as { personId: string; paidMinor: number }[]
-    ).find((c) => c.personId === filed.counted);
-    const row = ui.find(
-      (r) => r.targetId === `counted-claimants:${filed.counted}`,
-    );
-    const paydays = entries.filter(
-      (e) =>
-        e.sourceId.startsWith(`unemployment-benefit:${filed.counted}:`) ||
-        e.sourceId.startsWith(`unemployment-advance:${filed.counted}:`),
-    );
-    const journal = paydays.reduce(
-      (total, e) =>
-        total +
-        e.postings.reduce(
-          (n, p) => n + (p.deltaMinor > 0 ? p.deltaMinor : 0),
-          0,
+  if (is("unemployment"))
+    need(filed.full !== "" || filed.counted !== "", "no claim could be filed");
+  if (is("unemployment")) {
+    // A claimant who moves away before the first benefit ends the claim unpaid
+    // (Lebanon, Kansas, seed 382de6b9...: a counted claimant left on day 21):
+    // the town then has no claimant to follow.
+    for (const c of claims.rows() as unknown as {
+      personId: string;
+      paidMinor: number;
+      endReason?: string;
+    }[])
+      if (
+        (c.personId === filed.full || c.personId === filed.counted) &&
+        c.paidMinor === 0 &&
+        c.endReason === "left"
+      )
+        throw new NoSubject(
+          `the claimant ${c.personId} left before the first benefit`,
+        );
+    for (const who of [filed.full, filed.counted].filter(Boolean))
+      need(
+        ui.some(
+          (r) =>
+            (r.targetId === who || r.targetId === `counted-claimants:${who}`) &&
+            r.amountMinor > 0 &&
+            r.count >= 1,
         ),
-      0,
-    );
+        `unemployment-insurance: no benefit paid to ${who}`,
+      );
+    // A counted claimant's benefit is paid times the people the claim stands
+    // for, the way counted wages are, at the count of each payday: a group's
+    // count changes as its households do. The row's money is what the journal
+    // paid for that claim, within a cent a payment for rounding.
+    {
+      const claim = (
+        claims.rows() as unknown as { personId: string; paidMinor: number }[]
+      ).find((c) => c.personId === filed.counted);
+      // A counted claimant filled in as a full person mid-claim is paid as one
+      // from then on (jobs-benefits.ts payClaims), and the law's row follows:
+      // the group's row holds the paydays while counted and the person's row
+      // the rest, so the claim's money is both rows'.
+      const rowsOf = ui.filter(
+        (r) =>
+          r.targetId === `counted-claimants:${filed.counted}` ||
+          r.targetId === filed.counted,
+      );
+      const row = rowsOf.length
+        ? {
+            amountMinor: rowsOf.reduce((n, r) => n + r.amountMinor, 0),
+            count: rowsOf[0]!.count,
+          }
+        : undefined;
+      const paydays = entries.filter(
+        (e) =>
+          e.sourceId.startsWith(`unemployment-benefit:${filed.counted}:`) ||
+          e.sourceId.startsWith(`unemployment-advance:${filed.counted}:`),
+      );
+      const journal = paydays.reduce(
+        (total, e) =>
+          total +
+          e.postings.reduce(
+            (n, p) => n + (p.deltaMinor > 0 ? p.deltaMinor : 0),
+            0,
+          ),
+        0,
+      );
+      need(
+        claim &&
+          row &&
+          claim.paidMinor > 0 &&
+          Math.abs(row.amountMinor - journal) <= paydays.length,
+        `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} a claim, ${journal} in the journal over ${paydays.length} paydays, but the row says ${row?.amountMinor} for ${row?.count} people`,
+      );
+    }
     need(
-      claim &&
-        row &&
-        claim.paidMinor > 0 &&
-        Math.abs(row.amountMinor - journal) <= paydays.length,
-      `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} a claim, ${journal} in the journal over ${paydays.length} paydays, but the row says ${row?.amountMinor} for ${row?.count} people`,
+      posts.some(
+        (p) =>
+          p.accountId === `cash:${stateGov.organizationId}:residual` &&
+          p.deltaMinor < 0 &&
+          p.id.includes("unemployment-benefit"),
+      ),
+      "unemployment: the state treasury paid no benefit",
     );
   }
-  need(
-    posts.some(
-      (p) =>
-        p.accountId === `cash:${stateGov.organizationId}:residual` &&
-        p.deltaMinor < 0 &&
-        p.id.includes("unemployment-benefit"),
-    ),
-    "unemployment: the state treasury paid no benefit",
-  );
-  // The best-paid claimant's benefit is the maximum, and the maximum's row names them.
-  const topClaim = (
-    claims.rows() as unknown as { personId: string; weeklyMinor: number }[]
-  ).find((c) => c.personId === capped);
-  const maximumMinor =
-    (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
-    api.parameter("minorPerDollar");
-  if (!topClaim || topClaim.weeklyMinor < maximumMinor)
-    throw new NoSubject("no claimant earns above the weekly maximum");
-  need(
-    topClaim.weeklyMinor === maximumMinor &&
-      reached("unemployment-weekly-maximum").some(
-        (r) => r.targetId === capped && r.lawId === maxLaw,
-      ),
-    `unemployment-weekly-maximum (${maxLaw}): claimant ${capped} paid ${topClaim.weeklyMinor} a week against a maximum of ${maximumMinor}, or not recorded`,
-  );
+  if (is("maximum")) {
+    // The best-paid claimant's benefit is the maximum, and the maximum's row names them.
+    const topClaim = (
+      claims.rows() as unknown as { personId: string; weeklyMinor: number }[]
+    ).find((c) => c.personId === capped);
+    const maximumMinor =
+      (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
+      api.parameter("minorPerDollar");
+    if (!topClaim || topClaim.weeklyMinor < maximumMinor)
+      throw new NoSubject(
+        `no claimant earns above the weekly maximum (claim ${topClaim?.weeklyMinor} against ${maximumMinor}, claimant ${capped || "none filed"})`,
+      );
+    need(
+      topClaim.weeklyMinor === maximumMinor &&
+        reached("unemployment-weekly-maximum").some(
+          (r) => r.targetId === capped && r.lawId === maxLaw,
+        ),
+      `unemployment-weekly-maximum (${maxLaw}): claimant ${capped} paid ${topClaim.weeklyMinor} a week against a maximum of ${maximumMinor}, or not recorded`,
+    );
+  }
   // ---- the outcome web reads the question laws -----------------------------
   const web = api
     .moduleState(OUTCOME_WEB_MODULE_ID)
     .table("months")
     .rows() as unknown as { date: string; values: Record<string, number> }[];
-  for (const key of [KEYS.leave, KEYS.teacher, KEYS.federal]) {
+  for (const key of [KEYS.leave, KEYS.teacher, KEYS.federal].filter((k) =>
+    keysHere.some(([, own]) => own === k),
+  )) {
     const read = web.filter((m) => m.values[`law:${key}`] === 1);
     need(read.length > 0, `outcome web: never read ${key} as yes (${date})`);
   }
@@ -538,12 +627,15 @@ function run(specId: string) {
         )
       : undefined;
   };
+  /** The group the next cites belong to; a cite outside this test's group is not made. */
+  let group: Subject = "wage";
   const cite = (
     law: string,
     key: string,
     pick: (r: LawAppliedRow) => boolean,
     journalOf: (r: LawAppliedRow) => JournalEntry | undefined | string,
   ) => {
+    if (!is(group)) return;
     const r = reached(key)
       .filter(pick)
       .sort(
@@ -587,19 +679,22 @@ function run(specId: string) {
       "none: the grant moves no money; the wage a council then enacts is the minimum-wage law's",
   );
   cite(
-    `local-minimum-wage-authority (series, enacted as ${seriesGrant.id})`,
+    `local-minimum-wage-authority (series, enacted as ${seriesGrant?.id})`,
     "local-minimum-wage-authority",
     (r) => r.target === "government" && r.targetId === draftedAt,
     () =>
       "none: the grant moves no money; the wage a council then enacts is the minimum-wage law's",
   );
+  group = "bargaining";
   cite("public-sector-collective-bargaining", KEYS.bargaining, raised, paid);
+  group = "leave";
   cite(
     "paid-family-leave",
     KEYS.leave,
     (r) => r.target === "person",
     (r) => entryOf(r.targetId, -1, /leave|premium|withhold/i, r.since),
   );
+  group = "rtw";
   cite(
     "right-to-work",
     KEYS.rtw,
@@ -613,6 +708,7 @@ function run(specId: string) {
       );
     },
   );
+  group = "taxes";
   for (const s of ["social-security-tax", "medicare-tax"])
     cite(
       s,
@@ -638,21 +734,33 @@ function run(specId: string) {
     entries.find((e) =>
       `${e.id} ${e.sourceId}`.includes(`unemployment-benefit:${who}:`),
     );
+  group = "unemployment";
   cite(
     "unemployment-insurance",
     "unemployment-insurance",
     (r) => r.targetId === filed.full,
     (r) => benefit(r.targetId),
   );
+  group = "maximum";
   cite(
     "unemployment-weekly-maximum",
     "unemployment-weekly-maximum",
     (r) => r.targetId === capped,
     (r) => benefit(r.targetId),
   );
+  const cited: Record<Subject, number> = {
+    maximum: 1,
+    wage: 5,
+    leave: 1,
+    bargaining: 1,
+    rtw: 1,
+    teacher: 0,
+    taxes: 4,
+    unemployment: 1,
+  };
   need(
-    evidence.length === 14,
-    `evidence for ${evidence.length} of 14 laws: ${evidence.map((e) => e.law).join("; ")}`,
+    evidence.length === cited[subject],
+    `evidence for ${evidence.length} of ${cited[subject]} laws: ${evidence.map((e) => e.law).join("; ")}`,
   );
   // One line a PR body can cite: law, applied row, reached, journal entry.
   console.info(
@@ -669,14 +777,14 @@ function run(specId: string) {
     (total, list) => total + sum(list),
     0,
   );
-  need(moved > 0, "no pay raise moved money");
+  if (is("wage", "bargaining", "teacher"))
+    need(moved > 0, "no pay raise moved money");
 
   // ---- repeal ends the reach -------------------------------------------------
   const repealedOn = addDays(makeIsoDate(api.state.date), 1);
-  for (const [name, key] of Object.entries(KEYS))
-    setQuestion(api, key, 0, `end-${name}`);
+  for (const [name, key] of keysHere) setQuestion(api, key, 0, `end-${name}`);
   step(3);
-  for (const key of Object.values(KEYS)) {
+  for (const key of keysHere.map(([, k]) => k)) {
     // A body in play may pass the law again after the repeal (a state's
     // legislature with its own bill); whom that later row reaches is its own.
     const later = new Set(
@@ -713,29 +821,47 @@ describe(
   // so the time allowed is a minute and a half per try.
   { timeout: TRIES * 90_000 },
   () => {
-    it("each law is applied by its engine and recorded by record id (just like today: needs the state's real labor laws)", () => {
-      const was = setBookkeeping(false);
-      const tried: string[] = [];
-      try {
-        for (let n = 0; n < TRIES; n += 1) {
-          try {
-            const { where, problems } = run(`labor-${n}`);
-            expect(problems, where).toEqual([]);
-            return;
-          } catch (error) {
-            if (!(error instanceof NoSubject)) throw error;
-            tried.push(`try ${n}: ${error.message}`);
-          } finally {
-            setJournalTrace(() => {});
+    const SUBJECTS: [Subject, string][] = [
+      [
+        "wage",
+        "the federal and state minimum wage, the local-wage authority and the minimum-wage law",
+      ],
+      ["leave", "paid family leave"],
+      ["bargaining", "public-sector collective bargaining"],
+      ["rtw", "right to work"],
+      ["teacher", "the teacher minimum salary"],
+      ["taxes", "the four payroll taxes"],
+      ["unemployment", "unemployment insurance"],
+      ["maximum", "the unemployment weekly maximum"],
+    ];
+    for (const [subject, what] of SUBJECTS)
+      it(`${what} is applied by its engine and recorded by record id (just like today: needs the state's real labor laws)`, () => {
+        const was = setBookkeeping(false);
+        const tried: string[] = [];
+        try {
+          for (let n = 0; n < TRIES; n += 1) {
+            try {
+              const { where, problems } = run(`labor-${subject}-${n}`, subject);
+              if (tried.length)
+                console.info(
+                  `${subject}: passed over ${tried.length} places before ${where}: ${tried.join("; ")}`,
+                );
+              expect(problems, where).toEqual([]);
+              return;
+            } catch (error) {
+              if (!(error instanceof NoSubject)) throw error;
+              tried.push(`${lastWhere}: ${error.message}`);
+            } finally {
+              setJournalTrace(() => {});
+            }
           }
+          throw new Error(
+            `no place with a subject for ${subject}: seed ${SEED}; ${tried.join("; ")}`,
+          );
+        } finally {
+          setBookkeeping(was);
         }
-        throw new Error(
-          `no place with a subject: seed ${SEED}; ${tried.join("; ")}`,
-        );
-      } finally {
-        setBookkeeping(was);
-      }
-    });
+      });
 
     // A state whose researched answer at the opening is yes on raising the
     // minimum wage: repeal the question and its own wage ends, so the next
