@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n8-c32
-pr:
+pr: #10322
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N8-C32, N8-C33)
+merged-at: 2026-11-24T06:45:18.258Z
 ---
 
 **What.** The CTO's catches C32 and C33 on the Nov 8 sitting: the Journal page is half empty, and the drop cap sits apart from its line. In a played Journal the page stops about 280 px short of the panel's right edge, and the big first letter ("I") is followed by a visible gap before "was".
