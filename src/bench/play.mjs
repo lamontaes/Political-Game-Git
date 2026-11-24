@@ -6167,6 +6167,15 @@ const sheets = {
           })),
         ),
       );
+      // What is coming up sits under the chief, and only when something is scheduled (no filler
+      // line for an empty calendar; the CTO, Nov 24).
+      const comingItems = executive
+        .flatMap((o) => o.comingUp)
+        .sort((x, y) => x.date.localeCompare(y.date))
+        .slice(0, 4);
+      const coming = comingItems.length
+        ? [stripSection(3, labels.comingUp, comingList(comingItems))]
+        : [];
       return {
         main: chief
           ? [
@@ -6192,16 +6201,7 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              ...coming,
             ]
           : [],
         side: runs
@@ -6274,7 +6274,15 @@ const sheets = {
         : (offered[0] ?? "legislative");
       const redraw = async () => {
         const node = await screen();
-        if (openTab === "government") $("sheet-body").replaceChildren(node);
+        if (openTab === "government") {
+          $("sheet-body").replaceChildren(node);
+          // A government page with only its main column (a town with only a mayor) is as wide
+          // as what it holds; one with a side column takes the window.
+          $("sheet").classList.toggle(
+            "fits",
+            node.classList.contains("single"),
+          );
+        }
       };
       const levels = tabBar({
         attr: "level",
@@ -6944,7 +6952,9 @@ async function openSheet(tab) {
     "fits",
     !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
+      !$("sheet-body").querySelector(
+        ".screen-grid, .split-screen:not(.single.government-screen)",
+      ),
   );
   // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
   $("sheet").classList.toggle("hugs", tab === "bills");
