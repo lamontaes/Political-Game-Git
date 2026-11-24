@@ -5463,6 +5463,431 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-for-i-answer-to-all-of-you-under-that-oath-not-just-the-ones-who-voted-for-me",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "For {term-left} I answer to all of you under that oath, not just the ones who voted for me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-i-raised-my-right-hand-a-few-minutes-ago-and-the-job-became-mine-for",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I raised my right hand a few minutes ago, and the job became mine for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-the-oath-is-short-the-after-it-are-not",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath is short. The {term-left} after it are not.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-every-president-before-me-said-the-same-words-i-just-said-and-each-one-found-out-what-they-cost-over",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "Every President before me said the same words I just said, and each one found out what they cost over {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-dramatic"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-as-of-the-oath-the-office-is-mine-for-and-so-is-every-hard-call-that-comes-with-it",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "As of the oath, the office is mine for {term-left}, and so is every hard call that comes with it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-the-oath-doesn-t-promise-you-a-perfect-president-it-promises-you-one-who-answers-to-you-for",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath doesn't promise you a perfect President. It promises you one who answers to you for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore to protect the Constitution, and for {term-left}, that comes before everything else on my list.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "frame",
+          "requiresFacts": ["took-oath", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-in-november-you-made-a-choice-and-i-m-the-result-for-the-next",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "In November you made a choice, and I'm the result for the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-you-voted-in-november-now-it-s-my-turn-to-show-up-for",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "You voted in November. Now it's my turn to show up for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-november-s-votes-are-counted-and-today-i-start-earning-them-for",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "November's votes are counted, and today I start earning them for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-the-election-ended-in-november-the-job-starts-today-and-runs",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "The election ended in November. The job starts today and runs {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-last-fall-the-country-picked-a-direction-and-i-ve-got-to-follow-it-through",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "Last fall the country picked a direction, and I've got {term-left} to follow it through.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-you-trusted-me-with-your-vote-in-november-and-i-ll-try-to-be-worth-it-for",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "You trusted me with your vote in November, and I'll try to be worth it for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.hired.inaugural-in-november-the-votes-came-in-and-now-the-work-is-mine-for",
+      "move": "hired",
+      "kind": "spoken",
+      "text": "In November the votes came in, and now the work is mine for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "hired",
+          "tie": "record",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-calm"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-ask-your-kids-what-they-think-about-they-ll-be-living-with-what-we-decide",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Ask your kids what they think about {theme-short}. They'll be living with what we decide.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": [
+        "personality-v1:facet-nurturing",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-keep-your-patience-with-each-other-we-re-going-to-disagree-about-a-lot-in",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Keep your patience with each other. We're going to disagree about {theme-short} a lot in {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "term-left"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-mediating"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-tell-me-what-s-working-where-you-live-a-letter-about-from-your-town-reaches-this-desk",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Tell me what's working where you live. A letter about {theme-short} from your town reaches this desk.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-check-on-somebody-who-s-having-a-harder-time-than-you-that-s-how-the-next-start-right",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Check on somebody who's having a harder time than you. That's how the next {term-left} start right.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-vote-in-your-local-elections-too-a-lot-of-what-touches-gets-decided-there",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Vote in your local elections too. A lot of what touches {theme-short} gets decided there.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-be-fair-to-the-people-you-disagree-with-on-i-ll-try-to-be-fair-to-you",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Be fair to the people you disagree with on {about}. I'll try to be fair to you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"]
+        }
+      ],
+      "after": ["address-to"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }
