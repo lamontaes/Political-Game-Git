@@ -1335,7 +1335,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-spend-what-influence-i-have-to-and-i-won-t-quit-at-the-first-no",
@@ -1358,7 +1359,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-count-on-a-veto-if-ever-reaches-me",
@@ -1381,7 +1383,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-which-is-why-comes-first-for-me",
@@ -1404,7 +1407,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-to-me-comes-down-to-this",
@@ -1428,7 +1432,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-can-t-back-since",
@@ -1452,7 +1457,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.creed.inaugural-plenty-of-people-disagree-with-me-but-i-still-say-that",
@@ -1474,7 +1480,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-anyone-who-comes-for-will-find-me-in-the-way",
@@ -1497,7 +1504,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-didn-t-come-here-to-watch-get-weakened",
@@ -1517,7 +1525,8 @@
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-no-because",
@@ -1537,7 +1546,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-say-no-and-here-s-why",
@@ -1557,7 +1567,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-wouldn-t-since",
@@ -1577,7 +1588,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-yes-because",
@@ -1600,7 +1612,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-would-since",
@@ -1620,7 +1633,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-put-me-down-as-a-no",
@@ -1640,7 +1654,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-put-me-down-as-a-yes",
@@ -1660,7 +1675,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-not-if-i-can-help-it-because",
@@ -1683,7 +1699,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-d-do-it-gladly-since",
@@ -1706,7 +1723,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-strip-it-all-down-and-i-believe-one-thing",
@@ -1725,7 +1743,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-can-t-prove-it-to-everyone-but-i-m-sure-that",
@@ -1744,7 +1763,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-ve-never-seen-a-reason-to-doubt-it",
@@ -1763,7 +1783,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-if-stalls-i-ll-bring-it-back-and-then-i-ll-bring-it-back-again",
@@ -1786,7 +1807,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-the-test-of-my-first-year-is-whether-we-get-done",
@@ -1809,7 +1831,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-my-door-is-open-on-a-lot-of-things-but-not-on",
@@ -1829,7 +1852,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-anyone-planning-on-should-plan-on-talking-to-me-first",
@@ -1849,7 +1873,8 @@
       "lean": ["personality-v1:facet-assertive", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-stand-against-this-year-next-year-and-the-year-after",
@@ -1872,7 +1897,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-protect-from-anyone-who-wants-to-gut-it",
@@ -1895,7 +1921,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-there-is-no-deal-i-d-take-that-trades-away",
@@ -1915,7 +1942,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-proud"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-whoever-wants-to-change-will-have-to-get-past-me-first",
@@ -1938,7 +1966,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-for-all-of-i-ll-back-with-everything-i-ve-got",
@@ -1966,7 +1995,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-m-going-to-work-with-anyone-willing-to-rewrite",
@@ -1989,7 +2019,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-put-my-weight-behind-undoing",
@@ -2012,7 +2043,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-at-the-top-of-my-list-to-repeal-is",
@@ -2032,7 +2064,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-go-after-one-section-at-a-time-if-i-have-to",
@@ -2055,7 +2088,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-nobody-should-expect-me-to-leave-alone",
@@ -2075,7 +2109,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-reason-enough-for-me-to-stand-behind",
@@ -2098,7 +2133,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-reason-enough-for-me-to-want-gone",
@@ -2118,7 +2154,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-in-light-of-that-has-to-change",
@@ -2141,7 +2178,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-looking-at-that-i-can-t-defend",
@@ -2161,7 +2199,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-pushing-for",
@@ -2184,7 +2223,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-for",
@@ -2204,7 +2244,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-against",
@@ -2224,7 +2265,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-against",
@@ -2247,7 +2289,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-back-and-here-s-the-reason",
@@ -2271,7 +2314,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-came-around-to-because",
@@ -2298,7 +2342,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-ve-thought-about-and-i-land-on-no-since",
@@ -2325,7 +2370,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-for-me-fails-on-one-point",
@@ -2349,7 +2395,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-keeping-comes-down-to-this",
@@ -2371,7 +2418,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-ve-looked-hard-at-and-i-d-keep-it-because",
@@ -2393,7 +2441,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-can-t-defend-since",
@@ -2417,7 +2466,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-read-twice-and-i-d-repeal-it-because",
@@ -2444,7 +2494,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-don-t-think-so-since",
@@ -2464,7 +2515,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-m-a-no-on-that",
@@ -2484,7 +2536,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-think-so-since",
@@ -2504,7 +2557,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-m-a-yes-on-that",
@@ -2524,7 +2578,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-judge-me-on-first",
@@ -2842,7 +2897,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-disagree-and-here-s-why",
@@ -2865,7 +2921,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-respect-that-but-i-think",
@@ -2888,7 +2945,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-can-t-go-along-with-that-since",
@@ -2908,7 +2966,8 @@
       "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.question.inaugural-do-we-or-do-we-leave-things-as-they-are",
@@ -3141,7 +3200,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.today.inaugural-the-way-i-see-it",
@@ -3160,7 +3220,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.blessing.inaugural-thank-you-all",
@@ -3179,7 +3240,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that",
@@ -3201,7 +3263,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-think-i-always-have",
@@ -3220,7 +3283,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-sign-the-day-it-reaches-my-desk",
@@ -3243,7 +3307,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-send-me-and-you-ll-get-it-back-with-a-veto",
@@ -3263,7 +3328,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-d-veto-if-it-reached-me",
@@ -3283,7 +3349,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-won-t-sign-anything-that-weakens",
@@ -3306,7 +3373,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-anyone-who-wants-to-roll-back-will-be-arguing-with-me",
@@ -3329,7 +3397,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-send-me-a-bill-to-repeal-and-i-ll-sign-it",
@@ -3352,7 +3421,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-m-for-and-i-d-sign-it",
@@ -3372,7 +3442,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-m-against-and-i-d-veto-it",
@@ -3392,7 +3463,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-m-for-and-that-doesn-t-change",
@@ -3412,7 +3484,8 @@
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
@@ -3432,7 +3505,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-m-against-and-i-want-it-repealed",
@@ -3452,7 +3526,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-sign-a-repeal-of-tomorrow",
@@ -3475,7 +3550,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-don-t-agree",
@@ -3495,7 +3571,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-see-it-the-other-way",
@@ -3515,7 +3592,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-m-against",
@@ -3539,7 +3617,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-m-for-keeping",
@@ -3563,7 +3642,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.answer.inaugural-no",
@@ -3583,7 +3663,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-yes",
@@ -3603,7 +3684,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-on-i-expect-the-loudest-argument-and-i-m-ready-for-it",
@@ -3671,7 +3753,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.today.inaugural-at-the-moment",
@@ -3690,7 +3773,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.contrast.inaugural-some-people-argue-that-we-should",
