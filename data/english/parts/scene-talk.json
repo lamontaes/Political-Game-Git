@@ -22930,31 +22930,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-haven-t-been-well-i-ll-sign-for-office-though",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I haven't been well. I'll sign for {office}, though.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["signed", "read-own-illness", "office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.you-ve-got-my-vote-good-luck-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
@@ -23168,31 +23143,6 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["read-same-party", "vote-day"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-haven-t-been-well-but-i-ll-vote-for-you-on-vote-day",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I haven't been well, but I'll vote for you on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["read-own-illness", "vote-day"]
         }
       ],
       "bearing": "calm",
@@ -23427,32 +23377,6 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["read-same-party", "office"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-haven-t-been-well-i-can-t-think-about-the-race-for-office-right-now",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I haven't been well. I can't think about the race for {office} right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -24757,158 +24681,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "How are you feeling? The race for {office} can wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "office"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "office"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "ask",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I haven't been well. It's hard to think about the race for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.get-well-soon-i-ll-come-back-after-vote-day",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Get well soon. I'll come back after {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "vote-day"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "comfort",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.get-well-soon-i-ll-stop-by-before-due",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Get well soon. I'll stop by before {due}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "due"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "comfort",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I hope you're well soon. I'll come back about the race for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "office"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "requiresFacts": ["read-own-illness", "office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "promise",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.follow-ask.honestly-what-do-you-make-of-the-race-for-office",
       "move": "follow-ask",
       "kind": "spoken",
@@ -25028,42 +24800,6 @@
           "role": "asker",
           "after": "tell",
           "requiresFacts": ["deadline"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "comfort",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry you've been sick. The race for {office} is the last thing you need at the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["read-own-illness", "office"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["read-own-illness", "office"]
         }
       ],
       "bearing": "tender",

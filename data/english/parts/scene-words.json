@@ -538,10 +538,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
+      "key": "scene-words.arrival-other-home-other.you-knock-and-name-opens-the-door",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you knock, and {name} opens the door.",
+      "text": "You knock, and {name} opens the door.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -558,10 +558,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-ring-the-bell-and-name-answers",
+      "key": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you ring the bell, and {name} answers.",
+      "text": "You ring the bell, and {name} answers.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -578,10 +578,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
+      "key": "scene-words.arrival-other-home-other.you-walk-up-the-drive-and-name-waves-you-in",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you walk up the drive, and {name} waves you in.",
+      "text": "You walk up the drive, and {name} waves you in.",
       "uses": [
         {
           "move": "arrival-other-home-other",
