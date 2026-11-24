@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10546
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T23:54:15.293Z
 ---
 
 **What.** The CTO's Nov 24 Budgets item (7142760180 on #10377), from the owner's Nov 23 "there's just so much empty area here": in Quitman, Mississippi the middle column holds two rows and the rest of the panel is empty, and "Who wrote it" is answered by a date ("Adopted October 1, 2024"), not a person or body.
