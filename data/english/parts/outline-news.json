@@ -1382,24 +1382,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.margin.news-roll-call-nobody-in-the-could-call-that-one-a-landslide-it-was",
-      "move": "margin",
-      "kind": "written",
-      "text": "Nobody in the {body} could call that one a landslide: it was {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one", "count"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.margin.news-roll-call-the-split-almost-evenly-and-one-vote-decided-it",
       "move": "margin",
       "kind": "written",
@@ -1919,29 +1901,6 @@
       "move": "lede",
       "kind": "written",
       "text": "{name} used the day of the oath, {date}, to speak in favor of {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-was-sworn-in-on-and-said-the-new-administration-is-for",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} was sworn in on {date} and said the new administration is for {about}.",
       "uses": [
         {
           "subject": "news-address",
@@ -2994,102 +2953,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-said-the-new-administration-opposes-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} said the new administration opposes {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-opposes-about-the-new-president-said-in-the-inaugural-address-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} opposes {about}, the new president said in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-the-new-president-name-came-out-against-about-in-the-inaugural-address-on-date",
       "move": "lede",
       "kind": "written",
       "text": "The new president, {name}, came out against {about} in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-was-sworn-in-on-date-and-spoke-against-about-in-the-inaugural-address",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} was sworn in on {date} and spoke against {about} in the inaugural address.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-speaking-after-the-oath-on-date-name-said-the-new-administration-is-against-abou",
-      "move": "lede",
-      "kind": "written",
-      "text": "Speaking after the oath on {date}, {name} said the new administration is against {about}.",
       "uses": [
         {
           "subject": "news-address",
@@ -3132,102 +2999,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-said-about-is-the-wrong-course",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} said {about} is the wrong course.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-used-the-address-after-taking-the-oath-on-date-to-speak-against-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} used the address after taking the oath on {date} to speak against {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-name-took-the-oath-on-date-and-used-the-inaugural-address-to-back-about",
       "move": "lede",
       "kind": "written",
       "text": "{name} took the oath on {date} and used the inaugural address to back {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-said-the-new-administration-supports-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} said the new administration supports {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-supports-about-the-new-president-said-in-the-inaugural-address-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} supports {about}, the new president said in the inaugural address on {date}.",
       "uses": [
         {
           "subject": "news-address",
@@ -3270,102 +3045,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-was-sworn-in-on-date-and-spoke-for-about-in-the-inaugural-address",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} was sworn in on {date} and spoke for {about} in the inaugural address.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-speaking-after-the-oath-on-date-name-said-the-new-administration-is-for-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "Speaking after the oath on {date}, {name} said the new administration is for {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-name-spoke-up-for-about-in-the-inaugural-address-on-date",
       "move": "lede",
       "kind": "written",
       "text": "{name} spoke up for {about} in the inaugural address on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-inaugural-address-on-date-name-said-about-is-the-right-course",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the inaugural address on {date}, {name} said {about} is the right course.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "inaugural",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-used-the-address-after-taking-the-oath-on-date-to-speak-in-favor-of-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} used the address after taking the oath on {date} to speak in favor of {about}.",
       "uses": [
         {
           "subject": "news-address",
@@ -3527,79 +3210,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-address-name-spoke-against-about-in-the-address-to-congress-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} spoke against {about} in the address to Congress on {date}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "joint-session",
-            "about",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-address-name-told-congress-on-date-that-the-administration-is-for-about",
       "move": "lede",
       "kind": "written",
       "text": "{name} told Congress on {date} that the administration is for {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "joint-session",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-in-the-address-to-congress-on-date-name-spoke-for-about",
-      "move": "lede",
-      "kind": "written",
-      "text": "In the address to Congress on {date}, {name} spoke for {about}.",
-      "uses": [
-        {
-          "subject": "news-address",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": [
-            "name",
-            "date",
-            "joint-session",
-            "about",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-address-name-spoke-for-about-in-the-address-to-congress-on-date",
-      "move": "lede",
-      "kind": "written",
-      "text": "{name} spoke for {about} in the address to Congress on {date}.",
       "uses": [
         {
           "subject": "news-address",
@@ -3736,54 +3350,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.headline.news-address-headline-surname-speaks-to-congress-against-about",
-      "move": "headline",
-      "kind": "written",
-      "text": "{surname} speaks to Congress against {about}",
-      "uses": [
-        {
-          "subject": "news-address-headline",
-          "role": "headline",
-          "tie": "record",
-          "requiresFacts": [
-            "surname",
-            "about",
-            "joint-session",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.headline.news-address-headline-surname-tells-congress-about-is-the-right-course",
       "move": "headline",
       "kind": "written",
       "text": "{surname} tells Congress {about} is the right course",
-      "uses": [
-        {
-          "subject": "news-address-headline",
-          "role": "headline",
-          "tie": "record",
-          "requiresFacts": [
-            "surname",
-            "about",
-            "joint-session",
-            "president-for"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.headline.news-address-headline-surname-speaks-to-congress-for-about",
-      "move": "headline",
-      "kind": "written",
-      "text": "{surname} speaks to Congress for {about}",
       "uses": [
         {
           "subject": "news-address-headline",
@@ -3853,44 +3423,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-body-met-on-date-and-approved-law-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} met on {date} and approved {law}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-meeting-on-date-the-body-voted-down-law-count",
       "move": "lede",
       "kind": "written",
       "text": "Meeting on {date}, the {body} voted down {law}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-the-body-met-on-date-and-voted-down-law-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} met on {date} and voted down {law}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -3925,23 +3461,6 @@
       "move": "lede",
       "kind": "written",
       "text": "The {body} did not pass {law} on {date}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-law-was-defeated-in-the-body-on-date-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "{law} was defeated in the {body} on {date}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -4009,24 +3528,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.margin.news-roll-call-the-body-was-split-count-with-one-vote-deciding-it",
-      "move": "margin",
-      "kind": "written",
-      "text": "The {body} was split {count}, with one vote deciding it.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one", "count"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.margin.news-roll-call-only-one-member-of-the-body-voted-against-law",
       "move": "margin",
       "kind": "written",
@@ -4049,42 +3550,6 @@
       "move": "margin",
       "kind": "written",
       "text": "{law} drew one no vote in the {body}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "lone-vote", "passed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-one-member-of-the-body-voted-against-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "One member of the {body} voted against {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "lone-vote", "passed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-every-other-member-of-the-body-voted-for-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "Every other member of the {body} voted for {law}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -4135,42 +3600,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.margin.news-roll-call-one-member-of-the-body-voted-for-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "One member of the {body} voted for {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "lone-vote", "failed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-every-other-member-of-the-body-voted-against-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "Every other member of the {body} voted against {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "lone-vote", "failed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.margin.news-roll-call-no-member-of-the-body-voted-against-law",
       "move": "margin",
       "kind": "written",
@@ -4207,42 +3636,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.margin.news-roll-call-every-member-of-the-body-voted-for-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "Every member of the {body} voted for {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "no-dissent", "passed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-there-were-no-votes-against-law-in-the-body",
-      "move": "margin",
-      "kind": "written",
-      "text": "There were no votes against {law} in the {body}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "no-dissent", "passed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.margin.news-roll-call-no-member-of-the-body-voted-for-law",
       "move": "margin",
       "kind": "written",
@@ -4256,94 +3649,6 @@
         }
       ],
       "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-law-got-no-votes-in-the-body",
-      "move": "margin",
-      "kind": "written",
-      "text": "{law} got no votes in the {body}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "no-dissent", "failed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-every-member-of-the-body-voted-against-law",
-      "move": "margin",
-      "kind": "written",
-      "text": "Every member of the {body} voted against {law}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "no-dissent", "failed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-there-were-no-votes-for-law-in-the-body",
-      "move": "margin",
-      "kind": "written",
-      "text": "There were no votes for {law} in the {body}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "no-dissent", "failed"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-the-body-gave-its-approval-to-law-on-date-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} gave its approval to {law} on {date}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-won-in-the-on",
-      "move": "lede",
-      "kind": "written",
-      "text": "{law} won in the {body} on {date}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
       "origin": "authored",
       "author": "the news writer",
       "date": "2026-11-24"
@@ -4383,23 +3688,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-law-got-a-count-vote-in-the-body-on-date-not-enough-to-pass",
-      "move": "lede",
-      "kind": "written",
-      "text": "{law} got a {count} vote in the {body} on {date}, not enough to pass.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-against-law",
       "move": "lede",
       "kind": "written",
@@ -4417,10 +3705,540 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-lost-a-vote-in-the-on-b",
+      "key": "outline-news.lede.news-address-opposition-to-about-was-part-of-name-s-inaugural-address-on-date",
       "move": "lede",
       "kind": "written",
-      "text": "{law} lost a {count} vote in the {body} on {date}.",
+      "text": "Opposition to {about} was part of {name}'s inaugural address on {date}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-the-inaugural-address-on-date-included-name-s-opposition-to-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "The inaugural address on {date} included {name}'s opposition to {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-support-for-about-was-part-of-name-s-inaugural-address-on-date",
+      "move": "lede",
+      "kind": "written",
+      "text": "Support for {about} was part of {name}'s inaugural address on {date}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-the-inaugural-address-on-date-included-name-s-support-for-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "The inaugural address on {date} included {name}'s support for {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-become-law",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that {about} should become law.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-the-law-on-about-would-stay",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that the law on {about} would stay.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-be-repealed",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that {about} should be repealed.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-not-become-law",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} said in the inaugural address on {date} that {about} should not become law.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against"
+          ],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-a-one-vote-margin-decided-it-in-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "A one-vote margin decided it in the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "by-one"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-the-body-decided-it-by-one-vote",
+      "move": "margin",
+      "kind": "written",
+      "text": "The {body} decided it by one vote.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "by-one"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-it-ended-one-vote-apart-in-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "It ended one vote apart in the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "by-one"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-only-one-member-of-the-body-opposed-law",
+      "move": "margin",
+      "kind": "written",
+      "text": "Only one member of the {body} opposed {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "passed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-a-single-member-of-the-body-opposed-law",
+      "move": "margin",
+      "kind": "written",
+      "text": "A single member of the {body} opposed {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "passed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-law-had-one-vote-against-it-in-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "{law} had one vote against it in the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "passed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-only-one-member-of-the-body-supported-law",
+      "move": "margin",
+      "kind": "written",
+      "text": "Only one member of the {body} supported {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-a-single-member-of-the-body-supported-law",
+      "move": "margin",
+      "kind": "written",
+      "text": "A single member of the {body} supported {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-law-had-one-vote-in-favor-in-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "{law} had one vote in favor in the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-s-inaugural-address-on-date-came-out-in-favor-of-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name}'s inaugural address on {date} came out in favor of {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-name-s-inaugural-address-on-date-came-out-against-about",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name}'s inaugural address on {date} came out against {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-backing-about-name-took-the-oath-on-date-and-said-so-in-the-inaugural-address",
+      "move": "lede",
+      "kind": "written",
+      "text": "Backing {about}, {name} took the oath on {date} and said so in the inaugural address.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-address-opposing-about-name-took-the-oath-on-date-and-said-so-in-the-inaugural-address",
+      "move": "lede",
+      "kind": "written",
+      "text": "Opposing {about}, {name} took the oath on {date} and said so in the inaugural address.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "inaugural",
+            "about",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-just-one-member-of-the-body-backed-law",
+      "move": "margin",
+      "kind": "written",
+      "text": "Just one member of the {body} backed {law}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-law-was-backed-by-one-member-of-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "{law} was backed by one member of the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.margin.news-roll-call-law-found-support-from-one-member-of-the-body",
+      "move": "margin",
+      "kind": "written",
+      "text": "{law} found support from one member of the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "margin",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "lone-vote", "failed"]
+        }
+      ],
+      "after": ["lede"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-at-its-meeting-on-date-the-body-approved-law-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "At its meeting on {date}, the {body} approved {law}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-the-body-s-vote-on-date-approved-law-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {body}'s vote on {date} approved {law}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-at-its-meeting-on-date-the-body-voted-down-law-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "At its meeting on {date}, the {body} voted down {law}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -4434,10 +4252,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-body-voted-count-on-date-to-reject-law",
+      "key": "outline-news.lede.news-roll-call-the-body-s-vote-on-date-turned-down-law-count",
       "move": "lede",
       "kind": "written",
-      "text": "The {body} voted {count} on {date} to reject {law}.",
+      "text": "The {body}'s vote on {date} turned down {law}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -4446,78 +4264,6 @@
           "requiresFacts": ["body", "law", "date", "count", "failed"]
         }
       ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-switch-one-vote-in-the-body-and-the-result-flips",
-      "move": "margin",
-      "kind": "written",
-      "text": "Switch one vote in the {body}, and the result flips.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-the-body-was-one-vote-away-from-the-opposite-result",
-      "move": "margin",
-      "kind": "written",
-      "text": "The {body} was one vote away from the opposite result.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-only-one-vote-kept-the-result-from-going-the-other-way",
-      "move": "margin",
-      "kind": "written",
-      "text": "Only one vote in the {body} kept the result from going the other way.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one"]
-        }
-      ],
-      "after": ["lede"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.margin.news-roll-call-one-vote-either-way-would-have-changed-what-the-body-did",
-      "move": "margin",
-      "kind": "written",
-      "text": "One vote either way would have changed what the {body} did.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "margin",
-          "tie": "record",
-          "requiresFacts": ["body", "by-one"]
-        }
-      ],
-      "after": ["lede"],
       "origin": "authored",
       "author": "the news writer",
       "date": "2026-11-24"
