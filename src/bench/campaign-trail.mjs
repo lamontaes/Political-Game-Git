@@ -21,8 +21,10 @@ export async function openCampaignTrail(page) {
   // Either the trail's own card is already up (an act that stays on the screen returns to it, and a
   // press of another ring may not have taken it down yet) or Travel's list, which holds its tile. The
   // sheet redraws between the two, so the check waits for whichever shows rather than counting at once.
+  // Only a tile on show: after a scene's talk the trail's card can stay in the page, hidden, and a
+  // hidden tile is not the trail on screen (a second day of knocking found it and opened nothing).
   const own = page.locator(
-    "#sheet-body.place-view .travel-screen .travel-tile",
+    "#sheet-body.place-view .travel-screen .travel-tile:visible",
     { hasText: "Knock on doors" },
   );
   const entry = page
