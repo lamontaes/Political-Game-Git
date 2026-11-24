@@ -210,7 +210,7 @@ try {
       talk += `\nTalking with ${other.name} (${other.reason}).${stoodIn ? " The room showed nobody, so the first housemate the opening names is opened with directly." : ""}\n`;
       let view: Json = await call(
         "POST",
-        `/api/talk/open?${q({ otherId: other.personId })}`,
+        `/api/talk/open?${q({ otherId: other.personId, ...(process.env.OCCASION && moment ? { momentId: moment } : {}) })}`,
       );
       let shown = 0;
       for (let turn = 1; view && turn <= 40; turn += 1) {
