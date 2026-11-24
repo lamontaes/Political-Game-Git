@@ -2668,7 +2668,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-a-few-in-congress-would-tomorrow-if-they-could",
@@ -2690,7 +2691,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-the-easy-thing-would-be-to",
@@ -2709,7 +2711,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-some-will-tell-you-the-answer-is-to",
@@ -2731,7 +2734,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-plenty-of-good-people-want-to-and-i-ll-hear-them-out",
@@ -2753,7 +2757,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-over-the-years-folks-have-argued-that-we-ought-to",
@@ -2775,7 +2780,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-see-it-differently-because",
@@ -2887,7 +2893,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-is-it-time-to",
@@ -2909,7 +2916,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-is-this-the-year-we",
@@ -2931,7 +2939,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-people-are-asking-whether-we-ought-to",
@@ -2953,7 +2962,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-the-question-for-this-country-is-whether-to",
@@ -2975,7 +2985,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-is-worth-keeping",
@@ -2994,7 +3005,8 @@
       "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-does-this-country-still-want",
@@ -3016,7 +3028,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-should-stay-as-it-is",
@@ -3038,7 +3051,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-have-we-gotten-right",
@@ -3057,7 +3071,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-is-doing-what-it-was-meant-to-do",
@@ -3079,7 +3094,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.today.inaugural-today",
@@ -5087,7 +5103,8 @@
       "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-plenty-of-people-in-washington-want-to",
@@ -5109,7 +5126,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-some-want-to-and-i-disagree",
@@ -5128,7 +5146,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.send-off.inaugural-thank-you-for-being-here-and-thank-you-to-for-standing-with-me-today",
