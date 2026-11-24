@@ -1935,6 +1935,222 @@
         "move": "accept",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-take-the-calls-about-the-disaster-myself",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll take the calls about the {disaster} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-agree.declare-it-pick-one-person-to-answer-calls-about-the-disaster"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["president-names-the-envoy"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-give-you-the-name-of-the-person-handling-calls-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll give you the name of the person handling calls about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-agree.declare-it-pick-one-person-to-answer-calls-about-the-disaster"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["president-names-the-envoy"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-thank.anyone-who-calls-me-about-the-disaster-will-get-the-same-contact",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Anyone who calls me about the {disaster} will get the same contact.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-agree.declare-it-pick-one-person-to-answer-calls-about-the-disaster"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["president-names-the-envoy"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-thank.i-ll-have-one-person-speak-for-the-department-about-the-disaster",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll have one person speak for the department about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-agree.declare-it-pick-one-person-to-answer-calls-about-the-disaster"
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["president-names-the-envoy"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-speak-to-the-county-directors-about-the-disaster-before-i-take-press-calls",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll speak to the county directors about the {disaster} before I take press calls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-decline.no-give-the-counties-my-decision-on-the-disaster-before-anyone-talks-to-reporters"
+        }
+      ],
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-accept.the-counties-will-hear-from-me-first-about-the-disaster",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "The counties will hear from me first about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-decline.no-give-the-counties-my-decision-on-the-disaster-before-anyone-talks-to-reporters"
+        }
+      ],
+      "bearing": "steady",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-make-those-calls-myself-the-press-can-wait-for-word-on-the-disaster",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll make those calls myself. The press can wait for word on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-decline.no-give-the-counties-my-decision-on-the-disaster-before-anyone-talks-to-reporters"
+        }
+      ],
+      "bearing": "calm",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk-office.follow-accept.before-i-answer-a-reporter-i-ll-tell-the-counties-where-you-stand-on-the-disaster",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Before I answer a reporter, I'll tell the counties where you stand on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "after": "scene-talk-office.reply-decline.no-give-the-counties-my-decision-on-the-disaster-before-anyone-talks-to-reporters"
+        }
+      ],
+      "bearing": "guarded",
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     }
   ]
 }
