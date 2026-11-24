@@ -1,0 +1,32 @@
+{
+  "id": "closed-sidewalk-ticket-with-no-explanation",
+  "kind": "consequence",
+  "summary": "{resident} brings in a closed request that gives no reason for closing it.",
+  "realLife": "Auditors found closed requests whose records lacked enough information to establish whether staff had inspected or otherwise handled the complaint.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{resident}"],
+  "gates": [
+    "Closed request lacking both an inspection record and an explanatory note."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: closed request lacking both an inspection record and an explanatory note.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The inspector locates dated field notes.",
+      "what": "Attach them and explain the disposition.",
+      "writesBack": "Document the basis for closure.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "No evidence of a visit can be found.",
+      "what": "Refer the address for verification.",
+      "writesBack": "Flag the unexplained closure.."
+    }
+  ]
+}
