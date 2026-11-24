@@ -72479,7 +72479,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-jobs-at-the-other-end-of-the-route"]
         }
       ],
       "bearing": "firm",
@@ -72724,7 +72725,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-bus-money-becomes-breakfast-money"]
         }
       ],
       "bearing": "warm",
@@ -72759,7 +72761,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-student-counts-a-semester-of-fares"]
         }
       ],
       "bearing": "firm",
@@ -72794,7 +72797,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-one-bus-to-visit-family"]
         }
       ],
       "bearing": "calm",
@@ -72864,7 +72868,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-offline-fare-payment"]
         }
       ],
       "bearing": "steady",
@@ -72899,6 +72904,9 @@
             "for",
             "sponsor-heard-veto",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "excludesFacts": [
+            "heard-tell-the-driver-before-paying-for-the-family"
           ]
         }
       ],
@@ -72934,7 +72942,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-pass-clock-starts-at-first-use"]
         }
       ],
       "bearing": "warm",
@@ -72969,7 +72978,8 @@
             "for",
             "sponsor-heard-veto",
             "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
-          ]
+          ],
+          "excludesFacts": ["heard-crumpled-bills-at-the-farebox"]
         }
       ],
       "bearing": "guarded",
@@ -72978,6 +72988,607 @@
       "date": "2026-11-24",
       "tag": {
         "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-someone-in-place-to-be-able-to-visit-family-just-because-they-have-the-afternoon-free-will-you-sign-the-fare-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like someone in {place} to be able to visit family just because they have the afternoon free. Will you sign the fare bill?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "one-bus-to-visit-family"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-one-bus-to-visit-family"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.getting-to-work-shouldn-t-mean-setting-aside-part-of-the-first-hour-s-pay-for-the-ride-i-m-asking-for-your-signature-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Getting to work shouldn't mean setting aside part of the first hour's pay for the ride. I'm asking for your signature on {bill}.",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "jobs-at-the-other-end-of-the-route"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-jobs-at-the-other-end-of-the-route"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.think-of-a-student-paying-to-get-to-class-every-morning-in-place-will-you-take-the-fare-out-of-that-trip",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Think of a student paying to get to class every morning in {place}. Will you take the fare out of that trip?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "student-counts-a-semester-of-fares"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-student-counts-a-semester-of-fares"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-rather-let-a-parent-in-place-keep-the-bus-money-for-breakfast-can-i-count-on-you-to-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd rather let a parent in {place} keep the bus money for breakfast. Can I count on you to sign?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "bus-money-becomes-breakfast-money"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-bus-money-becomes-breakfast-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.some-riders-would-still-need-a-pass-for-the-rest-of-their-trips-i-won-t-promise-them-a-windfall-i-d-still-like-you-to-sign-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Some riders would still need a pass for the rest of their trips. I won't promise them a windfall. I'd still like you to sign {bill}.",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "monthly-pass-still-needed"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-a-driver-in-place-to-be-able-to-let-a-passenger-board-without-an-argument-over-money-will-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like a driver in {place} to be able to let a passenger board without an argument over money. Will you sign?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "operator-no-longer-argues-over-the-fare"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.leave-the-traffic-claims-out-of-it-even-if-somebody-in-place-would-have-taken-the-bus-anyway-i-d-like-them-to-keep-the-fare-will-you-approve-that",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Leave the traffic claims out of it. Even if somebody in {place} would have taken the bus anyway, I'd like them to keep the fare. Will you approve that?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "ask-what-trip-the-bus-replaced"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deadline-is-when-we-need-your-answer-would-you-sign-so-a-rider-can-make-a-trip-they-might-otherwise-skip",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deadline} is when we need your answer. Would you sign so a rider can make a trip they might otherwise skip?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "ask-what-trip-the-bus-replaced"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-us-to-collect-fares-again-then-i-want-us-to-account-for-what-that-money-buys-for-riders-in-place-will-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want us to collect fares again. Then I want us to account for what that money buys for riders in {place}. Will you sign?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "city-pays-agency-for-foregone-fares"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-to-sign-bill-i-also-want-a-way-to-pay-that-works-for-somebody-who-walks-up-to-the-counter-with-cash",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you to sign {bill}. I also want a way to pay that works for somebody who walks up to the counter with cash.",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "cash-rider-needs-a-place-to-buy-a-pass"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-offline-fare-payment"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-approve-bringing-fares-back-in-place-i-ll-take-the-next-question-myself-when-a-parent-asks-what-it-costs-to-bring-the-kids",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you approve bringing fares back in {place}? I'll take the next question myself when a parent asks what it costs to bring the kids.",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "tell-the-driver-before-paying-for-the-family"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-tell-the-driver-before-paying-for-the-family"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-rider-can-care-about-the-fare-and-still-care-more-about-whether-the-bus-shows-up-i-stand-by-bill-will-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A rider can care about the fare and still care more about whether the bus shows up. I stand by {bill}. Will you sign it?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "the-chart-and-the-wait-at-the-stop"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bring-fares-back-yes-make-somebody-buy-a-phone-to-get-a-discount-no-that-s-the-case-i-want-to-make-in-place-can-i-have-your-signature",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Bring fares back, yes. Make somebody buy a phone to get a discount, no. That's the case I want to make in {place}. Can I have your signature?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "same-program-two-enrollment-paths"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-offline-fare-payment"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.when-the-time-comes-to-sell-passes-in-place-i-d-want-the-clock-to-start-on-the-first-ride-first-i-need-you-to-sign-the-fare-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "When the time comes to sell passes in {place}, I'd want the clock to start on the first ride. First I need you to sign the fare bill.",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "pass-clock-starts-at-first-use"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-pass-clock-starts-at-first-use"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-your-decision-by-deadline-i-d-bring-the-fare-back-and-give-drivers-a-say-in-how-it-s-collected-are-you-willing-to-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's your decision by {deadline}. I'd bring the fare back and give drivers a say in how it's collected. Are you willing to sign?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "crumpled-bills-at-the-farebox"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": ["heard-crumpled-bills-at-the-farebox"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-brought-you-bill-because-i-d-start-charging-again-if-someone-has-to-change-buses-i-d-want-a-limit-on-what-the-day-costs-them-will-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I brought you {bill} because I'd start charging again. If someone has to change buses, I'd want a limit on what the day costs them. Will you sign?",
+      "elements": [
+        "sponsor-asks-while-bill-awaits-signature",
+        "fare-cap-follows-the-payment-device"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": [
+            "for",
+            "bill",
+            "deadline",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
         "key": "desk-visit"
       }
     }
