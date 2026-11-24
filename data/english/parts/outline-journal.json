@@ -7,7 +7,9 @@
     "moved-from": "the place the person moved from, from the move record, said as a place name (a state or a town)",
     "moment-year": "the year the birth or move happened, from its own record",
     "age-then": "the person's age on the day, from the birth record (left out at 0)",
-    "older-sibling": "the given name of the nearest older brother or sister on the family record, for the birth chapter"
+    "older-sibling": "the given name of the nearest older brother or sister on the family record, for the birth chapter",
+    "born-weekday": "the day of the week the person was born, from the birth date on their record, for the birth chapter",
+    "born-month": "the month the person was born, from the birth date on their record, for the birth chapter"
   },
   "maxWords": 30,
   "parts": [
@@ -652,6 +654,271 @@
       ]
     },
     {
+      "key": "outline-journal.born.older-sibling-already-there",
+      "move": "born",
+      "kind": "written",
+      "text": "{older-sibling} was already there when I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-observant"]
+    },
+    {
+      "key": "outline-journal.born.born-in-the-next-one-after",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place}, the next one after {older-sibling}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"]
+    },
+    {
+      "key": "outline-journal.born.first-child-born-in",
+      "move": "born",
+      "kind": "written",
+      "text": "In {place}, I was the oldest child in my family.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "first-born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ]
+    },
+    {
+      "key": "outline-journal.born.every-brother-and-sister-younger",
+      "move": "born",
+      "kind": "written",
+      "text": "Every brother and sister I have is younger than me, and I was born in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "first-born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-meticulous"
+      ]
+    },
+    {
+      "key": "outline-journal.born.no-brothers-or-sisters",
+      "move": "born",
+      "kind": "written",
+      "text": "{place} is where I was the only child.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "only-child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-self-conscious"
+      ]
+    },
+    {
+      "key": "outline-journal.born.born-on-a-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born on a {born-weekday}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-sincere"]
+    },
+    {
+      "key": "outline-journal.born.born-in-month-next-after",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {born-month}, the next one after {older-sibling}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-month", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"]
+    },
+    {
+      "key": "outline-journal.born.older-sibling-on-the-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "{older-sibling} was already there on the {born-weekday} I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-supportive"
+      ]
+    },
+    {
+      "key": "outline-journal.born.birthday-is-in-month",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place} in {born-month}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "born-month"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-contented", "personality-v1:facet-shy"]
+    },
+    {
+      "key": "outline-journal.born.oldest-born-weekday-month",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born on a {born-weekday} in {born-month}, the oldest of the children.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": [
+            "own-moment",
+            "born-weekday",
+            "born-month",
+            "first-born"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-meticulous"
+      ]
+    },
+    {
+      "key": "outline-journal.born.only-child-born-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "I was the only child, born on a {born-weekday}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday", "only-child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-independent",
+        "personality-v1:facet-skeptical"
+      ]
+    },
+    {
       "key": "outline-journal.moved.i-moved-to-in",
       "move": "moved",
       "kind": "written",
@@ -1027,6 +1294,124 @@
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.the-year-we-moved-was",
+      "move": "moved",
+      "kind": "written",
+      "text": "The year we moved to {place} was {moment-year}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "own-moment",
+            "household-together",
+            "moment-year"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.before-we-lived-in",
+      "move": "moved",
+      "kind": "written",
+      "text": "Before {place}, we lived in {moved-from}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "own-moment",
+            "household-together",
+            "moved-from"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.was-the-age-the-year-we-left",
+      "move": "moved",
+      "kind": "written",
+      "text": "I was {age-then} the year we left {moved-from}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "own-moment",
+            "household-together",
+            "moved-from",
+            "age-then"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "outline-journal.moved.is-where-we-lived-before",
+      "move": "moved",
+      "kind": "written",
+      "text": "{moved-from} is where we lived before we came to {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "place",
+            "own-moment",
+            "household-together",
+            "moved-from"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the Journal writer",

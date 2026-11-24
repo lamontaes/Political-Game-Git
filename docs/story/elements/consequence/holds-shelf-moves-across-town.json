@@ -1,0 +1,36 @@
+{
+  "id": "holds-shelf-moves-across-town",
+  "kind": "consequence",
+  "summary": "A reader's reserved book is waiting at a different building from the one where they expected to collect it.",
+  "realLife": "The Friends of the South End Library told patrons that holds for the closed branch had been routed to Boston's Central Library.",
+  "sources": ["https://www.friendsofsouthendlibrary.org/library-contact"],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "home",
+    "work-community"
+  ],
+  "slots": ["{branch}", "{pickup_site}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: rerouted hold and pickup notice.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader can get to the new shelf.",
+      "what": "A librarian confirms the pickup location.",
+      "writesBack": "The hold is collected at the receiving branch."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader cannot make that trip.",
+      "what": "Staff check whether a different pickup point is available.",
+      "writesBack": "The hold record keeps the location actually agreed upon."
+    }
+  ]
+}

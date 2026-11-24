@@ -1,0 +1,30 @@
+{
+  "id": "monogram-on-public-belt",
+  "kind": "detail",
+  "summary": "A belt marked for {person} goes into the public collection.",
+  "realLife": "The Argentine ambassador gave Biden a monogrammed belt that the White House sent to the Archives.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A personalized object transferred to public custody."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a personalized object transferred to public custody.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A family member recognizes the initials",
+      "what": "Explain the transfer",
+      "writesBack": "The family knows where the belt went"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The cataloger asks how to distinguish it",
+      "what": "Record the monogram",
+      "writesBack": "The identifying mark stays with the record"
+    }
+  ]
+}

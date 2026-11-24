@@ -5,7 +5,7 @@
   "kinds": {
     "inaugural": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -163,7 +163,7 @@
     },
     "state-of-the-union": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -327,7 +327,7 @@
     },
     "state-of-the-state": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -638,7 +638,9 @@
     "news-roll-call": {
       "surface": "dialogue",
       "budgets": {
-        "*": 2
+        "*": 2,
+        "sponsor": 1,
+        "voted-against": 1
       },
       "sections": [
         {
@@ -649,13 +651,13 @@
         {
           "name": "body",
           "joins": true,
-          "shapes": ["margin"]
+          "shapes": ["margin-then-who-then-effect", "margin"]
         }
       ]
     },
     "town-address": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -811,7 +813,7 @@
     },
     "campaign-speech": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -1265,7 +1267,7 @@
       "moves": ["moved"]
     },
     "anchor-then-stand": {
-      "moves": ["anchor", "stand", "stand-reason?", "long-view?"]
+      "moves": ["anchor", "stand?", "stand-reason?", "long-view?"]
     },
     "contrast-stand-reason": {
       "moves": [
@@ -1278,6 +1280,9 @@
     },
     "disaster-placed": {
       "moves": ["disaster", "disaster-meaning?", "disaster-help?"]
+    },
+    "margin-then-who-then-effect": {
+      "moves": ["margin", "who?", "why?", "effect?"]
     }
   },
   "weights": {

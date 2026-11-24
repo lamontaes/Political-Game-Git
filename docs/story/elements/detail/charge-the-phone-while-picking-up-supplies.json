@@ -1,0 +1,29 @@
+{
+  "id": "charge-the-phone-while-picking-up-supplies",
+  "kind": "detail",
+  "summary": "A resident in {place} charges a dead phone on the same trip they make for supplies.",
+  "realLife": "City and partner teams placed temporary communications equipment and charging stations near relief sites and community centers.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=26"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A working charging point is confirmed near a relief site."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a working charging point is confirmed near a relief site.",
+  "turns": [
+    {
+      "turn": "the-equipment-is-available",
+      "pulledBy": "The equipment is available.",
+      "what": "List charging alongside the site's other services.",
+      "writesBack": "The public listing shows a confirmed charging point."
+    },
+    {
+      "turn": "the-service-has-moved",
+      "pulledBy": "The service has moved.",
+      "what": "Post directions to the current charging point.",
+      "writesBack": "The posted listing identifies the replacement location."
+    }
+  ]
+}

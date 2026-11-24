@@ -1,0 +1,30 @@
+{
+  "id": "the-vote-that-makes-the-pardon-effective",
+  "kind": "moment",
+  "summary": "{governor} waits for the council's consent before telling recipients their pardon is effective.",
+  "realLife": "Massachusetts lieutenant governor Kim Driscoll told reporters that clemency took effect when the Governor's Council approved Healey's proposal.",
+  "sources": [
+    "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=effective%20at%20the%20Governor"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
+  "gates": ["Jurisdiction requiring consent and a dated council decision."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: jurisdiction requiring consent and a dated council decision.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The council consents.",
+      "what": "Issue notice with the vote date.",
+      "writesBack": "The grant records its effective date."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The proposal is still before the council.",
+      "what": "Describe it as pending when residents call.",
+      "writesBack": "The record shows no effective grant yet."
+    }
+  ]
+}

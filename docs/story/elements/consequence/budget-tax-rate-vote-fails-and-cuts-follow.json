@@ -1,0 +1,38 @@
+{
+  "id": "budget-tax-rate-vote-fails-and-cuts-follow",
+  "kind": "consequence",
+  "summary": "City leaders put a tax-rate increase to voters, voters say no by a wide margin, and the city rewrites its budget with service cuts.",
+  "realLife": "Austin voters rejected Proposition Q on Nov. 4, 2025, with more than 63 percent opposed; it would have added about $109 million in property tax revenue. The city manager then released a revised budget that cut social service contracts, EMS, parks, municipal court and public health, and council members warned of fewer paramedics and park upkeep.",
+  "sources": [
+    "KXAN, Austin city manager releases revised budget after voters reject Prop Q, Nov 2025: https://www.kxan.com/news/local/austin/austin-city-manager-releases-revised-budget-after-voters-reject-prop-q/amp/",
+    "Community Impact, what's next for Austin after Proposition Q defeat, Nov 2025: https://communityimpact.com/north-central-austin/election/budget-reductions-city-spending-audit-whats-next-for-austin-after-proposition-q-defeat/",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["lost", "incumbent"],
+  "weights": {
+    "property-tax": 0.7,
+    "budget": 0.5
+  },
+  "usedBy": [],
+  "inGame": "a ballot measure result row; the budget lines cut afterward and the tax rate in force",
+  "turns": [
+    {
+      "way": "Voters approve the increase.",
+      "pulledBy": "a campaign that names what it buys",
+      "writes": "the speech lists what the money restores"
+    },
+    {
+      "way": "Voters approve a smaller increase.",
+      "pulledBy": "a compromise on the ballot",
+      "writes": "the speech settles for half and picks what waits"
+    },
+    {
+      "way": "The city adds an audit of spending to the revised budget.",
+      "pulledBy": "calls from the mayor and others",
+      "writes": "the speech promises a review before new asks"
+    }
+  ],
+  "issues": ["law:property-tax", "budget:welfareAndMedicaid"]
+}

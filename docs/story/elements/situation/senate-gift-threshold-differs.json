@@ -1,0 +1,32 @@
+{
+  "id": "senate-gift-threshold-differs",
+  "kind": "situation",
+  "summary": "{person} finds that the Senate and the executive branch used different dollar cutoffs for the same reporting year.",
+  "realLife": "The State Department's account of 2024 gifts identified a lower internal Senate threshold than the general federal threshold.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A comparison of senate and executive gift lists for a documented year."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a comparison of Senate and executive gift lists for a documented year.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "An editor compares totals",
+      "what": "Supply both thresholds",
+      "writesBack": "The caption explains the difference"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "An analyst needs comparable cases",
+      "what": "Apply a common cutoff",
+      "writesBack": "The comparison uses a narrower sample"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "a-referred-hire-stays-longer-than-others",
+  "kind": "consequence",
+  "summary": "A worker brought in through a current employee stays longer than someone who applied cold, which is why the employer values the favor.",
+  "realLife": "Researchers studying call centers and trucking found referred hires were much less likely to quit and cost less to recruit than nonreferred hires.",
+  "sources": [
+    "University of Minnesota research profile, The value of hiring through employee referrals (Quarterly Journal of Economics): https://experts.umn.edu/en/publications/the-value-of-hiring-through-employee-referrals/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "new-coworker event with a tie to the referrer; later job-ended events by quitting can be compared.",
+  "turns": [
+    {
+      "turn": "referral-works-out",
+      "summary": "The new hire settles in and the referrer's standing rises.",
+      "pulledBy": ["referrer is respected", "match to the job"],
+      "writesBack": "referrer tie closer; boss thinks well of referrer"
+    },
+    {
+      "turn": "referral-goes-sour",
+      "summary": "The hire does poorly and the referrer is embarrassed.",
+      "pulledBy": ["poor match", "trait: careless"],
+      "writesBack": "referrer tie colder; boss trust lower"
+    },
+    {
+      "turn": "referral-leaves-with-the-referrer",
+      "summary": "Both quit within a year for another firm.",
+      "pulledBy": ["offer elsewhere"],
+      "writesBack": "two job-ended events; employer loses both"
+    }
+  ]
+}

@@ -129,7 +129,21 @@ export function chapterOpenTelling(
   // Where the person came in the family, from who holds them as a sibling
   // (W3, Nov 24: the birth record gave the chapter little to say): an only
   // child, the first born, or born after a brother or sister, named.
-  if (move === "born" && how.own) Object.assign(told, birthOrder(core, me));
+  if (move === "born" && how.own) {
+    Object.assign(told, birthOrder(core, me));
+    // The day of the week and the month the person was born, from the birth
+    // date on their record (W3, Nov 24: one more birth fact so a line need not
+    // lean on the place).
+    const born = new Date(`${me.birthDate}T00:00:00Z`);
+    for (const [key, part] of [
+      ["born-weekday", { weekday: "long" }],
+      ["born-month", { month: "long" }],
+    ] as const)
+      told[key] = {
+        text: born.toLocaleDateString("en-US", { ...part, timeZone: "UTC" }),
+        sourceRecordIds: [me.id as EntityId],
+      };
+  }
   told[how.own ? "own-moment" : "other-moment"] = gate();
   if (how.together) told["household-together"] = gate();
   if (how.young) told["young-then"] = gate();

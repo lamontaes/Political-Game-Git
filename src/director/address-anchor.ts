@@ -19,9 +19,9 @@
  */
 import type { EntityId } from "../core2/kernel/brands";
 import { ageOnDate } from "../core2/kernel/dates";
-import { fullHouseholdIncomes } from "../core2/counted-income-fifth";
+import { fullHouseholdIncomes } from "../core2/household-cost";
 import { coverageOf } from "../core2/modules/coverage";
-import { CRIME_EVENT } from "../core2/modules/crime";
+import { CRIME_EVENT } from "../core2/modules/justice";
 import { careNeedOf, seriousIllnessOf } from "../core2/modules/health";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";

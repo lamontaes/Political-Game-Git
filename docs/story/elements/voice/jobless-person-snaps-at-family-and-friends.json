@@ -1,0 +1,36 @@
+{
+  "id": "jobless-person-snaps-at-family-and-friends",
+  "kind": "voice",
+  "summary": "An unemployed person is short with family and friends and has more arguments than before.",
+  "realLife": "A survey of unemployed adults found more stress, a sense of lost identity, and a large share reporting more conflicts with family and friends than usual.",
+  "sources": [
+    "Pew Research Center, Unemployed Americans are feeling the emotional strain of job loss (2021): https://www.pewresearch.org/short-reads/2021/02/10/unemployed-americans-are-feeling-the-emotional-strain-of-job-loss-most-have-considered-changing-occupations/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["law:unemployment-insurance"],
+  "inGame": "a person's mood and ties (friend, relative) after a job-ended event; needs: stress and identity trackers",
+  "turns": [
+    {
+      "turn": "jobless-person-withdraws",
+      "summary": "The person stops answering calls rather than arguing.",
+      "pulledBy": ["an introverted person", "shame"],
+      "writesBack": "ties cool over weeks; a journal note"
+    },
+    {
+      "turn": "jobless-person-apologizes-after-snapping",
+      "summary": "The person says sorry the next day.",
+      "pulledBy": ["an agreeable person"],
+      "writesBack": "a tie repair"
+    },
+    {
+      "turn": "friend-asks-nothing-and-brings-food",
+      "summary": "A friend visits and does not mention the job.",
+      "pulledBy": ["a tactful friend"],
+      "writesBack": "a warm tie and gratitude"
+    }
+  ]
+}
