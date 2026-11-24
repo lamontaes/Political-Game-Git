@@ -1,0 +1,29 @@
+{
+  "id": "rehearse-floor-questions-at-home",
+  "kind": "move",
+  "summary": "Before a bill comes up, its sponsor and advisers spend a weekend trying out questions colleagues might ask.",
+  "realLife": "Vogelsinger took notes at Kennedy’s home as he rehearsed labor-bill questions with advisers.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{member}", "{adviser}", "{bill}"],
+  "gates": ["Floor debate is approaching."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "floor-debate supplies the bill and speakers. needs: a rehearsal with questions linked to draft answers.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The sponsor stops at a question nobody at the table can answer.",
+      "pulledBy": "The amendment's effect depends on an agency interpretation.",
+      "writesBack": "The briefing sheet marks an open question for counsel."
+    },
+    {
+      "turn": "late",
+      "what": "The advisers repeat part of the rehearsal the next morning.",
+      "pulledBy": "The bill text changes after the evening discussion.",
+      "writesBack": "The morning notes replace the answer on that clause."
+    }
+  ]
+}

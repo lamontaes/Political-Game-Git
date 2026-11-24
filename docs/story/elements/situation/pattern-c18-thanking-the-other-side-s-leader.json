@@ -1,0 +1,43 @@
+{
+  "id": "pattern-c18-thanking-the-other-side-s-leader",
+  "kind": "situation",
+  "summary": "Thanking the other side's leader: {other-party leader} helps {the place} after {the disaster}, and the cameras catch you thanking them days before {party}'s big race.",
+  "realLife": "One life: Days before the 2012 presidential vote he praised President Obama's storm relief. Conservatives said he hurt his party's nominee, and his approval at home peaked. Another: Nine days after the September 11 attacks he hugged President Bush on the Senate floor. When he used the footage in a 2004 ad, the Republican National Committee demanded it be pulled.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chris_Christie",
+    "https://en.wikipedia.org/wiki/2004_United_States_Senate_election_in_South_Dakota"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "office", "speeches"],
+  "slots": ["other-party leader", "the disaster"],
+  "gates": [
+    "{the disaster} is on record in your place.",
+    "{other-party leader} acted for your place on record."
+  ],
+  "weights": [
+    "How close the race is.",
+    "How much help came.",
+    "How partisan your party's voters are."
+  ],
+  "pattern": "C18",
+  "choices": [
+    "thank them in public",
+    "thank them in private only",
+    "criticize the help",
+    "stand with them at the site"
+  ],
+  "branches": [
+    {
+      "when": "your party loses the big race",
+      "then": "Your party blames your words, and you are passed over for the next ticket (C34)."
+    },
+    {
+      "when": "you use the moment in your own ad",
+      "then": "The other party demands the ad come down, saying it implies an endorsement."
+    },
+    {
+      "when": "your own party's leaders delay aid",
+      "then": "You attack them by name. Your approval at home rises, and your party's base sours."
+    }
+  ],
+  "usedBy": []
+}

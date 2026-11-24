@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b32-the-long-count",
+  "kind": "situation",
+  "summary": "The long count: The margin is a few hundred votes, the recount and the court fight will take months, and the seat sits empty.",
+  "realLife": "Minnesota's 2008 Senate race went through a recount and a court contest for eight months. The state supreme court ruled for Franken by 312 votes, Coleman conceded, and Franken was sworn in that July, escorted by Amy Klobuchar and Walter Mondale.",
+  "sources": [
+    "https://www.mprnews.org/story/2009/07/07/franken_sworn_in",
+    "https://www.rollcall.com/2009/07/07/franken-takes-seat-in-the-senate/"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["lawyer"],
+  "gates": ["A margin inside the recount rule on the count record."],
+  "weights": [
+    "How narrow the margin is.",
+    "Money for lawyers.",
+    "What rides on the seat."
+  ],
+  "pattern": "B32",
+  "choices": [
+    "keep fighting in court",
+    "concede for the place's sake",
+    "press the official who certifies"
+  ],
+  "branches": [
+    {
+      "when": "you win at the end",
+      "then": "Months late, colleagues walk you in, and the oath is done twice so your family can stand with you."
+    },
+    {
+      "when": "you lose in court",
+      "then": "A concession after months reads differently from one on the night."
+    }
+  ],
+  "usedBy": []
+}

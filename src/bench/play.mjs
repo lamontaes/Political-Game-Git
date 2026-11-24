@@ -3576,9 +3576,17 @@ async function openBillPaper(billId, show, back, backLabel) {
     })}`,
   )
     .then((bodies) => {
-      const body = [...bodies.legislative, ...bodies.executive].find(
-        (row) => row.officeId === paper.bodyOfficeId,
-      );
+      const rows = [...bodies.legislative, ...bodies.executive];
+      // A federal bill names its chamber by kind ("federal:us-house"); the list names the
+      // viewer's own state's seats of it ("office:US-WA:us-house", or the delegate's).
+      const kind = /^federal:(.+)$/.exec(paper.bodyOfficeId ?? "")?.[1];
+      const body =
+        rows.find((row) => row.officeId === paper.bodyOfficeId) ??
+        (kind &&
+          (rows.find((row) => row.level === "federal" && row.kind === kind) ??
+            rows.find(
+              (row) => row.level === "federal" && row.kind.startsWith(kind),
+            )));
       return body?.picture
         ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
         : null;
@@ -6951,6 +6959,8 @@ async function openSheet(tab) {
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
+  // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
+  $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
   fitPagers($("sheet-body"));
@@ -6971,6 +6981,20 @@ function fitPagers(root) {
     if (!image.complete)
       image.addEventListener("load", () => fitPagersNow(root), { once: true });
   fitPagersNow(root);
+}
+/**
+ * A list that still scrolls takes the room a whole row, or a cap, could not use (owner, Nov 23: no
+ * scroller "when there's ample dead space"): a sheet that ends under its content stops at its
+ * tallest height, so the list's box grows by what is left of it instead of leaving a gap under it.
+ */
+function growIntoRoom(box) {
+  const sheet = $("sheet");
+  const tallest = parseFloat(getComputedStyle(sheet).maxHeight);
+  if (!Number.isFinite(tallest)) return;
+  const hidden = box.scrollHeight - box.clientHeight;
+  const room = tallest - sheet.getBoundingClientRect().height / uiScale();
+  if (hidden <= 1 || room <= 1) return;
+  box.style.maxHeight = `${box.clientHeight + Math.min(hidden, Math.floor(room))}px`;
 }
 function fitPagersNow(root, waits = 30) {
   window.requestAnimationFrame(() => {
@@ -7003,7 +7027,10 @@ function fitPagersNow(root, waits = 30) {
         box.setRows(box.rowCount() + 1);
         break;
       }
+      growIntoRoom(box);
     }
+    // The News list is a capped list, not a pager: it takes the room the same way.
+    for (const list of root.querySelectorAll(".news-list")) growIntoRoom(list);
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {

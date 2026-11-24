@@ -1,0 +1,31 @@
+{
+  "id": "fact-sheet-after-presidents-statement",
+  "kind": "detail",
+  "summary": "Reporters get a fact sheet on {issue} while staff prepare to take detailed questions.",
+  "realLife": "Carter announced a public fact sheet and a longer press briefing on the administration's response to the Kemeny report.",
+  "sources": ["https://www.presidency.ucsb.edu/node/248009"],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{issue}"],
+  "gates": [
+    "The executive's office is preparing a public statement on an incident."
+  ],
+  "weights": [
+    "More verified details than the speaker can give in person favor a written supplement."
+  ],
+  "usedBy": [],
+  "inGame": "needs: publication and revision of a briefing sheet.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The press office circulates the figures before the president speaks.",
+      "pulledBy": "The figures are verified and reporters have requested them.",
+      "writesBack": "The first published account links to the advance sheet."
+    },
+    {
+      "turn": "late",
+      "what": "The office releases a sheet with one answer marked pending.",
+      "pulledBy": "Two agencies have returned different totals.",
+      "writesBack": "A later correction identifies the figure and its source."
+    }
+  ]
+}

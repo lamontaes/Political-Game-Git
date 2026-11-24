@@ -1,0 +1,32 @@
+{
+  "id": "victory-first-act-is-about-what-people-pay",
+  "kind": "detail",
+  "summary": "The one first act named with a date is usually about household costs: rent, utilities, prices.",
+  "realLife": "Winners of three races named a first act on cost of living: a rent freeze, an emergency on utility costs on day one, day-one cost relief.",
+  "sources": [
+    "Zohran Mamdani, NYC mayor, victory night, Nov 4, 2025: https://www.rev.com/transcripts/mamdani-victory-speech",
+    "Mikie Sherrill, New Jersey governor, victory night, Nov 4, 2025: https://awpc.cattcenter.iastate.edu/communication/victory-speech-nov-4-2025",
+    "Abigail Spanberger, Virginia governor, victory night, Nov 4, 2025: https://www.rev.com/transcripts/abigail-spanberger-victory-speech",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["first-act"],
+  "gates": ["won"],
+  "weights": {
+    "victory": 0.6
+  },
+  "usedBy": [],
+  "inGame": "budget and macro modules carry prices, rents and utility rates; the executive engine carries a first act as an order or a proposed bill",
+  "turns": [
+    {
+      "way": "The first act is about safety or schools, not prices.",
+      "pulledBy": "a platform led by crime or school questions",
+      "writes": "the first act names that question"
+    },
+    {
+      "way": "The first act is a process, such as a review or a hearing.",
+      "pulledBy": "a seat whose powers are limited",
+      "writes": "the first act is to ask the body to study the question"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "conflict-first",
+  "kind": "move",
+  "summary": "A contested meeting story opens with the public comment and the officials' replies, and puts the vote in the middle.",
+  "realLife": "One school board story ran conflict, vote and pay figure, a parent's reaction, then the next meeting date.",
+  "sources": [
+    "Times-Republican (Marshalltown, Iowa), superintendent gets contract extension by a 3-2 vote: https://www.timesrepublican.com/news/todays-news/2025/06/despite-more-public-comment-criticism-stc-superintendent-gets-contract-extension-by-3-2-vote",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["body"],
+  "gates": [],
+  "weights": {
+    "vote": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "vote first",
+      "pulledBy": "a meeting that went quietly",
+      "writes": "the story leads with the vote and then the comment"
+    },
+    {
+      "name": "the reply first",
+      "pulledBy": "a superintendent or official who answered sharply",
+      "writes": "the story opens on the reply"
+    }
+  ]
+}

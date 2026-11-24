@@ -1,0 +1,38 @@
+{
+  "id": "ask-for-more-time-in-writing",
+  "kind": "move",
+  "summary": "A worker given an agreement in a rush asks for more time in writing and marks the deadlines.",
+  "realLife": "The EEOC advises noting the deadline as soon as you get the agreement, asking for clarification of confusing terms, requesting more time in writing if rushed, and considering a lawyer.",
+  "sources": [
+    "U.S. EEOC, Q&A on waivers of discrimination claims in severance agreements: https://www.eeoc.gov/laws/guidance/qa-understanding-waivers-discrimination-claims-employee-severance-agreements"
+  ],
+  "fits": ["work-community"],
+  "slots": ["deadline"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: severance agreements; the request is a choice on the termination meeting. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "employer-grants-the-time",
+      "summary": "The employer agrees in writing to the extra days.",
+      "pulledBy": ["a fair employer", "a legal review"],
+      "writesBack": "The deadline moves, and the person signs after review."
+    },
+    {
+      "turn": "employer-refuses-the-time",
+      "summary": "The employer says the paper must be signed by the date shown.",
+      "pulledBy": ["a pushy employer", "a group layoff"],
+      "writesBack": "The person signs under pressure or walks away, and the tie to the employer cools."
+    },
+    {
+      "turn": "person-signs-in-the-room",
+      "summary": "The person signs on the spot without asking for more time.",
+      "pulledBy": [
+        "a stunned or trusting person",
+        "who is watching the meeting"
+      ],
+      "writesBack": "Terms are fixed at once, and regret may follow later."
+    }
+  ]
+}

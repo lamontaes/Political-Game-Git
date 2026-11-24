@@ -1,0 +1,29 @@
+{
+  "id": "parents-divorce-and-the-child-is-told-late",
+  "kind": "move",
+  "summary": "A child is told about the parents' divorce years after it happened.",
+  "realLife": "A woman born about 1924 said her parents divorced in 1932, when she was about eight, and her mother did not tell her until she was thirteen.",
+  "sources": [
+    "Kennesaw State University, Georgia Journeys, Detroit Childhood oral history: https://georgiajourneys.kennesaw.edu/items/show/157"
+  ],
+  "fits": ["journal"],
+  "slots": ["named"],
+  "gates": [],
+  "inGame": "`household:parent-apart` with `named`. `needs:` when and by whom the child was told.",
+  "turns": [
+    {
+      "turn": "The child is told at once.",
+      "pulledBy": "a talk after the split",
+      "writesBack": "the line says who told them and what was said"
+    },
+    {
+      "turn": "The child is never told.",
+      "pulledBy": "no talk on the record",
+      "writesBack": "the line says nobody explained"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

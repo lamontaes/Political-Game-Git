@@ -1,0 +1,35 @@
+{
+  "id": "neighbor-with-a-clipboard",
+  "kind": "move",
+  "summary": "A neighbor comes to the door with a clipboard and a petition and asks for a signature.",
+  "realLife": "Opponents of a development gathered petition signatures from residents; one mayor argued many people sign without being fully informed.",
+  "sources": [
+    "WSOC-TV, hundreds at Weddington town hearing: https://www.wsoctv.com/news/local/development-debate-brings-hundreds-raucous-weddington-town-meeting/BATFRWXP6NCZFBC2CEMHZBD7IY"
+  ],
+  "fits": ["work-community"],
+  "slots": ["cause", "issue", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "a cause-shared record between the player and the neighbor (topic a policy question, budget line or illness) leading to an invitation to a posted meeting of the town's body; needs: a petition record with signers",
+  "turns": [
+    {
+      "turn": "you-sign-and-ask-questions",
+      "summary": "You sign after asking what the petition really changes.",
+      "pulledBy": ["curious trait", "shared cause"],
+      "writesBack": "tie warms; you are on the signer list"
+    },
+    {
+      "turn": "you-sign-to-be-polite",
+      "summary": "You sign quickly without reading, to end the conversation.",
+      "pulledBy": ["agreeable trait", "weak tie"],
+      "writesBack": "signature recorded; later regret if wrong"
+    },
+    {
+      "turn": "you-decline",
+      "summary": "You say you want to read more first and keep the clipboard visit short.",
+      "pulledBy": ["cautious trait", "opposite view"],
+      "writesBack": "neighbor remembers the refusal; tie cools"
+    }
+  ]
+}
