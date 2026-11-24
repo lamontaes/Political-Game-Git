@@ -1,92 +1,122 @@
-# Pre-grade: W2's victory-night lines (scene-talk.json, purpose victory-night)
+# Pre-grade: W2's victory-night and race-lost lines (scene-talk.json)
 
-Pre-grader, 2026-11-24. Story lead's PR #10390 at `6dda0573` (W2's `e1c25ca1` merged in). Fails quote the line and give the rule; no new wording is suggested.
+Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested.
 
-## Result: 15 of 61 pass
+## story/w-stand-close at `0fe7025f` (newest): 54 of 86 pass
 
-- All 61 were read blind in chunk NJ, with 8 planted owner-graded lines (4 passed, 4 rejected) and 30 earlier-graded lines mixed in. The reader caught all 8 plants; 23 of the 30 earlier lines got the same verdict again.
-- The reader was told how {office} fills in this scene, from the code (`officeSaid` in `src/director/cause-facts.ts`, through `seatSaid` in `src/english/journal-words.ts`, called without `asMember`):
-  - a single office is its title in lower case ("mayor");
-  - a seat on a town body with more than one seat is the whole body ("the Mutual Village Council");
-  - a district seat is "state representative in District 38".
-- **The main cause: 24 of the 46 fails are mainly the {office} fill, and several more fail on it in part.** Lines that use {office} as the thing won, earned, wanted, feared or started ("win {office}", "{office} is yours", "You earned {office}", "as {office}", "{office} starts tomorrow") read wrong with a title and are false with a body: the player won one seat, not the council. What reads with every fill is "run for {office}" and "the race for {office}". Those lines pass.
+- Victory night: 31 of 44; Race lost (concession call): 23 of 42.
+- Read blind in chunk NL (calibration 8/8; 22 of 30 earlier-graded lines got the same verdict again). Lines word for word the same as at `6dda0573` keep that read's verdict. The new reader failed 5 of those carried passes; they are listed below so you can see them, and they count as passes.
+- **{office} is fixed.** It now appears only in "the race for {office}" and "run for {office}", and no line fails on the fill.
+- **What fails now:**
+  - repeated openings: "The count in the race for {office} is final" three times, "…before I call {opponent}" three times, and "The longer…, the…" twice;
+  - concession lines that contradict a final count ("There's a chance", "Not until every ballot… is counted");
+  - composed narration ("The coffee has gone cold", "Your room is quiet");
+  - "call" puns and garbles ("It's your call about {opponent}", "We'll wait on {opponent}").
 
 ## As played
 
-- `src/director/victory-night.test.ts` at `6dda0573` in North Westminster, Vermont (5052375), world seed 18d0fb93…6b39: the room's question played "How does it feel to win selectboard member?" (opponent person_2e3e271caeb3b4c3). The seat's office record gave the member title rather than the body, so this is a fourth fill form, and "win selectboard member" is the awkward case above, seen in play.
-- I played this one pinned race only. The test prints the question line, not the whole talk.
+- `src/director/victory-night.test.ts` at `0fe7025f`, North Westminster, Vermont (5052375), world seed 18d0fb93…6b39: the room's question played "What do you think Michael Wise, a member of the Westminster Selectboard, is doing right now?" The reader fails this line: no record can answer it. In play, {opponent} also fills as the full name plus a role clause, which makes the question longer and stiffer.
+- `src/bench/concession-close-call.test.ts` fails at this head, in Amherst, New Hampshire (3301220), world seed 2988b829…df4a9: the loss "offers no 'How close was it?'". That line is not in any bank at `0fe7025f` or at `6dda0573`, so the failure is not caused by W2's change. It was not run at `6dda0573` to confirm.
 
-## Passing lines
+## Victory night: 31 of 44 pass
 
+### Passing lines
+
+- `scene-talk.narrate-narrate.your-phone-starts-buzzing-the-moment-the-race-for-office-is-called` (narrate-narrate): "Your phone starts buzzing the moment the race for {office} is called."
 - `scene-talk.open-greet.there-you-are-first-congratulations` (open-greet): "There you are, {first}. Congratulations."
-- `scene-talk.open-greet.over-here-first-everyone-s-been-waiting-for-you` (open-greet): "Over here, {first}. Everyone's been waiting for you."
 - `scene-talk.open-greet.first-you-did-it` (open-greet): "{first}! You did it."
+- `scene-talk.open-greet.over-here-first-everyone-s-been-waiting-for-you` (open-greet): "Over here, {first}. Everyone's been waiting for you."
+- `scene-talk.state-ask.are-you-going-to-say-something-to-opponent-s-supporters` (state-ask): "Are you going to say something to {opponent}'s supporters?"
 - `scene-talk.state-ask.what-do-you-say-to-the-people-who-voted-for-opponent` (state-ask): "What do you say to the people who voted for {opponent}?"
+- `scene-talk.state-ask.how-does-it-feel-to-win-the-race-for-office` (state-ask): "How does it feel to win the race for {office}?"
+- `scene-talk.state-ask.did-you-expect-to-win-the-race-for-office` (state-ask): "Did you expect to win the race for {office}?"
 - `scene-talk.state-ask.will-you-call-opponent` (state-ask): "Will you call {opponent}?"
-- `scene-talk.reply-apologize.i-shouldn-t-have-said-that-about-opponent-not-now` (reply-apologize): "I shouldn't have said that about {opponent}. Not now."
+- `scene-talk.state-ask.what-s-the-first-thing-you-ll-do-now-that-the-race-for-office-is-over` (state-ask): "What's the first thing you'll do now that the race for {office} is over?"
+- `scene-talk.reply-answer.i-want-to-thank-everyone-in-place-first-then-i-ll-think-about-what-s-next` (reply-answer): "I want to thank everyone in {place} first. Then I'll think about what's next."
+- `scene-talk.reply-answer.i-ll-call-opponent-in-the-morning-once-things-are-quiet` (reply-answer): "I'll call {opponent} in the morning, once things are quiet."
+- `scene-talk.reply-apologize.i-shouldn-t-have-said-that-about-opponent-not-now` (reply-apologize): "I shouldn't have said that about {opponent}. Not now." (carried from `6dda0573`; this reader failed it: He called 'You're right, I shouldn't have said that' AI responding.)
 - `scene-talk.reply-ask.has-opponent-called-yet` (reply-ask): "Has {opponent} called yet?"
+- `scene-talk.reply-ask.what-are-people-in-place-saying-out-there` (reply-ask): "What are people in {place} saying out there?"
+- `scene-talk.reply-boast.nobody-gave-us-a-chance-against-opponent-look-at-us-now` (reply-boast): "Nobody gave us a chance against {opponent}. Look at us now."
 - `scene-talk.reply-boast.we-outworked-opponent-and-the-count-shows-it` (reply-boast): "We outworked {opponent}, and the count shows it."
+- `scene-talk.reply-leave.i-need-a-minute-with-my-family-then-i-ll-talk-to-everyone-in-place` (reply-leave): "I need a minute with my family. Then I'll talk to everyone in {place}."
 - `scene-talk.reply-leave.i-m-going-to-find-my-family-first-thank-you` (reply-leave): "I'm going to find my family, {first}. Thank you."
-- `scene-talk.reply-tell.i-couldn-t-have-run-for-office-without-every-one-of-you` (reply-tell): "I couldn't have run for {office} without every one of you."
+- `scene-talk.reply-tell.i-couldn-t-have-run-for-office-without-every-one-of-you` (reply-tell): "I couldn't have run for {office} without every one of you." (carried from `6dda0573`; this reader failed it: You could run without them; the thanks belongs to winning, so 'couldn't have run' says the wrong thing.)
 - `scene-talk.reply-tell.opponent-ran-a-hard-race-and-i-respect-that` (reply-tell): "{opponent} ran a hard race, and I respect that."
+- `scene-talk.reply-tell.i-m-tired-and-happy-and-i-m-a-little-scared-of-letting-place-down` (reply-tell): "I'm tired and happy, and I'm a little scared of letting {place} down."
+- `scene-talk.follow-accept.good-place-is-glad-it-s-you` (follow-accept): "Good. {place} is glad it's you."
+- `scene-talk.follow-answer.people-in-place-came-out-for-you-and-they-d-do-it-again` (follow-answer): "People in {place} came out for you, and they'd do it again."
+- `scene-talk.follow-answer.plenty-of-us-came-out-for-you-in-the-race-for-office-and-we-d-do-it-again` (follow-answer): "Plenty of us came out for you in the race for {office}, and we'd do it again." (carried from `6dda0573`; this reader failed it: The same line as NL-009, made clumsier with 'in the race for {office}'.)
 - `scene-talk.follow-answer.opponent-hasn-t-called-yet-we-re-watching-the-phone` (follow-answer): "{opponent} hasn't called yet. We're watching the phone."
-- `scene-talk.follow-answer.plenty-of-us-came-out-for-you-in-the-race-for-office-and-we-d-do-it-again` (follow-answer): "Plenty of us came out for you in the race for {office}, and we'd do it again."
-- `scene-talk.follow-warn.careful-opponent-s-people-are-in-this-room-too` (follow-warn): "Careful. {opponent}'s people are in this room too."
-- `scene-talk.close-thank.thank-you-first-for-running-for-office` (close-thank): "Thank you, {first}, for running for {office}."
+- `scene-talk.follow-press.that-s-not-an-answer-what-will-you-do-first-for-place` (follow-press): "That's not an answer. What will you do first for {place}?"
+- `scene-talk.follow-press.come-on-give-us-one-thing-you-ll-do-for-place` (follow-press): "Come on. Give us one thing you'll do for {place}."
+- `scene-talk.follow-warn.careful-opponent-s-people-are-in-this-room-too` (follow-warn): "Careful. {opponent}'s people are in this room too." (carried from `6dda0573`; this reader failed it: The opponent's people would not be in the winner's room on election night.)
+- `scene-talk.close-thank.thank-you-first-for-running-for-office` (close-thank): "Thank you, {first}, for running for {office}." (carried from `6dda0573`; this reader failed it: The name wedged mid-sentence reads stiff, and it is the same line as NL-119.)
+- `scene-talk.close-thank.thanks-for-running-for-office-first` (close-thank): "Thanks for running for {office}, {first}."
 
-## Failing lines: the {office} fill (24)
+### Failing lines
 
-- `scene-talk.narrate-narrate.the-room-goes-quiet-for-the-last-numbers-then-loud-again-office-is-yours` (narrate-narrate): "The room goes quiet for the last numbers, then loud again. {office} is yours." — office fill / no-literary-phrasing: '{office} is yours' is false with a council fill ('The Mutual Village Council is yours') and awkward with 'mayor', and 'then loud again' is composed texture.
-- `scene-talk.state-ask.what-happens-tomorrow-now-that-you-ve-won-office` (state-ask): "What happens tomorrow, now that you've won {office}?" — office fill: 'now that you've won mayor' is awkward and 'won the Mutual Village Council' is false.
-- `scene-talk.state-ask.did-you-think-you-d-win-office` (state-ask): "Did you think you'd win {office}?" — office fill: 'Did you think you'd win mayor?' is awkward and 'win the Mutual Village Council' is false.
-- `scene-talk.state-ask.how-does-it-feel-to-win-office` (state-ask): "How does it feel to win {office}?" — office fill: 'to win mayor' is awkward and 'to win the Mutual Village Council' is false.
-- `scene-talk.state-ask.what-s-the-first-thing-you-ll-do-as-office` (state-ask): "What's the first thing you'll do as {office}?" — office fill: 'as the Mutual Village Council' does not read with a council-seat fill.
-- `scene-talk.reply-answer.right-now-i-want-to-thank-everyone-in-this-room-office-can-wait-until-morning` (reply-answer): "Right now I want to thank everyone in this room. {office} can wait until morning." — office fill: 'Mayor can wait until morning' or 'state representative in District 38 can wait' does not read; the office is not a thing that waits.
-- `scene-talk.reply-answer.i-ll-start-by-listening-and-then-i-ll-get-to-work-on-office` (reply-answer): "I'll start by listening, and then I'll get to work on {office}." — no-stock-phrases / office fill: 'I'll start by listening' is stock, and 'get to work on mayor' does not read.
-- `scene-talk.reply-answer.honestly-office-hasn-t-sunk-in-yet-ask-me-tomorrow` (reply-answer): "Honestly, {office} hasn't sunk in yet. Ask me tomorrow." — office fill: 'Mayor hasn't sunk in yet' does not read; the win is what hasn't sunk in.
-- `scene-talk.reply-answer.i-wanted-office-and-i-ll-try-to-deserve-it` (reply-answer): "I wanted {office}, and I'll try to deserve it." — office fill: 'I wanted mayor' is awkward, and 'try to deserve it' reads composed.
-- `scene-talk.reply-answer.ask-me-again-once-i-ve-slept-office-is-still-new` (reply-answer): "Ask me again once I've slept. {office} is still new." — vary-the-shape / office fill: Same move as NJ-057 ('Ask me tomorrow'), and 'mayor is still new' does not read.
-- `scene-talk.reply-apologize.sorry-first-i-got-carried-away-about-office` (reply-apologize): "Sorry, {first}. I got carried away about {office}." — office fill: 'carried away about mayor' does not read, and it is not clear what the apology is for.
-- `scene-talk.reply-ask.who-do-i-need-to-call-first-about-office` (reply-ask): "Who do I need to call first about {office}?" — office fill: 'call first about mayor' or 'about the Mutual Village Council' is awkward; the question needs a subject people would say.
-- `scene-talk.reply-boast.nobody-believed-we-d-win-office-look-at-us` (reply-boast): "Nobody believed we'd win {office}. Look at us." — office fill ("win the Mutual Village Council"): 'win {office}' breaks with the fills: nobody 'wins mayor', and a council seat fill says they won the whole council.
-- `scene-talk.reply-boast.i-told-you-we-d-win-office-and-we-did` (reply-boast): "I told you we'd win {office}, and we did." — office fill: 'we'd win mayor' and 'we'd win the Mutual Village Council' do not read.
-- `scene-talk.reply-leave.i-need-some-air-i-ll-be-back-for-office-s-first-morning` (reply-leave): "I need some air. I'll be back for {office}'s first morning." — office fill: '{office}'s first morning' is an odd phrase that reads wrong with every fill.
-- `scene-talk.reply-tell.i-m-tired-i-m-happy-and-i-m-a-little-scared-of-office` (reply-tell): "I'm tired, I'm happy, and I'm a little scared of {office}." — speech-craft-is-earned / office fill: A neat list of three, and 'scared of mayor' does not read.
-- `scene-talk.follow-accept.you-earned-office` (follow-accept): "You earned {office}." — office fill: 'You earned mayor' is awkward and 'You earned the Mutual Village Council' is false; he liked 'You earned this.'
-- `scene-talk.follow-answer.people-expect-you-to-deliver-on-office-that-s-all` (follow-answer): "People expect you to deliver on {office}. That's all." — office fill / no-offer-tags: 'deliver on mayor' does not read, and 'That's all.' is a dead tag.
-- `scene-talk.follow-press.come-on-give-us-one-thing-you-ll-do-for-office` (follow-press): "Come on. Give us one thing you'll do for {office}." — office fill: 'one thing you'll do for mayor' does not read; people say 'as mayor'.
-- `scene-talk.follow-press.be-specific-what-changes-first-with-office` (follow-press): "Be specific: what changes first with {office}?" — office fill: 'what changes first with mayor' does not read, and the colon makes it stiff.
-- `scene-talk.follow-warn.don-t-gloat-office-is-a-long-job` (follow-warn): "Don't gloat. {office} is a long job." — office fill: 'The Mutual Village Council is a long job' is wrong, and 'state representative in District 38 is a long job' does not read.
-- `scene-talk.close-accept.go-enjoy-it-you-ve-earned-office` (close-accept): "Go enjoy it. You've earned {office}." — office fill / vary-the-shape: 'You've earned mayor' does not read and repeats NJ-020.
-- `scene-talk.close-promise.count-on-us-for-office-we-ll-show-up` (close-promise): "Count on us for {office}. We'll show up." — office fill / no-quick-resolution: 'Count on us for mayor' does not read, and 'We'll show up' is the quick resolution he rejected.
-- `scene-talk.close-warn.enjoy-it-because-office-won-t-be-this-easy` (close-warn): "Enjoy it, because {office} won't be this easy." — office fill: 'mayor won't be this easy' does not read; the job is what won't be easy, not the office's name.
+- `scene-talk.narrate-narrate.the-count-is-final-and-opponent-is-second-behind-you` (narrate-narrate): "The count is final, and {opponent} is second behind you." — awkward or AI-sounding: 'Second behind you' is a clumsy, report-like way to say you won.
+- `scene-talk.narrate-narrate.people-in-the-room-keep-asking-about-opponent` (narrate-narrate): "People in the room keep asking about {opponent}." — no-pointing-at-the-unnamed: It never says what people are asking about the opponent.
+- `scene-talk.state-ask.what-do-you-think-opponent-is-doing-right-now` (state-ask): "What do you think {opponent} is doing right now?" — question-offered-only-when-a-record-answers: Nothing in the game can answer what the opponent is doing right now.
+- `scene-talk.reply-answer.honestly-the-race-for-office-hasn-t-sunk-in-yet` (reply-answer): "Honestly, the race for {office} hasn't sunk in yet." — awkward or AI-sounding: It's the win that hasn't sunk in, not the race, and 'Honestly,' pads it.
+- `scene-talk.reply-apologize.sorry-that-came-out-wrong-about-opponent` (reply-apologize): "Sorry, that came out wrong about {opponent}." — awkward or AI-sounding: 'That came out wrong about {opponent}' is not how people say it.
+- `scene-talk.reply-ask.did-opponent-s-people-come-to-the-party` (reply-ask): "Did {opponent}'s people come to the party?" — false for its facts: The opponent's supporters would not come to the winner's party.
+- `scene-talk.reply-tell.i-ran-this-race-for-people-in-place-and-i-won-t-forget-it` (reply-tell): "I ran this race for people in {place}, and I won't forget it." — no-pointing-at-the-unnamed: 'I won't forget it' has no clear 'it'.
+- `scene-talk.follow-accept.that-s-what-place-needed-to-hear` (follow-accept): "That's what {place} needed to hear." — rejected-by-voice: He rejected 'That's all we need to hear' as making no sense.
+- `scene-talk.follow-warn.easy-opponent-s-supporters-can-hear-you` (follow-warn): "Easy. {opponent}'s supporters can hear you." — vary-the-shape: Same warn shape as NL-017, and the opponent's supporters overhearing a victory party is unlikely.
+- `scene-talk.close-accept.go-find-your-family-we-ll-talk-about-the-race-for-office-when-you-ve-slept` (close-accept): "Go find your family. We'll talk about the race for {office} when you've slept." — awkward or AI-sounding: 'When you've slept' is odd, and talking 'about the race' once it's over is padding.
+- `scene-talk.close-accept.go-on-everyone-in-place-will-understand` (close-accept): "Go on. Everyone in {place} will understand." — fits-speaker-and-tie: A supporter can't speak for 'everyone in {place}'.
+- `scene-talk.close-press.we-ll-be-asking-what-happens-next-for-place` (close-press): "We'll be asking what happens next for {place}." — fits-speaker-and-tie: It sounds like a reporter, not a supporter, and it is vague.
+- `scene-talk.close-warn.enjoy-this-the-work-for-place-starts-soon` (close-warn): "Enjoy this. The work for {place} starts soon." — rejected-by-voice: 'The work starts soon' is the shape he called unnatural ('Today the work starts').
 
-## Failing lines: other rules (22)
+## Race lost (concession call): 23 of 42 pass
 
-- `scene-talk.narrate-narrate.people-keep-asking-about-opponent-and-the-count-for-office-is-final` (narrate-narrate): "People keep asking about {opponent}, and the count for {office} is final." — every-line-gives-its-context: Two unrelated clauses: what people are asking about the opponent is never said, and it reads like a non-sequitur in the narration.
-- `scene-talk.narrate-narrate.your-phone-is-full-of-messages-and-the-count-for-office-is-final` (narrate-narrate): "Your phone is full of messages, and the count for {office} is final." — vary-the-shape: Same tail as NJ-005 ('..., and the count for {office} is final'), so the narration repeats its shape.
-- `scene-talk.narrate-narrate.someone-has-already-hung-a-banner-for-office-you-didn-t-ask-for-it` (narrate-narrate): "Someone has already hung a banner for {office}. You didn't ask for it." — narration-assumes-no-reason: 'You didn't ask for it' gives the player a feeling and a history, and 'a banner for the Mutual Village Council' reads wrong.
-- `scene-talk.narrate-narrate.folding-chairs-paper-cups-and-a-count-for-office-that-came-out-your-way` (narrate-narrate): "Folding chairs, paper cups, and a count for {office} that came out your way." — no-literary-phrasing: A composed list fragment of props with no verb is visibly written texture.
-- `scene-talk.reply-ask.what-do-people-expect-from-office-now` (reply-ask): "What do people expect from {office} now?" — no-reply-asks-what-the-listener-cannot-know: 'expect from mayor' does not read, and the supporter holds no record of what people expect.
-- `scene-talk.reply-ask.what-did-you-hear-out-there-about-opponent-s-side` (reply-ask): "What did you hear out there about {opponent}'s side?" — question-names-its-subject: 'about {opponent}'s side' is vague; what side, and what would the supporter have heard out there?
-- `scene-talk.reply-leave.let-me-get-through-this-crowd-first-then-i-ll-answer-everything-about-office` (reply-leave): "Let me get through this crowd first. Then I'll answer everything about {office}." — no-non-replies: Defers everything to later, and 'everything about mayor' does not read.
-- `scene-talk.reply-tell.i-thought-about-quitting-twice-on-this-race-for-office-i-m-glad-i-didn-t` (reply-tell): "I thought about quitting twice on this race for {office}. I'm glad I didn't." — childhood-lines-claim-no-outcomes / false fact: It claims the player thought about quitting twice, which no record holds.
-- `scene-talk.follow-accept.that-s-honest-we-needed-to-hear-it-from-whoever-won-office` (follow-accept): "That's honest. We needed to hear it from whoever won {office}." — fits-speaker-and-tie: 'whoever won {office}' talks about the winner standing there as if a stranger.
-- `scene-talk.follow-accept.that-s-what-we-wanted-to-hear-about-office` (follow-accept): "That's what we wanted to hear about {office}." — rejected-by-voice: Echoes the rejected 'That's all we need to hear', and 'hear about mayor' does not read.
-- `scene-talk.follow-accept.good-we-ll-be-with-you-for-office` (follow-accept): "Good. We'll be with you for {office}." — vary-the-shape: The same sentence as NJ-045 with 'Good.' in front.
-- `scene-talk.follow-press.that-s-not-an-answer-what-will-you-do-first-as-office` (follow-press): "That's not an answer. What will you do first as {office}?" — vary-the-shape: Asks NJ-094's question again in a follow-up, which is the rehash he rejected.
-- `scene-talk.follow-warn.easy-win-it-first-then-brag-about-office` (follow-warn): "Easy. Win it first, then brag about {office}." — tense-of-the-record: 'Win it first' on the night the player has already won is false.
-- `scene-talk.close-accept.go-on-we-ll-talk-about-office-when-you-ve-slept` (close-accept): "Go on. We'll talk about {office} when you've slept." — no-non-replies: Closes on a promise to talk later, and 'talk about mayor' is awkward.
-- `scene-talk.close-accept.go-find-your-family-office-starts-tomorrow` (close-accept): "Go find your family. {office} starts tomorrow." — false fact: '{office} starts tomorrow' is false; a term starts on its record's date, not the morning after the count.
-- `scene-talk.close-press.don-t-forget-what-you-said-about-office` (close-press): "Don't forget what you said about {office}." — no-pointing-at-the-unnamed: 'what you said about {office}' points at something never said; a press needs the promise named.
-- `scene-talk.close-press.we-ll-be-asking-about-office` (close-press): "We'll be asking about {office}." — no-pointing-at-the-unnamed: 'We'll be asking about mayor' is vague, sounds like a reporter rather than a supporter, and closes on checking in later.
-- `scene-talk.close-promise.we-ll-be-there-when-office-gets-hard` (close-promise): "We'll be there when {office} gets hard." — no-quick-resolution ("We'll be there" graded bad): Echoes the rejected 'We'll be there', and 'when mayor gets hard' does not read with the office fills.
-- `scene-talk.close-promise.we-ll-be-with-you-for-office` (close-promise): "We'll be with you for {office}." — vary-the-shape / no-quick-resolution: Same sentence as NJ-079, a bare 'We'll be with you' that says nothing, and 'for mayor' reads wrong.
-- `scene-talk.close-thank.thanks-for-all-of-it-first-this-belongs-to-you` (close-thank): "Thanks for all of it, {first}. This belongs to you." — fits-speaker-and-tie: A supporter telling the winner 'This belongs to you' and thanking them 'for all of it' is the candidate's line turned around, vague and stock.
-- `scene-talk.close-thank.thank-you-first-we-needed-someone-to-run-for-office` (close-thank): "Thank you, {first}. We needed someone to run for {office}." — vary-the-shape / false fact: Same shape as NJ-058, and 'We needed someone to run' implies nobody else ran when there was an opponent.
-- `scene-talk.close-warn.enjoy-this-soon-office-is-real` (close-warn): "Enjoy this. Soon, {office} is real." — no-literary-phrasing: 'Soon, mayor is real' is awkward and literary.
+### Passing lines
 
-## Notes
+- `scene-talk.state-request.the-count-for-office-is-final-it-s-time-to-call-opponent` (state-request): "The count in the race for {office} is final. It's time to call {opponent}."
+- `scene-talk.state-request.the-numbers-for-office-aren-t-going-to-change-call-opponent` (state-request): "The numbers in the race for {office} aren't going to change. Call {opponent}."
+- `scene-talk.state-request.opponent-is-waiting-to-hear-from-you-about-office` (state-request): "{opponent} is waiting to hear from you about the race for {office}."
+- `scene-talk.state-request.will-you-call-opponent-and-concede-office` (state-request): "Will you call {opponent} and concede the race for {office}?"
+- `scene-talk.state-request.people-are-asking-whether-you-ll-call-opponent` (state-request): "People are asking whether you'll call {opponent}."
+- `scene-talk.reply-agree.i-ll-make-the-call-opponent-earned-office` (reply-agree): "I'll make the call. {opponent} ran a good race for {office}."
+- `scene-talk.reply-agree.hand-me-the-phone-opponent-deserves-to-hear-it-from-me` (reply-agree): "Hand me the phone. {opponent} deserves to hear it from me."
+- `scene-talk.reply-agree.you-re-right-i-ll-call-opponent` (reply-agree): "You're right. I'll call {opponent}."
+- `scene-talk.reply-ask.did-opponent-win-it-clean` (reply-ask): "Did {opponent} win it clean?"
+- `scene-talk.reply-ask.how-many-votes-are-still-out-for-office` (reply-ask): "How many votes are still out in the race for {office}?"
+- `scene-talk.reply-ask.is-there-any-chance-left-for-office` (reply-ask): "Is there any chance left in the race for {office}?"
+- `scene-talk.reply-leave.i-ll-find-you-after-i-ve-talked-to-opponent` (reply-leave): "I'll find you after I've talked to {opponent}."
+- `scene-talk.reply-leave.i-need-some-air-before-i-call-opponent` (reply-leave): "I need some air before I call {opponent}."
+- `scene-talk.reply-refuse.i-m-not-calling-opponent-yet` (reply-refuse): "I'm not calling {opponent} yet."
+- `scene-talk.reply-refuse.i-m-not-ready-to-hand-office-over` (reply-refuse): "I'm not ready to give up the race for {office}."
+- `scene-talk.reply-stall.not-yet-i-need-to-think-about-what-to-say-to-opponent` (reply-stall): "Not yet. I need to think about what to say to {opponent}."
+- `scene-talk.reply-stall.let-me-tell-my-family-before-i-call-opponent` (reply-stall): "Let me tell my family before I call {opponent}."
+- `scene-talk.follow-plea.i-know-it-hurts-please-call-opponent` (follow-plea): "I know it hurts. Please call {opponent}."
+- `scene-talk.follow-plea.please-for-everyone-who-worked-on-office-make-the-call` (follow-plea): "Please, for everyone who worked on the race for {office}, make the call."
+- `scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you` (follow-thank): "You ran a good race for {office}. Thank you."
+- `scene-talk.close-press.i-ll-ask-again-once-the-count-for-office-is-certified` (close-press): "I'll ask again once the race for {office} is certified."
+- `scene-talk.close-thank.thank-you-for-calling-opponent-it-was-a-gracious-thing-to-do` (close-thank): "Thank you for calling {opponent}. It was a gracious thing to do."
+- `scene-talk.close-warn.the-longer-you-wait-on-opponent-the-harder-it-gets` (close-warn): "The longer you wait on {opponent}, the harder it gets."
 
-- Verdicts are one blind reader's call; the calibration says the reader hears the owner, but a single borderline verdict is still one reader's.
-- Several fails are the same sentence twice ("We'll be with you for {office}." under follow-accept and close-promise) or the same tail ("…, and the count for {office} is final." twice in the narration).
+### Failing lines
+
+- `scene-talk.narrate-narrate.the-count-for-office-is-final-and-your-name-isn-t-first` (narrate-narrate): "The count in the race for {office} is final, and your name isn't first." — no-literary-phrasing: 'Your name isn't first' is a composed way to say you lost, and it repeats NL-001's opening clause.
+- `scene-talk.narrate-narrate.opponent-s-people-are-cheering-somewhere-else-your-room-is-quiet` (narrate-narrate): "{opponent}'s people are cheering somewhere else. Your room is quiet." — no-literary-phrasing: 'Cheering somewhere else. Your room is quiet.' is composed contrast.
+- `scene-talk.narrate-narrate.the-coffee-has-gone-cold-and-the-count-for-office-hasn-t-moved` (narrate-narrate): "The coffee has gone cold, and the count in the race for {office} hasn't moved." — no-literary-phrasing: 'The coffee has gone cold' is composed texture, and 'hasn't moved' fights a final count.
+- `scene-talk.narrate-narrate.nobody-in-the-room-wants-to-be-the-first-to-say-opponent-s-name` (narrate-narrate): "Nobody in the room wants to be the first to say {opponent}'s name." — no-explaining: A literary narrator line that explains the room's mood.
+- `scene-talk.reply-refuse.not-until-every-ballot-for-office-is-counted` (reply-refuse): "Not until every ballot in the race for {office} is counted." — false for its facts: The count is already final, so 'not until every ballot is counted' contradicts the scene.
+- `scene-talk.reply-stall.give-me-a-few-minutes-before-i-call-opponent` (reply-stall): "Give me a few minutes before I call {opponent}." — vary-the-shape: A third '... before I call {opponent}' stall after NL-079 and NL-091.
+- `scene-talk.follow-answer.the-count-for-office-is-final-opponent-won-it` (follow-answer): "The count in the race for {office} is final. {opponent} won it." — vary-the-shape: Opens with the same 'The count in the race for {office} is final' as NL-001 and NL-004.
+- `scene-talk.follow-answer.it-s-cleaner-than-you-d-think-opponent-carried-office-fairly` (follow-answer): "It's cleaner than you'd think. {opponent} won the race for {office} fairly." — reply-follows-the-line-before: 'It's cleaner than you'd think' implies it was dirty and reads oddly.
+- `scene-talk.follow-answer.there-s-a-chance-but-opponent-s-lead-for-office-is-holding` (follow-answer): "There's a chance, but {opponent}'s lead in the race for {office} is holding." — false for its facts: 'There's a chance' contradicts a final count.
+- `scene-talk.follow-press.that-won-t-bring-office-back-it-only-makes-the-call-harder` (follow-press): "That won't change the race for {office}. It only makes the call harder." — awkward or AI-sounding: 'Won't change the race' is vague, and the second sentence explains the moment.
+- `scene-talk.follow-press.the-longer-we-wait-on-opponent-the-worse-it-looks` (follow-press): "The longer we wait on {opponent}, the worse it looks." — vary-the-shape: The same 'The longer..., the...' shape as NL-024.
+- `scene-talk.follow-press.waiting-won-t-change-the-count-for-office-call-opponent` (follow-press): "Waiting won't change the count in the race for {office}. Call {opponent}." — vary-the-shape: The same line as NL-003 with 'waiting' swapped in.
+- `scene-talk.follow-thank.thank-you-calling-opponent-is-the-hardest-call-there-is` (follow-thank): "Thank you. Calling {opponent} is the hardest call there is." — no-stock-phrases: 'The hardest call there is' is a stock line that explains the moment instead of saying something.
+- `scene-talk.follow-thank.thanks-for-doing-this-opponent-will-remember-how-you-handled-office` (follow-thank): "Thanks for doing this. {opponent} will remember how you handled the race for {office}." — vary-the-shape: Same shape as NL-065, and 'how you handled the race for {office}' is padded.
+- `scene-talk.close-accept.all-right-we-ll-wait-on-opponent-until-you-re-ready` (close-accept): "All right. We'll wait on {opponent} until you're ready." — no-dangling-fragments: 'We'll wait on {opponent}' garbles the meaning; they're waiting on the player's call, not on the opponent.
+- `scene-talk.close-accept.all-right-it-s-your-call-about-opponent-and-we-ll-back-it` (close-accept): "All right. It's your call about {opponent}, and we'll back it." — awkward or AI-sounding: 'It's your call about {opponent}' is a clumsy pun on the call.
+- `scene-talk.close-press.we-ll-come-back-to-opponent-when-the-count-is-certified` (close-press): "We'll come back to {opponent} when the count is certified." — awkward or AI-sounding: 'Come back to {opponent}' garbles the call.
+- `scene-talk.close-thank.thank-you-opponent-will-hear-that-you-meant-it` (close-thank): "Thank you. {opponent} will hear that you meant it." — awkward or AI-sounding: '{opponent} will hear that you meant it' makes no sense from a supporter.
+- `scene-talk.close-warn.waiting-on-office-only-makes-the-next-day-longer` (close-warn): "Waiting only makes the next day longer, and {opponent} is still waiting." — no-literary-phrasing: 'Makes the next day longer' is composed, and it says {opponent} when it requires office.
+

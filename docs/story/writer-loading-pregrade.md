@@ -2,7 +2,30 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested. Verdicts carry by exact text; lines not judged before were read blind (chunk LA, 131 lines, calibration 8/8, with 30 earlier-graded lines mixed in).
 
-## story/w-loading at `5f0e9b99` (newest): 201 of 206 pass
+## story/w-loading at `0080313e` (newest): 202 of 212 pass
+
+- Since 5f0e9b99: the 5 failed "now" lines were cut, and 11 new "now" lines were added on the household and the player's job: lives-with-younger, lives-with-older, here-since-year and no-job-now (the 9 the Story lead named), and 2 on lives-alone. The 11 were read blind in chunk NK with W6's batch 4 (calibration 8/8; 17 of 30 earlier-graded lines got the same verdict again, the lowest agreement this evening, so a single verdict here is one reader's call). 1 of the 11 passes.
+- Most fails say the household in record words ("someone younger than eighteen", "a household of one", "a good deal older") as a bare fact, in one repeated shape ("Someone in your household in {place} is…").
+- Not played: one "now" line shows per life.
+
+### New lines that pass
+
+- `outline-loading.now.in-start-month-start-year-you-have-no-job-yet`: "In {start-month} {start-year} you have no job yet."
+
+### Failing lines (new)
+
+- `outline-loading.now.in-start-month-start-year-you-live-alone-in-place-in-a-household-of-one` (start-month, start-year, place, lives-alone): "In {start-month} {start-year} you live alone in {place}, in a household of one." — no-developer-words: "Live alone ... in a household of one" says the same thing twice, and "household of one" is record talk, not a story or a dry joke.
+- `outline-loading.now.the-house-in-place-has-someone-younger-than-eighteen-in-it-and-you-are-not-the-y` (start-month, start-year, place, lives-with-younger): "The house in {place} has someone younger than eighteen in it, and you are not the youngest." — one-idea-to-a-sentence / vary-the-shape: "Someone younger than eighteen" is census talk; "the house" may be false, and "you are not the youngest" restates what the first half already says.
+- `outline-loading.now.you-live-on-your-own-in-place-as-many-households-in-the-country-do` (start-month, start-year, place, lives-alone): "You live on your own in {place}, as many households in the country do." — one-idea-to-a-sentence: "You live on your own ... as many households do" mismatches you and households, and the aside is a statistic, not a story.
+- `outline-loading.now.your-household-moved-into-place-in-here-since-year-not-long-ago` (start-month, start-year, place, here-since-year, new-here): "Your household moved into {place} in {here-since-year}, not long ago." — vary-the-shape: "Moved into {place}" is awkward for a town, and "not long ago" tacked on after the year is a list of facts with a tag.
+- `outline-loading.now.your-household-has-lived-in-place-since-here-since-year-a-long-time` (start-month, start-year, place, here-since-year, long-here): "Your household has lived in {place} since {here-since-year}, a long time." — one-idea-to-a-sentence: The tag ", a long time." after the year is awkward and adds nothing; it is still a bare fact, not a story.
+- `outline-loading.now.your-household-in-place-has-someone-much-older-than-you-and-someone-still-under` (start-month, start-year, place, lives-with-older, lives-with-younger): "Your household in {place} has someone much older than you and someone still under eighteen." — vary-the-shape: "Someone much older than you and someone still under eighteen" is a census row, not a story, and has the same shape as the other household lines.
+- `outline-loading.now.your-household-has-lived-in-place-since-here-since-year` (start-month, start-year, place, here-since-year): "Your household has lived in {place} since {here-since-year}." — vary-the-shape: The same shape as the other "Your household has lived in" line, and a bare fact in record words where he asked for a story.
+- `outline-loading.now.someone-in-your-household-in-place-is-still-under-eighteen` (start-month, start-year, place, lives-with-younger): "Someone in your household in {place} is still under eighteen." — vary-the-shape: A bare census fact about "someone" under eighteen, with the same shape as the other household lines; he said the loading card is still a list of facts.
+- `outline-loading.now.someone-in-your-household-in-place-is-a-good-deal-older-than-you` (start-month, start-year, place, lives-with-older): "Someone in your household in {place} is a good deal older than you." — vary-the-shape: "Someone in your household in {place} is a good deal older" is census talk with the same shape as the under-eighteen line; it is still a list of facts.
+- `outline-loading.now.you-have-no-job-in-place-in-start-month-start-year-and-the-first-one-is-still-ah` (start-month, start-year, place, no-job-now): "You have no job in {place} in {start-month} {start-year}, and the first one is still ahead." — childhood-lines-claim-no-outcomes: "The first one is still ahead" is false when the player has worked before and has no job now.
+
+## story/w-loading at `5f0e9b99`: 201 of 206 pass
 
 - Since 399d8886: the 13 failed "now" lines and the 6 older failed lines were cut (94798d88, 00922c81), and 5 new "now" lines were added (5f0e9b99). The 5 were read blind in chunk NI (calibration 8/8; 21 of 30 earlier-graded lines got the same verdict again). None of the 5 pass.
 - Two of the fails are about the facts, not taste, and I checked them against the drawn input on this branch (`scripts/sameness/inputs/loading-story-drawn.jsonl`):

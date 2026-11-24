@@ -8,7 +8,41 @@ Pre-grader, 2026-11-24. Branch `story/w-campaign` at `2231bc5c`, every line auth
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
-## Failing lines by rule
+## Batch 4 at `story/w-campaign` `8b87efdc` (newest): 4 of 19 pass
+
+- The 19 lines new since `cbf536cb` (donor-ask narration and asks, offer-help, offer-to-run, ask-endorsement), read blind in chunk NK with W7's loading lines. Calibration 8/8; 17 of 30 earlier-graded lines got the same verdict again, the lowest agreement this evening, so a single verdict here is one reader's call.
+- **The main cause is the {office} fill (8 of 15 fails).** The reader was told {office} fills as "mayor", "the Mutual Village Council", "selectboard member" or "state representative in District 38", the same as in W2's victory night. "a list of voters for {office}", "give {office}", "the first week of {office}" and "the weekly schedule for {office}" read as the office, not the campaign. "the race for {office}" and "my endorsement for {office}" read with every fill.
+- Not played: the six-place packet at this head is not in.
+
+### Passing lines
+
+- `scene-talk.reply-decline.i-m-staying-neutral-in-the-race-for-office-i-m-saying-so-to-everyone-who-asks` (ask-endorsement (asked), reply-decline): "I'm staying neutral in the race for {office}. I'm saying so to everyone who asks."
+- `scene-talk.reply-agree.you-have-my-endorsement-for-office-you-can-say-so` (ask-endorsement (asked), reply-agree): "You have my endorsement for {office}. You can say so."
+- `scene-talk.state-request.my-gift-was-small-i-m-still-asking-you-to-read-bill-before-it-moves` (donor-ask (asker), state-request): "My gift was small. I'm still asking you to read {bill} before it moves."
+- `scene-talk.state-request.we-talked-about-bill-before-has-your-answer-changed` (donor-ask (asker), state-request): "We talked about {bill} before. Has your answer changed?"
+
+### Failing lines: the {office} fill (8)
+
+- `scene-talk.reply-ask.what-would-you-do-in-the-first-week-of-office` (offer-to-run (asked), reply-ask): "What would you do in the first week of {office}?" — no-dangling-fragments / slot fill: With the office filled as a title it reads "the first week of mayor", and it sounds like the first week in office rather than of the campaign.
+- `scene-talk.state-request.i-can-make-calls-from-home-for-office-what-day-should-i-start` (offer-help (asker), state-request): "I can make calls from home for {office}. What day should I start?" — slot fill / every-line-gives-its-context: "Make calls from home for mayor" is unclear about whose run it is; with a council fill it reads as calling for the council.
+- `scene-talk.reply-ask.how-many-hours-a-week-can-you-give-office` (offer-help (asked), reply-ask): "How many hours a week can you give {office}?" — slot fill: "How many hours a week can you give mayor?" is broken with the office title fill.
+- `scene-talk.state-request.i-ll-set-the-weekly-schedule-for-office-you-tell-me-what-you-can-t-do` (offer-to-run (asker), state-request): "I'll set the weekly schedule for {office}. You tell me what you can't do." — slot fill: "The weekly schedule for mayor" sounds like the mayor's own schedule, not the campaign's.
+- `scene-talk.follow-answer.i-d-list-every-event-for-office-until-the-vote-then-i-d-ask-you-which-ones-matter` (offer-to-run (asker), follow-answer): "I'd list every event for {office} until the vote. Then I'd ask you which ones matter." — slot fill: "Every event for mayor" reads wrong with the office title fill and is unclear about whose events.
+- `scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-office-this-week` (offer-help (asked), reply-agree): "Good. I'll send you a list and a script for {office} this week." — slot fill: "A list and a script for mayor" reads wrong with the office fill; the campaign is what gets the script.
+- `scene-talk.follow-accept.thank-you-for-telling-me-plainly-about-office` (ask-endorsement (asker), follow-accept): "Thank you for telling me plainly about {office}." — slot fill / address-argues-not-announces: "Telling me plainly about mayor" is broken with the office fill, and "plainly" is a word he objected to.
+- `scene-talk.state-request.i-have-saturdays-free-can-i-take-a-list-of-voters-for-office` (offer-help (asker), state-request): "I have Saturdays free. Can I take a list of voters for {office}?" — slot fill: "A list of voters for mayor" reads as people voting for mayor, not a list for the campaign.
+
+### Failing lines: other rules (7)
+
+- `scene-talk.narrate-narrate.name-gave-to-the-campaign-and-calls-about-bill-the-call-comes-near-the-end-of-th` (donor-ask (narrator), narrate-narrate): "{name} gave to the campaign and calls about {bill}. The call comes near the end of the day." — no-day-or-place-in-narration: The narration names the time of day ("near the end of the day"), and "gave to the campaign" should be your campaign.
+- `scene-talk.state-request.i-care-about-about-what-are-you-doing-about-it` (donor-ask (asker), state-request): "I care about {about}. What are you doing about it?" — stance-is-plainly-for-or-against: The donor says they care about the question but never says which way they want it, so the ask has no stand.
+- `scene-talk.state-request.my-check-came-in-last-month-where-do-you-stand-on-bill` (donor-ask (asker), state-request): "My check came in last month. Where do you stand on {bill}?" — request-needs-its-ground: "My check came in last month" claims a date the requires list does not hold, so it is false for many gifts.
+- `scene-talk.state-request.i-m-calling-about-bill-i-d-like-you-to-vote-yes` (donor-ask (asker), state-request): "I'm calling about {bill}. I'd like you to vote yes." — line-fits-the-roles-in-its-situation: Nothing requires the player to hold a seat, so asking a candidate to vote yes on a bill offers what they cannot do.
+- `scene-talk.state-request.i-gave-the-most-of-anyone-to-your-campaign-i-m-asking-about-bill-for-that-reason` (donor-ask (asker), state-request): "I gave the most of anyone to your campaign. I'm asking about {bill} for that reason." — no-literary-phrasing / stance-is-plainly-for-or-against: "I'm asking about {bill} for that reason" is stiff and AI-sounding, and it never says what the donor wants done.
+- `scene-talk.narrate-narrate.name-left-a-message-about-bill-you-call-back-and-name-answers-on-the-first-ring` (donor-ask (narrator), narrate-narrate): "{name} left a message about {bill}. You call back and {name} answers on the first ring." — person-said-by-role-pronoun-or-relationship: It says {name} twice in two short sentences where a pronoun belongs.
+- `scene-talk.state-request.people-at-employer-depend-on-bill-can-you-meet-with-us-this-week` (donor-ask (asker), state-request): "People at {employer} depend on {bill}. Can you meet with us this week?" — tense-of-the-record: People cannot depend on a bill that has not passed; they depend on what it would do, so the line is false for its record.
+
+## Failing lines by rule (head `2231bc5c`)
 
 ### every-line-gives-its-context (6)
 
