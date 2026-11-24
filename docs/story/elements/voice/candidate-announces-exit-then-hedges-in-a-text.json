@@ -1,0 +1,30 @@
+{
+  "id": "candidate-announces-exit-then-hedges-in-a-text",
+  "kind": "voice",
+  "summary": "A candidate says in public they are leaving and will resign if elected, then tells an ally privately that they would stay.",
+  "realLife": "A school board candidate who lost endorsements announced he was quitting, texted a board member that he would serve if chosen, and later posted a statement citing family and supporters.",
+  "sources": [
+    "OPB, school board candidate withdraws again, May 10, 2023: https://www.opb.org/article/2023/05/10/portland-school-board-candidate-derrick-peterson-withdraws-from-the-race-again"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "withdrawal record; a private message in a relationship's history",
+  "weights": {
+    "endorsement": 0.6
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "He keeps one story for the public and another for allies",
+      "pulledBy": "a wish to leave the door open",
+      "writesBack": "a later statement that drops the pledge"
+    },
+    {
+      "turn": "He says the same thing to everyone",
+      "pulledBy": "a plain, steady character",
+      "writesBack": "one clean withdrawal and one line in the Journal"
+    }
+  ]
+}

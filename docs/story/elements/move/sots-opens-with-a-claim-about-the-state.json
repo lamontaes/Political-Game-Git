@@ -1,0 +1,34 @@
+{
+  "id": "sots-opens-with-a-claim-about-the-state",
+  "kind": "move",
+  "summary": "The opening makes a claim about the state's standing or future.",
+  "realLife": "Three of six governors read opened with a claim: Texas that the state had never been more exceptional, Ohio on great opportunity and great challenges, Michigan on making history.",
+  "sources": [
+    "https://gov.texas.gov/news/post/governor-abbott-delivers-2023-state-of-the-state-address",
+    "https://abc6onyourside.com/news/local/transcript-gov-dewines-2023-state-of-the-state-address-ohio-governor-mike-dewine-state-government-speech",
+    "https://www.fox17online.com/news/politics/watch-governor-whitmer-delivers-2023-state-of-the-state-address-gop-responds",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["realm-name"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The `report` move can carry a claim from the term read (`pay-better`, `pay-worse` and the other areas); needs: a claim piece that gates on mood rather than a figure.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The opening admits a hard year.",
+      "pulledBy": "pay-worse, mood-hard",
+      "writesBack": "The paper reports honesty; the housemate may agree."
+    },
+    {
+      "turn": "neutral",
+      "what": "A claim that the state is steady.",
+      "pulledBy": "mood-mixed",
+      "writesBack": "Nothing to quote."
+    }
+  ]
+}

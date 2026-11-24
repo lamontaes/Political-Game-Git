@@ -1,0 +1,34 @@
+{
+  "id": "household-with-no-car-to-switch-from",
+  "kind": "voice",
+  "summary": "When officials ask what drivers will do, a rider in {place} explains that nobody at home has a car.",
+  "realLife": "Many participants in Boston's fare-free focus groups lived in households without a car.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=12"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A participant has described their household's travel options and authorized use of the account."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: a participant has described their household's travel options and authorized use of the account.",
+  "turns": [
+    {
+      "turn": "heard",
+      "pulledBy": "The participant discusses their own travel.",
+      "what": "Ask how the fare affects the trips they already make.",
+      "writesBack": "Attribute the account to that household."
+    },
+    {
+      "turn": "aggregate",
+      "pulledBy": "Only neighborhood car ownership data are available.",
+      "what": "Explain the area measure at the hearing.",
+      "writesBack": "Leave individual household circumstances open."
+    }
+  ]
+}

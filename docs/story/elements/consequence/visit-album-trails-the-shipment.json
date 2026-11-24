@@ -1,0 +1,30 @@
+{
+  "id": "visit-album-trails-the-shipment",
+  "kind": "consequence",
+  "summary": "The album of {person}'s visit is still in the transfer queue after the other pieces arrive.",
+  "realLife": "The report on Harris's Zambia visit marked the album as awaiting transfer and listed the brooch, carving and elephant painting as already archived.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2025-01-03/pdf/2024-31509.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A trip album awaiting transfer after related gifts arrived."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a trip album awaiting transfer after related gifts arrived.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The library plans a case around the trip",
+      "what": "Use the painting already received",
+      "writesBack": "The display opens with available material"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A researcher specifically wants the album",
+      "what": "Record the outstanding request",
+      "writesBack": "The researcher gets a follow-up when it arrives"
+    }
+  ]
+}

@@ -39,5 +39,6 @@
       "pulledBy": "a state kind with a `second` point",
       "writesBack": "The second point is marked as new."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

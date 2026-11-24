@@ -9,6 +9,12 @@
  * was about, where the player stands on it by their own recorded view, and a
  * close that looks ahead, the way a diary entry ends.
  */
+import {
+  questionNumber,
+  questionPlainWords,
+  questionToday,
+} from "../english/question-names";
+import { countSaid } from "../english/count-words";
 import type { EntityId } from "../core2/kernel/brands";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -24,15 +30,20 @@ import { addressPointFor, pointKey } from "./conversation";
 import type { JournalChapter } from "./journal";
 import type { Director } from "./ledger";
 import { addressPoints, type AddressPoint } from "./opening-facts";
-import { spoken } from "./words";
+import { employerWords, spoken } from "./words";
+import { recordsSince } from "./life-news";
+import { FAMILY_CONTACT } from "../core2/modules/people";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { themeNameBy } from "./theme-words";
 
 /** The most housemates a diary entry names one by one before it says "the whole house". */
 const WATCHERS_NAMED = JOURNAL_EVENING.watchersNamed;
+/** Days back a relative's letter is still this evening's news. */
+const LETTER_DAYS = JOURNAL_EVENING.letterDays;
 /** The player in a list of watchers, as subject and as object. */
 const SELF = JOURNAL_EVENING.self;
 
 const THEME = speechOutlines as unknown as {
-  themeNames: Record<string, string>;
   themeShort: Record<string, string>;
   themeShortPlural: { themes: readonly string[] };
 };
@@ -104,10 +115,14 @@ export function eveningTelling(
     facts.we = fact(namesSaid([...first, SELF.subject]), named);
     facts.us = fact(namesSaid([...first, SELF.object]), named);
   } else facts.alone = fact("yes", [story.id, personId]);
+  // How many watched, in words ("five"), from the household's members.
+  if (others.length)
+    facts["watchers-count"] = fact(countSaid(others.length + P.one), named);
   // The theme of the point the speech argued, as the address said it.
   const family = story.points[P.zero]?.family ?? story.theme;
-  if (family && THEME.themeNames[family]) {
-    facts["theme-name"] = fact(THEME.themeNames[family]!);
+  const themeName = family ? themeNameBy(me.traits, family) : null;
+  if (family && themeName) {
+    facts["theme-name"] = fact(themeName);
     if (THEME.themeShort[family]) {
       facts["theme-short"] = fact(THEME.themeShort[family]!);
       // A plural short name ("hard times") takes a plural verb.
@@ -118,8 +133,37 @@ export function eveningTelling(
   const point = addressPoints(story).find((row) => row.kind === "policy");
   if (point) {
     facts.about = fact(point.about, [story.id, ...point.sourceRecordIds]);
-    if (point.stance)
+    // The plain words people say it in (said, to, each side's reason), so
+    // the entry need not say the record's name ({about}).
+    for (const [key, text] of Object.entries(
+      questionPlainWords(point.question),
+    ))
+      facts[key] = fact(text, [`question:${point.question}`]);
+    // Whether the question's name is one thing or several, for a verb that
+    // agrees with {about} ("is overdue" / "are overdue").
+    facts[`about-${questionNumber(point.question)}`] = fact("yes", [
+      `question:${point.question}`,
+    ]);
+    if (point.stance) {
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
+      // What the President said is at stake, as the President's side tells
+      // how things stand today (the question's own `today` wording), for a
+      // line on what the speech claimed (W3, Nov 24: the stance moves had
+      // run out of ideas).
+      const stakes = questionToday(
+        point.question,
+        !!point.inForce,
+        point.stance === "for" ? "for" : "against",
+      );
+      if (stakes) {
+        facts.stakes = fact(stakes, [`question:${point.question}`]);
+        facts["stakes-clause"] = fact(
+          stakes.charAt(P.zero).toLowerCase() +
+            stakes.slice(P.one).replace(/[.!?]$/, ""),
+          [`question:${point.question}`],
+        );
+      }
+    }
     // A law already in force is one the President keeps or undoes.
     if (point.inForce)
       facts["law-in-force"] = fact("yes", point.sourceRecordIds);
@@ -130,6 +174,38 @@ export function eveningTelling(
     // 2 on #10390: "A diary that takes a side nobody talked about").
     const told = saidAtTable(core, personId, others, point);
     if (told) facts[`stand-${told}`] = fact("yes", [personId]);
+  }
+  // What else the day held, from records the world already keeps (W3, Nov
+  // 24: the evening's moves had too few facts to say different things): a
+  // housemate's job, from the job and employer records, and a letter from a
+  // relative elsewhere in the past month (`family.contact`, kin-contact.ts),
+  // with the town it came from.
+  const worker = others.find(
+    (person) => person?.jobId && core.jobs.get(person.jobId),
+  );
+  const job = worker?.jobId ? core.jobs.get(worker.jobId) : undefined;
+  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  const employerSaid = employer ? employerWords(employer) : null;
+  if (worker && job && employerSaid) {
+    facts["housemate-worker"] = fact(worker.givenName, [worker.id, job.id]);
+    facts["housemate-employer"] = fact(employerSaid, [job.id, employer!.id]);
+  }
+  const letter = recordsSince(
+    core,
+    personId,
+    FAMILY_CONTACT,
+    addDays(makeIsoDate(story.date), -LETTER_DAYS.value),
+    story.date,
+  )
+    .filter((row) => row.personIds.at(P.zero) === personId)
+    .at(-P.one);
+  const writerId = letter?.facts?.writerId as PersonId | undefined;
+  const writer = writerId ? core.people.get(writerId) : undefined;
+  if (letter && writer) {
+    facts["kin-wrote"] = fact(writer.givenName, [letter.id, writer.id]);
+    const from = corePlaceByJurisdictionId(writer.placeId as never);
+    if (from && writer.placeId !== me.placeId)
+      facts["kin-wrote-from"] = fact(spoken(from), [letter.id, writer.placeId]);
   }
   const home = corePlaceByJurisdictionId(me.placeId as never);
   if (home) facts.place = fact(spoken(home), [me.householdId]);

@@ -27,5 +27,6 @@
       "pulledBy": "The delegation excludes appointments.",
       "writesBack": "The appointment remains on the governor's docket."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

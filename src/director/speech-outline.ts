@@ -95,8 +95,8 @@ import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { stateInSentence } from "./words";
-import { changeSaid, countSaid, moneySaid } from "../english/count-words";
+import { isOutsideMarket, stateInSentence } from "./words";
+import { changeSaid, countSaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
@@ -1633,16 +1633,6 @@ function conditionFacts(
             : "condition-budget-steady"
       ] = before ? fact("yes", before.id) : fact("yes", budget.id);
       out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
-      // How far ahead or short this government's year is, as people say a
-      // sum ("about $40,000"): the year is the same in every world, the gap
-      // is this government's own.
-      if (balance > band || balance < -band)
-        out["budget-gap"] = fact(
-          moneySaid(
-            Math.abs(sum(budget.revenueMinor) - sum(budget.spendingMinor)),
-          ),
-          budget.id,
-        );
     }
   }
   const yearAgo = addDays(
@@ -1742,7 +1732,7 @@ function closingOfYear(core: CoreState, yearAgo: string): Facts | null {
       org: core.organizations.get(row.organizationId),
       jobs: row.endedJobIds.length + row.endedCountedJobIds.length,
     }))
-    .filter((found) => found.org && !found.org.outsideFlow)
+    .filter((found) => found.org && !isOutsideMarket(found.org))
     .sort(
       (a, b) =>
         b.jobs - a.jobs ||

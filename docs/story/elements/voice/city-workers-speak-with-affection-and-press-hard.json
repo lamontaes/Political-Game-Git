@@ -1,0 +1,38 @@
+{
+  "id": "city-workers-speak-with-affection-and-press-hard",
+  "kind": "voice",
+  "summary": "City workers speak with affection for their jobs while pressing for pay, conditions and leave, and an official answers with a trade-off.",
+  "realLife": "Dozens of city workers spoke before a closed session before a planned strike; the mayor replied that larger raises could mean service cuts and layoffs and decisions are made by majority vote.",
+  "sources": [
+    "ABC7 News, San Jose city workers strike and council public comment: https://abc7news.com/post/san-jose-city-workers-strike-of-labor-unions-latest/13620380/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "place", "cause"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
+  ],
+  "inGame": "a protest or strike with officials at the edge; the job record (position, employer); needs: unions as organizations",
+  "turns": [
+    {
+      "turn": "mayor-promises-nothing",
+      "summary": "The mayor says the council will do what it can.",
+      "pulledBy": ["a cautious mayor"],
+      "writesBack": "a vague promise recorded"
+    },
+    {
+      "turn": "mayor-names-the-trade-offs-plainly",
+      "summary": "The mayor explains what a raise would cost in services.",
+      "pulledBy": ["an open mayor"],
+      "writesBack": "a clearer fight; trust in honesty"
+    },
+    {
+      "turn": "workers-walk-out-of-the-room",
+      "summary": "Workers leave before the mayor speaks.",
+      "pulledBy": ["angry workers"],
+      "writesBack": "no talk; the strike date stands"
+    }
+  ]
+}

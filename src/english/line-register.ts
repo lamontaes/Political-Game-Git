@@ -26,6 +26,7 @@ import newsJson from "../../data/english/parts/news.json" with { type: "json" };
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import noticeJson from "../../data/english/parts/notice.json" with { type: "json" };
 import outlineJson from "../../data/english/parts/outline.json" with { type: "json" };
+import loadingStepsJson from "../../data/english/parts/loading-steps.json" with { type: "json" };
 import outlineLoadingJson from "../../data/english/parts/outline-loading.json" with { type: "json" };
 import outlineCallJson from "../../data/english/parts/outline-call.json" with { type: "json" };
 import outlineLocalJson from "../../data/english/parts/outline-local.json" with { type: "json" };
@@ -33,6 +34,7 @@ import outlineThemeJson from "../../data/english/parts/outline-theme.json" with 
 import outlineDiaryJson from "../../data/english/parts/outline-diary.json" with { type: "json" };
 import outlineTalkJson from "../../data/english/parts/outline-talk.json" with { type: "json" };
 import outlineNewsJson from "../../data/english/parts/outline-news.json" with { type: "json" };
+import outlineJournalJson from "../../data/english/parts/outline-journal.json" with { type: "json" };
 import openingSpeechJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import sceneTalkJson from "../../data/english/parts/scene-talk.json" with { type: "json" };
@@ -95,6 +97,10 @@ const BANKS: Record<
     parts: RawPiece[];
     slots?: Record<string, string>;
   },
+  "loading-steps": loadingStepsJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
   "outline-loading": outlineLoadingJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
@@ -120,6 +126,10 @@ const BANKS: Record<
     slots?: Record<string, string>;
   },
   "outline-news": outlineNewsJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
+  "outline-journal": outlineJournalJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },
@@ -198,12 +208,15 @@ export interface RegisteredLine {
   requires: string[];
   /** Whether an engine can offer it: conversation lines are checked against the engine's own data; other banks are read as a whole by their consumer. */
   reach: Reach;
+  /** The ids of the story elements (docs/story/elements) the piece draws on; empty until it is matched to one (owner, Nov 24: every line needs matching to an element). */
+  elements: string[];
 }
 
 interface RawPiece {
   key: string;
   move?: string;
   text: string;
+  elements?: string[];
   uses?: {
     requiresFacts?: string[];
     onlyWhen?: string[];
@@ -367,6 +380,9 @@ function readBankLines(): RegisteredLine[] {
             : reached.has(piece.key)
               ? "reached"
               : "unreached",
+        elements: Array.isArray(piece.elements)
+          ? piece.elements.filter((id) => typeof id === "string" && id)
+          : [],
       });
   }
   return lines;

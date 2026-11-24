@@ -67,7 +67,6 @@
     "condition-law": "a law of the speaker's jurisdiction that took effect in the past year, by its spoken name (the laws engine's row)",
     "condition-disaster": "a disaster declared for the place in the past year, by its kind (the disasters engine's declaration)",
     "budget-year": "the fiscal year of the budget the speaker's government lives under (the budgets engine's row)",
-    "budget-gap": "how far the speaker's government's budget runs ahead or short, as people say a sum (\"about $40,000\", \"about $2.3 billion\"), from the budgets engine's row: what it takes in against what it spends",
     "condition-law-reached": "the law-reach records show the law of condition-law has reached people here (law-reach host.ts reachedBy); said only as the sentence's tie, never as a figure",
     "measure": "what the body the speech is given to passes, as it names its measures (bill, ordinance)",
     "first-after": "how the first ask's question will stand once the ask passes, in the speaker's side's words, where it changes the law",
@@ -5010,7 +5009,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5033,7 +5032,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5056,7 +5055,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5079,7 +5078,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5102,7 +5101,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-first"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5125,7 +5124,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-second"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5148,7 +5147,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-third"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5171,7 +5170,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-first"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5194,7 +5193,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-second"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5217,7 +5216,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-third"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5240,7 +5239,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-line"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5263,7 +5262,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-line"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5286,7 +5285,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "ask",
@@ -5341,7 +5340,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5364,7 +5363,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5387,7 +5386,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5410,7 +5409,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after", "belief-sentence"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "ask",
@@ -5465,7 +5464,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -5486,7 +5485,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -5507,7 +5506,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -5528,7 +5527,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-for"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -5549,7 +5548,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-for"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -10154,58 +10153,6 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.budget-condition.plain-we-re-taking-in-budget-gap-more-than-we-spend-in-budget-year-and-i-d-l",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're taking in {budget-gap} more than we spend in {budget-year}, and I'd like it to stay that way.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-in-budget-year-we-are-bringing-in-budget-gap-more-than-we-spend-and-i",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "In {budget-year}, we are bringing in {budget-gap} more than we spend, and I want to keep it that way.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
       "key": "opening-speech.budget-condition.plain-realm-name-broke-about-even-for-budget-year-with-less-cushion-than-las",
       "move": "budget-condition",
       "kind": "spoken",
@@ -10452,762 +10399,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-ended-up-budget-gap-short-for-budget-year-worse-than-last-year-and",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We ended up {budget-gap} short for {budget-year}, worse than last year, and I won't keep charging it to the future.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-re-budget-gap-short-in-budget-year-a-bigger-hole-than-last-year-and",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're {budget-gap} short in {budget-year}, a bigger hole than last year, and it can't keep growing.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-budget-year-left-us-budget-gap-short-worse-than-last-year-and-i-will-n",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "{budget-year} left us {budget-gap} short, worse than last year, and I will not keep covering it with money we do not have.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-we-are-budget-gap-short-for-budget-year-a-bigger-hole-than-the-year-be",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We are {budget-gap} short for {budget-year}, a bigger hole than the year before, and it cannot keep growing.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-re-budget-gap-short-in-budget-year-though-that-s-better-than-last-y",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're {budget-gap} short in {budget-year}, though that's better than last year, and I'm not done yet.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-re-still-budget-gap-short-for-budget-year-but-the-hole-is-smaller-t",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're still {budget-gap} short for {budget-year}, but the hole is smaller than last year, and we keep working at it.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-year-budget-is-still-budget-gap-short-but-by-less-than-the",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget is still {budget-gap} short, but by less than the year before, and I mean to finish the job.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-realm-name-is-spending-budget-gap-more-than-it-takes-in-for-budget-yea",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "{realm-name} is spending {budget-gap} more than it takes in for {budget-year}, and we have to close that gap.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap",
-            "realm-name"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-re-running-budget-gap-in-the-hole-for-budget-year-and-we-ve-got-to",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're running {budget-gap} in the hole for {budget-year}, and we've got to fix that.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-year-budget-spends-budget-gap-more-than-it-brings-in-and-i",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget spends {budget-gap} more than it brings in, and I will not leave that bill for the next person.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-for-budget-year-our-spending-runs-budget-gap-past-our-income-and-closi",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "For {budget-year}, our spending runs {budget-gap} past our income, and closing that gap has to start now.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-short",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-ve-got-budget-gap-to-spare-for-budget-year-but-less-than-last-year",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We've got {budget-gap} to spare for {budget-year}, but less than last year, so we spend carefully.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-re-still-budget-gap-ahead-in-budget-year-but-the-cushion-is-thinner",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We're still {budget-gap} ahead in {budget-year}, but the cushion is thinner than last year's, so I'm watching every dollar.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-our-budget-year-books-show-budget-gap-to-spare-less-than-the-year-befo",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "Our {budget-year} books show {budget-gap} to spare, less than the year before, and that calls for care.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-year-budget-is-still-budget-gap-in-the-black-though-the-cus",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget is still {budget-gap} in the black, though the cushion is thinner than last year's, so I will watch every dollar.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-worse",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-came-out-budget-gap-ahead-in-budget-year-better-than-last-year-and",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We came out {budget-gap} ahead in {budget-year}, better than last year, and I mean to spend it carefully.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-we-closed-out-budget-year-budget-gap-ahead-a-better-year-than-the-last",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We closed out {budget-year} {budget-gap} ahead, a better year than the last, and it's the taxpayers' money.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-the-budget-year-budget-ended-budget-gap-ahead-better-than-the-year-bef",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "The {budget-year} budget ended {budget-gap} ahead, better than the year before, and that money belongs to the people who paid it.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.polished-we-finished-budget-year-budget-gap-ahead-better-than-the-year-before-a",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "We finished {budget-year} {budget-gap} ahead, better than the year before, and I will not waste a dollar of it.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "town-address",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        },
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-better",
-            "budget-year",
-            "budget-gap"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.budget-condition.plain-realm-name-is-bringing-in-budget-gap-more-than-it-spends-for-budget-ye",
-      "move": "budget-condition",
-      "kind": "spoken",
-      "text": "{realm-name} is bringing in {budget-gap} more than it spends for {budget-year}, and I want to keep it that way.",
-      "uses": [
-        {
-          "move": "budget-condition",
-          "subject": "state-of-the-state",
-          "role": "budget-condition",
-          "choice": "budget-condition",
-          "requiresFacts": [
-            "condition-budget-ahead",
-            "condition-budget-steady",
-            "budget-year",
-            "budget-gap",
-            "realm-name"
-          ],
-          "tie": "place"
-        }
-      ],
-      "voice": "plain",
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
@@ -21635,28 +20826,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
-      "key": "opening-speech.close.plain-town-address-meets-again-soon-and-i-hope-you-ll-come-and-say-what-you-thi",
-      "move": "close",
-      "kind": "spoken",
-      "text": "{body-name} meets again soon, and I hope you'll come and say what you think about {theme-short}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "theme-short"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
       "key": "opening-speech.close.plain-town-address-thank-you-for-coming-out",
@@ -58658,6 +57827,484 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-took-in-more-than-we-spent-in-by-more-than-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We took in more than we spent in {budget-year}, by more than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-a-better-gives-more-room-to-choose-than-it-had-a-year-ago",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "A better {budget-year} gives {realm-name} more room to choose than it had a year ago.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-took-in-more-than-we-spent-in-about-as-much-as-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We took in more than we spent in {budget-year}, about as much as the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-staying-ahead-in-gives-room-to-choose-and-no-excuse-to-waste-it",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Staying ahead in {budget-year} gives {realm-name} room to choose, and no excuse to waste it.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-still-took-in-more-than-we-spent-in-but-by-less-than-the-year-befor",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We still took in more than we spent in {budget-year}, but by less than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-is-ahead-for-though-the-cushion-is-thinner-and-i-d-treat-it-that-way",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} is ahead for {budget-year}, though the cushion is thinner, and I'd treat it that way.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-spent-more-than-we-took-in-during-and-by-more-than-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We spent more than we took in during {budget-year}, and by more than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-a-worse-means-harder-choices-for-and-they-re-coming",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "A worse {budget-year} means harder choices for {realm-name}, and they're coming.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-spent-more-than-we-took-in-during-about-the-same-as-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We spent more than we took in during {budget-year}, about the same as the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-was-short-for-another-year-so-being-short-is-no-longer-a-surprise",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} was short for another year, so being short is no longer a surprise.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-still-spent-more-than-we-took-in-during-but-by-less-than-the-year-b",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We still spent more than we took in during {budget-year}, but by less than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-is-spending-closer-to-what-it-takes-in-for-and-it-isn-t-there-yet",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} is spending closer to what it takes in for {budget-year}, and it isn't there yet.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
     }
   ]
 }

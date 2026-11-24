@@ -40,5 +40,6 @@
       "pulledBy": "the point follows a point already said (told-theme)",
       "writesBack": "The earlier line gets said twice, so it must be one the speaker wants repeated."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

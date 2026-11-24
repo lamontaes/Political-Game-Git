@@ -1,0 +1,32 @@
+{
+  "id": "a-picnic-table-with-no-room-for-knees",
+  "kind": "detail",
+  "summary": "{parks_worker} checks the space under a picnic table where a wheelchair user would pull in.",
+  "realLife": "Inspectors at Winton Park found that none of the picnic tables provided the required knee space.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=required%20knee%20space"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{parks_worker}"],
+  "gates": [
+    "A parks inspection identifies picnic tables that a wheelchair user cannot pull under."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the park's table inventory, knee clearance and approach surface.",
+  "turns": [
+    {
+      "turn": "new table measured",
+      "what": "The worker checks its underside before installation.",
+      "pulledBy": "A replacement table arrives on a pallet.",
+      "writesBack": "The purchase record includes the measured clearance."
+    },
+    {
+      "turn": "approach still uneven",
+      "what": "The worker flags the path to the table.",
+      "pulledBy": "The table is suitable but the approach is uneven.",
+      "writesBack": "A separate grounds request is opened."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

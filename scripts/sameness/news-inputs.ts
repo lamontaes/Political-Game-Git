@@ -87,6 +87,8 @@ rows.forEach((row, at) => {
         surname: fact(name.split(" ").at(-1)),
         date: fact("January 20"),
         about: f.about,
+        ...(f["about-one"] ? { "about-one": f["about-one"] } : {}),
+        ...(f["about-many"] ? { "about-many": f["about-many"] } : {}),
         inaugural: fact("yes"),
         [stance]: fact("yes"),
         ...(f["belief-sentence"] ? { quote: f["belief-sentence"] } : {}),

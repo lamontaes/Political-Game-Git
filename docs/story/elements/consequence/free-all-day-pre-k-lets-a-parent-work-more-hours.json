@@ -1,0 +1,48 @@
+{
+  "id": "free-all-day-pre-k-lets-a-parent-work-more-hours",
+  "kind": "consequence",
+  "summary": "Parents whose child won a seat in free all-day pre-K worked more hours and earned more for years afterward.",
+  "realLife": "New Haven gave seats in free full-day public pre-K for 3 and 4 year olds by lottery, so researchers compared winning and non-winning families. Parents of winners earned about $5,461 more a year, up 21.7 percent, while the child was pre-K age, and worked about 12.8 more hours a week the next year. The gain in earnings lasted at least six more years even as the hours effect faded. The page found no statistically significant effect on the children's test scores.",
+  "sources": [
+    "https://www.nber.org/digest/202502/universal-pre-k-access-and-parental-earnings (NBER Digest on universal pre-K and parents' earnings)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the policy}", "{the place}"],
+  "gates": [
+    "a free all-day pre-K seat is offered",
+    "the household has a child of that age",
+    "the parent was limited in work by care hours"
+  ],
+  "weights": [
+    "parent's job fit with the school day",
+    "what care the household used before",
+    "whether a seat was offered"
+  ],
+  "inGame": "question:us-policy-positions:education.universal-preschool and law:child-care-income-limit read by the household's care and work hours; budget:schools; needs: the paycheck reads care hours as a limit on work",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the parent takes more hours",
+      "what": "The school day covers a shift and the parent adds hours and moves toward steadier work.",
+      "pulledBy": "a seat for the child and a free day",
+      "writesBack": "parent hours; paycheck"
+    },
+    {
+      "turn": "no seat comes",
+      "what": "The household stays on informal care and the parent's hours stay the same.",
+      "pulledBy": "no seat offered",
+      "writesBack": "parent hours unchanged"
+    },
+    {
+      "turn": "a seat but a short day",
+      "what": "The program ends before the shift and the parent cannot add hours.",
+      "pulledBy": "hours that do not fit",
+      "writesBack": "parent hours"
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:education.universal-preschool",
+    "law:child-care-income-limit",
+    "budget:schools"
+  ]
+}

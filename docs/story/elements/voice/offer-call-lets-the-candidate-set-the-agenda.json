@@ -1,0 +1,36 @@
+{
+  "id": "offer-call-lets-the-candidate-set-the-agenda",
+  "kind": "voice",
+  "summary": "On an offer call a thoughtful hiring manager asks what the person wants to talk about before pitching.",
+  "realLife": "A hiring-manager essay on closing calls describes inviting the candidate to raise topics first, connecting the role to what they said they wanted, avoiding overselling, and giving the honest version of the truth.",
+  "sources": [
+    "Will Larson (Lethain), Closing calls, on how hiring managers handle offer calls: https://lethain.com/closing-calls/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "the job record and the person's traits decide what they raise; needs: an offer record and a way to say what the applicant wants",
+  "turns": [
+    {
+      "turn": "manager-pitches-first",
+      "summary": "The manager talks about the company for several minutes before listening.",
+      "pulledBy": ["a proud manager", "a rushed call"],
+      "writesBack": "the candidate shares less; a mood note"
+    },
+    {
+      "turn": "manager-admits-the-gap",
+      "summary": "The manager says plainly the role will not give the person what they asked for.",
+      "pulledBy": ["an honest manager", "a candidate who pushes"],
+      "writesBack": "trust rises even if the offer is refused"
+    },
+    {
+      "turn": "candidate-has-nothing-to-ask",
+      "summary": "The candidate says little and the call ends in a minute.",
+      "pulledBy": ["a shy or already decided candidate"],
+      "writesBack": "a short note; no tie change"
+    }
+  ]
+}

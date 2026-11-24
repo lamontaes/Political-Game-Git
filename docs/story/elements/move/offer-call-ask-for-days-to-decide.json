@@ -35,5 +35,6 @@
       "pulledBy": ["a pushy employer", "an urgent vacancy"],
       "writesBack": "The candidate must decide under pressure, and trust in the employer drops."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

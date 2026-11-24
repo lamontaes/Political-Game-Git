@@ -1,0 +1,30 @@
+{
+  "id": "concession-rent-lost-under-new-tower",
+  "kind": "consequence",
+  "summary": "The rent promised by a developer has to cover income the owner will lose from people already doing business there.",
+  "realLife": "Penn Central’s agreement for offices above Grand Central promised annual payments, but the project would displace concessionaires whose rents already supported the railroad.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf#page=13"
+  ],
+  "inGame": "needs: a permit case record with owner, tenant, rent. A board member can ask which existing tenants the revenue projection assumes will leave.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{owner}", "{tenant}", "{rent}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "One displaced concessionaire accepts space in the rebuilt station.",
+      "pulledBy": "The lease offers a replacement stall with enough room for that tenant.",
+      "writesBack": "The owner's revised projection keeps that rent and drops the rest."
+    },
+    {
+      "turn": "opposite",
+      "what": "A concessionaire shows the owner a lease that runs through the proposed start of construction.",
+      "pulledBy": "The lease covers a stall inside the demolition footprint and includes no early termination provision.",
+      "writesBack": "The owner's estimate carries a separate unresolved cost for obtaining the stall."
+    }
+  ],
+  "issues": ["none"]
+}

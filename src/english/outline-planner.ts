@@ -30,6 +30,7 @@ import outlineThemeBank from "../../data/english/parts/outline-theme.json" with 
 import outlineDiaryBank from "../../data/english/parts/outline-diary.json" with { type: "json" };
 import outlineTalkBank from "../../data/english/parts/outline-talk.json" with { type: "json" };
 import outlineNewsBank from "../../data/english/parts/outline-news.json" with { type: "json" };
+import outlineJournalBank from "../../data/english/parts/outline-journal.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import { stableHash } from "../core2/kernel/ids";
 import { admittedParts, directorSlots } from "./bank-parts";
@@ -99,6 +100,14 @@ interface OutlineRow {
   readonly leastSentences?: { readonly value: number };
   /** This kind's own floor on how many pieces a move draws from (the weights' specificFloor otherwise). */
   readonly specificFloor?: { readonly value: number };
+  /**
+   * The sections that, opening a new paragraph, lead with a `bridge` piece that
+   * follows the sentence before (the owner, Nov 24, P20: "you just went from
+   * the Constitution to... healthcare"): the jumps into a new subject, not
+   * every paragraph (a signpost is rare in real addresses, and a bridge on
+   * every paragraph repeated its frame in most texts).
+   */
+  readonly bridges?: readonly string[];
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -142,6 +151,7 @@ export const JOURNAL_EVENING = (
     journalEvening: {
       watchersNamed: { value: number };
       self: { subject: string; object: string };
+      letterDays: { value: number };
     };
   }
 ).journalEvening;
@@ -170,6 +180,7 @@ export const OUTLINE_BANK_PARTS: readonly TellingPart[] = [
   outlineDiaryBank,
   outlineTalkBank,
   outlineNewsBank,
+  outlineJournalBank,
 ].flatMap((bank) => (bank as unknown as { parts: TellingPart[] }).parts);
 
 const PARTS: readonly TellingPart[] = admittedParts(OUTLINE_BANK_PARTS);
@@ -383,9 +394,19 @@ function shapeOrder(
  * conditions match the most facts wins, and general ones are the fallback").
  */
 const specificityOf = (part: {
+  readonly text: string;
   readonly after?: readonly string[];
   readonly use: { readonly requiresFacts?: readonly string[] };
-}) => (part.use.requiresFacts?.length ?? 0) + (part.after ? 1 : 0);
+}) => {
+  // A slot the line fills is what it says, not when it is said: only the
+  // facts it checks and does not print are its conditions (W2, Nov 24: lines
+  // that print more slots out-ranked every one-fact line).
+  const printed = new Set(slotsOf(part.text));
+  return (
+    (part.use.requiresFacts ?? []).filter((fact) => !printed.has(fact)).length +
+    (part.after ? 1 : 0)
+  );
+};
 
 /**
  * The sayable pieces from the most specific down: the most specific tier
@@ -501,7 +522,14 @@ function wordMove(
   const part = pool.find((row) => row.key === result.variantKey)!;
   return {
     part,
-    text: result.text,
+    // A sentence inside the piece that opens on a slot ("Thank you all.
+    // {body-name} and I ...") starts with a capital like the piece itself
+    // (pre-grade, Nov 24: "Thank you all. the Washington County Board ...").
+    text: result.text.replace(
+      // Not after an initial's period ("D.C. statehood").
+      /(?<!\b[A-Z])([.!?]["”]?\s+)([a-z])/g,
+      (_, gap: string, letter: string) => gap + letter.toUpperCase(),
+    ),
     facts: result.usedFactKeys,
     ids: result.sourceRecordIds,
   };
@@ -523,6 +551,34 @@ export function tellFully(input: TellingInput): Told | null {
   return tellOnce(input, true);
 }
 
+/**
+ * The facts with the policies they cite (the CTO, Nov 24, 7140057819 on
+ * #9750: "Lines tagged with a policy fire when that policy is live in the
+ * player's world"): every fact citing a policy question's record
+ * (`question:<key>`) adds `policy:question:<key>`, the bill catalog's own id
+ * for that policy (src/core2/data/legislature/bill-catalog.json), so a piece
+ * can require the policy by name and plays only where the world has put it
+ * in the text.
+ */
+const BUDGET_QUESTION = "question:budget-line:";
+
+export function withPolicyFacts(
+  facts: TellingFacts,
+): Record<string, GroundedEnglishFact | undefined> {
+  const out: Record<string, GroundedEnglishFact | undefined> = { ...facts };
+  for (const fact of Object.values(facts))
+    for (const id of fact?.sourceRecordIds ?? [])
+      if (id.startsWith("question:")) {
+        // A budget line is cited as its question (`question:budget-line:police`)
+        // and listed in the catalog as `budget:police`.
+        const line = id.startsWith(BUDGET_QUESTION)
+          ? `budget:${id.slice(BUDGET_QUESTION.length)}`
+          : id;
+        out[`policy:${line}`] ??= { text: "yes", sourceRecordIds: [id] };
+      }
+  return out;
+}
+
 /** One telling; `full` says every optional section and move that fits. */
 function tellOnce(input: TellingInput, full: boolean): Told | null {
   const row = outlineRow(input.kind);
@@ -535,14 +591,14 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
   // What the text has said so far, as facts a piece may need: `told-<section>`
   // once a section is said, so a line that names the stand again ("If you
   // think I'm wrong about ...") comes only after the stand.
-  const facts: Record<string, GroundedEnglishFact | undefined> = {
-    ...input.facts,
-  };
+  const facts: Record<string, GroundedEnglishFact | undefined> =
+    withPolicyFacts(input.facts);
   const known: TellingInput = { ...input, facts };
   const draw = `${input.worldSeed}:${input.momentKey}`;
   for (const section of sectionsInOrder(row, input.traits, `${draw}/order`)) {
     // A section on a further point reads that point's facts over the text's.
-    const own = section.point ? input.points?.[section.point - 1] : undefined;
+    const point = section.point ? input.points?.[section.point - 1] : undefined;
+    const own = point ? withPolicyFacts(point) : undefined;
     if (section.point && !own) continue;
     const here = own ? { ...facts, ...own } : facts;
     const knownHere: TellingInput = own ? { ...known, facts: here } : known;
@@ -637,6 +693,43 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
       input.onMiss?.(section.name, "", "");
       if (section.required) return null;
       continue;
+    }
+    // No jump without a bridge (the owner, Nov 24, P20: "you just went from
+    // the Constitution to... healthcare"): a section that opens a new
+    // paragraph after another leads with a bridge where the row has them and
+    // a bridge piece follows the sentence before (its `after` names that
+    // sentence's move). With none that fits, the section opens as it would.
+    if (opens && last && row.bridges?.includes(section.name)) {
+      const spending = new Map(spent);
+      const bridge = wordMove(
+        knownHere,
+        row.surface,
+        "bridge",
+        last.move,
+        new Set(saidHere),
+        `${section.name}/bridge`,
+        spending,
+      );
+      if (bridge) {
+        for (const said of new Set(
+          slotsOf(bridge.part.text).map((slot) => saidOf(here, slot)),
+        ))
+          spent.set(said, (spent.get(said) ?? 0) + 1);
+        told = [
+          {
+            section: section.name,
+            shape: "bridge",
+            move: "bridge",
+            text: bridge.text,
+            piece: bridge.part.key,
+            paragraph: paragraph + 1,
+            camera: section.camera ?? null,
+            facts: bridge.facts,
+            sourceRecordIds: bridge.ids,
+          },
+          ...told,
+        ];
+      }
     }
     if (opens) paragraph += 1;
     for (const sentence of told) saidHere.add(sentence.piece);

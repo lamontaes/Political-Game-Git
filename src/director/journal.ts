@@ -50,6 +50,9 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import { eveningChapter } from "./journal-evening";
+import { chapterOpenTelling } from "./journal-chapter-open";
+import { markWordsStopgap } from "./stopgaps";
+import { tell, type TellingInput } from "../english/outline-planner";
 import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
@@ -969,23 +972,50 @@ function officeActMoments(
     });
 }
 
+/** What composeJournal reads besides the person: the page's last day, its words, who holds which office. */
+export interface JournalOptions {
+  through?: IsoDate;
+  /** The words the English engine writes it with; the mined bank's by default. */
+  words?: JournalWords;
+  /** Who holds which office now; the offices engine's serving terms by default. */
+  officeOf?: (personId: PersonId) => Fact | undefined;
+}
+
 export function composeJournal(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
-  options: {
-    through?: IsoDate;
-    /** The words the English engine writes it with; the mined bank's by default. */
-    words?: JournalWords;
-    /** Who holds which office now; the offices engine's serving terms by default. */
-    officeOf?: (personId: PersonId) => Fact | undefined;
-  } = {},
+  options: JournalOptions = {},
 ): JournalChapter[] {
+  return journalTold(core, director, personId, options).chapters;
+}
+
+/**
+ * The outline planner's inputs for the sentences that opened the Journal's
+ * chapters (`chapterOpenTelling`), one per chapter the planner told, in
+ * order: what the sameness gate measures the row by
+ * (scripts/sameness/record-journal-chapter-inputs.mts).
+ */
+export function journalChapterOpeners(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  options: JournalOptions = {},
+): TellingInput[] {
+  return journalTold(core, director, personId, options).openers;
+}
+
+function journalTold(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  options: JournalOptions,
+): { chapters: JournalChapter[]; openers: TellingInput[] } {
   const words = options.words;
   const rows = journalRows(words);
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
-  if (!person || !book) return [];
+  if (!person || !book) return { chapters: [], openers: [] };
   const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   // Whose moment it is, when it is someone else's: a relative first, then
@@ -1248,6 +1278,9 @@ export function composeJournal(
         facts["age-then"] = ageThen(person.birthDate, person.id);
       }
     }
+    // An age of 0 is never said ("I was 0 when we moved"): the fact is left
+    // out, so the lines that need it don't play.
+    if (facts["age-then"]?.text === "0") delete facts["age-then"];
     const row = rows.find((entry) =>
       moment.causeKind.startsWith(entry.kindPrefix),
     );
@@ -1535,6 +1568,8 @@ export function composeJournal(
     core.data.parameters.yearSpanDays!.value / (P.two * P.two * P.two);
 
   const chapters: JournalChapter[] = [];
+  // The planner's inputs for the sentences that opened a chapter.
+  const openers: TellingInput[] = [];
   // Where life happened (a school, a job): never a chapter or an entry, only
   // where the person knew someone who matters later.
   const employerIds: string[] = [];
@@ -1720,14 +1755,20 @@ export function composeJournal(
       // scene of it was with.
       moment.causeKind === SCHOOL_FINISHED;
     // A move the household made together is "we".
+    const age = ageAt(moment.date);
+    const young = age < P.votingAge;
+    // A child's own move is the household's: the moves engine moves a
+    // household and holds a mover back for the children at home, so a child
+    // never moves alone. The player's own ledger holds only their own move,
+    // so the same-day count never sees the others (W3, Nov 24: no drawn
+    // opener held a household move).
     const together =
+      (own && young && moment.causeKind === "moved") ||
       (selfCount ??
         (row.sameDay
           ? ownEvents.get(`${row.sameDay}|${moment.date}`)
           : undefined) ??
         one) > one;
-    const age = ageAt(moment.date);
-    const young = age < P.votingAge;
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
@@ -1768,7 +1809,43 @@ export function composeJournal(
           sourceIds,
         );
     else {
+      // The sentence that opens a chapter is told by the one outline planner
+      // (journal-chapter-open.ts) where its row tells the moment; where the
+      // planner's bank cannot say it, the row composer stands in
+      // (SG-WORDS-chapter-opener-awaits-outline).
+      const opens = chapter!.key === moment.id;
+      const opened: { by?: TellingInput } = {};
+      const planned = (key: string) => {
+        const input = opens
+          ? chapterOpenTelling(
+              core,
+              personId,
+              moment,
+              row,
+              facts,
+              { own, together, young, named: !!facts.other },
+              key,
+            )
+          : null;
+        delete opened.by;
+        if (!input) return null;
+        const said = tell(input);
+        if (!said) {
+          // stopgapId: SG-WORDS-chapter-opener-awaits-outline
+          markWordsStopgap("SG-WORDS-chapter-opener-awaits-outline");
+          return null;
+        }
+        opened.by = input;
+        const text = said.paragraphs.join(" ");
+        return {
+          text: text.charAt(zero).toUpperCase() + text.slice(one),
+          sourceRecordIds: [
+            ...new Set(said.sentences.flatMap((row) => row.sourceRecordIds)),
+          ] as string[],
+        };
+      };
       const wordLine = (key: string) =>
+        planned(key) ??
         render(
           {
             part: "line",
@@ -1803,6 +1880,7 @@ export function composeJournal(
       )
         event = wordLine(`${moment.id}:again:${again}`);
       if (event && said?.includes(event.text.toLowerCase())) event = null;
+      if (event && opened.by) openers.push(opened.by);
     }
     if (!event) continue;
     // The same thing is told once in a beat: the same kind, the same people
@@ -1825,7 +1903,9 @@ export function composeJournal(
     // When they were young, the age frames it: "When I was 7, my father died."
     // Only what happened around a young person (a death, a move, an
     // illness), as the row says; never a race or their own child's birth.
-    if (young && row.framesAge) {
+    // Never "When I was 0": a moment in the first year of life is told
+    // without its age (Oakwood, seed d3e8d77bc357f92b, W3 on Nov 24).
+    if (young && row.framesAge && age > zero) {
       const frame = render(
         { part: "memoir", field: "whenAge" },
         {
@@ -2223,7 +2303,7 @@ export function composeJournal(
     line.text = joined.text;
     line.sourceRecordIds = joined.sourceRecordIds;
   }
-  return kept;
+  return { chapters: kept, openers };
 }
 
 /** The names a record carries: its own id, its people and its facts' ids. */

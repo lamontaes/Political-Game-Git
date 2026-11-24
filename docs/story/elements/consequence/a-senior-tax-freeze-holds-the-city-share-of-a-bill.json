@@ -1,0 +1,47 @@
+{
+  "id": "a-senior-tax-freeze-holds-the-city-share-of-a-bill",
+  "kind": "consequence",
+  "summary": "A senior property tax freeze kept the city's share of a bill from rising after reassessment, though the other taxes still went up.",
+  "realLife": "St. Louis's Senior Property Tax Freeze Credit keeps a senior's city property tax from rising after a reassessment. The credit covers city taxes only, not school, library or other districts. In the city's own hypothetical for 2025, a $100,000 home reassessed 12 percent higher would see total taxes rise $187 without the freeze and $154 with it, a saving of $33. So the credit softens the rise but does not stop it.",
+  "sources": [
+    "https://www.stlouis-mo.gov/government/departments/assessor/news/2025-tax-freeze-credit-update.cfm (St. Louis Assessor page with a worked example of the freeze credit)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the policy}", "{the place}"],
+  "gates": [
+    "a freeze credit is law for seniors",
+    "the household owns the home",
+    "the home was reassessed upward"
+  ],
+  "weights": [
+    "how much the home value rose",
+    "which taxes the freeze covers",
+    "the household's fixed income"
+  ],
+  "inGame": "law:property-tax and question:us-policy-positions:fiscal.cap-property-tax-growth read by the tax bill a homeowner pays; the household budget reads the bill; needs: a credit that holds one levy",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the bill rises less",
+      "what": "The household still pays more, but a small slice is held back, and it stays put.",
+      "pulledBy": "a freeze that covers part of the levy",
+      "writesBack": "property tax bill"
+    },
+    {
+      "turn": "the rise outruns the help",
+      "what": "A home rises sharply in value and the other taxes climb past what the freeze holds, so the household sells.",
+      "pulledBy": "school and other levies not covered",
+      "writesBack": "household residence"
+    },
+    {
+      "turn": "not enrolled",
+      "what": "An eligible senior never applies and pays the full rise.",
+      "pulledBy": "no notice or filing",
+      "writesBack": "property tax bill"
+    }
+  ],
+  "issues": [
+    "law:property-tax",
+    "question:us-policy-positions:fiscal.cap-property-tax-growth"
+  ]
+}

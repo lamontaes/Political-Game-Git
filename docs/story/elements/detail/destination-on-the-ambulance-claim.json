@@ -1,0 +1,32 @@
+{
+  "id": "destination-on-the-ambulance-claim",
+  "kind": "detail",
+  "summary": "A clinic appears on the trip record in {place}, and the billing clerk checks the list of approved destinations.",
+  "realLife": "New York sponsors sought Medicaid payment for ambulance trips to approved facilities such as urgent care and mental health clinics.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2024/michelle-hinchey/hinchey-kelles-ems-and-fire-coalition-urge-governor"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "A documented trip destination and the applicable payer's approved list."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:welfareAndMedicaid"],
+  "inGame": "needs: a documented trip destination and the applicable payer's approved list.",
+  "turns": [
+    {
+      "turn": "listed",
+      "pulledBy": "The destination appears on the list.",
+      "what": "Identify the matching facility entry.",
+      "writesBack": "Attach the match to the claim."
+    },
+    {
+      "turn": "absent",
+      "pulledBy": "The facility is missing from the list.",
+      "what": "Refer the coverage question to the payer.",
+      "writesBack": "Keep reimbursement unconfirmed."
+    }
+  ]
+}

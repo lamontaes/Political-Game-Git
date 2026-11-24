@@ -25,5 +25,6 @@
       "pulledBy": "The floor date holds and the accounts are still open.",
       "writesBack": "Two people sign off on separate assignments."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

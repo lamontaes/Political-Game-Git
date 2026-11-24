@@ -1,0 +1,29 @@
+{
+  "id": "knock-on-the-door-before-the-storm",
+  "kind": "move",
+  "summary": "A housing worker goes to a tenant's door in {place} to ask whether they need help getting out.",
+  "realLife": "Housing authority employees visited older tenants and residents with mobility or equipment needs before Sandy arrived.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=12"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["An authorized outreach team is assigned to check the household."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an authorized outreach team is assigned to check the household.",
+  "turns": [
+    {
+      "turn": "the-tenant-answers-and-requests-help",
+      "pulledBy": "The tenant answers and requests help.",
+      "what": "Record the requested assistance for the team.",
+      "writesBack": "The household's request enters the assistance queue."
+    },
+    {
+      "turn": "nobody-answers",
+      "pulledBy": "Nobody answers.",
+      "what": "Keep the visit marked unconfirmed for follow-up.",
+      "writesBack": "The record shows an attempted visit."
+    }
+  ]
+}

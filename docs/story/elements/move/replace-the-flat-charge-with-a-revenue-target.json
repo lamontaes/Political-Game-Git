@@ -1,0 +1,32 @@
+{
+  "id": "replace-the-flat-charge-with-a-revenue-target",
+  "kind": "move",
+  "summary": "{member} offers the budget chair another way to raise the money without adding the same charge to every round.",
+  "realLife": "Portland council adopted the Novick and Green amendments replacing a proposed five-dollar golf surcharge with a fund transfer and a revised pricing plan.",
+  "sources": [
+    "https://www.portland.gov/budget/2025-2026-budget/documents/fy-25-26-adopted-budget-amendment-full-list-changes-updated-june/download#page=65"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation", "budget:parks"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a proposed surcharge, alternative schedule and transfer target.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A uniform increase would put the same dollar charge on a cheaper junior round.",
+      "what": "The member offers a schedule with different increases.",
+      "writesBack": "The amendment records which rates change."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The council reduces the projected take from rounds.",
+      "what": "The budget chair asks how much of the transfer can still be covered.",
+      "writesBack": "The budget draft shows the remaining gap."
+    }
+  ]
+}

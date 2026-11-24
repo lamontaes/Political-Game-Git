@@ -1,0 +1,31 @@
+{
+  "id": "name-who-failed-and-say-what-if-the-body-will-not-act",
+  "kind": "voice",
+  "summary": "A speaker in a crisis says plainly who failed, lists what will be asked of the legislature, and says what will happen if it will not act.",
+  "realLife": "Roosevelt's first inaugural, March 4, 1933, said it was time to speak frankly, blamed the money-changers and financial leaders, listed the measures he would ask of a special session, and said he would otherwise seek broad emergency powers.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "Read the full address and noted the blame, the list of asks and the fallback if Congress does not act."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The `stand`, `call` and `charge` sections, pulled by blunt and by a world fact such as a bank run or a layoff wave.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speaker blames no one and promises calm.",
+      "pulledBy": "low blunt; high agreeable",
+      "writesBack": "The stand section has no named failure."
+    },
+    {
+      "turn": "partial",
+      "what": "The speaker lists asks but gives no fallback.",
+      "pulledBy": "a legislature of the speaker's own party",
+      "writesBack": "The call section is recorded with no threat."
+    }
+  ]
+}

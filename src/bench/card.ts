@@ -360,6 +360,27 @@ function servingOffices(core: CoreState, personId: string): string[] {
 }
 
 /**
+ * The words under a person's name on a scene's strip of busts (mock C: "Vice
+ * President", or for family the tie, "Dad"): the tie to the viewer where there
+ * is one, the English engine's own relation word; else the office they serve
+ * in now, from the offices engine's own title. None where the records name
+ * neither.
+ */
+export function roleWord(
+  core: CoreState,
+  viewerId: string,
+  otherId: string,
+): string | undefined {
+  const viewer = core.people.get(viewerId as PersonId);
+  const relation = viewer
+    ? familyFactsOf(viewer).get(otherId as PersonId)?.relation
+    : undefined;
+  const word = relationWord(core, otherId, relation);
+  if (word) return word.charAt(0).toUpperCase() + word.slice(1);
+  return servingOffices(core, otherId)[0];
+}
+
+/**
  * A person's life as their card tells it, oldest first: one worded line per
  * event the one life reader returns (`lifeOf`: what they were made with, the
  * simulated past and what the engines recorded in play), each on the record
@@ -956,6 +977,16 @@ function lastElsewhere(
   return undefined;
 }
 
+/** The stretch of life an age falls in, for the bank's `when.band.<stretch>` openings. */
+export function stretchOfLife(age: number): string {
+  if (age <= 12) return "child";
+  if (age <= 19) return "teens";
+  if (age >= 80) return "late";
+  return ["twenties", "thirties", "forties", "fifties", "sixties", "seventies"][
+    Math.floor(age / 10) - 2
+  ]!;
+}
+
 /** The most later terms a run names by year before it is said whole. */
 const TERMS_NAMED = 2;
 
@@ -1083,8 +1114,38 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // they form when their record holds none.
     const first = teller.form !== "you" && !named;
     const form = first ? "third" : voice;
+    // Their stretch of life then ("in their forties"), said by the bank, for
+    // a sentence that tells when by it where the year is not the point.
+    const lived =
+      teller.born && line.date > teller.born
+        ? ageInYears(teller.born, line.date)
+        : undefined;
+    const stretch =
+      lived !== undefined && lived > 0 ? stretchOfLife(lived) : undefined;
+    const stretchWay =
+      stretch !== undefined
+        ? pickWay(
+            ["third", "they", "i"].includes(voice)
+              ? [
+                  ...screenWays(
+                    "person-history",
+                    `person-history.then.${stretch}.${voice}`,
+                  ),
+                  ...screenWays(
+                    "person-history",
+                    `person-history.then.${stretch}.any`,
+                  ),
+                ]
+              : [],
+            new Set(),
+            line.recordId,
+            { their: teller.words?.possessive ?? "their" },
+            ":then",
+          )
+        : null;
     const slots = {
       ...line.slots,
+      ...(stretchWay ? { then: stretchWay.text } : {}),
       ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
       who: first ? teller.name : (teller.words?.subject ?? ""),
       whom: first ? teller.name : (teller.words?.object ?? ""),
@@ -1102,7 +1163,15 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         : screenWays("person-history", `person-history.story.${kind}.any`);
     };
     const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
-    const ways = second.length ? second : waysOf(again);
+    const allWays = second.length ? second : waysOf(again);
+    // With the stretch of life known, a wording that tells time by it is
+    // said before one that names the year.
+    const byStretch = stretchWay
+      ? allWays.filter((key) =>
+          partText("person-history", key).includes("{then}"),
+        )
+      : [];
+    const ways = byStretch.length ? byStretch : allWays;
     const wording = pickWay(ways, used, line.recordId, slots);
     if (!wording) return [];
     used.add(wording.key);
@@ -1121,14 +1190,15 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // and never on a sentence that says how long ("worked for seven years").
     const gap = lastYear ? Number(year) - Number(lastYear) : Infinity;
     const frame =
-      !/\{(?:years?|span)\}/.test(partText("person-history", wording.key)) &&
+      !/\{(?:years?|span|then)\}/.test(
+        partText("person-history", wording.key),
+      ) &&
       (!last?.framed || gap > 1);
     if (frame) {
-      // Their age then, for what a person does at an age (school, a move,
-      // work); a partner or a child is told by the year.
-      const aged = ["school", "moved", "work"].includes(again.split(".")[0]!);
+      // Their age then, said as a stretch of life ("in their teens") where
+      // the birth is known; the year stays as another way to open.
       const age =
-        aged && teller.born && line.date > teller.born
+        teller.born && line.date > teller.born
           ? ageInYears(teller.born, line.date)
           : undefined;
       const whens = (
@@ -1144,7 +1214,24 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
                   ]
                 : []),
               ...(age !== undefined && age > 0
-                ? ["person-history.when.age", "person-history.when.age-years"]
+                ? [
+                    "person-history.when.age",
+                    "person-history.when.age-years",
+                    // After the first sentence, which opens on the name.
+                    ...(lastYear !== undefined &&
+                    ["third", "they", "i"].includes(voice)
+                      ? [
+                          ...screenWays(
+                            "person-history",
+                            `person-history.when.band.${stretchOfLife(age)}.${voice}`,
+                          ),
+                          ...screenWays(
+                            "person-history",
+                            `person-history.when.band.${stretchOfLife(age)}.any`,
+                          ),
+                        ]
+                      : []),
+                  ]
                 : []),
             ]
       ).filter((key) => key !== lastWhen);
@@ -1152,7 +1239,11 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         whens,
         new Set(),
         line.recordId,
-        { year, age: String(age ?? "") },
+        {
+          year,
+          age: String(age ?? ""),
+          their: teller.words?.possessive ?? "their",
+        },
         ":when",
       );
       if (when) {

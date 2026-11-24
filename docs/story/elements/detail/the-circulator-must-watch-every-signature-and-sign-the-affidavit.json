@@ -1,0 +1,31 @@
+{
+  "id": "the-circulator-must-watch-every-signature-and-sign-the-affidavit",
+  "kind": "detail",
+  "summary": "At the end of a session the circulator signs a sworn statement that they saw each signature written.",
+  "realLife": "State guides say the circulator must witness every signature, may not sign the sheet they carry, and must sign a notarized affidavit.",
+  "sources": [
+    "Kansas Secretary of State, Candidate Petition Circulation Guide, 2020: https://kssos.org/Pubs/Elections/Guides/Candidate-Petition-Circulation-Guide.pdf",
+    "Common Cause Ohio, petition circulator FAQ, undated: https://commoncause.org/ohio/?p=484"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": [],
+  "inGame": "petition sheet record: circulator affidavit and witnessed lines",
+  "weights": {
+    "signature": 0.7
+  },
+  "usedBy": ["petition-ask"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The affidavit is signed and the sheet counts",
+      "pulledBy": "a witnessed sheet",
+      "writesBack": "the lines go to the clerk's count"
+    },
+    {
+      "turn": "The affidavit is wrong or missing",
+      "pulledBy": "a procedural error",
+      "writesBack": "every line on the sheet is rejected"
+    }
+  ]
+}

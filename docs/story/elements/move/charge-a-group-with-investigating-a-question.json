@@ -26,5 +26,6 @@
       "pulledBy": "The report depends on a survey returned after the budget vote.",
       "writesBack": "The clerk puts its cost estimates in the file for the next budget hearing."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -15,7 +15,7 @@
     "settlement-vote": 0.6
   },
   "inGame": "the settlement record, the insurance deductible, the enforcement rule; needs: an executive who is on record against a settlement the body passes",
-  "issues": ["government"],
+  "issues": ["none"],
   "turns": [
     {
       "name": "the mayor calls it a surrender",

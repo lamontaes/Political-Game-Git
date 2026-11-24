@@ -1,0 +1,32 @@
+{
+  "id": "temporary-food-program-next-years-orders",
+  "kind": "consequence",
+  "summary": "Before placing next year's orders, a food provider in {place} wants to know whether the temporary program will continue.",
+  "realLife": "Senator George Borrello said permanent status for Nourish New York would help farms and food banks plan the following year's operations and budgets.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/6.17.21_senator_borrello_joins_colleagues_to_urge_governor_to_sign_nourish_ny_f.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A program with temporary authority and a provider planning period beyond that authority."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a program with temporary authority and a provider planning period beyond that authority.",
+  "turns": [
+    {
+      "turn": "continued",
+      "pulledBy": "New authority covers the planning period.",
+      "what": "Give the provider the authorized period.",
+      "writesBack": "Record the continuation apart from specific orders."
+    },
+    {
+      "turn": "unresolved",
+      "pulledBy": "The continuation is pending.",
+      "what": "Mark the provider's plan as contingent.",
+      "writesBack": "Carry the question into its next budget review."
+    }
+  ]
+}

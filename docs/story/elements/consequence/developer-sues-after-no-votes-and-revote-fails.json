@@ -15,7 +15,7 @@
     "zoning-vote": 0.6
   },
   "inGame": "the zoning vote record, a damages claim, the city attorney's advice to members; needs: a lawsuit that pauses and resumes, and a rule on what members may hear from residents during one",
-  "issues": ["business"],
+  "issues": ["none"],
   "turns": [
     {
       "name": "sue, pause, then revote",

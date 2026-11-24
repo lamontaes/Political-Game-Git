@@ -105,7 +105,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "warmup": "Letting the country, the state and the town run two months on their own before your first evening.",
+    "warmup": "Letting the world run two months",
     "opening": "Preparing the opening"
   },
   "worldSettings": {
@@ -1126,7 +1126,6 @@
     "saved": "Graded"
   },
   "here": {
-    "label": "Here",
     "more": "and {count} more"
   },
   "tv": {

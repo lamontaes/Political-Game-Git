@@ -1,0 +1,30 @@
+{
+  "id": "an-over-limit-gift-and-a-silent-refund-end-in-a-fine",
+  "kind": "consequence",
+  "summary": "A campaign takes a gift above the limit, ignores the notice and the donor's request for the excess, and gets the top fine.",
+  "realLife": "A city ethics board found one donation exceeded the individual limit, the campaign did not answer the notice or the donor's refund request, and the board voted unanimously for the maximum penalty.",
+  "sources": [
+    "CBS News Chicago, ethics board fines mayoral runner-up over campaign financing violation, Jan. 2024: https://www.cbsnews.com/chicago/news/chicagos-board-of-ethics-fining-mayoral-runner-up-paul-vallas-over-10000-for-campaign-financing-violation/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "needs: a contribution limit check that sends a notice and a refund route before a fine",
+  "weights": {
+    "donor": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The campaign refunds the excess",
+      "pulledBy": "a careful treasurer",
+      "writesBack": "a refund and no fine"
+    },
+    {
+      "turn": "The campaign never answers",
+      "pulledBy": "a lax treasurer and a busy week",
+      "writesBack": "a maximum fine and a news item"
+    }
+  ]
+}

@@ -88,6 +88,13 @@ The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment
 - **Sources are the real thing** (the CTO, 7134833236): an element's `sources` name the real speech, paper, record or archive with its URL (presidency.ucsb.edu, a state archive, the paper's own page). Our own research notes may be one extra line, never the only one.
 - **Format before you push:** `npx prettier --write docs/story/elements`. An element PR that fails Prettier waits.
 - **The owner's words hold in elements too:** never "ward" in a summary or moment (the place's own word from its record, or "a council member").
+- **Open element and issues PRs ready for review, never as drafts** (the Coordinator, Nov 24): the watcher merges them when green, and it skips drafts.
+
+## Issues: the game's laws decide what gets made (the CTO, Nov 24, 7140057819)
+
+- **Every element names its issues** in `issues`: a list of the bill catalog's policy ids (`src/core2/data/legislature/bill-catalog.json`, for example `budget:highways` or `question:us-policy-positions:housing-land-use.rent-stabilization`), or `["none"]` for a moment no policy touches (a funeral, a birthday). `tests/guards/english/element-issues.test.ts` holds every id to the catalog.
+- **A line can require a live policy:** the planner adds `policy:<catalog id>` to the facts for every policy the text cites (`withPolicyFacts`, `src/english/outline-planner.ts`) (a budget line as `policy:budget:<line>`, the catalog's own id), so a line with `"requiresFacts": ["policy:question:…"]` plays only where the world has put that policy in the text, and beats a general line there. A line may also name its policies in its own `issues` field; it is about a policy through its own `issues`, a required `policy:` fact or an element it cites.
+- **Pick by gap, issue first:** `node --import tsx scripts/story/coverage.ts` writes `docs/story/coverage.md`, each policy by kind of text, elements/lines per cell. Take a policy with thin cells, find real moments about it, write elements with turns for both directions, then the lines.
 
 ## Checks before you post
 
@@ -117,7 +124,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 
 ## What he passed and what he failed
 
-- **Passed:** the "passing lines only" section of `docs/story/first-evening-pregrade-8.md` and `-9.md` on branch `story/first-evening-pregrade`.
+- **Passed:** the "passing lines only" section of the pre-grader's reads 8 and 9, kept on branch `story/first-evening-pregrade` (not on this branch).
 - **Failed, with his reason and his likely words:** every row of those files.
 - **His grades on older lines:** `data/english/grades/`.
 - **His rulings:** `docs/coordination/OWNER-DECISIONS.md`.

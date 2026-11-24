@@ -30,64 +30,109 @@ try {
     const talkable = await someoneToTalkTo(page);
     await page.waitForTimeout(800);
 
-    // The strip along the foot of the room is as wide as its people.
+    // A news toast takes the corner's top right while it shows (the people stand left of
+    // it), so the toast is closed before the corner is measured.
+    const close = page.locator(
+      "#news-surface:not([hidden]) button:not(#news-surface-open)",
+    );
+    if (await close.count())
+      await close
+        .first()
+        .click()
+        .catch(() => {});
+    await page.waitForTimeout(600);
+    // The people of a room stand small in the top-right corner, packed as wide as they
+    // are, and nothing is along the foot of the room (owner, Nov 24, mock C).
     const room = await page.evaluate(() => {
       const strip = document.querySelector("#here .bust-strip");
-      const area = document.getElementById("here").getBoundingClientRect();
+      const box = strip.getBoundingClientRect();
       const people = strip.querySelectorAll(".busts-person").length;
       return {
         people,
-        strip: strip.getBoundingClientRect().width,
-        area: area.width,
+        width: box.width,
+        top: box.top,
+        rightGap: document.documentElement.clientWidth - box.right,
+        bottom: box.bottom,
+        height: document.documentElement.clientHeight,
       };
     });
     console.log(
-      `Room: ${room.people} on a strip ${room.strip}px of ${room.area}px`,
+      `Room: ${room.people} in the corner, ${room.width}px wide, top ${room.top}, right gap ${room.rightGap}`,
     );
     assert.ok(
-      room.strip <= room.people * 260 + 120,
-      `the strip is ${room.strip}px for ${room.people} people`,
+      room.width <= room.people * 260 + 120,
+      `the corner is ${room.width}px for ${room.people} people`,
     );
-    // The label never lies over a name.
-    const clash = await page.evaluate(() => {
-      const label = document.querySelector("#here .busts-label");
-      if (!label || getComputedStyle(label).display === "none") return false;
-      const a = label.getBoundingClientRect();
-      return [...document.querySelectorAll("#here .busts-name")].some((n) => {
-        const b = n.getBoundingClientRect();
-        return (
-          a.left < b.right &&
-          b.left < a.right &&
-          a.top < b.bottom &&
-          b.top < a.bottom
-        );
-      });
-    });
-    assert.equal(clash, false, "the Here label is over a name");
+    assert.ok(room.top < 80, `the people are not at the top (${room.top}px)`);
+    assert.ok(
+      room.rightGap < 80,
+      `the people are not at the right (${room.rightGap}px from it)`,
+    );
+    assert.ok(
+      room.bottom < room.height / 3,
+      "the people reach down into the room",
+    );
+    // No "Here" label over the corner (CTO, Nov 24: mock C has none), and a role or a tie
+    // under a name reads as words, never as a record key.
+    assert.equal(
+      await page.locator("#here .busts-label").count(),
+      0,
+      "a label is over the corner",
+    );
+    const roles = await page
+      .locator("#here .busts-role")
+      .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+    console.log("Roles:", JSON.stringify(roles));
+    for (const role of roles)
+      assert.match(role, /^[A-Z][A-Za-z' -]+$/, `"${role}" is not worded`);
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-room.png` });
 
-    // In a talk only the speaker is big.
+    // In a talk the speaker is on the talk box, big; the others stay small in the corner.
     await talkable.first().click();
-    await page.locator("#talk-strip .bust-strip").waitFor();
+    await page.locator("#talk-strip .talk-speaker").waitFor();
     await page.waitForTimeout(800);
     const talk = await page.evaluate(() => {
-      const strip = document.querySelector("#talk-strip .bust-strip");
+      const strip = document.querySelector("#talk-strip .talk-speaker");
+      const card = document.getElementById("talk").getBoundingClientRect();
       const face = (cell) => cell.querySelector(".busts-face").offsetWidth;
+      const corner = document.querySelector("#here .bust-strip");
+      const shown = [...corner.querySelectorAll(".busts-person")].filter(
+        (cell) => getComputedStyle(cell).display !== "none",
+      );
+      const box = strip.getBoundingClientRect();
       return {
-        speaker: strip.dataset.speaker,
         speaking: [...strip.querySelectorAll(".speaking")].map(face),
-        quiet: [...strip.querySelectorAll(".quiet")].map(face),
-        width: strip.getBoundingClientRect().width,
+        quiet: shown.map(face),
+        speakerBottom: box.bottom,
+        cardTop: card.top,
+        cornerTop: corner.getBoundingClientRect().top,
+        cornerRightGap:
+          document.documentElement.clientWidth -
+          corner.getBoundingClientRect().right,
+        bottomStrip: document.querySelectorAll("#talk-cast, #here.bottom")
+          .length,
       };
     });
-    console.log("Talk strip:", JSON.stringify(talk));
+    console.log("Talk:", JSON.stringify(talk));
     assert.equal(talk.speaking.length, 1, "one person speaks");
     for (const size of talk.quiet)
       assert.ok(size < talk.speaking[0] * 0.7, "a silent person is shown big");
+    assert.ok(
+      Math.abs(talk.speakerBottom - talk.cardTop) < 40,
+      "the speaker is not on the talk box",
+    );
+    assert.ok(talk.cornerTop < 80, "the others are not at the top");
+    assert.ok(talk.cornerRightGap < 80, "the others are not at the right");
+    assert.equal(talk.bottomStrip, 0, "an old strip is still drawn");
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-talk.png` });
 
-    // Anyone named on the strip opens their card.
-    await page.locator("#talk-strip .busts-person").first().click();
+    // Anyone named in the corner, or the speaker on the box, opens their card.
+    const others = page.locator("#here .busts-person:not(.in-talk)");
+    await (
+      (await others.count())
+        ? others.first()
+        : page.locator("#talk-strip .busts-person").first()
+    ).click();
     await page.locator("#person").waitFor({ state: "visible" });
     assert.ok(
       (await page.locator("#person-name").innerText()).trim(),

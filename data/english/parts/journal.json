@@ -1240,7 +1240,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.work-line-stopped.when-named-was-born-i-left-employer-to-stay-home",
@@ -1266,7 +1267,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.work-line-stopped.i-left-employer-after-named-was-born",
@@ -1292,7 +1294,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.work-line-retired.i-retired-from-employer",
@@ -2467,7 +2470,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "journal.scene-line-promise.i-gave-other-my-word",
@@ -2493,7 +2497,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "journal.scene-line-promise.other-had-my-word",
@@ -2519,7 +2524,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-c38-the-promise-and-the-bill-on-your-desk"]
     },
     {
       "key": "journal.scene-line-relationship-strained.other-and-i-parted-with-words-between-us",
@@ -2623,7 +2629,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "journal.scene-line-trust-lost.other-learned-i-hadnt-told-the-truth",
@@ -2649,7 +2656,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "journal.scene-line-trust-lost.i-wasnt-straight-with-other",
@@ -2675,7 +2683,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "journal.health-line-ill.i-got-sick",
@@ -2702,7 +2711,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.health-line-ill.i-was-ill",
@@ -2729,7 +2739,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.health-line-ill.i-got-ill",
@@ -2756,7 +2767,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.health-other-ill.relation-was-sick",
@@ -2783,7 +2795,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.health-other-ill.relation-got-sick",
@@ -2810,7 +2823,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.health-other-ill.relation-was-ill",
@@ -2837,7 +2851,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-c24-sick-in-office"]
     },
     {
       "key": "journal.office-line-filed.i-filed-to-run-for-office",
@@ -2967,7 +2982,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againWait.it-was-my-first-paycheck-since-last-employer",
@@ -2993,7 +3009,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againWait.last-employer-was-the-last-place-that-paid-me",
@@ -3019,7 +3036,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-hard.i-had-no-job-after-lost-employer",
@@ -3045,7 +3063,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-hard.i-was-out-of-work-after-lost-employer",
@@ -3071,7 +3090,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-hard.i-had-no-work-after-lost-employer",
@@ -3097,7 +3117,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-deathIllness.name-had-been-after-illness",
@@ -4460,7 +4481,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-school.my-parents-first-met-at-school",
@@ -4486,7 +4508,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-parents-met-school.school-is-where-my-parents-met",
@@ -4512,7 +4535,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "journal.home-raised-by-raised-by.named-raised-me",
@@ -4850,7 +4874,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.home-siblings-born.named-came-after-me",
@@ -4876,7 +4901,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.home-siblings-born.named-are-younger-than-i-am",
@@ -4902,7 +4928,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.home-siblings-older.named-were-born-before-me",
@@ -4928,7 +4955,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.home-siblings-older.named-are-older-than-i-am",
@@ -4954,7 +4982,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.home-siblings-older.named-were-already-here-when-i-was-born",
@@ -4980,67 +5009,14 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-large-family-counted-by-its-children"]
     },
     {
       "key": "journal.life-line-came-of-age.i-turned-eighteen",
       "move": "life-line-came-of-age",
       "kind": "spoken",
       "text": "I turned eighteen.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
-      "key": "journal.life-line-came-of-age.i-could-vote",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "I could vote.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
-      "key": "journal.life-line-came-of-age.voting-age-came",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "Voting age came.",
       "uses": [
         {
           "move": "life-line-came-of-age",
@@ -5805,7 +5781,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["friendship-began-on-the-job"]
     },
     {
       "key": "journal.memoir-meantFriend.we-stayed-friends",
@@ -5831,7 +5808,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["friendship-began-on-the-job"]
     },
     {
       "key": "journal.memoir-meantFriend.we-got-along",
@@ -5857,7 +5835,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["friendship-began-on-the-job"]
     },
     {
       "key": "journal.memoir-meantRival.we-were-rivals",
@@ -5883,7 +5862,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-a29-a-friend-files-for-the-same-seat"]
     },
     {
       "key": "journal.memoir-meantRival.we-weren-t-friends",
@@ -5909,7 +5889,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-a29-a-friend-files-for-the-same-seat"]
     },
     {
       "key": "journal.memoir-meantRival.we-were-opponents",
@@ -5935,7 +5916,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-a29-a-friend-files-for-the-same-seat"]
     },
     {
       "key": "journal.memoir-joinCause.because-of-that",
@@ -6828,7 +6810,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againFelt.span-passed-between-jobs",
@@ -6854,7 +6837,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againFelt.span-was-how-long-i-was-out-of-work",
@@ -6880,7 +6864,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-letGoHeld.held-was-how-long-i-stayed-at-employer",
@@ -7384,7 +7369,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-own-lost.i-lost-the-election-for-office",
@@ -7414,7 +7400,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-own-lost.i-didn-t-win-the-race-for-office",
@@ -7444,7 +7431,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-own-won-close.i-won-the-race-for-office-and-it-was-close",
@@ -7564,7 +7552,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-lost-race-in-one-plain-line",
+        "lost-by-a-handful-of-votes-to-a-write-in"
+      ]
     },
     {
       "key": "journal.office-own-lost-close.the-race-for-office-was-close-and-i-lost",
@@ -7594,7 +7586,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-lost-race-in-one-plain-line",
+        "lost-by-a-handful-of-votes-to-a-write-in"
+      ]
     },
     {
       "key": "journal.office-own-lost-close.i-lost-office-by-a-small-margin-and-it-was-close",
@@ -7624,7 +7620,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-lost-race-in-one-plain-line",
+        "lost-by-a-handful-of-votes-to-a-write-in"
+      ]
     },
     {
       "key": "journal.office-own-won-wide.i-won-the-race-for-office-and-it-wasn-t-close",
@@ -7744,7 +7744,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-own-lost-wide.the-race-for-office-wasn-t-close-and-i-lost",
@@ -7774,7 +7775,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-own-lost-wide.i-lost-office-by-a-wide-margin-and-it-wasn-t-close",
@@ -7804,7 +7806,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-other-won.other-won-the-race-for-office",
@@ -7924,7 +7927,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-other-lost.other-didn-t-win-the-race-for-office",
@@ -7954,7 +7958,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-other-lost.other-ran-for-office-and-lost",
@@ -7984,7 +7989,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-lost-race-in-one-plain-line"]
     },
     {
       "key": "journal.office-line-petition-checked.my-petition-for-office-had-valid-good-names-it-needed-needed",
@@ -8166,7 +8172,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.in-the-race-for-office-other-knocked-on-doors-doors-in-one-evening",
@@ -8192,7 +8202,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.other-spent-an-evening-on-doors-doors-in-the-race-for-office",
@@ -8218,7 +8232,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.a-volunteer-knocked-on-doors-doors-in-the-race-for-office",
@@ -8244,7 +8262,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.one-evening-doors-doors-were-knocked-on-for-office",
@@ -8270,7 +8292,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-volunteer-shift.a-volunteer-worked-doors-doors-one-evening-for-office",
@@ -8296,7 +8322,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "pattern-b27-the-volunteer-who-wants-a-real-job",
+        "campaign-drivers-outside-the-polls"
+      ]
     },
     {
       "key": "journal.office-line-law-learned.i-learned-that-law-was-in-effect",
@@ -9222,32 +9252,6 @@
       }
     },
     {
-      "key": "journal.memoir-againWait.nothing-had-come-in-since",
-      "move": "memoir-againWait",
-      "kind": "spoken",
-      "text": "Nothing had come in since {last_employer}.",
-      "uses": [
-        {
-          "move": "memoir-againWait",
-          "subject": "memoir",
-          "role": "againWait",
-          "choice": "againWait",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "againWait"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-againWait.my-last-pay-came-from",
       "move": "memoir-againWait",
       "kind": "spoken",
@@ -9271,7 +9275,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againWait.i-had-not-been-paid-since",
@@ -9297,33 +9302,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.nothing-replaced-right-away",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "Nothing replaced {lost_employer} right away.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-hard.after-there-was-no-paycheck",
@@ -9349,7 +9329,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-deathIllness.had-been-for-some-time-before-the-end",
@@ -9539,33 +9520,6 @@
         "move": "tell"
       },
       "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
-    },
-    {
-      "key": "journal.memoir-whenAge.this-was-when-i-was",
-      "move": "memoir-whenAge",
-      "kind": "spoken",
-      "text": "This was when I was {age}.",
-      "uses": [
-        {
-          "move": "memoir-whenAge",
-          "subject": "memoir",
-          "role": "whenAge",
-          "choice": "whenAge",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "whenAge"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.i-was-then",
@@ -9832,33 +9786,6 @@
       }
     },
     {
-      "key": "journal.memoir-became.rose-to",
-      "move": "memoir-became",
-      "kind": "spoken",
-      "text": "{name} rose to {office}.",
-      "uses": [
-        {
-          "move": "memoir-became",
-          "subject": "memoir",
-          "role": "became",
-          "choice": "became",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "became"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["local-offices-won-listed-with-their-pay"]
-    },
-    {
       "key": "journal.memoir-became.took-on-the-job-of",
       "move": "memoir-became",
       "kind": "spoken",
@@ -9936,112 +9863,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-joinCause.because-of-this",
-      "move": "memoir-joinCause",
-      "kind": "spoken",
-      "text": "Because of this.",
-      "uses": [
-        {
-          "move": "memoir-joinCause",
-          "subject": "memoir",
-          "role": "joinCause",
-          "choice": "joinCause",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinCause"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-joinLater.down-the-road",
-      "move": "memoir-joinLater",
-      "kind": "spoken",
-      "text": "{span} down the road.",
-      "uses": [
-        {
-          "move": "memoir-joinLater",
-          "subject": "memoir",
-          "role": "joinLater",
-          "choice": "joinLater",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinLater"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-joinLater.on",
-      "move": "memoir-joinLater",
-      "kind": "spoken",
-      "text": "{span} on.",
-      "uses": [
-        {
-          "move": "memoir-joinLater",
-          "subject": "memoir",
-          "role": "joinLater",
-          "choice": "joinLater",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinLater"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-schoolAge.i-was-when-it-happened",
-      "move": "memoir-schoolAge",
-      "kind": "spoken",
-      "text": "I was {age_then} when it happened.",
-      "uses": [
-        {
-          "move": "memoir-schoolAge",
-          "subject": "memoir",
-          "role": "schoolAge",
-          "choice": "schoolAge",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "schoolAge"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
       },
-      "elements": ["children-going-to-school-noted"]
+      "elements": ["friendship-began-on-the-job"]
     },
     {
       "key": "journal.memoir-birthAge.was-born-when-i-was",
@@ -10262,7 +10085,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-againFelt.i-was-out-of-work-for",
@@ -10288,7 +10112,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["pattern-b5-03-the-job-ends"]
     },
     {
       "key": "journal.memoir-letGoHeld.i-had-been-at-for",

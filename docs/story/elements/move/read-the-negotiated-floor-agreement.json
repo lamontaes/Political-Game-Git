@@ -1,0 +1,30 @@
+{
+  "id": "read-the-negotiated-floor-agreement",
+  "kind": "move",
+  "summary": "A leader has a proposed debate agreement read aloud before asking whether anyone objects.",
+  "realLife": "Riddick recalled drafting consent agreements with Lyndon Johnson’s instructions and hearing the finished terms read to the Senate.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=115"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{leader}", "{agreement}", "{chamber}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: consent request and its written terms.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The leader withdraws the request to revise it.",
+      "pulledBy": "A member hears an unexpected deadline.",
+      "writesBack": "A new text goes to the desk."
+    },
+    {
+      "turn": "partial",
+      "what": "The chair announces the agreement.",
+      "pulledBy": "Nobody objects to the terms read.",
+      "writesBack": "The floor schedule reflects its terms."
+    }
+  ],
+  "issues": ["none"]
+}
