@@ -783,5 +783,59 @@
       "refer-the-bill-to-summer-study",
       "charge-a-group-with-investigating-a-question"
     ]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.the-body-has-sent-bill-to-study-the-sponsor-is-chairing-the-committee",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "The {body} has sent {bill} to study. The sponsor is chairing the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["body", "bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.you-voted-against-bill-now-its-sponsor-wants-you-on-the-committee-studying-it",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "You voted against {bill}. Now its sponsor wants you on the committee studying it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
   }
 ]

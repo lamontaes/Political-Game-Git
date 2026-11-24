@@ -660,5 +660,59 @@
       "report-options-without-endorsement",
       "charge-a-group-with-investigating-a-question"
     ]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.the-committee-you-served-on-has-reported-back-to-the-body-on-bill",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "The committee you served on has reported back to the {body} on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["body", "bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.the-study-of-bill-is-over-the-committee-chair-comes-to-hear-where-you-stand",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "The study of {bill} is over. The committee chair comes to hear where you stand.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
   }
 ]
