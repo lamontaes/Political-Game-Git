@@ -1,7 +1,6 @@
 ---
 id: red-main-race-words-reached-line
-impact: patch
-section: Fixed
+impact: none
 ---
 
-The reached-voter wording test reads the line the bank now has for one voter who did not move.
+The reached-voter wording test reads the bank's words for one voter who did not move and for a voter warmer or cooler.
