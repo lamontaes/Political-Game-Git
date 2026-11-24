@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n16-12
-pr:
+pr: #10314
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N16-12)
+merged-at: 2026-11-24T10:44:50.017Z
 ---
 
 **What.** The owner, Nov 16: "lots of empty, dead space right here" (the creator); his Nov 17 ruling: no empty space in the creator. In a played creator the "Where I'm from" list is a box capped at 150 px that scrolls inside itself, while about 100 px of the left column sits empty under it.
