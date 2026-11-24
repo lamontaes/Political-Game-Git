@@ -4864,7 +4864,9 @@ select.release-pick {
 #person.dossier {
   display: block;
   height: auto;
-  max-height: calc(var(--vh) - 2 * var(--gutter));
+  /* Clear of the player's own card at the foot of the room (CTO, Nov 24: the
+     story ran under it). */
+  max-height: calc(var(--vh) - 2 * var(--gutter) - 150px);
   width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #person.dossier .heading {
