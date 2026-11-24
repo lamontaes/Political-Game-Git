@@ -1,0 +1,32 @@
+{
+  "id": "ask-who-fills-a-seat-after-a-pledge-refusal",
+  "kind": "move",
+  "summary": "Reporters ask who can sit in a place vacated by a delegate who refuses the party pledge.",
+  "realLife": "The August report says credentials chair David Lawrence left unanswered a press question about Freedom Democrats taking the places of regular delegates who declined the pledge.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640829_mfdp_convention-rpt.pdf#page=1"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{reporter}", "{chair}", "{delegate}"],
+  "gates": [
+    "A pledge conditions seating and the rules for filling a vacancy are disputed."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the pledge requirement, a reporter’s question and any later chair ruling.",
+  "turns": [
+    {
+      "turn": "counsel-answers-later",
+      "what": "Reporters get a written ruling after the session.",
+      "pulledBy": "The chair refers the question to counsel.",
+      "writesBack": "The vacancy acquires a dated interpretation."
+    },
+    {
+      "turn": "alternate-called",
+      "what": "The secretary calls the alternate.",
+      "pulledBy": "The chair rules that an alternate from the same return goes first.",
+      "writesBack": "The vacancy and the replacement each have a roll entry."
+    }
+  ]
+}

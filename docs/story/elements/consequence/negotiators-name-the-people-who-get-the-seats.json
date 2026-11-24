@@ -1,0 +1,33 @@
+{
+  "id": "negotiators-name-the-people-who-get-the-seats",
+  "kind": "consequence",
+  "summary": "A delegation receives an offer that names the individuals who could vote at large.",
+  "realLife": "The Atlantic City proposal designated Aaron Henry and Edwin King for at-large votes while permitting the regular Mississippi delegates to sit if they signed the pledge.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640829_mfdp_convention-rpt.pdf#page=2",
+    "https://www.thecrimson.com/article/1964/9/22/the-politics-of-civil-rights-piat/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{delegate}", "{offer}", "{seat}"],
+  "gates": [
+    "A compromise offers named seats outside the disputed state delegation."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the seat type and recipient named in each term of the compromise.",
+  "turns": [
+    {
+      "turn": "delegates-can-nominate",
+      "what": "The caucus opens nominations.",
+      "pulledBy": "The committee lets the delegation choose the people instead.",
+      "writesBack": "The eventual names trace back to a delegation vote."
+    },
+    {
+      "turn": "named-recipient-declines",
+      "what": "The committee must decide whether the offer can transfer.",
+      "pulledBy": "A named recipient declines.",
+      "writesBack": "The unfilled place carries the terms of the original offer."
+    }
+  ]
+}
