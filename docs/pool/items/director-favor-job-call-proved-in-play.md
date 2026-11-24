@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/pt-board-favor-job
-pr:
+pr: 10531
 blocked-on:
 source: CTO 17:40Z item 5 on #10377 (comment 7139529302), the six work-scene producers; lane 8 took 4 to 6, this is 6
 claimed-at: 2026-11-24T20:10:00.000Z
