@@ -42,11 +42,11 @@ import {
   type OutlineSpeaker,
   type SpeechPlan,
 } from "./speech-outline";
+import { themeNameBy } from "./theme-words";
 
 type Facts = Record<string, GroundedEnglishFact>;
 
 const THEME = speechOutlines as unknown as {
-  themeNames: Record<string, string>;
   themeShort: Record<string, string>;
   themeShortPlural: { themes: readonly string[] };
   nationWords: { nation: string; "nation-full": string };
@@ -147,7 +147,7 @@ export function addressFacts(
   // names one subject and argues another (a crisis address answers with a
   // question outside its theme).
   const family = plan.points[P.zero]?.family ?? plan.theme;
-  const theme = family ? THEME.themeNames[family] : undefined;
+  const theme = family ? themeNameBy(person.traits, family) : undefined;
   if (theme) facts["theme-name"] = fact(theme, ids);
   const short = family ? THEME.themeShort[family] : undefined;
   if (short) facts["theme-short"] = fact(short, ids);

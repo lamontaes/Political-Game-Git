@@ -1,0 +1,972 @@
+{
+  "schema": "english-parts/1",
+  "register": "loading-steps",
+  "description": "The dry line under the lit step on the loading card while the world builds (owner, Nov 24, via the CTO 7140490160: the sarcasm belongs in the progress messages). One bank for the thirteen build steps (BuildStage in src/bench/world.ts): the move is the step's key. Each line says, drily, what the game is really doing at that step. Nothing here is about the player's life; no element stands behind these lines.",
+  "slots": {
+    "place": "The start place as the loading card says it, from the place the build resolves.",
+    "state": "That place's state, as a sentence says it (stateInSentence)."
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "loading-steps.people.making-up-everyone-who-lives-in-place-one-person-at-a-time",
+      "move": "people",
+      "kind": "written",
+      "text": "Making up everyone who lives in {place}, one person at a time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.people.giving-every-resident-of-place-a-name-an-age-and-a-reason-to-be-there",
+      "move": "people",
+      "kind": "written",
+      "text": "Giving every resident of {place} a name, an age and a reason to be there.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.people.putting-people-in-houses-in-place-the-houses-were-already-there",
+      "move": "people",
+      "kind": "written",
+      "text": "Putting people in houses in {place}. The houses were already there.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.people.deciding-who-lives-next-door-to-whom-in-place-bad-news-for-somebody",
+      "move": "people",
+      "kind": "written",
+      "text": "Deciding who lives next door to whom in {place}. Bad news for somebody.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.people.counting-the-residents-of-place-twice-because-somebody-always-moves",
+      "move": "people",
+      "kind": "written",
+      "text": "Counting the residents of {place} twice, because somebody always moves.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "people",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.past.giving-everyone-in-place-a-childhood-a-school-and-a-few-regrets",
+      "move": "past",
+      "kind": "written",
+      "text": "Giving everyone in {place} a childhood, a school and a few regrets.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.past.deciding-where-place-went-to-school-and-who-sat-next-to-whom",
+      "move": "past",
+      "kind": "written",
+      "text": "Deciding where {place} went to school and who sat next to whom.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.past.writing-up-the-moves-and-the-layoffs-that-brought-people-to-place",
+      "move": "past",
+      "kind": "written",
+      "text": "Writing up the moves and the layoffs that brought people to {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.past.working-out-who-left-place-and-who-never-did",
+      "move": "past",
+      "kind": "written",
+      "text": "Working out who left {place} and who never did.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.past.back-dating-place-so-everyone-has-been-there-a-while",
+      "move": "past",
+      "kind": "written",
+      "text": "Back-dating {place} so everyone has been there a while.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.economy.opening-the-shops-and-the-employers-in-place-and-the-one-place-everyone-has-opinions-about",
+      "move": "economy",
+      "kind": "written",
+      "text": "Opening the shops and the employers in {place}, and the one place everyone has opinions about.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.economy.pricing-groceries-rent-and-gas-in-place-so-the-complaints-have-something-to-be-about",
+      "move": "economy",
+      "kind": "written",
+      "text": "Pricing groceries, rent and gas in {place}, so the complaints have something to be about.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.economy.setting-wages-in-place-then-setting-rents-a-little-above-them",
+      "move": "economy",
+      "kind": "written",
+      "text": "Setting wages in {place}, then setting rents a little above them.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.economy.hiring-people-in-place-to-work-at-the-places-that-hire-people",
+      "move": "economy",
+      "kind": "written",
+      "text": "Hiring people in {place} to work at the places that hire people.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.economy.letting-businesses-in-place-open-hire-and-let-go-in-about-that-order",
+      "move": "economy",
+      "kind": "written",
+      "text": "Letting businesses in {place} open, hire and let go, in about that order.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.core.wiring-place-to-the-rest-of-state-so-one-thing-can-affect-another",
+      "move": "core",
+      "kind": "written",
+      "text": "Wiring {place} to the rest of {state}, so one thing can affect another.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.core.connecting-place-to-state-and-state-to-the-country",
+      "move": "core",
+      "kind": "written",
+      "text": "Connecting {place} to {state} and {state} to the country.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.core.switching-place-on-and-hoping-the-parts-agree",
+      "move": "core",
+      "kind": "written",
+      "text": "Switching {place} on and hoping the parts agree.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.core.starting-the-clock-in-place-it-only-runs-forward",
+      "move": "core",
+      "kind": "written",
+      "text": "Starting the clock in {place}. It only runs forward.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "core",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.government.putting-people-in-offices-in-place-which-is-how-offices-usually-get-filled",
+      "move": "government",
+      "kind": "written",
+      "text": "Putting people in offices in {place}, which is how offices usually get filled.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.government.deciding-who-holds-which-office-in-place-and-since-when",
+      "move": "government",
+      "kind": "written",
+      "text": "Deciding who holds which office in {place}, and since when.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.government.telling-the-people-in-charge-in-place-that-they-are-in-charge",
+      "move": "government",
+      "kind": "written",
+      "text": "Telling the people in charge in {place} that they are in charge.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.government.filling-the-offices-from-the-town-hall-in-place-up-to-the-capital-of-state",
+      "move": "government",
+      "kind": "written",
+      "text": "Filling the offices from the town hall in {place} up to the capital of {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.government.giving-each-official-in-place-a-term-a-salary-and-a-drawer-full-of-paperwork",
+      "move": "government",
+      "kind": "written",
+      "text": "Giving each official in {place} a term, a salary and a drawer full of paperwork.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.elections.setting-the-election-dates-for-place-so-someone-can-be-disappointed-on-time",
+      "move": "elections",
+      "kind": "written",
+      "text": "Setting the election dates for {place}, so someone can be disappointed on time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.elections.registering-the-voters-of-place-some-of-them-will-read-the-form",
+      "move": "elections",
+      "kind": "written",
+      "text": "Registering the voters of {place}. Some of them will read the form.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.elections.lining-up-the-candidates-in-place-such-as-they-are",
+      "move": "elections",
+      "kind": "written",
+      "text": "Lining up the candidates in {place}, such as they are.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.elections.drawing-district-lines-in-state-somebody-will-complain-about-them",
+      "move": "elections",
+      "kind": "written",
+      "text": "Drawing district lines in {state}. Somebody will complain about them.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.elections.printing-the-ballots-for-place-the-one-thing-there-that-has-to-be-right",
+      "move": "elections",
+      "kind": "written",
+      "text": "Printing the ballots for {place}, the one thing there that has to be right.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.budgets.writing-the-budget-for-place-which-is-where-it-admits-what-it-can-afford",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Writing the budget for {place}, which is where it admits what it can afford.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.budgets.dividing-the-money-in-place-between-roads-schools-and-everything-else-people-want",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Dividing the money in {place} between roads, schools and everything else people want.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.budgets.opening-the-books-in-place-which-have-more-lines-than-you-would-hope",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Opening the books in {place}, which have more lines than you would hope.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.budgets.estimating-the-revenue-in-state-with-optimism",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Estimating the revenue in {state}, with optimism.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.budgets.taxes-in-services-out-and-a-gap-somebody-in-place-has-to-explain",
+      "move": "budgets",
+      "kind": "written",
+      "text": "Taxes in, services out, and a gap somebody in {place} has to explain.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "budgets",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.legislature.seating-the-lawmakers-of-state-everyone-has-a-desk-and-a-view-on-the-desk",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Seating the lawmakers of {state}. Everyone has a desk and a view on the desk.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.legislature.sorting-out-who-sits-on-which-committee-in-state-which-is-where-the-work-gets-done",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Sorting out who sits on which committee in {state}, which is where the work gets done.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.legislature.counting-votes-in-state-before-anyone-has-cast-one",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Counting votes in {state} before anyone has cast one.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.legislature.writing-down-the-laws-state-already-has-so-you-can-change-them",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Writing down the laws {state} already has, so you can change them.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.legislature.assigning-parties-seats-and-the-occasional-grudge-in-state",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Assigning parties, seats and the occasional grudge in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.cabinet.appointing-department-heads-in-state-who-were-not-asked-either",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Appointing department heads in {state}, who were not asked either.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.cabinet.choosing-who-runs-the-roads-and-the-schools-in-state",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Choosing who runs the roads and the schools in {state}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.cabinet.handing-the-department-heads-of-state-their-keys",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Handing the department heads of {state} their keys.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.cabinet.staffing-the-agencies-of-state-every-one-of-them-has-an-inbox",
+      "move": "cabinet",
+      "kind": "written",
+      "text": "Staffing the agencies of {state}. Every one of them has an inbox.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "cabinet",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.workings.sending-reporters-to-the-town-hall-in-place-they-will-wait",
+      "move": "workings",
+      "kind": "written",
+      "text": "Sending reporters to the town hall in {place}. They will wait.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.workings.filling-the-calendar-in-place-with-meetings-no-one-will-want-to-attend",
+      "move": "workings",
+      "kind": "written",
+      "text": "Filling the calendar in {place} with meetings no one will want to attend.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.workings.setting-the-agenda-in-place-for-meetings-that-could-have-been-emails",
+      "move": "workings",
+      "kind": "written",
+      "text": "Setting the agenda in {place} for meetings that could have been emails.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.workings.starting-the-press-the-courts-and-the-committees-in-place-all-at-once",
+      "move": "workings",
+      "kind": "written",
+      "text": "Starting the press, the courts and the committees in {place}, all at once.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.history.running-a-century-of-elections-in-state-a-year-at-a-time-so-the-country-has-a-past",
+      "move": "history",
+      "kind": "written",
+      "text": "Running a century of elections in {state}, a year at a time, so the country has a past.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.history.deciding-who-won-every-election-in-state-and-who-held-office-after",
+      "move": "history",
+      "kind": "written",
+      "text": "Deciding who won every election in {state} and who held office after.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.history.passing-laws-repealing-laws-and-passing-more-laws-in-state-for-decades",
+      "move": "history",
+      "kind": "written",
+      "text": "Passing laws, repealing laws and passing more laws in {state}, for decades.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.history.working-out-the-past-of-place-one-year-at-a-time",
+      "move": "history",
+      "kind": "written",
+      "text": "Working out the past of {place} one year at a time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.history.giving-state-a-history-that-everyone-remembers-a-little-differently",
+      "move": "history",
+      "kind": "written",
+      "text": "Giving {state} a history that everyone remembers a little differently.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "history",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.warmup.letting-place-run-for-a-while-before-you-are-introduced",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Letting {place} run for a while before you are introduced.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.warmup.place-is-running-without-you-and-it-will-remind-you-of-that",
+      "move": "warmup",
+      "kind": "written",
+      "text": "{place} is running without you, and it will remind you of that.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.warmup.letting-state-carry-on-for-a-while-so-there-is-news-when-you-get-there",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Letting {state} carry on for a while, so there is news when you get there.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.warmup.everyone-in-place-is-getting-a-head-start-on-you",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Everyone in {place} is getting a head start on you.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.opening.setting-the-table-for-your-first-evening-in-place",
+      "move": "opening",
+      "kind": "written",
+      "text": "Setting the table for your first evening in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.opening.putting-the-lights-on-in-the-right-house-in-place",
+      "move": "opening",
+      "kind": "written",
+      "text": "Putting the lights on in the right house in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.opening.finding-your-house-in-place-your-household-and-your-first-problem",
+      "move": "opening",
+      "kind": "written",
+      "text": "Finding your house in {place}, your household and your first problem.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "loading-steps.opening.almost-ready-place-has-been-running-without-you-this-entire-time",
+      "move": "opening",
+      "kind": "written",
+      "text": "Almost ready. {place} has been running without you this entire time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    }
+  ]
+}

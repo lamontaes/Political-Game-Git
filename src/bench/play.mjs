@@ -7956,10 +7956,12 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
-  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // The step's own dry lines (from the build's progress), one at a time, a new one every few seconds,
   // never the same line twice in one load. Each load starts at the next place in the pool, so
   // two loads in a row do not open on the same line.
   let quip = { stage: "", text: "" };
+  // The pools come with the build's progress, said for the place being built.
+  let lines = {};
   const used = new Set();
   let started = 0;
   try {
@@ -7969,7 +7971,7 @@ function followBuild(bar, onStory) {
     // Private windows and blocked storage just start at the top of each pool.
   }
   const nextQuip = (stage) => {
-    const pool = controls.loadingLines?.[stage] ?? [];
+    const pool = lines[stage] ?? [];
     const fresh = pool.filter((line) => !used.has(line));
     if (!fresh.length) return quip.stage === stage ? quip.text : "";
     const text = fresh[started % fresh.length];
@@ -7995,6 +7997,7 @@ function followBuild(bar, onStory) {
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
+    if (p?.lines) lines = p.lines;
     if (!p || built) return;
     // The step in plain words, and a bar that shows how many steps are done; no counts.
     const at =
