@@ -44,7 +44,21 @@ try {
     );
     const upAfter = !toast.hidden;
     hideToast(toast);
+    // A person's card holds a pop-up the same way (CTO, Nov 24: a Journal pop-up
+    // opened over an open card).
+    const person = document.getElementById("person");
+    person.hidden = false;
+    showToast(toast, 30);
+    const duringCard = toast.hidden;
+    person.hidden = true;
+    await new Promise((done) =>
+      requestAnimationFrame(() => setTimeout(done, 50)),
+    );
+    const afterCard = !toast.hidden;
+    hideToast(toast);
     return {
+      duringCard,
+      afterCard,
       during,
       after,
       closed: toast.hidden,
@@ -54,6 +68,12 @@ try {
     };
   });
   assert.equal(state.during, true, "a pop-up showed over a scene");
+  assert.equal(state.duringCard, true, "a pop-up showed over an open card");
+  assert.equal(
+    state.afterCard,
+    true,
+    "the pop-up did not show when the card closed",
+  );
   assert.equal(
     state.after,
     false,

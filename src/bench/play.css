@@ -4750,12 +4750,12 @@ select.release-pick {
 }
 .strip-screen .intro {
   margin: 0;
-  font: 400 var(--t-read)/1.55 var(--f-story);
+  font: 400 calc(var(--t-read) * var(--card-scale, 1))/1.55 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .hispeople {
   margin: 0;
-  font: 400 var(--t-read)/1.5 var(--f-story);
+  font: 400 calc(var(--t-read) * var(--card-scale, 1))/1.5 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .nm {

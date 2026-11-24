@@ -3121,6 +3121,11 @@ async function balanceLife(root) {
         break;
       }
     }
+  // A story still too long for the panel (one long paragraph cannot be split) is
+  // set a little smaller, in steps, until it fits; it is never cut off.
+  const runsPast = () => parts.some((part) => bottom(part) > limit);
+  for (let scale = 0.96; runsPast() && scale >= 0.7; scale -= 0.04)
+    root.style.setProperty("--card-scale", String(scale));
   for (const [at, home] of homes.entries())
     if (!home.children.length && at) home.parentElement.remove();
 }

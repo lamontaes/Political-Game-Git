@@ -4,7 +4,7 @@
 // and goes, and goes at once on its close control (a `[data-close]` slot, see panel.mjs).
 import { SCENE_PANELS } from "./panel.mjs";
 const timers = new Map();
-// While a scene, a talk, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
+// While a scene, a talk, a person's card, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
 // "News pop-ups wait until the scene ends"): its seconds start when it shows, never before.
 const waiting = new Map();
 // The toasts on screen now, with what shows them again: a scene that opens takes them down to wait.
@@ -12,7 +12,8 @@ const shown = new Map();
 let watching = false;
 // The panels a scene or a held decision takes the stage with: the talk, the meeting, the desk
 // (also the floor vote, nominations and orders), election day, its returns and the ballot.
-const SCENES = ["talk", ...SCENE_PANELS];
+// A person's card takes the stage too: a pop-up never opens over it (CTO, Nov 24).
+const SCENES = ["talk", "person", ...SCENE_PANELS];
 const scenePanels = () =>
   SCENES.map((id) => document.getElementById(id)).filter(Boolean);
 const sceneOpen = () => scenePanels().some((panel) => !panel.hidden);
