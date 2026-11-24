@@ -1101,7 +1101,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-midway", "disaster"]
+          "requiresFacts": ["again", "return-midway", "disaster"],
+          "setsFacts": ["briefing-mentioned-local-notice"]
         }
       ],
       "bearing": "steady",
@@ -1153,7 +1154,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-midway", "disaster"]
+          "requiresFacts": ["again", "return-midway", "disaster"],
+          "setsFacts": ["briefing-mentioned-check-advice"]
         }
       ],
       "bearing": "calm",
@@ -1205,7 +1207,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-midway", "disaster"]
+          "requiresFacts": ["again", "return-midway", "disaster"],
+          "setsFacts": ["briefing-mentioned-check-advice"]
         }
       ],
       "bearing": "steady",
@@ -1231,7 +1234,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-midway", "disaster"]
+          "requiresFacts": ["again", "return-midway", "disaster"],
+          "setsFacts": ["briefing-mentioned-health"]
         }
       ],
       "bearing": "solemn",
@@ -1309,7 +1313,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "disaster"]
+          "requiresFacts": ["again", "return-last", "disaster"],
+          "setsFacts": ["briefing-mentioned-last-briefing"]
         }
       ],
       "bearing": "firm",
@@ -1361,7 +1366,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "disaster"]
+          "requiresFacts": ["again", "return-last", "disaster"],
+          "setsFacts": ["briefing-mentioned-local-notice"]
         }
       ],
       "bearing": "steady",
@@ -1387,7 +1393,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "disaster"]
+          "requiresFacts": ["again", "return-last", "disaster"],
+          "setsFacts": ["briefing-mentioned-check-advice"]
         }
       ],
       "bearing": "calm",
@@ -1439,7 +1446,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "deadline"]
+          "requiresFacts": ["again", "return-last", "deadline"],
+          "setsFacts": ["briefing-mentioned-local-notice"]
         }
       ],
       "bearing": "firm",
@@ -1465,7 +1473,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "disaster"]
+          "requiresFacts": ["again", "return-last", "disaster"],
+          "setsFacts": ["briefing-mentioned-health"]
         }
       ],
       "bearing": "steady",
@@ -1491,7 +1500,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again", "return-last", "disaster"]
+          "requiresFacts": ["again", "return-last", "disaster"],
+          "setsFacts": ["briefing-mentioned-department-role"]
         }
       ],
       "bearing": "solemn",
@@ -3315,6 +3325,431 @@
         "key": "threat"
       },
       "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-request.when-i-get-back-to-the-counties-can-i-tell-them-you-ve-decided-to-declare",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "When I get back to the counties, can I tell them you've decided to declare?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-local-notice"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["briefing-travels-through-county"]
+    },
+    {
+      "key": "scene-talk-office.state-request.you-can-speak-to-the-people-who-recommended-it-are-you-ready-to-authorize-the-declaration-yourself",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You can speak to the people who recommended it. Are you ready to authorize the declaration yourself?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-check-advice"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "curious",
+      "elements": ["governor-calls-to-confirm-advice"]
+    },
+    {
+      "key": "scene-talk-office.state-request.we-can-bring-you-another-forecast-before-deadline-do-you-want-to-wait-for-it-or-declare-on-what-you-know-today",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We can bring you another forecast before {deadline}. Do you want to wait for it, or declare on what you know today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["readings-and-forecast-disagree"]
+    },
+    {
+      "key": "scene-talk-office.state-request.my-recommendation-is-to-declare-while-we-still-have-time-to-prepare-will-you-do-that-today",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My recommendation is to declare while we still have time to prepare. Will you do that today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["governor-explains-precaution"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-can-explain-what-the-department-is-doing-about-the-disaster-may-i-also-tell-people-you-re-declaring-an-emergency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can explain what the department is doing about the {disaster}. May I also tell people you're declaring an emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["governor-will-give-instructions"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-d-like-the-local-offices-to-hear-it-from-us-first-is-there-a-declaration-for-me-to-report",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like the local offices to hear it from us first. Is there a declaration for me to report?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-local-notice"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"]
+    },
+    {
+      "key": "scene-talk-office.state-request.if-someone-asks-whether-the-state-has-declared-i-want-to-give-them-your-answer-what-is-it-today",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If someone asks whether the state has declared, I want to give them your answer. What is it today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["advisers-take-over-press-room"]
+    },
+    {
+      "key": "scene-talk-office.state-request.public-health-can-still-give-you-its-assessment-would-you-declare-an-emergency-on-the-advice-you-ve-heard-so-far",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Public health can still give you its assessment. Would you declare an emergency on the advice you've heard so far?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-health"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "curious",
+      "elements": ["health-office-missing-from-plan"]
+    },
+    {
+      "key": "scene-talk-office.state-request.this-is-our-last-scheduled-briefing-before-deadline-can-the-counties-count-on-a-declaration",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "This is our last scheduled briefing before {deadline}. Can the counties count on a declaration?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-last-briefing"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["briefing-travels-through-county"]
+    },
+    {
+      "key": "scene-talk-office.state-request.there-s-still-time-to-sign-if-another-warning-comes-after-deadline-this-offer-will-have-expired-will-you-declare-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's still time to sign. If another warning comes after {deadline}, this offer will have expired. Will you declare now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["governor-explains-precaution"]
+    },
+    {
+      "key": "scene-talk-office.state-request.before-we-leave-would-you-give-me-your-decision-on-declaring-an-emergency-for-the-disaster",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Before we leave, would you give me your decision on declaring an emergency for the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["governor-will-give-instructions"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-d-rather-the-counties-heard-your-decision-directly-can-i-call-them-with-word-that-you-re-signing",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd rather the counties heard your decision directly. Can I call them with word that you're signing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-local-notice"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["county-learns-from-broadcast"]
+    },
+    {
+      "key": "scene-talk-office.state-request.i-ll-answer-for-this-department-when-someone-asks-if-the-governor-has-declared-what-answer-do-you-want-me-to-give",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll answer for this department. When someone asks if the governor has declared, what answer do you want me to give?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-department-role"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["advisers-take-over-press-room"]
+    },
+    {
+      "key": "scene-talk-office.state-request.if-you-want-to-check-the-advice-yourself-we-can-make-the-call-here-are-you-ready-to-declare",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If you want to check the advice yourself, we can make the call here. Are you ready to declare?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-check-advice"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["governor-calls-to-confirm-advice"]
+    },
+    {
+      "key": "scene-talk-office.state-request.another-forecast-may-come-in-before-deadline-would-you-sign-on-the-information-you-have-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Another forecast may come in before {deadline}. Would you sign on the information you have now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["readings-and-forecast-disagree"]
+    },
+    {
+      "key": "scene-talk-office.state-request.we-won-t-meet-again-on-this-offer-may-i-take-a-signed-declaration-back-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We won't meet again on this offer. May I take a signed declaration back with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "excludesFacts": ["briefing-mentioned-last-briefing"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["governor-explains-precaution"]
     }
   ]
 }
