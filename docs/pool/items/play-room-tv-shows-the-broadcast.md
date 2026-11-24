@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10309
 after:
 blocked-on:
 lead: play
@@ -17,6 +17,7 @@ effort: medium
 root: design-director-on-core2
 source: playtest Nov 23 row C18 ("The TV in the room shows static while the LIVE box shows the President")
 checked: sonnet 2026-11-23
+merged-at: 2026-11-24T11:44:55.849Z
 ---
 
 **What.** The address cuts to a home and the player sees the speaker on the LIVE corner. The set painted in the room itself stays dark or shows painted static, so the room does not show what the household is watching. The owner reported it on Nov 23 and wants the corner kept. Seen: at the home beat of the address.
