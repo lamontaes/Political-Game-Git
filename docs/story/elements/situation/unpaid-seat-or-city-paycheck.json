@@ -26,5 +26,6 @@
       "pulledBy": "The city can hold the position open until the term ends.",
       "writesBack": "The two roles appear consecutively in the work record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

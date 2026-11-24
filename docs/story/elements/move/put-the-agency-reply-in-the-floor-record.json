@@ -25,5 +25,6 @@
       "pulledBy": "The original reply left the scope of a condition unclear.",
       "writesBack": "A later entry links the clarification to the first one."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }
