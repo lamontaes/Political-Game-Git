@@ -899,24 +899,6 @@
       "elements": ["headline-names-what-the-body-holds"]
     },
     {
-      "key": "outline-news.lede.news-roll-call-members-of-the-voted-on-and-came-out-ahead",
-      "move": "lede",
-      "kind": "written",
-      "text": "Members of the {body} voted on {date}, and the {law} came out ahead, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["council-vote-story", "lede-names-the-body-that-acted"]
-    },
-    {
       "key": "outline-news.lede.news-roll-call-carried-the-when-it-came-up-on",
       "move": "lede",
       "kind": "written",
