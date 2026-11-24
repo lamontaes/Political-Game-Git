@@ -1,6 +1,25 @@
 # Pre-grade: Writer Home (talk at home)
 
-## story/w-talk at `f00d7bbc` (newest): 87 of 102 of the talk-at-home writer's lines pass
+## story/w-talk at `410f0e22` (newest): the 8 new reason verdicts, 2 of 8 pass
+
+- These are the 8 verdict-after lines that give the speaker's reason from `question-names.json` `reasons`. They were read in chunk P5. The first reader missed one of the owner's bad plants ("What do you do?"), so its verdicts don't count. The second reader caught all 13 bad plants and passed 5 of 6 good, and its verdicts are the ones below.
+- The sheet told the reader that a verdict follows a lead that has just named the President's point and reason, and that for and against are sides of the policy. The requires lists check out: each reason is on the side the speaker takes.
+- **Why they fail:**
+  - The four "Since {reason}, I …" lines are twins of the four "I … because/since {reason}" lines with the clauses swapped. The fronted "Since X, I…" is also the shape he called a simulated sentence ("Because I am convinced… I ask Congress").
+  - The two "with the President because" lines repeat the reason the lead line has just said. The two "can't back" lines give the other side's reason, so they add something, and they pass.
+- **The two readers disagree on one pair.** The first, uncounted reader passed both "with the President because" lines. The cut is clear either way: keep one clause order.
+- Not played.
+
+- FAIL `outline-talk.verdict-after.talk-address-point-i-m-with-president-object-because-reason-for`: "I'm with {president-object} because {reason-for}." — two-speakers-make-different-points: Standing with the President and giving the President's own reason repeats almost word for word the reason the lead line just named, so the verdict adds nothing new.
+- FAIL `outline-talk.verdict-after.talk-address-point-i-side-with-president-object-because-reason-against`: "I side with {president-object} because {reason-against}." — two-speakers-make-different-points: Siding with the President for the President's own reason echoes the lead line that just gave that reason, so the line only restates it.
+- PASS `outline-talk.verdict-after.talk-address-point-i-can-t-back-president-object-since-reason-against`: "I can't back {president-object}, since {reason-against}."
+- PASS `outline-talk.verdict-after.talk-address-point-i-can-t-back-president-object-since-reason-for`: "I can't back {president-object}, since {reason-for}."
+- FAIL `outline-talk.verdict-after.talk-address-point-since-reason-for-i-m-with-president-object`: "Since {reason-for}, I'm with {president-object}." — vary-the-shape; "the same grammatical pattern": This twins P5-001 with the clauses swapped, and its fronted "Since X, I..." is the "Because I am convinced..., I ask" shape he called a simulated sentence.
+- FAIL `outline-talk.verdict-after.talk-address-point-since-reason-against-i-side-with-president-object`: "Since {reason-against}, I side with {president-object}." — vary-the-shape; "the same grammatical pattern": This twins P5-002 with the clauses swapped, uses the fronted-reason shape he complained about, and repeats the lead's reason.
+- FAIL `outline-talk.verdict-after.talk-address-point-since-reason-against-i-can-t-go-along-with-president-object`: "Since {reason-against}, I can't go along with {president-object}." — vary-the-shape; "the same grammatical pattern": This twins P5-003 in the fronted "Since X, I..." shape he called a simulated sentence.
+- FAIL `outline-talk.verdict-after.talk-address-point-since-reason-for-i-can-t-go-along-with-president-object`: "Since {reason-for}, I can't go along with {president-object}." — vary-the-shape; "the same grammatical pattern": This twins P5-008 in the fronted "Since X, I..." shape he called a simulated sentence.
+
+## story/w-talk at `f00d7bbc`: 87 of 102 of the talk-at-home writer's lines pass
 
 - The writer cut every line marked cut or rewrite: 20 own-view replies in conversation.json and 40 in outline-talk. The 74 lines left that the new calibration had already read keep their verdicts, and all 74 pass. The 28 unjudged lines, mostly new plain verdicts, were read in chunk P4 (the owner's 13 bad plants all failed, 5 of 6 good passed). The sheet told the reader that a verdict follows a lead that names the President's point. 13 of the 28 pass.
 - The 21 failing lines still in outline-talk.json at this head are the Story lead's, not this writer's.
