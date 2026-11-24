@@ -155,7 +155,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-split-on-party-argue-at-supper"]
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-think-we-should-and-is-wrong-to-fight-it",
@@ -184,7 +187,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-split-on-party-argue-at-supper"]
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-go-back-and-forth-on-that-one-whatever-says",
@@ -204,7 +210,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-don-t-know-yet-let-s-see-what-does-with-it",
@@ -227,7 +236,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-m-with-on",
@@ -297,7 +309,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-split-on-party-argue-at-supper"]
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on",
@@ -316,7 +331,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-work-at-i-hear-that-part-differently",
@@ -337,7 +355,11 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["bus-money-becomes-breakfast-money"]
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-at-we-live-with-that-every-day",
@@ -358,7 +380,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+      "elements": [
+        "a-parent-asks-your-view-to-know-you-not-to-win",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-since-let-me-go-i-listen-to-that-part",
@@ -378,7 +403,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["laid-off-worker-stunned-and-distrustful"]
+      "elements": [
+        "laid-off-worker-stunned-and-distrustful",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-with-what-everything-costs-in-i-notice-that-part",
@@ -401,7 +429,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["bus-money-becomes-breakfast-money"]
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-too-many-people-in-need-work-to-let-that-go",
@@ -441,7 +472,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["bus-money-becomes-breakfast-money"]
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-s-not-about-us-it-s-what-s-right-for",
@@ -487,7 +521,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+      "elements": [
+        "a-parent-asks-your-view-to-know-you-not-to-win",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-since-let-me-go-i-listened-hard-when-got-to",
@@ -515,7 +552,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["laid-off-worker-stunned-and-distrustful"]
+      "elements": [
+        "laid-off-worker-stunned-and-distrustful",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-money-s-tight-here-so-i-listened-when-got-to",
@@ -537,7 +577,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["bus-money-becomes-breakfast-money"]
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-and-i-don-t-buy-it-not-from",
@@ -557,7 +600,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-split-on-party-argue-at-supper"]
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-i-still-can-t-tell-if-means-it",
@@ -577,7 +623,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-what-d-you-think",
@@ -618,7 +667,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+      "elements": [
+        "a-new-radio-gathers-the-family-for-the-address",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-where-are-you-on",
@@ -684,7 +736,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-split-on-party-argue-at-supper"]
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-could-go-either-way-gets-the-last-word-anyway",
@@ -704,7 +759,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-d-want-to-hear-more-from-first",
@@ -727,7 +785,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-ask-me-about-again-in-a-month",
@@ -749,7 +810,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["parents-who-know-more-make-the-talk-count"]
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-just-think-it-s-the-right-thing-for",
@@ -792,7 +856,10 @@
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24",
-      "elements": ["bus-money-becomes-breakfast-money"]
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-you",
@@ -1023,7 +1090,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.heard.talk-address-point-i-saw-you-look-up-when-mentioned",
@@ -1089,7 +1159,10 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-didn-t-win-me-over-though",
@@ -1316,7 +1389,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-comes-down-to-what-i-see-in-place-every-day",
@@ -1361,7 +1437,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-what-did-you-make-of-said",
@@ -1716,7 +1795,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it",
