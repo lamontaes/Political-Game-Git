@@ -1,0 +1,29 @@
+{
+  "id": "says-who-did-not-listen",
+  "kind": "move",
+  "summary": "A diary records a person in the household or the room who did not take part in the public event.",
+  "realLife": "A London diarist wrote that his father stayed in the garage with his car and skipped the broadcast, and a Birmingham diarist noted nobody in a pub was listening.",
+  "sources": [
+    "Sussex Library, Mass Observation 12 May 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/"
+  ],
+  "fits": ["journal"],
+  "slots": ["us"],
+  "gates": [],
+  "inGame": "needs: a record of a household member who chose not to watch the address; today the first evening only knows who watched.",
+  "weights": {
+    "household": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Everyone listened.",
+      "pulledBy": "the whole household is recorded as watching",
+      "writesBack": "the entry has no one skipping, and says so briefly"
+    },
+    {
+      "turn": "The one who skipped explains.",
+      "pulledBy": "a talk with that person after the address",
+      "writesBack": "the entry gives their reason in their own words"
+    }
+  ]
+}
