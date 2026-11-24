@@ -6,7 +6,8 @@
     "place": "the town, from the household or move record",
     "moved-from": "the place the person moved from, from the move record, said as a place name (a state or a town)",
     "moment-year": "the year the birth or move happened, from its own record",
-    "age-then": "the person's age on the day, from the birth record (left out at 0)"
+    "age-then": "the person's age on the day, from the birth record (left out at 0)",
+    "older-sibling": "the given name of the nearest older brother or sister on the family record, for the birth chapter"
   },
   "maxWords": 30,
   "parts": [
