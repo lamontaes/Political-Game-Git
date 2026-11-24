@@ -1,7 +1,7 @@
 /**
  * The grading bench, step one: stage every situation the records fire in one
  * played world (owner, Oct 15, 2026, evening, Order 2 of
- * docs/work-orders/words-and-director-2026-10-15.md: every word is a data
+ * docs/archive/2026-10-23/work-orders/words-and-director-2026-10-15.md: every word is a data
  * point). Development tooling; nothing here words anything, and no scene or
  * cast is written by hand.
  *
