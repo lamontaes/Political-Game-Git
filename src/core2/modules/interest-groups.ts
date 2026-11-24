@@ -18,7 +18,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
-import { currentCloseness } from "../closeness";
+import { currentCloseness, familyFactsOf } from "../closeness";
 import { countedPersonOf } from "../counted-actor";
 import { parameter } from "../parameters";
 import { leanedYes } from "../trait-decisions";
@@ -997,6 +997,27 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
 
 registerStanceListener(reviewMember);
 
+/** A hearing can name a child only when the household and the family records support it. */
+export function witnessChildAtHome(
+  api: CoreAPI,
+  witnessId: string,
+  childId: string,
+): boolean {
+  const witness = api.state.people.get(witnessId);
+  const child = api.state.people.get(childId);
+  if (
+    !witness ||
+    !child?.alive ||
+    witness.householdId !== child.householdId ||
+    ageInYears(child.birthDate, api.state.date) >= api.parameter("votingAge")
+  )
+    return false;
+  const fromWitness = familyFactsOf(witness).get(child.id)?.relation;
+  if (fromWitness) return fromWitness === "child";
+  const fromChild = familyFactsOf(child).get(witness.id)?.relation;
+  return fromChild === "parent" || fromChild === "other-parent";
+}
+
 /**
  * What a question reaches in one resident's own life, from their records: the job the policy binds,
  * their own work on a labor or tax question, their lease or mortgage on a housing question, a child at
@@ -1039,18 +1060,11 @@ export function witnessLife(
           return { life: "owns", lifeRecordId: id };
       }
   }
-  if (
-    (topic === "education" || topic === "civil-family-community") &&
-    touches
-  ) {
-    const child = [...person.familyIds].sort().find((id) => {
-      const kin = core.people.get(id);
-      return (
-        kin?.alive &&
-        ageInYears(kin.birthDate, core.date) < api.parameter("votingAge") &&
-        kin.placeId === person.placeId
-      );
-    });
+  if (topic === "education" || topic === "civil-family-community") {
+    const home = core.households.get(person.householdId);
+    const child = [...(home?.memberIds ?? [])]
+      .sort()
+      .find((id) => witnessChildAtHome(api, personId, id));
     if (child) return { life: "children-at-home", lifeRecordId: child };
   }
   if (topic === "health-human-services" && touches)

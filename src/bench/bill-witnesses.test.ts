@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
+import { familyFactsOf } from "../core2/closeness";
+import { witnessLife } from "../core2/modules/interest-groups";
 import { gameStartDate } from "../core2/game-start";
 import {
   draftBill,
@@ -30,6 +32,34 @@ it("draws its pinned place from the fixed seed", () => {
     name: "Wrightwood, California",
   });
 });
+
+it("names a witness's child from the household and parentage records", () => {
+  const place = drawPlace(`${seed}:0`, "witnesses");
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  let named = 0;
+  for (const witness of core.people.values()) {
+    const stake = witnessLife(
+      api,
+      witness.id,
+      "us-policy-positions:education.universal-preschool",
+    );
+    if (stake.life !== "children-at-home") continue;
+    const child = core.people.get(stake.lifeRecordId!)!;
+    expect(child.householdId).toBe(witness.householdId);
+    const relationship = familyFactsOf(witness).get(child.id)?.relation;
+    const inverse = familyFactsOf(child).get(witness.id)?.relation;
+    expect(
+      relationship === "child" ||
+        (!relationship && (inverse === "parent" || inverse === "other-parent")),
+    ).toBe(true);
+    named++;
+  }
+  expect(named).toBeGreaterThan(0);
+}, 100_000);
 
 describe(`witnesses on a non-wage bill (seed ${seed})`, () => {
   it("hears people on a policy question at a state committee", () => {
