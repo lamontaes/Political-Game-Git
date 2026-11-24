@@ -21,9 +21,9 @@ source: Carryover screens, Nov 23 sitting (N8-P12)
 **What.** The owner, Nov 8: News and Day glow when the game loads, for no reason. Carried as N8-P12.
 Seen: Nov 23, a drawn place, 1440x900: nothing on the dock has a glow class, an animation or a different shadow at rest. The glow is the ordinary hover light on whichever button sits under the pointer where the click that began the life landed.
 
-**Cause.** Found in code: the hover rules (about line 932 of src/bench/play.css) `.ring:hover` and `.action:hover:not(:disabled)` in src/bench/play.css light any button under a resting pointer, and the dock (`#dock`, shown when `rings.hidden` turns false in src/bench/play.mjs, near `fitUiScale`) appears under the spot of the click that started the life.
+**Cause.** Found in code: the hover rules (about line 932 of src/bench/play.css) `.ring:hover` and `.action:hover:not(:disabled)` in src/bench/play.css light any button under a resting pointer, and the dock (`#dock`, shown when `rings.hidden` turns false, or a scene or sheet ends, in src/bench/play.mjs, near `fitUiScale`) appears under the spot of the click that started the life.
 
-**Fix.** While the dock settles after it appears, a hover on its rings or buttons shows the plain look; the first pointer move ends the settling and the hover light works as before. No player text changes.
+**Fix.** While the dock settles after it comes into view (at load, when a scene ends, when a sheet closes), a hover on its rings or buttons shows the plain look; the first pointer move ends the settling and the hover light works as before. No player text changes.
 
 **Time box.** 1 hour, one Sonnet session at medium.
 
