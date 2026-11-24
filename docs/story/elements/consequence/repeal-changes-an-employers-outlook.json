@@ -1,0 +1,31 @@
+{
+  "id": "repeal-changes-an-employers-outlook",
+  "kind": "consequence",
+  "summary": "A business affected by a law has a new decision to make after its repeal.",
+  "realLife": "When beer sales resumed in 1933, Saul Hoffberger and his partners brought brewing back to Baltimore’s National Brewing Company site. They kept the name and replaced the old brewhouse.",
+  "sources": [
+    "https://apps.mht.maryland.gov/medusa/PDF/NR_PDFs/NR-1301.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
+  ],
+  "inGame": "needs: a played business decision tied to it. lawChain and the dev-law-industries repeal comparison trace a change.",
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{business}", "{law}", "{place}"],
+  "gates": ["A repeal has taken effect and a business impact is established."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The employer keeps the current schedule until its existing contracts expire.",
+      "pulledBy": "The repeal changes future costs while the signed contracts fix today's terms.",
+      "writesBack": "The review date falls at contract renewal."
+    },
+    {
+      "turn": "partial",
+      "what": "A contractor gets the first work at the brewery while the brewing crew waits for the new kettles.",
+      "pulledBy": "The employer has signed the construction contract and the equipment delivery is still ahead.",
+      "writesBack": "The town’s employment report dates the construction work and leaves brewery hiring pending."
+    }
+  ],
+  "issues": ["none"]
+}

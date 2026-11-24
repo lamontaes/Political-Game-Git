@@ -1,0 +1,34 @@
+{
+  "id": "board-asks-for-a-year-round-service-audit",
+  "kind": "moment",
+  "summary": "{person} asks an independent auditor to check whether a year-round service promise reaches park visitors.",
+  "realLife": "Seattle’s Park District requested a review of restroom upkeep and availability through Resolution 51, leading to the city auditor’s fieldwork.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A governing board resolution, a stated service promise and an independent audit assignment."
+  ],
+  "weights": [
+    "A year-round promise invites checks outside the busiest season."
+  ],
+  "usedBy": [],
+  "inGame": "needs: governing resolution, audit scope, service goal and dates of field visits.",
+  "turns": [
+    {
+      "turn": "finding",
+      "what": "The board asks the department for a dated response.",
+      "pulledBy": "The audit documents a service gap.",
+      "writesBack": "Schedule the recommendation for follow-up."
+    },
+    {
+      "turn": "deferred",
+      "what": "The auditor identifies what still needs checking.",
+      "pulledBy": "The inspection cannot test winter conditions yet.",
+      "writesBack": "Keep the seasonal question open."
+    }
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
+}

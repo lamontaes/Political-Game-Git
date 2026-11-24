@@ -26,5 +26,6 @@
       "pulledBy": "The chamber is in recess when the member switches.",
       "writesBack": "The leadership change takes effect when members return."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

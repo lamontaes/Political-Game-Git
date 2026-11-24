@@ -31,5 +31,6 @@
       "pulledBy": ["a well-run help office", "a large layoff"],
       "writesBack": "Benefits start sooner, ties among laid-off workers grow, and the mood eases."
     }
-  ]
+  ],
+  "issues": ["law:unemployment-insurance"]
 }

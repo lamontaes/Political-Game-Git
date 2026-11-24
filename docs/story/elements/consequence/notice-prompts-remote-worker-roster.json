@@ -1,0 +1,34 @@
+{
+  "id": "notice-prompts-remote-worker-roster",
+  "kind": "consequence",
+  "summary": "A complaint from a remote worker leads {person} to others doing the same work in town.",
+  "realLife": "A Denver customer service employer identified other local remote workers and initiated back payments after one employee contacted the city.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Sitel%20Operating%20Corporation"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "An underpayment complaint involves remote work physically performed inside the city."
+  ],
+  "weights": [
+    "A shared payroll policy raises the possibility of more affected workers."
+  ],
+  "usedBy": [],
+  "inGame": "needs: remote work locations, dates and wage rates.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The other workers live and work elsewhere.",
+      "pulledBy": "The verified work addresses fall outside town.",
+      "writesBack": "The local finding covers only the caller."
+    },
+    {
+      "turn": "partial",
+      "what": "Some work addresses have changed.",
+      "pulledBy": "The roster lacks move dates.",
+      "writesBack": "The review requests dates before assigning local rates."
+    }
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
+}

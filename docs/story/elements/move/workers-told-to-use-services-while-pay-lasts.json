@@ -31,5 +31,6 @@
       "pulledBy": ["a warm coworker", "a tie of coworker to the worker"],
       "writesBack": "The tie gets closer, and the worker starts the search sooner."
     }
-  ]
+  ],
+  "issues": ["law:unemployment-insurance", "law:unemployment-weekly-maximum"]
 }

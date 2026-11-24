@@ -1,0 +1,32 @@
+{
+  "id": "house-in-contract-with-a-sidewalk-lien",
+  "kind": "situation",
+  "summary": "{owner} brings proof of a pending sale to speed review of a sidewalk lien.",
+  "realLife": "City guidance offered expedited review of certain tree-related sidewalk liens when the homeowner could document a pending sale or refinancing.",
+  "sources": [
+    "https://portal.311.nyc.gov/article/?kanumber=KA-01505#:~:text=If%20you%20are%20a%20property%20owner%20who%20is%20selling%20or%20refinancing%20your%20home"
+  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{owner}"],
+  "gates": [
+    "Existing sidewalk lien, tree-cause review and documented sale or refinancing."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: existing sidewalk lien, tree-cause review and documented sale or refinancing.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The owner supplies proof of the transaction.",
+      "what": "Request expedited review.",
+      "writesBack": "Record the priority request.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The transaction is still only contemplated.",
+      "what": "Explain the ordinary review route.",
+      "writesBack": "Keep the lien inquiry on its existing track.."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "speed-hump-petition-goes-to-three-chiefs",
+  "kind": "moment",
+  "summary": "{member} passes a street petition to public works, police and fire for a joint review.",
+  "realLife": "In Dickson, a member presented a speed-hump petition for Spanish Court, and the city sent it to its public works director and its police and fire chiefs for study.",
+  "sources": [
+    "https://irp.cdn-website.com/fc32ce20/files/uploaded/April%204%2C%202022%2C%20CC%20agenda%20and%20minutes.pdf#page=8"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{member}"],
+  "gates": [
+    "Petition naming the street and a policy requiring review by the three departments."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: petition naming the street and a policy requiring review by the three departments.",
+  "turns": [
+    {
+      "turn": "ready",
+      "pulledBy": "All three reviews are back.",
+      "what": "Bring the recommendations to council.",
+      "writesBack": "Record where the departments agree or differ.."
+    },
+    {
+      "turn": "outstanding-review",
+      "pulledBy": "One department still needs a site visit.",
+      "what": "Tell the petitioners which review remains.",
+      "writesBack": "Keep the request open.."
+    }
+  ]
+}

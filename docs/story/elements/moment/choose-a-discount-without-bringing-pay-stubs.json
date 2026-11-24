@@ -1,0 +1,32 @@
+{
+  "id": "choose-a-discount-without-bringing-pay-stubs",
+  "kind": "moment",
+  "summary": "{resident} chooses the recreation discount their household needs without having to bring proof of income to the counter.",
+  "realLife": "Portland allowed residents to choose among four levels of assistance and did not require income documentation.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=No%20proof%20of%20income%20is%20required"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a resident participant, eligible activity and self-selected discount.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The new base fee raises the household's remaining bill.",
+      "what": "The participant asks for a larger discount.",
+      "writesBack": "The account records the level the participant selects."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The reduced base price makes a smaller discount sufficient for the resident.",
+      "what": "The resident chooses that level at enrollment.",
+      "writesBack": "The receipt shows the new out-of-pocket charge."
+    }
+  ]
+}

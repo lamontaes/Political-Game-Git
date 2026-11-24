@@ -28,5 +28,6 @@
       "pulledBy": "One candidate has enough recorded support.",
       "writesBack": "The appointment record keeps the other posts open."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

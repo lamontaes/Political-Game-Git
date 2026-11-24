@@ -1,0 +1,31 @@
+{
+  "id": "report-an-offer-after-refusing-it",
+  "kind": "move",
+  "summary": "A member decides whether to report an improper offer as a separate act from turning it down.",
+  "realLife": "Connecticut Representative Deborah Heinrich recalled telling a visitor to put away what he was showing her. She then alerted the Capitol police, who arrested him.",
+  "sources": [
+    "https://www.ctinsider.com/news/article/Our-view-This-time-bribe-to-state-lawmaker-was-11930878.php",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L89"
+  ],
+  "inGame": "needs: verify a report outcome before using it. The director has bribe-offer and bribe-pressed scenes.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{visitor}", "{offer}"],
+  "gates": ["An improper offer has been made."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member writes down the details before contacting the ethics office.",
+      "pulledBy": "The officer taking reports is unavailable when the meeting ends.",
+      "writesBack": "The dated note and subsequent report remain separate records."
+    },
+    {
+      "turn": "partial",
+      "what": "The member reports the exchange that afternoon but cannot supply the visitor’s name.",
+      "pulledBy": "The member recalls the words and time, and a receptionist keeps a separate sign-in sheet.",
+      "writesBack": "The investigator receives a dated account with the visitor unidentified and requests the reception log."
+    }
+  ],
+  "issues": ["none"]
+}

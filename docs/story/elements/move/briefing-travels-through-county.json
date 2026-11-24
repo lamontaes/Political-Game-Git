@@ -29,5 +29,6 @@
       "pulledBy": "The town missed the scheduled call.",
       "writesBack": "The town's receipt carries the later time."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

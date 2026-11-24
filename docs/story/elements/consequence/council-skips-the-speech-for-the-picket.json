@@ -31,5 +31,8 @@
       "pulledBy": ["avoidant mayor"],
       "writesBack": "news story of the dodge"
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
   ]
 }

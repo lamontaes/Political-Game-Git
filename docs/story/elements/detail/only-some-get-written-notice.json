@@ -43,5 +43,6 @@
       ],
       "writesBack": "Worry spreads, ties among coworkers tighten, and a journal note records the wait."
     }
-  ]
+  ],
+  "issues": ["law:unemployment-insurance"]
 }

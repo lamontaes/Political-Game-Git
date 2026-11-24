@@ -29,5 +29,6 @@
       "pulledBy": "The recording arrived on time but staff retrieved it the next morning.",
       "writesBack": "The clerk preserves both receipt and transcription dates."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

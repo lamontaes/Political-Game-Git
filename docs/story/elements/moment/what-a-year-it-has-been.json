@@ -28,5 +28,6 @@
       "pulledBy": "mood-mixed",
       "writesBack": "The report says as much got better as worse."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

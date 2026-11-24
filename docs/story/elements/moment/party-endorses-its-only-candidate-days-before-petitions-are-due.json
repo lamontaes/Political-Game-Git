@@ -1,0 +1,30 @@
+{
+  "id": "party-endorses-its-only-candidate-days-before-petitions-are-due",
+  "kind": "moment",
+  "summary": "A party meeting endorses its single candidate three days before petitions are due.",
+  "realLife": "About a dozen Burlington Republicans endorsed their only candidate days before petitions were due.",
+  "sources": [
+    "Seven Days, Christopher-Aaron Felker (Burlington Republicans' only candidate): https://www.sevendaysvt.com/?p=87068",
+    "WAMC, Burlington Progressives begin candidate recruitment for a council seat: https://www.wamc.org/new-england-news/2021-05-20/burlington-progressives-begin-candidate-recruitment-for-ward-3-seat"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["party", "name"],
+  "gates": [],
+  "weights": {
+    "party-recruit": 0.8
+  },
+  "inGame": "filing deadline and petition due; party endorsement records",
+  "turns": [
+    {
+      "turn": "The party has two candidates and picks one",
+      "pull": "a split meeting",
+      "writes": "writes a primary line"
+    },
+    {
+      "turn": "The party has none and loses the seat",
+      "pull": "no recruit",
+      "writes": "writes an unopposed result"
+    }
+  ],
+  "usedBy": ["party-recruit"]
+}

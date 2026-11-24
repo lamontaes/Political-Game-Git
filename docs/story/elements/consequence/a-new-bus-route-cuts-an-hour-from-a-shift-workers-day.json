@@ -1,0 +1,47 @@
+{
+  "id": "a-new-bus-route-cuts-an-hour-from-a-shift-workers-day",
+  "kind": "consequence",
+  "summary": "A state-funded commuter bus to a large work site cut about an hour each way for people on a long trip from home to a shift.",
+  "realLife": "A new Baltimore County route runs from the east side to a big industrial site with about 15,000 workers and more expected. It cuts commutes by about an hour each way, and some who faced about an hour and a half now have a direct ride. Fares were $4 one way and $136 for a monthly pass. Buses run from early morning to just before 1 a.m., which fits many shift starts and ends. A $2 million state investment paid for it.",
+  "sources": [
+    "https://www.wmar2news.com/news/region/baltimore-county/new-commuter-bus-route-connects-east-baltimore-county-residents-to-tradepoint-atlantic (WMAR news on the commuter route to Tradepoint Atlantic)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the route}", "{the place}"],
+  "gates": [
+    "a bus route is in service",
+    "the worker lives on the route",
+    "the employer hires at shift times the route covers"
+  ],
+  "weights": [
+    "fare against the wage",
+    "hours the bus runs",
+    "whether the household owns a car"
+  ],
+  "inGame": "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit and budget:highways read by the commute record; the job engine reads travel time when a person weighs an offer; needs: a transit route record with hours of service",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the offer becomes workable",
+      "what": "A job that was out of reach by the old trip is now taken, with an hour back each day.",
+      "pulledBy": "a route that connects home to the work site",
+      "writesBack": "person commute time; employment"
+    },
+    {
+      "turn": "the fare eats the gain",
+      "what": "The fare and pass cost take enough of the pay that the household keeps driving.",
+      "pulledBy": "fare against hourly pay",
+      "writesBack": "household transport spending"
+    },
+    {
+      "turn": "the route is cut",
+      "what": "Funding ends, the route stops, and the long trip returns.",
+      "pulledBy": "a budget line that is not renewed",
+      "writesBack": "commute time; employment"
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+    "budget:highways"
+  ]
+}

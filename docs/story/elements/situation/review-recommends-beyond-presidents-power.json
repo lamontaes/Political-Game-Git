@@ -27,5 +27,6 @@
       "pulledBy": "The report assigns the decisions to different authorities.",
       "writesBack": "The tracking record distinguishes a directive from a referral."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

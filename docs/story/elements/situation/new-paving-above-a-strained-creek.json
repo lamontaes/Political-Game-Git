@@ -1,0 +1,30 @@
+{
+  "id": "new-paving-above-a-strained-creek",
+  "kind": "situation",
+  "summary": "A permit for a larger shop raises a question about rainwater from the new pavement.",
+  "realLife": "Tigard’s commission linked added hard surfaces at the Dolan site to runoff into Fanno Creek, whose drainage basin was already under strain.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep512/usrep512374/usrep512374.pdf#page=9"
+  ],
+  "inGame": "needs: a permit case record with shop, creek, parking lot. A drainage finding can bring a shop permit into a conversation downstream.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{shop}", "{creek}", "{parking_lot}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A revised drawing sends runoff from the roof to storage but leaves the lot draining to the creek.",
+      "pulledBy": "The site engineer can separate the two drainage areas.",
+      "writesBack": "The next drainage finding covers the parking lot."
+    },
+    {
+      "turn": "late",
+      "what": "A shop downstream sends photographs from the first storm after the new lot opens.",
+      "pulledBy": "The photographs are dated and show water at the shop threshold, with no measurement of its source.",
+      "writesBack": "The drainage file logs the complaint and requests a site inspection."
+    }
+  ],
+  "issues": ["none"]
+}
