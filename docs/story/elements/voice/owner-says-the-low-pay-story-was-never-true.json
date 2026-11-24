@@ -1,0 +1,42 @@
+{
+  "id": "owner-says-the-low-pay-story-was-never-true",
+  "kind": "voice",
+  "summary": "An owner disputes that tipped workers were underpaid and says the rule forces cuts.",
+  "realLife": "A restaurant owner said the new rule made owners raise prices, cut servers or scale back service, and that his own costs rose about thirty thousand dollars a year even with a service charge in place. He called the idea that servers were underpaid a false story. A trade group head said owners must make up any shortfall, while advocates said some did not.",
+  "sources": [
+    "CBS News Chicago (Chicago, Illinois), 'Tipped minimum wage set to go up in Chicago July 1, and some restaurateurs aren't pleased', June 23, 2025: https://www.cbsnews.com/amp/chicago/news/tipped-minimum-wage-chicago-some-restaurateurs-not-pleased",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "law", "count", "body"],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.5
+  },
+  "inGame": "tipped-wage law record, business payroll and prices; needs: tips as a separate pay record",
+  "issues": ["law:minimum-wage"],
+  "turns": [
+    {
+      "name": "owner disputes the premise",
+      "pulledBy": "an owner whose servers already earn well with tips",
+      "writes": "the story quotes the owner calling the complaint untrue",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "trade group says owners must cover the gap",
+      "pulledBy": "a trade group asked about compliance",
+      "writes": "the story quotes the group telling owners to pay the shortfall",
+      "requiresFacts": [],
+      "excludesFacts": ["owner-dispute"]
+    },
+    {
+      "name": "advocates say owners are not paying it",
+      "pulledBy": "an advocate group that checked pay stubs",
+      "writes": "the story quotes a compliance dispute and no resolution",
+      "requiresFacts": ["delayed"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

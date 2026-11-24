@@ -1,0 +1,43 @@
+{
+  "id": "chief-asks-residents-to-keep-calling-it-in",
+  "kind": "voice",
+  "summary": "A chief says the police cannot respond to what they are never told about and asks neighbors to report anything odd.",
+  "realLife": "Chiefs at two neighborhood meetings thanked residents for watching and calling, said tips had led to arrests, and urged people to report every burglary and strange visitor without waiting.",
+  "sources": [
+    "Patch (East Brunswick, New Jersey), 'Highlights From East Brunswick Police Public Meeting On Burglaries', Nov 28, 2022: https://patch.com/new-jersey/eastbrunswick/highlights-east-brunswick-police-public-meeting-burglaries",
+    "WTKR News 3 (Chesapeake, Virginia), 'Chesapeake Police Chief addresses burglaries in Western Branch with neighbors', Dec 6, 2016: https://www.wtkr.com/2016/12/06/chesapeake-police-chief-addresses-burglaries-in-western-branch-with-neighbors",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["count", "burglary", "date", "place"],
+  "gates": [],
+  "weights": {
+    "crime": 0.5
+  },
+  "inGame": "the 911 and tip records tied to arrests; needs: a tip-to-arrest link on the case record",
+  "issues": ["budget:police"],
+  "turns": [
+    {
+      "name": "residents call and the chief thanks them",
+      "pulledBy": "calls that led to an arrest",
+      "writes": "the story credits residents",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "residents stopped calling",
+      "pulledBy": "a drop in reports after a slow response",
+      "writes": "the chief urges them again and the story says so",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the chief warns against doing more than calling",
+      "pulledBy": "neighbors patrolling on their own",
+      "writes": "the story repeats the warning not to act as vigilantes",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

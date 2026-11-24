@@ -1,0 +1,49 @@
+{
+  "id": "arrest-follows-a-week-of-damaged-cars",
+  "kind": "consequence",
+  "summary": "Police arrest one suspect after a week of broken car windows and say more charges may come.",
+  "realLife": "After a week of dozens of cars with windows shot out overnight, police used witness accounts and scene evidence to find a vehicle, spotted it on patrol, stopped the driver, found a BB gun, charged him with twelve counts of destroying property and said more were expected.",
+  "sources": [
+    "Patch (Arlington, Virginia), 'Police Arrest Suspect In Wave Of Broken Car Windows Across Arlington', Oct 28, 2022: https://patch.com/virginia/arlington-va/police-arrest-suspect-wave-broken-car-windows-across-arlington",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["vandalism", "count", "date", "place"],
+  "gates": [],
+  "weights": {
+    "crime": 0.5
+  },
+  "inGame": "a vandalism series on the crime records and an arrest with charges; needs: a link grouping crimes into one series",
+  "issues": ["budget:police"],
+  "turns": [
+    {
+      "name": "an officer spots the car on patrol",
+      "pulledBy": "a vehicle description from witnesses",
+      "writes": "a suspect is held without bond",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the series ends without an arrest",
+      "pulledBy": "no usable evidence",
+      "writes": "the story says police still ask for tips",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "more charges are filed later",
+      "pulledBy": "a count of damaged cars above the first charges",
+      "writes": "the story updates the total",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the arrest is a different person than feared",
+      "pulledBy": "a suspect from far away",
+      "writes": "the story tells neighbors it was not a local grudge",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
