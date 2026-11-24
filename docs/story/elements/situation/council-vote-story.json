@@ -1,0 +1,30 @@
+{
+  "id": "council-vote-story",
+  "kind": "situation",
+  "summary": "A council, commission or board votes on a measure and a paper tells it.",
+  "realLife": "Two council or commission stories in the sample open on the body and its act, then the process, officials' views and a mid-story tally.",
+  "sources": [
+    "The Village Reporter (Wauseon, Ohio), council passes two ordinances on final reading: https://thevillagereporter.com/wauseon-city-council-council-passes-two-ordinances-on-final-reading/",
+    "Chanute Tribune (Kansas), city to remove certain legal publications from the Tribune: https://www.chanute.com/article/598,city-of-chanute-to-remove-certain-legal-publications-from-the-tribune",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["body", "law", "count", "date"],
+  "gates": ["passed", "failed"],
+  "weights": {
+    "vote": 1.0
+  },
+  "usedBy": ["news-roll-call"],
+  "turns": [
+    {
+      "name": "a vote that failed",
+      "pulledBy": "a measure with too few votes",
+      "writes": "the story says it was voted down and by how many"
+    },
+    {
+      "name": "a vote put off",
+      "pulledBy": "a body that tabled the item",
+      "writes": "the story says it was delayed and until when"
+    }
+  ]
+}
