@@ -2835,6 +2835,486 @@
         "move": "answer",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-d-like-to-talk-to-the-person-who-recommended-a-declaration-for-the-disaster-before-i-sign",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd like to talk to the person who recommended a declaration for the {disaster} before I sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["governor-calls-to-confirm-advice"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-put-you-in-touch-with-that-person-the-offer-stays-open-until-deadline",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll put you in touch with that person. The offer stays open until {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-midway",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.i-d-like-to-talk-to-the-person-who-recommended-a-declaration-for-the-disaster-before-i-sign"
+        }
+      ],
+      "elements": ["governor-calls-to-confirm-advice"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.hold-the-announcement-i-m-still-deciding-what-to-do-about-the-disaster",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Hold the announcement. I'm still deciding what to do about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.close-answer.if-the-counties-ask-about-the-disaster-i-ll-tell-them-you-haven-t-decided",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "If the counties ask about the {disaster}, I'll tell them you haven't decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-midway",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.hold-the-announcement-i-m-still-deciding-what-to-do-about-the-disaster"
+        }
+      ],
+      "elements": ["county-learns-from-broadcast"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-want-to-see-how-the-next-reports-on-the-disaster-compare-leave-the-offer-open",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I want to see how the next reports on the {disaster} compare. Leave the offer open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["readings-and-forecast-disagree"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-bring-the-reports-on-the-disaster-back-to-you-while-there-s-still-time",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll bring the reports on the {disaster} back to you while there's still time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-midway",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.i-want-to-see-how-the-next-reports-on-the-disaster-compare-leave-the-offer-open"
+        }
+      ],
+      "elements": ["readings-and-forecast-disagree"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-d-like-to-hear-from-public-health-about-the-disaster-before-i-give-you-an-answer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd like to hear from public health about the {disaster} before I give you an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["health-office-missing-from-plan"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-ask-the-health-director-to-brief-you-on-the-disaster",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll ask the health director to brief you on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-midway",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.i-d-like-to-hear-from-public-health-about-the-disaster-before-i-give-you-an-answer"
+        }
+      ],
+      "elements": ["health-office-missing-from-plan"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.leave-the-papers-with-me-i-understand-they-need-my-decision-by-deadline",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Leave the papers with me. I understand they need my decision by {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-leave-them-here-the-request-window-closes-on-deadline",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll leave them here. The request window closes on {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-last",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.leave-the-papers-with-me-i-understand-they-need-my-decision-by-deadline"
+        }
+      ],
+      "elements": ["request-aid-in-writing"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-may-still-declare-before-deadline-for-now-tell-people-i-m-considering-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I may still declare before {deadline}. For now, tell people I'm considering it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["governor-explains-precaution"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-tell-them-your-decision-on-the-disaster-is-still-open",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll tell them your decision on the {disaster} is still open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-last",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.i-may-still-declare-before-deadline-for-now-tell-people-i-m-considering-it"
+        }
+      ],
+      "elements": ["governor-explains-precaution"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.if-the-press-asks-about-the-disaster-today-tell-them-i-haven-t-made-a-decision",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "If the press asks about the {disaster} today, tell them I haven't made a decision.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["advisers-take-over-press-room"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-take-their-questions-we-have-until-deadline-for-your-answer",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll take their questions. We have until {deadline} for your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-last",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.if-the-press-asks-about-the-disaster-today-tell-them-i-haven-t-made-a-decision"
+        }
+      ],
+      "elements": ["advisers-take-over-press-room"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.the-counties-can-know-the-offer-is-open-until-deadline-i-won-t-sign-at-this-meeting",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "The counties can know the offer is open until {deadline}. I won't sign at this meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "disaster", "deadline"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "elements": ["briefing-travels-through-county"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      },
+      "bearing": "solemn"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-pass-that-on-they-shouldn-t-take-this-meeting-as-a-refusal-to-declare-over-the-disaster",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll pass that on. They shouldn't take this meeting as a refusal to declare over the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": [
+            "again",
+            "return-last",
+            "disaster",
+            "deadline",
+            "undecided"
+          ],
+          "after": "scene-talk-office.reply-leave.the-counties-can-know-the-offer-is-open-until-deadline-i-won-t-sign-at-this-meeting"
+        }
+      ],
+      "elements": ["briefing-travels-through-county"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      },
+      "bearing": "steady"
     }
   ]
 }
