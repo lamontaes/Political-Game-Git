@@ -2,8 +2,9 @@
   "id": "unpaid-seat-or-city-paycheck",
   "kind": "situation",
   "summary": "A council member weighs another unpaid term against paid legal work for the same city.",
-  "realLife": "Calvin Coolidge left the Northampton council and became its salaried city solicitor.",
+  "realLife": "Calvin Coolidge passed up another unpaid Northampton council term to become city solicitor. He recalled that the salary mattered and the chance to become a better lawyer mattered more.",
   "sources": [
+    "https://www.gutenberg.org/cache/epub/76649/pg76649-images.html",
     "https://standardebooks.org/ebooks/calvin-coolidge/the-autobiography-of-calvin-coolidge/text/chapter-3"
   ],
   "fits": [
