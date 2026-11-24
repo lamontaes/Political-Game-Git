@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/english/outline-planner.ts, src/director/inaugural-telling.ts, src/director/journal-evening.ts, data/english/outlines.json, data/english/parts/outline.json, scripts/words/first-evening-packet.ts
+**Files.** src/english/outline-planner.ts, src/director/address-telling.ts, src/director/journal-evening.ts, data/english/outlines.json, data/english/parts/outline.json, scripts/words/first-evening-packet.ts
 
 **Notes.** Nov 24 (Story lead): built on story/first-evening; the packet of three drawn places is docs/story/first-evening-packet.md on that branch.
