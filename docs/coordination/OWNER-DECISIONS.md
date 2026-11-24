@@ -16,6 +16,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Words are back in the builder account's work, through the Story lead:** "go ahead. and have the other account start it. i'm going to bed so have story work through the night. once the other builders finish then have them transition to story"
   - This replaces Nov 23's "keep words out of the coordinator's work". The Coordinator opens the Story lead and sends it builders as their rows finish.
   - The merger desk, the Replay and Red main keep their jobs.
+- **Story works on everything, and testers send the CTO screenshots:** "it needs to work on everything generally. most of it sucks. need playtestsrs to send you screenshots to review. no more replies from me tonight" (about 12:45 a.m.)
+  - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
+  - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
 ## Nov 23, 2026, about 5:35 p.m.: after playing v0.114.0 (owner, verbatim; recorded by the CTO)
 
