@@ -1608,10 +1608,7 @@ function contestView(
   const rows = field.map((f) => {
     const facts = candidateFacts(api, f, contest);
     const heard = named.filter(
-      (p) =>
-        p.id === f.personId ||
-        p.knownIds.has(f.personId) ||
-        (impressionOf(api, p.id, f.personId)?.heardOf ?? false),
+      (p) => p.id === f.personId || hasHeardOf(api, p, f.personId),
     ).length;
     const standing = reasons?.find((r) => r.id === f.personId);
     // The record as the town knows it: in a partisan race, the part of the
@@ -1837,6 +1834,30 @@ export function mayVoteOn(
     ageOn(person, date) >= api.parameter("votingAge") &&
     !barredFromVoting(api, person.id),
   );
+}
+
+/** Whether a voter knows a candidate or has heard of them: the town's recognition reads it. */
+function hasHeardOf(
+  api: CoreAPI,
+  voter: PersonState,
+  candidateId: string,
+): boolean {
+  return (
+    voter.knownIds.has(candidateId) ||
+    (impressionOf(api, voter.id, candidateId)?.heardOf ?? false)
+  );
+}
+
+/**
+ * How many of the town's voters other than the candidate know them or have
+ * heard of them, by the same record the town's recognition reads (playtest
+ * sitting P34: a race's standing said no one had heard of a player whom
+ * people in town knew).
+ */
+export function votersWhoHeardOf(api: CoreAPI, candidateId: string): number {
+  return townAdults(api).filter(
+    (voter) => voter.id !== candidateId && hasHeardOf(api, voter, candidateId),
+  ).length;
 }
 
 function townAdults(api: CoreAPI): readonly PersonState[] {

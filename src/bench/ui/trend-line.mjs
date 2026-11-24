@@ -12,10 +12,10 @@ const NS = "http://www.w3.org/2000/svg";
  */
 export function trendLine(
   history,
-  { width = 320, height = 90, valueOf = (point) => point.minor, labels } = {},
+  { width = 320, height = 90, amountOf = (point) => point.minor, labels } = {},
 ) {
   if (!history || history.length < 2) return null;
-  const values = history.map(valueOf);
+  const values = history.map(amountOf);
   const low = Math.min(...values);
   const high = Math.max(...values);
   const span = high - low || 1;
@@ -27,7 +27,7 @@ export function trendLine(
     padX + (index / (history.length - 1)) * (width - 2 * padX),
     height -
       padBottom -
-      ((valueOf(point) - low) / span) * (height - padTop - padBottom),
+      ((amountOf(point) - low) / span) * (height - padTop - padBottom),
   ];
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
