@@ -1917,47 +1917,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-diary.stance.journal-evening-leave-as-it-is-the-president-argued",
-      "move": "stance",
-      "kind": "written",
-      "text": "Leave {about} as it is, the President argued.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-studious"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-stood-up-for-which-is-the-law-now",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President stood up for {about}, which is the law now.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-diary.stance.journal-evening-the-president-is-out-to-end",
       "move": "stance",
       "kind": "written",
@@ -2887,27 +2846,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-diary.ahead.journal-evening-i-will-ask-people-in-what-they-thought",
-      "move": "ahead",
-      "kind": "written",
-      "text": "I will ask people in {place} what they thought.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "ahead",
-          "tie": "record",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-diary.ahead.journal-evening-i-want-to-hear-what-my-neighbors-in-thought",
       "move": "ahead",
       "kind": "written",
@@ -2929,10 +2867,116 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-diary.ahead.journal-evening-tomorrow-i-will-ask-around-about-the-speech",
+      "key": "outline-diary.stance.journal-evening-the-president-means-to-leave-in-place",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President means to leave {about} in place.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-defensive"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-wants-left-alone",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President wants {about} left alone.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-generous"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-does-not-want-to-continue",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President does not want {about} to continue.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-polite",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-wants-ended",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President wants {about} ended.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tomorrow-i-want-to-know-what-thought-of-the-speech",
       "move": "ahead",
       "kind": "written",
-      "text": "Tomorrow I will ask around {place} about the speech.",
+      "text": "Tomorrow I want to know what {place} thought of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-meticulous"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tomorrow-i-will-listen-for-what-people-in-say-about-the-speech",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow I will listen for what people in {place} say about the speech.",
       "uses": [
         {
           "subject": "journal-evening",
@@ -2942,18 +2986,18 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-independent",
-        "personality-v1:facet-friendly"
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-tender-hearted"
       ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
     },
     {
-      "key": "outline-diary.ahead.journal-evening-tomorrow-i-will-ask-someone-in-what-they-made-of-the-speech",
+      "key": "outline-diary.ahead.journal-evening-i-will-find-out-in-tomorrow-who-else-watched-the-speech",
       "move": "ahead",
       "kind": "written",
-      "text": "Tomorrow I will ask someone in {place} what they made of the speech.",
+      "text": "I will find out in {place} tomorrow who else watched the speech.",
       "uses": [
         {
           "subject": "journal-evening",
@@ -2962,7 +3006,52 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-observant"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-teasing"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-i-will-be-in-tomorrow-and-the-speech-will-come-up",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I will be in {place} tomorrow, and the speech will come up.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tomorrow-in-i-will-bring-up-the-speech-and-hear-what-comes-back",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow in {place} I will bring up the speech and hear what comes back.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-contented",
+        "personality-v1:facet-tactful"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
