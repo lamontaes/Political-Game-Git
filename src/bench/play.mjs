@@ -6997,6 +6997,10 @@ function growIntoRoom(box) {
     }
   }
   box.style.maxHeight = `${Math.ceil(fitted || target)}px`;
+  // The room a whole row could not use stays the panel's, under the list: the
+  // panel keeps its full height while the list still scrolls.
+  box.style.marginBottom =
+    fitted && fitted < target ? `${Math.floor(target - fitted)}px` : "";
 }
 function fitPagersNow(root, waits = 30) {
   window.requestAnimationFrame(() => {
