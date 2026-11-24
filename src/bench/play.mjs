@@ -1969,6 +1969,17 @@ function partyRows(party) {
   });
 }
 
+/**
+ * The Budgets board's columns: the departments at the left, and the chosen department's rows over
+ * the government's totals in one column at the right, so a short department does not stand in a
+ * column of its own with the panel empty under it.
+ */
+function stackRight(columns) {
+  return columns.length === 3
+    ? [columns[0], [...columns[1], ...columns[2]]]
+    : columns;
+}
+
 /** The campaign record's count of volunteers, worded (one count for every line that shows it). */
 function volunteerCount(n) {
   return n === 1
@@ -4763,7 +4774,7 @@ const sheets = {
       stripBoard({
         tabs,
         fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
-        columns: [
+        columns: stackRight([
           [
             stripSection(
               1,
@@ -4860,21 +4871,23 @@ const sheets = {
                   ),
                 ]
               : []),
-            ...(latest.adoptedOn
+            // Who wrote it is the body on the adoption record (a budget the body voted); an opening
+            // or carried budget has no named author, so nothing stands in for one.
+            ...(latest.adoptedOn && latest.adoptedBy?.tallies?.[0]?.title
               ? [
                   stripSection(
                     5,
                     words.whoWrote,
-                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
-                    // Screens words it from the record with the Budgets labels.
-                    introText(
-                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+                    typedRow(
+                      words.adoptedBy,
+                      latest.adoptedBy.tallies[0].title,
                     ),
+                    typedRow(labels.adopted, dateWords(latest.adoptedOn)),
                   ),
                 ]
               : []),
           ],
-        ],
+        ]),
       }),
     ];
   },
