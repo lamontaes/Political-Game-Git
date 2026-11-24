@@ -8,7 +8,7 @@
       "budgets": {
         "*": 3,
         "theme-name": 1,
-        "theme-short": 1,
+        "theme-short": 2,
         "the-disaster": 1
       },
       "sections": [

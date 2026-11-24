@@ -5090,7 +5090,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-assertive"
@@ -5112,7 +5111,6 @@
           "requiresFacts": ["about", "told-theme"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-assertive"
@@ -5134,7 +5132,6 @@
           "requiresFacts": ["term-left"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-work-centered"
@@ -5156,7 +5153,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the Story lead",
@@ -5175,7 +5171,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-mediating",
         "personality-v1:facet-friendly"
@@ -5197,7 +5192,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-studious",
         "personality-v1:facet-skeptical"
@@ -5219,7 +5213,6 @@
           "requiresFacts": ["term-left"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-supportive",
         "personality-v1:facet-devoted"
@@ -5241,7 +5234,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-humble"
@@ -5263,7 +5255,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-practical",
         "personality-v1:facet-informal"
@@ -5285,7 +5276,6 @@
           "requiresFacts": ["about", "told-theme"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-assertive",
         "personality-v1:facet-light-hearted"
@@ -5776,7 +5766,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-nurturing",
         "personality-v1:facet-friendly"
@@ -5798,7 +5787,6 @@
           "requiresFacts": ["theme-short", "term-left"]
         }
       ],
-      "after": ["address-to"],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-mediating"],
       "origin": "authored",
       "author": "the Story lead",
@@ -5817,7 +5805,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the Story lead",
@@ -5836,7 +5823,6 @@
           "requiresFacts": ["term-left"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-comforting",
         "personality-v1:facet-tender-hearted"
@@ -5858,7 +5844,6 @@
           "requiresFacts": ["theme-short"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-practical"
@@ -5880,11 +5865,278 @@
           "requiresFacts": ["about", "told-theme"]
         }
       ],
-      "after": ["address-to"],
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-polite"
       ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-you-ll-know-by-next-year-whether-i-meant-it-on",
+      "move": "value",
+      "kind": "spoken",
+      "text": "You'll know by next year whether I meant it on {theme-short}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-there-s-no-version-of-where-everybody-s-happy-and-i-won-t-pretend-there-is",
+      "move": "value",
+      "kind": "spoken",
+      "text": "There's no version of {theme-short} where everybody's happy, and I won't pretend there is.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-i-ve-changed-my-mind-on-plenty-of-things-not-on",
+      "move": "value",
+      "kind": "spoken",
+      "text": "I've changed my mind on plenty of things. Not on {theme-short}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-i-ll-keep-saying-it-plainly-on-even-when-it-costs-me",
+      "move": "value",
+      "kind": "spoken",
+      "text": "I'll keep saying it plainly on {theme-short}, even when it costs me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-watch-what-i-do-on-not-just-what-i-say-today",
+      "move": "value",
+      "kind": "spoken",
+      "text": "Watch what I do on {theme-short}, not just what I say today.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.value.inaugural-some-of-you-will-be-angry-with-me-over-that-comes-with-the-job",
+      "move": "value",
+      "kind": "spoken",
+      "text": "Some of you will be angry with me over {theme-short}. That comes with the job.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"]
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-duty-bound"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-the-young-people-who-voted-for-the-first-time-last-fall-the-next-are-yours-as-much-as-mine",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To the young people who voted for the first time last fall: the next {term-left} are yours as much as mine.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["elected-last-fall", "term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-excitable",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-everyone-working-a-shift-right-now-i-m-working-for-you-too-for-all",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To everyone working a shift right now: I'm working for you too, for all {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.address-to.inaugural-to-anyone-who-s-given-up-on-washington-give-me-to-change-your-mind",
+      "move": "address-to",
+      "kind": "spoken",
+      "text": "To anyone who's given up on Washington: give me {term-left} to change your mind.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "address-to",
+          "tie": "frame",
+          "requiresFacts": ["term-left"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-m-for-for-one-reason",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'm for {about} for one reason: {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-my-answer-on-is-no-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "My answer on {about} is no, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "belief",
+            "stance-against",
+            "law-not-in-force"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-stays-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "{law-name} stays, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.stand-reason.inaugural-i-d-like-to-see-gone-because",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'd like to see {law-name} gone, because {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "belief",
+            "stance-against",
+            "law-in-force"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
