@@ -2,7 +2,7 @@
 
 Pre-grader, 2026-11-24. Branch `story/w-talk` at `af00c106`, every line authored by this writer at that head (65 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 43 of 65 pass (66%); 22 fail.
+- **Result:** 44 of 65 pass (68%); 21 fail.
 - **Calibration:** C4 8/8, D1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the packet script at `af00c106` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 7 of these lines played.
@@ -60,10 +60,6 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `af00c106`, every line authored
 
 - `outline-talk.why-first.talk-address-point-i-spend-my-days-at-so-got-my-attention`: "I spend my days at {employer}, so {said} got my attention." — Tells a housemate where the speaker works, which they already know, in the same shape as 014.
 
-### person-said-by-role-pronoun-or-relationship (1)
-
-- `outline-talk.verdict-after.talk-address-point-didn-t-win-me-over-though`: "{president} didn't win me over, though." — Repeats the President's full name right after the reason line already named him.
-
 ### tense-of-the-record (1)
 
 - `outline-talk.ask.talk-address-point-would-you-have-gone-along-with-on`: "Would you have gone along with {president-object} on {about}?" — 'Would you have gone along' talks about a proposal still ahead as if it were already decided.
@@ -111,6 +107,7 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `af00c106`, every line authored
 - `outline-talk.why-first.talk-address-point-work-is-thin-in-so-had-my-full-attention`: "Work is thin in {place}, so {said} had my full attention."
 - `outline-talk.verdict-after.talk-address-point-so-i-m-with`: "So I'm with {president-object}."
 - `outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on`: "Which is why I'd back {president-object} on {about}."
+- `outline-talk.verdict-after.talk-address-point-didn-t-win-me-over-though`: "{president} didn't win me over, though."
 - `outline-talk.verdict-after.talk-address-point-i-m-still-sorting-out-where-i-land-on`: "I'm still sorting out where I land on {said}."
 - `outline-talk.verdict-after.talk-address-point-maybe-wins-me-over-but-not-tonight`: "Maybe {president-object} wins me over, but not tonight."
 - `outline-talk.ask.talk-address-point-tell-me-i-m-not-the-only-one-thinking-about`: "Tell me I'm not the only one thinking about {said}."

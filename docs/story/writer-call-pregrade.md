@@ -5,7 +5,7 @@ Pre-grader, 2026-11-24. Branch `story/w-call-charge` at `dfb5ad6d`, every line a
 - **Result:** 59 of 247 pass (24%); 188 fail.
 - **Calibration:** C4 8/8, D1 8/8, E1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the six-place packet at this head is not in yet; lines were read as written.
+- **Played:** the packet script at `dfb5ad6d` on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 15 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
@@ -260,6 +260,24 @@ Pre-grader, 2026-11-24. Branch `story/w-call-charge` at `dfb5ad6d`, every line a
 ### speech-craft-is-earned (1)
 
 - `outline-call.call.spoken-give-blood-give-time-give-a-ride-is-long-enough-to-do-all-three`: "Give blood, give time, give a ride. {term-left} is long enough to do all three." — Off the theme, and the rule of three with 'long enough to do all three' is silly.
+
+## As played
+
+- fail: `outline-call.charge.spoken-there-s-a-long-list-of-worries-i-could-name-today-but-is-the-one-i-ll` → **6.9** My fellow Americans. Last November you hired me, and Vice President Jason Davidson with me. There's a long list of worries I could name today, but what work pays is the one I'll stay with.
+- fail: `outline-call.charge.spoken-ask-me-what-i-think-the-next-will-turn-on-and-i-ll-say` → **2.9** My fellow Americans. The oath is short. The four years after it are not. Ask me what I think the next four years will turn on, and I'll say how families are treated when they buy and borrow.
+- fail: `outline-call.charge.spoken-i-could-spend-an-hour-on-any-number-of-subjects-today-i-m-choosing` → **4.9** Thank you, everyone. Last November you hired me for four years. I could spend an hour on any number of subjects. Today I'm choosing the power we use and what it costs.
+- fail: `outline-call.charge.spoken-you-ll-want-to-know-where-i-stand-on-and-i-ll-tell-you-before-i-leave` → **5.9** Fellow citizens. The election ended in November. The job starts today and runs four years. You'll want to know where I stand on what work pays, and I'll tell you before I leave this podium.
+- pass: `outline-call.call.spoken-if-would-cost-you-something-say-so-early-while-it-can-still-change` → **4.12** If limits on power plant carbon would cost you something, say so early, while it can still change.
+- fail: `outline-call.call.spoken-a-little-attention-to-each-day-beats-a-lifetime-of-complaining-about-i` → **3.10** A little attention to pay each day beats a lifetime of complaining about it.
+- fail: `outline-call.call.spoken-get-involved-where-gets-decided-before-somebody-tells-you-that-you-have-to` → **6.10** To the people who sent me here: thank you, and keep an eye on me for four years. Get involved where pay gets decided, before somebody tells you that you have to.
+- fail: `outline-call.call.spoken-keep-an-open-mind-through-all-i-intend-to` → **5.13** Keep an open mind through all four years. I intend to.
+- pass: `outline-call.call.spoken-i-ll-make-mistakes-in-the-next-tell-me-early-and-kindly-if-you-can` → **2.10** I'll make mistakes in the next four years. Tell me early, and kindly if you can.
+- fail: `outline-call.disaster.spoken-the-came-for-people-who-d-done-everything-right-and-they-re-still-wait` → **4.10** The storms came for people who'd done everything right, and they're still waiting to feel safe. Some of that rebuilding will take all four years, and I'll be here for all of it.
+- pass: `outline-call.disaster.spoken-neighbors-have-spent-this-past-year-helping-each-other-recover-from-th` → **3.11** Neighbors have spent this past year helping each other recover from the floods, and the federal government ought to be helping too. The cameras have moved on. For the next four years, I won't.
+- fail: `outline-call.disaster-image.spoken-there-s-an-older-couple-somewhere-sorting-through-what-the-left-of-a-l` → **6.11** There's an older couple somewhere sorting through what the floods left of a lifetime together. So when I say rebuilding, I mean four years of showing up, not one visit and a photograph.
+- fail: `outline-call.disaster-meaning.spoken-so-when-i-say-rebuilding-i-mean-of-showing-up-not-one-visit-and-a-phot` → **6.11** There's an older couple somewhere sorting through what the floods left of a lifetime together. So when I say rebuilding, I mean four years of showing up, not one visit and a photograph.
+- fail: `outline-call.run.spoken-people-have-been-taking-home-a-little-more-over-the-last-and-it-has-sh` → **1.10** People have been taking home a little more over the last four years, and it has shown.
+- fail: `outline-call.run.spoken-pay-has-been-moving-the-right-way-for-and-i-d-like-to-see-that-go-on` → **5.12** Pay has been moving the right way for four years, and I'd like to see that go on.
 
 ## Passing lines
 
