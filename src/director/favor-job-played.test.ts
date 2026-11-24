@@ -9,9 +9,14 @@
  * record names if the player knows them and they live apart, and stages the
  * `reach-out` scene (purpose `favor-job`) as a phone call. Circumstances come
  * only for a controlled player, so the days pass through the player's own
- * clock (`advancePlayerV1`). The place is drawn from all 56
- * (drawn-place-tests); a place with no working player or no working friend
- * apart is passed over by name. GOLDEN_PATH_SEED=<seed> replays a run.
+ * clock (`advancePlayerV1`). A new player's circle outside their home is
+ * mostly kin with no job here (their starting job fills in no coworkers:
+ * pool item people-player-meets-coworkers-at-job), so where no one they know
+ * apart works, the player first meets a working townsperson the way play
+ * does: a talk opened with them (`openConversation`, then `meetOverTalk`, the
+ * bench's own road). The place is drawn from all 56 (drawn-place-tests); a
+ * place with no working player, or no working townsperson apart who will
+ * talk, is passed over by name. GOLDEN_PATH_SEED=<seed> replays a run.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -21,8 +26,11 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { personWorkOf } from "../core2/person-work";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
+import { meetOverTalk, openConversation } from "./conversation";
+import type { Director } from "./ledger";
 import { purposeScene } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -45,6 +53,41 @@ function playDay(core: CoreState, personId: PersonId) {
     if (next.kind === "stop" && next.pauseId === packet.pauseId) return;
     packet = next;
   }
+}
+
+/**
+ * The player meets a working townsperson in another home by talking with
+ * them, as the bench's talk does: the first, by id, whose talk opens on a
+ * line. Their job is one a layoff can end (not an office's own seat).
+ */
+function meetSomeoneWhoWorks(
+  core: CoreState,
+  director: Director,
+  me: PersonId,
+): PersonId | undefined {
+  const player = core.people.get(me)!;
+  const working = [...core.people.values()]
+    .filter((other) => {
+      const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
+      return (
+        other.alive &&
+        other.id !== me &&
+        other.placeId === player.placeId &&
+        other.householdId !== player.householdId &&
+        !!job &&
+        job.endsAt === undefined &&
+        personWorkOf(core, other.id).job !== null
+      );
+    })
+    .map((other) => other.id)
+    .sort();
+  for (const id of working) {
+    const talk = openConversation(core, me, id, { director });
+    if (!talk.lines.length) continue;
+    meetOverTalk(core, talk);
+    if (player.knownIds.has(id)) return id;
+  }
+  return undefined;
 }
 
 it(`a laid-off friend calls the working player to ask for a word (seed ${seed})`, () => {
@@ -72,14 +115,25 @@ it(`a laid-off friend calls the working player to ask for a word (seed ${seed})`
     }
     director.watch(core, me);
     const dev = new DevMode(core, director, undefined, place.key);
+    const force = () =>
+      dev.forceScene({ typeKey: "reach-out" }) as { personId?: string };
     let forced: { personId?: string };
+    let met: PersonId | undefined;
     try {
-      forced = dev.forceScene({ typeKey: "reach-out" }) as {
-        personId?: string;
-      };
-    } catch (error) {
-      passed.push(`${where}: ${(error as Error).message}`);
-      continue;
+      forced = force();
+    } catch {
+      // No one the player knows apart works: they meet someone who does.
+      met = meetSomeoneWhoWorks(core, director, me);
+      if (!met) {
+        passed.push(`${where}: no working townsperson apart would talk`);
+        continue;
+      }
+      try {
+        forced = force();
+      } catch (error) {
+        passed.push(`${where}: met ${met}; ${(error as Error).message}`);
+        continue;
+      }
     }
     const friend = core.people.get(forced.personId as PersonId)!;
     expect(
@@ -129,7 +183,7 @@ it(`a laid-off friend calls the working player to ask for a word (seed ${seed})`
       `${where}: ${result?.kind === "skipped" ? result.reason : "composed"}`,
     ).toBe("composed");
     process.stdout.write(
-      `favor-job-played: ${where} (run seed ${seed}); ${friend.id} laid off in ${recordId}; staged ${entry!.date}; passed over ${passed.length ? passed.join("; ") : "none"}\n`,
+      `favor-job-played: ${where} (run seed ${seed}); ${friend.id} laid off in ${recordId}; staged ${entry!.date}${met ? `; met ${met} in a talk first` : ""}; passed over ${passed.length ? passed.join("; ") : "none"}\n`,
     );
     return;
   }
