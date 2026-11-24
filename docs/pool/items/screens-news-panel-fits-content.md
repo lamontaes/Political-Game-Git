@@ -27,7 +27,7 @@ Seen: News at 1440 by 900. Seen: News, a panel that ends under its headlines and
 
 **Time box.** 1 hours
 
-**Rules.** Screen to mock: MENU-LOOK says no dead space, the panel fits its content and nothing is empty below. No hand-written player text; no label added.
+**Rules.** Screen to mock: MENU-LOOK says no dead space, so the panel fits its content and nothing is empty below. No hand-written player text: no new label is added; only the panel height changes.
 
 **Done when.** A second session, in a drawn place and seed it names, opens News in a life with one or two headlines and sees the panel end under its content; news-panel-fits.browser.mjs passes.
 
