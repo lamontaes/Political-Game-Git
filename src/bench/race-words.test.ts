@@ -46,6 +46,10 @@ const lineFor = (
   );
 };
 
+// How the bank says a voter moved toward the player or away from them.
+const WARMER = "better about you|more of you|like you more|warmed";
+const COOLER = "less of you|worse about you|like you less|cooled";
+
 const sentences = (lines: string[]) =>
   lines.flatMap((line) => line.split(/(?<=[.!?])\s+/));
 
@@ -75,7 +79,7 @@ it("says one voter in the singular, never opens with a numeral, never prints a z
         if (count > 1) expect(text).toMatch(/\b7 voters\b/);
         // One voter reached who did not move is said in the reached line.
         if (count === 1 && warmer === 0 && cooler === 0)
-          expect(lines[0]).toMatch(/not changed their mind|no change of mind/);
+          expect(lines[0]).toMatch(/\bfeels the same\b/);
         else if (count > 0) {
           const moved = lines[1];
           expect(moved, moved).not.toMatch(/\b0 /);
@@ -89,9 +93,12 @@ it("says one voter in the singular, never opens with a numeral, never prints a z
             expect(moved, moved).not.toMatch(
               new RegExp(`\\b(${count}|one voter)\\b`),
             );
-          if (warmer > 0 && cooler === 0) expect(moved).toMatch(/warm/);
-          if (cooler > 0 && warmer === 0) expect(moved).toMatch(/cool/);
-          if (cooler > 0 && warmer > 0) expect(moved).toMatch(/warm.*cool/);
+          if (warmer > 0 && cooler === 0)
+            expect(moved).toMatch(new RegExp(WARMER));
+          if (cooler > 0 && warmer === 0)
+            expect(moved).toMatch(new RegExp(COOLER));
+          if (cooler > 0 && warmer > 0)
+            expect(moved).toMatch(new RegExp(`(${WARMER}).*(${COOLER})`));
         }
       }
     }
