@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Purluxe%20Beauty%20Bar"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "A worker paid on commission reports a shortfall against an applicable hourly floor."
   ],
-  "weights": [
-    "Long stretches without sales make a shortfall more likely."
-  ],
+  "weights": ["Long stretches without sales make a shortfall more likely."],
   "usedBy": [],
   "inGame": "needs: commission totals, hours and applicable wage floor.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "Commissions varied across the review period.",
       "writesBack": "The assessment identifies the underpaid periods."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

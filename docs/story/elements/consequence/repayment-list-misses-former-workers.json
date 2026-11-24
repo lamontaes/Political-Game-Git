@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Capital%20Tea"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "The repayment list covers current staff and the affected period includes departures."
   ],
-  "weights": [
-    "Higher turnover makes omitted former workers more likely."
-  ],
+  "weights": ["Higher turnover makes omitted former workers more likely."],
   "usedBy": [],
   "inGame": "needs: employment dates and repayment status for current and former workers.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "The last address on file is out of date.",
       "writesBack": "The outstanding payment stays on the list."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

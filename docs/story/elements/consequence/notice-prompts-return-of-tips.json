@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Claw%20Den"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "A tip complaint has generated a notice and the employer has responded."
   ],
-  "weights": [
-    "Documented transfers make verification easier."
-  ],
+  "weights": ["Documented transfers make verification easier."],
   "usedBy": [],
   "inGame": "needs: the tip balance and evidence of payment to each worker.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "The former worker's check was returned.",
       "writesBack": "The office keeps the former worker's share outstanding."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

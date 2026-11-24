@@ -6,19 +6,9 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Escapology"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A single employer assigns staff across a wage boundary."
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A single employer assigns staff across a wage boundary."],
   "weights": [
     "Frequent cross-branch assignments expose more shifts to the city rate."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "The work record lists two locations.",
       "writesBack": "Payroll separates the hours by location."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

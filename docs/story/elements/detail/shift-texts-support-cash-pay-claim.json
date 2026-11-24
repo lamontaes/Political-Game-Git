@@ -6,22 +6,10 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=C.Gars%20on%20Broadway"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A cash-paid worker has saved messages about assigned shifts."
-  ],
-  "weights": [
-    "Missing payroll increases the value of dated messages."
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A cash-paid worker has saved messages about assigned shifts."],
+  "weights": ["Missing payroll increases the value of dated messages."],
   "usedBy": [],
   "inGame": "needs: dated schedule messages, the method of payment and actual pay.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "Several messages omit the day.",
       "writesBack": "The claim separates supported weeks from unresolved weeks."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

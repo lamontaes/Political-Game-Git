@@ -6,16 +6,8 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Sitel%20Operating%20Corporation"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "An underpayment complaint involves remote work physically performed inside the city."
   ],
@@ -37,5 +29,6 @@
       "pulledBy": "The roster lacks move dates.",
       "writesBack": "The review requests dates before assigning local rates."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

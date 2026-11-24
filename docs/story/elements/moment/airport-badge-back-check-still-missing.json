@@ -6,22 +6,10 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=former%20massage%20therapist"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "An employer has tied a final payment to returned equipment."
-  ],
-  "weights": [
-    "A receipt for the equipment strengthens the worker's account."
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["An employer has tied a final payment to returned equipment."],
+  "weights": ["A receipt for the equipment strengthens the worker's account."],
   "usedBy": [],
   "inGame": "needs: the return receipt and final paycheck.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "The return receipt lists only the badge.",
       "writesBack": "The file identifies the missing item separately from the unpaid wages."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

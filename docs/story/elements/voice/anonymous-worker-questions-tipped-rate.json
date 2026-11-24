@@ -6,16 +6,8 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=HQ%20Denver"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "The office has an anonymous tip about an employer and an applicable tipped rate."
   ],
@@ -37,5 +29,6 @@
       "pulledBy": "The company has several locations.",
       "writesBack": "The inquiry starts at the named branch."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

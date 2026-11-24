@@ -6,16 +6,8 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=GQue%20BBQ"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [
     "An event concession pays an hourly amount that the employer says includes tips."
   ],
@@ -37,5 +29,6 @@
       "pulledBy": "The operator changed its point-of-sale system.",
       "writesBack": "The review treats the earlier season separately."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

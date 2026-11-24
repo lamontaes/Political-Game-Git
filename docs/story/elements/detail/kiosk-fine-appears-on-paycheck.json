@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Bjorn%27s%20Honey"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "A deduction corresponds to a charge assessed against the business."
   ],
-  "weights": [
-    "Matching dates tie a deduction to a particular opening."
-  ],
+  "weights": ["Matching dates tie a deduction to a particular opening."],
   "usedBy": [],
   "inGame": "needs: the business fine, payroll deduction and dates.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "Other entries have different explanations.",
       "writesBack": "The claim lists each deduction separately."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

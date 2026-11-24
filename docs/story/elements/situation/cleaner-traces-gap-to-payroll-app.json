@@ -6,19 +6,9 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Homeaglow"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A worker's job log contains completed jobs missing from payroll."
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A worker's job log contains completed jobs missing from payroll."],
   "weights": [
     "A gap coinciding with a system failure strengthens that explanation."
   ],
@@ -37,5 +27,6 @@
       "pulledBy": "The employer recovered one week's data.",
       "writesBack": "The remaining dates await comparison."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

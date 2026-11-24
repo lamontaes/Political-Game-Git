@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Kahlo%27s"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [
     "The employer has withheld records and one worker can document their own pay."
   ],
-  "weights": [
-    "Independent records strengthen that worker's claim."
-  ],
+  "weights": ["Independent records strengthen that worker's claim."],
   "usedBy": [],
   "inGame": "needs: available worker evidence and outstanding employer records.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "The employer responds late.",
       "writesBack": "The office rechecks the scope of the case."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

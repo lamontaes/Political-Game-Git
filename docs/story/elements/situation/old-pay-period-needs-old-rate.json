@@ -6,22 +6,10 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Las%20Margs%20Tavern"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A complaint spans periods with different wage rates."
-  ],
-  "weights": [
-    "More rate changes make the payment dates more important."
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A complaint spans periods with different wage rates."],
+  "weights": ["More rate changes make the payment dates more important."],
   "usedBy": [],
   "inGame": "needs: historical wage floors and the dates each worker was paid.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "The worker knows the season but lacks a dated stub.",
       "writesBack": "The city requests the older payroll."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
 }

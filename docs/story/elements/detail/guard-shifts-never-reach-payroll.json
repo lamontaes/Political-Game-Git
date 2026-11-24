@@ -6,22 +6,12 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Inner%20Parish%20Security"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "A worker reports a discrepancy between scheduled work and hours submitted for pay."
   ],
-  "weights": [
-    "A supervisor's shift record helps locate the missing hours."
-  ],
+  "weights": ["A supervisor's shift record helps locate the missing hours."],
   "usedBy": [],
   "inGame": "needs: the worked shifts and hours transmitted to payroll.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "The schedule alone does not establish attendance.",
       "writesBack": "The office requests the site log."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

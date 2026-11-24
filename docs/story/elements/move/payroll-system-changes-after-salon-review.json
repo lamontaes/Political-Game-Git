@@ -6,16 +6,8 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=AK%20Nails"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [
     "A wage review has found gaps in time or pay records at multiple locations."
   ],
@@ -37,5 +29,6 @@
       "pulledBy": "The locations run different payroll systems.",
       "writesBack": "The follow-up lists separate conversion dates."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

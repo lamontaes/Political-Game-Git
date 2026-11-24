@@ -6,16 +6,8 @@
   "sources": [
     "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Denver%20True%20Value"
   ],
-  "fits": [
-    "office",
-    "work-community",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "A complaint concerns a specific promised raise and an effective date."
   ],
@@ -37,5 +29,6 @@
       "pulledBy": "The agreement splits the arrears into payments.",
       "writesBack": "The case records the unpaid installment."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
