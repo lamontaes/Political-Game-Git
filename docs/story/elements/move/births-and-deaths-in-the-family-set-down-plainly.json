@@ -1,0 +1,35 @@
+{
+  "id": "births-and-deaths-in-the-family-set-down-plainly",
+  "kind": "move",
+  "summary": "A birth and a death in the family are put in the same plain tone as the crop notes.",
+  "realLife": "Young logged a first grandchild's birth, his father's and sister's deaths and the children going to school in one run of entries.",
+  "sources": [
+    "Kansas Historical Quarterly, A Hoosier in Kansas: the diary of Hiram H. Young, 1890 to 1891: https://www.kansashistory.gov/p/kansas-historical-quarterly-a-hoosier-in-kansas-2/13032"
+  ],
+  "fits": ["journal"],
+  "slots": ["firstborn", "other"],
+  "gates": [],
+  "inGame": "`event:person-birth`, `event:life.death`, `family:child`, `household:sibling-born`; the old memoir moves birthFirst, birthAge, deathAge.",
+  "weights": {
+    "family": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A birth only.",
+      "pulledBy": "no death in the same stretch",
+      "writesBack": "the entry gives the birth and the name"
+    },
+    {
+      "turn": "A death only.",
+      "pulledBy": "no birth in the same stretch",
+      "writesBack": "the entry gives the death, the age and the illness"
+    },
+    {
+      "turn": "A birth and a death close together.",
+      "pulledBy": "both on the family record in one season",
+      "writesBack": "the entry puts them in one run, in the same tone"
+    }
+  ],
+  "issues": ["none"]
+}

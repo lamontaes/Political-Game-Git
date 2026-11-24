@@ -1,0 +1,35 @@
+{
+  "id": "asking-questions-is-expected-early",
+  "kind": "voice",
+  "summary": "Early on, a newcomer's brief, specific questions are treated as normal, not a bother.",
+  "realLife": "Onboarding advice says clarifying tasks is good practice for newcomers and that requests should be short and specific, such as asking for a couple of minutes.",
+  "sources": [
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Voice of the new-coworker event: a newcomer with a curious or careful trait asking how things run, tied to the job record (employer, position, workplace, pay, tenure) in the jobs module.",
+  "turns": [
+    {
+      "turn": "questions-seen-as-a-bother",
+      "summary": "The manager sighs at each question and the newcomer stops asking.",
+      "pulledBy": ["a blunt or busy manager", "a shy newcomer"],
+      "writesBack": "The newcomer's mood dips and mistakes follow later."
+    },
+    {
+      "turn": "newcomer-stays-quiet",
+      "summary": "The newcomer holds questions back for fear of looking slow.",
+      "pulledBy": ["a guarded or proud newcomer", "who is watching"],
+      "writesBack": "A mistake is made later, and a note is made in the journal."
+    },
+    {
+      "turn": "too-many-questions",
+      "summary": "The newcomer asks so many questions that coworkers get tired of answering.",
+      "pulledBy": ["a curious but pushy newcomer", "coworkers in a hurry"],
+      "writesBack": "Coworker ties cool and the manager offers a fixed hour for questions."
+    }
+  ]
+}

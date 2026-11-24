@@ -1,0 +1,38 @@
+{
+  "id": "a-former-president-watches-the-convention-from-his-bed",
+  "kind": "moment",
+  "summary": "An old former officeholder spends his last days watching speeches on TV with his son nearby.",
+  "realLife": "A son of the thirty-ninth president told a newspaper that his father, in hospice care, watched a party convention's speeches and thought one speaker the best and another great. When the sitting president announced he would drop out, the father watched on television and, in the son's account to reporters, felt it was sad.",
+  "sources": [
+    "https://foxnews.com/politics/jimmy-carters-family-reveals-how-president-felt-about-biden-quitting-which-dnc-speaker-stole-show.amp"
+  ],
+  "fits": ["home", "speeches", "news"],
+  "slots": ["{the elder}", "{the speech}", "{the child}"],
+  "gates": ["The elder is ill or retired.", "A speech aired."],
+  "weights": [
+    "The elder's health.",
+    "How much the elder still cares about the party."
+  ],
+  "inGame": "A person watching a televised address at home with an illness and kin could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "He turns the set off and says he has seen enough.",
+      "pulledBy": "Fatigue, bitterness.",
+      "writesBack": "Writes a note that he stopped watching."
+    },
+    {
+      "turn": "neutral",
+      "what": "He watches without a word.",
+      "pulledBy": "Pain.",
+      "writesBack": "Adds the speech to what he watched."
+    },
+    {
+      "turn": "late",
+      "what": "He talks about the speech days later to a visitor.",
+      "pulledBy": "A visitor who asks.",
+      "writesBack": "Writes his opinion to that visitor's view."
+    }
+  ]
+}

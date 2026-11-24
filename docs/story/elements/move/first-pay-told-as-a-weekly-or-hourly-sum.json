@@ -1,0 +1,33 @@
+{
+  "id": "first-pay-told-as-a-weekly-or-hourly-sum",
+  "kind": "move",
+  "summary": "A first job is told with its pay as a plain sum.",
+  "realLife": "A man's first job was errand boy at an optical company at eight dollars a week, and his wife began at thirty cents an hour at about fifteen.",
+  "sources": [
+    "St. Louis Fed, The Great Depression interview series, Raymond and Anna Marie McIntyre transcript: https://www.stlouisfed.org/the-great-depression/curriculum/interviews-mcintyre-8"
+  ],
+  "fits": ["journal"],
+  "slots": ["wage", "employer"],
+  "gates": [],
+  "inGame": "`job-started` with `memoir-firstPay` (wage, employer). `needs:` a weekly or flat pay figure; the pay record is an hourly wage.",
+  "turns": [
+    {
+      "turn": "The first pay is not said.",
+      "pulledBy": "a writer who does not talk about money (trait: guarded)",
+      "writesBack": "the line names the employer only"
+    },
+    {
+      "turn": "The first job paid nothing.",
+      "pulledBy": "unpaid wages on the record",
+      "writesBack": "the line says the work went unpaid"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": [],
+  "issues": [
+    "law:minimum-wage",
+    "question:us-policy-positions:labor-workforce.raise-minimum-wage"
+  ]
+}

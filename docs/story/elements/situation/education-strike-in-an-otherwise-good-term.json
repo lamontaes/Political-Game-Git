@@ -1,0 +1,30 @@
+{
+  "id": "education-strike-in-an-otherwise-good-term",
+  "kind": "situation",
+  "summary": "An education dispute brings strikers out during a term that has gone well in other areas.",
+  "realLife": "During West Virginia’s 2018 teachers’ strike, high school teacher Katie Endicott explained why a larger pay offer had yet to bring her back to class. The freeze on the employee health plan left her family’s future costs unsettled.",
+  "sources": [
+    "https://www.wral.com/archive/17384439/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L105"
+  ],
+  "inGame": "needs: read the education-specific grievance and the term’s other outcomes alongside the recorded strike.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{officeholder}", "{industry}", "{action}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The education dispute reaches a settlement after the term ends.",
+      "pulledBy": "The negotiating parties are still meeting when the successor takes office.",
+      "writesBack": "The strike and settlement fall under different terms."
+    },
+    {
+      "turn": "partial",
+      "what": "Teachers return to classrooms after a pay agreement while the dispute over insurance goes back to committee.",
+      "pulledBy": "The signed agreement covers salaries and assigns benefits to a later hearing.",
+      "writesBack": "The school calendar resumes and the benefits question stays on the legislative agenda."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "parents-who-know-more-make-the-talk-count",
+  "kind": "consequence",
+  "summary": "Talk about current events at home raises a child's knowledge more when the parents know the subject.",
+  "realLife": "A 2007 study found that parents' political knowledge and frequent discussion each predicted their children's political knowledge. Discussion helped more when parents knew more. For news monitoring and public speaking skill, discussing events was the strongest predictor.",
+  "sources": ["https://eurekalert.org/news-releases/699915"],
+  "fits": ["home", "news"],
+  "slots": ["{the parent}", "{the child}", "{the news story}"],
+  "gates": ["A parent and a child live together and a story is read."],
+  "weights": ["Parent's schooling.", "How often they talk."],
+  "inGame": "A household with a parent's schooling and news stories read could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The parent says what he does not know and the child tunes out.",
+      "pulledBy": "Little schooling.",
+      "writesBack": "Writes small knowledge."
+    },
+    {
+      "turn": "neutral",
+      "what": "They talk without learning much.",
+      "pulledBy": "Light talk.",
+      "writesBack": "Nothing written."
+    },
+    {
+      "turn": "late",
+      "what": "The child uses what was said at the first vote.",
+      "pulledBy": "A first election.",
+      "writesBack": "Adds the memory to the child's view."
+    }
+  ]
+}

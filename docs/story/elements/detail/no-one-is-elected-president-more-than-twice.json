@@ -1,0 +1,35 @@
+{
+  "id": "no-one-is-elected-president-more-than-twice",
+  "kind": "detail",
+  "summary": "No one may be elected President more than twice, so every long run of one party has to change faces.",
+  "realLife": "The 22nd Amendment, ratified in 1951, bars anyone from being elected President more than twice.",
+  "sources": [
+    "National Archives, The Constitution: Amendments 11-27: https://www.archives.gov/founding-docs/amendments-11-27"
+  ],
+  "fits": ["loading"],
+  "slots": [
+    "born-president-party",
+    "school-president-party",
+    "start-president-party"
+  ],
+  "gates": [],
+  "weights": {
+    "conditions": 0.6
+  },
+  "inGame": "the century rows' personTerms and incumbentRan: a sitting President runs again until elected twice; partyTerms counts the party's straight terms.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A party holds the White House for a long stretch only by nominating new people, which is what the rows show: partyTerms rises while personTerms resets.",
+      "pulledBy": "the party's straight terms against the person's terms",
+      "writesBack": "the line says the party stayed while the faces changed"
+    },
+    {
+      "turn": "partial",
+      "what": "The two-term limit is reached and the party loses the next election.",
+      "pulledBy": "partyTerms at the limit",
+      "writesBack": "the next row's winnerParty differs, told at the player's next life event"
+    }
+  ],
+  "usedBy": []
+}

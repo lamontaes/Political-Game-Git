@@ -1,0 +1,50 @@
+{
+  "id": "pattern-c35-the-long-shot-for-the-top",
+  "kind": "situation",
+  "summary": "The long shot for the top: {donor} tells you that you can win {the top office}, and the first polls agree.",
+  "realLife": "One life: Donors expected him to win the 2016 nomination. By September 2015 he polled under one percent, quit, and urged other candidates to quit to stop Trump. Another: He quit the 2016 race after New Hampshire and endorsed Trump weeks later. Another: Challenging Trump in 2019, he debated a cardboard cutout of him when South Carolina's party skipped its primary, and quit within months. Another: He ran against the president he had served, raised little, withdrew in October 2023, and endorsed no one.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)",
+    "https://en.wikipedia.org/wiki/Chris_Christie",
+    "https://en.wikipedia.org/wiki/Mark_Sanford",
+    "https://en.wikipedia.org/wiki/Mike_Pence_2024_presidential_campaign"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches", "work-community"],
+  "slots": ["the top office", "front-runner"],
+  "gates": [
+    "You hold or held an office.",
+    "The nomination for {the top office} is open."
+  ],
+  "weights": [
+    "Money pledged.",
+    "How well known you are beyond your place.",
+    "Your record of wins.",
+    "Who else is running."
+  ],
+  "pattern": "C35",
+  "choices": [
+    "run",
+    "wait",
+    "run, and quit early if it fails",
+    "run as the one who stops {front-runner}"
+  ],
+  "branches": [
+    {
+      "when": "you fall below one percent",
+      "then": "You quit within weeks and urge others to quit too, to stop {front-runner}."
+    },
+    {
+      "when": "you quit after the first contest",
+      "then": "You endorse the winner within weeks (C36)."
+    },
+    {
+      "when": "your party cancels its primary",
+      "then": "You debate a cardboard cutout of {front-runner}, and one reporter comes to your launch."
+    },
+    {
+      "when": "you once served under {front-runner}",
+      "then": "You raise little, quit, and endorse no one (C49)."
+    }
+  ],
+  "usedBy": []
+}

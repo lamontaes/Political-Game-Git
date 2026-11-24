@@ -1,0 +1,38 @@
+{
+  "id": "counter-pay-above-or-near-average",
+  "kind": "move",
+  "summary": "The candidate counters pay a modest amount above the offer, then stays quiet to let the employer answer.",
+  "realLife": "Campus career advice says to counter about 10 to 20 percent higher if pay is below average for the area, and 5 to 10 percent if it is at or above average, then stay silent so the employer responds first.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Pay in the job record (employer, position, workplace, pay, tenure) in the jobs module; the counter would move pay on a new job record. Needs: an offer negotiation step. Scene: needs a producer for job-offer.",
+  "turns": [
+    {
+      "turn": "accepts-the-first-offer",
+      "summary": "The candidate accepts the first number without countering.",
+      "pulledBy": ["a shy or eager candidate", "a candidate short of money"],
+      "writesBack": "The job record starts at the offered pay, with a note of doubt later."
+    },
+    {
+      "turn": "counter-too-high",
+      "summary": "The candidate asks for far more than the offer and the employer pulls back.",
+      "pulledBy": [
+        "a bold or blunt candidate",
+        "an employer with a tight budget"
+      ],
+      "writesBack": "The offer is withdrawn or the tie cools, and the job is lost."
+    },
+    {
+      "turn": "employer-meets-halfway",
+      "summary": "The employer meets the candidate partway, with a smaller raise or an extra day of leave.",
+      "pulledBy": ["a flexible employer", "a record of the pay figure"],
+      "writesBack": "The job record starts at a middle pay, and the hiring manager tie warms."
+    }
+  ]
+}

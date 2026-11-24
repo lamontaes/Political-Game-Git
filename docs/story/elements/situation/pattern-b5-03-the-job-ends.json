@@ -1,0 +1,63 @@
+{
+  "id": "pattern-b5-03-the-job-ends",
+  "kind": "situation",
+  "summary": "The job ends: The job ends, and {the first to hear} asks what the household does now.",
+  "realLife": "One life: A Boston writer told in a routine morning meeting that her position was eliminated. Her email was cut off within minutes. About a dozen people were affected, seniority did not protect anyone, and it was her second layoff in three years. Another: A communications specialist on a contract with a federal aid agency whose layoff email came in the middle of the night. She had two days of health insurance left, a day to return equipment and no severance. She had told her father and close friends her fears beforehand and then leaned on laid-off colleagues in group chats. Another: A counterterrorism expert with twelve years in his agency, cut by a form email while working from home. He describes anxiety and depression afterward. Many former colleagues applied for hundreds of jobs without offers, and some took service work when benefits ran out. Another: He lost his job when a carmaker closed its Moraine, Ohio, plant in 2008. By 2010 the couple were struggling with unemployment and had lost their health insurance. He later became an electrician at another plant and kept up photography. Another: An assembly-line worker who learned of her plant's planned closure from a television announcement the night before it was public. The next day coworkers were split between accepting it and feeling slighted, and transfers were offered. The job had carried her from homelessness to owning a home.",
+  "sources": [
+    "https://www.theinsider1.com/post/your-position-has-been-eliminated",
+    "https://laid0ff.substack.com/p/laid-off-communications-specialist",
+    "https://federalnewsnetwork.com/commentary/2026/07/one-year-later-my-layoff-from-the-federal-government-has-become-a-banishment/",
+    "https://www.wyso.org/news/2013-06-14/the-best-of-miami-valley-storycorps-kim-clay-vanessa-stanton-clay",
+    "https://www.tpr.org/2018-12-02/a-general-motors-employee-reacts-to-news-of-layoffs"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": [
+    "the worker",
+    "the employer's side",
+    "the first to hear",
+    "the one who asks for help"
+  ],
+  "gates": [
+    "The work record shows {the worker}'s job ended by the employer.",
+    "{the worker} and the player share a household or a tie on the records.",
+    "The employer's record shows what was offered: pay in lieu, a reference, health cover, or nothing.",
+    "{the first to hear} is on the tie record."
+  ],
+  "weights": [
+    "How many years {the worker} held the job.",
+    "Whether the household depends on this income.",
+    "Whether many workers lost jobs at once.",
+    "Whether health cover ended with the job.",
+    "Whether another household member can work."
+  ],
+  "pattern": "B5-03",
+  "choices": [
+    "tell {the first to hear} the same hour and say what is offered",
+    "take the offered terms",
+    "push back before signing",
+    "start calling people for work that day"
+  ],
+  "branches": [
+    {
+      "when": "the whole workplace or plant closes",
+      "then": "The loss is shared: neighbors and coworkers appear on the tie record, and the place's job record drops."
+    },
+    {
+      "when": "the employer offers pay in return for a signature",
+      "then": "The worker's choice lands on the money record and on what they may say later."
+    },
+    {
+      "when": "health cover ends",
+      "then": "The household's cost record rises and a later illness reads it."
+    },
+    {
+      "when": "{the one who asks for help} calls",
+      "then": "The player's word or lead is written, and the friend remembers who answered."
+    },
+    {
+      "when": "the player holds an office",
+      "then": "A worker brings the same loss to office hours, which unlocks that scene with the cause on record."
+    }
+  ],
+  "usedBy": ["layoff", "reach-out", "news-arrives"]
+}

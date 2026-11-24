@@ -1,0 +1,30 @@
+{
+  "id": "laid-off-as-the-hard-times-begin",
+  "kind": "move",
+  "summary": "A layoff is told against the national bad times.",
+  "realLife": "A man on a North Carolina prison farm was laid off from his prison job as the Depression began, per a student summary of his 1939 life history.",
+  "sources": [
+    "Wikiversity, Federal Writers' Project life histories, Henry Garner (a student summary of the 1939 life history): https://en.wikiversity.org/wiki/Federal_Writers%27_Project_%E2%80%93_Life_Histories/2020/Spring/Section24/Henry_Garner"
+  ],
+  "fits": ["journal"],
+  "slots": ["employer"],
+  "gates": [],
+  "inGame": "`job-ended:let-go` with the national cycle's downturn record (the money-economy macro model).",
+  "turns": [
+    {
+      "turn": "Laid off in good times.",
+      "pulledBy": "no downturn on the cycle record",
+      "writesBack": "the line says the employer cut staff and gives no cause"
+    },
+    {
+      "turn": "Kept the job through the bad times.",
+      "pulledBy": "the job record shows no layoff",
+      "writesBack": "the line says the writer was lucky to have work"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": [],
+  "issues": ["law:unemployment-insurance", "law:unemployment-weekly-maximum"]
+}

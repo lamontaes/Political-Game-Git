@@ -1,0 +1,33 @@
+{
+  "id": "advisory-names-who-should-leave",
+  "kind": "move",
+  "summary": "{person} narrows a precautionary advisory to the residents at greatest risk.",
+  "realLife": "Governor Richard Thornburgh advised pregnant women and families with preschool children near Three Mile Island to leave temporarily.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The executive has authority to issue an advisory for the affected area."
+  ],
+  "weights": [
+    "A risk assessment that distinguishes populations favors a narrower advisory."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the groups and places covered by a public advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The advisory covers everyone inside the designated area.",
+      "pulledBy": "The forecast puts every household there at risk.",
+      "writesBack": "The notice covers all residents within the boundary."
+    },
+    {
+      "turn": "partial",
+      "what": "Families in one part of town receive different instructions.",
+      "pulledBy": "The newest assessment places only that neighborhood inside the affected area.",
+      "writesBack": "The revised notice lists the affected streets."
+    }
+  ]
+}

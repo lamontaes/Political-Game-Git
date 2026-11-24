@@ -1,0 +1,32 @@
+{
+  "id": "begin-anew-joint-proposals",
+  "kind": "moment",
+  "summary": "After naming adversaries, a President invites both sides to begin again, and the rest is joint.",
+  "realLife": "Kennedy turned from his addresses to adversaries to an invitation to begin anew on both sides.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-short"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.1
+  },
+  "usedBy": [],
+  "inGame": "needs: a record of the other party or body the speech turns to. party-holds-body and other-side exist for the stand only.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speech names the other side as the problem.",
+      "pulledBy": "a speaker high in competitive; the other party holds the body",
+      "writesBack": "The paper reports a divide; the talk at home takes a side."
+    },
+    {
+      "turn": "neutral",
+      "what": "A nod to the other side with no proposal.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "No joint-proposal record is written."
+    }
+  ]
+}

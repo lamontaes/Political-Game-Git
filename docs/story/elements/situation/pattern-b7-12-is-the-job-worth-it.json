@@ -1,0 +1,54 @@
+{
+  "id": "pattern-b7-12-is-the-job-worth-it",
+  "kind": "situation",
+  "summary": "Is the job worth it: The day after a crowd turns out against the town, {household member} asks whether the job is worth it.",
+  "realLife": "One life: A Flint council president resigned because her health had suffered from the council's climate; she said meetings brought severe anxiety, she held back the news so as not to disrupt the budget vote, and her top priority became caring for herself with her family behind her. Another: A congressman and a former mayor said office strains families, that most members feel they spend too little time at home, and that one mayor moved her children to another school after a controversial vote. Both said the strain can strengthen or damage a family and the rewards were real.",
+  "sources": [
+    "https://www.eastvillagemagazine.org/?p=38277",
+    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["household member", "the crowd", "the body"],
+  "gates": [
+    "The civic record shows a strike or protest against the town's term in recent days.",
+    "{household member} lives with the player on the household record.",
+    "The player holds an office on {the body}."
+  ],
+  "weights": [
+    "How large and how angry the crowd was.",
+    "How often the player is away at night.",
+    "Whether the pay of the office is low.",
+    "Whether a child is in the house.",
+    "How the household has felt about the job before."
+  ],
+  "pattern": "B7-12",
+  "choices": [
+    "say why you hold the job and what it has done",
+    "say it looks worse than it is",
+    "promise time at home and name a night",
+    "say you cannot talk about it tonight"
+  ],
+  "branches": [
+    {
+      "when": "the player says why they hold the job",
+      "then": "The household hears the reason; the tie warms if the reason is plain, and cools if it sounds like a speech."
+    },
+    {
+      "when": "the player says it looks worse than it is",
+      "then": "The household reads the answer against what they saw; the gap is remembered."
+    },
+    {
+      "when": "the player promises time at home",
+      "then": "The promise is written on the household record and kept or broken by later nights."
+    },
+    {
+      "when": "the player puts the talk off",
+      "then": "The question stays open and is asked again after the next night meeting."
+    },
+    {
+      "when": "the household backs the job",
+      "then": "The support is written as a favor owed and may be said at the next race."
+    }
+  ],
+  "usedBy": ["office-doubt"]
+}

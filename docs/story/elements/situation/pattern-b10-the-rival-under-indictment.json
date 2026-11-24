@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b10-the-rival-under-indictment",
+  "kind": "situation",
+  "summary": "The rival under indictment: {incumbent} is under indictment, and you are the other party's long shot in a seat your party never wins.",
+  "realLife": "In 2008 the nine-term New Orleans congressman William Jefferson was under federal indictment. Hurricane Gustav pushed the election back, and Cao, a Republican whose own home flooded in the storm, won a heavily Democratic seat.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Joseph_Cao",
+    "https://rollcall.com/2008/11/03/louisiana-campaigns-will-continue-next-month/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["incumbent"],
+  "gates": [
+    "Candidate of the party that does not hold the seat.",
+    "Charges against {incumbent} on the justice record."
+  ],
+  "weights": ["How lopsided the district is.", "How far along the case is."],
+  "pattern": "B10",
+  "choices": [
+    "run on the charges",
+    "run on what the district needs",
+    "stay quiet and let the trial speak",
+    "reach for {incumbent}'s own voters"
+  ],
+  "branches": [
+    {
+      "when": "a storm moves the election",
+      "then": "A disaster on record pushes the dates back under the state's election law, and the trial now falls near the vote."
+    },
+    {
+      "when": "your own home was damaged",
+      "then": "You campaign from a damaged house, and voters see it."
+    }
+  ],
+  "usedBy": []
+}

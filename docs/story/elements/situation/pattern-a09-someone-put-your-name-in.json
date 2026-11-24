@@ -1,0 +1,40 @@
+{
+  "id": "pattern-a09-someone-put-your-name-in",
+  "kind": "situation",
+  "summary": "Someone put your name in: {recruiter} from {cause group} calls: {close tie} sent in your name, and they want you to challenge {incumbent} of your own party.",
+  "realLife": "After the 2016 election her brother nominated her to Brand New Congress, a group recruiting outsiders. She campaigned while working at a restaurant and beat a senior incumbent in the 2018 primary though heavily outspent.",
+  "sources": ["https://en.wikipedia.org/wiki/Alexandria_Ocasio-Cortez"],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["recruiter", "cause group", "close tie", "incumbent"],
+  "gates": [
+    "Not in office.",
+    "{cause group} is active in your area.",
+    "A recorded tie with {close tie}.",
+    "Your stances differ from {incumbent}'s on a question the group cares about."
+  ],
+  "weights": [
+    "How far your stances are from {incumbent}'s.",
+    "A recent cause or protest you took part in."
+  ],
+  "pattern": "A09",
+  "choices": [
+    "take a meeting with the group",
+    "decline",
+    "ask {close tie} why they did it before you answer"
+  ],
+  "branches": [
+    {
+      "when": "you keep your job",
+      "then": "You campaign around your shifts, and customers start to recognize you."
+    },
+    {
+      "when": "{close tie} meant it half as a joke",
+      "then": "They are stunned you are taking it seriously. Their help depends on how you tell them."
+    },
+    {
+      "when": "the group wants a pledge",
+      "then": "Signing its platform writes each stance to your record, and {incumbent} quotes it."
+    }
+  ],
+  "usedBy": []
+}

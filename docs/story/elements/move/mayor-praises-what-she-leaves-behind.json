@@ -1,0 +1,34 @@
+{
+  "id": "mayor-praises-what-she-leaves-behind",
+  "kind": "move",
+  "summary": "The mayor's praise is about what she leaves behind: the team she built.",
+  "realLife": "The mayor said her key contribution was the team and the new leaders.",
+  "sources": [
+    "Patch (Clark, New Jersey), 'Clark Bids Farewell To Municipal Clerk Edith Merkel After 24 Years Of Service', May 19, 2026: https://patch.com/new-jersey/clark/clark-bids-farewell-municipal-clerk-edith-merkel-after-24-years-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "retirement": 0.9
+  },
+  "inGame": "the mayor as an official and the staff records of a department",
+  "turns": [
+    {
+      "name": "praise for the person",
+      "pulledBy": "a short tribute",
+      "writes": "the mayor praises her service",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no praise",
+      "pulledBy": "a tense exit",
+      "writes": "the story gives only the dates",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

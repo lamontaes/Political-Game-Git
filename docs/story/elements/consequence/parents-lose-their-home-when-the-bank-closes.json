@@ -1,0 +1,33 @@
+{
+  "id": "parents-lose-their-home-when-the-bank-closes",
+  "kind": "consequence",
+  "summary": "A family loses its home when the local bank closes.",
+  "realLife": "A narrator said that when the local bank closed in the 1930s his parents lost their little home and the family was put out.",
+  "sources": [
+    "St. Louis Fed, The Great Depression interview series, McIntyre on bank closings: https://www.stlouisfed.org/the-great-depression/curriculum/interviews-mcintyre-5"
+  ],
+  "fits": ["journal"],
+  "slots": ["relation"],
+  "gates": [],
+  "inGame": "`event:housing.eviction` (the nearest record to a foreclosure). `needs:` a bank closing that causes it.",
+  "turns": [
+    {
+      "turn": "The home is kept.",
+      "pulledBy": "the household's savings were not in the bank",
+      "writesBack": "the line says the family was spared"
+    },
+    {
+      "turn": "Neighbors take them in.",
+      "pulledBy": "a relative or friend with room on the record",
+      "writesBack": "the line names who took them in"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": [],
+  "issues": [
+    "budget:housing",
+    "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+  ]
+}
