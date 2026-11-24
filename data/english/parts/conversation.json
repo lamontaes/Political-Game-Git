@@ -36596,6 +36596,42 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "Actually, I'm less sure about {about} than I sounded.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-same", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.you-might-be-right-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "You might be right about {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-other", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }
