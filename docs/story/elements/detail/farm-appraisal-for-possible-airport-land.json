@@ -1,0 +1,32 @@
+{
+  "id": "farm-appraisal-for-possible-airport-land",
+  "kind": "detail",
+  "summary": "{member} asks how land that might later serve the airport was valued for reimbursement.",
+  "realLife": "Sulphur’s council discussed a farmland appraisal, and the manager said he had sought clarification about the land’s possible future airport use.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{member}"],
+  "gates": [
+    "Land appraisal, stated valuation basis and a public acquisition reimbursement request."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: land appraisal, stated valuation basis and a public acquisition reimbursement request.",
+  "turns": [
+    {
+      "turn": "explained",
+      "pulledBy": "The appraiser explains the valuation basis.",
+      "what": "Attach the explanation to the claim.",
+      "writesBack": "Record the applicable use at valuation.."
+    },
+    {
+      "turn": "outstanding",
+      "pulledBy": "The question remains unanswered.",
+      "what": "Disclose the unresolved issue to council.",
+      "writesBack": "Keep the follow-up open.."
+    }
+  ]
+}

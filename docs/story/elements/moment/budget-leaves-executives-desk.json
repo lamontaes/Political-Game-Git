@@ -27,5 +27,6 @@
       "pulledBy": "A department spots a missing appropriation table.",
       "writesBack": "The council docket links the supplement to the original proposal."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

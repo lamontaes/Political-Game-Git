@@ -1,0 +1,32 @@
+{
+  "id": "one-earlier-trip-for-the-six-o-clock-shift",
+  "kind": "consequence",
+  "summary": "{person} shows the planner how a single early departure changes who can clock in on time.",
+  "realLife": "Milwaukee added an early trip to each of Routes 33 and 34 in its spring changes to help employees reach six o’clock shifts.",
+  "sources": [
+    "https://www.ridemcts.com/who-we-are/news/mcts-spring-service-changes-start-march-8"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A new early departure serves a documented work shift."],
+  "weights": [
+    "A shift beginning before the second trip makes the first departure decisive."
+  ],
+  "usedBy": [],
+  "inGame": "needs: work shift, new first trip and scheduled arrival at the workplace stop.",
+  "turns": [
+    {
+      "turn": "reachable",
+      "what": "The office verifies the arrival with the timetable.",
+      "pulledBy": "The worker can walk from the stop before the shift begins.",
+      "writesBack": "Flag the shift as reachable."
+    },
+    {
+      "turn": "missed",
+      "what": "The worker supplies the missed transfer time.",
+      "pulledBy": "The bus arrives in time but the connecting service does not.",
+      "writesBack": "Open a connection review for the feeder trip."
+    }
+  ],
+  "issues": ["none"]
+}

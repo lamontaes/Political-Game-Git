@@ -1,0 +1,32 @@
+{
+  "id": "commission-leaves-hours-under-floor",
+  "kind": "situation",
+  "summary": "{person} asks the office to compare commission pay with the hours it took to earn it.",
+  "realLife": "Denver's review of a beauty bar found that commissions had left some working hours below the local minimum.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Purluxe%20Beauty%20Bar"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A worker paid on commission reports a shortfall against an applicable hourly floor."
+  ],
+  "weights": ["Long stretches without sales make a shortfall more likely."],
+  "usedBy": [],
+  "inGame": "needs: commission totals, hours and applicable wage floor.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A guaranteed supplement covered the gap.",
+      "pulledBy": "Payroll includes a minimum-pay adjustment.",
+      "writesBack": "The case records the corrected hourly equivalent."
+    },
+    {
+      "turn": "partial",
+      "what": "Some periods cleared the minimum.",
+      "pulledBy": "Commissions varied across the review period.",
+      "writesBack": "The assessment identifies the underpaid periods."
+    }
+  ],
+  "issues": ["law:minimum-wage", "law:local-power:local-minimum-wage-authority"]
+}

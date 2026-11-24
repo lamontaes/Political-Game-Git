@@ -39,5 +39,6 @@
       "pulledBy": "A pending bill the member wants to finish.",
       "writesBack": "A vacancy record at a later date; the household stays together."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

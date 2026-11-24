@@ -29,5 +29,6 @@
       "pulledBy": "A later observation follows a change in river level.",
       "writesBack": "The survey record gives the date of the first sighting."
     }
-  ]
+  ],
+  "issues": ["budget:naturalResources"]
 }
