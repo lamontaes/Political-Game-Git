@@ -1,0 +1,30 @@
+{
+  "id": "running-tally-by-year-then-the-record-month",
+  "kind": "move",
+  "summary": "A tally by year is laid out, then the newest year is tied to a record month.",
+  "realLife": "Permit counts for several earlier years were listed, then the latest total, then a record month.",
+  "sources": [
+    "Community Impact (Austin edition), 'Leander swamped by record number of permit requests', Nov. 17, 2014 (updated June 2015; the page text came without paragraph breaks, so the paragraph order was rebuilt from sentence logic): https://communityimpact.com/cedar-park-leander/city-county/leander-swamped-by-record-number-of-permit-requests-2/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 1.0
+  },
+  "inGame": "`housing.completed` per year and per month (units); the year-by-year history rows",
+  "turns": [
+    {
+      "name": "no record month",
+      "pulledBy": "a steady month",
+      "writes": "the tally ends on the year's total"
+    },
+    {
+      "name": "a record low",
+      "pulledBy": "a slump",
+      "writes": "the tally ends on the lowest month on record"
+    }
+  ],
+  "usedBy": []
+}
