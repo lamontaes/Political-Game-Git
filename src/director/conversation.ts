@@ -128,6 +128,7 @@ import { questionSubject } from "../english/policy-names";
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionNumber,
   questionSaid,
   questionSide,
   questionTo,
@@ -3943,6 +3944,16 @@ function pointSubject(
   const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
+    // Whether the question's name is one thing or several, for a verb that
+    // agrees with {about}.
+    ...(pick.point.question
+      ? {
+          [`about-${questionNumber(pick.point.question)}`]: {
+            text: "yes",
+            sourceRecordIds: [`question:${pick.point.question}`],
+          },
+        }
+      : {}),
     said: {
       text:
         (pick.point.kind === "policy"
