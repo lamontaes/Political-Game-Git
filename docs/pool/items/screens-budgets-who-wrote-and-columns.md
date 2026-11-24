@@ -25,7 +25,7 @@ Seen: Politics, Budgets for a town at 1440 by 900. Seen: the same page with the 
 
 **Fix.** Stack the chosen department's section over the totals in one column (two columns in all); under "Who wrote it" show the body's name through the existing "Adopted by" label and the date, and show the section only when the record names a body; add budgets-who-wrote.browser.mjs.
 
-**Time box.** 90 minutes
+**Time box.** 2 hours
 
 **Rules.** Screen to mock: MENU-LOOK says no dead space and no filler, so a column of two rows is merged and a date alone is not an answer to who. No hand-written player text: only the existing "Who wrote it", "Adopted by" and "Adopted" labels are used.
 
