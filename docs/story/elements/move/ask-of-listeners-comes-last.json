@@ -14,5 +14,20 @@
   "weights": {
     "inaugural": 0.4
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Section order in the inaugural row: `call` comes after `theme` and `second`; shapes call-alone and address-run.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The ask comes first, then the reasons.",
+      "pulledBy": "a blunt speaker; a disaster in the year",
+      "writesBack": "The ask opens the news story."
+    },
+    {
+      "turn": "late",
+      "what": "The ask comes after the blessing, as a last word.",
+      "pulledBy": "a dramatic speaker",
+      "writesBack": "The final line is the ask."
+    }
+  ]
 }

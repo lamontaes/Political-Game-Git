@@ -7373,7 +7373,7 @@
           "subject": "state-of-the-state",
           "role": "call",
           "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
+          "requiresFacts": ["about", "told-theme", "about-one"],
           "excludesFacts": []
         }
       ],
@@ -9071,6 +9071,28 @@
       ],
       "elements": ["victory-ends-on-a-call-to-work"],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-check-how-work-in-the-next-state-over-and-compare-plural",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Check how {about} work in the next state over, and compare.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "about-many"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"

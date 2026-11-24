@@ -2507,33 +2507,6 @@
       ]
     },
     {
-      "key": "scene-talk.follow-accept.i-appreciate-you-saying-that-about-issue-people-should-hear-it-plainly",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I appreciate you saying that about {issue}. People should hear it plainly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "confess"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      },
-      "elements": ["candidate-calls-the-mailer-deceit"]
-    },
-    {
       "key": "scene-talk.follow-accept.thank-you-for-saying-so-that-s-more-than-most-do-on-issue",
       "move": "follow-accept",
       "kind": "spoken",
@@ -3406,6 +3379,1424 @@
         "move": "agree",
         "key": "loss"
       }
+    },
+    {
+      "key": "scene-talk.state-request.the-count-for-office-is-final-it-s-time-to-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The count in the race for {office} is final. It's time to call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.will-you-call-opponent-and-concede-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you call {opponent} and concede the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.people-are-asking-whether-you-ll-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People are asking whether you'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.the-numbers-for-office-aren-t-going-to-change-call-opponent",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The numbers in the race for {office} aren't going to change. Call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-request.opponent-is-waiting-to-hear-from-you-about-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{opponent} is waiting to hear from you about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-call-opponent",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. I'll call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-make-the-call-opponent-earned-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll make the call. {opponent} ran a good race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["office", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-agree.hand-me-the-phone-opponent-deserves-to-hear-it-from-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Hand me the phone. {opponent} deserves to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "request",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-many-votes-are-still-out-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How many votes are still out in the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-any-chance-left-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there any chance left in the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-ask.did-opponent-win-it-clean",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did {opponent} win it clean?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-calling-opponent-yet",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not calling {opponent} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-reframes-the-loss"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-ready-to-hand-office-over",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not ready to give up the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-reframes-the-loss"]
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-tell-my-family-before-i-call-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me tell my family before I call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-stall.not-yet-i-need-to-think-about-what-to-say-to-opponent",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Not yet. I need to think about what to say to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-before-i-call-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air before I call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-find-you-after-i-ve-talked-to-opponent",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll find you after I've talked to {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "elements": ["concession-this-is-not-the-end"]
+    },
+    {
+      "key": "scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You ran a good race for {office}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.follow-plea.please-for-everyone-who-worked-on-office-make-the-call",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, for everyone who worked on the race for {office}, make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-know-it-hurts-please-call-opponent",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I know it hurts. Please call {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": ["refuse", "stall"],
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-calling-opponent-it-was-a-gracious-thing-to-do",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for calling {opponent}. It was a gracious thing to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "elements": ["concession-congratulates-by-a-call-mentioned-in-passing"]
+    },
+    {
+      "key": "scene-talk.close-warn.the-longer-you-wait-on-opponent-the-harder-it-gets",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The longer you wait on {opponent}, the harder it gets.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-once-the-count-for-office-is-certified",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again once the race for {office} is certified.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-did-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}! You did it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-congratulations",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.open-greet.over-here-first-everyone-s-been-waiting-for-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Over here, {first}. Everyone's been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      },
+      "elements": ["victory-speaks-first-to-the-room-not-to-policy"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-say-to-the-people-who-voted-for-opponent",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you say to the people who voted for {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.will-you-call-opponent",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Will you call {opponent}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-tell.opponent-ran-a-hard-race-and-i-respect-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{opponent} ran a hard race, and I respect that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-couldn-t-have-run-for-office-without-every-one-of-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I couldn't have run for {office} without every one of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-ask.has-opponent-called-yet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Has {opponent} called yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-boast.we-outworked-opponent-and-the-count-shows-it",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "We outworked {opponent}, and the count shows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-find-my-family-first-thank-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to find my family, {first}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-shouldn-t-have-said-that-about-opponent-not-now",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I shouldn't have said that about {opponent}. Not now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-answer.plenty-of-us-came-out-for-you-in-the-race-for-office-and-we-d-do-it-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Plenty of us came out for you in the race for {office}, and we'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-hasn-t-called-yet-we-re-watching-the-phone",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} hasn't called yet. We're watching the phone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-warn.careful-opponent-s-people-are-in-this-room-too",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Careful. {opponent}'s people are in this room too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "boast",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      },
+      "elements": ["victory-first-words-to-those-who-did-not-vote-for-you"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-for-running-for-office",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}, for running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-phone-starts-buzzing-the-moment-the-race-for-office-is-called",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your phone starts buzzing the moment the race for {office} is called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.how-does-it-feel-to-win-the-race-for-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How does it feel to win the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.did-you-expect-to-win-the-race-for-office",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did you expect to win the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-the-first-thing-you-ll-do-now-that-the-race-for-office-is-over",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's the first thing you'll do now that the race for {office} is over?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.state-ask.are-you-going-to-say-something-to-opponent-s-supporters",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Are you going to say something to {opponent}'s supporters?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-want-to-thank-everyone-in-place-first-then-i-ll-think-about-what-s-next",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I want to thank everyone in {place} first. Then I'll think about what's next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-call-opponent-in-the-morning-once-things-are-quiet",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll call {opponent} in the morning, once things are quiet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-tired-and-happy-and-i-m-a-little-scared-of-letting-place-down",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm tired and happy, and I'm a little scared of letting {place} down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-people-in-place-saying-out-there",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are people in {place} saying out there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-boast.nobody-gave-us-a-chance-against-opponent-look-at-us-now",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Nobody gave us a chance against {opponent}. Look at us now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-a-minute-with-my-family-then-i-ll-talk-to-everyone-in-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need a minute with my family. Then I'll talk to everyone in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-place-is-glad-it-s-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. {place} is glad it's you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": ["answer", "tell"],
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "elements": ["victory-night-situation"]
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-an-answer-what-will-you-do-first-for-place",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not an answer. What will you do first for {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-press.come-on-give-us-one-thing-you-ll-do-for-place",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on. Give us one thing you'll do for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.follow-answer.people-in-place-came-out-for-you-and-they-d-do-it-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "People in {place} came out for you, and they'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "elements": ["victory-promises-are-a-short-list-of-first-acts"]
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-running-for-office-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for running for {office}, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "elements": ["victory-thanks-run-volunteers-then-staff-then-family"]
     },
     {
       "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
@@ -11968,6 +13359,85 @@
         "mayor-endorses-all-but-one",
         "official-backs-incumbents-not-open-seats"
       ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-staying-neutral-in-the-race-for-office-i-m-saying-so-to-everyone-who-asks",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm staying neutral in the race for {office}. I'm saying so to everyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-my-endorsement-for-office-you-can-say-so",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have my endorsement for {office}. You can say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-telling-me-plainly-about-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me plainly about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
     },
     {
       "key": "scene-talk.state-tell.the-body-sent-bill-to-a-study-committee-i-asked-for-people-who-voted-against-it-will-you-sit-on-it",
@@ -28693,33 +30163,6 @@
       "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
-      "key": "scene-talk.reply-deflect.i-don-t-sign-on-the-spot-leave-me-your-name-and-i-ll-think-about-office",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I don't sign on the spot. Leave me your name, and I'll think about {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "requiresFacts": ["office"],
-          "after": "request"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deflect",
-        "key": "door"
-      },
-      "elements": ["petition-the-hustle-before-the-deadline"]
-    },
-    {
       "key": "scene-talk.state-request.i-m-back-about-the-petition-for-office-would-you-sign-it-now",
       "move": "state-request",
       "kind": "spoken",
@@ -30056,36 +31499,6 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.i-came-to-your-door-and-i-ll-answer-for-office-rival-can-answer-for-themself",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I came to your door and I'll answer for {office}. {rival} can answer for themself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["office", "rival"],
-          "after": "scene-talk.reply-ask.why-should-i-pick-you-over-rival-for-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
       "key": "scene-talk.follow-answer.ask-us-both-about-about-and-see-whose-answer-sounds-like-yours",
       "move": "follow-answer",
       "kind": "spoken",
@@ -30146,154 +31559,6 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.i-m-a-neighbor-with-a-stake-in-office-and-i-decided-to-ask-instead-of-wait",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'm a neighbor with a stake in {office}, and I decided to ask instead of wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "scene-talk.reply-ask.what-did-you-do-before-you-decided-to-run-for-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-me-self-and-the-people-i-ve-talked-to-on-these-streets-about-office",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's me, {self}, and the people I've talked to on these streets about {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["self", "office"],
-          "after": "scene-talk.reply-ask.who-s-behind-your-run-for-office-tell-me-that-and-i-ll-listen"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.mostly-my-own-time-so-far-i-m-self-and-i-m-still-introducing-myself-for-office",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Mostly my own time so far. I'm {self}, and I'm still introducing myself for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["self", "office"],
-          "after": "scene-talk.reply-ask.who-s-behind-your-run-for-office-tell-me-that-and-i-ll-listen"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-sees-who-it-is-and-opens-the-door-without-being-asked-twice",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} sees who it is and opens the door without being asked twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "knocked-before"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.it-s-the-same-street-the-same-door-name-keeps-one-hand-on-the-knob-this-time",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "It's the same street, the same door. {name} keeps one hand on the knob this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "knocked-before"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
       "key": "scene-talk.state-request.back-again-have-you-had-time-to-think-about-the-race-for-office",
       "move": "state-request",
       "kind": "spoken",
@@ -30307,64 +31572,6 @@
           "move": "request",
           "role": "asker",
           "requiresFacts": ["office", "knocked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-said-i-d-be-around-where-do-you-stand-now-on-office",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I said I'd be around. Where do you stand now on {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office", "knocked-before"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.you-told-me-to-ask-again-closer-to-the-vote-vote-day-is-near-and-i-m-asking",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You told me to ask again closer to the vote. {vote-day} is near, and I'm asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["vote-day", "knocked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -30410,35 +31617,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.last-time-you-cared-about-about-did-anything-change-your-mind-on-office",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Last time you cared about {about}. Did anything change your mind on {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["about", "office", "knocked-before", "side-for"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do"
-      ]
-    },
-    {
       "key": "scene-talk.reply-agree.i-thought-it-over-after-you-left-i-m-voting-for-you-for-office",
       "move": "reply-agree",
       "kind": "spoken",
@@ -30455,35 +31633,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.you-came-back-so-you-re-serious-put-me-down-for-office",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You came back, so you're serious. Put me down for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["office", "knocked-before"]
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -30518,36 +31667,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.same-answer-as-before-on-office-nothing-has-changed-for-me",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Same answer as before on {office}. Nothing has changed for me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["knocked-before", "office"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
         "key": "door"
       },
       "elements": [
@@ -30666,46 +31785,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "leave",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-for-thinking-it-over-i-ll-keep-earning-it-before-vote-day",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you for thinking it over. I'll keep earning it before {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["vote-day", "knocked-before"],
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["vote-day", "knocked-before"],
-          "after": "relent"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
         "key": "door"
       },
       "elements": [
@@ -33195,6 +34274,269 @@
         "a-gift-comes-with-a-call-about-a-bill",
         "early-money-comes-from-people-you-know",
         "first-time-candidate-leads-fundraising"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-gave-to-the-campaign-and-calls-about-bill-the-call-comes-near-the-end-of-th",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} gave to the campaign and calls about {bill}. The call comes near the end of the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-left-a-message-about-bill-you-call-back-and-name-answers-on-the-first-ring",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} left a message about {bill}. You call back and {name} answers on the first ring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.my-check-came-in-last-month-where-do-you-stand-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My check came in last month. Where do you stand on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift", "donor-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-calling-about-bill-i-d-like-you-to-vote-yes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm calling about {bill}. I'd like you to vote yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["donor-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-gave-the-most-of-anyone-to-your-campaign-i-m-asking-about-bill-for-that-reason",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I gave the most of anyone to your campaign. I'm asking about {bill} for that reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift-biggest", "donor-bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.my-gift-was-small-i-m-still-asking-you-to-read-bill-before-it-moves",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My gift was small. I'm still asking you to read {bill} before it moves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift-smallest", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.we-talked-about-bill-before-has-your-answer-changed",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We talked about {bill} before. Has your answer changed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["donor-bill", "asked-before"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.people-at-employer-depend-on-bill-can-you-meet-with-us-this-week",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People at {employer} depend on {bill}. Can you meet with us this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["employer", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-care-about-about-what-are-you-doing-about-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I care about {about}. What are you doing about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["about", "gift"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
       ]
     },
     {
@@ -82924,122 +84266,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.name-waits-at-the-edge-of-the-room-while-the-others-get-their-lists-nobody-has-h",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} waits at the edge of the room while the others get their lists. Nobody has handed them one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-signed-up-before-and-never-got-a-job-give-me-a-street-for-office-and-i-ll-take",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I signed up before and never got a job. Give me a street for {office} and I'll take it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office", "asked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-showed-up-and-stood-around-last-time-this-time-tell-me-where-to-go-for-office",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I showed up and stood around last time. This time tell me where to go for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office", "helped-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-can-do-evenings-i-d-rather-have-a-street-and-a-list-than-a-vague-thank-you-for",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I can do evenings. I'd rather have a street and a list than a vague thank-you for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
       "key": "scene-talk.state-request.whatever-s-open-for-office-i-ll-take-it-a-street-a-phone-list-a-table-at-the-mar",
       "move": "state-request",
       "kind": "spoken",
@@ -83061,249 +84287,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-d-like-to-be-one-of-the-first-on-office-before-it-s-a-crowd-what-do-you-need",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'd like to be one of the first on {office}, before it's a crowd. What do you need?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "organizer-names-the-original-volunteers",
-        "volunteer-comes-in-out-of-character"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-ll-be-on-your-side-from-the-start-of-office-so-give-me-a-job-that-counts",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'll be on your side from the start of {office}, so give me a job that counts.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office", "tie-friend"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "organizer-names-the-original-volunteers",
-        "volunteer-comes-in-out-of-character"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.you-take-the-east-side-first-i-ll-get-you-a-list-and-a-pen-for-office-tomorrow",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You take the east side first. I'll get you a list and a pen for {office} tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.phones-first-then-doors-on-the-weekend-that-s-your-start-on-office",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Phones first, then doors on the weekend. That's your start on {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.be-at-my-place-when-it-s-quiet-and-i-ll-hand-you-everything-for-office",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Be at my place when it's quiet and I'll hand you everything for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "organizer-names-the-original-volunteers",
-        "volunteer-comes-in-out-of-character"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-stall.i-haven-t-sorted-who-does-what-for-office-yet-give-me-until-the-end-of-the-week",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I haven't sorted who does what for {office} yet. Give me until the end of the week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-don-t-have-a-job-for-you-on-office-right-now-and-i-d-rather-say-so-than-leave",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I don't have a job for you on {office} right now, and I'd rather say so than leave you waiting.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-thank.then-i-ll-be-ready-the-first-street-for-office-is-mine",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then I'll be ready. The first street for {office} is mine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "relent"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       },
       "elements": [
@@ -83352,84 +84335,108 @@
       ]
     },
     {
-      "key": "scene-talk.follow-press.a-small-job-today-beats-a-big-one-next-month-for-office-can-you-give-me-one",
-      "move": "follow-press",
+      "key": "scene-talk.state-request.i-have-saturdays-free-can-i-take-a-list-of-voters-for-office",
+      "move": "state-request",
       "kind": "spoken",
-      "text": "A small job today beats a big one next month for {office}. Can you give me one?",
+      "text": "I have Saturdays free. Can I take a list of voters for {office}?",
       "uses": [
         {
           "subject": "scene",
           "purpose": "offer-help",
           "key": "favor-asked",
-          "step": "follow",
-          "move": "press",
+          "step": "state",
+          "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "decline"
+          "requiresFacts": ["office"]
         }
       ],
-      "bearing": "firm",
+      "bearing": "hopeful",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
       "tag": {
-        "move": "press",
+        "move": "request",
         "key": "favor-asked"
       },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.follow-accept.all-right-i-ll-wait-call-me-when-office-has-something",
-      "move": "follow-accept",
+      "key": "scene-talk.state-request.i-can-make-calls-from-home-for-office-what-day-should-i-start",
+      "move": "state-request",
       "kind": "spoken",
-      "text": "All right, I'll wait. Call me when {office} has something.",
+      "text": "I can make calls from home for {office}. What day should I start?",
       "uses": [
         {
           "subject": "scene",
           "purpose": "offer-help",
           "key": "favor-asked",
-          "step": "follow",
-          "move": "accept",
+          "step": "state",
+          "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "decline"
+          "requiresFacts": ["office"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "hopeful",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
       "tag": {
-        "move": "accept",
+        "move": "request",
         "key": "favor-asked"
       },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-office-this-week",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. I'll send you a list and a script for {office} this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-many-hours-a-week-can-you-give-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How many hours a week can you give {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-meets-you-at-the-door-of-the-party-meeting-and-shakes-your-hand",
@@ -84156,10 +85163,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.somebody-has-to-give-the-others-their-jobs-on-office-let-it-be-me-and-let-it-be",
+      "key": "scene-talk.state-request.i-ll-set-the-weekly-schedule-for-office-you-tell-me-what-you-can-t-do",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Somebody has to give the others their jobs on {office}. Let it be me and let it be early.",
+      "text": "I'll set the weekly schedule for {office}. You tell me what you can't do.",
       "uses": [
         {
           "subject": "scene",
@@ -84179,45 +85186,39 @@
         "move": "request",
         "key": "favor-asked"
       },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
-      "key": "scene-talk.reply-agree.then-you-give-out-the-jobs-on-office-and-you-tell-me-when-one-is-missing",
-      "move": "reply-agree",
+      "key": "scene-talk.reply-ask.what-would-you-do-in-the-first-week-of-office",
+      "move": "reply-ask",
       "kind": "spoken",
-      "text": "Then you give out the jobs on {office}, and you tell me when one is missing.",
+      "text": "What would you do in the first week of {office}?",
       "uses": [
         {
           "subject": "scene",
           "purpose": "offer-to-run",
           "key": "favor-asked",
           "step": "reply",
-          "move": "agree",
+          "move": "ask",
           "role": "asked",
           "requiresFacts": ["office"]
         }
       ],
-      "bearing": "warm",
+      "bearing": "curious",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
       "tag": {
-        "move": "agree",
+        "move": "ask",
         "key": "favor-asked"
       },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
-      "key": "scene-talk.follow-answer.i-ll-give-everyone-who-offers-a-street-and-a-day-so-nobody-waits-around-on-offic",
+      "key": "scene-talk.follow-answer.i-d-list-every-event-for-office-until-the-vote-then-i-d-ask-you-which-ones-matter",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'll give everyone who offers a street and a day, so nobody waits around on {office}.",
+      "text": "I'd list every event for {office} until the vote. Then I'd ask you which ones matter.",
       "uses": [
         {
           "subject": "scene",
@@ -84238,10 +85239,7 @@
         "move": "answer",
         "key": "favor-asked"
       },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-talk.state-request.no-one-in-the-party-has-filed-for-office-i-want-it-to-be-you",
@@ -84790,32 +85788,6 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.narrate-narrate.a-knock-at-the-door-it-s-name-and-the-filing-for-office-is-on-name-s-mind",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "A knock at the door. It's {name}, and the filing for {office} is on {name}'s mind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "run-asked"
-      },
-      "elements": ["filing-at-the-clerks-counter"]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-has-a-list-of-the-seats-still-open-and-has-come-to-talk-about-office",
       "move": "narrate-narrate",
       "kind": "written",
@@ -84842,70 +85814,10 @@
       "elements": ["filing-at-the-clerks-counter"]
     },
     {
-      "key": "scene-talk.follow-answer.help-with-the-filing-a-list-of-people-to-call-and-a-seat-at-the-table-for-office",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Help with the filing, a list of people to call, and a seat at the table for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "scene-talk.reply-ask.what-does-the-party-offer-someone-who-runs-for-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "run-asked"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "campaign-manager-is-someone-close"
-      ]
-    },
-    {
       "key": "scene-talk.follow-answer.names-to-start-the-petition-for-office-and-a-few-people-who-will-knock-on-doors",
       "move": "follow-answer",
       "kind": "spoken",
       "text": "Names to start the petition for {office}, and a few people who will knock on doors with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "scene-talk.reply-ask.what-does-the-party-offer-someone-who-runs-for-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "run-asked"
-      },
-      "elements": [
-        "filing-at-the-clerks-counter",
-        "campaign-manager-is-someone-close"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.honestly-a-place-on-the-ballot-for-office-and-people-who-want-you-to-win-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Honestly, a place on the ballot for {office} and people who want you to win it.",
       "uses": [
         {
           "subject": "scene",

@@ -1,0 +1,29 @@
+{
+  "id": "a-resident-asks-how-many-rentals-you-own",
+  "kind": "move",
+  "summary": "A resident asks an official a pointed question about their own holdings.",
+  "realLife": "At a legislative town hall one person asked a senator how many rentals he owns.",
+  "sources": [
+    "The Columbian, 49th district lawmakers hold a contentious town hall: https://columbian.com/news/2024/apr/08/49th-district-lawmakers-hold-contentious-town-hall"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["issue", "name"],
+  "gates": [],
+  "weights": {
+    "town-hall-question": 0.8
+  },
+  "inGame": "town-hall-question and the official's own property records; needs: assets as a record",
+  "turns": [
+    {
+      "turn": "The official owns none and says so",
+      "pull": "property records",
+      "writes": "writes a quick answer"
+    },
+    {
+      "turn": "The official dodges",
+      "pull": "a guarded trait",
+      "writes": "writes a follow-up and a story"
+    }
+  ],
+  "usedBy": ["town-hall-question"]
+}

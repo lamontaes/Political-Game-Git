@@ -33,6 +33,7 @@ import outlineThemeJson from "../../data/english/parts/outline-theme.json" with 
 import outlineDiaryJson from "../../data/english/parts/outline-diary.json" with { type: "json" };
 import outlineTalkJson from "../../data/english/parts/outline-talk.json" with { type: "json" };
 import outlineNewsJson from "../../data/english/parts/outline-news.json" with { type: "json" };
+import outlineJournalJson from "../../data/english/parts/outline-journal.json" with { type: "json" };
 import openingSpeechJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import sceneTalkJson from "../../data/english/parts/scene-talk.json" with { type: "json" };
@@ -120,6 +121,10 @@ const BANKS: Record<
     slots?: Record<string, string>;
   },
   "outline-news": outlineNewsJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
+  "outline-journal": outlineJournalJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },

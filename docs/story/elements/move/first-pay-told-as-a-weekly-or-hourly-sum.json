@@ -25,5 +25,9 @@
   "weights": {
     "life": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "issues": [
+    "law:minimum-wage",
+    "question:us-policy-positions:labor-workforce.raise-minimum-wage"
+  ]
 }
