@@ -654,6 +654,125 @@
       ]
     },
     {
+      "key": "outline-journal.born.older-sibling-already-there",
+      "move": "born",
+      "kind": "written",
+      "text": "{older-sibling} was already there when I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-observant"]
+    },
+    {
+      "key": "outline-journal.born.born-in-the-next-one-after",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {place}, the next one after {older-sibling}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"]
+    },
+    {
+      "key": "outline-journal.born.first-child-born-in",
+      "move": "born",
+      "kind": "written",
+      "text": "In {place}, I was the oldest child in my family.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "first-born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ]
+    },
+    {
+      "key": "outline-journal.born.every-brother-and-sister-younger",
+      "move": "born",
+      "kind": "written",
+      "text": "Every brother and sister I have is younger than me, and I was born in {place}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "first-born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-meticulous"
+      ]
+    },
+    {
+      "key": "outline-journal.born.no-brothers-or-sisters",
+      "move": "born",
+      "kind": "written",
+      "text": "{place} is where I was the only child.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["place", "own-moment", "only-child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-self-conscious"
+      ]
+    },
+    {
       "key": "outline-journal.moved.i-moved-to-in",
       "move": "moved",
       "kind": "written",
