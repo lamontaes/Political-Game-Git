@@ -640,6 +640,23 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["three-in-ten-households-are-one-person"]
+    },
+    {
+      "key": "loading-steps.elections.checking-the-ballot-boxes-in-place-one-more-time",
+      "move": "elections",
+      "kind": "written",
+      "text": "Checking the ballot boxes in {place} one more time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["ballot-box-seal-numbers-are-written-down"]
     }
   ]
 }
