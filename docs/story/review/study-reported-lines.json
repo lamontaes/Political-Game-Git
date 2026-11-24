@@ -1,0 +1,664 @@
+[
+  {
+    "key": "scene-talk.state-tell.the-committee-recommended-passing-bill-where-does-that-leave-you",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "The committee recommended passing {bill}. Where does that leave you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.it-was-my-bill-and-the-committee-recommended-against-it-where-do-you-stand-on-bill-now",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "It was my bill, and the committee recommended against it. Where do you stand on {bill} now?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.we-were-asked-whether-bill-ought-to-pass-we-recommended-that-it-should-would-you-go-along-with-that",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "We were asked whether {bill} ought to pass. We recommended that it should. Would you go along with that?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.you-ve-had-time-with-bill-same-as-i-have-our-committee-recommended-against-passage-do-you-see-it-that-way",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "You've had time with {bill}, same as I have. Our committee recommended against passage. Do you see it that way?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.the-report-on-bill-is-in-we-recommended-passage-what-do-you-make-of-it",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "The report on {bill} is in. We recommended passage. What do you make of it?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.when-the-study-ended-we-recommended-that-the-body-turn-down-bill-do-you-think-we-got-it-right",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "When the study ended, we recommended that the body turn down {bill}. Do you think we got it right?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-you-can-count-on-me-to-back-the-finding-on-bill",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Yes. You can count on me to back the finding on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-put-my-name-to-that-i-think-turning-down-bill-is-the-right-call",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "I'd put my name to that. I think turning down {bill} is the right call.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-say-it-on-the-floor-if-you-want-i-think-bill-ought-to-pass",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "I'll say it on the floor if you want. I think {bill} ought to pass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.you-have-my-support-on-this-one-i-d-leave-bill-where-it-is",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "You have my support on this one. I'd leave {bill} where it is.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.you-can-speak-for-the-committee-speaking-for-myself-i-can-t-back-bill",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "You can speak for the committee. Speaking for myself, I can't back {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-still-give-bill-a-chance-i-ll-have-to-part-company-with-the-committee-on-this-one",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I'd still give {bill} a chance. I'll have to part company with the committee on this one.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-sat-through-the-study-too-i-came-away-thinking-we-ought-to-turn-bill-down",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I sat through the study too. I came away thinking we ought to turn {bill} down.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-can-see-how-the-committee-got-there-i-d-take-bill-back-to-the-floor-and-try-to-pass-it",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I can see how the committee got there. I'd take {bill} back to the floor and try to pass it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.let-me-sit-with-that-a-while-you-know-what-the-committee-thinks-of-bill-i-m-still-working-out-what-i-think",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "Let me sit with that a while. You know what the committee thinks of {bill}. I'm still working out what I think.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-d-like-another-look-at-bill-before-i-say-whether-to-let-it-go",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "I'd like another look at {bill} before I say whether to let it go.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-heard-the-recommendation-can-we-leave-my-vote-on-bill-for-another-day",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "I heard the recommendation. Can we leave my vote on {bill} for another day?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-deflect.give-me-a-chance-to-read-the-finding-on-bill-then-ask-me-again",
+    "move": "reply-deflect",
+    "kind": "spoken",
+    "text": "Give me a chance to read the finding on {bill}. Then ask me again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "deflect",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "When you say the committee, whose views on {bill} went into that finding?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs"],
+        "onlyWhen": ["members"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Who else had a say in the recommendation on {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs"],
+        "onlyWhen": ["members"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-were-on-the-study-with-members-the-finding-takes-their-views-on-bill-into-account-along-with-yours",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You were on the study with {members}. The finding takes their views on {bill} into account along with yours.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "members"],
+        "after": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "members"],
+        "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.think-of-where-you-stood-on-bill-and-where-members-stood-that-all-went-into-the-report",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Think of where you stood on {bill}, and where {members} stood. That all went into the report.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "members"],
+        "after": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "members"],
+        "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  }
+]
