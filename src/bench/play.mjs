@@ -232,14 +232,19 @@ const openCard = (person) => showPerson({ personId: person.personId });
 const TALK_STRIP_PEOPLE = 4;
 /** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
 let here = { people: [], more: 0 };
+/** What a click on a person in the room does when nobody talks: a way into a talk. */
+let hereClick;
 /**
- * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
- * painting, and the people in it are a strip of busts. `scene` is anything
- * with `people` and `more` (a scene, a visit, a story beat); none clears it.
- * `onClick` makes each person with something to say a way into a talk.
+ * Who is here, small and packed in the top-right corner of the screen (ui/bust-strip.mjs;
+ * owner, Nov 16: "the people in the top tight like c", mock C, and Nov 24: "they're
+ * supposed to be at the top right"): a room is its painting, and the people in it
+ * are a few busts in the corner. `scene` is anything with `people` and `more` (a
+ * scene, a visit, a story beat); none clears it. `onClick` makes each person with
+ * something to say a way into a talk, until a talk is open: then a click opens a card.
  */
 function drawHere(scene, onClick) {
   here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
+  hereClick = onClick;
   $("here").replaceChildren(
     ...(here.people.length
       ? [
@@ -247,7 +252,10 @@ function drawHere(scene, onClick) {
             people: here.people,
             more: here.more,
             words: controls.here,
-            onClick,
+            onClick: onClick
+              ? (person) =>
+                  $("talk").hidden ? hereClick?.(person) : openCard(person)
+              : undefined,
             onCard: openCard,
           }),
         ]
@@ -256,9 +264,10 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The people of a talk: whoever speaks on the talk box, the rest in a row at
- * the top of the screen. A speaker who is not in the room (a caller, someone
- * a scene brings in) stands first, by the face their card gave.
+ * The speaker of a talk: their bust on the talk box. The rest of the room stay in
+ * the corner (the speaker's own place there is empty while the talk lasts). A
+ * speaker who is not in the room (a caller, someone a scene brings in) stands on
+ * the box by the face their card gave.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
@@ -273,37 +282,25 @@ function drawTalkStrip() {
     talkPersonId && !inRoom && !talkApart && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
-  const others = here.people.filter((p) => p.personId !== talkPersonId);
   const speaking = talkApart
     ? []
     : here.people.filter((p) => p.personId === talkPersonId);
-  // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others].slice(
-    0,
-    TALK_STRIP_PEOPLE,
-  );
-  // The speaker's bust sits on the talk box; everyone else stands in a row at
-  // the top of the screen, and comes down to the box to speak (owner, Nov 16:
-  // "the person speaking should be on the actual card, and then maybe they go
-  // back to the top when they're not speaking").
-  const onBox = shown.filter((p) => p.personId === talkPersonId);
-  const atTop = shown.filter((p) => p.personId !== talkPersonId);
-  const strip = (people, className) => {
-    const node = bustStrip({
-      people,
-      speakingId: talkPersonId ?? null,
-      // Anyone named in a talk opens their card, whoever they are to you.
-      onCard: openCard,
-    });
-    node.classList.add(className);
-    return node;
-  };
-  $("talk-cast").replaceChildren(
-    ...(atTop.length ? [strip(atTop, "talk-top")] : []),
-  );
-  $("talk-strip").replaceChildren(
-    ...(onBox.length ? [strip(onBox, "talk-speaker")] : []),
-  );
+  // Whoever speaks leaves their place in the corner while the talk lasts (play.css).
+  for (const cell of $("here").querySelectorAll(".busts-person"))
+    cell.classList.toggle(
+      "in-talk",
+      !talkApart && cell.dataset.person === (talkPersonId ?? "-"),
+    );
+  const onBox = [...speaker, ...speaking];
+  if (!onBox.length) return $("talk-strip").replaceChildren();
+  const node = bustStrip({
+    people: onBox,
+    speakingId: talkPersonId,
+    // Anyone named in a talk opens their card, whoever they are to you.
+    onCard: openCard,
+  });
+  node.classList.add("talk-speaker");
+  $("talk-strip").replaceChildren(node);
 }
 
 /**

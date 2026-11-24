@@ -474,17 +474,23 @@ ol {
 #game:has(#person:not([hidden])) #tv {
   display: none;
 }
-/* Who is here: along the foot of the room, clear of the player card. */
+/* Who is here: small and packed in the top-right corner of the screen, like mock C
+   (owner, Nov 24: "they're supposed to be at the top right"; docs/mocks/2026-11-16-speaker). */
 #here {
   position: absolute;
-  left: 472px;
-  right: 40px;
-  bottom: 26px;
+  top: calc(var(--gutter) + 1px);
+  right: var(--gutter);
 }
-/* A talk, a menu or the front screens take the foot of the room. */
-#game:has(#talk:not([hidden])) #here,
+#here .bust-strip {
+  --bust: 96px;
+}
+/* A menu or the front screens take the room. */
 #game.sheet-open #here,
 #game:has(#front:not([hidden])) #here {
+  display: none;
+}
+/* Whoever speaks leaves their place in the corner while the talk lasts. */
+#game:has(#talk:not([hidden])) #here .busts-person.in-talk {
   display: none;
 }
 /* A panel at the side of the room (the meeting, the desk, the ballot, election
@@ -529,13 +535,11 @@ ol {
    out of sight, and comes back when the card closes. Its lower edge used to
    show under the card (owner, Nov 11: nothing is left half covered). */
 #game:has(#person:not([hidden])) #talk,
-#game:has(#person:not([hidden])) #talk-cast,
 #game:has(#person:not([hidden])) #here {
   visibility: hidden;
 }
-/* In a talk the speaker's bust sits on the talk box's top edge; everyone else
-   stands in a row at the top of the screen and comes down to the box to speak
-   (owner, Nov 16; Nov 23). */
+/* In a talk the speaker's bust sits on the talk box's top edge and comes down to
+   it from the corner (owner, Nov 16; Nov 24). */
 #talk-strip {
   position: absolute;
   left: 0;
@@ -545,23 +549,6 @@ ol {
 #talk-strip .talk-speaker {
   --bust: 190px;
   animation: talk-down 0.45s ease-out;
-}
-#talk-cast {
-  position: absolute;
-  top: var(--gutter);
-  left: 0;
-  right: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-#game:has(#talk[hidden]) #talk-cast {
-  display: none;
-}
-#talk-cast .talk-top {
-  --bust: 110px;
-}
-#talk-cast .talk-top .busts-person {
-  --mine: calc(var(--bust) * 0.8);
 }
 @keyframes talk-down {
   from {
@@ -1967,10 +1954,6 @@ body:not(.dev) .dev-only {
 }
 #journal-note:has(#journal-line:empty) {
   display: none;
-}
-/* With people in the room, the note sits above their strip, never on a face. */
-#game:has(#here .bust-strip) #journal-note {
-  bottom: calc(26px + 140px + 28px);
 }
 
 /* ---- Menus: the rail on the left, the open screen beside it ---- */
