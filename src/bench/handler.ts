@@ -2201,7 +2201,7 @@ const ROUTES: readonly Route[] = [
       // A doors outing stages its porch scene now, while the player is out
       // (the director stages it at the day's close otherwise).
       if (url.searchParams.get("kind") === "canvass")
-        state.director?.stageDoors(requireCore());
+        state.director?.stageDoors(requireCore(), state.player.personId);
       // The outing's hours come off the same clock the packet reports.
       const spent = state.player.spend(day.hours);
       send(200, {

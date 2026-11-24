@@ -155,7 +155,7 @@ export interface Director {
    * a doors outing's porch scene comes on Go and not hours later. A cause that
    * already staged a scene today stages no second one.
    */
-  stageDoors(core: CoreState): void;
+  stageDoors(core: CoreState, outingPlayerId?: PersonId): void;
   /**
    * The player's interrupt setting: the scene kinds allowed to stop their
    * day (situation-type keys), or null for every kind. Read by scheduling.
@@ -1593,6 +1593,16 @@ export function createDirector(
   }
 
   /**
+   * The player a doors outing is being staged for, set only while `stageDoors`
+   * runs: a new life's player is not explicitly controlled until the first
+   * advance binds the clock, so the outing's own player counts as controlled
+   * for staging its porch scene and registering its stop (P41).
+   */
+  let outingPlayer: PersonId | undefined;
+  const controlled = (core: Readonly<CoreState>, personId: PersonId) =>
+    personId === outingPlayer || isExplicitlyControlledPersonV1(core, personId);
+
+  /**
    * Scenes from circumstance (circumstance.ts): for each controlled person,
    * the day's records that put someone with a reason where they are. At most
    * one a day, spaced by each row's days and by the days between any two,
@@ -1611,7 +1621,7 @@ export function createDirector(
       }
     const queue = [...circumstanceQueue.splice(zero), ...due];
     for (const book of ledger.people.values()) {
-      if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
+      if (!controlled(core, book.personId)) continue;
       const records = [
         ...queue,
         ...newCoworkers(core, book.personId),
@@ -1862,7 +1872,7 @@ export function createDirector(
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
       if (
-        !isExplicitlyControlledPersonV1(core, moment.personId) ||
+        !controlled(core, moment.personId) ||
         !core.people.get(moment.personId)?.alive
       )
         continue;
@@ -1975,10 +1985,7 @@ export function createDirector(
   function registerWaiting(core: CoreState): void {
     const date = makeIsoDate(core.date);
     for (const personId of waiting.keys()) {
-      if (
-        !isExplicitlyControlledPersonV1(core, personId) ||
-        !core.people.get(personId)?.alive
-      )
+      if (!controlled(core, personId) || !core.people.get(personId)?.alive)
         continue;
       const rows = waitingFor(personId, date);
       for (const row of rows)
@@ -2319,11 +2326,16 @@ export function createDirector(
     setMode(next) {
       mode = next;
     },
-    stageDoors(core) {
+    stageDoors(core, outingPlayerId) {
       if (!started) return;
-      produceCircumstances(core);
-      registerInterrupts(core);
-      registerWaiting(core);
+      outingPlayer = outingPlayerId;
+      try {
+        produceCircumstances(core);
+        registerInterrupts(core);
+        registerWaiting(core);
+      } finally {
+        outingPlayer = undefined;
+      }
     },
     setSceneFilter(personId, allowedKinds, date) {
       if (!allowedKinds) {
