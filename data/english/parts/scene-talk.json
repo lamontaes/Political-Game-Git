@@ -28720,6 +28720,95 @@
       "elements": ["petition-the-hustle-before-the-deadline"]
     },
     {
+      "key": "scene-talk.state-request.i-m-back-about-the-petition-for-office-would-you-sign-it-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm back about the petition for {office}. Would you sign it now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-sign-the-petition-for-office-you-ve-earned-it-by-coming-back",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, I'll sign the petition for {office}. You've earned it by coming back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office", "knocked-before"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.still-no-on-the-petition-for-office-i-told-you-last-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Still no on the petition for {office}. I told you last time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office", "knocked-before"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
       "key": "scene-talk.state-request.my-name-s-self-office-is-on-the-ballot-and-i-d-like-to-be-your-pick",
       "move": "state-request",
       "kind": "spoken",
@@ -30144,6 +30233,564 @@
       "elements": [
         "door-ask-is-what-should-the-office-do",
         "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sees-who-it-is-and-opens-the-door-without-being-asked-twice",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} sees who it is and opens the door without being asked twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-the-same-street-the-same-door-name-keeps-one-hand-on-the-knob-this-time",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "It's the same street, the same door. {name} keeps one hand on the knob this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.back-again-have-you-had-time-to-think-about-the-race-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Back again. Have you had time to think about the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-said-i-d-be-around-where-do-you-stand-now-on-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I said I'd be around. Where do you stand now on {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.you-told-me-to-ask-again-closer-to-the-vote-vote-day-is-near-and-i-m-asking",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You told me to ask again closer to the vote. {vote-day} is near, and I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["vote-day", "knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.since-i-last-knocked-have-you-heard-anything-from-rival-about-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Since I last knocked, have you heard anything from {rival} about {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["rival", "knocked-before"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.last-time-you-cared-about-about-did-anything-change-your-mind-on-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Last time you cared about {about}. Did anything change your mind on {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["about", "office", "knocked-before", "side-for"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": [
+        "door-answer-is-frustration-with-the-body",
+        "door-ask-is-what-should-the-office-do"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-thought-it-over-after-you-left-i-m-voting-for-you-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I thought it over after you left. I'm voting for you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office", "knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-came-back-so-you-re-serious-put-me-down-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You came back, so you're serious. Put me down for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office", "knocked-before"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-asked-around-about-rival-and-about-you-you-get-my-vote-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I asked around about {rival} and about you. You get my vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["rival", "knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.same-answer-as-before-on-office-nothing-has-changed-for-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Same answer as before on {office}. Nothing has changed for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-still-undecided-on-office-and-i-d-rather-say-so-than-promise",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm still undecided on {office}, and I'd rather say so than promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-decided-to-go-with-rival-for-office-i-wanted-you-to-hear-it-from-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I decided to go with {rival} for {office}. I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "rival"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-me-on-vote-day-itself-i-make-up-my-mind-late",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Ask me on {vote-day} itself. I make up my mind late.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-talk-long-good-luck-on-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk long. Good luck on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-thinking-it-over-i-ll-keep-earning-it-before-vote-day",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for thinking it over. I'll keep earning it before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["vote-day", "knocked-before"],
+          "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["vote-day", "knocked-before"],
+          "after": "relent"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-stop-troubling-you-about-office-after-today",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'll stop troubling you about {office} after today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "door"
+      },
+      "elements": [
+        "door-lets-a-candidate-meet-neighbors",
+        "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.what-would-make-the-difference-for-you-on-office-i-ll-listen",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What would make the difference for you on {office}? I'll listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office", "knocked-before"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      },
+      "elements": [
+        "door-answer-is-frustration-with-the-body",
+        "door-ask-is-what-should-the-office-do"
       ]
     },
     {
