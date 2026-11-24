@@ -26,6 +26,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story work is scoped by system: speeches (every kind), the Journal (the whole life story), home (everything at home) and the news (every kind).
   - One planner, one telling and one sameness gate serve all text.
   - The first evening is a test place, not the scope. This replaces "one stretch at a time" from the Nov 24, 12:20 a.m. plan.
+- **About 8:48 a.m., the scope is the whole life:** "Oh my! But you don't understand. There's literally everything... there needs to be this stuff beforehand. So everything while you're campaigning and stuff... After 2 months, how you don't understand how the story and English engine are supposed to work."
+  - The story and English engine cover every situation across a life: before the first evening, campaigning, office, home, work and community.
+  - That means all 89 scene types (only 9 composed in play on Nov 24) plus speeches, the Journal and the news, worked at once.
+  - Eight Sonnet writers are scoped by area of life under the Story lead.
 
 ## Nov 24, 2026, about 8:30 a.m.: more Story sessions now (owner, verbatim; recorded by the CTO)
 
