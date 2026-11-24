@@ -3685,43 +3685,6 @@
       "issues": ["law:local-power:rent-stabilization"]
     },
     {
-      "key": "outline-local.stand.a-cap-on-rents-sounds-kind-but-needs-more-homes-not-fewer-landlords-fi",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "A cap on rents sounds kind, but {realm-name} needs more homes, not fewer landlords fixing them. I'm against it.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["law:local-power:rent-stabilization"]
-    },
-    {
       "key": "outline-local.stand.i-d-rather-build-new-homes-in-than-put-a-cap-on-rents",
       "move": "stand",
       "kind": "spoken",
@@ -4018,43 +3981,6 @@
       "issues": ["law:minimum-wage"]
     },
     {
-      "key": "outline-local.stand.i-m-not-for-raising-the-minimum-wage-if-it-costs-the-corner-store-in-i",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm not for raising the minimum wage if it costs the corner store in {realm-name} its only part-timer.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["law:minimum-wage"]
-    },
-    {
       "key": "outline-local.stand.officers-in-are-stretched-thin-i-d-put-more-money-into-the-police",
       "move": "stand",
       "kind": "spoken",
@@ -4064,22 +3990,14 @@
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:police",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:police",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
           "excludesFacts": []
         }
       ],
@@ -4101,22 +4019,14 @@
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:police",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:police",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
           "excludesFacts": []
         }
       ],
@@ -4140,7 +4050,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:police",
+            "policy:budget:police",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4151,7 +4061,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:police",
+            "policy:budget:police",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4177,7 +4087,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:police",
+            "policy:budget:police",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4188,7 +4098,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:police",
+            "policy:budget:police",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4214,7 +4124,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4225,7 +4135,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4251,7 +4161,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4262,7 +4172,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4288,7 +4198,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4299,7 +4209,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4325,7 +4235,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4336,7 +4246,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:welfareAndMedicaid",
+            "policy:budget:welfareAndMedicaid",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4362,7 +4272,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4373,7 +4283,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4399,7 +4309,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4410,7 +4320,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4436,7 +4346,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4447,7 +4357,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4473,7 +4383,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4484,7 +4394,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:naturalResources",
+            "policy:budget:naturalResources",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4508,22 +4418,14 @@
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:parks",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:parks", "realm-name"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:parks",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:parks", "realm-name"],
           "excludesFacts": []
         }
       ],
@@ -4545,22 +4447,14 @@
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:parks",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:parks", "realm-name"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:question:budget-line:parks",
-            "realm-name"
-          ],
+          "requiresFacts": ["stance-for", "policy:budget:parks", "realm-name"],
           "excludesFacts": []
         }
       ],
@@ -4584,7 +4478,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:parks",
+            "policy:budget:parks",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4595,7 +4489,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:parks",
+            "policy:budget:parks",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4621,7 +4515,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:parks",
+            "policy:budget:parks",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4632,7 +4526,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:parks",
+            "policy:budget:parks",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4658,7 +4552,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4669,7 +4563,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4695,7 +4589,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4706,7 +4600,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4732,7 +4626,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4743,7 +4637,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4769,7 +4663,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4780,7 +4674,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:housing",
+            "policy:budget:housing",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4806,7 +4700,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4817,7 +4711,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4843,7 +4737,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4854,7 +4748,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4880,7 +4774,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4891,7 +4785,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4917,7 +4811,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4928,7 +4822,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:schools",
+            "policy:budget:schools",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4954,7 +4848,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4965,7 +4859,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -4991,7 +4885,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5002,7 +4896,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5028,7 +4922,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5039,7 +4933,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5065,7 +4959,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5076,7 +4970,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:highways",
+            "policy:budget:highways",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5102,7 +4996,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5113,7 +5007,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5139,7 +5033,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5150,7 +5044,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-for",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5176,7 +5070,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5187,7 +5081,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5213,7 +5107,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
@@ -5224,7 +5118,7 @@
           "tie": "stand",
           "requiresFacts": [
             "stance-against",
-            "policy:question:budget-line:corrections",
+            "policy:budget:corrections",
             "realm-name"
           ],
           "excludesFacts": []
