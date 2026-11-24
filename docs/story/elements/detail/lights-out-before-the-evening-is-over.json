@@ -1,0 +1,42 @@
+{
+  "id": "lights-out-before-the-evening-is-over",
+  "kind": "detail",
+  "summary": "An aide notices how an electricity bill changes a client’s evening at home.",
+  "realLife": "Adams described a client who switched the lights off at seven in the evening to save money, giving up activities such as reading.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{resident}",
+    "{aide}",
+    "{utility_bill}"
+  ],
+  "gates": [
+    "The resident disclosed the reason for the routine or a record confirms it."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a household account of reducing electricity use to save money.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident leaves a reading light on.",
+      "pulledBy": "A lower bill or assistance payment makes the usual evening affordable.",
+      "writesBack": "The resident resumes the activity."
+    },
+    {
+      "turn": "partial",
+      "what": "The resident keeps one room lit.",
+      "pulledBy": "The household can afford limited use.",
+      "writesBack": "One evening activity becomes possible."
+    }
+  ]
+}

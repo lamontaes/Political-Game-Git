@@ -1,0 +1,42 @@
+{
+  "id": "care-worker-covers-a-client-expense",
+  "kind": "consequence",
+  "summary": "A worker pays for supplies or travel needed to complete a home visit.",
+  "realLife": "Adams reported paying some transportation or supply costs himself while doing home care.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{expense}",
+    "{visit}"
+  ],
+  "gates": [
+    "The expense is documented and the worker paid it."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an expense paid by the worker and any reimbursement.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The employer reimburses the worker.",
+      "pulledBy": "The claim qualifies and is paid.",
+      "writesBack": "The payment returns to the worker’s ledger."
+    },
+    {
+      "turn": "partial",
+      "what": "The claim covers only one item.",
+      "pulledBy": "Another item falls outside the policy.",
+      "writesBack": "The remaining cost stays with the worker."
+    }
+  ]
+}

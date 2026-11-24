@@ -1,0 +1,41 @@
+{
+  "id": "hear-the-whole-panel-before-opening-questions",
+  "kind": "move",
+  "summary": "The chair tells witnesses that everyone will give testimony before the first round of questions.",
+  "realLife": "Casey laid out that order in Pittsburgh and called Heather Tomko as the first witness.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{chair}",
+    "{panel}",
+    "{first_witness}"
+  ],
+  "gates": [
+    "The chair has announced the order of the panel."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the chair’s announced hearing order.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair grants a witness an early question.",
+      "pulledBy": "A witness needs to leave and the rules permit a change.",
+      "writesBack": "The order and reason are recorded."
+    },
+    {
+      "turn": "partial",
+      "what": "A member saves a follow-up for the question round.",
+      "pulledBy": "Another witness still has prepared testimony.",
+      "writesBack": "The next witness takes the microphone."
+    }
+  ]
+}

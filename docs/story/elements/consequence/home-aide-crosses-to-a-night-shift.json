@@ -1,0 +1,41 @@
+{
+  "id": "home-aide-crosses-to-a-night-shift",
+  "kind": "consequence",
+  "summary": "A resident links the reliability of daytime help to the second job their aide needs.",
+  "realLife": "Shaheed recalled aides telling her that they went from helping her during the day to working nights in a nursing home.",
+  "sources": [
+    "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{resident}",
+    "{aide}",
+    "{second_job}"
+  ],
+  "gates": [
+    "The second job is on the worker’s record or was disclosed to the resident."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the aide’s second shift and the resident’s knowledge of it.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The aide gives up the night shift.",
+      "pulledBy": "Income from the daytime position covers the worker’s needs and the worker chooses to leave the second job.",
+      "writesBack": "The second commitment ends."
+    },
+    {
+      "turn": "partial",
+      "what": "The aide keeps both jobs with different hours.",
+      "pulledBy": "The employers agree to a schedule change.",
+      "writesBack": "The household’s coverage changes on the affected days."
+    }
+  ]
+}

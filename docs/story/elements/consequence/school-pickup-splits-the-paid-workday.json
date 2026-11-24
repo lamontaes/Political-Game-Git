@@ -1,0 +1,41 @@
+{
+  "id": "school-pickup-splits-the-paid-workday",
+  "kind": "consequence",
+  "summary": "A parent resumes paid work at home in the evening after breaking off for school pickup.",
+  "realLife": "Snyder described logging in before school and working again in the evening because an after-school program was too expensive.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{parent}",
+    "{school}",
+    "{employer}"
+  ],
+  "gates": [
+    "The work schedule, pickup time and unavailable after-school care are established."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: pickup, work and after-school program schedules.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The parent works one continuous shift.",
+      "pulledBy": "Affordable after-school care becomes available.",
+      "writesBack": "The daytime work schedule changes."
+    },
+    {
+      "turn": "partial",
+      "what": "A relative covers one pickup.",
+      "pulledBy": "The family can help on a specific day.",
+      "writesBack": "One evening of catch-up work drops off the calendar."
+    }
+  ]
+}

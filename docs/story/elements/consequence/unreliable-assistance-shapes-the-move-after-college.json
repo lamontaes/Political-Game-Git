@@ -1,0 +1,41 @@
+{
+  "id": "unreliable-assistance-shapes-the-move-after-college",
+  "kind": "consequence",
+  "summary": "A graduate’s housing choice depends on whether dependable care is available away from family.",
+  "realLife": "Tomko said instability in care was a major reason she moved back home after college and continued to live with her parents.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{graduate}",
+    "{household}",
+    "{care_schedule}"
+  ],
+  "gates": [
+    "The graduate has identified care availability as a reason for a housing choice."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the graduate’s stated reason for choosing a residence.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The graduate chooses another home.",
+      "pulledBy": "Dependable support is available there and the graduate prefers it.",
+      "writesBack": "The residence changes."
+    },
+    {
+      "turn": "partial",
+      "what": "The family offers a temporary stay.",
+      "pulledBy": "Longer-term arrangements are unresolved.",
+      "writesBack": "The next housing decision stays open."
+    }
+  ]
+}

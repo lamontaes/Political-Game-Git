@@ -1,0 +1,42 @@
+{
+  "id": "put-approved-hours-beside-staffed-hours",
+  "kind": "detail",
+  "summary": "A resident brings the committee two totals for the same week of home care.",
+  "realLife": "Alene Shaheed told senators that Florida authorized 35 hours of weekly help while she could find an aide for only 20.",
+  "sources": [
+    "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{resident}",
+    "{week}",
+    "{approved_hours}",
+    "{staffed_hours}"
+  ],
+  "gates": [
+    "A service authorization and a staffing record cover the same person and week."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: authorized and staffed hours for the same week.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A relief aide fills the remaining hours.",
+      "pulledBy": "The provider has a worker available for the uncovered shifts.",
+      "writesBack": "Delivered hours reach the authorized total."
+    },
+    {
+      "turn": "partial",
+      "what": "An aide takes one open shift.",
+      "pulledBy": "One vacancy fits the aide’s availability.",
+      "writesBack": "Delivered hours rise while the authorization stays the same."
+    }
+  ]
+}

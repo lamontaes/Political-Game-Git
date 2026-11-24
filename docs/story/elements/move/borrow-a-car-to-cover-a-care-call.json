@@ -1,0 +1,42 @@
+{
+  "id": "borrow-a-car-to-cover-a-care-call",
+  "kind": "move",
+  "summary": "An on-call worker borrows a car to reach a rural client.",
+  "realLife": "Adams said he sometimes borrowed a car from his stepchildren or friends to get to clients because he did not own one.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{car_owner}",
+    "{client}"
+  ],
+  "gates": [
+    "The worker has a client visit and lacks reliable transportation."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an available car or a transit route that serves the visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The worker takes the bus.",
+      "pulledBy": "A scheduled route serves the visit on time.",
+      "writesBack": "The visit is covered without the loan."
+    },
+    {
+      "turn": "partial",
+      "what": "The car is available for only part of the route.",
+      "pulledBy": "The owner needs it back before the last call.",
+      "writesBack": "The coordinator must cover the remaining visit."
+    }
+  ]
+}

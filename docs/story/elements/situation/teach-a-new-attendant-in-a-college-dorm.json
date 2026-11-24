@@ -1,0 +1,41 @@
+{
+  "id": "teach-a-new-attendant-in-a-college-dorm",
+  "kind": "situation",
+  "summary": "A student moving away from family must teach new attendants how to provide personal assistance.",
+  "realLife": "Heather Tomko told senators that moving into a Carnegie Mellon dorm meant learning to direct paid attendants in tasks her parents had previously helped her do.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{student}",
+    "{attendant}",
+    "{dorm}"
+  ],
+  "gates": [
+    "The student has moved into campus housing and is directing a new attendant."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the student’s residence, support plan and attendant experience.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A familiar attendant returns.",
+      "pulledBy": "A trained worker is available for the new assignment.",
+      "writesBack": "The student can use the established routine."
+    },
+    {
+      "turn": "partial",
+      "what": "The new attendant learns part of the routine.",
+      "pulledBy": "Another task needs more orientation.",
+      "writesBack": "The care schedule records what still requires coverage."
+    }
+  ]
+}
