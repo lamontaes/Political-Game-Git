@@ -468,7 +468,7 @@ it("names every skin, hairstyle, hair color and facial hair capitalized, like th
   }
 });
 
-describe("Random place in the creator", () => {
+describe("the place the creator's Random draws", () => {
   it("draws a state and one of its towns from all 56, the same for the same seed and press", () => {
     const first = creatorRandomPlace("seed-a", 1);
     expect(first.state.key).toMatch(/^us-/i);
