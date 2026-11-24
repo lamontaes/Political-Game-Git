@@ -10,6 +10,12 @@
   },
   "waiting": {},
   "sample": {
+    "conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about": [
+      "alright-in-dialogue"
+    ],
+    "conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-in-place": [
       "alright-in-dialogue"
     ],

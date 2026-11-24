@@ -36794,6 +36794,342 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-then-that-s-two-of-us-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then that's two of us on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-i-wasn-t-sure-anyone-else-saw-about-that-way",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I wasn't sure anyone else saw {about} that way.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-then-we-can-stop-dancing-around-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we can stop dancing around {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I figured you'd say that about {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-that-s-a-relief-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "That's a relief, on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-then-we-re-on-the-same-side-of-about-at-least",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we're on the same side of {about}, at least.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-funny-i-thought-you-d-push-back-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Funny. I thought you'd push back on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-good-to-hear-about-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good to hear, about {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Fair enough. We don't have to agree on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we see {about} differently, and that's all right.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-d-have-guessed-you-d-say-that-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'd have guessed you'd say that on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-huh-i-didn-t-know-you-felt-that-way-about-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Huh. I didn't know you felt that way about {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-we-ll-never-settle-about-at-this-table",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "We'll never settle {about} at this table.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "I'll think about what you said on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "All right, but I haven't changed my mind on {about}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-then-i-guess-about-is-one-we-disagree-on",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then I guess {about} is one we disagree on.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["about"],
+          "excludesFacts": ["story-decided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
     }
   ]
 }
