@@ -776,28 +776,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.hired.inaugural-last-november-you-hired-me-and-with-me",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "Last November you hired me, and {the-vice-president} with me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "record",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.hired.inaugural-you-sent-me-here-in-november-to-do-a-job-and-i-have-to-do-it",
       "move": "hired",
       "kind": "spoken",
@@ -898,28 +876,6 @@
       "lean": [
         "personality-v1:facet-persistent",
         "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.hired.inaugural-in-november-you-chose-me-and-with-me-and-today-we-both-go-to-work",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "In November you chose me, and {the-vice-president} with me, and today we both go to work.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "law",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the Story lead",
