@@ -124,8 +124,7 @@ function toldLife(
     text: row.text,
     // The sentence's own record (a birth, a school, a move), not the
     // player the whole story is told about.
-    recordId:
-      row.sourceRecordIds.find((id) => id !== playerId) ?? playerId,
+    recordId: row.sourceRecordIds.find((id) => id !== playerId) ?? playerId,
   }));
 }
 
