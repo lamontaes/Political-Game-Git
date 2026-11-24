@@ -1,0 +1,41 @@
+{
+  "id": "explain-deposit-with-a-mortgage",
+  "kind": "voice",
+  "summary": "{person} answers a depositor by tracing how money in an account becomes a mortgage.",
+  "realLife": "Roosevelt used ordinary loans to explain why a bank kept only some deposits on hand as cash.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "home"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "Residents have asked why their bank lacks ready cash."
+  ],
+  "weights": [
+    "More household borrowers use the same institution."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the question a depositor asked and the loans the bank holds.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A depositor asks about insurance instead.",
+      "pulledBy": "The resident already understands how lending works.",
+      "writesBack": "The next question concerns coverage."
+    },
+    {
+      "turn": "late",
+      "what": "The explanation reaches borrowers later.",
+      "pulledBy": "The first meeting is for depositors only.",
+      "writesBack": "A second notice goes to loan customers."
+    }
+  ]
+}

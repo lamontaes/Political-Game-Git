@@ -1,0 +1,41 @@
+{
+  "id": "no-guarantee-for-every-depositor",
+  "kind": "voice",
+  "summary": "{person} tells depositors where the rescue plan leaves them exposed to loss.",
+  "realLife": "Roosevelt declined to guarantee every reopening or every depositor against loss.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "home"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "Officials are explaining a rescue before all claims are settled."
+  ],
+  "weights": [
+    "Residents have asked for an individual guarantee."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the account balance and applicable loss protection.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A particular claim is fully covered.",
+      "pulledBy": "The guarantee applies to that account.",
+      "writesBack": "The claimant receives written confirmation."
+    },
+    {
+      "turn": "partial",
+      "what": "The office can verify only part of a balance.",
+      "pulledBy": "Several deposits remain disputed.",
+      "writesBack": "The claim record distinguishes verified funds."
+    }
+  ]
+}

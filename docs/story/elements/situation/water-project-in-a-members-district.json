@@ -1,0 +1,41 @@
+{
+  "id": "water-project-in-a-members-district",
+  "kind": "situation",
+  "summary": "A lawmaker from {place} hears a proposal to cut a water project as a decision about home.",
+  "realLife": "Schlesinger recalled Carter underestimating how strongly legislators would defend local interests in disputes over water projects.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A proposed cut affects a project in the legislator's district."
+  ],
+  "weights": [
+    "The project already has local commitments."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the project's district, local commitments and appropriation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member supports cancellation.",
+      "pulledBy": "The district has withdrawn its local commitment.",
+      "writesBack": "The member joins the cut's supporters."
+    },
+    {
+      "turn": "partial",
+      "what": "The member accepts a narrower project.",
+      "pulledBy": "The committee retains the locally essential work.",
+      "writesBack": "The revised appropriation identifies that work."
+    }
+  ]
+}

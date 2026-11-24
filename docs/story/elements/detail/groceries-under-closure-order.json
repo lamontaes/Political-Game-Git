@@ -1,0 +1,42 @@
+{
+  "id": "groceries-under-closure-order",
+  "kind": "detail",
+  "summary": "The closure order in {place} has an exception that keeps groceries moving.",
+  "realLife": "Roosevelt told households that banks could still handle transactions needed to distribute food.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "home",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "Distribution depends on a payment covered by a bank closure."
+  ],
+  "weights": [
+    "A supplier requires payment before delivery."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the goods a restricted bank payment covers.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The distributor accepts credit.",
+      "pulledBy": "The store has a standing account.",
+      "writesBack": "Delivery proceeds on the supplier's terms."
+    },
+    {
+      "turn": "partial",
+      "what": "The bank clears only the food order.",
+      "pulledBy": "The invoice also includes nonessential goods.",
+      "writesBack": "The store carries the balance forward."
+    }
+  ]
+}

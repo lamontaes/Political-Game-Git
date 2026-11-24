@@ -1,0 +1,41 @@
+{
+  "id": "cash-shipment-before-reopening",
+  "kind": "detail",
+  "summary": "A bank in {place} has passed examination and still needs currency at its counters.",
+  "realLife": "Roosevelt described the federal printing bureau shipping currency and banks obtaining cash before reopening.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "home"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "An inspected bank is preparing to reopen."
+  ],
+  "weights": [
+    "Expected withdrawals exceed cash already on hand."
+  ],
+  "usedBy": [],
+  "inGame": "needs: bank clearance, cash on hand and shipment status.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The bank reopens with its existing cash.",
+      "pulledBy": "Its reserve covers expected withdrawals.",
+      "writesBack": "The opening proceeds without a shipment."
+    },
+    {
+      "turn": "late",
+      "what": "The shipment misses opening time.",
+      "pulledBy": "The delivery record shows a delay.",
+      "writesBack": "The bank posts revised counter hours."
+    }
+  ]
+}

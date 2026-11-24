@@ -1,0 +1,42 @@
+{
+  "id": "payday-during-bank-holiday",
+  "kind": "moment",
+  "summary": "The bank in {place} can handle payroll while its lobby is closed for ordinary business.",
+  "realLife": "Roosevelt explained that the emergency banking rules made room for employers to pay workers.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "home",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "Payroll is due during a general bank closure."
+  ],
+  "weights": [
+    "More employers depend on the closed bank for payroll."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the payroll due date and bank closure exceptions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A neighboring bank handles the payroll.",
+      "pulledBy": "The employer already holds a second account.",
+      "writesBack": "The payment record names the other bank."
+    },
+    {
+      "turn": "late",
+      "what": "Some checks arrive a day late.",
+      "pulledBy": "The payroll papers miss the processing cutoff.",
+      "writesBack": "The register separates paid and outstanding checks."
+    }
+  ]
+}

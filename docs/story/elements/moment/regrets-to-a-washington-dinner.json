@@ -1,0 +1,40 @@
+{
+  "id": "regrets-to-a-washington-dinner",
+  "kind": "moment",
+  "summary": "{person} declines a political dinner and leaves the hosts with an impression of how much their company matters.",
+  "realLife": "Schlesinger remembered Carter making his lack of interest in Washington dinners apparent and believed it strained relationships.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "An executive has declined an invitation from political colleagues."
+  ],
+  "weights": [
+    "The hosts expected a chance to speak privately."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the invitation, response and any alternate meeting.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The hosts get another date.",
+      "pulledBy": "The executive proposes a smaller meeting.",
+      "writesBack": "The calendar records the accepted invitation."
+    },
+    {
+      "turn": "partial",
+      "what": "A deputy attends in the executive's place.",
+      "pulledBy": "The hosts agree to a substitute.",
+      "writesBack": "The deputy brings back the hosts' requests."
+    }
+  ]
+}
