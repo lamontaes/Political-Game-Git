@@ -1,9 +1,10 @@
 /* global process, console, document */
-// The Politics > Executive page fills its panel, in a real browser on the bench (npm run bench)
-// (the CTO's Nov 24 catch, the Town of Alderson: the right half empty beside a lone mayor; owner,
-// Oct 27: "so much dead space"): in each drawn town the executive page has a right column that
-// holds something, whether the town lists other officers there or has only a mayor and shows what
-// is coming up there instead, and that column starts in the right half of the page.
+// The Politics > Executive page fits its content, in a real browser on the bench (npm run bench)
+// (the CTO's Nov 24 catch, the Town of Alderson, and his send-back of #10409; owner, Oct 27: "so
+// much dead space"): in each drawn town the page is either a town with other officers, whose
+// right column lists them, or a town with only a mayor, whose panel is only as wide as the mayor
+// and what is coming up, with no empty right half; and a "Coming up" section appears only with
+// something scheduled in it, never as an empty line.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { startLife } from "./start-life.mjs";
@@ -27,35 +28,49 @@ try {
     await page.locator(".split-screen .leader").first().waitFor();
     await page.waitForTimeout(800);
     const seen = await page.evaluate(() => {
-      const box = (selector) =>
-        document.querySelector(selector)?.getBoundingClientRect();
-      const body = box(".split-body");
-      const side = box(".split-side");
+      const sheet = document.getElementById("sheet").getBoundingClientRect();
+      const side = document.querySelector(".split-side");
+      const content = [
+        ...document.querySelectorAll(
+          ".split-main .leader, .split-main .date-list, .split-main .chamber",
+        ),
+      ].map((node) => node.getBoundingClientRect().right);
+      const comingHeads = [
+        ...document.querySelectorAll(".split-screen .sechead"),
+      ].filter((node) =>
+        node.closest(".sec")?.querySelector(".date-list-empty"),
+      );
       return {
-        heading:
-          document.querySelector(".split-side .sechead")?.textContent.trim() ??
-          "",
-        sideText:
-          document.querySelector(".split-side")?.textContent.trim().length ?? 0,
-        sideStart: side
-          ? Math.round(((side.left - body.left) / body.width) * 100)
-          : null,
+        hasSide: !!side,
+        sideText: side?.textContent.trim().length ?? 0,
+        emptyRight: Math.round(sheet.right - Math.max(...content, 0)),
+        width: Math.round(sheet.width),
+        emptyComing: comingHeads.length,
+        scheduled: document.querySelectorAll(".split-main .date-list li")
+          .length,
       };
     });
-    assert.ok(
-      seen.sideText > 0,
-      `${life.placeName}: the executive page has no right column (the right half is empty)`,
+    assert.equal(
+      seen.emptyComing,
+      0,
+      `${life.placeName}: a Coming up section with nothing scheduled in it`,
     );
-    assert.ok(
-      seen.sideStart >= 40,
-      `${life.placeName}: the right column starts ${seen.sideStart}% across the page`,
-    );
+    if (seen.hasSide)
+      assert.ok(
+        seen.sideText > 0,
+        `${life.placeName}: the executive page has an empty right column`,
+      );
+    else
+      assert.ok(
+        seen.emptyRight <= 120,
+        `${life.placeName}: a town with only a mayor has ${seen.emptyRight}px empty to the right of its content (the panel is ${seen.width}px wide)`,
+      );
     console.log(
-      `ok: ${life.placeName}: the right column holds "${seen.heading}" and starts ${seen.sideStart}% across`,
+      `ok: ${life.placeName}: ${seen.hasSide ? "other officers on the right" : `only a mayor, panel ${seen.width}px wide, ${seen.emptyRight}px past its content`}, ${seen.scheduled} dated line(s)`,
     );
     if (process.env.SHOT_DIR)
       await page.screenshot({
-        path: `${process.env.SHOT_DIR}/executive-${seen.heading.startsWith("Coming") ? "lone-mayor" : "several"}-${draw}.png`,
+        path: `${process.env.SHOT_DIR}/executive-${seen.hasSide ? "several" : seen.scheduled ? "lone-calendar" : "lone-bare"}-${draw}.png`,
         scale: "css",
       });
     await page.close();
