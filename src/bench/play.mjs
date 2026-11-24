@@ -6934,6 +6934,8 @@ async function openSheet(tab) {
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
+  // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
+  $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
   fitPagers($("sheet-body"));
