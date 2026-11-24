@@ -4265,17 +4265,6 @@ const sheets = {
             ...(peopleLine
               ? [stripSection(3, labels.myPeople, peopleLine)]
               : []),
-            // Your own life from the same lines the card tells of anyone (the mock
-            // draws no life section; it follows "My people").
-            ...(known.history?.length
-              ? [
-                  stripSection(
-                    5,
-                    labels.myLife,
-                    ...lifeParagraphs(known.history),
-                  ),
-                ]
-              : []),
           ],
         ],
       }),
