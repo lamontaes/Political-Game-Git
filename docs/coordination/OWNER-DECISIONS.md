@@ -20,6 +20,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
   - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
+## Nov 24, 2026, about 1:00 p.m.: the game's laws and issues dictate what gets made (owner, verbatim; recorded by the CTO)
+
+- "A great place to, I guess, build exponentially would be, I mean, I mentioned this before, looking at all the laws and issues and, you know, putting things toward those... I think using what's in the game to help dictate what to be made will help immensely."
+  - Every element names the issues it touches (`issues`: bill-catalog policy ids or question keys, or "none").
+  - A coverage map of policy by kind of text by direction by level shows the holes, and writers fill them issue first, in both directions, at every level.
+  - Lines tagged with a policy play when that policy is live in the player's world.
+
 ## Nov 24, 2026, about 8:55 to 9:50 a.m.: the element bank, every line tied to an element, and turns (owner, verbatim; recorded by the CTO)
 
 - **A shared element bank:** "all of these shouldn't be necessarily written independently... use real life for everything... There should be a place where they can all see, I guess, the elements... the Codex writers... can do research and putting the elements in there, and you can check them." The bank is `docs/story/elements/<kind>/<id>.json`. The CTO checks element PRs.
