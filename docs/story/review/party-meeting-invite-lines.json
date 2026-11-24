@@ -2326,10 +2326,10 @@
     ]
   },
   {
-    "key": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference",
+    "key": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-take-the-fee-out-of-anybody-s-pay-could-you-come-meeting-when-and-talk-about-the-difference",
     "kind": "spoken",
     "move": "state-request",
-    "text": "The case I made was about paying for bargaining when the contract covers everybody. The committee can ask for that rule. It can't put the charge on a pay stub. Could you come {meeting-when} and talk about the difference?",
+    "text": "The case I made was about paying for bargaining when the contract covers everybody. The committee can ask for that rule. It can't take the fee out of anybody's pay. Could you come {meeting-when} and talk about the difference?",
     "uses": [
       {
         "subject": "scene",
@@ -2378,7 +2378,7 @@
           "prior-meeting-topic"
         ],
         "requiresFacts": ["party"],
-        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference"
+        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-take-the-fee-out-of-anybody-s-pay-could-you-come-meeting-when-and-talk-about-the-difference"
       }
     ],
     "bearing": "steady",
@@ -2413,7 +2413,7 @@
           "prior-meeting-topic"
         ],
         "requiresFacts": ["meeting-when"],
-        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference"
+        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-take-the-fee-out-of-anybody-s-pay-could-you-come-meeting-when-and-talk-about-the-difference"
       }
     ],
     "bearing": "guarded",
