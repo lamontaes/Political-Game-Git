@@ -1,0 +1,34 @@
+{
+  "id": "reporter-seeks-an-unscheduled-interview",
+  "kind": "moment",
+  "summary": "A reporter asks for a brief interview while the member is on the way somewhere else.",
+  "realLife": "After a request for comment went unanswered by deadline, FOX6 reporter Amanda St. Hilaire went to a Wisconsin health care press conference and asked Governor Tony Evers about access to his emails.",
+  "sources": [
+    "https://www.fox6now.com/news/denied-staff-shields-governor-tony-evers-emails-from-public-access.amp",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
+  ],
+  "inGame": "The hallway-reporter circumstance stages press-interview for a serving officeholder. A scheduled interview instead follows the interview-accepted record into interview-sitting.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{reporter}", "{member}", "{outlet}"],
+  "gates": [
+    "The reporter and member encounter each other outside an appointment."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member gives the reporter a time to call after the meeting.",
+      "pulledBy": "The next engagement has already started.",
+      "writesBack": "The interview request stays outstanding until the agreed time."
+    },
+    {
+      "turn": "partial",
+      "what": "The official answers the reporter’s first question at the microphone, then asks an aide to find the records custodian for the follow-up.",
+      "pulledBy": "The official can describe the request but has no copy of the release decision at the event.",
+      "writesBack": "The reporter keeps the public answer and logs the custodian as the next call."
+    }
+  ],
+  "issues": ["none"]
+}
