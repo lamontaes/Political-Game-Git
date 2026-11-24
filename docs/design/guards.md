@@ -107,6 +107,10 @@ The CTO's rule: a pull request may not add an expected-failure, skip, only or to
 - **Before a push:** `npm run guards -- check-changes` runs the same rules on your branch against `origin/main`.
 - **What it does not see:** a tolerance widened inside an assertion, or a time limit raised. A reader still checks those.
 
+## Whole-game checks run only for files they play
+
+Owner, Nov 18: "There's only certain things that need to run the golden path and stuff." The `scope` job of `m0-guard.yml` (golden path, played year, paired performance) and of `new-game.yml` runs `scripts/ci/graph-scope.mjs` on the pull request's changed files. The script reads each check's entry points (`tests/golden-path/runner.mjs` with the `command` rows of `docs/roadmap/features.json`, `scripts/core2-guard/paired.mjs`, `scripts/new-game-check.ts`) and follows imports, string paths to tracked files and folders, template imports and `npm run` scripts, so the list cannot go stale. A pull request that changes none of those files skips the check; docs, skills, art, pool items and release notes never count. Always run: train pull requests into main (head `train/*`), pushes, the hourly run, manual runs, `package.json`, the lock file, any tsconfig, `vite.config.ts`, the check's own folder and workflow, and any case where the file list or the graph cannot be read. `scripts/ci/graph-scope.test.ts` proves the rules.
+
 ## Adding a guard
 
 1. Write the check beside its kin: a test under `tests/guards/`, or a script under `scripts/`. Its list, if it needs one, lives beside it, never in a new tracking system.
