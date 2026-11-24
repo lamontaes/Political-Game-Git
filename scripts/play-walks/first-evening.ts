@@ -88,7 +88,7 @@ try {
     const dir = `${out}/${run}/place-${n + 1}-${place.key}`;
     mkdirSync(dir, { recursive: true });
     const head = (title: string, extra = "") =>
-      `# ${title}\n\nPlace key: ${place.key}  \nSeed: ${place.seed}  \nRun: ${run}, place ${n + 1} of ${count}\n${extra}\n`;
+      `# ${title}\n\nPlace key: ${place.key}  \nSeed: ${place.seed}  \nRun: ${run}, place ${n + 1} of ${total}\n${extra}\n`;
     const files: string[] = [];
     const write = (name: string, body: string) => {
       const file = `${String(files.length + 1).padStart(2, "0")}-${name}.md`;
@@ -109,7 +109,7 @@ try {
     })();
     const life = await call(
       "POST",
-      `/api/newlife?${q({ seed: place.seed, placeKey: place.key })}`,
+      `/api/newlife?${q(place.key ? { seed: place.seed, placeKey: place.key } : { seed: place.seed })}`,
     );
     await watcher;
     const me: string = life.personId;
