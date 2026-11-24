@@ -1,7 +1,11 @@
 import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "./scene-talk";
-import { wordSceneMove, type BankPart } from "../english/scene-talk-words";
+import {
+  sceneTalkParts,
+  wordSceneMove,
+  type BankPart,
+} from "../english/scene-talk-words";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
@@ -74,7 +78,6 @@ const CUT_PURPOSES = new Set<string>([
   "study-formed",
   "study-reported",
   "rival-word",
-  "budget-cut",
   "notice-home",
   "home-damaged",
   "swearing-in",
@@ -115,7 +118,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         expect(line.text).not.toMatch(/[{}]/);
         expect(line.register).toBe("scene-talk");
         expect(line.parts.length).toBeGreaterThan(0);
-        expect(line.parts[0]).toMatch(/^scene-talk\./);
+        expect(sceneTalkParts.some((part) => part.key === line.parts[0])).toBe(
+          true,
+        );
         expect(line.slotRecordIds.length).toBeGreaterThan(0);
       }
       // The close is never the next line after a question: the asker's last
