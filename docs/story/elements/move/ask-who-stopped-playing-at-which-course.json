@@ -1,0 +1,32 @@
+{
+  "id": "ask-who-stopped-playing-at-which-course",
+  "kind": "move",
+  "summary": "{member} sends a participation report back for a breakdown by course and group of players.",
+  "realLife": "Portland's adopted note called for reporting changes by course and demographic group as well as overall use.",
+  "sources": [
+    "https://www.portland.gov/budget/2025-2026-budget/documents/fy-25-26-adopted-budget-amendment-full-list-changes-updated-june/download#page=66"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: attendance before and after the rate date by course and group.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "Attendance holds steady overall but falls among younger players at one course.",
+      "what": "The member asks staff to examine that rate.",
+      "writesBack": "The review identifies the site and group."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A cheaper rate draws more visits from existing players.",
+      "what": "The member asks whether new players also enrolled.",
+      "writesBack": "The next report separates people from repeat visits."
+    }
+  ]
+}
