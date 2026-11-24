@@ -2,9 +2,10 @@
   "id": "let-the-engraver-test-a-lettering-change",
   "kind": "move",
   "summary": "A member accepts a request to move {inscription} if the Mint can find room for it.",
-  "realLife": "Harcourt Fuller proposed shifting the Latin motto on the Kennedy design if the change proved feasible, and the maker of the motion agreed.",
+  "realLife": "Harcourt Fuller proposed shifting the Latin motto on the Kennedy design if the change proved feasible, and the maker of the motion agreed. The chair’s letter to Treasury recommended the portrait and described its pairing with the Washington quarter. It omitted the request about the motto.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=5"
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-12/2027-2030-Kennedy-half-obverse-letter.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{inscription}"],

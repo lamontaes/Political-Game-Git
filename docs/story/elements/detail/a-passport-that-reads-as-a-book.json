@@ -4,7 +4,8 @@
   "summary": "In {design}, the document that explains the scene looks like an ordinary book.",
   "realLife": "Reviewing the Forgotten Heroes medal, John Saunders asked for a more recognizable passport on the back, and the member sponsoring the design accepted the change.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-10/9.16.2025_Minutes_final.pdf#page=3"
+    "https://www.ccac.gov/system/files/2025-10/9.16.2025_Minutes_final.pdf#page=3",
+    "https://www.ccac.gov/system/files/2025-09/Sec_letter_forgotten_heroes.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{design}"],

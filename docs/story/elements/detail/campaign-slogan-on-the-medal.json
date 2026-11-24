@@ -2,9 +2,11 @@
   "id": "campaign-slogan-on-the-medal",
   "kind": "detail",
   "summary": "A line from {honoree}'s campaign displaces the quotation beneath the portrait.",
-  "realLife": "In reviewing Chisholm's medal, the committee recommended replacing a statement about change with the slogan she had run on.",
+  "realLife": "In reviewing Chisholm's medal, the committee recommended replacing a statement about change with the slogan she had run on. The chair reported that the liaisons had agreed to the substitution.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3"
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=2",
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3",
+    "https://www.ccac.gov/system/files/2025-12/Chisholm-CGM-letter.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{honoree}"],

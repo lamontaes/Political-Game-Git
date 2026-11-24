@@ -4,7 +4,9 @@
   "summary": "The board specifies the words and leaves {designer} a choice of where to put them.",
   "realLife": "On the Shirley Chisholm medal, members wanted the congressional authorization marked and gave the Mint discretion to put it on either face.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=2",
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3",
+    "https://www.ccac.gov/system/files/2025-12/Chisholm-CGM-letter.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{designer}"],

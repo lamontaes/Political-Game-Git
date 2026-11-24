@@ -4,7 +4,8 @@
   "summary": "Before moving adoption, a member asks {honoree} to confirm the choices for both sides of the medal.",
   "realLife": "Donald Scarinci checked Everett Alvarez Jr.'s preferences with him at the meeting before proposing that the committee recommend his two designs.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=2",
+    "https://www.ccac.gov/system/files/2025-08/Sec-letter-Alvarez-CGM-final.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{honoree}"],

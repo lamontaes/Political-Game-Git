@@ -4,7 +4,8 @@
   "summary": "When {design} comes back revised, the board votes on the changes using the scores already on file.",
   "realLife": "Members had scored the Constitution and Bill of Rights platinum designs in October and recommended both revised drawings in February without scoring them again.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5"
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-03/Sec-letter-Platinum-Proof.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{design}"],

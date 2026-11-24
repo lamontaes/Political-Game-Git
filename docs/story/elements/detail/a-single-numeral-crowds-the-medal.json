@@ -4,7 +4,8 @@
   "summary": "A member wants one numeral smaller on {design}, and the rest can go forward.",
   "realLife": "Arthur Bernstein asked for a smaller numeral four on the back of the Alvarez medal, and members adopted the amended recommendation.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=2",
+    "https://www.ccac.gov/system/files/2025-08/Sec-letter-Alvarez-CGM-final.pdf#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{design}"],

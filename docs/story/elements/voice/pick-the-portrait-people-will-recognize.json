@@ -4,7 +4,9 @@
   "summary": "Members explain their choice of {portrait} in terms of who will recognize it.",
   "realLife": "In discussing California's innovation dollar, committee members favored a particular Steve Jobs image because they thought the public would recognize him more readily.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=4"
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=4",
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-03/Sec-letter-AI-Iowa-Minnesota-Wisconsin-California.pdf#page=2"
   ],
   "fits": ["office", "journal", "news", "speeches"],
   "slots": ["{portrait}"],
