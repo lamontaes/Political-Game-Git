@@ -23,7 +23,7 @@ Seen: Nov 23, a drawn place, creator at 1440x900, after a gender is picked: four
 
 **Cause.** Found in code: the rule `#cr-screen .choice-list { max-height: 150px }` (about line 1438 of src/bench/play.css), under a left column that is shorter than the look column beside it.
 
-**Fix.** The place list takes the rest of its column (it grows to the column's height and scrolls only past that). No player text changes. This does not claim to close every empty area the owner may have meant; the portrait column's empty top is a separate look.
+**Fix.** The place list takes the rest of its column (it grows to the column's height and scrolls only past that), and the portrait is drawn larger (a 270 px column in place of 220) so it fills the band above How I look. The creator is the row (Coordinator, Nov 23: "no empty space in the creator"). No player text changes.
 
 **Time box.** 1 hour, one Sonnet session at medium.
 
@@ -33,6 +33,6 @@ Seen: Nov 23, a drawn place, creator at 1440x900, after a gender is picked: four
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.css
+**Files.** src/bench/play.css, src/bench/play.mjs
 
 **Notes.**

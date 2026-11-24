@@ -7426,7 +7426,7 @@ function showLook(view) {
   setup.lookView = view;
   const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 220 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 270 }),
   );
   const row = (r) =>
     lookRow(r, {
