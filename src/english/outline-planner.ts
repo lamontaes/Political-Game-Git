@@ -76,6 +76,13 @@ interface OutlineRow {
   readonly orders?: readonly OrderRow[];
   /** The facets that pull a speaker toward saying less: an optional move or section gives way to them. */
   readonly terse?: readonly string[];
+  /**
+   * The fewest sentences the text may have: a text the draws left shorter is
+   * told again with every optional part that fits (pre-grade, Nov 24, round
+   * 5: addresses of 56 to 103 words; owner: "A four-line rally is not a
+   * speech").
+   */
+  readonly leastSentences?: { readonly value: number };
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -444,6 +451,13 @@ function wordMove(
  * required moves can all be worded.
  */
 export function tell(input: TellingInput): Told | null {
+  const told = tellOnce(input, false);
+  const least = outlineRow(input.kind).leastSentences?.value ?? 0;
+  return told && told.sentences.length < least ? tellOnce(input, true) : told;
+}
+
+/** One telling; `full` says every optional section and move that fits. */
+function tellOnce(input: TellingInput, full: boolean): Told | null {
   const row = outlineRow(input.kind);
   const sentences: ToldSentence[] = [];
   const saidHere = new Set<string>();
@@ -466,6 +480,7 @@ export function tell(input: TellingInput): Told | null {
     }
     if (
       section.optional &&
+      !full &&
       !says(
         leanOf(input.traits, section.pull),
         row,
@@ -512,6 +527,7 @@ export function tell(input: TellingInput): Told | null {
         // toward its words more than toward saying less.
         if (
           optional &&
+          !full &&
           !says(
             leanOf(input.traits, worded.part.lean),
             row,
