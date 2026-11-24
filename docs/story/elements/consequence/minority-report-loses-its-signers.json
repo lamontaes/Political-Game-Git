@@ -1,0 +1,32 @@
+{
+  "id": "minority-report-loses-its-signers",
+  "kind": "consequence",
+  "summary": "A negotiator who expected a floor fight watches support for the minority report fall away after a compromise.",
+  "realLife": "Moran reported a sharp drop in committee support for a minority report once the administration’s seating offer was on the table.",
+  "sources": [
+    "https://www.thecrimson.com/article/1964/9/22/the-politics-of-civil-rights-piat/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{negotiator}", "{committee}", "{report}"],
+  "gates": [
+    "Bringing a minority report to the floor requires enough committee support."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: dated signatures on the minority report and the threshold for filing.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The secretary holds the list open.",
+      "pulledBy": "Some members keep their names on the report until the caucus answers.",
+      "writesBack": "The floor route stays pending until the deadline."
+    },
+    {
+      "turn": "opposite",
+      "what": "The dissenters file the report.",
+      "pulledBy": "Enough members reaffirm their support in time.",
+      "writesBack": "The floor agenda gains a contested seating item."
+    }
+  ]
+}

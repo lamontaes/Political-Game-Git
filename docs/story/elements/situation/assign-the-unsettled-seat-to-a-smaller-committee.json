@@ -1,0 +1,32 @@
+{
+  "id": "assign-the-unsettled-seat-to-a-smaller-committee",
+  "kind": "situation",
+  "summary": "The full committee sends an unresolved seating dispute to members from several other delegations.",
+  "realLife": "The August report identified five states represented on the subcommittee charged with reporting back on Mississippi after the first credentials hearing.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640829_mfdp_convention-rpt.pdf#page=1"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{committee}", "{delegation}"],
+  "gates": [
+    "The full credentials committee has deferred a ruling and appointed a subcommittee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a referral from the full committee and the subcommittee’s returned recommendation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "It sends both recommendations back.",
+      "pulledBy": "The smaller group agrees on facts but splits on the remedy.",
+      "writesBack": "The full committee receives a divided report."
+    },
+    {
+      "turn": "opposite",
+      "what": "The subcommittee recommends a single slate.",
+      "pulledBy": "A witness supplies the missing return.",
+      "writesBack": "The recommendation goes back for a full committee vote."
+    }
+  ]
+}

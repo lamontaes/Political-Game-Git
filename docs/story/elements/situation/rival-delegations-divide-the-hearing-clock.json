@@ -1,0 +1,32 @@
+{
+  "id": "rival-delegations-divide-the-hearing-clock",
+  "kind": "situation",
+  "summary": "Each delegation gets the same stretch of time to make its case for the disputed seats.",
+  "realLife": "The August convention report records an hour apiece for Mississippi’s segregated regular delegation and the integrated Freedom Democrats before the credentials committee.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640829_mfdp_convention-rpt.pdf#page=1"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{delegation}", "{committee}"],
+  "gates": [
+    "Two delegations dispute the same representation and the hearing sets time limits."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a hearing schedule, time used and the list of witnesses actually heard.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Counsel submits the remaining statements in writing.",
+      "pulledBy": "One witness needs the rest of the allotted time.",
+      "writesBack": "The hearing file distinguishes spoken and submitted evidence."
+    },
+    {
+      "turn": "opposite",
+      "what": "The chair opens questions under the hearing rules.",
+      "pulledBy": "A delegation finishes early.",
+      "writesBack": "The minutes record the additional questioning separately."
+    }
+  ]
+}

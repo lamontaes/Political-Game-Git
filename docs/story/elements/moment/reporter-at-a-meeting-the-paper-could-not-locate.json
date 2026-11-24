@@ -1,0 +1,32 @@
+{
+  "id": "reporter-at-a-meeting-the-paper-could-not-locate",
+  "kind": "moment",
+  "summary": "A volunteer who called the newspaper for a meeting place sees an editor at the meeting an hour later.",
+  "realLife": "The Washington County report recounts a call to the Delta Democrat Times for the unannounced location and records associate editor Hodding Carter III at the convention.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=11"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{volunteer}", "{newspaper}"],
+  "gates": [
+    "A caller gets no location before a meeting that a reporter attends."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a notice inquiry, what the desk knew then and the editor’s attendance.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The volunteer relays it to the delegates.",
+      "pulledBy": "The desk obtains the room before the caller hangs up.",
+      "writesBack": "The notice log records who received it in time."
+    },
+    {
+      "turn": "opposite",
+      "what": "The paper publishes a correction for its readers.",
+      "pulledBy": "The editor learns the place only after the opening.",
+      "writesBack": "The published notice records when the information became available."
+    }
+  ]
+}

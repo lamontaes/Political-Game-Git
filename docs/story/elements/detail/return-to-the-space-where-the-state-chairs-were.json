@@ -1,0 +1,32 @@
+{
+  "id": "return-to-the-space-where-the-state-chairs-were",
+  "kind": "detail",
+  "summary": "Delegates return to the state section and stand where the chairs had been.",
+  "realLife": "Moran reported that the Mississippi chairs were gone when Freedom Democrats came back the next evening, and that they stood in the space left behind.",
+  "sources": [
+    "https://www.thecrimson.com/article/1964/9/22/the-politics-of-civil-rights-piat/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{delegate}", "{convention}", "{state_section}"],
+  "gates": [
+    "The state seating section has been cleared since the last session."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the previous floor plan, observed furniture change and separate credentials roll.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The group sits for the closing business.",
+      "pulledBy": "Ushers bring chairs back before adjournment.",
+      "writesBack": "The seating change leaves voting credentials a separate question."
+    },
+    {
+      "turn": "opposite",
+      "what": "The delegation asks where the state section will be.",
+      "pulledBy": "The session moves to a new hall.",
+      "writesBack": "The replacement floor plan records its assigned space."
+    }
+  ]
+}
