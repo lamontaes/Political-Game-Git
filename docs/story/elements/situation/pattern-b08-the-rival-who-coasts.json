@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b08-the-rival-who-coasts",
+  "kind": "situation",
+  "summary": "The rival who coasts: {rival}, far ahead, takes days off and says something that sounds like the race is beneath them.",
+  "realLife": "In the January 2010 Massachusetts special Senate election, Democrat Martha Coakley took days off less than a month out, asked whether she should be standing outside Fenway Park shaking hands, and called the pitcher Curt Schilling a Yankees fan. Brown, a Republican, won.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/2010_United_States_Senate_special_election_in_Massachusetts"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["rival"],
+  "gates": ["Candidate.", "A remark or an absence on {rival}'s record."],
+  "weights": [
+    "How far behind you are.",
+    "How big the slip is.",
+    "Traits that pounce."
+  ],
+  "pattern": "B08",
+  "choices": [
+    "go where {rival} will not: the stadium gate, the plant at shift change",
+    "put the remark in an ad",
+    "say nothing and keep working the district",
+    "ask whoever {rival} slighted for an endorsement"
+  ],
+  "branches": [
+    {
+      "when": "{rival} slights a well-known local figure",
+      "then": "That person backs you."
+    },
+    {
+      "when": "you are the one far ahead",
+      "then": "The days off and the remark are yours to take or not, and the record keeps where you were."
+    }
+  ],
+  "usedBy": []
+}

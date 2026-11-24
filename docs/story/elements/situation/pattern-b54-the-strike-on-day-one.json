@@ -1,0 +1,42 @@
+{
+  "id": "pattern-b54-the-strike-on-day-one",
+  "kind": "situation",
+  "summary": "The strike on day one: The contract with {the union} runs out the day you take office, and the workers walk out.",
+  "realLife": "New York's transit workers struck on his first day as mayor in 1966. Their leader, Mike Quill, was jailed; after twelve days the union took a mediators' package, and the state later passed a law restricting public-employee strikes.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1966_New_York_City_transit_strike"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["the union", "union leader"],
+  "gates": [
+    "You take office.",
+    "A public contract on record that runs out that day, or a strike on the record."
+  ],
+  "weights": [
+    "How strong {the union} is.",
+    "Your ties to labor.",
+    "The budget record."
+  ],
+  "pattern": "B54",
+  "choices": [
+    "meet {union leader}",
+    "lecture them in public",
+    "ask a judge to enforce the law",
+    "give them the package"
+  ],
+  "branches": [
+    {
+      "when": "the leader is jailed",
+      "then": "A judge orders {the union}'s leaders arrested, and the strike hardens."
+    },
+    {
+      "when": "the deal",
+      "then": "Wages rise, and the state passes a law limiting public strikes."
+    },
+    {
+      "when": "you lecture",
+      "then": "The press says you talked down to them instead of bargaining."
+    }
+  ],
+  "usedBy": []
+}

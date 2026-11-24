@@ -1,0 +1,55 @@
+{
+  "id": "pattern-b7-05-held-in-committee",
+  "kind": "situation",
+  "summary": "Held in committee: A bill is held without a hearing, and the sponsor and the chair, which may be the player on either side, have to talk before the deadline.",
+  "realLife": "One life: Under a new California rule, committee chairs decided whether a bill was heard at all, and some died with no hearing. One author said it was the first refusal in over six years and called it a one-person decision; one chair said skipping the hearing gave supporters time to fix problems before the committee could kill it. Another: A Washington Senate chair pulled a hearing on a bill he had said he would schedule, citing federal funding risk and lawsuits and saying he never supported it. The sponsor said the majority leader had promised a hearing and he would give the leader a chance to keep the word; a Democrat suggested moving it to a committee the sponsor chaired. Another: An Indiana committee chair refused to promise a vote on a redistricting reform bill that dozens had come to support. He called it unfinished and said work was needed; a member of the other party said amendments could be made on the floors, and the deadline was days away.",
+  "sources": [
+    "https://calmatters.org/politics/2019/04/california-legislators-killing-bills-committee-democrats/",
+    "https://www.spokesman.com/stories/2013/feb/08/wa-lege-day-26-parity-bill-hearing-canceled",
+    "https://www.ipm.org/2019-10-30/committee-chair-blocks-vote-redistricting-reform-114365"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the sponsor", "committee chair", "the body", "chamber leader"],
+  "gates": [
+    "The committee record shows a bill held without a hearing by {committee chair}.",
+    "The calendar shows a deadline after which the bill cannot move this session, or it is still before the committee's first chance.",
+    "The player is the chair or the sponsor on the bill record."
+  ],
+  "weights": [
+    "How near the deadline is.",
+    "How close the chair and the sponsor are, and whether a close co-sponsor of the chair's is on the bill.",
+    "The chair's own stand on the bill and how they like to run the committee.",
+    "Whether {chamber leader} promised a hearing.",
+    "How many people outside have asked for the hearing."
+  ],
+  "pattern": "B7-05",
+  "choices": [
+    "ask for the hearing and say what you will change",
+    "ask what the chair would need to move it",
+    "grant the hearing and say what you want in return",
+    "say no and give the real reason"
+  ],
+  "branches": [
+    {
+      "when": "the player is the sponsor and the chair agrees to hear it",
+      "then": "The hearing is set on the committee record through the same reply the other seat uses."
+    },
+    {
+      "when": "the player is the sponsor and the chair refuses",
+      "then": "The hold stays, and the chair says the reason the record holds; the sponsor decides whether to appeal to {chamber leader} or find a different vehicle."
+    },
+    {
+      "when": "the player is the chair and the sponsor asks",
+      "then": "The player answers from their own stand on the bill; a yes sets the hearing and a no leaves the hold, and the sponsor remembers."
+    },
+    {
+      "when": "the chair says the hold is to give time to fix the bill",
+      "then": "The sponsor must agree to changes; a next-session version is written with the chair's name or a promise."
+    },
+    {
+      "when": "the chamber leader had promised the hearing",
+      "then": "The broken or kept promise is written; the sponsor tries the leader or another committee."
+    }
+  ],
+  "usedBy": ["bill-held-chair", "hold-chair-sought"]
+}
