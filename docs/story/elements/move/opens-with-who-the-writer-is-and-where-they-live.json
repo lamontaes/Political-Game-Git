@@ -25,5 +25,6 @@
       "pulledBy": "a recent move on the record",
       "writesBack": "the entry opens on the move first"
     }
-  ]
+  ],
+  "issues": ["none"]
 }

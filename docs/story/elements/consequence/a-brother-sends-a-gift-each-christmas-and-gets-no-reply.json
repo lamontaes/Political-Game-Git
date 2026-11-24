@@ -1,0 +1,42 @@
+{
+  "id": "a-brother-sends-a-gift-each-christmas-and-gets-no-reply",
+  "kind": "consequence",
+  "summary": "A man whose sister cut contact after he voted differently still sends her a Christmas gift every year.",
+  "realLife": "A Midwestern man who backed a candidate in 2016 said his sister in Seattle stopped contact after that vote. They have not spoken since. He still sends her a gift each Christmas and has never had a reply.",
+  "sources": [
+    "https://www.wral.com/families-have-been-torn-apart-by-politics-what-happens-to-them-now/19403081/"
+  ],
+  "fits": ["home"],
+  "slots": ["{the sibling}", "{the estranged sibling}", "{the holiday}"],
+  "gates": [
+    "A break in contact is recorded after a vote.",
+    "One sibling still acts on the tie."
+  ],
+  "weights": [
+    "Whether the sender keeps hope.",
+    "The other's hurt and distance.",
+    "Years since the break."
+  ],
+  "inGame": "Quarrel record and ties can hold a one-way gift; needs: a gift or card event that the other side can leave unanswered.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The sender stops sending after a few years.",
+      "pulledBy": "Hurt over no reply.",
+      "writesBack": "Tie drops to none."
+    },
+    {
+      "turn": "late",
+      "what": "A reply finally comes after a death in the family.",
+      "pulledBy": "A funeral.",
+      "writesBack": "Reconciliation scene."
+    },
+    {
+      "turn": "partial",
+      "what": "The gift is accepted but unacknowledged in words.",
+      "pulledBy": "Small softening.",
+      "writesBack": "A tiny tie rise."
+    }
+  ]
+}

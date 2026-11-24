@@ -1,0 +1,31 @@
+{
+  "id": "the-school-day-is-about-six-and-a-half-hours",
+  "kind": "detail",
+  "summary": "The average public school day is about six and a half hours, and the school year about 180 days.",
+  "realLife": "In 2007-08 the national average public school day was 6.64 hours and the school year 180 days.",
+  "sources": [
+    "NCES, Average hours in the school day and days in the school year, by state: 2007-08: https://nces.ed.gov/surveys/sass/tables/sass0708_035_s1s.asp"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-year"],
+  "gates": [],
+  "weights": {
+    "school-year": 0.5
+  },
+  "inGame": "the school's schedule (the school engine's day length). needs: a day length on the school row.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A school with a longer day or year, like some charter schools.",
+      "pulledBy": "the school row",
+      "writesBack": "a longer day told"
+    },
+    {
+      "turn": "neutral",
+      "what": "The ordinary school day.",
+      "pulledBy": "the school row",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}

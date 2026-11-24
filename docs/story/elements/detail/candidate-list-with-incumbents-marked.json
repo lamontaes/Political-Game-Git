@@ -1,0 +1,34 @@
+{
+  "id": "candidate-list-with-incumbents-marked",
+  "kind": "detail",
+  "summary": "A list of candidates ends the story with the incumbents marked.",
+  "realLife": "A reference list of mayor and council candidates had an asterisk key for incumbents.",
+  "sources": [
+    "Patch (Gloucester Township, New Jersey), 'Council Member Who Won Primary, Resigned, Gets Replaced On Gloucester Twp. Election Ballot', Aug. 6, 2025: https://patch.com/new-jersey/gloucestertownship/newly-appointed-gloucester-twp-councilman-replaces-successor-who-won",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "election": 0.9
+  },
+  "inGame": "`candidate-filed` and the contest rows (candidates per seat, incumbents)",
+  "turns": [
+    {
+      "name": "a short list",
+      "pulledBy": "an uncontested race",
+      "writes": "the story names the one candidate",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a long list",
+      "pulledBy": "a crowded field",
+      "writes": "the list is grouped by seat",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

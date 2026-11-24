@@ -18,12 +18,16 @@
     {
       "name": "closes on hours",
       "pulledBy": "a plain opening",
-      "writes": "the last line is when it is open"
+      "writes": "the last line is when it is open",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "closes on the next event",
       "pulledBy": "a grand opening planned",
-      "writes": "the last line is the date"
+      "writes": "the last line is the date",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

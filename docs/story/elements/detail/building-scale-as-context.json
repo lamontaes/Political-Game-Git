@@ -19,12 +19,16 @@
     {
       "name": "no building context",
       "pulledBy": "a stand-alone shop",
-      "writes": "the story ends on the business"
+      "writes": "the story ends on the business",
+      "requiresFacts": ["lone-vote"],
+      "excludesFacts": []
     },
     {
       "name": "the building delayed",
       "pulledBy": "a project behind schedule",
-      "writes": "the story says the date moved"
+      "writes": "the story says the date moved",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

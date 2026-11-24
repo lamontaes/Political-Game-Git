@@ -1,0 +1,33 @@
+{
+  "id": "sign-the-board-amendments-intact",
+  "kind": "moment",
+  "summary": "{person} signs the amended county budget with the board chair there to answer for it.",
+  "realLife": "Milwaukee County Executive David Crowley accepted the board’s 2026 budget without vetoes after supervisors changed his recommendation.",
+  "sources": [
+    "https://county.milwaukee.gov/EN/County-Executive/News/County-Executive-Crowley-Chairwoman-Nicholson-Bovell-Approve-2026-County-Budget",
+    "https://urbanmilwaukee.com/2025/11/11/mke-county-crowley-signs-1-3-billion-budget-without-vetoes/"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["The executive has received an amended budget awaiting action."],
+  "weights": [
+    "A contentious amendment makes the signature more consequential."
+  ],
+  "usedBy": [],
+  "inGame": "needs: passed budget, amendments, executive action and date.",
+  "turns": [
+    {
+      "turn": "explained",
+      "what": "The executive explains why the whole budget still earned a signature.",
+      "pulledBy": "A supervisor asks about an amendment the executive opposed.",
+      "writesBack": "Link the explanation to the signed version."
+    },
+    {
+      "turn": "credited",
+      "what": "Each points to a different stage of the bill.",
+      "pulledBy": "The chair and executive disagree over who deserves credit.",
+      "writesBack": "Keep proposal and adoption dates in the account."
+    }
+  ],
+  "issues": ["none"]
+}

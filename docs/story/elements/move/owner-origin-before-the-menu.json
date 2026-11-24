@@ -18,12 +18,16 @@
     {
       "name": "origin skipped",
       "pulledBy": "an owner who declines to talk",
-      "writes": "the story goes to the menu"
+      "writes": "the story goes to the menu",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "origin told by a friend",
       "pulledBy": "a long time employee who speaks",
-      "writes": "the story quotes the friend"
+      "writes": "the story quotes the friend",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

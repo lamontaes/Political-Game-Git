@@ -1,0 +1,31 @@
+{
+  "id": "four-in-ten-full-time-students-have-a-job",
+  "kind": "detail",
+  "summary": "About four in ten full-time undergraduates have a job.",
+  "realLife": "In 2020, 40 percent of full-time undergraduates and 74 percent of part-time undergraduates were employed.",
+  "sources": [
+    "NCES, Condition of Education: College Student Employment: https://nces.ed.gov/programs/coe/indicator/ssa/college-student-employment"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year", "first-job-year"],
+  "gates": [],
+  "weights": {
+    "college-year": 0.5
+  },
+  "inGame": "the jobs module's hire rows for a person with a college record.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A full-time student with no job.",
+      "pulledBy": "no hire row",
+      "writesBack": "no job told"
+    },
+    {
+      "turn": "partial",
+      "what": "A student with a part-time job in the summer only.",
+      "pulledBy": "a short hire row",
+      "writesBack": "a short job told"
+    }
+  ],
+  "usedBy": []
+}

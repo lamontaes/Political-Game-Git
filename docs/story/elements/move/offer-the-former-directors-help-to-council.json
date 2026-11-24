@@ -1,0 +1,32 @@
+{
+  "id": "offer-the-former-directors-help-to-council",
+  "kind": "move",
+  "summary": "{manager} offers council a way to keep project administration in the department during a handoff.",
+  "realLife": "Sulphur’s city manager told the council that the former director had offered to help the current director administer the paving project in-house.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{manager}"],
+  "gates": [
+    "An offer of help from a predecessor and a choice about who will administer the project."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "needs: an offer of help from a predecessor and a choice about who will administer the project.",
+  "turns": [
+    {
+      "turn": "in-house",
+      "pulledBy": "Council wants staff to run the project.",
+      "what": "Ask the former director which tasks the offer covers.",
+      "writesBack": "Record the agreed division of work.."
+    },
+    {
+      "turn": "consultant",
+      "pulledBy": "Council prefers an outside engineer.",
+      "what": "Thank the former director and carry the outside option forward.",
+      "writesBack": "Record which responsibility remains with the city.."
+    }
+  ]
+}

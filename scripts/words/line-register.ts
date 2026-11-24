@@ -361,6 +361,29 @@ export function unreadBanksByGrade(): {
   return { goodWaitingForReader: waiting, unreadBanks: junk };
 }
 
+/**
+ * Story elements (docs/story/elements/<kind>/<id>.json) with no `turns` list
+ * yet. Printed, never failed on: element pull requests merge before their
+ * turns are written (CTO, Nov 24: "add turns before or after merging").
+ */
+export function elementsWithoutTurns(): { elements: number; noTurns: number } {
+  const dir = path.join(ROOT, "docs/story/elements");
+  let statDir = false;
+  try {
+    statDir = statSync(dir).isDirectory();
+  } catch {
+    statDir = false;
+  }
+  if (!statDir) return { elements: 0, noTurns: 0 };
+  const files = walk(dir, (file) => file.endsWith(".json"));
+  let noTurns = 0;
+  for (const file of files) {
+    const row = JSON.parse(readFileSync(file, "utf8")) as { turns?: unknown };
+    if (!Array.isArray(row.turns) || !row.turns.length) noTurns += 1;
+  }
+  return { elements: files.length, noTurns };
+}
+
 /** The figures the guard and the report read. */
 export function registerCounts() {
   const lines = bankLines();
@@ -368,6 +391,8 @@ export function registerCounts() {
   for (const bank of bankNames()) bankCount[bank] = 0;
   /** Lines tied to nothing of the speaker or the hearer: weak, none, or only a slot of the world. They can be said to anyone. */
   const untied: Record<string, number> = {};
+  /** Lines whose piece names no story element (an `elements` list with at least one id). */
+  const unelemented: Record<string, number> = {};
   const byTie: Record<Tie, number> = {
     declared: 0,
     binding: 0,
@@ -384,6 +409,8 @@ export function registerCounts() {
   for (const line of lines) {
     bankCount[line.bank] = (bankCount[line.bank] ?? 0) + 1;
     byTie[line.tie] += 1;
+    if (!line.elements.length)
+      unelemented[line.bank] = (unelemented[line.bank] ?? 0) + 1;
     if (line.tie === "none" || line.tie === "weak" || line.tie === "slot-world")
       untied[line.bank] = (untied[line.bank] ?? 0) + 1;
   }
@@ -391,6 +418,7 @@ export function registerCounts() {
     bankCount,
     byTie,
     untied,
+    unelemented,
     saysNothing: lines
       .filter((line) => line.empty)
       .map((line) => line.key)
@@ -409,6 +437,7 @@ export function registerCounts() {
 export function baselineOf(counts = registerCounts()) {
   return {
     untiedBankLines: counts.untied,
+    unelementedBankLines: counts.unelemented,
     saysNothing: counts.saysNothing,
     unreachedConversation: counts.unreachedConversation,
     unreadBanks: counts.unreadBanks,
@@ -435,6 +464,9 @@ if (process.argv[1]?.endsWith("line-register.ts")) {
         bankLines: sum(counts.bankCount),
         byTie: counts.byTie,
         untiedBankLines: sum(counts.untied),
+        unelementedBankLines: sum(counts.unelemented),
+        unelementedBankLinesByBank: counts.unelemented,
+        elementsWithNoTurns: elementsWithoutTurns(),
         saysNothingReplies: counts.saysNothing.length,
         unreachedConversationLines: counts.unreachedConversation.length,
         unreadBanks: counts.unreadBanks,

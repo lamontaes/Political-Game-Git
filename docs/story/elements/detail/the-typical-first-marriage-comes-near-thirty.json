@@ -1,0 +1,31 @@
+{
+  "id": "the-typical-first-marriage-comes-near-thirty",
+  "kind": "detail",
+  "summary": "The median age at first marriage is now about 30 for men and 29 for women, up from 21 to 24 in 1976.",
+  "realLife": "The estimated median age at first marriage was 30.5 for men and 28.6 for women in 2026, against 23.8 and 21.3 in 1976.",
+  "sources": [
+    "U.S. Census Bureau, Census Bureau Releases New Estimates on America's Families and Living Arrangements (Nov 17, 2026): https://www.census.gov/newsroom/press-releases/2026/new-estimates-on-families-and-living-arrangements.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["age", "partner"],
+  "gates": [],
+  "weights": {
+    "age": 0.5
+  },
+  "inGame": "the partnerships module's marriage and union start dates. needs: first-marriage age on the person card.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A marriage at 19, against the pattern.",
+      "pulledBy": "the partnerships record",
+      "writesBack": "an early union told in the loading story"
+    },
+    {
+      "turn": "late",
+      "what": "No marriage before 35.",
+      "pulledBy": "the partnerships record",
+      "writesBack": "no marriage in the told life"
+    }
+  ],
+  "usedBy": []
+}
