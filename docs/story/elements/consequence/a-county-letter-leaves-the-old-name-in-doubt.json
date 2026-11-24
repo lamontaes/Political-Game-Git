@@ -1,0 +1,30 @@
+{
+  "id": "a-county-letter-leaves-the-old-name-in-doubt",
+  "kind": "consequence",
+  "summary": "A county’s concern about losing a familiar name delays a channel decision while staff clarify its advice.",
+  "realLife": "O’Donnell asked what the county meant about losing Cutler, and the committee deferred the Florida channel proposal in December.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20871_Dec12_2024%20Minutes.pdf#page=8"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{county}", "{old-name}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the county letter, the request for clarification and any subsequent county reply.",
+  "turns": [
+    {
+      "turn": "the-board-defers-the-vote",
+      "what": "The board defers the vote.",
+      "pulledBy": "The county recommendation is ambiguous.",
+      "writesBack": "Staff must obtain clarification before returning the case."
+    },
+    {
+      "turn": "the-clerk-enters-the-response",
+      "what": "The clerk enters the response.",
+      "pulledBy": "The county explains which name it wants retained.",
+      "writesBack": "The chair can put the matter back on the docket."
+    }
+  ]
+}
