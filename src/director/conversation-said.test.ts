@@ -108,17 +108,25 @@ it(`the lines the said field changed read as played in ${DRAWS.length} pinned pl
             `${line.speakerId === me ? "You" : other.givenName}: ${line.text}`,
         );
         let said = false;
-        for (const line of talk.lines) {
+        for (const [at, line] of talk.lines.entries()) {
           expect(line.text, `${place.name} ${core.date}`).not.toMatch(/[{}]/);
           const shape = SHAPES.find((row) => row.pattern.test(line.text));
           if (!shape) continue;
           said = true;
           shapes.add(shape.key);
-          // The slot is filled by the question's subject, not its longer name.
-          expect(
+          // The slot is filled by the question's subject, not its longer name;
+          // a question's second naming in a talk is said as "it" (the engine's
+          // say-it-once rule), which holds the name when an earlier line did.
+          const holdsName = (text: string) =>
             SAID_VALUES.some((value) =>
-              line.text.toLowerCase().includes(value.toLowerCase()),
-            ),
+              text.toLowerCase().includes(value.toLowerCase()),
+            );
+          expect(
+            holdsName(line.text) ||
+              (/\bit\b/i.test(line.text) &&
+                talk.lines
+                  .slice(0, at)
+                  .some((earlier) => holdsName(earlier.text))),
             `${place.name}: "${line.text}" holds no question's said name`,
           ).toBe(true);
         }
