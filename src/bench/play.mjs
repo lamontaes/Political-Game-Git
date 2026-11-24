@@ -6983,7 +6983,20 @@ function growIntoRoom(box) {
   const hidden = box.scrollHeight - box.clientHeight;
   const room = tallest - sheet.getBoundingClientRect().height / uiScale();
   if (hidden <= 1 || room <= 1) return;
-  box.style.maxHeight = `${box.clientHeight + Math.min(hidden, Math.floor(room))}px`;
+  const target = box.clientHeight + Math.min(hidden, Math.floor(room));
+  // A list of headlines ends on a whole row: the box takes the room only as far
+  // as the last row that fits (the rest scrolls inside it).
+  const rows = box.querySelectorAll(".news-row");
+  let fitted = 0;
+  if (rows.length) {
+    const top = box.getBoundingClientRect().top;
+    for (const row of rows) {
+      const bottom = (row.getBoundingClientRect().bottom - top) / uiScale();
+      if (bottom > target + 0.5) break;
+      fitted = bottom;
+    }
+  }
+  box.style.maxHeight = `${Math.ceil(fitted || target)}px`;
 }
 function fitPagersNow(root, waits = 30) {
   window.requestAnimationFrame(() => {
