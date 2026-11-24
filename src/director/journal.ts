@@ -1278,6 +1278,9 @@ function journalTold(
         facts["age-then"] = ageThen(person.birthDate, person.id);
       }
     }
+    // An age of 0 is never said ("I was 0 when we moved"): the fact is left
+    // out, so the lines that need it don't play.
+    if (facts["age-then"]?.text === "0") delete facts["age-then"];
     const row = rows.find((entry) =>
       moment.causeKind.startsWith(entry.kindPrefix),
     );
@@ -1894,7 +1897,9 @@ function journalTold(
     // When they were young, the age frames it: "When I was 7, my father died."
     // Only what happened around a young person (a death, a move, an
     // illness), as the row says; never a race or their own child's birth.
-    if (young && row.framesAge) {
+    // Never "When I was 0": a moment in the first year of life is told
+    // without its age (Oakwood, seed d3e8d77bc357f92b, W3 on Nov 24).
+    if (young && row.framesAge && age > 0) {
       const frame = render(
         { part: "memoir", field: "whenAge" },
         {
