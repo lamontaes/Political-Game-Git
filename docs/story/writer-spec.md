@@ -75,12 +75,27 @@ A line goes in your bank's `parts` array, in the same shape as the lines already
 - **`requiresFacts`:** every slot the text names, plus any fact that gates the line (a stance, a law in force, `told-theme`).
 - **`after`:** leave it out unless the line leans on the one before.
 
+## Elements: what each line draws on (the CTO, Nov 24, 7133845630)
+
+The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment, move, voice, situation, detail, consequence). Read it before you write; the 179 scene patterns are in it as situations (`pattern-<id>-<title>`).
+
+- **A line cites its elements** in its own field, the ids of the element files it draws on:
+  `"elements": ["pattern-a01-brushed-off-by-the-body", "speaker-who-asks-often"]`
+  The id is the file's name without `.json`, unique across kinds. A line with no real element behind it says so by having none, and that is a line to look at twice.
+- **Something real you find** goes into the bank first, in an `elements:` PR to main (docs only, 25 or more files, merged by the CTO), so every writer can use it the same hour. Search the bank for a match before adding one; add your evidence to a match instead of a twin.
+- **`usedBy`** stays as the element's author left it; nobody hand-edits it to list lines.
+- **Sources are the real thing** (the CTO, 7134833236): an element's `sources` name the real speech, paper, record or archive with its URL (presidency.ucsb.edu, a state archive, the paper's own page). Our own research notes may be one extra line, never the only one.
+- **Format before you push:** `npx prettier --write docs/story/elements`. An element PR that fails Prettier waits.
+- **The owner's words hold in elements too:** never "ward" in a summary or moment (the place's own word from its record, or "a council member").
+
 ## Checks before you post
 
 ```
 OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run -s words:rules
 npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/outline-planner.test.ts src/english/least-recent-wording.test.ts
 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-six.jsonl
+SIXES=10 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-drawn.jsonl
+BANK=data/english/parts/<your bank>.json KIND=<kind> node --import tsx scripts/sameness/draw-count.ts scripts/sameness/inputs/<kind>-drawn.jsonl
 KIND=journal-evening node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/journal-evening-six.jsonl
 SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/first-evening-packet.ts > packet.md
 ```
@@ -89,7 +104,8 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 - **The tests:** all pass.
 - **The gate:** part 2 prints the failing frames by slot, and `V=1` lists them. Your slots' counts must fall batch by batch.
   - The inputs hold the six packet worlds with drawn traits, so slots a world fact gates (a disaster, a good year) are overcounted.
-  - A drawn-world input replaces them when the Story lead's run finishes.
+  - `inaugural-drawn.jsonl` holds 60 drawn lives, one each; `SIXES=10` reads each once. That is the count the hourly report gives. The Journal's and the talk's drawn inputs follow as `<kind>-drawn.jsonl`.
+- **The draw count** (`scripts/sameness/draw-count.ts`, W1's method, #9750 7134029654): lists, by move, every line of your bank that no telling picked over the inputs under 60 trait draws. A line gated on a fact no input world holds is not dead. A line whose facts the worlds hold and that never plays is: usually a slot the row's `budgets` let into one sentence only (`term-left`, `theme-name`, `theme-short`, `the-disaster` in an address), already said by the move before. Rewrite or delete it; a dead line is not depth. Give each fact set 20 or more live lines.
 - **The packet:** read your slot's lines as they play in all six places.
 
 **The CTO's gate (7131781243),** over 20 drawn sixes:
@@ -195,12 +211,12 @@ A story's lede and body (`kind: "written"`).
 - **No headline repeats its lede.**
 - **Then:** the story kinds the packet shows most (a business opens, break-ins, the jobless rate, a council vote). They're worded from `news.json` and `headlines.json` today and move onto the planner. The Story lead will add their kinds to `outlines.json` as you reach them.
 
-## Scenes: all 89 types, one engine (the CTO, Nov 24)
+## Scenes: one engine, depth in what plays (the CTO, Nov 24, 13:51Z: "Depth, not breadth")
 
-Every scene type composes through the one scene engine (`src/director/scene-talk.ts`). Its dialogue lines are in `data/english/parts/scene-talk.json`, by `purpose`; the narration that opens a scene is in `data/english/parts/scene-words.json`. Each type follows its real-lives pattern (skill `scenes-from-life`, `docs/story/scene-patterns.md` and `scene-pattern-map.md`).
+The count of types that compose is dropped, and a type with no lines waits. Deepen the types that play now. Every scene type composes through the one scene engine (`src/director/scene-talk.ts`). Its dialogue lines are in `data/english/parts/scene-talk.json`, filed by `uses[].purpose`, which is not the type's name: a type's `purpose` is in `src/director/data/situation-types.json` (door-ask is `ask-support`, volunteer-offer is `offer-help`, first-day is `first-day-ropes`); the narration that opens a scene is in `data/english/parts/scene-words.json`. Each type follows its real-lives pattern (skill `scenes-from-life`, `docs/story/scene-patterns.md` and `scene-pattern-map.md`).
 
 - **What each type lacks:** Fixer A's table (#9750, 7129729484) lists, for every type, whether it composed, skipped or was never reached, its narration / asks / replies counts, and what is missing. The baseline is 9 of 89 composing.
-- **One file, your own region.** The owner's grades and the judged files hold these lines by key, so the bank is not split. Insert each new line directly after the last existing line of the same purpose, never at the end of the file, and never reorder. Your types sit in their own regions, so branches merge cleanly. A line you delete: name its key in your batch post.
+- **A part file per new writer.** The owner's grades and the judged files hold the existing lines by key, so `scene-talk.json` itself is not split. A writer starting a new area (the two Codex writers: `scene-talk-office.json` for holding office and the executives, `scene-talk-seats.json` for seats, the off year and industries) gets a part file of the same shape, read by the engine as one bank with it; the Story lead makes it with your first batch, so post that batch as a list of lines on your branch and ask. In `scene-talk.json`, keep to your own region. Insert each new line directly after the last existing line of the same purpose, never at the end of the file, and never reorder. Your types sit in their own regions, so branches merge cleanly. A line you delete: name its key in your batch post.
 - **Narration lines** for a type go in `scene-words.json` the same way, after the existing lines of the same `subject`.
 - **A type composes** when it has narration, an opening ask that its facts can word, and two or more replies that fit (`scene-talk.ts`). That is the hourly count.
 - **Checks:** `npm run words:rules`, `npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/reply-pairs.test.ts src/director/scene-talk.test.ts`, and the type forced in dev mode (`src/bench/dev-views/scene-force-map.json`) where it can be.
