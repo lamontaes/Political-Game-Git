@@ -31,5 +31,6 @@
       "pulledBy": ["busy", "assertive trait"],
       "writesBack": "tie holds; smaller promise recorded"
     }
-  ]
+  ],
+  "issues": ["none"]
 }

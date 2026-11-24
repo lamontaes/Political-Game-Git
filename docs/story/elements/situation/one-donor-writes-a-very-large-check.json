@@ -1,0 +1,29 @@
+{
+  "id": "one-donor-writes-a-very-large-check",
+  "kind": "situation",
+  "summary": "One little-known donor puts a very large sum into a single local race, and the paper reports it.",
+  "realLife": "A Sarasota city commission race drew a $200,000 contribution from a donor few had heard of.",
+  "sources": [
+    "WUSF, little-known donor injects $200,000 into Sarasota City Commission race: https://www.wusf.org/politics-issues/2026-10-24/little-known-donor-injects-200000-sarasota-city-commission-race"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["money", "name"],
+  "gates": [],
+  "weights": {
+    "donor-ask": 0.8
+  },
+  "inGame": "campaign-gift record with gift-biggest and gift-weight; needs: a cap or reporting rule that makes a gift newsworthy",
+  "turns": [
+    {
+      "turn": "The donor gives small and often",
+      "pull": "a broad circle of givers",
+      "writes": "writes many gifts and no big-check story"
+    },
+    {
+      "turn": "The big gift comes from someone the candidate knows",
+      "pull": "closeness record",
+      "writes": "writes a warmer donor call and a press question"
+    }
+  ],
+  "usedBy": ["donor-ask"]
+}

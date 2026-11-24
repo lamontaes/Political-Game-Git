@@ -40,5 +40,6 @@
       "pulledBy": "theme-short already said once (budget)",
       "writesBack": "The point reuses the short name only where the budget allows."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

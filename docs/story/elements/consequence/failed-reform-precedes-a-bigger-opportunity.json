@@ -27,5 +27,6 @@
       "pulledBy": "The panel’s charge includes the same question and accepts earlier local work.",
       "writesBack": "The panel receives the proposal with its local vote history attached."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

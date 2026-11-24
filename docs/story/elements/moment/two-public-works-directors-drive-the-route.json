@@ -1,0 +1,32 @@
+{
+  "id": "two-public-works-directors-drive-the-route",
+  "kind": "moment",
+  "summary": "{director} rides the candidate streets with the person who used to hold the job.",
+  "realLife": "In Sulphur, the former and current public works directors drove prospective paving routes together and discussed which streets were ready.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{director}"],
+  "gates": [
+    "Completed field visit naming both directors and the candidate routes."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: completed field visit naming both directors and the candidate routes.",
+  "turns": [
+    {
+      "turn": "agreed",
+      "pulledBy": "The two agree that a street is ready.",
+      "what": "Put their joint observation in the draft list.",
+      "writesBack": "The street has a field note from both directors.."
+    },
+    {
+      "turn": "check-again",
+      "pulledBy": "They disagree about what they saw.",
+      "what": "Ask for a second inspection.",
+      "writesBack": "Keep the street marked for review.."
+    }
+  ]
+}

@@ -26,5 +26,6 @@
       "pulledBy": "The candidate knows the caller personally and the caller has offered space without promising money.",
       "writesBack": "The campaign records a possible host and leaves the cash tally alone."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

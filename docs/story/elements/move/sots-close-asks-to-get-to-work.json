@@ -1,0 +1,35 @@
+{
+  "id": "sots-close-asks-to-get-to-work",
+  "kind": "move",
+  "summary": "The close asks everyone to get to work.",
+  "realLife": "Four of six governors read closed with a call to work together or get to work: Michigan, Wisconsin, Colorado, and Tennessee's pursuing it with the legislators.",
+  "sources": [
+    "https://www.fox17online.com/news/politics/watch-governor-whitmer-delivers-2023-state-of-the-state-address-gop-responds",
+    "https://urbanmilwaukee.com/pressrelease/press-release-gov-evers-delivers-2024-state-of-the-state-address/",
+    "https://www.denver7.com/news/local-news/read-gov-jared-poliss-full-2025-state-of-the-state-address",
+    "https://www.wsmv.com/2023/02/07/gov-bill-lee-state-state-remarks/",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["body-word"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The send-off lines are plain next steps; needs: a send-off that names the legislature and asks it to work.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The close says the governor will go it alone.",
+      "pulledBy": "a competitive speaker; the other party holds the body",
+      "writesBack": "The paper reports an ultimatum."
+    },
+    {
+      "turn": "neutral",
+      "what": "A thank-you and no ask.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "No work asked."
+    }
+  ]
+}

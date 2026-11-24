@@ -34,5 +34,6 @@
       "pulledBy": ["a flexible employer", "a record of the pay figure"],
       "writesBack": "The job record starts at a middle pay, and the hiring manager tie warms."
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage"]
 }

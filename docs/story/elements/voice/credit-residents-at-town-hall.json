@@ -27,5 +27,6 @@
       "pulledBy": "The host gives displaced households the first turn.",
       "writesBack": "The meeting minutes put residents' testimony ahead of the president's remarks."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

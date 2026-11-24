@@ -1,0 +1,29 @@
+{
+  "id": "a-member-calls-a-town-hall-after-a-zoning-vote",
+  "kind": "moment",
+  "summary": "A commissioner holds a town hall after a vote so residents can ask questions.",
+  "realLife": "A Gainesville commissioner organized a town hall after a zoning vote so residents could be heard.",
+  "sources": [
+    "Yahoo News, exclusionary zoning and utility bills among issues debated at a Gainesville town hall: https://news.yahoo.com/exclusionary-zoning-high-gru-bills-153140450.html"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["issue", "office"],
+  "gates": [],
+  "weights": {
+    "town-hall-question": 0.8
+  },
+  "inGame": "the town hall cause event after a recorded vote; town-hall-question",
+  "turns": [
+    {
+      "turn": "Few residents come",
+      "pull": "a quiet vote",
+      "writes": "writes a short evening"
+    },
+    {
+      "turn": "A crowd comes angry",
+      "pull": "a close vote",
+      "writes": "writes a long question line"
+    }
+  ],
+  "usedBy": ["town-hall-question"]
+}

@@ -26,5 +26,6 @@
       "pulledBy": "Both employers have dated correspondence on file and the applicant has a confirmed start date.",
       "writesBack": "The applicant declines the later offer and the first job remains on the employment record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -1,0 +1,32 @@
+{
+  "id": "school-project-old-file-new-penalty",
+  "kind": "situation",
+  "summary": "A finished school project in {place} returns to the executive's desk because the state says the district missed a filing deadline.",
+  "realLife": "New York sought repayment from Spackenkill over the timing of a final cost report for school improvements completed years earlier.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/legislation_to_safeguardspackenkill_students_and_taxpayers_heads_to_governors_desk.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "A state recovery notice naming the completed project and the filing at issue."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a state recovery notice naming the completed project and the filing at issue.",
+  "turns": [
+    {
+      "turn": "documented",
+      "pulledBy": "The file contains proof of submission.",
+      "what": "Give the reviewer the dated receipt.",
+      "writesBack": "Record what the receipt establishes."
+    },
+    {
+      "turn": "disputed",
+      "pulledBy": "The filing date remains disputed.",
+      "what": "Ask the district and state for their records.",
+      "writesBack": "Keep the disagreement attributed."
+    }
+  ]
+}

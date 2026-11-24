@@ -29,5 +29,6 @@
       "pulledBy": "That agency has complete records while the others are collecting theirs.",
       "writesBack": "The first report covers a named agency only."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

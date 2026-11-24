@@ -27,5 +27,6 @@
       "pulledBy": "Habitat money is secured but the road work lacks funding.",
       "writesBack": "The revised schedule separates funded and deferred work."
     }
-  ]
+  ],
+  "issues": ["budget:naturalResources"]
 }
