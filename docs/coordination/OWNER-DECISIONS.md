@@ -20,6 +20,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
   - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
+## Nov 24, 2026, about 8:55 to 9:50 a.m.: the element bank, every line tied to an element, and turns (owner, verbatim; recorded by the CTO)
+
+- **A shared element bank:** "all of these shouldn't be necessarily written independently... use real life for everything... There should be a place where they can all see, I guess, the elements... the Codex writers... can do research and putting the elements in there, and you can check them." The bank is `docs/story/elements/<kind>/<id>.json`. The CTO checks element PRs.
+- **The loop:** "find like real life scenes... look at what the code can do and make that... Look at all my examples." Elements name the game parts that carry them (`inGame`), or "needs: …", which becomes an owner question. His own examples become elements too.
+- **Every line and turns:** "every single line in the game right now needs to be go back and matched to an element or an element created if there's not one. And I guess by very nature, the opposite of most of these elements should also be possible as well, just like the laws... a scene with 10 elements except for flipped... negative... or neutral."
+  - Every line in every bank is tied to an element. A line nothing real stands behind is deleted.
+  - Every element carries `turns` (opposite, neutral, partial), each with what pulls it and what it writes back. The director picks the turn from the world.
+  - A guard counts lines with no element and elements with no turns, against baselines that only shrink.
+
 ## Nov 24, 2026, about 8:45 a.m.: the story engine as one system (owner, verbatim; recorded by the CTO)
 
 - "No. Oh my God. Don't work on the address. Work on speeches. Don't work on the first evening's entry. Work on the journal. Don't work at the talk at home. Work at home stuff. Don't work on the... Or yes, work on the news. Why are you doing these incremental little steps? This is why nothing is getting done. The story engine is supposed to work together. I don't understand why it takes so long."
