@@ -14,6 +14,7 @@
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
   billOf,
+  bodyOf,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
@@ -26,7 +27,6 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import { officeWords } from "../english/said-as";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import type { Fact } from "../english/scene-talk-words";
 
 type Reason = "own-view" | "people" | "own-bill";
@@ -124,19 +124,18 @@ export function floorDebateFacts(
     facts["bill-purpose"] = { text: named.purpose, sourceRecordIds: cited };
   }
   // The presiding officer's title, from the body's own row; "Chair" where none.
-  const office = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(bill.bodyOfficeId) as { readonly kind: string } | undefined
-  )?.kind;
+  const chamber = said.chamber || bill.bodyOfficeId;
+  const chamberRecords = [...cited, chamber];
+  const office = bodyOf(api, chamber)?.kind;
   facts.presiding = {
     text: officeWords(`${office}:presiding`)?.before ?? "Chair",
-    sourceRecordIds: cited,
+    sourceRecordIds: chamberRecords,
   };
-  facts[bodyRegister(api, said.chamber)] = {
+  if (office === "council")
+    facts["council-floor"] = { text: "yes", sourceRecordIds: chamberRecords };
+  facts[bodyRegister(api, chamber)] = {
     text: "yes",
-    sourceRecordIds: cited,
+    sourceRecordIds: chamberRecords,
   };
 }
 
