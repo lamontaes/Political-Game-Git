@@ -2,8 +2,9 @@
   "id": "first-door-closes-on-the-canvasser",
   "kind": "moment",
   "summary": "A first-time canvasser begins a shift with a door shut in their face.",
-  "realLife": "owner, Nov 14: An abrupt rejection can be someone’s first experience knocking on doors.",
+  "realLife": "Charlotte Smallwood-Cook recalled her first knock as a candidate for Wyoming County district attorney in New York. She got as far as introducing herself and naming the office before the woman who answered shut the door.",
   "sources": [
+    "https://history.nycourts.gov/wp-content/uploads/2019/02/OralHistory_SmallwoodCook.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "needs: combine a first-outing fact with the resident ending the encounter.",
@@ -18,6 +19,12 @@
       "what": "The resident opens the door long enough to ask who sent the canvasser.",
       "pulledBy": "The resident recognizes the group on the volunteer's card.",
       "writesBack": "The first stop yields a brief conversation."
+    },
+    {
+      "turn": "partial",
+      "what": "The resident shuts the door on the introduction, then calls through it to ask the canvasser to take the leaflet back.",
+      "pulledBy": "The canvasser left a leaflet on the mat and can still hear the resident.",
+      "writesBack": "The canvasser retrieves it and marks the address as having declined literature."
     }
   ]
 }

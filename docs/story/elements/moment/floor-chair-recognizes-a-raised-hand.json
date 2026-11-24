@@ -2,8 +2,9 @@
   "id": "floor-chair-recognizes-a-raised-hand",
   "kind": "moment",
   "summary": "The presiding officer calls on a member who has asked for the floor.",
-  "realLife": "owner, Nov 14: Let the player see how a colleague got the floor before hearing them speak.",
+  "realLife": "Jeannette Rankin repeatedly tried to get the floor during the House debate in December 1941. Speaker Sam Rayburn ruled her out of order, and she had to wait for the roll call to register her opposition.",
   "sources": [
+    "https://history.house.gov/People/Detail/20147",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "needs: a floor-debate turn identifying the presiding officer and recognized speaker.",
@@ -18,6 +19,12 @@
       "what": "The chair acknowledges the member and calls on them after the pending question.",
       "pulledBy": "Another member already has the floor.",
       "writesBack": "The speaking order preserves the earlier recognition."
+    },
+    {
+      "turn": "opposite",
+      "what": "The chair rules the member out of order and goes straight to the vote.",
+      "pulledBy": "Debate has closed before the member seeks recognition.",
+      "writesBack": "The journal carries the member’s vote, and the office has no floor speech to send constituents."
     }
   ]
 }
