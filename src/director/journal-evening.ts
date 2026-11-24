@@ -14,7 +14,11 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import type { GroundedEnglishFact } from "../english/grounded-english";
-import { JOURNAL_EVENING, tell } from "../english/outline-planner";
+import {
+  JOURNAL_EVENING,
+  tell,
+  type TellingInput,
+} from "../english/outline-planner";
 import speechOutlines from "./data/speech-outlines.json" with { type: "json" };
 import { addressPointFor, pointKey } from "./conversation";
 import type { JournalChapter } from "./journal";
@@ -62,15 +66,16 @@ function saidAtTable(
 }
 
 /**
- * The opening evening as one Journal chapter, or null when the person did
- * not watch it or it is past the page's last day.
+ * What the evening's diary entry is told from, or null when the person did
+ * not watch it or it is past the page's last day. The chapter and the
+ * sameness measure read the same input.
  */
-export function eveningChapter(
+export function eveningTelling(
   core: Readonly<CoreState>,
   director: Director,
   personId: PersonId,
   through: IsoDate,
-): JournalChapter | null {
+): TellingInput | null {
   const story = director.ledger.opening;
   if (!story || story.date > through) return null;
   if (!story.home.memberIds.includes(personId)) return null;
@@ -123,7 +128,7 @@ export function eveningChapter(
   }
   const home = corePlaceByJurisdictionId(me.placeId as never);
   if (home) facts.place = fact(spoken(home), [me.householdId]);
-  const told = tell({
+  return {
     kind: "journal-evening",
     facts,
     momentKey: `journal:${story.id}:${personId}`,
@@ -131,7 +136,23 @@ export function eveningChapter(
     sourceRecordIds: ids,
     knower: personId as EntityId,
     traits: me.traits,
-  });
+  };
+}
+
+/**
+ * The opening evening as one Journal chapter, or null when the person did
+ * not watch it or it is past the page's last day.
+ */
+export function eveningChapter(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  through: IsoDate,
+): JournalChapter | null {
+  const input = eveningTelling(core, director, personId, through);
+  const story = director.ledger.opening;
+  if (!input || !story) return null;
+  const told = tell(input);
   if (!told) return null;
   const title = new Date(`${story.date}T00:00:00Z`).toLocaleDateString(
     "en-US",

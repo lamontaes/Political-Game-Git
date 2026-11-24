@@ -4110,6 +4110,28 @@ function pointSubject(
   };
 }
 
+/** The facts of what a talk says once, marked where the talk has already said it. */
+export function withOnceSaid(
+  facts: Facts,
+  speakerId: PersonId,
+  recentPartKeys: readonly string[],
+): Facts {
+  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
+    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
+  );
+  return onceSaid.length
+    ? {
+        ...facts,
+        ...Object.fromEntries(
+          onceSaid.map((fact) => [
+            fact,
+            { text: "yes", sourceRecordIds: [speakerId] },
+          ]),
+        ),
+      }
+    : facts;
+}
+
 /**
  * A line the English engine composes from parts (opener, core, reason,
  * closer), for a subject whose lines are made that way: the hearer's point of
@@ -4128,25 +4150,12 @@ export function composedLine(
   // What is said once in a talk (how long they have held a stand; being
   // glad to hear the player's voice) is not said again in it (lead, Nov 13;
   // Words lead, Nov 14).
-  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
-    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
-  );
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts: onceSaid.length
-      ? {
-          ...facts,
-          ...Object.fromEntries(
-            onceSaid.map((fact) => [
-              fact,
-              { text: "yes", sourceRecordIds: [speakerId] },
-            ]),
-          ),
-        }
-      : facts,
+    facts: withOnceSaid(facts, speakerId, recentPartKeys),
     stage,
     momentKey,
     // Oldest first: what the player heard on earlier days, then today, then
@@ -5331,29 +5340,7 @@ function raiseSubject(
           core,
           otherId,
           composedRaise,
-          named || theyOpened
-            ? {
-                ...subject.facts,
-                ...(named
-                  ? {
-                      "about-named": {
-                        text: "yes",
-                        sourceRecordIds: subject.facts.about!.sourceRecordIds,
-                      },
-                    }
-                  : {}),
-                // They raised the talk's subject themselves, so a line that
-                // invites the player to ask them is not said (Words lead).
-                ...(theyOpened
-                  ? {
-                      "they-opened": {
-                        text: "yes",
-                        sourceRecordIds: [otherId],
-                      },
-                    }
-                  : {}),
-              }
-            : subject.facts,
+          raiseFacts(subject.facts, otherId, named, theyOpened),
           subject.stage ?? "default",
           momentKey,
           saidParts(conversation, otherId),
@@ -5552,6 +5539,36 @@ function tellable(
               row,
             )),
   );
+}
+
+/**
+ * The facts a subject is raised with: the subject's own, with the question
+ * marked as already named in the talk and the talk marked as the speaker's
+ * own opening, where they are.
+ */
+export function raiseFacts(
+  facts: Facts,
+  otherId: PersonId,
+  named: boolean,
+  theyOpened: boolean,
+): Facts {
+  if (!named && !theyOpened) return facts;
+  return {
+    ...facts,
+    ...(named
+      ? {
+          "about-named": {
+            text: "yes",
+            sourceRecordIds: facts.about!.sourceRecordIds,
+          },
+        }
+      : {}),
+    // They raised the talk's subject themselves, so a line that invites the
+    // player to ask them is not said (Words lead).
+    ...(theyOpened
+      ? { "they-opened": { text: "yes", sourceRecordIds: [otherId] } }
+      : {}),
+  };
 }
 
 /** The other person asks about the first of these kinds they share with the player, else raises one of their own. */
