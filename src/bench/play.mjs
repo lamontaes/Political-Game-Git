@@ -5539,7 +5539,9 @@ const sheets = {
                 ? [
                     dotRows(
                       f.stances.map((st) => ({
-                        label: policyLabel(st.question),
+                        // The question's own plain words, never a catalog's name
+                        // ("a bigger police budget", not "Police protection").
+                        label: st.said ?? policyLabel(st.question),
                         value:
                           st.position > 0
                             ? (stance.for ?? "")
@@ -5808,31 +5810,33 @@ const sheets = {
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
       // A race the player filed for says so before anything about filing:
-      // its page offers no filing, so its line must not either.
-      aside: filed.has(race.contestId)
-        ? status(race)
-        : race.announced
-          ? labels.youAnnounced
-          : // Old enough only after this race's filing closes: filing never
-            // opens for them in this race, so its line names no filing day.
-            own && race.cannotFile?.metOn && tooYoungFor(race)
-            ? race.filers.length
-              ? status(race)
-              : ""
-            : own && race.cannotFile?.metOn
-              ? `${labels.filingOpens} ${dateWords(
-                  race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                    ? race.filingOpens
-                    : race.cannotFile.metOn,
-                  { year: today() },
-                )}`
-              : own && race.bar === "window-not-open" && race.filingOpens
-                ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-                : own && race.playerMayFile && race.filingOpen
-                  ? labels.fileForIt
-                  : race.filers.length
-                    ? status(race)
-                    : "",
+      // its page offers no filing, so its line must not either. Every row has
+      // an aside, so every row breaks alike: a race with no one filed says so.
+      aside:
+        (filed.has(race.contestId)
+          ? status(race)
+          : race.announced
+            ? labels.youAnnounced
+            : // Old enough only after this race's filing closes: filing never
+              // opens for them in this race, so its line names no filing day.
+              own && race.cannotFile?.metOn && tooYoungFor(race)
+              ? race.filers.length
+                ? status(race)
+                : ""
+              : own && race.cannotFile?.metOn
+                ? `${labels.filingOpens} ${dateWords(
+                    race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                      ? race.filingOpens
+                      : race.cannotFile.metOn,
+                    { year: today() },
+                  )}`
+                : own && race.bar === "window-not-open" && race.filingOpens
+                  ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+                  : own && race.playerMayFile && race.filingOpen
+                    ? labels.fileForIt
+                    : race.filers.length
+                      ? status(race)
+                      : "") || labels.noFilers,
       data: { contest: race.contestId },
       race,
     });
@@ -5859,28 +5863,35 @@ const sheets = {
             },
           ]
         : []),
-      // The offices the player runs for come first, each with when they can file.
-      ...(mine.length
+      // One list, no headings over it (owner, Nov 24): the offices the player
+      // runs for come first, each with when they can file, then the rest of the
+      // ballot by election day; a race's page says its day.
+      ...(mine.length || byDate.size
         ? [
             {
-              title: labels.yourOffices,
-              entries: mine.map((race) => entryOf(race, true)),
+              entries: [
+                ...mine.map((race) => entryOf(race, true)),
+                ...[...byDate.entries()]
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .flatMap(([, races]) =>
+                    races.map((race) => entryOf(race, false)),
+                  ),
+              ],
             },
           ]
         : []),
-      ...[...byDate.entries()]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([day, races]) => ({
-          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
-          entries: races.map((race) => entryOf(race, false)),
-        }))
-        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({
       title: labels.title,
       groups,
       className: "elections-screen",
+      // The tab already says Elections; every row takes its aside on its own
+      // line, and the list shows whole rows only.
+      headed: false,
+      stacked: true,
+      wholeRows: true,
+      rowHeight: 54,
       render: async (entry) =>
         entry.ask
           ? askPage(entry.ask)

@@ -8,6 +8,7 @@ import { schoolsAttended } from "../core2/past";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import choiceBank from "../../data/english/parts/choice-names.json" with { type: "json" };
+import questionNames from "../../data/english/question-names.json" with { type: "json" };
 
 /** "aunt", "brother": the English engine's relation word for a kin key and the other person's look. */
 export function relationWord(
@@ -141,4 +142,19 @@ export function budgetLineNames(): Record<string, string> {
       (lineNames as { lines: Record<string, { name: string }> }).lines,
     ).map(([line, row]) => [`budget-line:${line}`, row.name]),
   );
+}
+
+/**
+ * What a stand is about, in the question's own plain words
+ * (data/english/question-names.json `about`: "a bigger police budget", "a
+ * lawyer for tenants facing eviction"), so a row reads "A bigger police
+ * budget ... For" and never by a catalog's name. Null where the data holds no
+ * wording for the question (a budget line the bank has not named): the screen
+ * then falls back to the catalog name and the question is listed as a line
+ * Story needs.
+ */
+export function standWords(question: string): string | null {
+  const text = (questionNames as { names: Record<string, { about?: string }> })
+    .names[question]?.about;
+  return text ? text[0]!.toUpperCase() + text.slice(1) : null;
 }
