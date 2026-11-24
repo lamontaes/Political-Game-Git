@@ -21505,28 +21505,6 @@
       "elements": ["mayor-opens-by-thanking-host-and-officials"]
     },
     {
-      "key": "opening-speech.salutation.polished-town-address-thank-you-and-thank-you-for-the-time",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Thank you, {body-name}, and thank you, {realm-bare}, for the time.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["body-name", "realm-bare"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-opens-by-thanking-host-and-officials"]
-    },
-    {
       "key": "opening-speech.salutation.polished-town-address-to-and-to-everyone-in-who-came-out",
       "move": "salutation",
       "kind": "spoken",
@@ -21593,94 +21571,6 @@
       "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
     },
     {
-      "key": "opening-speech.occasion.plain-town-address-a-lot-happened-in-this-year-and-is-where-i-want-to-spend-our",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "A lot happened in {realm-name} this year, and {theme-name} is where I want to spend our time.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "opening-speech.occasion.polished-town-address-of-everything-we-did-this-year-is-what-i-most-want-to-hear-a",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "Of everything we did this year, {theme-name} is what I most want {realm-name} to hear about.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "opening-speech.occasion.plain-town-address-i-ll-cover-the-year-in-by-way-of",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'll cover the year in {realm-name} by way of {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "town-address",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
-      "key": "opening-speech.close.plain-town-address-if-you-have-a-view-on-tell-me",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If you have a view on {theme-short}, tell me, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "realm-bare"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
-    },
-    {
       "key": "opening-speech.close.plain-town-address-thank-you-come-to-the-next-meeting-of-and-tell-us-what-you-t",
       "move": "close",
       "kind": "spoken",
@@ -21703,16 +21593,38 @@
       "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
-      "key": "opening-speech.close.polished-town-address-thanks-to-and-to-everyone-who-works-for",
-      "move": "close",
+      "key": "opening-speech.salutation.plain-town-address-neighbors-and-members-of-welcome",
+      "move": "salutation",
       "kind": "spoken",
-      "text": "Thanks to {body-name} and to everyone who works for {realm-name}.",
+      "text": "Neighbors, and members of {body-name}: welcome.",
       "uses": [
         {
-          "move": "close",
+          "move": "salutation",
           "subject": "town-address",
-          "role": "close",
-          "choice": "close",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-town-address-to-the-members-of-and-to-everyone-from-who-came-out",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "To the members of {body-name}, and to everyone from {realm-name} who came out:",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
           "tie": "frame",
           "requiresFacts": ["body-name", "realm-name"]
         }
@@ -21722,21 +21634,21 @@
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
-      "elements": ["mayor-closes-on-community-with-an-invitation"]
+      "elements": ["mayor-opens-by-thanking-host-and-officials"]
     },
     {
-      "key": "opening-speech.close.plain-town-address-if-we-keep-at-this-thank-you-and-thanks-to",
+      "key": "opening-speech.close.plain-town-address-meets-again-soon-and-i-hope-you-ll-come-and-say-what-you-thi",
       "move": "close",
       "kind": "spoken",
-      "text": "If we keep at this, {first-after} Thank you, {realm-bare}, and thanks to {body-name}.",
+      "text": "{body-name} meets again soon, and I hope you'll come and say what you think about {theme-short}.",
       "uses": [
         {
           "move": "close",
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "tie": "law",
-          "requiresFacts": ["first-after", "realm-bare", "body-name"]
+          "tie": "frame",
+          "requiresFacts": ["body-name", "theme-short"]
         }
       ],
       "voice": "plain",
@@ -21747,10 +21659,10 @@
       "elements": ["mayor-closes-on-community-with-an-invitation"]
     },
     {
-      "key": "opening-speech.close.polished-town-address-thank-you-for-having-me-and-thank-you-to-for-the-work-this-y",
+      "key": "opening-speech.close.plain-town-address-thank-you-for-coming-out",
       "move": "close",
       "kind": "spoken",
-      "text": "{realm-bare}, thank you for having me, and thank you to {body-name} for the work this year.",
+      "text": "Thank you for coming out, {realm-bare}.",
       "uses": [
         {
           "move": "close",
@@ -21758,10 +21670,10 @@
           "role": "close",
           "choice": "close",
           "tie": "frame",
-          "requiresFacts": ["realm-bare", "body-name"]
+          "requiresFacts": ["realm-bare"]
         }
       ],
-      "voice": "polished",
+      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -21791,209 +21703,10 @@
       "elements": ["stump-announcement-situation"]
     },
     {
-      "key": "opening-speech.salutation.plain-campaign-speech-good-people-of-i-m-glad-you-re-here",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Good people of {realm-name}, I'm glad you're here.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "campaign-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "opening-speech.salutation.plain-campaign-speech-friends-thanks-for-giving-me-a-few-minutes-in",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Friends, thanks for giving me a few minutes in {realm-name}.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "campaign-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "opening-speech.salutation.plain-campaign-speech-everybody-here-in-thanks-for-stopping",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody here in {realm-name}, thanks for stopping.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "campaign-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "opening-speech.salutation.polished-campaign-speech-thank-you-all-for-being-here-tonight-in",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Thank you all for being here tonight in {realm-name}.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "campaign-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"],
-          "onlyWhen": ["evening"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
-      "key": "opening-speech.salutation.polished-campaign-speech-fellow-residents-of-thank-you",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Fellow residents of {realm-name}, thank you.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "campaign-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "frame",
-          "requiresFacts": ["realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-announcement-situation"]
-    },
-    {
       "key": "opening-speech.occasion.plain-campaign-speech-i-want-to-be-your-and-i-want-to-talk-about",
       "move": "occasion",
       "kind": "spoken",
       "text": "I want to be your {office-title}, and I want to talk about {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "opening-speech.occasion.plain-campaign-speech-i-m-asking-to-make-me-its-and-i-ll-start-with",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'm asking {realm-name} to make me its {office-title}, and I'll start with {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "opening-speech.occasion.plain-campaign-speech-the-reason-i-want-to-be-your-comes-down-to",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "The reason I want to be your {office-title} comes down to {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "opening-speech.occasion.plain-campaign-speech-if-you-re-deciding-who-should-be-your-here-s-what-matters-to",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "If you're deciding who should be your {office-title}, here's what matters to me: {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
-      "key": "opening-speech.occasion.plain-campaign-speech-let-me-be-plain-about-why-i-want-to-be-your",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "Let me be plain about why I want to be your {office-title}: {theme-name}.",
       "uses": [
         {
           "move": "occasion",
@@ -22056,28 +21769,6 @@
       "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
-      "key": "opening-speech.occasion.plain-campaign-speech-i-ll-keep-this-short-i-want-to-be-your-and-it-s-about",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'll keep this short, {realm-bare}: I want to be your {office-title}, and it's about {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "tie": "frame",
-          "requiresFacts": ["realm-bare", "office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
-    },
-    {
       "key": "opening-speech.close.plain-campaign-speech-if-you-make-me-your-thank-you",
       "move": "close",
       "kind": "spoken",
@@ -22090,116 +21781,6 @@
           "choice": "close",
           "tie": "law",
           "requiresFacts": ["office-title", "first-after", "realm-bare"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "opening-speech.close.plain-campaign-speech-give-me-the-chance-and-thank-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Give me the chance, and {first-after} Thank you, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "campaign-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "law",
-          "requiresFacts": ["first-after", "realm-bare"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "opening-speech.close.polished-campaign-speech-send-me-to-be-your-and-thanks",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Send me to be your {office-title}, and {first-after} Thanks, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "campaign-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "law",
-          "requiresFacts": ["office-title", "first-after", "realm-bare"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "opening-speech.close.plain-campaign-speech-my-reason-is-and-i-d-be-proud-to-have-your-vote",
-      "move": "close",
-      "kind": "spoken",
-      "text": "My reason is {first-reason}, and I'd be proud to have your vote, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "campaign-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "stand",
-          "requiresFacts": ["first-reason", "realm-bare"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "opening-speech.close.polished-campaign-speech-it-comes-down-to-this-i-d-be-glad-to-earn-your-vote",
-      "move": "close",
-      "kind": "spoken",
-      "text": "It comes down to this: {first-reason}. I'd be glad to earn your vote, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "campaign-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "stand",
-          "requiresFacts": ["first-reason", "realm-bare"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
-    },
-    {
-      "key": "opening-speech.close.plain-campaign-speech-thank-you-i-ll-keep-working-on-if-you-send-me",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you, {realm-bare}. I'll keep working on {theme-short} if you send me.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "campaign-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "realm-bare"]
         }
       ],
       "voice": "plain",
@@ -22269,6 +21850,116 @@
         }
       ],
       "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-campaign-speech-thank-you-for-coming-out-to-hear-me",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you for coming out to hear me, {realm-bare}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-i-filed-for-because-of",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I filed for {office-title} because of {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-i-d-be-glad-to-have-your-vote-and-thank-you-for-listening",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I'd be glad to have your vote, {realm-bare}, and thank you for listening.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.polished-campaign-speech-i-d-be-proud-to-have-your-vote-for",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I'd be proud to have your vote for {office-title}, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-thank-you-for-hearing-me-out-i-d-like-to-be-your",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {realm-bare}. I'd like to be your {office-title}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -22386,28 +22077,6 @@
       "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
-      "key": "opening-speech.salutation.plain-floor-speech-colleagues-here-s-where-i-stand-on-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Colleagues, {presiding}, here's where I stand on this {measure}.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "floor-speech",
-          "role": "salutation",
-          "choice": "salutation",
-          "tie": "law",
-          "requiresFacts": ["presiding", "measure"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
-    },
-    {
       "key": "opening-speech.close.plain-floor-speech-i-ask-my-colleagues-to-vote-with-me-and-i-yield-the-floor",
       "move": "close",
       "kind": "spoken",
@@ -22430,94 +22099,6 @@
       "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
-      "key": "opening-speech.close.plain-floor-speech-i-ask-for-its-vote-and-i-yield",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I ask {body-name} for its vote, {presiding}, and I yield.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "floor-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["presiding", "body-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["floor-ends-on-yield-or-thanks"]
-    },
-    {
-      "key": "opening-speech.close.plain-floor-speech-colleagues-my-reason-is-i-yield",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Colleagues, my reason is {first-reason}. I yield, {presiding}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "floor-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "stand",
-          "requiresFacts": ["first-reason", "presiding"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["floor-ends-on-yield-or-thanks"]
-    },
-    {
-      "key": "opening-speech.close.polished-floor-speech-if-we-vote-this-way-i-yield",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we vote this way, {first-after} I yield, {presiding}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "floor-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "law",
-          "requiresFacts": ["first-after", "presiding"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["floor-ends-on-yield-or-thanks"]
-    },
-    {
-      "key": "opening-speech.close.polished-floor-speech-that-is-all-i-have-i-yield-the-floor-with-my-thanks",
-      "move": "close",
-      "kind": "spoken",
-      "text": "That is all I have, {presiding}. I yield the floor with my thanks.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "floor-speech",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame",
-          "requiresFacts": ["presiding"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["floor-ends-on-yield-or-thanks"]
-    },
-    {
       "key": "opening-speech.close.plain-floor-speech-whichever-way-it-goes-i-wanted-to-hear-this-before-the-vote",
       "move": "close",
       "kind": "spoken",
@@ -22530,6 +22111,94 @@
           "choice": "close",
           "tie": "frame",
           "requiresFacts": ["presiding", "body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-i-rise-on-this",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{presiding}, I rise on this {measure}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "law",
+          "requiresFacts": ["presiding", "measure"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-thank-you-i-ll-be-brief-on-this",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you, {presiding}. I'll be brief on this {measure}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "law",
+          "requiresFacts": ["presiding", "measure"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-i-ask-my-colleagues-to-join-me-and-i-yield-back",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I ask my colleagues to join me, {presiding}, and I yield back.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-colleagues-i-ask-for-your-vote-on-this-i-yield-back",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Colleagues, I ask for your vote on this {measure}. I yield back.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["measure"]
         }
       ],
       "voice": "plain",
