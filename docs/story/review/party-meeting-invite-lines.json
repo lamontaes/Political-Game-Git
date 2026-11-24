@@ -1357,9 +1357,7 @@
           "heard-fee-rule-enact",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "curious",
@@ -1370,9 +1368,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.put-me-down-i-want-to-hear-who-pays-for-bargaining-if-somebody-opts-out",
@@ -1404,9 +1400,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.leave-me-off-this-time-i-d-rather-talk-it-over-with-somebody-who-works-under-one-of-those-contracts-first",
@@ -1438,9 +1432,7 @@
       "move": "decline",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.state-request.coming-meeting-when-you-heard-my-case-for-letting-people-opt-out-of-the-fee-if-you-had-the-floor-instead-of-me-where-would-you-start",
@@ -1460,9 +1452,7 @@
           "heard-fee-rule-enact",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "warm",
@@ -1473,9 +1463,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.with-the-paycheck-what-does-a-worker-actually-get-to-decide-i-ll-come",
@@ -1507,9 +1495,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.i-ll-pass-i-don-t-want-the-floor-and-i-don-t-want-anybody-waiting-on-me-to-take-it",
@@ -1541,9 +1527,7 @@
       "move": "decline",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.state-request.last-time-i-asked-why-keeping-a-job-should-depend-on-paying-the-union-can-you-come-meeting-when-even-if-you-d-answer-that-differently",
@@ -1563,9 +1547,7 @@
           "heard-fee-rule-enact",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "steady",
@@ -1576,9 +1558,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.save-me-a-chair-i-like-a-meeting-where-you-can-answer-a-question-like-that-out-loud",
@@ -1610,9 +1590,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.count-me-out-for-this-one-you-can-ask-the-room-without-me",
@@ -1644,9 +1622,7 @@
       "move": "decline",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.state-request.i-made-the-case-for-collecting-a-share-of-bargaining-costs-from-everyone-the-contract-covers-will-you-come-meeting-when-was-there-a-question-you-wanted-to-get-in",
@@ -1666,9 +1642,7 @@
           "heard-fee-rule-repeal",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "curious",
@@ -1679,9 +1653,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.there-was-who-works-out-what-s-a-fair-share-i-ll-come-and-ask",
@@ -1713,9 +1685,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.i-think-i-heard-you-right-the-first-time-i-ll-sit-this-meeting-out",
@@ -1747,9 +1717,7 @@
       "move": "decline",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.state-request.suppose-the-contract-gets-you-a-raise-and-you-didn-t-pay-toward-bargaining-that-s-the-case-i-put-to-the-room-last-time-coming-back-meeting-when",
@@ -1769,9 +1737,7 @@
           "heard-fee-rule-repeal",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "calm",
@@ -1782,9 +1748,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.yes-i-d-like-to-hear-how-the-person-getting-that-paycheck-would-put-it",
@@ -1816,9 +1780,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.you-can-leave-me-off-i-d-like-to-think-that-one-through-on-my-own",
@@ -1850,9 +1812,7 @@
       "move": "decline",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.state-request.you-heard-where-i-stand-on-bargaining-fees-can-you-come-meeting-when-i-d-rather-have-you-ask-me-about-the-fee-than-go-home-wondering-what-it-pays-for",
@@ -1872,9 +1832,7 @@
           "heard-fee-rule-repeal",
           "prior-meeting-topic"
         ],
-        "requiresFacts": [
-          "meeting-when"
-        ]
+        "requiresFacts": ["meeting-when"]
       }
     ],
     "bearing": "hopeful",
@@ -1885,9 +1843,7 @@
       "move": "request",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-agree.put-me-down-i-d-like-to-know-how-much-of-the-work-happens-after-the-contract-s-signed",
@@ -1919,9 +1875,7 @@
       "move": "agree",
       "key": "favor-asked"
     },
-    "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
-    ]
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   },
   {
     "key": "scene-talk.reply-decline.go-ahead-without-me-if-i-ve-got-a-question-for-you-i-ll-ask-you-myself",
@@ -1953,8 +1907,838 @@
       "move": "decline",
       "key": "favor-asked"
     },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.last-time-you-heard-me-say-a-worker-should-be-able-to-refuse-the-fee-that-s-my-view-the-committee-can-t-change-anybody-s-paycheck-will-you-come-meeting-when-and-tell-me-who-you-think-ought-to-hear-it",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Last time you heard me say a worker should be able to refuse the fee. That's my view. The committee can't change anybody's paycheck. Will you come {meeting-when} and tell me who you think ought to hear it?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
     "elements": [
-      "pattern-a13-your-first-night-in-the-party-s-room"
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-when-i-come-meeting-when-i-d-like-to-ask-what-it-would-take-for-a-worker-to-get-that-choice",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. When I come {meeting-when}, I'd like to ask what it would take for a worker to get that choice.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.last-time-you-heard-me-say-a-worker-should-be-able-to-refuse-the-fee-that-s-my-view-the-committee-can-t-change-anybody-s-paycheck-will-you-come-meeting-when-and-tell-me-who-you-think-ought-to-hear-it"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-pass-meeting-when-i-heard-your-argument-i-want-to-find-out-what-the-law-says-first",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll pass {meeting-when}. I heard your argument. I want to find out what the law says first.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.last-time-you-heard-me-say-a-worker-should-be-able-to-refuse-the-fee-that-s-my-view-the-committee-can-t-change-anybody-s-paycheck-will-you-come-meeting-when-and-tell-me-who-you-think-ought-to-hear-it"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.say-everybody-in-the-room-agreed-with-me-about-letting-workers-turn-down-the-fee-what-would-that-change-when-somebody-reports-for-work-the-next-morning-i-d-like-to-hear-your-answer-if-you-can-come-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Say everybody in the room agreed with me about letting workers turn down the fee. What would that change when somebody reports for work the next morning? I'd like to hear your answer if you can come {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.put-me-down-for-the-party-meeting-my-first-question-would-be-who-has-the-power-to-change-what-the-worker-owes",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Put me down for the {party} meeting. My first question would be who has the power to change what the worker owes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["party"],
+        "after": "scene-talk.state-request.say-everybody-in-the-room-agreed-with-me-about-letting-workers-turn-down-the-fee-what-would-that-change-when-somebody-reports-for-work-the-next-morning-i-d-like-to-hear-your-answer-if-you-can-come-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-won-t-be-there-meeting-when-that-s-a-fair-question-but-i-d-just-be-guessing-at-the-answer",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I won't be there {meeting-when}. That's a fair question, but I'd just be guessing at the answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.say-everybody-in-the-room-agreed-with-me-about-letting-workers-turn-down-the-fee-what-would-that-change-when-somebody-reports-for-work-the-next-morning-i-d-like-to-hear-your-answer-if-you-can-come-meeting-when"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.can-you-make-the-meeting-meeting-when-you-heard-why-i-d-let-somebody-keep-the-job-without-paying-the-fee-coming-to-hear-me-out-didn-t-put-you-on-my-side-and-coming-back-wouldn-t-either",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Can you make the meeting {meeting-when}? You heard why I'd let somebody keep the job without paying the fee. Coming to hear me out didn't put you on my side, and coming back wouldn't either.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-meeting-when-i-can-ask-what-an-opt-out-would-mean-without-putting-my-name-to-it",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come {meeting-when}. I can ask what an opt-out would mean without putting my name to it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-the-meeting-meeting-when-you-heard-why-i-d-let-somebody-keep-the-job-without-paying-the-fee-coming-to-hear-me-out-didn-t-put-you-on-my-side-and-coming-back-wouldn-t-either"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.leave-me-off-the-list-meeting-when-i-d-like-to-talk-with-someone-who-works-under-a-contract-before-i-take-that-up-again",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Leave me off the list {meeting-when}. I'd like to talk with someone who works under a contract before I take that up again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-the-meeting-meeting-when-you-heard-why-i-d-let-somebody-keep-the-job-without-paying-the-fee-coming-to-hear-me-out-didn-t-put-you-on-my-side-and-coming-back-wouldn-t-either"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.i-d-like-some-company-meeting-when-you-know-where-i-stand-on-the-fee-if-i-asked-a-lawmaker-to-let-a-worker-opt-out-of-it-what-s-the-first-question-you-d-want-me-to-take-along",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I'd like some company {meeting-when}. You know where I stand on the fee. If I asked a lawmaker to let a worker opt out of it, what's the first question you'd want me to take along?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-be-there-my-question-for-the-party-is-who-would-still-have-to-cover-the-cost-of-bargaining",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll be there. My question for the {party} is who would still have to cover the cost of bargaining.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["party"],
+        "after": "scene-talk.state-request.i-d-like-some-company-meeting-when-you-know-where-i-stand-on-the-fee-if-i-asked-a-lawmaker-to-let-a-worker-opt-out-of-it-what-s-the-first-question-you-d-want-me-to-take-along"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-m-staying-home-meeting-when-i-haven-t-got-a-question-i-d-want-you-to-carry-in-my-name",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'm staying home {meeting-when}. I haven't got a question I'd want you to carry in my name.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-enact",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-some-company-meeting-when-you-know-where-i-stand-on-the-fee-if-i-asked-a-lawmaker-to-let-a-worker-opt-out-of-it-what-s-the-first-question-you-d-want-me-to-take-along"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "The case I made was about paying for bargaining when the contract covers everybody. The committee can ask for that rule. It can't put the charge on a pay stub. Could you come {meeting-when} and talk about the difference?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-d-like-to-ask-the-party-which-part-would-take-a-change-in-the-law",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. I'd like to ask the {party} which part would take a change in the law.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["party"],
+        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.count-me-out-meeting-when-i-heard-what-you-want-i-d-like-to-read-up-on-who-could-actually-do-it",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Count me out {meeting-when}. I heard what you want. I'd like to read up on who could actually do it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.the-case-i-made-was-about-paying-for-bargaining-when-the-contract-covers-everybody-the-committee-can-ask-for-that-rule-it-can-t-put-the-charge-on-a-pay-stub-could-you-come-meeting-when-and-talk-about-the-difference"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.when-i-spoke-i-argued-for-sharing-bargaining-costs-would-you-come-meeting-when-i-m-interested-in-what-you-d-ask-somebody-who-could-change-the-law-even-if-you-wouldn-t-ask-them-to-change-it",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "When I spoke, I argued for sharing bargaining costs. Would you come {meeting-when}? I'm interested in what you'd ask somebody who could change the law, even if you wouldn't ask them to change it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-meeting-when-i-d-ask-whether-a-worker-who-doesn-t-join-would-pay-for-anything-beyond-representation",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come {meeting-when}. I'd ask whether a worker who doesn't join would pay for anything beyond representation.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.when-i-spoke-i-argued-for-sharing-bargaining-costs-would-you-come-meeting-when-i-m-interested-in-what-you-d-ask-somebody-who-could-change-the-law-even-if-you-wouldn-t-ask-them-to-change-it"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-won-t-come-meeting-when-i-d-rather-work-out-my-own-question-before-giving-it-to-somebody-else-to-ask",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I won't come {meeting-when}. I'd rather work out my own question before giving it to somebody else to ask.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.when-i-spoke-i-argued-for-sharing-bargaining-costs-would-you-come-meeting-when-i-m-interested-in-what-you-d-ask-somebody-who-could-change-the-law-even-if-you-wouldn-t-ask-them-to-change-it"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.you-ve-heard-me-argue-that-a-contract-costs-money-to-negotiate-if-everybody-in-the-room-agreed-with-me-about-sharing-the-bill-that-still-wouldn-t-change-a-contract-will-i-see-you-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "You've heard me argue that a contract costs money to negotiate. If everybody in the room agreed with me about sharing the bill, that still wouldn't change a contract. Will I see you {meeting-when}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-d-like-to-hear-what-the-party-could-reasonably-ask-a-legislator-to-do-about-that-cost",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. I'd like to hear what the {party} could reasonably ask a legislator to do about that cost.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["party"],
+        "after": "scene-talk.state-request.you-ve-heard-me-argue-that-a-contract-costs-money-to-negotiate-if-everybody-in-the-room-agreed-with-me-about-sharing-the-bill-that-still-wouldn-t-change-a-contract-will-i-see-you-meeting-when"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-sit-this-one-out-meeting-when-i-understand-what-you-re-asking-for-i-haven-t-made-up-my-mind-about-the-fee",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll sit this one out {meeting-when}. I understand what you're asking for. I haven't made up my mind about the fee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.you-ve-heard-me-argue-that-a-contract-costs-money-to-negotiate-if-everybody-in-the-room-agreed-with-me-about-sharing-the-bill-that-still-wouldn-t-change-a-contract-will-i-see-you-meeting-when"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.state-request.there-s-a-difference-between-saying-who-ought-to-help-pay-for-bargaining-and-telling-a-worker-what-they-owe-i-spoke-about-what-i-think-is-fair-would-you-join-us-meeting-when-and-bring-the-question-that-leaves-you-with",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "There's a difference between saying who ought to help pay for bargaining and telling a worker what they owe. I spoke about what I think is fair. Would you join us {meeting-when} and bring the question that leaves you with?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-can-come-meeting-when-i-d-ask-who-decides-which-expenses-count-as-bargaining",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I can come {meeting-when}. I'd ask who decides which expenses count as bargaining.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.there-s-a-difference-between-saying-who-ought-to-help-pay-for-bargaining-and-telling-a-worker-what-they-owe-i-spoke-about-what-i-think-is-fair-would-you-join-us-meeting-when-and-bring-the-question-that-leaves-you-with"
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-decline.don-t-count-on-me-meeting-when-i-d-rather-hear-how-that-fee-gets-worked-out-at-a-workplace-before-i-talk-about-it-at-a-committee-meeting",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Don't count on me {meeting-when}. I'd rather hear how that fee gets worked out at a workplace before I talk about it at a committee meeting.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": [
+          "prior-meeting-attended",
+          "heard-fee-rule-repeal",
+          "prior-meeting-topic"
+        ],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.there-s-a-difference-between-saying-who-ought-to-help-pay-for-bargaining-and-telling-a-worker-what-they-owe-i-spoke-about-what-i-think-is-fair-would-you-join-us-meeting-when-and-bring-the-question-that-leaves-you-with"
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "pattern-a13-your-first-night-in-the-party-s-room",
+      "a-party-resolution-still-needs-a-law"
     ]
   }
 ]
