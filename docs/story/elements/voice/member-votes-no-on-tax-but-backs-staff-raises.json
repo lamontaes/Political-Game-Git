@@ -15,7 +15,7 @@
     "budget-vote": 0.5
   },
   "inGame": "the vote record with each member's side, the budget's tax-rate change, the public-safety departure count; needs: a stated reason kept per member beside the vote",
-  "issues": ["taxes-finance"],
+  "issues": ["law:property-tax"],
   "turns": [
     {
       "name": "no on the tax, yes on the raises",

@@ -15,7 +15,7 @@
     "roll-call": 0.4
   },
   "inGame": "the pay ordinance, the salary schedule, the public-comment record; needs: a rescission step and a straw poll record",
-  "issues": ["government"],
+  "issues": ["budget:administration"],
   "turns": [
     {
       "name": "a smaller raise is drafted",

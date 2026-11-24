@@ -15,7 +15,7 @@
     "budget-vote": 0.6
   },
   "inGame": "the budget's raise line, the failed tax measure, reserve and debt-payment records; needs: a promise kept per employee group that the vote can break",
-  "issues": ["taxes-finance"],
+  "issues": ["budget:administration"],
   "turns": [
     {
       "name": "an apology to employees",
