@@ -185,3 +185,16 @@ Heads: main 1ceba440; main+#10346 925a2448 (local merge); main+ten PRs+#10391 4a
 | --- | --- | --- | --- | --- | --- | --- |
 | N16-12 | "lots of empty, dead space right here" (creator) | #10314 (910c6540), main 0ed6d08e | creator (Random drew Cabin John, Maryland) | **pass** | replay-m7cr-2-random.png | The town list runs down the left column to the buttons; no empty block. |
 | Bills list scroller | the bill list stopped at its fourth bill with free room below | #10386 (37166d5d), main 0ed6d08e | Eastshore, Kansas, seed 90a8995c-9514-4ee0-afed-95537ae52877 | **pass** (the list now shows seven bills and fills the panel to its bottom edge; it still scrolls for the rest, pager 1,328 in 610, the only overflow auto element) | replay-m7-bills.png | Bills: Drafted list of seven bills, then the banner, Where it is and The bill. |
+
+## Re-played on main 86f796fc (#10381, #10382, #10387, #10388 with #10321, #10338 landed; #10316 is a wanted-picture line)
+
+Places: Bloomsbury, New Jersey 95660b10-4573-4b08-b8bb-83074bd9c415; Monserrate, Puerto Rico 5b7a3d13-25d2-4d50-bcc6-b8fc1b873da6; Walpole, New Hampshire 187cdef6-8f52-4bbf-9343-4aad945eb24d.
+
+| Row | PR | Place and seed | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- | --- |
+| P41 | #10387 | Bloomsbury NJ 95660b10; Monserrate PR 5b7a3d13 | **pass** (both) | replay-m8trail-go-1.png, replay-m9a-porch-1.png | The first Go of a new life plays a porch talk ("you walk up the drive, and Eileen Wise waves you in"; "Myrtle Castillo waves you in"), then a signature ask and a thank-you. |
+| No plate or band behind busts (a talk, the porch, a call, the address) | #10381 | Bloomsbury NJ 95660b10; Monserrate PR | **pass** | replay-m8trail-go-1.png, replay-m9a-porch-1.png, replay-m8dead-interview-1.png | Porch busts stand in a soft pool of light; no plate or band behind them. |
+| C14 | #10382 | Bloomsbury NJ 95660b10 | **pass** | replay-m8trail-1.png | Every tile now shows a place of its own: Hold an event, Endorsements, Poll and Mail each differ; names readable; the panel fits. |
+| P46 | #10388 (carries #10321) | Bloomsbury NJ 95660b10; Monserrate PR; Walpole NH | **pass** (three places) | replay-m8dead-news-follow.png, replay-m9a-news.png, replay-m9b-news.png | On day one News opens on the household's paper with an Unfollow button. |
+| P51 | #10388 | Bloomsbury NJ 95660b10 | **pass** | replay-m8week-news.png | After a Week (Jan 28 to Feb 4, 8.8 s with a letter scene) News on the followed paper lists stories dated Jan 24 and Jan 31 ("Alexis Kent files for Governor", "Benjamin Shepherd joins race for Governor"). |
+| C10 | #10338 | Monserrate PR 5b7a3d13; Walpole NH 187cdef6 | **fail** (both places) | replay-m9a-mayor.png, replay-mayor-last.png | Monserrate: mayor Leslie Henry, born 1973: "At the age of 18, she came to Benton Supply Company after time at Daniels Family Clinic, Monserrate Register, Snyder Care Home, Boyd's Kitchen, and Monserrate Busi..." Walpole: sheriff Sarah Chang, born 1993, 2015: "moved through Dominguez Family Clinic, Chapman Construction, and Lowe and Associates on the way to Walpole Campaign Works." The career still starts with a stack of jobs in one year. |
