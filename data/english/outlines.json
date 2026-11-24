@@ -614,6 +614,312 @@
           "shapes": ["margin"]
         }
       ]
+    },
+    "town-address": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 3,
+        "theme-name": 1,
+        "theme-short": 1,
+        "the-disaster": 1,
+        "term-left": 1
+      },
+      "sections": [
+        {
+          "name": "greeting",
+          "required": true,
+          "camera": "salutation",
+          "shapes": ["greeting"]
+        },
+        {
+          "name": "occasion",
+          "required": true,
+          "joins": true,
+          "camera": "occasion",
+          "shapes": ["report-then-charge", "report-alone"]
+        },
+        {
+          "name": "story",
+          "camera": "country",
+          "shapes": [
+            "hard-run-told",
+            "hard-run-asked",
+            "good-run-told",
+            "disaster-told",
+            "disaster-asked"
+          ]
+        },
+        {
+          "name": "theme",
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "second",
+          "point": 1,
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "call",
+          "camera": "families",
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
+        },
+        {
+          "name": "close",
+          "required": true,
+          "camera": "close",
+          "shapes": [
+            "send-off-then-blessing",
+            "blessing-alone",
+            "blessing-then-send-off",
+            "send-off-alone"
+          ]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "second", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "second", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
+        },
+        {
+          "sections": ["story", "call", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-practical",
+            "personality-v1:facet-work-centered",
+            "personality-v1:facet-persistent"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "second", "call"],
+          "pull": [
+            "personality-v1:facet-nostalgic",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-sincere"
+          ]
+        },
+        {
+          "sections": ["story", "theme", "call", "second"],
+          "pull": [
+            "personality-v1:facet-zealous",
+            "personality-v1:facet-dramatic",
+            "personality-v1:facet-proud",
+            "personality-v1:facet-brazen"
+          ]
+        }
+      ],
+      "leastSentences": {
+        "value": 6,
+        "about": "TUNABLE: the shortest State of the City the planner tells, at the low end of the planner of record's 6 to 16 sentences (src/director/data/speech-outlines.json `town-address`; a State of the City gives three or four points, Ginther 2024) until the writer's pre-grade sets it."
+      }
+    },
+    "campaign-speech": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 3,
+        "theme-name": 1,
+        "theme-short": 1,
+        "the-disaster": 1,
+        "term-left": 1
+      },
+      "sections": [
+        {
+          "name": "greeting",
+          "required": true,
+          "camera": "salutation",
+          "shapes": ["greeting"]
+        },
+        {
+          "name": "occasion",
+          "required": true,
+          "joins": true,
+          "camera": "occasion",
+          "shapes": ["running-alone"]
+        },
+        {
+          "name": "story",
+          "camera": "country",
+          "shapes": [
+            "hard-run-told",
+            "hard-run-asked",
+            "good-run-told",
+            "disaster-told",
+            "disaster-asked"
+          ]
+        },
+        {
+          "name": "theme",
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "second",
+          "point": 1,
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "call",
+          "camera": "families",
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
+        },
+        {
+          "name": "close",
+          "required": true,
+          "camera": "close",
+          "shapes": [
+            "send-off-then-blessing",
+            "blessing-alone",
+            "blessing-then-send-off",
+            "send-off-alone"
+          ]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "second", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "second", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
+        },
+        {
+          "sections": ["story", "call", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-practical",
+            "personality-v1:facet-work-centered",
+            "personality-v1:facet-persistent"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "second", "call"],
+          "pull": [
+            "personality-v1:facet-nostalgic",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-sincere"
+          ]
+        },
+        {
+          "sections": ["story", "theme", "call", "second"],
+          "pull": [
+            "personality-v1:facet-zealous",
+            "personality-v1:facet-dramatic",
+            "personality-v1:facet-proud",
+            "personality-v1:facet-brazen"
+          ]
+        }
+      ],
+      "leastSentences": {
+        "value": 4,
+        "about": "TUNABLE: the shortest stump speech the planner tells, at the low end of the planner of record's 4 to 10 sentences (src/director/data/speech-outlines.json `campaign-speech`; a stump speech is short and repeated at every stop, Wikipedia, Stump speech) until the writer's pre-grade sets it."
+      }
     }
   },
   "shapes": {
@@ -894,6 +1200,10 @@
         "personality-v1:facet-dramatic",
         "personality-v1:facet-sincere"
       ]
+    },
+    "running-alone": {
+      "moves": ["running"],
+      "fallback": true
     }
   },
   "weights": {
@@ -908,6 +1218,12 @@
       "tag": "TUNABLE",
       "spread": "0.5 to 2",
       "note": "What each point of a speaker's summed lean facets adds to a piece's weight; a piece whose facets the speaker lacks falls to the floor of one share, never out."
+    },
+    "specificFloor": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "spread": "1 to 12",
+      "note": "The fewest pieces a move draws from: the most specific fitting pieces win (the CTO, Nov 24: Valve's dynamic dialogue), and less specific ones join only until the pool holds this many, so a fact few pieces check never makes those few every such world's words. Checked against the sameness gate over the drawn lives."
     }
   },
   "disasterWords": {

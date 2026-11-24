@@ -3553,9 +3553,17 @@ async function openBillPaper(billId, show, back, backLabel) {
     })}`,
   )
     .then((bodies) => {
-      const body = [...bodies.legislative, ...bodies.executive].find(
-        (row) => row.officeId === paper.bodyOfficeId,
-      );
+      const rows = [...bodies.legislative, ...bodies.executive];
+      // A federal bill names its chamber by kind ("federal:us-house"); the list names the
+      // viewer's own state's seats of it ("office:US-WA:us-house", or the delegate's).
+      const kind = /^federal:(.+)$/.exec(paper.bodyOfficeId ?? "")?.[1];
+      const body =
+        rows.find((row) => row.officeId === paper.bodyOfficeId) ??
+        (kind &&
+          (rows.find((row) => row.level === "federal" && row.kind === kind) ??
+            rows.find(
+              (row) => row.level === "federal" && row.kind.startsWith(kind),
+            )));
       return body?.picture
         ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
         : null;
@@ -6922,6 +6930,8 @@ async function openSheet(tab) {
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
+  // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
+  $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
   fitPagers($("sheet-body"));

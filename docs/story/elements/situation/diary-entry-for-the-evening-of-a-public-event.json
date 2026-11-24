@@ -1,0 +1,36 @@
+{
+  "id": "diary-entry-for-the-evening-of-a-public-event",
+  "kind": "situation",
+  "summary": "A diary entry on the evening of a public event says who was listening, what it was about and how the writer's day ended.",
+  "realLife": "Mass Observation diarists wrote coronation day as an ordinary day: who listened to the broadcast, who did not, and what each person did instead.",
+  "sources": [
+    "Sussex Library, Mass Observation May 12, 1937 and 2023 coronation-day diaries: https://blogs.sussex.ac.uk/librarycollections/2024/05/02/i-am-not-interested-in-the-coronation-similarities-and-dissimilarities-in-mass-observations-12th-may-diaries-from-1937-and-2023/",
+    "Diary of Samuel Pepys, April 1661 (coronation day, April 23), Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1661/April"
+  ],
+  "fits": ["journal"],
+  "slots": ["we", "president-name", "theme-name"],
+  "gates": ["watched-many", "we", "alone", "theme-name", "stand-with"],
+  "inGame": "The first evening's diary entry (outline-diary moves watched, said, stance, mine, ahead); the household watchers are `we`, `us`, `watched-many` or `alone` from the address's own record.",
+  "weights": {
+    "household": 0.6,
+    "stand": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The writer did not watch.",
+      "pulledBy": "a household member's choice and the writer's own habits (traits: independent, shy)",
+      "writesBack": "the entry says where the writer was instead and what they heard about it later"
+    },
+    {
+      "turn": "The household is split on it.",
+      "pulledBy": "the housemates' recorded stands differ",
+      "writesBack": "the entry names the disagreement and who was on which side"
+    },
+    {
+      "turn": "Written the next morning.",
+      "pulledBy": "a late entry when the writer slept first (trait: meticulous, restless)",
+      "writesBack": "the entry says what the writer remembered, and less of it"
+    }
+  ]
+}

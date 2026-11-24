@@ -1,0 +1,48 @@
+{
+  "id": "pattern-c26-asked-to-change-the-count",
+  "kind": "situation",
+  "summary": "Asked to change the count: {party leader} lost, and asks you, the one who must count, certify or preside over the result, to find a way to change it.",
+  "realLife": "One life: After the 2020 election he told President Trump the Constitution gave him no power to reject electors and said so in a letter before the joint session. Trump said he lacked courage as a mob entered the Capitol. Another: On January 2, 2021, he pressed Georgia's secretary of state on a recorded call to find enough votes to flip the state. The recording was published the next day and cited in later charges.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mike_Pence",
+    "https://en.wikipedia.org/wiki/Trump%E2%80%93Raffensperger_phone_call"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "office", "speeches"],
+  "slots": ["party leader", "the result"],
+  "gates": [
+    "You hold an office with a duty to count, certify or preside over a result.",
+    "{the result} is against your party's candidate on record."
+  ],
+  "weights": [
+    "How close the result is.",
+    "How loyal you have been.",
+    "How many people are pressing you.",
+    "Traits that keep rules."
+  ],
+  "pattern": "C26",
+  "choices": [
+    "refuse in writing",
+    "refuse quietly",
+    "say you will look into it",
+    "do it"
+  ],
+  "branches": [
+    {
+      "when": "you refuse in writing",
+      "then": "{party leader} says in front of a crowd that you lack courage, and some of the crowd come looking for you."
+    },
+    {
+      "when": "you record the call",
+      "then": "The recording is published the next day and becomes evidence in court (C23)."
+    },
+    {
+      "when": "you are the one who lost",
+      "then": "You make the calls. Each official's answer is a record a prosecutor can read."
+    },
+    {
+      "when": "you see it as a duty",
+      "then": "You point to an official who once presided over their own defeat."
+    }
+  ],
+  "usedBy": []
+}

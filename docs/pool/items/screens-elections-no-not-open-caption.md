@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10395
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T12:44:47.471Z
 ---
 
 **What.** The CTO, Nov 24 06:46Z, caught on Politics, Elections (Merizo) the caption Filing for this race has not opened yet under the Sim to Mar 8 button. A caption under a control breaks the Nov 8 no-subtext rule; the race dates and the Sim button already say it.

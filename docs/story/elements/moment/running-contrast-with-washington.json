@@ -1,0 +1,17 @@
+{
+  "id": "running-contrast-with-washington",
+  "kind": "moment",
+  "summary": "A governor sets the state against the federal government through the whole speech.",
+  "realLife": "Georgia's governor ran a contrast with Washington under most of his points.",
+  "sources": [
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-short"],
+  "gates": [],
+  "weights": {
+    "state": 0.1
+  },
+  "usedBy": []
+}

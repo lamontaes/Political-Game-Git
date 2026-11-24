@@ -1,0 +1,30 @@
+{
+  "id": "official-frustrated-by-short-notice",
+  "kind": "detail",
+  "summary": "A member says how little time the packet gave before the vote: it came Friday, the vote Monday.",
+  "realLife": "A first-year council member described the days between the packet and the vote and asked for more lead time.",
+  "sources": [
+    "WCBU Peoria Public Radio, 'Pekin residents question council members about roads, home rule and more', Nov. 6, 2025: https://www.wcbu.org/local-news/2025-11-06/pekin-residents-question-council-members-about-roads-home-rule-and-more",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["office", "news"],
+  "slots": ["name", "date", "number"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8
+  },
+  "inGame": "legislature records: introduced date and vote date for a bill; days between",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "official has all the time needed",
+      "pulledBy": "a bill that sat for weeks",
+      "writes": "the member says they had time to study it"
+    },
+    {
+      "name": "official absent for the vote",
+      "pulledBy": "a member who missed the meeting",
+      "writes": "the story says who was not there"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 /**
  * The addresses told through the one outline planner
  * (src/english/outline-planner.ts; the Story lead's brief, Nov 24, 2026): the
- * President's inaugural and State of the Union and a governor's State of the
- * State. The planner of record (`planSpeech`) still reads the world: the
+ * President's inaugural and State of the Union, a governor's State of the
+ * State, a mayor's address and a candidate's campaign speech. The planner of record (`planSpeech`) still reads the world: the
  * theme, the speaker's stand and its reason, and the story the country or
  * state has been through. This file hands those facts to the kind's outline
  * row (data/english/outlines.json), which says them in the shapes real
@@ -48,6 +48,7 @@ type Facts = Record<string, GroundedEnglishFact>;
 const THEME = speechOutlines as unknown as {
   themeNames: Record<string, string>;
   themeShort: Record<string, string>;
+  nationWords: { nation: string; "nation-full": string };
 };
 
 const fact = (text: string, ids: readonly string[]): GroundedEnglishFact => ({
@@ -81,7 +82,11 @@ function planFacts(plan: SpeechPlan): Facts {
 /** The kinds of address told through the outline planner: each has a row in data/english/outlines.json. */
 export type AddressTellingKind = Extract<
   OpeningSpeechKind,
-  "inaugural" | "state-of-the-union" | "state-of-the-state"
+  | "inaugural"
+  | "state-of-the-union"
+  | "state-of-the-state"
+  | "town-address"
+  | "campaign-speech"
 >;
 
 /**
@@ -103,9 +108,17 @@ export function addressFacts(
   const ids = [official?.id ?? person.id];
   // The years left, from the offices engine, where the plan's blocks did not
   // carry them.
-  if (!facts["term-left"] && official)
-    Object.assign(facts, termLeft(core, termOf(core, official.termId)));
-  const national = outlineOf(kind).level === "federal";
+  // A local speaker's term is the one their seat's record holds.
+  const termId = official?.termId ?? speaker.local?.termId;
+  if (!facts["term-left"] && termId)
+    Object.assign(facts, termLeft(core, termOf(core, termId)));
+  // A local speaker (a mayor, a candidate) never speaks for the nation.
+  const national = !speaker.local && outlineOf(kind).level === "federal";
+  // The country by name, for a blessing or a send-off: a national address only.
+  if (national) {
+    facts.nation = fact(THEME.nationWords.nation, ids);
+    facts["nation-full"] = fact(THEME.nationWords["nation-full"], ids);
+  }
   // The Vice President, from the officials engine, where the plan's blocks
   // did not carry them: a national address only.
   if (national && !facts["vice-president"]) {

@@ -17,7 +17,12 @@ import {
 } from "./mined/conversation-bank";
 import { fitMoves, moveVariantKey } from "./move-fit";
 import type { EntityId } from "../core2/kernel/brands";
-import { hasOutline, tell, type TellingFacts } from "./outline-planner";
+import {
+  hasOutline,
+  tell,
+  type TellingFacts,
+  type TellingInput,
+} from "./outline-planner";
 import { admittedParts, directorSlots } from "./bank-parts";
 import {
   composeGroundedLine,
@@ -501,6 +506,36 @@ export function composedConversationBank(
 }
 
 /**
+ * What the outline planner tells a conversation line from, for a subject with
+ * an outline row (`talk-<subject>` in data/english/outlines.json); null for a
+ * subject told from composed parts. The shipped line and the sameness
+ * measure read the same input.
+ */
+export function conversationTelling(request: {
+  seed: string;
+  subject: string;
+  speakerId: PersonId;
+  traits: Readonly<Record<string, number>>;
+  facts: Readonly<Record<string, Fact>>;
+  momentKey: string;
+  /** Piece keys the speaker said earlier in the talk. */
+  said?: readonly string[];
+}): TellingInput | null {
+  const outline = `talk-${request.subject}`;
+  if (!hasOutline(outline)) return null;
+  return {
+    kind: outline,
+    facts: request.facts as unknown as TellingFacts,
+    momentKey: request.momentKey,
+    worldSeed: request.seed,
+    sourceRecordIds: [request.speakerId as unknown as EntityId],
+    knower: request.speakerId as unknown as EntityId,
+    traits: request.traits,
+    ...(request.said ? { said: request.said } : {}),
+  };
+}
+
+/**
  * A conversation line the engine composes from a subject's parts (opener,
  * core, reason, closer) in the speaker's voice, avoiding the parts they said
  * before. Null when no core can be said from the facts given.
@@ -518,18 +553,10 @@ export function composeConversationLine(request: {
 }): Said | null {
   // A subject with an outline row is told through the one outline planner
   // (the Story lead, Nov 24: the talk after the address first).
-  const outline = `talk-${request.subject}`;
-  if (hasOutline(outline)) {
-    const told = tell({
-      kind: outline,
-      facts: request.facts as unknown as TellingFacts,
-      momentKey: request.momentKey,
-      worldSeed: request.seed,
-      sourceRecordIds: [request.speakerId as unknown as EntityId],
-      knower: request.speakerId as unknown as EntityId,
-      traits: request.traits,
-      ...(request.said ? { said: request.said } : {}),
-    });
+  const input = conversationTelling(request);
+  if (input) {
+    const outline = input.kind;
+    const told = tell(input);
     if (!told) return null;
     const text = told.paragraphs.join(" ");
     return {

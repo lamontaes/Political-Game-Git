@@ -1,0 +1,40 @@
+{
+  "id": "pattern-a03-turned-away-from-voting",
+  "kind": "situation",
+  "summary": "Turned away from voting: {poll worker} tells you, or {close tie} beside you, that a voting rule on record means no ordinary ballot today.",
+  "realLife": "In 1962 the Mississippi sharecropper went with others to register, was failed on the literacy test and was fired by her boss for trying. She went on to help found the Mississippi Freedom Democratic Party.",
+  "sources": ["https://en.wikipedia.org/wiki/Fannie_Lou_Hamer"],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["poll worker", "close tie"],
+  "gates": [
+    "Old enough to vote.",
+    "A voting rule in your state (ID, a roll purge, a moved polling place) that a fact of your household does not meet, such as a recent move or a name change.",
+    "Election day or a registration deadline."
+  ],
+  "weights": [
+    "Traits that push back.",
+    "How strongly you hold views on the race."
+  ],
+  "pattern": "A03",
+  "choices": [
+    "cast a provisional ballot",
+    "ask to see the rule in writing",
+    "go to {clerk}'s office before the polls close",
+    "leave"
+  ],
+  "branches": [
+    {
+      "when": "it is an older relative who is turned away",
+      "then": "She asks you to drive her to {clerk}'s office, and whether she votes depends on you."
+    },
+    {
+      "when": "you are the poll worker",
+      "then": "You must turn a neighbor away under the rule: follow it, offer the provisional ballot, or call {clerk}."
+    },
+    {
+      "when": "you tell a reporter",
+      "then": "Your employer brings it up at work the next day, and your job is at stake for speaking out."
+    }
+  ],
+  "usedBy": []
+}

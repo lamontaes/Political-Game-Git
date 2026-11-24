@@ -12,6 +12,10 @@
  * one falls a year on, too long a run for six worlds; the governor's falls
  * the day after the opening (src/director/data/local-address.json).
  *
+ * The mayor's address and the player's campaign speech are recorded the same
+ * way (the campaign speech for the player as a candidate for the town's
+ * executive seat, no filed race needed).
+ *
  * Run: node --import tsx scripts/sameness/record-address-inputs.mts
  *   SEEDS=aecea4,66265b,... to choose the worlds (the six packet worlds by default).
  */
@@ -31,6 +35,9 @@ import {
 } from "../../src/director/address-telling";
 import { OPENING_ADDRESS_EVENT } from "../../src/director/opening-story";
 import { localAddressTelling } from "../../src/director/local-address";
+import { campaignSpeechTelling } from "../../src/director/local-speeches";
+import { townSeats } from "../../src/core2/modules/offices";
+import { headsLocalExecutive } from "../../src/core2/offices-executives";
 
 setBookkeeping(false);
 const seeds = (
@@ -39,6 +46,8 @@ const seeds = (
 const out = {
   "state-of-the-union": "scripts/sameness/inputs/state-of-the-union-six.jsonl",
   "state-of-the-state": "scripts/sameness/inputs/state-of-the-state-six.jsonl",
+  "town-address": "scripts/sameness/inputs/town-address-six.jsonl",
+  "campaign-speech": "scripts/sameness/inputs/campaign-speech-six.jsonl",
 };
 for (const file of Object.values(out)) writeFileSync(file, "");
 
@@ -72,9 +81,21 @@ for (const seed of seeds) {
         )
       : null;
   const state = localAddressTelling(core, "state");
+  const town = localAddressTelling(core, "town");
+  // The campaign speech needs no filed race to be planned: the player is asked
+  // as a candidate for the town's executive seat, on the day the world opens.
+  const seat = townSeats(coreAPI(core)).find((row) =>
+    headsLocalExecutive(row.office.kind),
+  );
+  const campaign =
+    seat && core.playerId
+      ? campaignSpeechTelling(core, core.playerId, seat.office.id, null)
+      : null;
   if (union) appendFileSync(out["state-of-the-union"], line(union));
   if (state) appendFileSync(out["state-of-the-state"], line(state));
+  if (town) appendFileSync(out["town-address"], line(town));
+  if (campaign) appendFileSync(out["campaign-speech"], line(campaign));
   console.log(
-    `${seed} ${world.place.displayName} ${core.date}: union ${union ? Object.keys(union.input.facts).length : "none"} facts, state ${state ? Object.keys(state.input.facts).length : "none"} facts`,
+    `${seed} ${world.place.displayName} ${core.date}: union ${union ? Object.keys(union.input.facts).length : "none"} facts, state ${state ? Object.keys(state.input.facts).length : "none"} facts, town ${town ? Object.keys(town.input.facts).length : "none"} facts, campaign ${campaign ? Object.keys(campaign.input.facts).length : "none"} facts`,
   );
 }
