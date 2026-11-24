@@ -1,6 +1,46 @@
 # Pre-grade: Writer Home (talk at home)
 
-## story/w-talk at `27042b8c` (newest): the 56 new lines, 31 of 56 pass
+## story/w-talk at `f00d7bbc` (newest): 87 of 102 of the talk-at-home writer's lines pass
+
+- The writer cut every line marked cut or rewrite: 20 own-view replies in conversation.json and 40 in outline-talk. The 74 lines left that the new calibration had already read keep their verdicts, and all 74 pass. The 28 unjudged lines, mostly new plain verdicts, were read in chunk P4 (the owner's 13 bad plants all failed, 5 of 6 good passed). The sheet told the reader that a verdict follows a lead that names the President's point. 13 of the 28 pass.
+- The 21 failing lines still in outline-talk.json at this head are the Story lead's, not this writer's.
+- Not played.
+
+### New lines, fail (15)
+
+- `outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all` (why): "It's what I see out the window in {place}, that's all." — names-something-specific / no-literary-phrasing: The reason names nothing the speaker has seen, so "what I see out the window" is a composed image standing in for a real reason, and the town name adds nothing.
+- `outline-talk.verdict.talk-address-point-i-m-glad-president-didn-t-back-down-from-it` (verdict): "I'm glad {president} didn't back down from it." — narration-assumes-no-reason / false for its facts: "Didn't back down" claims pushback or pressure that no record holds; the President only stated a point in an address.
+- `outline-talk.verdict.talk-address-point-president-has-earned-a-nod-from-me-on-that` (verdict): "{president} has earned a nod from me on that." — plain-american-reads-stiff: "Has earned a nod from me" is stiff, composed wording that nobody says at the kitchen table.
+- `outline-talk.verdict.talk-address-point-more-power-to-president-object-for-saying-so` (verdict): "More power to {president-object} for saying so." — variants-differ-in-what-they-say: It is a twin of P4-003: both just praise the President for saying it, with no different stance.
+- `outline-talk.verdict.talk-address-point-president-is-out-of-touch-with-place-on-this` (verdict): "{president} is out of touch with {place} on this." — variants-differ-in-what-they-say / no-stock-phrases: A twin of P4-013 (the President and the town are mismatched) built on the stock phrase "out of touch".
+- `outline-talk.verdict.talk-address-point-president-just-doesn-t-get-it` (verdict): "{president} just doesn't get it." — no-stock-phrases: "Just doesn't get it" is a stock jab that says nothing about why the speaker is against the point.
+- `outline-talk.verdict-after.talk-address-point-that-settles-it-for-me-and-president-is-part-of-why` (verdict-after): "That settles it for me, and {president} is part of why." — no-thats-settled: "That settles it" is the dev-talky settled phrase he banned, and "part of why" leaves the speaker's own reason unsaid.
+- `outline-talk.verdict-after.talk-address-point-president-made-it-easy-for-me-to-say-yes` (verdict-after): "{president} made it easy for me to say yes." — no-pointing-at-the-unnamed / stance-is-plainly-for-or-against: Nobody asked a yes-or-no question, so "say yes" points at nothing named.
+- `outline-talk.verdict-after.talk-address-point-i-d-say-the-same-thing-even-without-president-object` (verdict-after): "I'd say the same thing even without {president-object}." — plain-american-reads-stiff: "Even without the President" is awkward and unclear about what the speaker would say, and it echoes "I'd say the same" from P4-010.
+- `outline-talk.verdict-after.talk-address-point-president-made-it-easy-for-me-to-say-no` (verdict-after): "{president} made it easy for me to say no." — no-pointing-at-the-unnamed / variants-differ-in-what-they-say: Like P4-023, "say no" answers a question nobody asked, and it is the same sentence with one word flipped.
+- `outline-talk.verdict-after.talk-address-point-i-d-say-no-even-if-president-asked-nicely` (verdict-after): "I'd say no even if {president} asked nicely." — quips that mean nothing (Nov 24): A quip with no referent: the President asked the speaker nothing, so "asked nicely" means nothing.
+- `outline-talk.verdict-after.talk-address-point-that-s-the-end-of-it-for-me-with-or-without-president-object` (verdict-after): "That's the end of it for me, with or without {president-object}." — stance-is-plainly-for-or-against: "The end of it for me, with or without the President" is awkward and doesn't say clearly what the speaker is against.
+- `outline-talk.verdict-after.talk-address-point-you-can-count-me-with-president-object` (verdict-after): "You can count me with {president-object}." — plain-american-reads-stiff: "Count me with the President" isn't how people say it (they say "count me in" or "I'm with her").
+- `outline-talk.verdict-after.talk-address-point-that-s-one-against-president-object-in-my-book` (verdict-after): "That's one against {president-object} in my book." — quips that mean nothing (Nov 24): "One against her in my book" is a scorekeeping quip that keeps no real tally and hides the reason.
+- `outline-talk.verdict-after.talk-address-point-you-can-count-me-against-president-object` (verdict-after): "You can count me against {president-object}." — plain-american-reads-stiff / variants-differ-in-what-they-say: "Count me against the President" is unidiomatic, and it mirrors P4-032 with one word flipped.
+
+### New lines, pass (13)
+
+- `outline-talk.verdict.talk-address-point-you-know-where-i-stand-with-president-object-on-that` (verdict): "You know where I stand: with {president-object} on that."
+- `outline-talk.verdict.talk-address-point-good-for-president-object-about-time-somebody-said-it` (verdict): "Good for {president-object}. About time somebody said it."
+- `outline-talk.verdict.talk-address-point-president-said-it-better-than-i-could-have` (verdict): "{president} said it better than I could have."
+- `outline-talk.verdict.talk-address-point-say-what-you-want-about-president-object-but-that-was-right` (verdict): "Say what you want about {president-object}, but that was right."
+- `outline-talk.verdict.talk-address-point-president-is-not-speaking-for-me-on-this` (verdict): "{president} is not speaking for me on this."
+- `outline-talk.verdict.talk-address-point-that-s-not-what-place-needs-from-president-object` (verdict): "That's not what {place} needs from {president-object}."
+- `outline-talk.verdict.talk-address-point-i-expected-better-from-president-object` (verdict): "I expected better from {president-object}."
+- `outline-talk.verdict.talk-address-point-president-lost-me-there` (verdict): "{president} lost me there."
+- `outline-talk.verdict-after.talk-address-point-i-d-back-president-object-on-that-any-day` (verdict-after): "I'd back {president-object} on that any day."
+- `outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often` (verdict-after): "{president} is right, and I don't say that often."
+- `outline-talk.verdict-after.talk-address-point-president-said-what-i-was-already-thinking` (verdict-after): "{president} said what I was already thinking."
+- `outline-talk.verdict-after.talk-address-point-president-can-t-talk-me-into-it` (verdict-after): "{president} can't talk me into it."
+- `outline-talk.verdict-after.talk-address-point-president-didn-t-say-anything-to-change-my-mind` (verdict-after): "{president} didn't say anything to change my mind."
+
+## story/w-talk at `27042b8c`: the 56 new lines, 31 of 56 pass
 
 - The 56 lines new since 56f20feb: 28 reason leads, 16 reason verdicts, 8 why-first lines with {place} and 4 asks. They were read in chunk P3 on the new calibration: 13 of the owner's own bad lines and 6 good ones planted. This reader failed all 13 bad and passed 5 of the 6 good. The reader was told how {reason-for} and {reason-against} fill, with three examples from `question-names.json` `reasons`, and how {said} fills (short topic names, some plural: "rents", "trains", "bus fares").
 - **Twins among the 28 leads:** the reader failed 3 as twins: "As {president} tells it, {reason-against}." (of "As {president} sees it") and both "Everything {president} said came down to this:" lines. It passed the plain-verb leads ("says", "thinks", "believes", "argued that") as different enough. 21 of the 28 leads pass.
