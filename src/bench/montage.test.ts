@@ -124,6 +124,20 @@ it.each(["a", "b", "c"])(
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
+    // The people the address names wear formal clothes, a jacket, wherever
+    // the beat is drawn (owner, Nov 23, P10: "why is Stephen Morales not in
+    // the right clothes?"); a person the bank paints with a whole top only
+    // has none.
+    beats.forEach((beat, at) => {
+      if (beat.kind === "home") return;
+      for (const person of beat.people.filter((row) =>
+        named[at]!.includes(row.personId),
+      ))
+        expect(
+          person.face.bust.layers.some((layer) => layer.includes("jacket")),
+          `${where}: ${person.name} is not in a jacket in part ${at}`,
+        ).toBe(true);
+    });
     // The speaker is the one in the chamber.
     for (const kind of ["chamber"])
       for (const beat of beats.filter((row) => row.kind === kind))

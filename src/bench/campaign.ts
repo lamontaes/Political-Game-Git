@@ -74,6 +74,7 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import { votersWhoHeardOf } from "../core2/modules/voting";
 import {
   askToServe,
   chooseRunningMateForMe,
@@ -202,8 +203,9 @@ export function campaignView(core: CoreState, personId: string) {
         petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
-        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        // The sample a poll asks, so the screen's Poll act and its price agree.
         pollSample: POLL_SAMPLE,
+        pollPrice: pollPrice(core, filing),
         // Where the race stands, in the English engine's words, from the contest's records.
         standing: raceStanding(
           core,
@@ -211,6 +213,7 @@ export function campaignView(core: CoreState, personId: string) {
           polls.at(-1),
           causes,
           contest ? raceSaid(api, contest) : undefined,
+          votersWhoHeardOf(api, personId),
         ),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
@@ -513,31 +516,38 @@ export function raceStanding(
     | undefined,
   causes: readonly CandidateStanding[],
   race?: RaceSaid,
+  // How many voters other than the candidate have heard of them (votersWhoHeardOf).
+  heardOf = 0,
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
   const id = filing.id;
-  const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const line = (
     move: string,
     recordId: string,
     slots: Readonly<Record<string, string | number>>,
   ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
-    mine && mine.reached > 0
-      ? line(
-          mine.reached > 1
-            ? "reached"
-            : mine.warmer + mine.cooler > 0
-              ? "reached-one"
-              : "reached-one-unmoved",
-          id,
-          {
-            reached: mine.reached,
-            ...race?.when,
-          },
-        )
-      : line("reached-none", id, { ...race?.when }),
+    ...(mine && mine.reached > 0
+      ? [
+          line(
+            mine.reached > 1
+              ? "reached"
+              : mine.warmer + mine.cooler > 0
+                ? "reached-one"
+                : "reached-one-unmoved",
+            id,
+            {
+              reached: mine.reached,
+              ...race?.when,
+            },
+          ),
+        ]
+      : // "No one has heard from you" only while the voting record says so:
+        // a player people in town know is not said to be unknown.
+        heardOf > 0
+        ? []
+        : [line("reached-none", id, { ...race?.when })]),
     // One voter reached who did not move is said in the reached line itself.
     ...(mine && (mine.reached > 1 || mine.warmer + mine.cooler > 0)
       ? [
@@ -610,11 +620,21 @@ export function raceStanding(
           ),
         ]
       : []),
-    line("poll-cost", id, {
-      sample: POLL_SAMPLE,
-      cost: dollarsOf(POLL_SAMPLE * perInterview),
-    }),
   ];
+}
+
+/**
+ * What a poll costs, said on the Poll act where it is bought (playtest
+ * sitting C13: the price read as the race's summary when it closed the
+ * standing lines). The sample is the one the Poll act asks.
+ */
+export function pollPrice(core: CoreState, filing: FilingRow): string {
+  return standingLine(core.seed, filing.personId, "poll-cost", filing.id, {
+    sample: POLL_SAMPLE,
+    cost: dollarsOf(
+      POLL_SAMPLE * campaignParameter("pollCostPerInterviewMinor"),
+    ),
+  });
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
@@ -1138,6 +1158,7 @@ export function campaignDay(
           id: result.interview.id,
           outletId: result.interview.outletId,
           status: result.interview.status,
+          reason: result.interview.reason ?? null,
         }
       : null,
   };

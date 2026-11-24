@@ -28,6 +28,7 @@ import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
+import { tellInaugural } from "./inaugural-telling";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   composeAddress,
@@ -108,6 +109,8 @@ export interface OpeningSentence {
     readonly about: string;
     readonly to: string;
     readonly stance: "for" | "against";
+    /** Whether the law the question is about is already in force. */
+    readonly inForce?: boolean;
   };
 }
 
@@ -266,6 +269,27 @@ function composeAddressOf(
   asks: readonly string[];
   points: readonly PlannedPoint[];
 } | null {
+  // The inaugural is told through the one outline planner (the Story lead,
+  // Nov 24); the other addresses wait their turn (SG-WORDS-addresses-await-outline).
+  if (kind === "inaugural") {
+    const told = tellInaugural(
+      core,
+      president,
+      official,
+      `${INAUGURATION_EVENT}:${core.date}`,
+    );
+    return told
+      ? {
+          sentences: told.sentences,
+          addressKind: told.plan.addressKind,
+          story: told.plan.story,
+          theme: told.plan.theme,
+          asks: told.plan.asks,
+          points: told.plan.points,
+        }
+      : null;
+  }
+  // stopgapId: SG-WORDS-addresses-await-outline
   const plan = planSpeech(core, kind, {
     person: president,
     official,

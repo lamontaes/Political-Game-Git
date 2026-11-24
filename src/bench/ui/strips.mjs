@@ -315,7 +315,7 @@ export function voteRows(rows) {
       const node = typedRow(row.title, row.result, row.when);
       if (!row.onOpen) return node;
       // A row with a paper behind it opens it: a button for the pointer and the keyboard.
-      node.classList.add("pick");
+      node.classList.add("open-row");
       node.tabIndex = 0;
       node.setAttribute("role", "button");
       node.addEventListener("click", row.onOpen);
@@ -372,6 +372,8 @@ export function patchNotesScreen({ builds, title }) {
   return rosterScreen({
     title,
     className: "patch-notes",
+    // The panel takes the whole window, so the list shows as many builds as the window holds.
+    maxRows: 20,
     groups: [
       {
         entries: builds.map((build, at) => ({

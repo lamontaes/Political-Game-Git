@@ -3706,7 +3706,7 @@ function pointArea(point: AddressPoint): "work" | "money" | null {
 }
 
 /** The knowledge key a person keeps of what the player said to them on one of the address's questions. */
-const pointKey = (playerId: PersonId, question: string) =>
+export const pointKey = (playerId: PersonId, question: string) =>
   `talk:${playerId}:address-point:${question}`;
 
 /** An employer as a person says it, through the said-as reader: never the market outside the town, a treasury as its government. */
@@ -3985,6 +3985,10 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
+  // A law already in force is kept or undone, never passed (pre-grade, Nov
+  // 24: the speech defended the higher minimum wage and the housemate said
+  // it was about time somebody tried to raise it).
+  if (pick.point.inForce) mark("law-in-force", said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);

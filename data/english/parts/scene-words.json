@@ -34,7 +34,9 @@
     "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record.",
     "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
-    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays."
+    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays.",
+    "speech-giver": "who gave the address the household watched, by full name, from the address's record",
+    "speech-giver-surname": "the President who gave the inaugural the household watched, by family name after the title, from the address's record"
   },
   "maxWords": 10,
   "mining": {
@@ -131,7 +133,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -202,26 +205,6 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-sit-down-at-the-kitchen-table",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You sit down at the kitchen table.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter",
       "move": "arrival-home-alone",
       "kind": "spoken",
@@ -231,27 +214,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-hang-your-coat-by-the-door",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You hang your coat by the door.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -272,7 +236,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -293,7 +258,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -314,7 +280,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -334,7 +301,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -354,7 +322,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -374,7 +343,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -394,7 +364,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -414,7 +385,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -434,7 +406,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -9009,6 +8982,61 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news replays President {speech-giver-surname}'s noon speech.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news is still on President {speech-giver-surname}.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-running-s-speech-to-congress",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news is running {speech-giver}'s speech to Congress.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver"],
+          "excludesFacts": ["inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }

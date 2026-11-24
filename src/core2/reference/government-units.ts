@@ -24,6 +24,7 @@ import {
 } from "./place-county-relations.generated";
 import { createStableId } from "../kernel/ids";
 import consolidated from "../data/reference/consolidated-county-governments.json" with { type: "json" };
+import islandAreas from "../data/reference/island-area-governments.json" with { type: "json" };
 import placeMatches from "../data/reference/government-unit-place-matches.json" with { type: "json" };
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
@@ -176,6 +177,26 @@ function load(): Index {
     if (unit.unitType === "county" && unit.countyGeoid) {
       byCounty.set(unit.countyGeoid, unit);
     }
+  }
+  // The Island Areas' own governments, which the listing does not carry (a
+  // Guam village's mayor): the same identity, from their own law's rows.
+  for (const row of islandAreas.governments) {
+    const unit: GovernmentUnitIdentity = {
+      id: row.id,
+      publisherId: row.id,
+      name: row.name,
+      unitType: row.unitType as GovernmentUnitType,
+      stateUsps: row.stateUsps,
+      countyGeoid: null,
+      // A Northern Marianas municipality governs many villages, none its own.
+      placeGeoid: row.placeGeoids.length === 1 ? row.placeGeoids[0]! : null,
+      publisherPlaceCode: null,
+      functionalActive: true,
+      asOf: GOVERNMENT_UNITS_META.asOf,
+    };
+    byId.set(unit.id, unit);
+    push(byState, unit.stateUsps, unit);
+    for (const geoid of row.placeGeoids) push(byPlace, geoid, unit);
   }
   // A consolidated city-county government is listed as a municipality that
   // covers its whole county area; it is the county's government.

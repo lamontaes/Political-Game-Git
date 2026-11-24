@@ -470,28 +470,6 @@
       }
     },
     {
-      "key": "headlines.law-amount-passed.measure-unchanged-at-to",
-      "move": "law-amount-passed",
-      "kind": "written",
-      "text": "{measure} unchanged at {to}",
-      "uses": [
-        {
-          "move": "law-amount-passed",
-          "subject": "headline",
-          "role": "law-amount-passed",
-          "choice": "headline",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.law-amount-passed.place-fixes-measure-at-to",
       "move": "law-amount-passed",
       "kind": "written",
@@ -501,7 +479,8 @@
           "move": "law-amount-passed",
           "subject": "headline",
           "role": "law-amount-passed",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -522,7 +501,8 @@
           "move": "law-amount-passed",
           "subject": "headline",
           "role": "law-amount-passed",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -544,7 +524,8 @@
           "subject": "headline",
           "role": "law-amount-passed",
           "choice": "headline",
-          "requiresFacts": ["federal"]
+          "requiresFacts": ["federal"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1592,7 +1573,8 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": ["changed"]
+          "requiresFacts": ["changed"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -1614,51 +1596,8 @@
           "subject": "headline",
           "role": "law-amount",
           "choice": "headline",
-          "requiresFacts": ["changed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-in-place-still-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} in {place} still {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-holds-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} holds at {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
+          "requiresFacts": ["changed"],
+          "excludesFacts": ["same"]
         }
       ],
       "origin": "authored",

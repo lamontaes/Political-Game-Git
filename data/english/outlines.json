@@ -1,0 +1,512 @@
+{
+  "version": "outlines-v1",
+  "about": "One outline row per kind of text, read by the one planner (src/english/outline-planner.ts; words composer, units 3 and 6; the Story lead's brief, Nov 24, 2026). A row names its sections in order; each section offers shapes, and a shape is an order of moves, each worded from data/english/parts/outline.json. A move ending in '?' may be left out. A section's `when` facts must hold for it to be said; `joins` keeps it in the paragraph before; `camera` is where the picture is while it is said. Shapes are picked by the speaker's recorded traits (`pull`) among those whose `needs` hold; no shape is forced on every point (owner, Nov 23: 'this is all following the same grammatical pattern'). The rows hold no sentence.",
+  "source": "docs/research/first-evening-2026-11-24.md",
+  "kinds": {
+    "inaugural": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 3,
+        "theme-name": 1,
+        "theme-short": 1,
+        "the-disaster": 1
+      },
+      "sections": [
+        {
+          "name": "greeting",
+          "required": true,
+          "camera": "salutation",
+          "shapes": ["greeting"]
+        },
+        {
+          "name": "occasion",
+          "required": true,
+          "joins": true,
+          "camera": "occasion",
+          "shapes": ["oath-then-charge", "hired-then-charge", "oath-alone"]
+        },
+        {
+          "name": "story",
+          "camera": "country",
+          "shapes": [
+            "hard-run-told",
+            "hard-run-asked",
+            "good-run-told",
+            "disaster-told",
+            "disaster-asked"
+          ]
+        },
+        {
+          "name": "theme",
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "call",
+          "camera": "families",
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
+        },
+        {
+          "name": "close",
+          "required": true,
+          "camera": "close",
+          "shapes": ["send-off-then-blessing", "blessing-alone"]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
+        }
+      ]
+    },
+    "talk-address-point": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 2,
+        "said": 1,
+        "about": 1
+      },
+      "sections": [
+        {
+          "name": "point",
+          "required": true,
+          "shapes": [
+            "lead-then-verdict",
+            "lead-verdict-ask",
+            "verdict-then-why",
+            "why-then-verdict",
+            "heard-then-verdict"
+          ]
+        }
+      ]
+    },
+    "loading-story": {
+      "surface": "journal",
+      "budgets": {
+        "*": 3
+      },
+      "sections": [
+        {
+          "name": "born",
+          "shapes": ["loading-born"]
+        },
+        {
+          "name": "school",
+          "shapes": ["loading-school"]
+        },
+        {
+          "name": "moved",
+          "shapes": ["loading-moved"]
+        },
+        {
+          "name": "finished",
+          "shapes": ["loading-finished"]
+        },
+        {
+          "name": "college",
+          "shapes": ["loading-college"]
+        },
+        {
+          "name": "lost",
+          "shapes": ["loading-lost"]
+        },
+        {
+          "name": "now",
+          "shapes": ["loading-now"],
+          "required": true
+        }
+      ]
+    },
+    "journal-evening": {
+      "surface": "journal",
+      "budgets": {
+        "*": 2
+      },
+      "sections": [
+        {
+          "name": "evening",
+          "required": true,
+          "shapes": ["watched-said-mine", "watched-said"]
+        },
+        {
+          "name": "ahead",
+          "joins": true,
+          "shapes": ["looking-ahead"]
+        }
+      ]
+    },
+    "news-address-headline": {
+      "surface": "news",
+      "sections": [
+        {
+          "name": "headline",
+          "required": true,
+          "shapes": ["headline"]
+        }
+      ]
+    },
+    "news-address": {
+      "surface": "news",
+      "budgets": {
+        "*": 2,
+        "name": 1
+      },
+      "sections": [
+        {
+          "name": "lede",
+          "required": true,
+          "shapes": ["lede"]
+        },
+        {
+          "name": "body",
+          "shapes": ["next-then-voice", "voice-alone"]
+        }
+      ]
+    },
+    "news-roll-call-headline": {
+      "surface": "news",
+      "sections": [
+        {
+          "name": "headline",
+          "required": true,
+          "shapes": ["headline"]
+        }
+      ]
+    },
+    "news-roll-call": {
+      "surface": "news",
+      "budgets": {
+        "*": 2
+      },
+      "sections": [
+        {
+          "name": "lede",
+          "required": true,
+          "shapes": ["lede"]
+        },
+        {
+          "name": "body",
+          "joins": true,
+          "shapes": ["margin"]
+        }
+      ]
+    }
+  },
+  "shapes": {
+    "greeting": {
+      "moves": ["greeting"]
+    },
+    "oath-then-charge": {
+      "moves": ["oath", "charge?"],
+      "needs": ["took-oath"],
+      "pull": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-polite"
+      ]
+    },
+    "hired-then-charge": {
+      "moves": ["hired", "charge?"],
+      "needs": ["elected-last-fall"],
+      "pull": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-light-hearted"
+      ]
+    },
+    "oath-alone": {
+      "moves": ["oath"],
+      "needs": ["took-oath"],
+      "fallback": true
+    },
+    "hard-run-told": {
+      "moves": ["run", "run-meaning?"],
+      "needs": ["run-hard"],
+      "pull": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-blunt"
+      ]
+    },
+    "hard-run-asked": {
+      "moves": ["run-question", "run-answer"],
+      "needs": ["run-hard"],
+      "pull": [
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-charming",
+        "personality-v1:facet-tender-hearted"
+      ]
+    },
+    "good-run-told": {
+      "moves": ["run", "run-meaning?"],
+      "needs": ["run-good"]
+    },
+    "disaster-told": {
+      "moves": ["disaster", "disaster-meaning?"],
+      "needs": ["the-disaster"],
+      "pull": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-duty-bound"
+      ]
+    },
+    "disaster-asked": {
+      "moves": ["disaster-image", "disaster-meaning"],
+      "needs": ["the-disaster"],
+      "pull": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-nurturing",
+        "personality-v1:facet-tender-hearted"
+      ]
+    },
+    "creed-then-pledge": {
+      "moves": ["creed", "pledge", "value?"],
+      "needs": ["belief"],
+      "pull": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-devoted"
+      ]
+    },
+    "today-then-stand": {
+      "moves": ["today", "stand"],
+      "needs": ["today"],
+      "pull": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-studious"
+      ]
+    },
+    "contrast-then-stand": {
+      "moves": ["contrast", "stand"],
+      "needs": ["other-side", "belief"],
+      "pull": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-competitive"
+      ]
+    },
+    "question-then-answer": {
+      "moves": ["question", "answer"],
+      "needs": ["belief"],
+      "pull": [
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-charming",
+        "personality-v1:facet-excitable"
+      ]
+    },
+    "stand-with-reason": {
+      "moves": ["stand-reason", "value?"],
+      "needs": ["belief"],
+      "pull": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-informal",
+        "personality-v1:facet-cocky"
+      ]
+    },
+    "call-alone": {
+      "moves": ["call"],
+      "pull": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-work-centered"
+      ]
+    },
+    "send-off-then-blessing": {
+      "moves": ["send-off", "blessing"],
+      "pull": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-informal"
+      ]
+    },
+    "blessing-alone": {
+      "moves": ["blessing"],
+      "pull": ["personality-v1:facet-polite", "personality-v1:facet-duty-bound"]
+    },
+    "address-run": {
+      "moves": ["address-to", "address-to?", "call?"],
+      "pull": [
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-charming",
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-comforting"
+      ]
+    },
+    "lead-then-verdict": {
+      "moves": ["lead", "verdict"],
+      "pull": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ]
+    },
+    "lead-verdict-ask": {
+      "moves": ["lead", "verdict", "ask"],
+      "pull": [
+        "personality-v1:facet-curious",
+        "personality-v1:facet-approval-seeking",
+        "personality-v1:facet-friendly"
+      ]
+    },
+    "verdict-then-why": {
+      "moves": ["verdict-cold", "why?"],
+      "pull": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-argumentative"
+      ]
+    },
+    "why-then-verdict": {
+      "moves": ["why-first", "verdict-after"],
+      "pull": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-sensitive",
+        "personality-v1:facet-tender-hearted"
+      ]
+    },
+    "heard-then-verdict": {
+      "moves": ["heard", "verdict", "why?"],
+      "needs": ["point-heard"],
+      "pull": ["personality-v1:facet-calm"]
+    },
+    "loading-born": {
+      "moves": ["born"]
+    },
+    "loading-school": {
+      "moves": ["school"]
+    },
+    "loading-moved": {
+      "moves": ["moved"]
+    },
+    "loading-finished": {
+      "moves": ["finished"]
+    },
+    "loading-college": {
+      "moves": ["college"]
+    },
+    "loading-lost": {
+      "moves": ["lost"]
+    },
+    "loading-now": {
+      "moves": ["now"]
+    },
+    "watched-said-mine": {
+      "moves": ["watched", "said", "said?", "mine"],
+      "needs": ["about"]
+    },
+    "watched-said": {
+      "moves": ["watched", "said?"],
+      "fallback": true
+    },
+    "looking-ahead": {
+      "moves": ["ahead"]
+    },
+    "headline": {
+      "moves": ["headline"]
+    },
+    "lede": {
+      "moves": ["lede"]
+    },
+    "next-then-voice": {
+      "moves": ["next", "voice?"],
+      "needs": ["about"]
+    },
+    "voice-alone": {
+      "moves": ["voice"]
+    },
+    "margin": {
+      "moves": ["margin"]
+    }
+  },
+  "weights": {
+    "pieceBase": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "spread": "1 to 4",
+      "note": "The weight every fitting piece starts from in the stable pick; raised from 2 to 4 after the pre-grade of Nov 24 found the same oath and close chosen for different Presidents (traits pulled too hard)."
+    },
+    "pieceLean": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2",
+      "note": "What each point of a speaker's summed lean facets adds to a piece's weight; a piece whose facets the speaker lacks falls to the floor of one share, never out."
+    }
+  },
+  "disasterWords": {
+    "about": "A declared disaster's incident type (the national events engine's row, lowercased) as a speaker says it after 'the'. TUNABLE wording, read by the inaugural's facts (src/director/inaugural-telling.ts). An incident with no row here is not said.",
+    "flood": "floods",
+    "severe storm": "storms",
+    "severe storm(s)": "storms",
+    "hurricane": "hurricane",
+    "fire": "fires",
+    "tornado": "tornadoes",
+    "dam/levee break": "levee breaks",
+    "snowstorm": "snowstorms",
+    "severe ice storm": "ice storms",
+    "winter storm": "winter storms",
+    "earthquake": "earthquake",
+    "coastal storm": "coastal storms",
+    "mud/landslide": "mudslides",
+    "typhoon": "typhoon",
+    "drought": "drought",
+    "tropical storm": "tropical storm"
+  },
+  "journalEvening": {
+    "about": "Read by src/director/journal-evening.ts.",
+    "watchersNamed": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "2 to 3",
+      "note": "Past this many housemates, the entry says the whole house watched instead of naming each one."
+    },
+    "self": {
+      "subject": "I",
+      "object": "me"
+    }
+  }
+}

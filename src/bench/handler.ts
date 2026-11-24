@@ -2198,6 +2198,10 @@ const ROUTES: readonly Route[] = [
         kind: url.searchParams.get("kind") ?? "",
         outletId: url.searchParams.get("outletId") ?? undefined,
       });
+      // A doors outing stages its porch scene now, while the player is out
+      // (the director stages it at the day's close otherwise).
+      if (url.searchParams.get("kind") === "canvass")
+        state.director?.stageDoors(requireCore());
       // The outing's hours come off the same clock the packet reports.
       const spent = state.player.spend(day.hours);
       send(200, {

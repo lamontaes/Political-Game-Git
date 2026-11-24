@@ -1,4 +1,5 @@
 import { STORIES } from "./address-story";
+import { partsOf } from "../english/outline-planner";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -79,6 +80,15 @@ describe("the address picks its kind and subjects from the world", () => {
     );
     expect(ADDRESS_KINDS, where).toContain(bad.addressKind);
     expect(ADDRESS_KINDS, where).toContain(good.addressKind);
+    // An inaugural whose plan chose a point says it (the Story lead, Nov 24:
+    // with the old inaugural pieces deleted, the planner dropped every block
+    // the bank held no piece for, and no inaugural said its stand).
+    for (const story of [bad, good])
+      if (story.speechKind === "inaugural" && story.points.length)
+        expect(
+          story.address.sentences.some((row) => row.stand),
+          `${where}: ${story.address.text}`,
+        ).toBe(true);
     // The areas the term read holds are claims the address cites by web row.
     const claims = (story: typeof bad) =>
       new Set(
@@ -116,7 +126,9 @@ describe("the address picks its kind and subjects from the world", () => {
     // with an order for a level has its own story-open and story-turn
     // pieces there, so a warning and a brag never borrow each other's words.
     const subjects: Readonly<Record<string, readonly string[]>> = {
-      federal: ["inaugural", "state-of-the-union"],
+      // The inaugural's stories are told from the outline planner's bank
+      // since Nov 24; the check below holds it to the same promise.
+      federal: ["state-of-the-union"],
       local: ["state-of-the-state", "town-address"],
     };
     for (const [story, row] of Object.entries(STORIES.rows))
@@ -135,5 +147,20 @@ describe("the address picks its kind and subjects from the world", () => {
                 ).length,
                 `${story} ${subject} ${role} ${voice}`,
               ).toBeGreaterThanOrEqual(3);
+    // The inaugural (data/english/parts/outline.json): every story the
+    // federal level orders has at least three pieces of its own to open and
+    // turn on, so a warning and a brag never borrow each other's words.
+    const said: Readonly<Record<string, string>> = {
+      "story-disaster": "the-disaster",
+    };
+    for (const [story, row] of Object.entries(STORIES.rows))
+      if (row.sections.federal)
+        for (const gate of row.gate)
+          expect(
+            partsOf("inaugural").filter((part) =>
+              (part.use.requiresFacts ?? []).includes(said[gate] ?? gate),
+            ).length,
+            `${story} inaugural`,
+          ).toBeGreaterThanOrEqual(3);
   });
 });

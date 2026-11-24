@@ -49,6 +49,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
+import { eveningChapter } from "./journal-evening";
 import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
@@ -1543,6 +1544,9 @@ export function composeJournal(
   // relative's, on the same day) opened last.
   const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
+  // The town the first chapter is titled by when no record names where it
+  // was lived (born elsewhere, the birthplace not on record).
+  let rootsTitledBy: Facts[string] | undefined;
   const toldOnce = new Set<string>();
   const beatEntries = new Map<string, JournalLine>();
   // What each beat has told already, by its facts: the same parent going to
@@ -1677,6 +1681,8 @@ export function composeJournal(
     ) {
       chapterKind = turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
+      if (!chapters.length && !ownTitle && !facts.place && place)
+        rootsTitledBy = place;
       const title =
         ownTitle ??
         render(
@@ -1687,7 +1693,11 @@ export function composeJournal(
         ) ??
         render(
           { part: "first-title" },
-          place ? { ...facts, place } : facts,
+          // The chapter is titled by where its stretch of life was lived:
+          // the moment's own place where it names one (where they were
+          // born), else where they live now (CTO, Nov 24: two chapters both
+          // named for the town, the first opening on another).
+          place ? { place, ...facts } : facts,
           `${moment.id}:title`,
           sourceIds,
         );
@@ -2150,6 +2160,27 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
+  // A first chapter titled by the town only for want of a birthplace is the
+  // time before the town once a later chapter is titled by it (pre-grade,
+  // Nov 24: "Whitmore Village, Hawaii" twice, the second opening on the move
+  // there).
+  const roots = chapters[zero];
+  if (
+    roots &&
+    rootsTitledBy &&
+    chapters.some((row) => row !== roots && row.title === roots.title)
+  ) {
+    const before = render(
+      { part: "first-title" },
+      { before: rootsTitledBy },
+      `${roots.key}:title`,
+      rootsTitledBy.sourceRecordIds,
+    );
+    if (before) roots.title = before.text;
+  }
+  // The opening evening, told as one diary entry (journal-evening.ts).
+  const evening = eveningChapter(core, director, personId, through);
+  if (evening) chapters.push(evening);
   const kept = chapters.filter((row) => row.lines.length > zero);
   linkLines(core, book.momentsById, kept);
   // A line its records say came of the one before opens on that ("Because

@@ -1705,6 +1705,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the first letter from a relative to stage as a scene so the repeat a month later could go to the journal; the letter scene has no lines since the cut, so it is not staged."
+    },
+    {
+      "old": "src/bench/opening-landing.browser.mjs",
+      "now": "deleted with the opening's landing line: the address scene says the evening's one arrival (owner, Nov 23, P7 and P19); restore it from commit 987b24113a",
+      "when": "2026-11-24",
+      "why": "It pinned a second arrival line after the address ('You hang your coat by the door' after 'You sit down at the kitchen table'), the double the owner heard in v0.114.0."
     }
   ]
 }

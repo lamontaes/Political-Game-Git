@@ -1,4 +1,5 @@
 import { ADDRESS_FACT } from "./opening-facts";
+import { OPENING_ADDRESS_EVENT } from "./opening-story";
 import { addressPartsOf } from "./address-render";
 import { speechOfRecord } from "./local-speeches";
 import { familyFactsOf } from "../core2/modules/people";
@@ -252,6 +253,45 @@ export function composeScene(
           // opens with today (Words lead, Nov 15).
           const happened = happenedSaid(fromRecord());
           if (happened) facts.happened = happened;
+          // The night of an address: who gave it, from the address's own
+          // record, so the arrival says what is on the news instead of the
+          // date the clock already shows (owner, Oct 26 and Nov 23, P7).
+          // The address that is the scene's cause, else tonight's opening
+          // address where the player watched it (pre-grade, Nov 24: two of
+          // three first evenings staged a scene with another cause and
+          // opened on the date).
+          const own = core.durableLog.get(moment.causeId as never);
+          const tonight = core.durableLog.get(
+            `${OPENING_ADDRESS_EVENT}:${core.date}` as never,
+          );
+          const address =
+            own?.kind === OPENING_ADDRESS_EVENT
+              ? own
+              : tonight?.witnessIds?.includes(personId)
+                ? tonight
+                : undefined;
+          const cause = address?.facts as
+            Readonly<Record<string, unknown>> | undefined;
+          const giverId = cause?.[ADDRESS_FACT.speaker];
+          const giver =
+            typeof giverId === "string"
+              ? core.people.get(giverId as PersonId)
+              : undefined;
+          if (address && giver) {
+            facts["speech-giver"] = {
+              text: `${giver.givenName} ${giver.familyName}`,
+              sourceRecordIds: [address.id, giver.id],
+            };
+            facts["speech-giver-surname"] = {
+              text: giver.familyName,
+              sourceRecordIds: [address.id, giver.id],
+            };
+            if (cause?.[ADDRESS_FACT.kind] === "inaugural")
+              facts["inaugural-night"] = {
+                text: "yes",
+                sourceRecordIds: [address.id],
+              };
+          }
           if (meeting) {
             // The first time: what they are, when the player has not met them (rule 136).
             const what =
