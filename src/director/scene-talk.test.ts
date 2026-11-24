@@ -144,6 +144,34 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     }
   });
 
+  it("offers a workforce referral at office hours and names an aide only when one serves", () => {
+    const type = types.find((row) => row.key === "office-hours")!;
+    for (const staffer of [null, "Rosa"]) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId },
+        type,
+        {
+          name: fact("Pat Rivera"),
+          agency: fact("the workforce office"),
+          "problem-work": fact("yes"),
+          ...(staffer ? { staffer: fact(staffer) } : {}),
+        },
+        {},
+      );
+      expect(result.kind).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const replies = result.talk.tree.replies;
+      expect(replies.map((reply) => reply.line.move)).toEqual(
+        expect.arrayContaining(["promise", "decline", "ask"]),
+      );
+      expect(
+        replies.find((reply) => reply.line.move === "offer")?.line.text,
+      ).toEqual(staffer ? expect.stringContaining(staffer) : undefined);
+    }
+  });
+
   // The player asks a colleague for their vote the evening before the roll
   // (vote-sought): the narrator sets it from the player's side, never as the
   // colleague coming to the player's door, and a player asking several
