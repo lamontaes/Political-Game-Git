@@ -251,8 +251,11 @@ export function scanRepeated(panelSelector) {
 }
 
 /**
- * Rule 3, headline leading under 1.3 (Impeccable: "tight-leading"). A title that wraps to two lines
- * or more with a line height under 1.3 times its font size. Returns one row per selector.
+ * Rule 3, headline leading under 1.3 (Impeccable: "tight-leading"). A title that is allowed to wrap
+ * (it is not set on one line or cut with an ellipsis) with a line height under 1.3 times its font
+ * size. Whether a title does wrap depends on the world's words (a long name, a long headline), but
+ * its leading is the stylesheet's, so the rule reads the leading and not the wrap: the same title
+ * fails in every world. Returns one row per selector.
  */
 export function scanLeading(panelSelector) {
   const root = document.querySelector(panelSelector);
@@ -271,19 +274,13 @@ export function scanLeading(panelSelector) {
   )) {
     if (!el.checkVisibility() || !el.textContent.trim()) continue;
     const s = getComputedStyle(el);
+    if (/^(nowrap|pre)$/.test(s.whiteSpace) || s.textOverflow === "ellipsis")
+      continue;
     const size = parseFloat(s.fontSize);
     const line = Number.isFinite(parseFloat(s.lineHeight))
       ? parseFloat(s.lineHeight)
       : size * 1.2;
-    const range = document.createRange();
-    range.selectNodeContents(el);
-    const tops = new Set(
-      [...range.getClientRects()]
-        .filter((r) => r.width > 2)
-        .map((r) => Math.round(r.top / 4)),
-    );
-    if (tops.size >= 2 && line / size < 1.3)
-      rows.set(keyOf(el), { selector: keyOf(el) });
+    if (line / size < 1.3) rows.set(keyOf(el), { selector: keyOf(el) });
   }
   return [...rows.values()];
 }

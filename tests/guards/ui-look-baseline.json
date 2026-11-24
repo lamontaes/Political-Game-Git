@@ -112,26 +112,7 @@
       "date shown in two or more places": 1
     }
   },
-  "leading": {
-    "who > Jobs and school [sheet]": {
-      "h3.heading wraps under 1.3 leading": 1
-    },
-    "money [sheet]": {
-      "h3.sechead wraps under 1.3 leading": 1
-    },
-    "politics > Elections [sheet]": {
-      "h2.roster-title wraps under 1.3 leading": 1
-    },
-    "news [sheet]": {
-      "b.news-headline wraps under 1.3 leading": 1
-    },
-    "Race screen [sheet]": {
-      "h2.roster-title wraps under 1.3 leading": 1
-    },
-    "travel [sheet]": {
-      "h2 wraps under 1.3 leading": 1
-    }
-  },
+  "leading": {},
   "title": {
     "politics > Bills [sheet]": {
       "h2 over a picture": 1
