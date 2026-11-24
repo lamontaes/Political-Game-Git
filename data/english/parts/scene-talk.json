@@ -74219,7 +74219,7 @@
       "key": "scene-talk.follow-answer.no-extra-spending-in-bill-what-we-d-give-up-is-the-money-those-riders-pay-now",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "With {bill} we'd give up fare income without adding a dollar of spending.",
+      "text": "In {place} we'd give up fare income without putting any more spending in the bill.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "city-pays-agency-for-foregone-fares"
@@ -74240,7 +74240,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
@@ -74262,7 +74263,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
@@ -74284,7 +74286,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
@@ -74308,7 +74311,7 @@
       "key": "scene-talk.follow-answer.i-haven-t-put-any-more-spending-in-bill-i-wouldn-t-count-every-pass-as-lost-income-either-some-people-still-need-one-for-another-ride",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} adds no spending, and somebody who still needs a pass for another bus may keep buying one.",
+      "text": "Somebody in {place} who needs a pass for another bus may keep buying one, and the bill adds no spending.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "monthly-pass-still-needed"
@@ -74329,7 +74332,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
@@ -74351,7 +74355,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
@@ -74373,7 +74378,8 @@
             "bill",
             "no-cost",
             "for",
-            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit"
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
           ],
           "setsFacts": [
             "heard-cost",
