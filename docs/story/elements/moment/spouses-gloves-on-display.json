@@ -1,0 +1,30 @@
+{
+  "id": "spouses-gloves-on-display",
+  "kind": "moment",
+  "summary": "Visitors to {place} can see the gloves given to an official and the gloves given to his spouse.",
+  "realLife": "The Government Accountability Office recorded separate pairs received by Gene and Joan Dodaro from Saudi Arabia's auditor general and listed both for display.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2025-01-03/pdf/2024-31509.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{place}"],
+  "gates": ["A display featuring separately recorded gifts to a couple."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a display featuring separately recorded gifts to a couple.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A label credits one recipient",
+      "what": "Read both entries",
+      "writesBack": "The label names both people"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A visitor asks why gloves are in the case",
+      "what": "Identify their official display status",
+      "writesBack": "The docent can explain their presence"
+    }
+  ]
+}
