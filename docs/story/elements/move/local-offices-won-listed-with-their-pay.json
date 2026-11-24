@@ -25,6 +25,5 @@
       "pulledBy": "a later `event:election-result` as the loser",
       "writesBack": "the entry says the term ended and who followed"
     }
-  ],
-  "issues": ["none"]
+  ]
 }

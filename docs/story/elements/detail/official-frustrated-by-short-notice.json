@@ -19,12 +19,16 @@
     {
       "name": "official has all the time needed",
       "pulledBy": "a bill that sat for weeks",
-      "writes": "the member says they had time to study it"
+      "writes": "the member says they had time to study it",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "official absent for the vote",
       "pulledBy": "a member who missed the meeting",
-      "writes": "the story says who was not there"
+      "writes": "the story says who was not there",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

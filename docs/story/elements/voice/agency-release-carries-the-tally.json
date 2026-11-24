@@ -19,12 +19,16 @@
     {
       "name": "the reporter carries the tally",
       "pulledBy": "a release with no usable table",
-      "writes": "the story's own text gives the counts"
+      "writes": "the story's own text gives the counts",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the release is quoted in part",
       "pulledBy": "a long release",
-      "writes": "the story quotes the sentence that matters"
+      "writes": "the story quotes the sentence that matters",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

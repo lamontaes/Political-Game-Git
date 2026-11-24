@@ -19,12 +19,16 @@
     {
       "name": "no benchmark",
       "pulledBy": "a report with no state figure",
-      "writes": "the lede stands alone"
+      "writes": "the lede stands alone",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a benchmark that cuts the other way",
       "pulledBy": "a state rate lower than the county's",
-      "writes": "the story says the county is higher"
+      "writes": "the story says the county is higher",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

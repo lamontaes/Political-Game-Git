@@ -31,9 +31,5 @@
       "pulledBy": "unpaid wages on the record",
       "writesBack": "the entry says the work went unpaid"
     }
-  ],
-  "issues": [
-    "law:minimum-wage",
-    "question:us-policy-positions:labor-workforce.raise-minimum-wage"
   ]
 }
