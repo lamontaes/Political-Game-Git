@@ -25,6 +25,7 @@ import outlineData from "../../data/english/outlines.json" with { type: "json" }
 import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
 import outlineLoadingBank from "../../data/english/parts/outline-loading.json" with { type: "json" };
 import outlineCallBank from "../../data/english/parts/outline-call.json" with { type: "json" };
+import outlineLocalBank from "../../data/english/parts/outline-local.json" with { type: "json" };
 import outlineThemeBank from "../../data/english/parts/outline-theme.json" with { type: "json" };
 import outlineDiaryBank from "../../data/english/parts/outline-diary.json" with { type: "json" };
 import outlineTalkBank from "../../data/english/parts/outline-talk.json" with { type: "json" };
@@ -162,6 +163,7 @@ export const OUTLINE_BANK_PARTS: readonly TellingPart[] = [
   outlineLoadingBank,
   outlineCallBank,
   outlineThemeBank,
+  outlineLocalBank,
   outlineDiaryBank,
   outlineTalkBank,
   outlineNewsBank,
