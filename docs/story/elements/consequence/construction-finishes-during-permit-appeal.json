@@ -19,6 +19,12 @@
       "what": "A buyer asks about access while the appeal is still open.",
       "pulledBy": "The property is listed for sale before the court issues its decision.",
       "writesBack": "The owner passes the pending case information to the buyer."
+    },
+    {
+      "turn": "partial",
+      "what": "An inspector signs off on the new house while the access dispute remains on the court calendar.",
+      "pulledBy": "The inspection covers construction and makes no finding about passage along the beach.",
+      "writesBack": "The property file records a completed inspection alongside the open appeal."
     }
   ]
 }

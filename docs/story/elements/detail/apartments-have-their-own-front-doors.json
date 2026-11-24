@@ -18,6 +18,12 @@
       "what": "The drawing settles the question about front doors but leaves a neighbor looking straight into the parking lot.",
       "pulledBy": "The neighbor's house faces the other edge of the site.",
       "writesBack": "The minutes identify the edge that still needs screening."
+    },
+    {
+      "turn": "late",
+      "what": "A neighbor walks the frontage with the architect after the hearing and finds the entrance that will face her porch.",
+      "pulledBy": "The plan numbers the units and stakes mark the proposed doorways.",
+      "writesBack": "Her follow-up letter names the doorway she wants screened."
     }
   ]
 }

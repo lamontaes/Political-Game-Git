@@ -18,6 +18,12 @@
       "what": "A receiving lot can take only part of the unused floor area.",
       "pulledBy": "The receiving site has less available capacity than the owner seeks to move.",
       "writesBack": "The planning record carries a balance of unused rights."
+    },
+    {
+      "turn": "late",
+      "what": "The owner finds a receiving site after the landmark hearing has closed.",
+      "pulledBy": "A nearby owner signs an option contingent on approval of the transfer.",
+      "writesBack": "The property's file records the option and its expiration date."
     }
   ]
 }

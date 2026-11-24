@@ -18,6 +18,12 @@
       "what": "The applicant offers to keep the strip clear while retaining private ownership.",
       "pulledBy": "The drainage engineer confirms that public entry is unnecessary for that purpose.",
       "writesBack": "The board takes up a revised drainage condition."
+    },
+    {
+      "turn": "partial",
+      "what": "The engineer asks for occasional access to clear a blocked culvert while neighbors still want a daily walking route.",
+      "pulledBy": "The maintenance plan identifies a culvert reachable only across the parcel.",
+      "writesBack": "The board records maintenance access and public passage as two separate requests."
     }
   ]
 }

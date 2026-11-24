@@ -18,6 +18,12 @@
       "what": "A member finds a commercial parcel on the boundary staff described as residential.",
       "pulledBy": "The current map records a change since the staff report was written.",
       "writesBack": "The board requests a corrected map before relying on the buffer policy."
+    },
+    {
+      "turn": "partial",
+      "what": "Only the narrow end of the parcel touches the shops across the alley.",
+      "pulledBy": "The survey shows houses along the rest of the property line.",
+      "writesBack": "The commission's recommendation describes each boundary separately."
     }
   ]
 }

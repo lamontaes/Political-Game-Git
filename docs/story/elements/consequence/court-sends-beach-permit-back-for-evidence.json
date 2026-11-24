@@ -18,6 +18,12 @@
       "what": "The new hearing answers the judge's question for one part of the site only.",
       "pulledBy": "The access study measures one approach and leaves another out.",
       "writesBack": "The commission limits its finding to the approach studied."
+    },
+    {
+      "turn": "opposite",
+      "what": "After hearing the beach counts the commission deletes the access condition and issues the permit.",
+      "pulledBy": "The hearing record supports the house approval and the commissioners vote to remove the condition.",
+      "writesBack": "The issued permit records approval without a public easement."
     }
   ]
 }

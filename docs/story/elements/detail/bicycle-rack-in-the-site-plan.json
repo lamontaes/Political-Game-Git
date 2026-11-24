@@ -18,6 +18,12 @@
       "what": "The applicant's traffic count shows most cyclists already arrive by bicycle.",
       "pulledBy": "The survey distinguishes current trips from trips expected after expansion.",
       "writesBack": "The board revises its estimate of car trips the path would replace."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff count places on the rack and leave the number of car trips displaced blank.",
+      "pulledBy": "The drawing gives rack capacity and the applicant has supplied no travel survey.",
+      "writesBack": "The traffic worksheet keeps the capacity figure separate from the missing trip estimate."
     }
   ]
 }

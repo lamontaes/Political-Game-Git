@@ -19,6 +19,12 @@
       "what": "The builder brings the traffic estimate but still owes an answer about school enrollment.",
       "pulledBy": "The traffic engineer has replied and the school district has not.",
       "writesBack": "The chair carries just the enrollment question forward."
+    },
+    {
+      "turn": "opposite",
+      "what": "At the next meeting the resident who asked about traffic says the answer covers the wrong street.",
+      "pulledBy": "The estimate counts the main entrance and the resident named the service entrance.",
+      "writesBack": "The minutes carry the service entrance forward as an open question."
     }
   ]
 }

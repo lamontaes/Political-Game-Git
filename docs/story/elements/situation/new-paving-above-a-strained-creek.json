@@ -18,6 +18,12 @@
       "what": "A revised drawing sends runoff from the roof to storage but leaves the lot draining to the creek.",
       "pulledBy": "The site engineer can separate the two drainage areas.",
       "writesBack": "The next drainage finding covers the parking lot."
+    },
+    {
+      "turn": "late",
+      "what": "A shop downstream sends photographs from the first storm after the new lot opens.",
+      "pulledBy": "The photographs are dated and show water at the shop threshold, with no measurement of its source.",
+      "writesBack": "The drainage file logs the complaint and requests a site inspection."
     }
   ]
 }

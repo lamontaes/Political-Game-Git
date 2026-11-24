@@ -18,6 +18,12 @@
       "what": "The owner returns under the second certificate with one of the drawings withdrawn.",
       "pulledBy": "The architect and owner have settled on a single design.",
       "writesBack": "The hearing notice identifies the surviving proposal."
+    },
+    {
+      "turn": "partial",
+      "what": "The second application can proceed for the facade while the proposed rooftop addition waits for measured drawings.",
+      "pulledBy": "The owner submits the two parts separately and staff accept only the complete filing.",
+      "writesBack": "The clerk gives the facade its own hearing date."
     }
   ]
 }

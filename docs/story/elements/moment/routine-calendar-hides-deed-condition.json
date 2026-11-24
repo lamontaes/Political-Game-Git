@@ -18,6 +18,12 @@
       "what": "An applicant asks the chair to pull a permit from the routine calendar before the vote.",
       "pulledBy": "The proposed deed language first appeared in the published packet.",
       "writesBack": "The chair schedules discussion of the condition."
+    },
+    {
+      "turn": "partial",
+      "what": "The chair approves the other routine permits and holds the family's application for a separate vote.",
+      "pulledBy": "The clerk can identify the disputed item before the calendar vote.",
+      "writesBack": "The minutes give the family's permit its own disposition."
     }
   ]
 }

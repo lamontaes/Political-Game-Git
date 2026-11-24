@@ -18,6 +18,12 @@
       "what": "The dedication meets the area requirement but leaves too little planting along the street.",
       "pulledBy": "The ordinance measures street frontage separately.",
       "writesBack": "The applicant submits a planting strip on the street side."
+    },
+    {
+      "turn": "opposite",
+      "what": "The landscape reviewer catches the same strip counted once as dedicated land and again as a planting bed.",
+      "pulledBy": "Both entries use the same surveyed outline.",
+      "writesBack": "The applicant's area schedule loses the duplicate credit."
     }
   ]
 }

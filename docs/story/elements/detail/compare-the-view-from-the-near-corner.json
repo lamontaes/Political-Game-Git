@@ -18,6 +18,12 @@
       "what": "A resident brings a photo from a different corner where both towers would be visible.",
       "pulledBy": "The camera position and direction can be located on the street map.",
       "writesBack": "The commission adds the second view to its findings."
+    },
+    {
+      "turn": "late",
+      "what": "When the commissioners visit the corner, scaffolding hides the roofline in the hearing photograph.",
+      "pulledBy": "The scaffold went up after the photographer's dated visit.",
+      "writesBack": "The site visit notes distinguish the temporary obstruction from the proposed tower."
     }
   ]
 }

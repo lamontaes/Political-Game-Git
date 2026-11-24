@@ -18,6 +18,12 @@
       "what": "Staff catch an exit blocked by the last revision.",
       "pulledBy": "The architect moved a wall after the fire review.",
       "writesBack": "The applicant withdraws that sheet for correction."
+    },
+    {
+      "turn": "partial",
+      "what": "One change staff asked for never made it onto the copies handed to the neighbors.",
+      "pulledBy": "The public packet and the fire marshal's copy carry different revision dates.",
+      "writesBack": "The clerk attaches the corrected sheet and records who received it."
     }
   ]
 }

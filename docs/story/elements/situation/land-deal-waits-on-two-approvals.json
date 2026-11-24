@@ -18,6 +18,12 @@
       "what": "The funding letter arrives the morning after the zoning hearing.",
       "pulledBy": "The board continued the application and the seller's deadline is still ahead.",
       "writesBack": "The clerk adds the letter to the continued case."
+    },
+    {
+      "turn": "opposite",
+      "what": "The owner takes the land off the table while the housing group still has a funding application in.",
+      "pulledBy": "The signed option has expired and the owner has declined an extension.",
+      "writesBack": "The group tells the funder it has lost control of the site."
     }
   ]
 }

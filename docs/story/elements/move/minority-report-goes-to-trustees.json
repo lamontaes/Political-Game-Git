@@ -18,6 +18,12 @@
       "what": "The dissent reaches a trustee after the agenda packet goes out.",
       "pulledBy": "The dissenters finish writing before the trustees vote.",
       "writesBack": "The clerk circulates the signed report as a supplement."
+    },
+    {
+      "turn": "partial",
+      "what": "One dissenter favors the apartments and declines to endorse the other member's parking argument.",
+      "pulledBy": "The two agree on the vote but have submitted separately signed statements.",
+      "writesBack": "The trustees receive both statements with the vote tally."
     }
   ]
 }

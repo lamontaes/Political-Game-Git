@@ -18,6 +18,12 @@
       "what": "A commissioner accepts the owner's skyline argument for the distant view alone.",
       "pulledBy": "The hearing includes photographs from both ends of the approach.",
       "writesBack": "The finding names the closer view that still concerns the board."
+    },
+    {
+      "turn": "opposite",
+      "what": "The owner withdraws a skyline photograph after a resident identifies the camera position as a private rooftop.",
+      "pulledBy": "The caption calls it a sidewalk view and the photographer confirms the rooftop location.",
+      "writesBack": "The hearing packet marks the photograph withdrawn."
     }
   ]
 }

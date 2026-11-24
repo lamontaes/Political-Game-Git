@@ -18,6 +18,12 @@
       "what": "The proposed route reaches a seawall that cuts off passage at high water.",
       "pulledBy": "The shoreline survey identifies a break in the route at that tide.",
       "writesBack": "Staff flag the gap on the access map."
+    },
+    {
+      "turn": "late",
+      "what": "A winter storm moves the sand before staff return to mark the proposed path.",
+      "pulledBy": "The crew has a new shoreline survey and the earlier hearing exhibit.",
+      "writesBack": "The file keeps both dated outlines for the next access review."
     }
   ]
 }

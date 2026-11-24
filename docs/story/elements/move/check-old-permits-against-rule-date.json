@@ -18,6 +18,12 @@
       "what": "A nearby permit without the condition turns out to postdate the rule.",
       "pulledBy": "The neighbor brings a dated approval for a comparable property.",
       "writesBack": "Staff must account for that exception in the comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "A neighbor produces a recent recording stamp on a permit staff listed as old.",
+      "pulledBy": "The underlying approval sheet predates the rule even though the deed was recorded later.",
+      "writesBack": "The comparison table identifies approval and recording dates in separate columns."
     }
   ]
 }
