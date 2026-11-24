@@ -3016,28 +3016,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.ask.talk-address-point-think-goes-along-with-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Think {decider} goes along with it?",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "ask",
-          "tie": "stand",
-          "requiresFacts": ["decider"]
-        }
-      ],
-      "after": ["verdict", "why", "verdict-after"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-curious"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.born.loading-story-you-turned-up-in-which-the-government-noted-on-a-form",
       "move": "born",
       "kind": "written",

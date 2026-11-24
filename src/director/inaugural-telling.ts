@@ -89,7 +89,11 @@ export function inauguralFacts(
       Number(core.date.slice(P.zero, core.date.indexOf("-"))) - P.one
   )
     facts["elected-last-fall"] = fact("yes", [elected.id]);
-  const theme = plan.theme ? THEME_NAMES[plan.theme] : undefined;
+  // The theme said is the argued point's own family, so the speech never
+  // names one subject and argues another (a crisis address answers with a
+  // question outside its theme).
+  const family = plan.points[P.zero]?.family ?? plan.theme;
+  const theme = family ? THEME_NAMES[family] : undefined;
   if (theme) facts["theme-name"] = fact(theme, ids);
   const disaster = facts["story-disaster"];
   const said = disaster ? DISASTER_WORDS[disaster.text] : undefined;

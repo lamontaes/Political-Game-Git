@@ -75,10 +75,12 @@ export function eveningChapter(
     facts.we = fact(namesSaid([...first, SELF.subject]), named);
     facts.us = fact(namesSaid([...first, SELF.object]), named);
   } else facts.alone = fact("yes", [story.id, personId]);
-  if (story.theme && THEME.themeNames[story.theme]) {
-    facts["theme-name"] = fact(THEME.themeNames[story.theme]!);
-    if (THEME.themeShort[story.theme])
-      facts["theme-short"] = fact(THEME.themeShort[story.theme]!);
+  // The theme of the point the speech argued, as the address said it.
+  const family = story.points[P.zero]?.family ?? story.theme;
+  if (family && THEME.themeNames[family]) {
+    facts["theme-name"] = fact(THEME.themeNames[family]!);
+    if (THEME.themeShort[family])
+      facts["theme-short"] = fact(THEME.themeShort[family]!);
   }
   const point = addressPoints(story).find((row) => row.kind === "policy");
   if (point) {
