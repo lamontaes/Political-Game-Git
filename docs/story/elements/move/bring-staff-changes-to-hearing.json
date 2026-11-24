@@ -25,5 +25,8 @@
       "pulledBy": "The public packet and the fire marshal's copy carry different revision dates.",
       "writesBack": "The clerk attaches the corrected sheet and records who received it."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
   ]
 }

@@ -25,5 +25,6 @@
       "pulledBy": "Both entries use the same surveyed outline.",
       "writesBack": "The applicant's area schedule loses the duplicate credit."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

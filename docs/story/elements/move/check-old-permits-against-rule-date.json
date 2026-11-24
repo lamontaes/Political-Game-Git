@@ -25,5 +25,6 @@
       "pulledBy": "The underlying approval sheet predates the rule even though the deed was recorded later.",
       "writesBack": "The comparison table identifies approval and recording dates in separate columns."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

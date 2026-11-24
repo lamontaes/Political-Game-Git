@@ -25,5 +25,6 @@
       "pulledBy": "The owner submits the two parts separately and staff accept only the complete filing.",
       "writesBack": "The clerk gives the facade its own hearing date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

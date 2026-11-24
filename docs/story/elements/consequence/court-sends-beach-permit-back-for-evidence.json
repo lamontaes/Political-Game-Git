@@ -25,5 +25,6 @@
       "pulledBy": "The hearing record supports the house approval and the commissioners vote to remove the condition.",
       "writesBack": "The issued permit records approval without a public easement."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -25,5 +25,8 @@
       "pulledBy": "The signed option has expired and the owner has declined an extension.",
       "writesBack": "The group tells the funder it has lost control of the site."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
   ]
 }

@@ -25,5 +25,8 @@
       "pulledBy": "The two agree on the vote but have submitted separately signed statements.",
       "writesBack": "The trustees receive both statements with the vote tally."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
   ]
 }

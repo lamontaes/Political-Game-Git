@@ -25,5 +25,6 @@
       "pulledBy": "The drawing gives rack capacity and the applicant has supplied no travel survey.",
       "writesBack": "The traffic worksheet keeps the capacity figure separate from the missing trip estimate."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

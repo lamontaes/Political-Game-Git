@@ -25,5 +25,6 @@
       "pulledBy": "The phasing schedule shows a gap between demolition and the entrance inspection.",
       "writesBack": "The proprietor posts the closure dates for customers and staff."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

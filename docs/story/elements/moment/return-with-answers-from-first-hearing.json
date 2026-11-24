@@ -26,5 +26,8 @@
       "pulledBy": "The estimate counts the main entrance and the resident named the service entrance.",
       "writesBack": "The minutes carry the service entrance forward as an open question."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
   ]
 }

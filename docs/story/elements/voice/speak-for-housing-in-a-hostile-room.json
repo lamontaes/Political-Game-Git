@@ -26,5 +26,9 @@
       "pulledBy": "The neighbor signed the letter and the chair lets the speaker read it.",
       "writesBack": "The minutes credit the letter to its author and identify who read it."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+    "question:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
   ]
 }

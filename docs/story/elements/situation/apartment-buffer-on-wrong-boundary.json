@@ -25,5 +25,8 @@
       "pulledBy": "The survey shows houses along the rest of the property line.",
       "writesBack": "The commission's recommendation describes each boundary separately."
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
   ]
 }
