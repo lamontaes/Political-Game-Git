@@ -20,6 +20,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
   - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
+## Nov 24, 2026, about 8:45 a.m.: the story engine as one system (owner, verbatim; recorded by the CTO)
+
+- "No. Oh my God. Don't work on the address. Work on speeches. Don't work on the first evening's entry. Work on the journal. Don't work at the talk at home. Work at home stuff. Don't work on the... Or yes, work on the news. Why are you doing these incremental little steps? This is why nothing is getting done. The story engine is supposed to work together. I don't understand why it takes so long."
+  - Story work is scoped by system: speeches (every kind), the Journal (the whole life story), home (everything at home) and the news (every kind).
+  - One planner, one telling and one sameness gate serve all text.
+  - The first evening is a test place, not the scope. This replaces "one stretch at a time" from the Nov 24, 12:20 a.m. plan.
+
 ## Nov 24, 2026, about 8:30 a.m.: more Story sessions now (owner, verbatim; recorded by the CTO)
 
 - "The ad count is at 42% for the week. It needs to open multiple more Sonnet sessions for story. I'm sick of waiting." ("ad count" is his voice note for "account".)
