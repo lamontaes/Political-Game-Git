@@ -1,38 +1,18 @@
 # Pre-grade: Writer Home (talk at home)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `68b5df81`, every line authored by this writer at that head (190 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `629d5922`, every line authored by this writer at that head (182 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 181 of 190 pass (95%); 9 fail.
-- **Calibration:** C4 8/8, D1 8/8, M1 8/8, NB 8/8, O1 8/8, Q1 8/8, TK 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 181 of 182 pass (99%); 1 fail.
+- **Calibration:** C4 8/8, D1 8/8, M1 8/8, NB 8/8, O1 8/8, Q1 8/8, TK 8/8, TL 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the packet script at `104bd27d` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 9 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### awkward (3)
+### no-reply-asks-what-the-listener-cannot-know (1)
 
-- `outline-talk.ask.talk-address-point-if-we-disagreed-on-said-could-we-still-have-supper`: "If we disagreed on {said}, could we still have supper?" — The hypothetical 'could we still have supper' is an odd ask.
-- `outline-talk.ask.talk-address-point-what-did-you-hear-in-said-that-i-missed`: "What did you hear in {said} that I missed?" — 'What did you hear in drug prices' misuses the subject slot.
-- `outline-talk.why-first.talk-address-point-for-me-said-is-about-place-not-about-the-speech`: "For me, {said} is about {place}, not about the speech." — 'not about the speech' is a confusing contrast that reads as filler.
-
-### no-pointing-at-the-unnamed (3)
-
-- `outline-talk.why.talk-address-point-i-m-not-trying-to-win-anything-it-s-what-i-see-in-place`: "I'm not trying to win anything. It's what I see in {place}." — The bare 'It's' after a defensive opener points at nothing named, and it repeats row 39's shape.
-- `outline-talk.heard.talk-address-point-we-both-heard-said-so-i-don-t-have-to-explain-it`: "We both heard {said}, so I don't have to explain it." — 'We both heard drug prices' misuses the subject slot, and 'explain it' points at nothing.
-- `outline-talk.heard.talk-address-point-you-were-right-here-for-said-so-you-know-what-i-mean`: "You were right here for {said}, so you know what I mean." — 'so you know what I mean' points at a meaning not yet said.
-
-### no-explaining (1)
-
-- `outline-talk.ask.talk-address-point-i-m-asking-because-i-want-your-view-on-said-not-to-trap-you`: "I'm asking because I want your view on {said}, not to trap you." — Explaining that the question is not a trap is odd at the kitchen table and spells out its own subtext.
-
-### line-fits-the-roles-in-its-situation (1)
-
-- `outline-talk.ask.talk-address-point-what-would-you-say-to-someone-at-this-table-who-saw-said-the-other-way`: "What would you say to someone at this table who saw {said} the other way?" — A hypothetical 'someone at this table' who disagrees is strange when only the household is there.
-
-### no-literary-phrasing (1)
-
-- `outline-talk.why-first.talk-address-point-i-hear-said-differently-when-i-see-how-it-lands-in-place`: "I hear {said} differently when I see how it lands in {place}." — 'how it lands' is composed and sounds AI-written.
+- `outline-talk.why-first.talk-address-point-place-is-where-i-live-so-i-listened-for-said`: "{place} is where I live, so I listened for {said}." — Telling a housemate where they both live is pointless, and living in a town does not explain listening for one subject, so the 'so' is a non sequitur.
 
 ## As played
 
@@ -55,6 +35,7 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `68b5df81`, every line authored
 - `outline-talk.lead.talk-address-point-said-no-to-flat-out`: "{president} said no to {about}, flat out."
 - `outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on`: "You catch that? {president} shut the door on {about}."
 - `outline-talk.lead.talk-address-point-if-gets-a-say-is-on-its-way-out`: "If {president} gets a say, {about} is on its way out."
+- `outline-talk.lead.talk-address-point-if-gets-a-say-are-on-their-way-out`: "If {president} gets a say, {about} are on their way out."
 - `outline-talk.lead.talk-address-point-out-of-the-whole-speech-gave-the-most-time`: "Out of the whole speech, {president} gave {said} the most time."
 - `outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-about`: "I've been waiting for somebody to say that about {about}."
 - `outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do`: "Finally, somebody who sees {about} the way I do."
@@ -205,7 +186,6 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `68b5df81`, every line authored
 - `outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-about-to-get-through-supper`: "We don't have to settle {about} to get through supper."
 - `outline-talk.verdict-after.talk-address-point-say-what-you-think-about-about-i-d-rather-hear-it-than-guess`: "Say what you think about {about}. I'd rather hear it than guess."
 - `outline-talk.why-first.talk-address-point-before-president-even-got-to-said-i-was-thinking-about-place`: "Before {president} even got to {said}, I was thinking about {place}."
-- `outline-talk.why-first.talk-address-point-i-paid-attention-to-said-because-place-is-where-i-live`: "I paid attention to {said} because {place} is where I live."
 - `outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all`: "It's what I see out the window in {place}, that's all."
 - `outline-talk.heard.talk-address-point-i-ll-admit-i-watched-your-face-when-said-came-up`: "I'll admit I watched your face when {said} came up."
 - `outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we`: "Neither of us missed {said}, did we?"

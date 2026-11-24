@@ -1,6 +1,6 @@
 # Pre-grade: Writer Home, scenes at home (scene-talk.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `9c7557bd`, every line authored by this writer at that head (225 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `629d5922`, every line authored by this writer at that head (225 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
 - **Result:** 225 of 225 pass (100%); 0 fail.
 - **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8, Y1 8/8, Z1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
