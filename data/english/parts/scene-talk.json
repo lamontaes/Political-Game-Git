@@ -39839,6 +39839,1392 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.relatives-stayed-on-after-the-cake-at-your-wedding-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Relatives stayed on after the cake at your wedding to {spouse}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "yours", "spouse"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-family-had-come-together-for-and-and-the-kitchen-was-loud-with-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The family had come together for {honoree} and {spouse}, and the kitchen was loud with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "honoree", "spouse"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.news-of-the-job-at-had-traveled-through-the-family-and-people-came-by-to-mark-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "News of the job at {employer} had traveled through the family, and people came by to mark it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "yours", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.had-started-at-and-the-family-came-over-to-make-a-party-of-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{honoree} had started at {employer}, and the family came over to make a party of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "honoree", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-were-now-and-the-house-filled-up-to-say-so",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You were {position} now, and the house filled up to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "yours", "position"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-family-packed-the-house-for-s-day-and-the-talk-ran-from-room-to-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The family packed the house for {honoree}'s day, and the talk ran from room to room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-in-from-for-this-so-i-m-claiming-a-minute-of-your-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came in from {hometown} for this, so I'm claiming a minute of your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.before-the-cake-is-gone-can-i-borrow-you-it-s-about-s-day",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before the cake is gone, can I borrow you? It's about {honoree}'s day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.congratulations-again-on-can-i-steal-you-for-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Congratulations again on {employer}. Can I steal you for a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["yours", "new-job", "employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-sit-with-me-a-second-now-that-has-the-room-busy",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come sit with me a second, now that {spouse} has the room busy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-say-a-few-words-for-everyone-they-d-love-to-hear-it-from-you-on-s-day",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you say a few words for everyone? They'd love to hear it from you on {honoree}'s day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-say-a-few-words-for-everyone-it-s-your-day-with-and-nobody-else-can-say-it-right",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you say a few words for everyone? It's your day with {spouse}, and nobody else can say it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "yours", "spouse"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-stand-with-for-a-picture-i-ve-been-trying-to-get-everyone-into-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you stand with {honoree} for a picture? I've been trying to get everyone into one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.dance-with-me-once-before-wears-out-the-music-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Dance with me once before {spouse} wears out the music. Will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-out-of-work-right-now-and-you-re-doing-well-at-could-you-help-me-find-something",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm out of work right now, and you're doing well at {employer}. Could you help me find something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["looking-for-work", "yours", "new-job", "employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-out-of-work-right-now-could-you-help-me-find-something-now-that-you-re",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm out of work right now. Could you help me find something, now that you're {position}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["looking-for-work", "yours", "new-job", "position"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-love-for-you-to-come-meet-now-that-things-have-settled-at-my-house-will-you-visit",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd love for you to come meet {new-child}, now that things have settled at my house. Will you visit?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-child"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-a-long-way-from-to-here-will-you-come-see-us-next-time-instead",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's a long way from {hometown} to here. Will you come see us next time instead?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-haven-t-had-a-real-talk-with-you-in-a-long-while-could-we-get-one-now-that-the-house-is-full-for",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I haven't had a real talk with you in a long while. Could we get one, now that the house is full for {honoree}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-for-anything",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course. For {honoree}, anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-would-want-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. {spouse} would want that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-you-came-all-the-way-from",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. You came all the way from {hometown}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-before-leaves",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it before {honoree} leaves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-before-you-head-back-to",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word, before you head back to {hometown}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-is-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-this-about-s-day",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is this about {honoree}'s day?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-the-wrong-person-and-everyone-in-knows-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm the wrong person, and everyone in {place} knows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-today-i-m-sorry-but-deserves-someone-better-at-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not today. I'm sorry, but {honoree} deserves someone better at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-and-i-ll-find-you-before-calls-you-home",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think, and I'll find you before {hometown} calls you home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.ask-me-later-once-s-guests-thin-out",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Ask me later, once {honoree}'s guests thin out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-easy-enough-for-anyone-in-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's easy enough for anyone in {place}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-for-i-can-do-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. For {honoree}, I can do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-yes-and-word-will-get-around-that-i-kept-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then yes, and word will get around {place} that I kept it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.thanks-for-explaining-but-my-answer-is-still-no-even-for",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thanks for explaining, but my answer is still no, even for {honoree}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.even-so-nobody-in-should-count-on-me-for-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Even so, nobody in {place} should count on me for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-yes-you-d-wear-down-all-of-with-that-look",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine, yes. You'd wear down all of {place} with that look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.yes-and-i-ll-keep-it-this-time-whatever-hears",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes, and I'll keep it this time, whatever {place} hears.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-means-a-lot-to-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. It means a lot to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-wonderful-i-knew-i-could-ask-you-for-s-sake",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's wonderful. I knew I could ask you for {honoree}'s sake.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-in-the-nicest-way-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold you to that, {first}, in the nicest way. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.before-the-cake-is-gone-then-if-can-wait",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Before the cake is gone, then, if {honoree} can wait?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.will-you-really-i-d-hate-for-s-day-to-pass-without-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Will you really? I'd hate for {honoree}'s day to pass without it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.even-a-few-minutes-for-it-doesn-t-have-to-be-much",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even a few minutes for {honoree}? It doesn't have to be much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-you-tell-me-what-s-in-the-way-with-watching",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can you tell me what's in the way, with {honoree} watching?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-we-ll-leave-it-then-for-s-sake",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. We'll leave it, then, for {honoree}'s sake.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-and-thank-you-for-being-honest-about-s-day",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair, and thank you for being honest about {honoree}'s day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-small-really-i-d-be-grateful-for-any-part-of-it-even-a-word-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's small, really. I'd be grateful for any part of it, even a word for {honoree}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-little-of-your-time-for-whenever-you-can-spare-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A little of your time for {honoree}, whenever you can spare it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-complicated-i-only-wanted-it-to-come-from-you-on-s-day",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing complicated. I only wanted it to come from you on {honoree}'s day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "ask",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-you-said-yes-it-made-s-day",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad you said yes. It made {honoree}'s day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "resolved",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-s-all-i-hoped-for-thank-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That's all I hoped for. Thank you, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-leave-it-i-only-wish-had-heard-you-say-yes",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll leave it. I only wish {honoree} had heard you say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-it-s-yours-to-decide-and-will-still-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. It's yours to decide, and {honoree} will still be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "refused",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-your-time-but-find-me-before-calls-me-home",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take your time, but find me before {hometown} calls me home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.no-rush-just-don-t-let-s-day-end-without-us-talking",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "No rush. Just don't let {honoree}'s day end without us talking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "outcome": "open",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.close-press.the-spot-s-open",
       "move": "close-press",
       "kind": "spoken",
