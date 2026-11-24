@@ -6,23 +6,14 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=Suffolk%20County%20District%20Attorney%20Kevin%20Hayden%20told"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{prosecutor}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{prosecutor}"],
   "gates": [
     "Hearing, earlier offense, later legal change and a prosecutor's recorded position."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: hearing, earlier offense, later legal change and a prosecutor's recorded position.",
   "turns": [
     {

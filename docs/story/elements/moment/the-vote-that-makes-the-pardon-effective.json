@@ -6,23 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=effective%20at%20the%20Governor"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{governor}"
-  ],
-  "gates": [
-    "Jurisdiction requiring consent and a dated council decision."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
+  "gates": ["Jurisdiction requiring consent and a dated council decision."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: jurisdiction requiring consent and a dated council decision.",
   "turns": [
     {

@@ -6,23 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=22%2C000%20adult%20cases"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{councilor}"
-  ],
-  "gates": [
-    "An extrapolation, a court extract and the unit each counts."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{councilor}"],
+  "gates": ["An extrapolation, a court extract and the unit each counts."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: an extrapolation, a court extract and the unit each counts.",
   "turns": [
     {

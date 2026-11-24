@@ -6,23 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=was%20read%20aloud"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{chair}"
-  ],
-  "gates": [
-    "Court correspondence, named recipient and hearing agenda."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{chair}"],
+  "gates": ["Court correspondence, named recipient and hearing agenda."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: court correspondence, named recipient and hearing agenda.",
   "turns": [
     {

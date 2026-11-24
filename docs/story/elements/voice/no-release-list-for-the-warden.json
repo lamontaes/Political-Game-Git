@@ -6,23 +6,12 @@
   "sources": [
     "https://governor.maryland.gov/news/press-releases/governor-moore-signs-nationally-historic-executive-order-pardoning-175000-maryland-cannabis#:~:text=will%20not%20release"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{spokesperson}"
-  ],
-  "gates": [
-    "Verified custody effects of the particular order."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{spokesperson}"],
+  "gates": ["Verified custody effects of the particular order."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: verified custody effects of the particular order.",
   "turns": [
     {

@@ -6,23 +6,12 @@
   "sources": [
     "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=separate%20application"
   ],
-  "fits": [
-    "office",
-    "home",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{aide}"
-  ],
-  "gates": [
-    "Several case identifiers and a per-case certificate process."
-  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{aide}"],
+  "gates": ["Several case identifiers and a per-case certificate process."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: several case identifiers and a per-case certificate process.",
   "turns": [
     {

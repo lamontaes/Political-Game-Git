@@ -6,23 +6,12 @@
   "sources": [
     "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=at%20the%20time%20of%20the%20offense"
   ],
-  "fits": [
-    "office",
-    "home",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{reviewer}"
-  ],
-  "gates": [
-    "Governing proclamation, two dates and verified status for each."
-  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{reviewer}"],
+  "gates": ["Governing proclamation, two dates and verified status for each."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: governing proclamation, two dates and verified status for each.",
   "turns": [
     {

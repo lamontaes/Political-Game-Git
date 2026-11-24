@@ -3,26 +3,13 @@
   "kind": "detail",
   "summary": "{clerk} checks when the conduct occurred before assigning the case to the governor's list.",
   "realLife": "Maryland used an offense-date cutoff before the start of 2023 when assembling its possession list.",
-  "sources": [
-    "https://governor.maryland.gov/media/744/download#page=2"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{clerk}"
-  ],
-  "gates": [
-    "Offense date, judgment date and the order's cutoff."
-  ],
+  "sources": ["https://governor.maryland.gov/media/744/download#page=2"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{clerk}"],
+  "gates": ["Offense date, judgment date and the order's cutoff."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: offense date, judgment date and the order's cutoff.",
   "turns": [
     {

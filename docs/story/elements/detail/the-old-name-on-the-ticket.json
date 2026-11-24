@@ -6,23 +6,14 @@
   "sources": [
     "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=different%20name"
   ],
-  "fits": [
-    "office",
-    "home",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{applicant}"
-  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{applicant}"],
   "gates": [
     "Applicant's current name, earlier name and an unmatched court record."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: applicant's current name, earlier name and an unmatched court record.",
   "turns": [
     {

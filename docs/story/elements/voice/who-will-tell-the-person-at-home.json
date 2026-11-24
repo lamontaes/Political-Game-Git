@@ -6,24 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=unless%20we%20reach%20out"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{councilor}"
-  ],
-  "gates": [
-    "Effective class pardon and an unresolved notification plan."
-  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{councilor}"],
+  "gates": ["Effective class pardon and an unresolved notification plan."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: effective class pardon and an unresolved notification plan.",
   "turns": [
     {

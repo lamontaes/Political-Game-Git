@@ -6,24 +6,14 @@
   "sources": [
     "https://governor.maryland.gov/performance/strategic-highlights/pardoning-cannabis-possession-convictions#:~:text=public%20kiosks"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{resident}"
-  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{resident}"],
   "gates": [
     "Effective public-access rule and separate online and onsite views."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: effective public-access rule and separate online and onsite views.",
   "turns": [
     {

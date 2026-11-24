@@ -6,24 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=publicly-funded%20workforce%20system"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{director}"
-  ],
-  "gates": [
-    "Career-center testimony about the effect of records on hiring."
-  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{director}"],
+  "gates": ["Career-center testimony about the effect of records on hiring."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: career-center testimony about the effect of records on hiring.",
   "turns": [
     {

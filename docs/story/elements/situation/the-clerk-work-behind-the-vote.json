@@ -6,23 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=allocate%20some%20money"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{councilor}"
-  ],
-  "gates": [
-    "Office workload, planned updates and budget authority."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{councilor}"],
+  "gates": ["Office workload, planned updates and budget authority."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: office workload, planned updates and budget authority.",
   "turns": [
     {

@@ -6,23 +6,12 @@
   "sources": [
     "https://governor.maryland.gov/news/press-releases/governor-moore-signs-nationally-historic-executive-order-pardoning-175000-maryland-cannabis#:~:text=Pen%20to%20Right%20History"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{governor}"
-  ],
-  "gates": [
-    "A signing and an object with documented provenance."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
+  "gates": ["A signing and an object with documented provenance."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: a signing and an object with documented provenance.",
   "turns": [
     {

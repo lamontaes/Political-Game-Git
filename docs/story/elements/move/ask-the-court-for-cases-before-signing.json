@@ -3,26 +3,15 @@
   "kind": "move",
   "summary": "{governor} asks the judiciary for a list of cases that meet the proposed order's terms.",
   "realLife": "Moore requested electronic case lists from Maryland's courts and used them to identify the offenses he pardoned.",
-  "sources": [
-    "https://governor.maryland.gov/media/744/download#page=2"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{governor}"
-  ],
+  "sources": ["https://governor.maryland.gov/media/744/download#page=2"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
   "gates": [
     "A proposed category, custody of the dockets and a court response."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: a proposed category, custody of the dockets and a court response.",
   "turns": [
     {

@@ -6,23 +6,12 @@
   "sources": [
     "https://governor.maryland.gov/news/press-releases/governor-moore-announces-additional-action-close-marylands-racial-wealth-gap-promoting-just#:~:text=continued%20partnership"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{governor}"
-  ],
-  "gates": [
-    "Earlier pardon list and later verified cases."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{governor}"],
+  "gates": ["Earlier pardon list and later verified cases."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: earlier pardon list and later verified cases.",
   "turns": [
     {

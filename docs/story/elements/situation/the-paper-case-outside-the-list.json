@@ -6,24 +6,14 @@
   "sources": [
     "https://governor.maryland.gov/performance/strategic-highlights/pardoning-cannabis-possession-convictions#:~:text=pre-date%20electronically"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "home",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{aide}"
-  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{aide}"],
   "gates": [
     "Unmatched case, age of court records and a regular petition route."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: unmatched case, age of court records and a regular petition route.",
   "turns": [
     {

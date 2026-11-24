@@ -6,23 +6,12 @@
   "sources": [
     "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=not%20a%20unanimous%20decision"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{chief}"
-  ],
-  "gates": [
-    "Association position, witness and evidence of dissent."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{chief}"],
+  "gates": ["Association position, witness and evidence of dissent."],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "none"
-  ],
+  "issues": ["none"],
   "inGame": "needs: association position, witness and evidence of dissent.",
   "turns": [
     {
