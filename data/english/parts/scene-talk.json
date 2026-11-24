@@ -30945,6 +30945,15 @@
           "role": "asked",
           "purpose": "invite-debate",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "firm",
@@ -30954,7 +30963,8 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-agree.i-ll-debate",
@@ -31870,6 +31880,15 @@
           "purpose": "friend-ask",
           "key": "routine",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "solemn",
@@ -31879,7 +31898,8 @@
       "tag": {
         "move": "decline",
         "key": "loss"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-decline.please-don-t-ask",
@@ -32944,6 +32964,15 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
         }
       ],
       "bearing": "anxious",
@@ -32953,7 +32982,8 @@
       "tag": {
         "move": "leave",
         "key": "loss"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-confront.it-s-too-late",
@@ -35566,6 +35596,15 @@
           "key": "routine",
           "after": "answer",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "guarded",
@@ -35575,7 +35614,8 @@
       "tag": {
         "move": "stall",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-stall.not-quite-yet",
@@ -39599,6 +39639,24 @@
           "key": "routine",
           "after": "answer",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "firm",
@@ -39608,7 +39666,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "volunteers-need-a-specific-ask",
+        "official-declines-to-endorse"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.still-no-sorry",
@@ -41253,6 +41315,15 @@
           "role": "asked",
           "purpose": "invite-interview",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "calm",
@@ -41262,7 +41333,8 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-stall.not-decided-yet",
@@ -42275,6 +42347,15 @@
           "role": "asked",
           "purpose": "proposal-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
         }
       ],
       "bearing": "calm",
@@ -42284,7 +42365,8 @@
       "tag": {
         "move": "agree",
         "key": "arrival"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-stands-in-the-doorway-with-a-bag-new-to-the-house",
@@ -58277,6 +58359,15 @@
           "role": "asked",
           "purpose": "offer-to-run",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "calm",
@@ -58286,7 +58377,8 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["official-declines-to-endorse"]
     },
     {
       "key": "scene-talk.reply-decline.no-sorry",
@@ -64945,6 +65037,15 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "glad",
@@ -64954,7 +65055,8 @@
       "tag": {
         "move": "agree",
         "key": "news-received"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-agree.yes-come-stay",
@@ -65778,6 +65880,15 @@
           "purpose": "no-diploma-home",
           "key": "no-diploma",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "calm",
@@ -65787,7 +65898,8 @@
       "tag": {
         "move": "agree",
         "key": "arrival"
-      }
+      },
+      "elements": ["official-declines-to-endorse"]
     },
     {
       "key": "scene-talk.reply-agree.yes-child-should-hear-it-from-us-both",
@@ -70704,6 +70816,24 @@
           "purpose": "introduction",
           "key": "arrival",
           "onlyWhen": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
         }
       ],
       "bearing": "guarded",
@@ -70713,7 +70843,11 @@
       "tag": {
         "move": "deflect",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "volunteers-need-a-specific-ask",
+        "official-declines-to-endorse"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-s-it-like",
@@ -71045,6 +71179,15 @@
           "purpose": "offer-help",
           "key": "favor-asked",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "warm",
@@ -71054,7 +71197,8 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.close-promise.you-ll-see-me",
@@ -89539,62 +89683,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.count-me-in-volunteer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Count me in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-agree.i-m-in-volunteer",
       "move": "reply-agree",
       "kind": "spoken",
       "text": "I'm in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-agree.put-me-down-volunteer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Put me down.",
       "uses": [
         {
           "subject": "scene",
@@ -89669,32 +89761,6 @@
       "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-show-up-volunteer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll show up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-agree.always-for-you-volunteer-tie-friend",
       "move": "reply-agree",
       "kind": "spoken",
@@ -89711,32 +89777,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-agree.of-course-volunteer-tie-friend",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -89799,84 +89839,6 @@
       "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.reply-decline.not-this-time-volunteer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-sorry-volunteer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't, sorry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.not-for-me-volunteer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not for me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-decline.i-m-too-busy-volunteer",
       "move": "reply-decline",
       "kind": "spoken",
@@ -89893,32 +89855,6 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.maybe-later-volunteer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Maybe later.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "curious",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -89955,32 +89891,6 @@
       "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.reply-decline.not-right-now-volunteer-tie-friend",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-decline.not-a-chance-volunteer-tie-rival",
       "move": "reply-decline",
       "kind": "spoken",
@@ -89990,6 +89900,15 @@
           "subject": "scene",
           "purpose": "campaign-answer",
           "key": "volunteer",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["tie-rival"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
           "step": "reply",
           "move": "decline",
           "role": "asked",
@@ -90004,33 +89923,10 @@
         "move": "decline",
         "key": "volunteer"
       },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.ask-someone-else-volunteer-tie-rival",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Ask someone else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-rival"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
+      "elements": [
+        "volunteers-need-a-specific-ask",
+        "official-declines-to-endorse"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.you-have-it-endorse",
@@ -90101,32 +89997,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-with-you-endorse",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -90267,32 +90137,6 @@
       "elements": ["official-declines-to-endorse"]
     },
     {
-      "key": "scene-talk.reply-decline.not-this-time-endorse",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
       "key": "scene-talk.reply-decline.i-m-staying-out-endorse",
       "move": "reply-decline",
       "kind": "spoken",
@@ -90309,32 +90153,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-d-rather-not-endorse",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'd rather not.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -90413,58 +90231,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-decline.not-a-chance-endorse-tie-rival",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not a chance.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-rival"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-decline.ask-someone-else-endorse-tie-rival",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Ask someone else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-rival"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
