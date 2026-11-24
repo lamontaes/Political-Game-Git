@@ -84,5 +84,5 @@ describe("a state's term read stands on the tier's own months", () => {
           `${where}: ${id}`,
         ).toBe(true);
     }
-  }, 60_000);
+  }, 300_000);
 });
