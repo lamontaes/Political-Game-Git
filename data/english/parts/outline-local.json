@@ -3093,43 +3093,6 @@
       "issues": ["budget:police"]
     },
     {
-      "key": "outline-local.stand.more-money-for-the-police-in-isn-t-the-answer-on-its-own-i-d-say-no-to",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "More money for the police in {realm-name} isn't the answer on its own. I'd say no to the increase.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:police",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:police",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:police"]
-    },
-    {
       "key": "outline-local.stand.neighbors-in-are-one-bad-month-from-asking-for-help-i-d-spend-more-on-",
       "move": "stand",
       "kind": "spoken",
@@ -3204,80 +3167,6 @@
       "issues": ["budget:welfareAndMedicaid"]
     },
     {
-      "key": "outline-local.stand.i-m-not-for-spending-more-on-assistance-in-before-we-fix-who-it-reache",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm not for spending more on assistance in {realm-name} before we fix who it reaches.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:welfareAndMedicaid",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:welfareAndMedicaid",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:welfareAndMedicaid"]
-    },
-    {
-      "key": "outline-local.stand.assistance-spending-in-has-grown-enough-i-d-say-no-to-more",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Assistance spending in {realm-name} has grown enough. I'd say no to more.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:welfareAndMedicaid",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:welfareAndMedicaid",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:welfareAndMedicaid"]
-    },
-    {
       "key": "outline-local.stand.the-land-and-water-of-are-worth-protecting-i-d-spend-more-to-look-afte",
       "move": "stand",
       "kind": "spoken",
@@ -3308,117 +3197,6 @@
       ],
       "after": ["today", "contrast"],
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:naturalResources"]
-    },
-    {
-      "key": "outline-local.stand.what-we-leave-in-for-our-kids-starts-with-its-water-i-m-for-putting-mo",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "What we leave in {realm-name} for our kids starts with its water. I'm for putting more into it.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:naturalResources"]
-    },
-    {
-      "key": "outline-local.stand.i-m-not-for-spending-more-on-natural-resources-in-while-the-roads-go-u",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm not for spending more on natural resources in {realm-name} while the roads go unfixed.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:naturalResources"]
-    },
-    {
-      "key": "outline-local.stand.i-d-say-no-to-more-natural-resources-spending-in-this-year",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd say no to more natural resources spending in {realm-name} this year.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:naturalResources",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -3521,43 +3299,6 @@
       "issues": ["budget:parks"]
     },
     {
-      "key": "outline-local.stand.i-d-hold-the-parks-budget-in-where-it-is",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd hold the parks budget in {realm-name} where it is.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:parks",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:parks",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:parks"]
-    },
-    {
       "key": "outline-local.stand.there-aren-t-enough-homes-people-in-can-afford-i-d-spend-more-on-housi",
       "move": "stand",
       "kind": "spoken",
@@ -3625,43 +3366,6 @@
       ],
       "after": ["today", "contrast"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:housing"]
-    },
-    {
-      "key": "outline-local.stand.i-m-not-for-more-housing-spending-in-until-we-see-what-the-last-round-",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm not for more housing spending in {realm-name} until we see what the last round built.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:housing",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:housing",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -3817,43 +3521,6 @@
       "issues": ["budget:schools"]
     },
     {
-      "key": "outline-local.stand.more-money-for-the-schools-in-isn-t-what-i-d-vote-for-this-year",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "More money for the schools in {realm-name} isn't what I'd vote for this year.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:schools",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:schools",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:schools"]
-    },
-    {
       "key": "outline-local.stand.the-roads-in-are-in-worse-shape-every-winter-i-d-spend-more-to-fix-the",
       "move": "stand",
       "kind": "spoken",
@@ -3928,80 +3595,6 @@
       "issues": ["budget:highways"]
     },
     {
-      "key": "outline-local.stand.i-m-not-for-spending-more-on-roads-in-while-other-needs-go-short",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm not for spending more on roads in {realm-name} while other needs go short.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:highways"]
-    },
-    {
-      "key": "outline-local.stand.i-d-hold-the-road-budget-in-where-it-is",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd hold the road budget in {realm-name} where it is.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:highways"]
-    },
-    {
       "key": "outline-local.stand.the-jail-in-is-crowded-and-understaffed-i-d-spend-more-to-run-it-safel",
       "move": "stand",
       "kind": "spoken",
@@ -4039,43 +3632,6 @@
       "issues": ["budget:corrections"]
     },
     {
-      "key": "outline-local.stand.people-leaving-jail-in-need-a-way-back-i-m-for-putting-more-into-corre",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "People leaving jail in {realm-name} need a way back. I'm for putting more into corrections.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:corrections"]
-    },
-    {
       "key": "outline-local.stand.i-m-not-for-spending-more-on-the-jail-in-i-d-look-at-who-s-in-it-first",
       "move": "stand",
       "kind": "spoken",
@@ -4106,43 +3662,6 @@
       ],
       "after": ["today", "contrast"],
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:corrections"]
-    },
-    {
-      "key": "outline-local.stand.i-d-say-no-to-a-bigger-corrections-budget-in-this-year",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd say no to a bigger corrections budget in {realm-name} this year.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
