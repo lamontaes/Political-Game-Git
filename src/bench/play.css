@@ -437,6 +437,24 @@ ol {
   border-radius: var(--control-radius);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
+/* The broadcast on a set the room paints: the speaker's bust over its glass, in the picture's own percent. */
+#tv-screen {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
+  border-radius: var(--control-radius);
+}
+#tv-screen {
+  container-type: size;
+}
+#tv-screen .bust-strip {
+  --bust: min(100cqw, 100cqh);
+  height: 100%;
+}
+#tv-screen .busts-glass,
+#tv-screen .busts-name {
+  display: none;
+}
 #tv .bust-strip {
   --bust: 120px;
 }
@@ -2481,24 +2499,11 @@ body:not(.dev) .dev-only {
   text-align: left;
   cursor: pointer;
 }
-/* A toast leaves by itself: it holds, then fades out over its last second. Its close
-   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+/* A toast stays until the player opens or closes it (ui/toast.mjs). */
 .toast {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-}
-.toast.fading {
-  animation: toast-fade var(--toast-seconds) linear forwards;
-}
-@keyframes toast-fade {
-  0%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 #news-reader {
   inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
