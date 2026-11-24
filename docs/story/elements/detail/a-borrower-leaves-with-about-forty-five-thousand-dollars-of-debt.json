@@ -1,0 +1,31 @@
+{
+  "id": "a-borrower-leaves-with-about-forty-five-thousand-dollars-of-debt",
+  "kind": "detail",
+  "summary": "Bachelor's graduates who borrowed owed an average of $45,300 in federal loans as of 2020.",
+  "realLife": "Bachelor's degree completers of 2015-16 who ever took federal loans had borrowed an average of $45,300 as of 2020.",
+  "sources": [
+    "NCES, Fast Facts: Student debt: https://nces.ed.gov/fastfacts/display.asp?id=900"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year"],
+  "gates": [],
+  "weights": {
+    "college-year": 0.5
+  },
+  "inGame": "the loans module's balances for a person after the college record. needs: a student loan balance after graduation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A graduate with no debt.",
+      "pulledBy": "household money",
+      "writesBack": "no loan balance"
+    },
+    {
+      "turn": "late",
+      "what": "A loan paid off years later.",
+      "pulledBy": "payment rows",
+      "writesBack": "a payoff told"
+    }
+  ],
+  "usedBy": []
+}

@@ -26,5 +26,9 @@
       "pulledBy": "a writer who does not discuss money (trait: guarded)",
       "writesBack": "the entry leaves it out"
     }
+  ],
+  "issues": [
+    "law:minimum-wage",
+    "question:us-policy-positions:labor-workforce.raise-minimum-wage"
   ]
 }

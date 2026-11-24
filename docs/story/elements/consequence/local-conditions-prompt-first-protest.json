@@ -2,8 +2,10 @@
   "id": "local-conditions-prompt-first-protest",
   "kind": "consequence",
   "summary": "Someone seeing conditions worsen decides to attend a protest for the first time.",
-  "realLife": "owner, Nov 8: A person’s route into politics may begin with the state of the place around them.",
+  "realLife": "After her son became ill, Lois Gibbs asked the school board to move him out of the Love Canal school. She then began collecting neighbors’ signatures to close the school.",
   "sources": [
+    "https://www.pbs.org/wgbh/americanexperience/features/poisoned-ground-love-canal-mothers/",
+    "https://loe.org/shows/segments.html?programID=25-P13-00010&segmentID=2%27123",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
   ],
   "inGame": "needs: match a local issue record and an existing public action to the resident’s first participation.",
@@ -18,6 +20,12 @@
       "what": "The resident attends the next public gathering after missing the first one.",
       "pulledBy": "Their shift overlapped the first meeting and conditions remain unresolved.",
       "writesBack": "The later gathering becomes their first attendance."
+    },
+    {
+      "turn": "partial",
+      "what": "At her first protest the resident stays for the testimony about her water bill and leaves to collect her child.",
+      "pulledBy": "The speakers reach utility costs before the resident’s pickup time.",
+      "writesBack": "She can recall the testimony she heard, while the later march is outside her account."
     }
   ]
 }

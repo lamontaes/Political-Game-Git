@@ -18,12 +18,16 @@
     {
       "name": "no value",
       "pulledBy": "a theft with an unknown loss",
-      "writes": "the line says the loss is not known"
+      "writes": "the line says the loss is not known",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a large loss",
       "pulledBy": "a burglary of a business",
-      "writes": "the story leads with the sum"
+      "writes": "the story leads with the sum",
+      "requiresFacts": ["burglary"],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

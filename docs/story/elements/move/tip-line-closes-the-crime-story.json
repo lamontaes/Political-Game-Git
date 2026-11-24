@@ -18,12 +18,16 @@
     {
       "name": "closes on the arrest",
       "pulledBy": "a suspect charged",
-      "writes": "the last line says the charge"
+      "writes": "the last line says the charge",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "closes on the loss",
       "pulledBy": "a victim who lost heavily",
-      "writes": "the last line gives the sum"
+      "writes": "the last line gives the sum",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

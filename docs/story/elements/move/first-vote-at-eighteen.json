@@ -25,5 +25,9 @@
   "weights": {
     "life": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:government-operations.same-day-voter-registration",
+    "question:us-policy-positions:government-operations.automatic-voter-registration"
+  ]
 }

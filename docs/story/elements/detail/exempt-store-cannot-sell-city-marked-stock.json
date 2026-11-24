@@ -1,0 +1,28 @@
+{
+  "id": "exempt-store-cannot-sell-city-marked-stock",
+  "kind": "detail",
+  "summary": "A shop with an exemption has to check the mark on the delivery before putting drinks on its shelves.",
+  "realLife": "Hindman moved to keep city-marked stock out of exempt retail sales and distributor deliveries. The council enacted the amended exemption.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_may21.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{retailer}", "{delivery}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: store exemption and distributor markings.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The receiving clerk puts the delivery out for sale.",
+      "pulledBy": "A delivery is correctly marked for the exempt outlet.",
+      "writesBack": "The shop can stock it under the exception."
+    },
+    {
+      "turn": "opposite",
+      "what": "The receiving clerk holds the cases on the loading dock.",
+      "pulledBy": "The shipment carries the city's return mark.",
+      "writesBack": "The retailer asks the distributor for replacement stock."
+    }
+  ]
+}

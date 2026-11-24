@@ -30,5 +30,6 @@
       "pulledBy": "a visitor on the household's evening record",
       "writesBack": "the entry names the guest"
     }
-  ]
+  ],
+  "issues": ["none"]
 }
