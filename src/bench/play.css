@@ -489,6 +489,14 @@ ol {
 #game:has(#front:not([hidden])) #here {
   display: none;
 }
+/* The news toast has the corner's top right while it shows: the people stand just
+   left of it, and go back when it closes. */
+#here {
+  transition: right 0.25s ease;
+}
+#game:has(#news-surface:not([hidden])) #here {
+  right: calc(var(--gutter) + 340px + 16px);
+}
 /* Whoever speaks leaves their place in the corner while the talk lasts. */
 #game:has(#talk:not([hidden])) #here .busts-person.in-talk {
   display: none;
