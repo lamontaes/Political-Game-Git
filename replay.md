@@ -307,3 +307,11 @@ Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-
 | "Since" and "In office since" read one record | **pass**: both read 2021 on the President at Alexis NC (85a230de12f5) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91) | replay-peA-grid.png |
 | P17, C17 on the sheriff (Micah Webb, Alexis) and a county commissioner (Alina Page) | **pass**: the story now runs under the sections across the card; no empty block under the middle column; no scroller, nothing below the panel | replay-peA-grid.png |
 | P17, C17 on the President (short story beside a long record) | **open, smaller**: the right column below the short story is still empty (a quarter of the card); the panel is unchanged at 543 px | replay-peA-grid.png |
+
+## #10337 at e7c44f11 (played from pull/10337/head)
+
+| Check | Grade | Picture |
+| --- | --- | --- |
+| Since / In office since | **pass**: both 2021 at Alexis NC (85a230de12f5) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91) | replay-pfA-grid.png |
+| P17, C17 on the sheriff (Micah Webb) and a commissioner (Alina Page) | **pass**: the sheriff's card is 481 px and fits its text; the commissioner's fills its story; no scroller, nothing below the panel | replay-pfA-grid.png |
+| P17, C17 on the President | **open, one gap**: the card is 520 px with larger text; the right column under the short story is still empty (about a third of the column's height) | replay-pfA-grid.png |
