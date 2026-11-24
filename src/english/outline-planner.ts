@@ -511,7 +511,14 @@ function wordMove(
   const part = pool.find((row) => row.key === result.variantKey)!;
   return {
     part,
-    text: result.text,
+    // A sentence inside the piece that opens on a slot ("Thank you all.
+    // {body-name} and I ...") starts with a capital like the piece itself
+    // (pre-grade, Nov 24: "Thank you all. the Washington County Board ...").
+    text: result.text.replace(
+      // Not after an initial's period ("D.C. statehood").
+      /(?<!\b[A-Z])([.!?]["”]?\s+)([a-z])/g,
+      (_, gap: string, letter: string) => gap + letter.toUpperCase(),
+    ),
     facts: result.usedFactKeys,
     ids: result.sourceRecordIds,
   };
