@@ -11560,31 +11560,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.i-ve-been-working-on-behind-the-scenes-for-a-while-now",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I've been working on {issue} behind the scenes for a while now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "protest"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-have-to-go-i-won-t-forget-what-you-said-about",
       "move": "reply-leave",
       "kind": "spoken",
@@ -11781,31 +11756,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-ve-been-pressing-the-company-on-behind-the-scenes-for-a-while-now",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I've been pressing the company on {issue} behind the scenes for a while now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "strike"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "lie",
         "key": "favor-asked"
       }
     },
@@ -12661,10 +12611,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-you-need-me-to-do-for",
+      "key": "scene-talk.reply-ask.what-would-you-need-me-to-do-about",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would you need me to do for {cause}?",
+      "text": "What would you need me to do about {cause}?",
       "uses": [
         {
           "subject": "scene",
@@ -12733,10 +12683,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.put-me-down-i-ll-be-there-for",
+      "key": "scene-talk.reply-agree.put-me-down-i-ll-be-at-the-meeting-about",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Put me down. I'll be there for {cause}.",
+      "text": "Put me down. I'll be at the meeting about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -12757,10 +12707,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-come-to-the-meeting-tell-me-the-hour-and-i-ll-clear-it",
+      "key": "scene-talk.reply-agree.i-ll-come-to-the-meeting-about-tell-me-the-hour-and-i-ll-clear-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll come to the {cause} meeting. Tell me the hour and I'll clear it.",
+      "text": "I'll come to the meeting about {cause}. Tell me the hour and I'll clear it.",
       "uses": [
         {
           "subject": "scene",
@@ -12805,10 +12755,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-can-count-on-me-for",
+      "key": "scene-talk.reply-agree.you-can-count-on-me-to-show-up-about",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You can count on me for {cause}.",
+      "text": "You can count on me to show up about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -12901,10 +12851,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-ask-me-about-the-next-thing",
+      "key": "scene-talk.reply-decline.not-about-ask-me-about-the-next-thing",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not {cause}. Ask me about the next thing.",
+      "text": "Not about {cause}. Ask me about the next thing.",
       "uses": [
         {
           "subject": "scene",
@@ -12925,10 +12875,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.my-calendar-is-a-mess-this-month-and-meets-when-let-me-look-at-it",
+      "key": "scene-talk.reply-deflect.my-calendar-is-a-mess-this-month-and-the-meeting-about-is-when-let-me-look",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "My calendar is a mess this month, and {cause} meets when? Let me look at it.",
+      "text": "My calendar is a mess this month, and the meeting about {cause} is when? Let me look at it.",
       "uses": [
         {
           "subject": "scene",
@@ -12973,10 +12923,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.maybe-i-have-to-see-what-else-is-on-that-week-for",
+      "key": "scene-talk.reply-deflect.maybe-i-have-to-see-what-else-is-on-the-week-of-the-meeting-about",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Maybe. I have to see what else is on that week for {cause}.",
+      "text": "Maybe. I have to see what else is on the week of the meeting about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -12997,10 +12947,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-be-somewhere-good-luck-with",
+      "key": "scene-talk.reply-leave.i-have-to-be-somewhere-good-luck-with-what-you-re-doing-about",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to be somewhere. Good luck with {cause}.",
+      "text": "I have to be somewhere. Good luck with what you're doing about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -13021,10 +12971,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-sitting-there-and-being-counted-for-if-you-want-to-speak-i-ll-find-y",
+      "key": "scene-talk.follow-answer.mostly-sitting-there-and-being-counted-at-the-meeting-about-if-you-want-to",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Mostly sitting there and being counted for {cause}. If you want to speak, I'll find you a slot.",
+      "text": "Mostly sitting there and being counted at the meeting about {cause}. If you want to speak, I'll find you a slot.",
       "uses": [
         {
           "subject": "scene",
@@ -13071,10 +13021,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.because-you-listen-when-it-s-your-turn-on-and-that-s-rarer-than-you-d-think",
+      "key": "scene-talk.follow-answer.because-you-listen-when-it-s-your-turn-to-talk-about-and-that-s-rarer-than",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Because you listen when it's your turn on {cause}, and that's rarer than you'd think.",
+      "text": "Because you listen when it's your turn to talk about {cause}, and that's rarer than you'd think.",
       "uses": [
         {
           "subject": "scene",
@@ -13096,10 +13046,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-i-ll-write-your-name-down-for-now",
+      "key": "scene-talk.follow-thank.good-i-ll-write-your-name-down-for-the-meeting-about-now",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. I'll write your name down for {cause} now.",
+      "text": "Good. I'll write your name down for the meeting about {cause} now.",
       "uses": [
         {
           "subject": "scene",
@@ -13146,10 +13096,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-having-you-there-for-makes-the-rest-of-them-braver",
+      "key": "scene-talk.follow-thank.thank-you-having-you-there-at-the-meeting-about-makes-the-rest-of-them-brav",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. Having you there for {cause} makes the rest of them braver.",
+      "text": "Thank you. Having you there at the meeting about {cause} makes the rest of them braver.",
       "uses": [
         {
           "subject": "scene",
@@ -13205,10 +13155,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.lands-on-your-street-too-whether-you-re-in-the-room-or-not",
+      "key": "scene-talk.follow-press.what-happens-with-lands-on-your-street-too-whether-you-re-in-the-room-or-no",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "{cause} lands on your street too, whether you're in the room or not.",
+      "text": "What happens with {cause} lands on your street too, whether you're in the room or not.",
       "uses": [
         {
           "subject": "scene",
@@ -13375,10 +13325,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.see-you-at-the-meeting-on-then",
+      "key": "scene-talk.close-thank.see-you-at-the-meeting-about-then",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "See you at the meeting on {cause}, then.",
+      "text": "See you at the meeting about {cause}, then.",
       "uses": [
         {
           "subject": "scene",
@@ -13400,10 +13350,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-tell-the-others-you-re-coming-for",
+      "key": "scene-talk.close-thank.i-ll-tell-the-others-you-re-coming-to-the-meeting-about",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll tell the others you're coming for {cause}.",
+      "text": "I'll tell the others you're coming to the meeting about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -13425,10 +13375,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-text-you-the-time-for-the-meeting",
+      "key": "scene-talk.close-promise.i-ll-text-you-the-time-for-the-meeting-about",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll text you the time for the {cause} meeting.",
+      "text": "I'll text you the time for the meeting about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -13450,10 +13400,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-near-the-front-for",
+      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-near-the-front-for-the-meeting-about",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll save you a seat near the front for {cause}.",
+      "text": "I'll save you a seat near the front for the meeting about {cause}.",
       "uses": [
         {
           "subject": "scene",
@@ -13500,10 +13450,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.suit-yourself-we-ll-be-there-for-either-way-and-so-will-the-other-side",
+      "key": "scene-talk.close-warn.suit-yourself-we-ll-be-there-about-either-way-and-so-will-the-other-side",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Suit yourself. We'll be there for {cause} either way, and so will the other side.",
+      "text": "Suit yourself. We'll be there about {cause} either way, and so will the other side.",
       "uses": [
         {
           "subject": "scene",
