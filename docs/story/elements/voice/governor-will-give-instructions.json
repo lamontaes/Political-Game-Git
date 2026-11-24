@@ -3,18 +3,9 @@
   "kind": "voice",
   "summary": "{person} tells residents which official they should listen to if they are asked to leave.",
   "realLife": "Speaking in Middletown, Carter told residents to follow any further safety instructions from Thornburgh.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/249528"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

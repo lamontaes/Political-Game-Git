@@ -3,18 +3,9 @@
   "kind": "voice",
   "summary": "At the town hall in {place}, the president makes a point of thanking residents for how they handled the emergency.",
   "realLife": "Carter publicly praised the people living near Three Mile Island for their conduct during the accident.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/249528"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [],
   "weights": [],
   "usedBy": []

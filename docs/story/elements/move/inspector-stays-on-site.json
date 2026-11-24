@@ -3,18 +3,9 @@
   "kind": "move",
   "summary": "{person} asks agencies to speed up a program that keeps a federal inspector at each site.",
   "realLife": "Carter called for faster deployment of resident inspectors to nuclear plants in response to the commission's findings.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/248009"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/248009"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

@@ -3,17 +3,9 @@
   "kind": "detail",
   "summary": "{person} takes the first briefing at the airfield before setting out for the site.",
   "realLife": "Denton briefed Carter in the flight planning room at the Air National Guard facility in Middletown.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/249528"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

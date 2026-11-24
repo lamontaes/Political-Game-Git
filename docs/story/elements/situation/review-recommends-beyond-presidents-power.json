@@ -3,17 +3,9 @@
   "kind": "situation",
   "summary": "The report on the desk asks for changes that {person}, an independent agency, and private operators each control in part.",
   "realLife": "Carter distinguished the Kemeny recommendations he could carry out himself from those that required regulators or utilities to act.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/248009"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/248009"],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
   "gates": [],
   "weights": [],
   "usedBy": []

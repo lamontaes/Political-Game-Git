@@ -3,18 +3,9 @@
   "kind": "move",
   "summary": "Before speaking publicly in {place}, the president goes to see the room where operators are working.",
   "realLife": "Carter visited the Three Mile Island control room during his trip and spoke to reporters at the town hall.",
-  "sources": [
-    "https://www.presidency.ucsb.edu/node/249528"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [],
   "weights": [],
   "usedBy": []
