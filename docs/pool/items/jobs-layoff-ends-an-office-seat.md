@@ -1,7 +1,7 @@
 ---
 id: jobs-layoff-ends-an-office-seat
 title: "A layoff can end an elected official's office seat: the jobs engine lays off a seat's own job as if it were staff"
-area: jobs
+area: core
 kind: bug
 priority: 2
 size: S
@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** Dev mode's layoff of `person_8897b53b8949e312` (Steve Lynch) at Clacks Canyon, Arizona on 2025-01-21 ended `job:public:office:seat:gus2025:183707:board:0:person_8897b53b8949e312`, the job of his own board seat, and wrote `work.job-lost` for it. An elected official is not laid off from an office he was elected to; the seat ends by a term, a resignation or a recall, never by an employer's layoff.
+**What.** Dev mode's layoff of `person_8897b53b8949e312` (Steve Lynch) at Clacks Canyon, Arizona on 2025-01-21 ended `job:public:office:seat:gus2025:183707:board:0:person_8897b53b8949e312`, the job of his own board seat, and wrote `work.job-lost` for it. An elected official is not laid off from an office he was elected to. The seat ends by a term, a resignation or a recall, never by an employer's layoff. Seen: on an officeholder's person card in dev mode, "Laid off by their employer" refuses the seat, and the official keeps it.
 
 **Cause.** Found in code: `layOffWorker` (src/core2/modules/jobs.ts) checks only that the job is on its organization's current staff (`currentJobs`), and a seat's own job (`job:public:office:<seat id>:<person>`, src/core2/person-work.ts `SEAT_JOBS`) is on its government's staff, so `layOff` picks it like any worker's. Any caller of `layOffWorker` (dev mode's layoff control, a business's own cuts that pass a job id) can end a seat this way.
 
@@ -28,7 +28,7 @@ root: none
 
 **Rules.** No dice; one rule, all 56 places.
 
-**Done when.** A drawn-place test finds an officeholder whose seat job is on a government's staff and shows `layOffWorker` refuses it, and dev mode's layoff control on that person answers with the refusal instead of ending the seat.
+**Done when.** A second session, in a drawn place, opens an officeholder's person card in dev mode, presses "Laid off by their employer" and sees the refusal while the official keeps the seat; a drawn-place test shows `layOffWorker` refuses a seat's own job.
 
 **Waits on.** Nothing.
 
