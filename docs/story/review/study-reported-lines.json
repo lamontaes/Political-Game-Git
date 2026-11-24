@@ -905,10 +905,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-chaired-it-you-and-members-had-just-as-much-say-on-bill-as-i-did",
+    "key": "scene-talk.follow-answer.i-chaired-it-your-say-on-bill-counted-just-as-much-as-mine-same-goes-for-members",
     "move": "follow-answer",
     "kind": "spoken",
-    "text": "I chaired it. You and {members} had just as much say on {bill} as I did.",
+    "text": "I chaired it. Your say on {bill} counted just as much as mine. Same goes for {members}.",
     "uses": [
       {
         "subject": "scene",
