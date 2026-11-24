@@ -1,0 +1,21 @@
+{
+  "id": "shelter-animals-on-relocation-list",
+  "kind": "detail",
+  "summary": "The evacuation list for {place} includes animals in county care.",
+  "realLife": "King County’s flood briefing included a contingency for relocating animals from its shelter.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

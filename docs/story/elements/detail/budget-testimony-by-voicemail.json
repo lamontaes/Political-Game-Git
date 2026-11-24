@@ -1,0 +1,21 @@
+{
+  "id": "budget-testimony-by-voicemail",
+  "kind": "detail",
+  "summary": "{person} can leave testimony on the county budget by phone.",
+  "realLife": "Montgomery County listed its budget hotline as a way to submit testimony alongside mail and recorded submissions.",
+  "sources": [
+    "https://www2.montgomerycountymd.gov/mcgportalapps/Press_Detail.aspx?Dept=1&Item_ID=48415"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

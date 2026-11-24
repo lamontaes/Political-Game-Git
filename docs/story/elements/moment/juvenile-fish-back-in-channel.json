@@ -1,0 +1,21 @@
+{
+  "id": "juvenile-fish-back-in-channel",
+  "kind": "moment",
+  "summary": "Biologists spot young fish using the channel that crews reopened at {place}.",
+  "realLife": "King County reported that biologists saw juvenile salmon in restored habitat after construction at Fall City.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/dnrp/about-king-county/about-dnrp/newsroom/2024-news-releases/04-24-fall-city-floodplain-restoration"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "elections-office-in-floodplain",
+  "kind": "situation",
+  "summary": "With election day approaching, {person} needs a backup site for an elections office inside the floodplain.",
+  "realLife": "King County officials briefed a committee on possibly moving election operations before the November vote.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

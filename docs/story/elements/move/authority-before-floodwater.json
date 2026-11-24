@@ -1,0 +1,21 @@
+{
+  "id": "authority-before-floodwater",
+  "kind": "move",
+  "summary": "The council gives {person} authority to declare an emergency while the river is still in its banks.",
+  "realLife": "King County council members voted unanimously to let Executive Kurt Triplett act ahead of Green River flooding.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

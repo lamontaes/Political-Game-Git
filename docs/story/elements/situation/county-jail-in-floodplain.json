@@ -1,0 +1,21 @@
+{
+  "id": "county-jail-in-floodplain",
+  "kind": "situation",
+  "summary": "{person} has to plan where people in county custody could go if the river rises.",
+  "realLife": "King County reviewed the possible transfer of people held at the Maleng Regional Justice Center ahead of winter flooding.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

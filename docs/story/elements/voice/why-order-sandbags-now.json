@@ -1,0 +1,21 @@
+{
+  "id": "why-order-sandbags-now",
+  "kind": "voice",
+  "summary": "{person} points to the months available to buy tools and sandbags as a reason to act today.",
+  "realLife": "Council chair Dow Constantine argued that advance notice gave King County a chance to start buying levee supplies immediately.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

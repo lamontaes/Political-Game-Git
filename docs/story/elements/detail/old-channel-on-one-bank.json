@@ -1,0 +1,21 @@
+{
+  "id": "old-channel-on-one-bank",
+  "kind": "detail",
+  "summary": "Across from a newly dug channel at {place}, water can enter an old channel again.",
+  "realLife": "The Fall City project reopened a side channel on the Snoqualmie’s left bank and built another on the right.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/dnrp/about-king-county/about-dnrp/newsroom/2024-news-releases/04-24-fall-city-floodplain-restoration"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

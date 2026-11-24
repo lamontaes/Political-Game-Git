@@ -1,0 +1,21 @@
+{
+  "id": "evening-turn-at-budget-hearing",
+  "kind": "move",
+  "summary": "{person} can take an evening turn at the microphone after missing an afternoon budget hearing.",
+  "realLife": "Montgomery County scheduled afternoon and evening sessions on the executive’s FY27 proposal.",
+  "sources": [
+    "https://www2.montgomerycountymd.gov/mcgportalapps/Press_Detail.aspx?Dept=1&Item_ID=48415"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

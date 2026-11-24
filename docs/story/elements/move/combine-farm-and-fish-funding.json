@@ -1,0 +1,21 @@
+{
+  "id": "combine-farm-and-fish-funding",
+  "kind": "move",
+  "summary": "{person} draws on farm, flood, and habitat funds for the same stretch of river.",
+  "realLife": "King County assembled agricultural, flood protection, and salmon recovery funding for the Fall City project.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/dnrp/about-king-county/about-dnrp/newsroom/2024-news-releases/04-24-fall-city-floodplain-restoration"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

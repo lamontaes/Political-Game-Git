@@ -1,0 +1,21 @@
+{
+  "id": "dam-capacity-before-rain",
+  "kind": "situation",
+  "summary": "The dam upstream from {place} has lost storage capacity before the wet season.",
+  "realLife": "In 2009 King County prepared for winter knowing Howard Hanson Dam could hold less water than usual.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}
