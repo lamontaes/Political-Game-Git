@@ -47395,6 +47395,104 @@
       "elements": ["pattern-b6-03-asked-along"]
     },
     {
+      "key": "scene-talk.narrate-narrate.name-came-in-and-sat-down-without-being-asked",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} came in and sat down without being asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-come-over-to-say-something-that-was-hard-to-say",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had come over to say something that was hard to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.state-confront.i-know-the-meeting-ran-late-how-much-of-home-are-we-giving-up-for-place",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I know the meeting ran late. How much of home are we giving up for {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
+      "key": "scene-talk.state-confront.the-meeting-ran-late-and-i-was-the-one-who-waited-is-place-worth-that-to-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "The meeting ran late, and I was the one who waited. Is {place} worth that to you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
       "key": "scene-talk.state-confess.i-broke-my-word-i-d-rather-you-hear-why-from-me-than-from-anyone-in-place",
       "move": "state-confess",
       "kind": "spoken",
@@ -47418,204 +47516,6 @@
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.state-confess.i-let-you-down-and-i-owe-you-the-reason-before-place-makes-one-up",
-      "move": "state-confess",
-      "kind": "spoken",
-      "text": "I let you down, and I owe you the reason before {place} makes one up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confess",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.state-confess.i-promised-you-something-and-then-broke-it-place-has-been-talking-so-you-ll-hear-it-from-me",
-      "move": "state-confess",
-      "kind": "spoken",
-      "text": "I promised you something and then broke it. {place} has been talking, so you'll hear it from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confess",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-stood-at-the-edge-of-the-room-as-if-waiting-to-be-told-where-to-stand",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} stood at the edge of the room, as if waiting to be told where to stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-took-one-long-breath-before-saying-the-first-word",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} took one long breath before saying the first word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.state-confront.i-waited-up-and-the-whole-street-in-place-went-quiet-around-me-where-were-you",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "I waited up, and the whole street in {place} went quiet around me. Where were you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
-      "key": "scene-talk.state-confront.the-meeting-in-place-ended-hours-ago-where-were-you",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "The meeting in {place} ended hours ago. Where were you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
-      "key": "scene-talk.state-ask.is-the-job-worth-it-half-of-place-was-out-there-against-you",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Is the job worth it? Half of {place} was out there against you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
-    },
-    {
-      "key": "scene-talk.state-ask.i-m-proud-of-you-but-is-it-worth-what-place-is-doing-to-us",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I'm proud of you, but is it worth what {place} is doing to us?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.state-ask.i-saw-your-face-when-the-crowd-in-place-turned-out-is-it-getting-to-you",
