@@ -9,6 +9,7 @@ import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
+import { countSaid } from "../english/count-words";
 import { centuryOf, historyMode } from "../core2/electorate-century";
 import { ageOnDate } from "../core2/kernel/dates";
 import { jobTitleByKind } from "../core2/person-work";
@@ -186,33 +187,46 @@ export function loadingTelling(
     const others = household.memberIds
       .filter((id) => id !== playerId)
       .map((id) => core.people.get(id))
-      .filter((row) => !!row);
+      .filter((row) => !!row && row.alive !== false);
     if (!others.length) put("lives-alone", "yes", household.id);
+    else {
+      // How many, said in words (countSaid), never a figure in code.
+      put("household-others", countSaid(others.length), household.id);
+      put(
+        others.length === 1 ? "one-other-in-household" : "several-in-household",
+        "yes",
+        household.id,
+      );
+      put("lives-with-others", "yes", household.id);
+    }
     // Ages only: the household's records hold no kinship, so a line says
     // "older" or "younger", never "parents".
-    if (others.some((row) => ageOnDate(row.birthDate, core.date) < 18))
+    if (others.some((row) => ageOnDate(row!.birthDate, core.date) < 18))
       put("lives-with-younger", "yes", household.id);
     if (
       others.some(
         (row) =>
-          ageOnDate(row.birthDate, core.date) >=
+          ageOnDate(row!.birthDate, core.date) >=
           ageOnDate(person.birthDate, core.date) + 16,
       )
     )
       put("lives-with-older", "yes", household.id);
     // The household's move-in day, unless the life's own records already
-    // put the player in this place before it (schooled here earlier): the
-    // story never says two things about when the life came here.
+    // put the player in this place before it (schooled here earlier, or a
+    // move on record in another year): the story never says two things
+    // about when the life came here.
+    const since = household.since;
     const schooledHereBefore =
+      !!since &&
       facts["school-place"]?.text === placeSaid(person.placeId) &&
-      !!household.since &&
-      (facts["school-year"]?.text ?? "") < yearOf(household.since);
+      (facts["school-year"]?.text ?? "") < yearOf(since);
     const movedOtherYear =
+      !!since &&
       !!facts["moved-year"] &&
-      facts["moved-year"].text !== yearOf(household.since ?? "");
-    if (household.since && !schooledHereBefore && !movedOtherYear) {
-      put("here-since-year", yearOf(household.since), household.id);
-      const years = ageOnDate(household.since, core.date);
+      facts["moved-year"].text !== yearOf(since);
+    if (since && since < core.date && !schooledHereBefore && !movedOtherYear) {
+      put("lived-here-since", yearOf(since), household.id);
+      const years = ageOnDate(since, core.date);
       if (years < 2) put("new-here", "yes", household.id);
       else if (years >= 10) put("long-here", "yes", household.id);
     }
