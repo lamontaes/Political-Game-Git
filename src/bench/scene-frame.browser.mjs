@@ -129,11 +129,13 @@ try {
     assert.equal(talk.bottomStrip, 0, "an old strip is still drawn");
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-talk.png` });
 
-    // Anyone named in the corner opens their card.
-    await page
-      .locator("#here .busts-person.named, #here .busts-person.talkable")
-      .first()
-      .click();
+    // Anyone named in the corner, or the speaker on the box, opens their card.
+    const others = page.locator("#here .busts-person:not(.in-talk)");
+    await (
+      (await others.count())
+        ? others.first()
+        : page.locator("#talk-strip .busts-person").first()
+    ).click();
     await page.locator("#person").waitFor({ state: "visible" });
     assert.ok(
       (await page.locator("#person-name").innerText()).trim(),
