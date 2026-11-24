@@ -36742,10 +36742,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "conversation.own-view-answer-agree.is-one-thing-we-agree-on",
+      "key": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
       "move": "own-view-answer-agree",
       "kind": "spoken",
-      "text": "{about} is one thing we agree on.",
+      "text": "We see eye to eye on {about}.",
       "uses": [
         {
           "move": "own-view-answer-agree",
