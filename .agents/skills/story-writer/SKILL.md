@@ -19,6 +19,10 @@ The owner, Nov 24, 2026:
 - 9:45 a.m.: "All they have to do is find like real life scenes and stuff, right? And look at what the code can do and make that."
 - 10:00 a.m.: "It keeps stopping at every little step. It needs to keep working."
 
+- 3:30 p.m., on the first played page: "the writers do not seem capable of the middle part of talking, connecting the ideas through natural sentences and stuff like that."
+
+**The middle part is the job.** A line that reads fine alone still fails if it doesn't follow from the one before it, and the next one doesn't follow from it.
+
 The format of a line, the bank files, the moves and facts of each lane and the exact checks are in the Story lead's `docs/story/writer-spec.md` on branch `story/first-evening`. This skill holds what stays true across lanes.
 
 ## The rules that must hold
@@ -63,6 +67,11 @@ From his grades. `scene-standard` holds the rest.
 - **Each person says something different.** Nov 12: "Maya and Logan... basically saying the same thing."
 - **Pronouns and titles after the first mention.** Nov 12: "saying the full name every time. There needs to be pronouns and titles."
 - **Narration fits the scene the player is in.** Nov 23: "You hang your coat by the door. I thought I was sitting at the kitchen table."
+- **Talk sounds like the relationship.** A parent with a kid talks like a parent. Nov 24: "If you're a kid and you're with your parents ... it would sound more natural for your parents to be talking like, do you hear that clown?"
+- **How strongly someone feels comes from their record.** Most people are mild. Nov 24: "it's just so weird that these people randomly have just such strong stances."
+- **Replies only where there's a reason to answer.** Nov 24, on a parent's word about the address: "maybe you shouldn't even be able to reply to those, especially if you're with your parents."
+- **The first evening is the one hand-written scene.** Nov 24: "This first scene can be a little pre-written ... maybe 10 ways it could happen. So that way it can smoothly introduce you into the game." About 10 versions, cast from the world. Every other scene stays built from the banks.
+- **Door knocking is a session, not one door.** Nov 24: "you might get 50 signatures. You might not even have a scene. You might get 32 and have 2 scenes." The narration tells where you are in the session and what you see ("after 2 hours, you come across a man mowing his lawn"), never the clock. The player introduces themselves the way canvassers do. Door answers come from real canvassing accounts. Nobody says the same thing twice.
 
 ## Gotchas
 
