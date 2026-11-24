@@ -2863,10 +2863,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.when-they-called-the-roll-on-bill-there-wasn-t-a-single-no-is-there-anything-keeping-you-from-signing",
+      "key": "scene-talk-office.state-request.any-reason-you-see-to-send-bill-back-to-a-room-where-nobody-voted-no",
       "move": "state-request",
       "kind": "spoken",
-      "text": "When they called the roll on {bill}, there wasn't a single no. Is there anything keeping you from signing?",
+      "text": "Any reason you see to send {bill} back to a room where nobody voted no?",
       "uses": [
         {
           "subject": "scene",
@@ -2889,10 +2889,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.the-vote-is-public-and-so-is-my-name-on-bill-i-d-like-your-signature-on-it",
+      "key": "scene-talk-office.state-request.every-vote-cast-on-bill-was-a-yes-and-i-d-like-to-take-your-yes-back-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The vote is public, and so is my name on {bill}. I'd like your signature on it.",
+      "text": "Every vote cast on {bill} was a yes, and I'd like to take your yes back with me.",
       "uses": [
         {
           "subject": "scene",
@@ -2915,10 +2915,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.i-can-tell-people-how-the-vote-went-what-i-can-t-tell-them-yet-is-whether-you-ll-sign-bill-will-you",
+      "key": "scene-talk-office.state-request.what-should-i-tell-the-members-who-passed-bill-without-a-single-no-if-they-ask-whether-you-ll-sign",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I can tell people how the vote went. What I can't tell them yet is whether you'll sign {bill}. Will you?",
+      "text": "What should I tell the members who passed {bill} without a single no if they ask whether you'll sign?",
       "uses": [
         {
           "subject": "scene",
@@ -2941,10 +2941,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.some-members-voted-against-bill-we-had-enough-votes-to-override-but-i-d-like-to-see-it-signed-will-you",
+      "key": "scene-talk-office.state-request.even-with-the-votes-we-had-for-bill-i-d-sooner-leave-here-with-your-signature-than-count-them-all-again",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Some members voted against {bill}. We had enough votes to override, but I'd like to see it signed. Will you?",
+      "text": "Even with the votes we had for {bill}, I'd sooner leave here with your signature than count them all again.",
       "uses": [
         {
           "subject": "scene",
@@ -2967,10 +2967,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.i-could-point-to-the-votes-we-have-for-bill-i-d-rather-hear-whether-you-ll-sign-it-on-its-merits",
+      "key": "scene-talk-office.state-request.would-you-sign-bill-on-its-merits-if-you-hadn-t-seen-the-tally",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I could point to the votes we have for {bill}. I'd rather hear whether you'll sign it on its merits.",
+      "text": "Would you sign {bill} on its merits if you hadn't seen the tally?",
       "uses": [
         {
           "subject": "scene",
@@ -2993,10 +2993,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.we-had-the-numbers-on-the-first-vote-i-can-t-promise-how-a-second-one-would-go-will-you-sign-bill",
+      "key": "scene-talk-office.state-request.we-had-enough-to-override-the-first-time-around-please-sign-bill-so-nobody-has-to-put-that-to-the-test",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We had the numbers on the first vote. I can't promise how a second one would go. Will you sign {bill}?",
+      "text": "We had enough to override the first time around. Please sign {bill} so nobody has to put that to the test.",
       "uses": [
         {
           "subject": "scene",
@@ -3019,10 +3019,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.i-don-t-want-to-go-back-and-ask-everybody-to-vote-on-bill-twice-can-we-finish-it-here-with-your-signature",
+      "key": "scene-talk-office.state-request.my-name-s-on-bill-so-let-me-ask-you-myself-before-anybody-starts-counting-votes-again-will-you-sign",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I don't want to go back and ask everybody to vote on {bill} twice. Can we finish it here with your signature?",
+      "text": "My name's on {bill}, so let me ask you myself before anybody starts counting votes again. Will you sign?",
       "uses": [
         {
           "subject": "scene",
@@ -3045,10 +3045,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.we-passed-bill-but-we-didn-t-have-the-votes-to-override-will-you-sign-it",
+      "key": "scene-talk-office.state-request.we-passed-bill-but-we-came-up-short-of-what-a-veto-would-take-can-i-count-on-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We passed {bill}, but we didn't have the votes to override. Will you sign it?",
+      "text": "We passed {bill}, but we came up short of what a veto would take. Can I count on you?",
       "uses": [
         {
           "subject": "scene",
@@ -3071,10 +3071,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.if-you-send-bill-back-i-d-have-to-change-some-minds-i-d-like-to-come-back-with-your-signature-instead",
+      "key": "scene-talk-office.state-request.send-bill-back-and-i-ve-got-to-change-somebody-s-vote-i-d-like-your-signature-today",
       "move": "state-request",
       "kind": "spoken",
-      "text": "If you send {bill} back, I'd have to change some minds. I'd like to come back with your signature instead.",
+      "text": "Send {bill} back and I've got to change somebody's vote. I'd like your signature today.",
       "uses": [
         {
           "subject": "scene",
@@ -3097,10 +3097,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.i-can-answer-for-my-vote-on-bill-i-can-t-speak-for-the-members-who-voted-no-will-you-sign-it",
+      "key": "scene-talk-office.state-request.how-do-i-get-your-signature-on-bill-when-all-i-can-bring-you-is-the-majority-we-had",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I can answer for my vote on {bill}. I can't speak for the members who voted no. Will you sign it?",
+      "text": "How do I get your signature on {bill} when all I can bring you is the majority we had?",
       "uses": [
         {
           "subject": "scene",
@@ -3123,10 +3123,10 @@
       "elements": ["council-vote-story"]
     },
     {
-      "key": "scene-talk-office.state-request.we-got-bill-through-once-a-veto-would-take-more-votes-than-we-had-what-would-it-take-for-you-to-sign",
+      "key": "scene-talk-office.state-request.the-votes-were-there-to-pass-bill-once-i-m-asking-you-to-sign-it-because-they-weren-t-there-for-an-override",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We got {bill} through once. A veto would take more votes than we had. What would it take for you to sign?",
+      "text": "The votes were there to pass {bill} once. I'm asking you to sign it because they weren't there for an override.",
       "uses": [
         {
           "subject": "scene",
