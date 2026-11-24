@@ -3339,7 +3339,9 @@
       "key": "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "So it brings {purpose} and costs the budget nothing. I'll sign it.",
+      "text": "I'll sign now.",
+      "elements": ["sign-the-board-amendments-intact"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25077,6 +25079,8 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "{bill} is on your desk until {deadline}, and I'm asking you to sign it.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25102,6 +25106,8 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "You have {bill} until {deadline}, and I'm asking you to sign it.",
+      "elements": ["sponsor-asks-while-bill-awaits-signature"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25804,6 +25810,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Tell me what {bill} does for the budget.",
+      "elements": ["treasurer-has-the-balance-but-no-current-price"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25838,6 +25846,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "What does {bill} actually do?",
+      "elements": ["daily-bill-bulletin"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25846,7 +25856,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "excludesFacts": ["heard-bill-purpose"]
         }
       ],
       "bearing": "curious",
@@ -25888,6 +25899,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "How much of the budget does {bill} take?",
+      "elements": ["street-balance-beside-the-annual-paving-amount"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25913,6 +25926,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Does {bill} take anything from the budget?",
+      "elements": ["street-balance-beside-the-annual-paving-amount"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25938,6 +25953,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Tell me what {bill} changes for people in {place}.",
+      "elements": ["jobs-at-the-other-end-of-the-route"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25946,7 +25963,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "excludesFacts": ["heard-bill-purpose"]
         }
       ],
       "bearing": "curious",
@@ -26152,7 +26170,9 @@
       "key": "scene-talk.follow-answer.bill-costs-the-budget-nothing",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} costs the budget nothing.",
+      "text": "There's no spending increase written into {bill}.",
+      "elements": ["treasurer-has-the-balance-but-no-current-price"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -26201,7 +26221,9 @@
       "key": "scene-talk.follow-answer.bill-is-purpose-and-that-s-all-it-does",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} is {purpose}, and that's all it does.",
+      "text": "The decision in front of you concerns {purpose}.",
+      "elements": ["daily-bill-bulletin"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -26211,7 +26233,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-bill-actually-do",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "setsFacts": ["heard-bill-purpose"]
         },
         {
           "subject": "scene",
@@ -26221,7 +26244,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.tell-me-what-bill-changes-for-people-in-place",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "setsFacts": ["heard-bill-purpose"]
         }
       ],
       "bearing": "calm",
@@ -26237,7 +26261,9 @@
       "key": "scene-talk.follow-answer.it-s-about-purpose-that-s-what-people-in-place-are-asking-for",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's about {purpose}. That's what people in {place} are asking for.",
+      "text": "I came to talk to you about {purpose}.",
+      "elements": ["daily-bill-bulletin"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -26247,7 +26273,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-bill-actually-do",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "setsFacts": ["heard-bill-purpose"]
         },
         {
           "subject": "scene",
@@ -26257,7 +26284,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.tell-me-what-bill-changes-for-people-in-place",
-          "requiresFacts": ["bill", "purpose"]
+          "requiresFacts": ["bill", "purpose"],
+          "setsFacts": ["heard-bill-purpose"]
         }
       ],
       "bearing": "calm",
