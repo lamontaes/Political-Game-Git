@@ -71,13 +71,21 @@ describe("the outline planner", () => {
         sourceRecordIds: ["person:mayor", "question:housing.rent-cap"],
       },
       place: { text: "Ashton", sourceRecordIds: ["place:ashton"] },
+      line: {
+        text: "the police",
+        sourceRecordIds: ["question:budget-line:police"],
+      },
     });
+    // A budget line by the catalog's own id.
+    expect(cited["policy:budget:police"]?.sourceRecordIds).toEqual([
+      "question:budget-line:police",
+    ]);
     expect(cited["policy:question:housing.rent-cap"]?.sourceRecordIds).toEqual([
       "question:housing.rent-cap",
     ]);
     expect(
       Object.keys(cited).filter((key) => key.startsWith("policy:")),
-    ).toEqual(["policy:question:housing.rent-cap"]);
+    ).toEqual(["policy:question:housing.rent-cap", "policy:budget:police"]);
   });
 
   it("lets a piece that leans on the sentence before it play only after the moves it names", () => {
