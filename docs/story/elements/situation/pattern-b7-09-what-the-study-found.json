@@ -1,0 +1,56 @@
+{
+  "id": "pattern-b7-09-what-the-study-found",
+  "kind": "situation",
+  "summary": "What the study found: The study reports, and the player is told what it found and asked what they make of it.",
+  "realLife": "One life: A select committee run by the majority put out a report with ten possible bills, saying they were options and not the endorsed view of each member. The minority leader said her side was not asked to take part, and the majority's bill drafts were ready before the new session. Another: A city task force had not finished, and its only paper was a list of over forty topics from a canceled meeting. The council unanimously gave it a date to finish; a patient group groaned at the delay, a task force member welcomed the fixed date. Another: A pay study that came a year late found state wages below the state's own target for most job groups. Finance committee members were frustrated by the delay and the lowered standard; the personnel director said a new review would take at least a year and could not give cost figures. Another: A Senate study committee created to look at lobbying by groups that receive state money left no sign it ever met, heard witnesses or filed a report; the resolution had set no deadline or penalty.",
+  "sources": [
+    "https://montanafreepress.org/2022/12/16/select-committee-offers-legislative-recommendations-in-montana-court-conflict/",
+    "https://lbpost.com/news/action-on-medical-cannabis-pushed-to-september-as-city-council-awaits-task-force-recommendations-3/",
+    "https://www.juneauindependent.com/post/studying-the-study-vexed-lawmakers-told-it-will-take-at-least-a-year-to-assess-report-calling-sta",
+    "https://thevpo.org/2022/03/29/the-study-committee-that-never-was"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the speaker", "the body", "the sponsor", "the other side"],
+  "gates": [
+    "The study record shows a study committee that has reached its date and reported.",
+    "The report record holds the members' position on the bill and the options they offered.",
+    "The player is a member of the body, or chaired the study."
+  ],
+  "weights": [
+    "How far the study's finding is from where the player stood.",
+    "Whether the report was written by one side only.",
+    "Whether the other side had any say in it.",
+    "How near the next session is.",
+    "Whether the player's own stance record moved with the finding."
+  ],
+  "pattern": "B7-09",
+  "choices": [
+    "say the finding moves you",
+    "say you disagree and give the reason",
+    "ask what moved the finding",
+    "say nothing much"
+  ],
+  "branches": [
+    {
+      "when": "the finding moves the player",
+      "then": "The player's stance record shifts and a bill draft may follow."
+    },
+    {
+      "when": "the player disagrees with the finding",
+      "then": "The reasons go on the record; the speaker answers from the study's own reasons."
+    },
+    {
+      "when": "the player asks what moved the finding",
+      "then": "The answer names who the study heard and what was left out."
+    },
+    {
+      "when": "the report was written by one side and the other side objects",
+      "then": "A second report or a statement is written; the body reads two accounts."
+    },
+    {
+      "when": "the administration or the office the report names says it needs time",
+      "then": "The player hears that action will wait; the delay is read by the people who pressed for it."
+    }
+  ],
+  "usedBy": ["study-reported"]
+}

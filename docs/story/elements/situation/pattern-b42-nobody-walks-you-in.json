@@ -1,0 +1,34 @@
+{
+  "id": "pattern-b42-nobody-walks-you-in",
+  "kind": "situation",
+  "summary": "Nobody walks you in: Custom says {senior member} walks you to the oath, and he stays in his seat, reading.",
+  "realLife": "When he came to take his Senate seat in 1875, Mississippi's senior senator, James Alcorn, refused to escort him and kept reading a newspaper. Roscoe Conkling of New York crossed the chamber and walked with him.",
+  "sources": [
+    "https://www.senate.gov/artandhistory/history/minute/Alcorns_Great_Insult.htm"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["senior member", "stranger"],
+  "gates": [
+    "You are being sworn in.",
+    "A custom of escort on record.",
+    "A grudge between you and {senior member} on record."
+  ],
+  "weights": ["How bad the grudge is.", "How public the snub is."],
+  "pattern": "B42",
+  "choices": [
+    "walk up alone",
+    "wait",
+    "take {stranger}'s arm when he crosses the floor"
+  ],
+  "branches": [
+    {
+      "when": "the grudge goes back to a race",
+      "then": "You backed someone else against him once, and the record says why."
+    },
+    {
+      "when": "{stranger} walks with you",
+      "then": "A tie, and a debt later votes read."
+    }
+  ],
+  "usedBy": []
+}

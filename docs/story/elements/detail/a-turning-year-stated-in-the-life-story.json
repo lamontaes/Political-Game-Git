@@ -1,0 +1,29 @@
+{
+  "id": "a-turning-year-stated-in-the-life-story",
+  "kind": "detail",
+  "summary": "A life story fixes its turning points by month and year.",
+  "realLife": "Stohldorf's oral history places her move to Minnesota in March 1914.",
+  "sources": [
+    "University of Minnesota Morris, Zola Stohldorf oral history, about 1977: https://digitalcommons.morris.umn.edu/kmrs/87"
+  ],
+  "fits": ["journal"],
+  "slots": ["age"],
+  "gates": [],
+  "inGame": "`memoir-whenAge` and `memoir-movedAge` with `age_then` from the birth record.",
+  "weights": {
+    "opening": 0.4
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The year is not remembered.",
+      "pulledBy": "a long span since (trait: daydreaming)",
+      "writesBack": "the entry says only the season or the age"
+    },
+    {
+      "turn": "The year is exact.",
+      "pulledBy": "a dated record (marriage, move)",
+      "writesBack": "the entry gives the year"
+    }
+  ]
+}

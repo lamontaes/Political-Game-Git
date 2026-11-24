@@ -21501,7 +21501,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.salutation.plain-campaign-speech-good-people-of-i-m-glad-you-re-here",
@@ -21522,7 +21523,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.salutation.plain-campaign-speech-friends-thanks-for-giving-me-a-few-minutes-in",
@@ -21543,7 +21545,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.salutation.plain-campaign-speech-everybody-here-in-thanks-for-stopping",
@@ -21564,7 +21567,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.salutation.polished-campaign-speech-thank-you-all-for-being-here-tonight-in",
@@ -21586,7 +21590,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.salutation.polished-campaign-speech-fellow-residents-of-thank-you",
@@ -21607,7 +21612,8 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-i-want-to-be-your-and-i-want-to-talk-about",
@@ -21628,7 +21634,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-i-m-asking-to-make-me-its-and-i-ll-start-with",
@@ -21649,7 +21656,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-the-reason-i-want-to-be-your-comes-down-to",
@@ -21670,7 +21678,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-if-you-re-deciding-who-should-be-your-here-s-what-matters-to",
@@ -21691,7 +21700,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-let-me-be-plain-about-why-i-want-to-be-your",
@@ -21712,7 +21722,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.polished-campaign-speech-before-you-decide-on-your-hear-me-out-on",
@@ -21733,7 +21744,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-what-brought-me-into-this-race-for-is",
@@ -21754,7 +21766,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.occasion.plain-campaign-speech-i-ll-keep-this-short-i-want-to-be-your-and-it-s-about",
@@ -21775,7 +21788,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
     },
     {
       "key": "opening-speech.close.plain-campaign-speech-if-you-make-me-your-thank-you",
@@ -21796,7 +21810,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.plain-campaign-speech-give-me-the-chance-and-thank-you",
@@ -21817,7 +21832,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.polished-campaign-speech-send-me-to-be-your-and-thanks",
@@ -21838,7 +21854,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.plain-campaign-speech-my-reason-is-and-i-d-be-proud-to-have-your-vote",
@@ -21859,7 +21876,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.polished-campaign-speech-it-comes-down-to-this-i-d-be-glad-to-earn-your-vote",
@@ -21880,7 +21898,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.plain-campaign-speech-thank-you-i-ll-keep-working-on-if-you-send-me",
@@ -21901,7 +21920,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.plain-campaign-speech-thanks-for-listening-i-hope-to-earn-your-vote",
@@ -21922,7 +21942,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.polished-campaign-speech-please-vote-and-thank-you-for-hearing-me-out",
@@ -21943,7 +21964,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.close.polished-campaign-speech-i-d-be-proud-to-speak-for-as-your",
@@ -21964,7 +21986,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
       "key": "opening-speech.salutation.plain-floor-speech-thank-you-for-the-floor",
@@ -21985,7 +22008,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.salutation.plain-floor-speech-i-rise-to-speak-on-this",
@@ -22006,7 +22030,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.salutation.plain-floor-speech-colleagues-i-ll-be-brief",
@@ -22027,7 +22052,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.salutation.polished-floor-speech-thank-you-and-thank-you-colleagues",
@@ -22048,7 +22074,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.salutation.polished-floor-speech-i-ask-for-a-minute-on-this",
@@ -22069,7 +22096,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.salutation.plain-floor-speech-colleagues-here-s-where-i-stand-on-this",
@@ -22090,7 +22118,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
     },
     {
       "key": "opening-speech.close.plain-floor-speech-i-ask-my-colleagues-to-vote-with-me-and-i-yield-the-floor",
@@ -22111,7 +22140,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.close.plain-floor-speech-i-ask-for-its-vote-and-i-yield",
@@ -22132,7 +22162,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.close.plain-floor-speech-colleagues-my-reason-is-i-yield",
@@ -22153,7 +22184,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.close.polished-floor-speech-if-we-vote-this-way-i-yield",
@@ -22174,7 +22206,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.close.polished-floor-speech-that-is-all-i-have-i-yield-the-floor-with-my-thanks",
@@ -22195,7 +22228,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.close.plain-floor-speech-whichever-way-it-goes-i-wanted-to-hear-this-before-the-vote",
@@ -22216,7 +22250,8 @@
       "bearing": "firm",
       "origin": "authored",
       "author": "the local and campaign speeches writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.salutation.polished-members-of-the-legislature-and-the-residents-of-realm-name",
