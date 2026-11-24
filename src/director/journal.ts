@@ -20,6 +20,7 @@ import {
   billTitleSaid,
 } from "../english/bill-names";
 import { topicInSentence } from "../english/policy-names";
+import { laterRecordsOf, officePhrase } from "./journal-later";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
   addDays,
@@ -1063,7 +1064,7 @@ export function composeJournal(
     pastWorkOf(core as CoreState, personId).map((row) => row.id),
   );
   /** The recorded facts a moment can be told with. */
-  const factsFor = (moment: JournalMoment): Facts | null => {
+  const baseFactsFor = (moment: JournalMoment): Facts | null => {
     const facts: Facts = { ...moment.actFacts };
     const fact = moment.causeFactId
       ? factsById.get(moment.causeFactId)
@@ -1415,6 +1416,15 @@ export function composeJournal(
       };
     }
     return facts;
+  };
+
+  // An entry is told looking back (owner, Nov 24, page 1): beside the facts of
+  // its own day it carries what the person's later records say, with their
+  // ids, as of the page's last day (journal-later.ts).
+  const laterOf = laterRecordsOf(core, personId, options.through ?? core.date);
+  const factsFor = (moment: JournalMoment): Facts | null => {
+    const own = baseFactsFor(moment);
+    return own ? { ...laterOf(moment.date), ...own } : own;
   };
 
   // Each line is the English engine's: the director says which line it is,
@@ -2310,16 +2320,9 @@ function officeHolding(
       ? (offices.get(term.officeId) as unknown as
           { title?: string; seats?: number } | undefined)
       : undefined;
-    if (!office?.title) return undefined;
-    // One of several seats takes an article: "a council member", but "mayor".
-    const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
-    return {
-      text:
-        (office.seats ?? one) > one
-          ? `${article} ${office.title}`
-          : office.title,
-      sourceRecordIds: [term!.id],
-    };
+    const said = office ? officePhrase(office) : undefined;
+    if (!said) return undefined;
+    return { text: said, sourceRecordIds: [term!.id] };
   };
 }
 
