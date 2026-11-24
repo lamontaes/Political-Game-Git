@@ -1752,251 +1752,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.the-speeches-are-over-name-stays-behind-with-something-to-say-about-issue",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "The speeches are over. {name} stays behind with something to say about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.state-confront.i-heard-what-you-said-about-issue-people-deserve-a-different-answer",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "I heard what you said about {issue}. People deserve a different answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.state-confront.you-talk-about-issue-like-you-ve-never-had-to-live-with-it",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "You talk about {issue} like you've never had to live with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-ll-talk-about-issue-when-the-crowd-isn-t-watching-come-see-me",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'll talk about {issue} when the crowd isn't watching. Come see me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deflect",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-confront.if-issue-matters-to-you-tell-people-what-you-d-do",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "If {issue} matters to you, tell people what you'd do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "A crowd isn't an answer on {issue}. Give me one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "disagree"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "boast"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered",
-      "move": "follow-boast",
-      "kind": "spoken",
-      "text": "People will hear from me on {issue}, and they'll remember who answered.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "boast",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "follow",
-          "move": "boast",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "confront"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "boast",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
       "key": "scene-talk.follow-confront.source-says-that-isn-t-what-happened-try-again",
       "move": "follow-confront",
       "kind": "spoken",
@@ -2087,36 +1842,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-confess.alright-i-didn-t-have-it-straight-on-issue-and-i-ll-say-so",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "Alright. I didn't have it straight on {issue}, and I'll say so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "requiresFacts": ["issue"],
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
       "key": "scene-talk.reply-confess.i-stretched-it-opponent-people-deserve-the-plain-version",
       "move": "reply-confess",
       "kind": "spoken",
@@ -2147,66 +1872,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-disagree.you-keep-saying-that-opponent-the-record-on-issue-says-otherwise",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "You keep saying that, {opponent}. The record on {issue} says otherwise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "requiresFacts": ["opponent", "issue"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "requiresFacts": ["opponent", "issue"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "requiresFacts": ["opponent", "issue"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "requiresFacts": ["opponent", "issue"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "disagree",
-        "key": "threat"
-      },
-      "elements": [
-        "forum-with-one-candidate-is-canceled",
-        "empty-chair-gets-the-stage"
-      ]
-    },
-    {
       "key": "scene-talk.reply-disagree.i-won-t-argue-it-twice-opponent-my-answer-stands",
       "move": "reply-disagree",
       "kind": "spoken",
@@ -2220,7 +1885,7 @@
           "move": "disagree",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
+          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening"
         },
         {
           "subject": "scene",
@@ -2230,7 +1895,7 @@
           "move": "disagree",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
+          "after": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office"
         },
         {
           "subject": "scene",
@@ -2240,7 +1905,7 @@
           "move": "disagree",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
+          "after": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back"
         },
         {
           "subject": "scene",
@@ -2250,7 +1915,7 @@
           "move": "disagree",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
+          "after": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent"
         }
       ],
       "bearing": "firm",
@@ -2280,7 +1945,7 @@
           "move": "boast",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
+          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening"
         },
         {
           "subject": "scene",
@@ -2290,7 +1955,7 @@
           "move": "boast",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
+          "after": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office"
         },
         {
           "subject": "scene",
@@ -2300,7 +1965,7 @@
           "move": "boast",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
+          "after": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back"
         },
         {
           "subject": "scene",
@@ -2310,7 +1975,7 @@
           "move": "boast",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
+          "after": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent"
         }
       ],
       "bearing": "firm",
@@ -2340,7 +2005,7 @@
           "move": "deflect",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
+          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening"
         },
         {
           "subject": "scene",
@@ -2350,7 +2015,7 @@
           "move": "deflect",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
+          "after": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office"
         },
         {
           "subject": "scene",
@@ -2360,7 +2025,7 @@
           "move": "deflect",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
+          "after": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back"
         },
         {
           "subject": "scene",
@@ -2370,7 +2035,7 @@
           "move": "deflect",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
+          "after": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent"
         }
       ],
       "bearing": "guarded",
@@ -2400,7 +2065,7 @@
           "move": "confront",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
+          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening"
         },
         {
           "subject": "scene",
@@ -2410,7 +2075,7 @@
           "move": "confront",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
+          "after": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office"
         },
         {
           "subject": "scene",
@@ -2420,7 +2085,7 @@
           "move": "confront",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
+          "after": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back"
         },
         {
           "subject": "scene",
@@ -2430,7 +2095,7 @@
           "move": "confront",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
+          "after": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent"
         }
       ],
       "bearing": "firm",
@@ -2460,7 +2125,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.a-crowd-isn-t-an-answer-on-issue-give-me-one"
+          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening"
         },
         {
           "subject": "scene",
@@ -2470,7 +2135,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-will-be-here-again-tomorrow"
+          "after": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office"
         },
         {
           "subject": "scene",
@@ -2480,7 +2145,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.people-will-hear-from-me-on-issue-and-they-ll-remember-who-answered"
+          "after": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back"
         },
         {
           "subject": "scene",
@@ -2490,7 +2155,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["opponent"],
-          "after": "scene-talk.follow-boast.we-ll-see-who-they-remember-then-i-m-opponent-and-i-ll-be-back"
+          "after": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent"
         }
       ],
       "bearing": "guarded",
@@ -2507,31 +2172,378 @@
       ]
     },
     {
-      "key": "scene-talk.follow-accept.thank-you-for-saying-so-that-s-more-than-most-do-on-issue",
-      "move": "follow-accept",
+      "key": "scene-talk.narrate-narrate.name-walks-up-as-the-crowd-breaks-apart-and-stops-an-arm-s-length-away",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} walks up as the crowd breaks apart and stops an arm's length away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.people-are-still-clapping-when-name-reaches-the-front-and-waits-to-be-heard",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "People are still clapping when {name} reaches the front and waits to be heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-at-the-edge-of-the-rally-with-a-folded-sheet-of-paper",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} stands at the edge of the rally with a folded sheet of paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.state-confront.i-m-running-against-you-for-office-i-d-like-this-crowd-to-hear-you-answer-me",
+      "move": "state-confront",
       "kind": "spoken",
-      "text": "Thank you for saying so. That's more than most do on {issue}.",
+      "text": "I'm running against you for {office}. I'd like this crowd to hear you answer me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.state-confront.we-re-both-on-the-ballot-for-office-answer-me-where-people-can-hear",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We're both on the ballot for {office}. Answer me where people can hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.state-confront.you-ve-been-talking-to-this-crowd-all-afternoon-i-d-like-a-turn-on-office",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You've been talking to this crowd all afternoon. I'd like a turn on {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-confront.you-don-t-get-to-dodge-me-opponent-the-crowd-is-listening",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You don't get to dodge me, {opponent}. The crowd is listening.",
       "uses": [
         {
           "subject": "scene",
           "purpose": "rally-opponent",
           "key": "threat",
           "step": "follow",
-          "move": "accept",
+          "move": "confront",
           "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "confess"
+          "requiresFacts": ["opponent"],
+          "after": "disagree"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "boast"
         }
       ],
-      "bearing": "calm",
+      "bearing": "firm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
       "tag": {
-        "move": "accept",
+        "move": "confront",
         "key": "threat"
       },
-      "elements": ["candidate-calls-the-mailer-deceit"]
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-confront.that-isn-t-an-answer-opponent-say-what-you-d-do-for-office",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That isn't an answer, {opponent}. Say what you'd do for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"],
+          "after": "disagree"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"],
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"],
+          "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office"],
+          "after": "boast"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-boast.we-ll-see-who-these-people-remember-opponent-i-ll-be-back",
+      "move": "follow-boast",
+      "kind": "spoken",
+      "text": "We'll see who these people remember, {opponent}. I'll be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "boast",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "boast",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-boast.plenty-of-people-here-will-remember-who-answered-opponent",
+      "move": "follow-boast",
+      "kind": "spoken",
+      "text": "Plenty of people here will remember who answered, {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "boast",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "step": "follow",
+          "move": "boast",
+          "role": "asker",
+          "requiresFacts": ["opponent"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "boast",
+        "key": "threat"
+      },
+      "elements": [
+        "a-rally-feeds-the-next-councils-public-comment",
+        "residents-take-the-microphone-at-a-rally"
+      ]
     },
     {
       "key": "scene-talk.follow-deflect.we-have-time-the-vote-isn-t-until-vote-on",
@@ -12509,292 +12521,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.opponent-is-telling-people-what-you-won-t-say-about-issue-i-thought-you-should-k",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent} is telling people what you won't say about {issue}. I thought you should know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "issue"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.state-tell.on-issue-opponent-has-a-clear-position-i-m-waiting-to-hear-yours",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "On {issue}, {opponent} has a clear position. I'm waiting to hear yours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.what-did-they-actually-say-about-issue",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did they actually say about {issue}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.did-it-change-your-mind-about-issue-or-about-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Did it change your mind about {issue}, or about me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["issue", "moved-lot"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-answer-opponent-on-issue-in-my-own-words-starting-this-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll answer {opponent} on {issue} in my own words, starting this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["opponent", "issue"],
-          "after": "tell"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-leave.thanks-for-the-warning-on-issue-i-ve-got-somewhere-to-be",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Thanks for the warning on {issue}. I've got somewhere to be.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["issue"],
-          "after": "tell"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.it-didn-t-change-my-mind-on-issue-but-it-made-me-notice-who-isn-t-talking",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It didn't change my mind on {issue}, but it made me notice who isn't talking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-press.people-will-ask-you-about-issue-whether-you-bring-it-up-or-not",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "People will ask you about {issue} whether you bring it up or not.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "promise"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-accept.i-figured-you-d-want-the-word-on-issue-that-s-all-it-was",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I figured you'd want the word on {issue}. That's all it was.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "leave"
-        },
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["issue"],
-          "after": "thank"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-waits-by-the-door-with-news-about-opponent-s-campaign",
       "move": "narrate-narrate",
       "kind": "written",
@@ -12808,64 +12534,6 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["name", "opponent"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.somebody-has-passed-along-what-opponent-is-telling-people-about-issue",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "Somebody has passed along what {opponent} is telling people about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["opponent", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-is-a-sounding-board-and-a-risk",
-        "door-answer-is-frustration-with-the-body"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-looks-uneasy-opponent-s-people-have-been-making-the-rounds-on-issue",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} looks uneasy. {opponent}'s people have been making the rounds on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "opponent", "issue"]
         }
       ],
       "bearing": "calm",
@@ -29020,37 +28688,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.self-running-for-office-if-about-matters-to-you-i-d-like-five-minutes-of-your-ti",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{self}, running for {office}. If {about} matters to you, I'd like five minutes of your time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["office", "about", "side-for"],
-          "excludesFacts": ["knocked-before"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
       "key": "scene-talk.state-request.we-talked-a-while-back-i-m-self-and-i-m-still-asking-for-your-vote-for-office",
       "move": "state-request",
       "kind": "spoken",
@@ -29261,36 +28898,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.we-see-about-the-same-way-you-can-count-on-me-for-office",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "We see {about} the same way. You can count on me for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["about", "side-for", "stand-with"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
       "key": "scene-talk.reply-agree.you-came-back-and-that-counts-i-m-voting-for-you-for-office",
       "move": "reply-agree",
       "kind": "spoken",
@@ -29396,37 +29003,6 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["office"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-heard-big-promises-on-about-before-show-me-yours-is-different",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've heard big promises on {about} before. Show me yours is different.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["about", "side-against"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -29923,191 +29499,6 @@
         "door-answer-is-frustration-with-the-body",
         "door-ask-is-what-should-the-office-do",
         "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-press.i-d-stand-does-that-change-how-you-see-the-race-for-office",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'd {stand}. Does that change how you see the race for {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["stand", "about", "about-said", "office"],
-          "setsFacts": ["stand-said", "door-pressed"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-bring-a-plain-answer-on-about-next-time-i-m-on-your-street",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll bring a plain answer on {about} next time I'm on your street.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "requiresFacts": ["about"],
-          "excludesFacts": ["above-office"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.i-d-stand-that-s-where-i-d-begin-on-about",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'd {stand}. That's where I'd begin on {about}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["stand", "about"],
-          "after": "scene-talk.reply-ask.what-would-you-do-about-about-if-you-got-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.straight-answer-i-d-look-first-at-about-and-see-what-office-can-actually-do-abou",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Straight answer: I'd look first at {about} and see what {office} can actually do about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["about", "office"],
-          "after": "scene-talk.reply-ask.what-would-you-do-about-about-if-you-got-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.the-short-version-is-i-want-to-work-on-about-and-the-race-for-office-is-where-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The short version is I want to work on {about}, and the race for {office} is where that gets decided.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["about", "office"],
-          "after": "scene-talk.reply-ask.what-would-you-do-about-about-if-you-got-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-answer.ask-us-both-about-about-and-see-whose-answer-sounds-like-yours",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Ask us both about {about}, and see whose answer sounds like yours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["about", "rival"],
-          "after": "scene-talk.reply-ask.why-should-i-pick-you-over-rival-for-office"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "door"
-      },
-      "elements": [
-        "door-ask-is-what-should-the-office-do",
-        "door-on-a-small-town-street"
       ]
     },
     {
@@ -32445,36 +31836,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.about-is-why-i-give-where-do-you-stand-on-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{about} is why I give. Where do you stand on it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["about", "gift"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "a-gift-comes-with-a-call-about-a-bill",
-        "early-money-comes-from-people-you-know",
-        "first-time-candidate-leads-fundraising"
-      ]
-    },
-    {
       "key": "scene-talk.reply-decline.a-check-doesn-t-buy-a-vote-on-bill-i-ll-decide-it-on-what-i-learn",
       "move": "reply-decline",
       "kind": "spoken",
@@ -33090,35 +32451,6 @@
       "elements": [
         "challenger-names-the-incumbent-donors",
         "a-gift-comes-with-a-call-about-a-bill"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-care-about-about-what-are-you-doing-about-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I care about {about}. What are you doing about it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["about", "gift"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "one-donor-writes-a-very-large-check",
-        "contributions-show-what-is-at-stake"
       ]
     },
     {
