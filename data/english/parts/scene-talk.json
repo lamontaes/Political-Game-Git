@@ -47369,55 +47369,6 @@
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
-      "key": "scene-talk.narrate-narrate.name-had-come-over-to-say-something-that-was-hard-to-say",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} had come over to say something that was hard to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.state-confront.i-know-the-meeting-ran-late-how-much-of-home-are-we-giving-up-for-place",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "I know the meeting ran late. How much of home are we giving up for {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
       "key": "scene-talk.state-confront.the-meeting-ran-late-and-i-was-the-one-who-waited-is-place-worth-that-to-you",
       "move": "state-confront",
       "kind": "spoken",
