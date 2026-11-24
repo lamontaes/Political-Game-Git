@@ -883,10 +883,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-keep-this-conversation-between-us-what-i-said-at-the-hearing-is-public",
+    "key": "scene-talk.follow-answer.i-d-keep-this-between-us-if-you-re-telling-the-committee-what-i-think-about-bill-please-use-my-testimony",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd keep this conversation between us. What I said at the hearing is public.",
+    "text": "I'd keep this between us. If you're telling the committee what I think about {bill}, please use my testimony.",
     "uses": [
       {
         "subject": "scene",
@@ -895,8 +895,8 @@
         "role": "asker",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-rents", "bill-housing", "bill"],
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"],
         "after": "scene-talk.reply-ask.may-i-tell-the-committee-we-talked-about-bill-as-it-looks-to-a-renter"
       }
     ],
@@ -911,10 +911,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.follow-answer.my-testimony-will-do-i-don-t-need-our-mortgage-written-down-next-to-my-name",
+    "key": "scene-talk.follow-answer.my-testimony-on-bill-will-do-i-don-t-need-our-mortgage-written-down-next-to-my-name",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "My testimony will do. I don't need our mortgage written down next to my name.",
+    "text": "My testimony on {bill} will do. I don't need our mortgage written down next to my name.",
     "uses": [
       {
         "subject": "scene",
@@ -923,8 +923,8 @@
         "role": "asker",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-owns", "bill-housing", "bill"],
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-owns", "bill-housing"],
         "after": "scene-talk.reply-ask.is-there-something-from-this-conversation-about-bill-you-d-like-in-my-notes"
       }
     ],
@@ -1025,10 +1025,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.follow-answer.take-them-at-their-word-too-i-can-tell-you-what-my-own-job-is-like",
+    "key": "scene-talk.follow-answer.take-them-at-their-word-too-i-can-speak-for-the-work-i-do-at-own-workplace",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Take them at their word, too. I can tell you what my own job is like.",
+    "text": "Take them at their word, too. I can speak for the work I do at {own-workplace}.",
     "uses": [
       {
         "subject": "scene",
@@ -1037,8 +1037,8 @@
         "role": "asker",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-works-where-it-binds", "own-workplace", "bill"],
+        "requiresFacts": ["own-workplace"],
+        "onlyWhen": ["life-works-where-it-binds", "bill"],
         "after": "scene-talk.reply-ask.if-somebody-from-own-workplace-tells-me-something-different-tomorrow-what-should-i-make-of-that"
       }
     ],
@@ -1081,10 +1081,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.reply-ask.what-would-you-want-a-member-who-owns-a-home-to-understand-about-renting",
+    "key": "scene-talk.reply-ask.what-might-a-homeowner-miss-in-bill-that-you-noticed-as-a-renter",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "What would you want a member who owns a home to understand about renting?",
+    "text": "What might a homeowner miss in {bill} that you noticed as a renter?",
     "uses": [
       {
         "subject": "scene",
@@ -1093,8 +1093,8 @@
         "role": "asked",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-rents", "bill-housing", "bill"]
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"]
       }
     ],
     "bearing": "calm",
@@ -1108,10 +1108,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.follow-answer.when-my-lease-is-up-somebody-else-gets-a-say-in-whether-i-stay",
+    "key": "scene-talk.follow-answer.i-read-bill-thinking-about-the-end-of-my-lease-somebody-else-gets-a-say-in-whether-i-stay",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "When my lease is up, somebody else gets a say in whether I stay.",
+    "text": "I read {bill} thinking about the end of my lease. Somebody else gets a say in whether I stay.",
     "uses": [
       {
         "subject": "scene",
@@ -1120,9 +1120,9 @@
         "role": "asker",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-rents", "bill-housing", "bill"],
-        "after": "scene-talk.reply-ask.what-would-you-want-a-member-who-owns-a-home-to-understand-about-renting"
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"],
+        "after": "scene-talk.reply-ask.what-might-a-homeowner-miss-in-bill-that-you-noticed-as-a-renter"
       }
     ],
     "bearing": "calm",
@@ -1150,7 +1150,7 @@
         "key": "honor",
         "requiresFacts": ["bill"],
         "onlyWhen": ["life-rents", "bill-housing"],
-        "after": "scene-talk.reply-ask.what-would-you-want-a-member-who-owns-a-home-to-understand-about-renting"
+        "after": "scene-talk.reply-ask.what-might-a-homeowner-miss-in-bill-that-you-noticed-as-a-renter"
       }
     ],
     "bearing": "calm",
@@ -1164,10 +1164,10 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.reply-ask.you-mentioned-your-mortgage-what-did-that-have-to-do-with-your-coming-here",
+    "key": "scene-talk.reply-ask.what-made-you-bring-up-your-mortgage-at-the-hearing-on-bill",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "You mentioned your mortgage. What did that have to do with your coming here?",
+    "text": "What made you bring up your mortgage at the hearing on {bill}?",
     "uses": [
       {
         "subject": "scene",
@@ -1176,8 +1176,8 @@
         "role": "asked",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-owns", "bill-housing", "bill"]
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-owns", "bill-housing"]
       }
     ],
     "bearing": "calm",
@@ -1205,7 +1205,7 @@
         "key": "honor",
         "requiresFacts": ["bill"],
         "onlyWhen": ["life-owns", "bill-housing"],
-        "after": "scene-talk.reply-ask.you-mentioned-your-mortgage-what-did-that-have-to-do-with-your-coming-here"
+        "after": "scene-talk.reply-ask.what-made-you-bring-up-your-mortgage-at-the-hearing-on-bill"
       }
     ],
     "bearing": "calm",
@@ -1280,10 +1280,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.anything-about-our-family-can-come-to-me-i-m-the-one-who-spoke-today",
+    "key": "scene-talk.follow-answer.come-to-me-with-anything-about-own-child-i-m-the-one-who-spoke-today",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Anything about our family can come to me. I'm the one who spoke today.",
+    "text": "Come to me with anything about {own-child}. I'm the one who spoke today.",
     "uses": [
       {
         "subject": "scene",
@@ -1292,13 +1292,8 @@
         "role": "asker",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": [
-          "life-children-at-home",
-          "bill-schools",
-          "bill",
-          "own-child"
-        ],
+        "requiresFacts": ["own-child"],
+        "onlyWhen": ["life-children-at-home", "bill-schools", "bill"],
         "after": "scene-talk.reply-ask.is-there-anything-you-d-rather-i-ask-you-than-put-to-own-child"
       }
     ],
@@ -1316,10 +1311,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.if-a-member-misses-the-hearing-and-asks-me-what-you-wanted-what-should-i-tell-them",
+    "key": "scene-talk.reply-ask.if-somebody-misses-the-hearing-on-bill-what-do-you-want-me-to-pass-along",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "If a member misses the hearing and asks me what you wanted, what should I tell them?",
+    "text": "If somebody misses the hearing on {bill}, what do you want me to pass along?",
     "uses": [
       {
         "subject": "scene",
@@ -1328,8 +1323,8 @@
         "role": "asked",
         "purpose": "witness-stake",
         "key": "honor",
-        "requiresFacts": [],
-        "onlyWhen": ["life-believes", "bill"]
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-believes"]
       }
     ],
     "bearing": "calm",
@@ -1357,7 +1352,7 @@
         "key": "honor",
         "requiresFacts": ["bill"],
         "onlyWhen": ["life-believes", "witness-for"],
-        "after": "scene-talk.reply-ask.if-a-member-misses-the-hearing-and-asks-me-what-you-wanted-what-should-i-tell-them"
+        "after": "scene-talk.reply-ask.if-somebody-misses-the-hearing-on-bill-what-do-you-want-me-to-pass-along"
       }
     ],
     "bearing": "calm",
@@ -1385,7 +1380,7 @@
         "key": "honor",
         "requiresFacts": ["bill"],
         "onlyWhen": ["life-believes", "witness-against"],
-        "after": "scene-talk.reply-ask.if-a-member-misses-the-hearing-and-asks-me-what-you-wanted-what-should-i-tell-them"
+        "after": "scene-talk.reply-ask.if-somebody-misses-the-hearing-on-bill-what-do-you-want-me-to-pass-along"
       }
     ],
     "bearing": "calm",
