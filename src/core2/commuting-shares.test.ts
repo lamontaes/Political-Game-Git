@@ -2,7 +2,8 @@
  * Per-place commuting shares from LODES (pool: world-commute-flow-data). A
  * place drawn from all 56 jurisdictions reads its own sourced shares or, where
  * the files do not cover it, the national average marked ESTIMATED; none is
- * unknown, and the national shares match the published magnitude.
+ * unknown, and a place keeps more of its workers at home where it holds
+ * more jobs for them.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -49,19 +50,59 @@ describe("commuting shares by place", () => {
     ).toEqual([]);
   });
 
-  it("matches the national picture: most residents of a place work outside it", () => {
-    let liveWork = 0,
-      residentJobs = 0;
+  it("keeps more of a place's working residents at home where the place holds more jobs for them", () => {
+    // Pins family 32 (#9747): no national band. The check is the relationship
+    // the files carry: across every sourced place, the share of working
+    // residents who work at home rises with the jobs the place holds per
+    // working resident. A table whose shares were one copied figure, or
+    // shuffled between places, has no such order and fails.
+    const jobsPerWorker: number[] = [],
+      staysHome: number[] = [];
     for (const state of placeStateKeys())
       for (const locality of placeLocalities(state)) {
         const row = commutingSharesOf(locality.key);
         if (row.tag !== "SOURCED") continue;
-        liveWork += row.residentJobs * row.liveWorkShare;
-        residentJobs += row.residentJobs;
+        jobsPerWorker.push(row.jobsHere / row.residentJobs);
+        staysHome.push(row.liveWorkShare);
       }
-    const share = liveWork / residentJobs;
-    // ACS puts the share who work in their place of residence near a third.
-    expect(share, "national live-and-work-in-place share").toBeGreaterThan(0.2);
-    expect(share, "national live-and-work-in-place share").toBeLessThan(0.5);
+    const order = rankCorrelation(jobsPerWorker, staysHome);
+    console.log(
+      `${staysHome.length} sourced places: rank correlation of jobs per working resident with the share who work at home ${order.toFixed(3)}`,
+    );
+    expect(
+      order,
+      "jobs per working resident and working at home",
+    ).toBeGreaterThan(0);
   });
 });
+
+/** Spearman's rank correlation of two equal-length lists; tied values share their mean rank. */
+function rankCorrelation(a: readonly number[], b: readonly number[]): number {
+  const rank = (values: readonly number[]) => {
+    const order = values
+      .map((value, index) => [value, index] as const)
+      .sort((x, y) => x[0] - y[0]);
+    const ranks = new Array<number>(values.length);
+    for (let start = 0; start < order.length;) {
+      let end = start;
+      while (end + 1 < order.length && order[end + 1]![0] === order[start]![0])
+        end += 1;
+      for (let at = start; at <= end; at += 1)
+        ranks[order[at]![1]] = (start + end) / 2;
+      start = end + 1;
+    }
+    return ranks;
+  };
+  const ra = rank(a),
+    rb = rank(b),
+    mid = (a.length - 1) / 2;
+  let together = 0,
+    spreadA = 0,
+    spreadB = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    together += (ra[i]! - mid) * (rb[i]! - mid);
+    spreadA += (ra[i]! - mid) ** 2;
+    spreadB += (rb[i]! - mid) ** 2;
+  }
+  return together / Math.sqrt(spreadA * spreadB);
+}

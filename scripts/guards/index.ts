@@ -106,6 +106,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/scene-pictures.test.ts"),
   },
   {
+    id: "scene-pattern",
+    rule: "Every scene is built from a real-lives pattern: a situation type names its pattern in docs/story/scene-patterns.json, and a scene kind with no pattern is researched first; the list of types without one only shrinks.",
+    readMore:
+      "tests/guards/scene-pattern.test.ts, its header; docs/story/scene-patterns.md; skill scene-standard",
+    command: vitest("tests/guards/scene-pattern.test.ts"),
+  },
+  {
     id: "bring-it-up-lean",
     rule: "A race's result brought up in talk is read on one path, and a line that claims a ballot or a shared side plays only where that path sets the fact; no line says a figure, a place or a first name.",
     readMore:

@@ -391,17 +391,21 @@ export function defenseBoostPct(
 
 /**
  * What the nation produces in a year, in cents: the country tier's own economy, twelve months of
- * what every state's sectors sold (the tier's sales are dollars a month). Null before the tier has
+ * what every state's sectors added (the tier's sales are dollars a month; value added is a sector's
+ * sales less what it buys from other firms, by the tier's own books). Null before the tier has
  * stepped its first month, and where the world has no economy.
  */
 function nationalOutputMinor(api: CoreAPI): number | null {
   if (!countryOpened(api)) return null;
-  let sold = 0;
+  const months = treasuryParameter("monthsPerYear");
+  const inputShare = api.parameter("countryInputShare");
+  let added = 0;
   for (const state of countryStates(api))
-    for (const row of state.sectors) sold += row.sales;
-  return sold > 0
-    ? sold * treasuryParameter("monthsPerYear") * parameter("minorPerDollar")
-    : null;
+    for (const row of state.sectors) {
+      const wageBill = (row.jobs * row.pay) / months;
+      added += row.sales - Math.max(0, row.sales - wageBill) * inputShare;
+    }
+  return added > 0 ? added * months * parameter("minorPerDollar") : null;
 }
 
 /**

@@ -523,26 +523,39 @@ describe("a door yes is near-binding", () => {
     }
   }, 300_000);
 
-  it("in a general election, the pledged as a group turn out at the rate stated intent predicts, above the town's others (the parameter's total check)", () => {
-    // campaign-door-pledge-turnout-total: the voters who still hold a yes on
-    // election day turn out inside the cited 46% to 87% (Rogers and Aida,
-    // measured in a general and a statewide off-year election; Pew's 61% to
-    // 73%, a midterm), and more than the adults who gave no yes. The band is
-    // sourced from general and statewide elections, so it is read only on
-    // one: a state race on November's general election day.
-    const race = pledgeTurnoutRace(
-      "state race on November's general election day",
-      (contest) =>
-        contest.level === "state" &&
-        contest.electionDate ===
-          novemberGeneralElectionDay(Number(contest.electionDate.slice(0, 4))),
-    );
-    // The pledged's own shares, pooled, sit inside the cited band, and more
-    // of them voted than of the others.
-    expect(race.heldShare, race.line).toBeGreaterThanOrEqual(0.46);
-    expect(race.heldShare, race.line).toBeLessThanOrEqual(0.87);
-    expect(race.heldVoted, race.line).toBeGreaterThan(race.otherVoted);
-  }, 300_000);
+  it("in a general election, the pledged turn out above the town's others, and above what the same people would without their word", () => {
+    // campaign-door-pledge-turnout-total. Pins family 32 (#9747): the cited
+    // 46% to 87% (Rogers and Aida; Pew's 61% to 73%) sets how strongly a
+    // stated intent moves turnout (doorPledgeTurnoutWeight), not a band the
+    // world's share must sit in; the share is printed. The check is the
+    // relationship: the same race is played again with the pledge's weight at
+    // zero, the same people saying yes, and the pledged must turn out more
+    // with their word than without it, and more than their neighbors.
+    const kind = "state race on November's general election day";
+    const takes = (contest: ContestRow) =>
+      contest.level === "state" &&
+      contest.electionDate ===
+        novemberGeneralElectionDay(Number(contest.electionDate.slice(0, 4)));
+    const race = pledgeTurnoutRace(kind, takes);
+    const row = campaignParameters.parameters.doorPledgeTurnoutWeight;
+    const weight = row.value;
+    row.value = 0;
+    let without: ReturnType<typeof pledgeTurnoutRace>;
+    try {
+      without = pledgeTurnoutRace(
+        `${kind}, no word to vote`,
+        takes,
+        race.place,
+      );
+    } finally {
+      row.value = weight;
+    }
+    const line = `${race.line}; without the word: share ${without.heldShare.toFixed(3)} of ${without.held}`;
+    process.stdout.write(`door pledge, general: ${line}\n`);
+    expect(without.held, line).toBe(race.held);
+    expect(race.heldShare, line).toBeGreaterThan(without.heldShare);
+    expect(race.heldVoted, line).toBeGreaterThan(race.otherVoted);
+  }, 600_000);
 
   it("in an off-cycle local race, the pledged turn out above their neighbors, and above what the same people would without their word", () => {
     // A city race off November's general election day draws few voters (the

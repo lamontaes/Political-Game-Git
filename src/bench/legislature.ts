@@ -37,7 +37,7 @@ import {
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
-import { billCatalog } from "../core2/bill-catalog";
+import { billCatalog, catalogLevelOf } from "../core2/bill-catalog";
 import {
   chargedServicesOf,
   governmentOfJurisdiction,
@@ -862,10 +862,7 @@ function menusFor(
   officeId: string,
 ) {
   const lineNames = budgetLineNames();
-  const level =
-    bodyLevel === "federal" || bodyLevel === "state" || bodyLevel === "county"
-      ? bodyLevel
-      : "city";
+  const level = catalogLevelOf(bodyLevel);
   const body = bodyOf(api, officeId);
   // A senator's seat is of a state; its lawmaking body is the one US chamber.
   const jurisdiction =

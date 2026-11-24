@@ -81,6 +81,19 @@ const subjects = (
   }
 ).subjects;
 
+/**
+ * The catalog a body drafts from: a federal, state or county body drafts at
+ * its own level, and every town's body (a city's, a township's, a village's)
+ * drafts from the town catalog.
+ */
+export function catalogLevelOf(bodyLevel: string): Level {
+  return bodyLevel === "federal" ||
+    bodyLevel === "state" ||
+    bodyLevel === "county"
+    ? bodyLevel
+    : "city";
+}
+
 /** What a body at this level can draft, menu by menu. */
 
 export function billCatalog(

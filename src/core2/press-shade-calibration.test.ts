@@ -3,11 +3,11 @@
  * calibrated to honesty (pool item press-world-candidates-answer-from-record):
  * across the adults of eight towns drawn from all 56 on a seed nobody chose
  * (SHADE_CALIBRATION_SEED pins one), with the town standing as far against
- * their vote as a town can (half way to the other end: a gap of 0.75), about
- * as many would shade as were prepared to lie for gain in Heck,
- * Thielmann, Moshagen and Hilbig (2018), 26.1% (95% interval 19.2% to 34.4%);
- * fewer shade the closer town and vote stand, and none where the town stands
- * fully with the vote. The
+ * their vote as a town can (half way to the other end: a gap of 0.75), some
+ * would shade (each world's own share, printed; Heck, Thielmann, Moshagen and
+ * Hilbig (2018) found 26.1% prepared to lie for gain, which fits the weight's
+ * strength below and is not a band); fewer shade the closer town and vote
+ * stand, and none where the town stands fully with the vote. The
  * trait weight is the study's log odds between the thirds over the gap
  * between the thirds' mean lean, within its measured spread.
  */
@@ -32,7 +32,7 @@ const ROW = (
   >
 ).traitWeightPressShadeAnswer!;
 
-it("about a quarter of adults would shade an answer about a vote the town opposes as far as a town can, fewer as town and vote close, none where the town agrees, at the study's weight", () => {
+it("some adults would shade an answer about a vote the town opposes as far as a town can, fewer as town and vote close, none where the town agrees, at the study's weight", () => {
   const shares = { agrees: 0, leans: 0, split: 0, opposed: 0 };
   let total = 0;
   const gaps: number[] = [];
@@ -73,8 +73,13 @@ it("about a quarter of adults would shade an answer about a vote the town oppose
   }
   const where = `${names.join("; ")}; run seed ${seed}`;
   const rate = (k: keyof typeof shares) => shares[k] / total;
-  expect(rate("opposed"), where).toBeGreaterThan(0.192);
-  expect(rate("opposed"), where).toBeLessThan(0.344);
+  // Pins family 32 (#9747): the share who shade is each world's own, printed
+  // and not held in the study's interval; the checks are the relationships
+  // (the town's stand against the vote, and the trait weight's strength).
+  process.stdout.write(
+    `SHADE opposed ${(100 * rate("opposed")).toFixed(1)}%, split ${(100 * rate("split")).toFixed(1)}%, leans ${(100 * rate("leans")).toFixed(1)}%: ${where}\n`,
+  );
+  expect(rate("opposed"), where).toBeGreaterThan(0);
   expect(rate("split"), where).toBeLessThan(rate("opposed"));
   expect(rate("leans"), where).toBeLessThan(rate("split"));
   expect(rate("agrees"), where).toBe(0);

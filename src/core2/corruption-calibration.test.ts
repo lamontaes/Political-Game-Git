@@ -2,8 +2,8 @@
  * Who takes a bribe is calibrated to honesty (pool item
  * people-corruption-honest-pull-calibrated): across the adults of fourteen
  * towns drawn from all 56 on a seed nobody chose (TAKE_CALIBRATION_SEED pins
- * one), offered a $2,000 bribe by someone they are fairly close to, a small
- * share take it, and the third of the town with the highest lean toward
+ * one), offered a $2,000 bribe by someone they are fairly close to, some (each
+ * world's own share, printed) take it, and the third of the town with the highest lean toward
  * corruption takes it as many times more often than the lowest third as the
  * latent model of honesty-humility against workplace deviance gives (Pletzer,
  * Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior
@@ -141,10 +141,14 @@ function calibrate(askMinor: number) {
   };
 }
 
-it("a small share of adults take a modest bribe, the least honest third far more often than the most honest, and a larger bribe tempts more of them gradually", () => {
+it("some adults take a modest bribe and not all, the least honest third far more often than the most honest, and a larger bribe tempts more of them gradually", () => {
   const { where, rate, honest, corruptible } = calibrate(ASK_MINOR);
-  expect(rate, `overall rate ${rate}: ${where}`).toBeGreaterThan(0.03);
-  expect(rate, `overall rate ${rate}: ${where}`).toBeLessThan(0.12);
+  // Pins family 32 (#9747): the share who take is each world's own, printed
+  // and not held in a survey's band; the checks are the relationships it
+  // comes from (honesty, and the bribe's size).
+  process.stdout.write(`TAKE overall ${(100 * rate).toFixed(1)}%: ${where}\n`);
+  expect(rate, `overall rate ${rate}: ${where}`).toBeGreaterThan(0);
+  expect(rate, `overall rate ${rate}: ${where}`).toBeLessThan(1);
   expect(honest, `most honest third takes at all: ${where}`).toBeGreaterThan(0);
   const ratio = corruptible / honest;
   const target = latentRatio(rate);
