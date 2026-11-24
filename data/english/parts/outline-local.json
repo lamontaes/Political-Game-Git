@@ -3177,26 +3177,6 @@
       "elements": ["stump-announcement-situation"]
     },
     {
-      "key": "outline-local.report.for-the-hard-part-of-the-year-was",
-      "move": "report",
-      "kind": "spoken",
-      "text": "For {realm-name}, the hard part of the year was {theme-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
-    },
-    {
       "key": "outline-local.send-off.you-ll-have-a-choice-for-and-i-hope-you-ll-think-of-me",
       "move": "send-off",
       "kind": "spoken",
