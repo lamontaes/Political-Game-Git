@@ -25,6 +25,7 @@ import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { draftBill } from "../core2/modules/legislature";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { seatPlayerInStateOffice } from "../core2/office-day-state";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -166,10 +167,29 @@ it(
       withLater.length,
       `${where}: packets with a later office`,
     ).toBeGreaterThan(0);
+    // Over many years the person may hold more than one office: an entry
+    // after the first term reads the next one it came before. Every packet
+    // cites one of the person's own terms, and the entries from before the
+    // seat cite the seat's.
+    const termIds = new Set(
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("byPerson", [player]) as unknown as { id: string }[]
+      ).map((row) => row.id),
+    );
     for (const facts of withLater)
-      expect(facts["later-office"]!.sourceRecordIds, where).toEqual(
-        expect.arrayContaining([held.termId, held.officeId]),
-      );
+      expect(
+        termIds.has(facts["later-office"]!.sourceRecordIds[0]!),
+        `${where}: ${facts["later-office"]!.sourceRecordIds.join(", ")}`,
+      ).toBe(true);
+    expect(
+      withLater.some((facts) =>
+        facts["later-office"]!.sourceRecordIds.includes(held.termId),
+      ),
+      `${where}: an entry from before the seat cites the seat`,
+    ).toBe(true);
 
     // The years between the entry and the latest record are said in whole
     // years, from the same ids: the bill came a year and more after the entry.
