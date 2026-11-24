@@ -1,0 +1,29 @@
+{
+  "id": "back-to-bill-work-after-the-primary",
+  "kind": "consequence",
+  "summary": "A campaign worker returns to the legislative office because the chamber is still sitting.",
+  "realLife": "Vogelsinger went back to Washington after West Virginia to work on legislation.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "office", "home"],
+  "slots": ["{staffer}", "{chamber}", "{bill}"],
+  "gates": ["The staffer has a legislative job to return to."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a worker's release from a primary assignment linked to the legislative office's calendar.",
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The worker stays another day to close the field office.",
+      "pulledBy": "The chamber has postponed the bill and campaign receipts still need reconciling.",
+      "writesBack": "The worker returns to the legislative desk a day later."
+    },
+    {
+      "turn": "partial",
+      "what": "The worker goes back to the bill and leaves a colleague to finish the campaign accounts.",
+      "pulledBy": "The floor date holds and the accounts are still open.",
+      "writesBack": "Two people sign off on separate assignments."
+    }
+  ]
+}

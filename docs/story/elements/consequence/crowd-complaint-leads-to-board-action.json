@@ -1,0 +1,35 @@
+{
+  "id": "crowd-complaint-leads-to-board-action",
+  "kind": "consequence",
+  "summary": "A crowded meeting does not end in a vote, but the board puts the item on the next agenda.",
+  "realLife": "At Weddington, a hearing with about 500 people ended with the public hearing continued to a later meeting rather than a vote.",
+  "sources": [
+    "WSOC-TV, hundreds at Weddington town hearing: https://www.wsoctv.com/news/local/development-debate-brings-hundreds-raucous-weddington-town-meeting/BATFRWXP6NCZFBC2CEMHZBD7IY"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place", "issue"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "a posted meeting of the town's body and agenda records; no school or school board needed",
+  "turns": [
+    {
+      "turn": "vote-next-month",
+      "summary": "The board votes at the next meeting.",
+      "pulledBy": ["pending agenda"],
+      "writesBack": "law or decision record created"
+    },
+    {
+      "turn": "item-dies",
+      "summary": "The sponsor withdraws and the item never returns.",
+      "pulledBy": ["lost momentum"],
+      "writesBack": "journal note"
+    },
+    {
+      "turn": "item-changed",
+      "summary": "The board returns with an amended plan.",
+      "pulledBy": ["responsive board"],
+      "writesBack": "partial win; neighbors still watch"
+    }
+  ]
+}

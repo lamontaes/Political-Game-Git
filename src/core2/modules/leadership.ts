@@ -50,7 +50,8 @@ type Template =
   | "state-senate"
   | "unicameral"
   | "council-manager"
-  | "mayor-council";
+  | "mayor-council"
+  | "county-board";
 
 interface Post {
   readonly key: string;
@@ -180,9 +181,14 @@ function templateOf(api: CoreAPI, chamber: string): Template {
   if (office?.kind === "legislature-unicameral") return "unicameral";
   if (office?.kind === "legislature-upper") return "state-senate";
   if (office?.kind?.startsWith("legislature-")) return "state-house";
+  // A county or township board elects its own chair (A.R.S. § 11-216, read
+  // for every state until each state's statute is read). Where the county's
+  // executive chairs the body (a county judge, a county mayor), the board
+  // still elects one (stopgap SG-GOV-board-chair-beside-presiding-executive).
+  if (office?.kind === "county-board" || office?.kind === "township-board")
+    return "county-board";
   // A council beside an elected mayor organizes under its mayor; otherwise
-  // (and for county and township boards, an estimate) as a council-manager
-  // body elects its own president.
+  // as a council-manager body elects its own president.
   const mayor = (
     api
       .moduleState(OFFICES_MODULE_ID)
@@ -652,6 +658,7 @@ function assigner(
     holder("speaker") ??
     holder("president-pro-tempore") ??
     holder("council-president") ??
+    holder("chair") ??
     holder("mayor-pro-tem");
   const lead =
     authority === "speaker" ||
@@ -915,6 +922,7 @@ export function presidingOfficer(api: CoreAPI, chamber: string): string | null {
     leaderOf(api, chamber, "speaker") ??
     leaderOf(api, chamber, "president-pro-tempore") ??
     leaderOf(api, chamber, "council-president") ??
+    leaderOf(api, chamber, "chair") ??
     leaderOf(api, chamber, "mayor-pro-tem")
   );
 }

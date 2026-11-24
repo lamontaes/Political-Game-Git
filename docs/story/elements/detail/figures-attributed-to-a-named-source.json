@@ -1,0 +1,31 @@
+{
+  "id": "figures-attributed-to-a-named-source",
+  "kind": "detail",
+  "summary": "Figures are credited to the developer, the leasing materials or the business's own page.",
+  "realLife": "Square footage and apartment counts were credited to the developer and parking to leasing materials.",
+  "sources": [
+    "Patch (Bel Air, Maryland), 'New Coffeehouse, Cocktail Bar Opening In Bel Air', Nov. 23, 2026: https://patch.com/maryland/belair/new-coffeehouse-cocktail-bar-opening-bel-air",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number"],
+  "gates": [],
+  "weights": {
+    "opening": 0.9,
+    "homes-built": 0.8
+  },
+  "inGame": "the building's record in housing (`housing.completed`, units); needs: who supplied a figure",
+  "turns": [
+    {
+      "name": "figures from the city",
+      "pulledBy": "a permit record",
+      "writes": "the story says the city's permit shows it"
+    },
+    {
+      "name": "figures from nobody",
+      "pulledBy": "an estimate",
+      "writes": "the story says the figure is an estimate"
+    }
+  ],
+  "usedBy": []
+}

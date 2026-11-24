@@ -1,0 +1,44 @@
+{
+  "id": "pattern-c06-when-the-empty-seat-s-vote-is-held",
+  "kind": "situation",
+  "summary": "When the empty seat's vote is held: {the seat} is empty, or soon will be, and when its vote is held, or the day you leave, is yours to set.",
+  "realLife": "One life: In 2013 the New Jersey governor ordered a $25 million special election for a vacant U.S. Senate seat, 20 days before his own race, a move widely seen as keeping a popular Democrat off his ballot day. Another: In 1985 the outgoing senator resigned a day early, and Governor Dukakis appointed Kerry to the seat, giving him seniority over the other new senators. Another: After losing his 2014 primary he resigned early and asked the governor to hold the special election on the general election day.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chris_Christie",
+    "https://en.wikipedia.org/wiki/John_Kerry",
+    "https://en.wikipedia.org/wiki/Eric_Cantor"
+  ],
+  "fits": ["home", "journal", "news", "office", "speeches"],
+  "slots": ["the seat", "popular rival"],
+  "gates": [
+    "A seat is vacant or you have said you will leave one.",
+    "You hold the power to set the date, to appoint, or to time your own leaving."
+  ],
+  "weights": [
+    "What a separate election costs the place.",
+    "How the date changes who turns out.",
+    "Seniority at stake for the one who follows."
+  ],
+  "pattern": "C06",
+  "choices": [
+    "hold the vote with the regular election",
+    "set a separate date",
+    "resign early so the one who follows starts sooner",
+    "appoint someone to hold the seat"
+  ],
+  "branches": [
+    {
+      "when": "you set a separate date",
+      "then": "It costs the place millions, and the press says you did it to keep {popular rival} off the ballot on your own election day."
+    },
+    {
+      "when": "the one leaving resigns a day early",
+      "then": "You, as the appointee, are sworn in a day before the new class and outrank them for years."
+    },
+    {
+      "when": "you ask for the vote on the general election day",
+      "then": "The winner takes the seat at once, ahead of the rest of the new class."
+    }
+  ],
+  "usedBy": []
+}

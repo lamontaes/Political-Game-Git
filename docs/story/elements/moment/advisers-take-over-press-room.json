@@ -1,0 +1,31 @@
+{
+  "id": "advisers-take-over-press-room",
+  "kind": "moment",
+  "summary": "After {person} finishes speaking, policy and science advisers stay to answer reporters.",
+  "realLife": "Frank Press, Stuart Eizenstat, and John Deutch held the news conference following Carter's statement on the findings.",
+  "sources": ["https://www.presidency.ucsb.edu/node/248009"],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "A public appearance includes a question period and an adviser is present."
+  ],
+  "weights": [
+    "Technical questions directed to the executive favor a handoff to the adviser."
+  ],
+  "usedBy": [],
+  "inGame": "needs: which staff took which press questions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive stays for the questions.",
+      "pulledBy": "Reporters ask who authorized the decision.",
+      "writesBack": "The executive's answer enters the public transcript."
+    },
+    {
+      "turn": "late",
+      "what": "The science adviser answers in writing that evening.",
+      "pulledBy": "The answer depends on a measurement still being checked.",
+      "writesBack": "The press office appends a dated technical answer."
+    }
+  ]
+}

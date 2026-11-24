@@ -1,0 +1,44 @@
+{
+  "id": "pattern-c37-they-say-you-are-not-who-you-claim",
+  "kind": "situation",
+  "summary": "They say you are not who you claim: {attack group} says your proudest record is false, or that you are not really from {the place}.",
+  "realLife": "One life: In his first race, for the House in 1972, a local paper called him un-American for weeks, and he lost. In 2004 a group of Swift boat veterans spent millions on ads disputing his war record. Another: Running for the Senate in Wyoming in 2013, she was seen as a carpetbagger, fought publicly with her sister over same-sex marriage, and quit in January 2014 citing family health.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/John_Kerry",
+    "https://en.wikipedia.org/wiki/Swift_Vets_and_POWs_for_Truth",
+    "https://en.wikipedia.org/wiki/Liz_Cheney"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["attack group", "sibling"],
+  "gates": [
+    "You are running.",
+    "{attack group} attacks your past or your residence on record."
+  ],
+  "weights": [
+    "The money behind it.",
+    "How much of your record is public.",
+    "How long you have lived in {the place}."
+  ],
+  "pattern": "C37",
+  "choices": [
+    "answer fast with your records",
+    "let people from your past answer for you",
+    "ignore it",
+    "drop out"
+  ],
+  "branches": [
+    {
+      "when": "you post your records",
+      "then": "The attack still works, and its name becomes a word for that kind of attack."
+    },
+    {
+      "when": "you moved here recently",
+      "then": "The local paper calls you an outsider for weeks, and you lose."
+    },
+    {
+      "when": "your family is drawn in",
+      "then": "A public fight with {sibling} over your stand, and you quit the race citing family."
+    }
+  ],
+  "usedBy": []
+}

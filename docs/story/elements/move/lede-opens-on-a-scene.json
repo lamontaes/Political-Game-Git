@@ -1,0 +1,30 @@
+{
+  "id": "lede-opens-on-a-scene",
+  "kind": "move",
+  "summary": "A lede opens on a scene in the place before it says what changed.",
+  "realLife": "A story on a local business closing opened on the scene at the shop, then named the owner and the date.",
+  "sources": [
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["subject", "place"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0,
+    "opening": 0.7
+  },
+  "usedBy": ["organization.opened"],
+  "turns": [
+    {
+      "name": "opens on the act",
+      "pulledBy": "a vote with a plain tally",
+      "writes": "the lede names the body and the count"
+    },
+    {
+      "name": "opens on the person",
+      "pulledBy": "a business owner closing after many years",
+      "writes": "the lede names the owner and the shop"
+    }
+  ]
+}

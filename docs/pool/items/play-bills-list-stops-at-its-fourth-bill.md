@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10386
 blocked-on:
 source: the Replay's check of merged main d679d71c, Nov 24 (comment 7124463870 on #10377)
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: none
+merged-at: 2026-11-24T10:44:41.829Z
 ---
 
 **What.** On Politics, Bills the list of bills ends at its fourth bill, with the next bill cut through, while the sheet below the list is empty. The owner ruled on Nov 23: "none of these scrollers, especially when there's ample dead space in these menus". The Replay saw the list stop with free room under it on merged main. Seen: the Bills list at 1440x900 fills the sheet down to its foot, and scrolls inside itself only when there are more bills than fit.

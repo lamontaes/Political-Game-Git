@@ -1,0 +1,34 @@
+{
+  "id": "mayor-opens-by-thanking-host-and-officials",
+  "kind": "move",
+  "summary": "The mayor opens by thanking the host of the room and the officials present.",
+  "realLife": "Five of six local addresses start with thanks to a host, the clerk, the council or staff.",
+  "sources": [
+    "Joseph Winfield, Oro Valley (Arizona) mayor, State of the Town, Oct 30, 2025: https://www.orovalleyaz.gov/files/assets/public/v/1/documents/mayor-and-council/state-of-the-town/2025-state-of-the-town-address-transcript.pdf",
+    "Kerry Thomson, Bloomington (Indiana) mayor, inauguration remarks, Jan 1, 2024: https://bloomington.in.gov/sites/default/files/2024-01/swearing%20in%20speech%201.1.24_0.pdf",
+    "Charles Patricelli, Watervliet (New York) mayor, State of the City, Feb 20, 2025: https://watervlietny.gov/wp-content/uploads/2025/02/State-of-City-2025_JPR-Edits.pdf",
+    "Jen Metzger, Ulster County (New York) executive, State of the County, Feb 18, 2026: https://www.ulstercountyny.gov/files/assets/countysite/v/1/county-executive/documents/state-of-the-county-2026/ulster-county-executive-2026-state-of-the-county-address-english.pdf",
+    "Derrick Wood, Dumfries (Virginia) mayor, State of the Town, June 5, 2025: https://derrickrwood.com/news/2025-state-of-town-transcript",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["body-name", "realm-name"],
+  "gates": ["state-of-the-city"],
+  "weights": {
+    "town-address": 0.8
+  },
+  "usedBy": [],
+  "inGame": "offices module names the council and its members; the venue is a scene fact",
+  "turns": [
+    {
+      "way": "The mayor opens on the year's news, not thanks.",
+      "pulledBy": "a disaster or crisis this year",
+      "writes": "the first lines name the crisis"
+    },
+    {
+      "way": "The mayor opens on a joke.",
+      "pulledBy": "a light-hearted mayor",
+      "writes": "a joke before the thanks"
+    }
+  ]
+}

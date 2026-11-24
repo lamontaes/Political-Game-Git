@@ -1,0 +1,29 @@
+{
+  "id": "graduates-then-straight-to-work-in-the-family-business",
+  "kind": "move",
+  "summary": "After graduating, a young person goes to work full time in the family's business.",
+  "realLife": "A woman born in 1917 on a Missouri farm said that after graduating she went straight into full-time work in her father's office.",
+  "sources": [
+    "St. Louis Fed, The Great Depression interview series, Margaret Barrett interview: https://www.stlouisfed.org/the-great-depression/curriculum/interviews-barrett-8"
+  ],
+  "fits": ["journal"],
+  "slots": ["school", "relation"],
+  "gates": [],
+  "inGame": "`event:school.finished` then `job-started` with `relation`.",
+  "turns": [
+    {
+      "turn": "Goes to college instead.",
+      "pulledBy": "a college start on the record",
+      "writesBack": "the line names the school"
+    },
+    {
+      "turn": "Looks for work and cannot find it.",
+      "pulledBy": "a job-search span before the first job",
+      "writesBack": "the line gives how long"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

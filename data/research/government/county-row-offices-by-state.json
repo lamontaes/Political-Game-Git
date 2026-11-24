@@ -61,11 +61,29 @@
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
       },
+      "clerk": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "AS 29.20.360: \"Unless otherwise provided by ordinance, the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator.\""
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "AS 29.20.360: \"Unless otherwise provided by ordinance, the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator.\""
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "estimated",
+        "sourceUrl": "https://codes.findlaw.com/ak/title-29-municipal-government/ak-st-sect-29-20-360/",
+        "note": "ESTIMATED: Title 29 creates no elected borough assessor; AS 29.20.360 has the chief administrator appoint the municipal officers it names (\"the municipal clerk, attorney, treasurer, and police chief are appointed by the chief administrator\"), and a borough's assessor is its staff. The statute that names who appoints the assessor has not been read."
       }
     },
     "AL": {
@@ -157,7 +175,46 @@
     "AZ": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/const/12/3.htm",
+        "note": "Ariz. Const. art. 12, sec. 3: \"the following officers who shall be elected by the qualified electors thereof: a sheriff, a county attorney, a recorder, a treasurer, an assessor, a superintendent of schools and at least three supervisors\", each for \"a term of four (4) years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://www.azleg.gov/ars/11/00401.htm",
+        "note": "A.R.S. 11-401: \"The officers of the county are:\" sheriff, recorder, treasurer, school superintendent, county attorney, assessor, supervisors, clerk of the board of supervisors and tax collector. No coroner is among them; the constitution's list (art. 12, sec. 3) has none either."
+      },
+      "clerk": {
+        "title": "Clerk of the Superior Court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/arizona/6/23.htm",
+        "note": "Ariz. Const. art. VI, sec. 23: \"The clerk shall be elected by the qualified electors of his county at the general election\" and \"shall hold office for a term of four years\". The board's own clerk is not elected.",
+        "termYears": 4
       }
     },
     "CA": {
@@ -252,17 +309,44 @@
       }
     },
     "DE": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/de/constitution-of-the-state-of-delaware/de-const-art-3-sect-22/",
+        "note": "Del. Const. art. III § 22: \"The terms of office of Clerks of the Peace, Registers of Wills, Recorders, and Sheriffs shall be 4 years.\" They are \"chosen by the qualified electors of the respective counties at general elections and be commissioned by the Governor.\"",
+        "termYears": 4
+      },
       "prosecutor": {
         "elected": false,
         "basis": "read",
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
       },
+      "clerk": {
+        "title": "Clerk of the Peace",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/de/constitution-of-the-state-of-delaware/de-const-art-3-sect-22/",
+        "note": "Del. Const. art. III § 22: \"The terms of office of Clerks of the Peace, Registers of Wills, Recorders, and Sheriffs shall be 4 years.\" They are \"chosen by the qualified electors of the respective counties at general elections and be commissioned by the Governor.\"",
+        "termYears": 4
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://delcode.delaware.gov/title9/c041/sc02/index.html",
+        "note": "9 Del. C. sec. 4124(a): \"The Department of Finance shall perform all of the functions heretofore assigned to the Receiver of Taxes and County Treasurer\"; sec. 4123(b): \"The Levy Court shall appoint the Director of Finance\". The elected Kent office (9 Del. C. secs. 8401 to 8404) is repealed. Read for Kent; New Castle and Sussex elect no treasurer either, unread here."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://delcode.delaware.gov/title9/c041/sc02/index.html",
+        "note": "9 Del. C. sec. 4124(b): \"The Department of Finance shall assess all property subject to taxation by the County\", under a Director the Levy Court appoints (sec. 4123(b)). Read for Kent."
       }
     },
     "FL": {
@@ -314,6 +398,21 @@
       "prosecutor": {
         "title": "District attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/georgia/conart9.html",
+        "note": "Ga. Const. art. IX, sec. I, para. III(a): \"The clerk of the superior court, judge of the probate court, sheriff...\" \"shall be elected by the qualified voters of their respective counties for terms of four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "title": "Clerk of superior court",
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/georgia/conart9.html",
+        "note": "Ga. Const. art. IX, sec. I, para. III(a): \"The clerk of the superior court\" is among the officers who \"shall be elected by the qualified voters of their respective counties for terms of four years\".",
+        "termYears": 4
       }
     },
     "HI": {
@@ -339,7 +438,25 @@
     "IA": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"a treasurer, a recorder, and a county attorney who shall each hold office for a term of four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"an auditor and a sheriff, each to hold office for a term of four years\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/39.17.pdf",
+        "note": "Iowa Code 39.17: \"a treasurer, a recorder, and a county attorney who shall each hold office for a term of four years\".",
+        "termYears": 4
       }
     },
     "ID": {
@@ -358,38 +475,92 @@
       "assessor": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "County assessor is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "County treasurer is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "Sheriff is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       },
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://idcounties.org/wp-content/uploads/2022/06/Roles-Responsibilities.pdf",
-        "note": "Coroner is elected."
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/ArtXVIII/Sect6/",
+        "note": "Idaho Const. art. XVIII, sec. 6: \"the election of a sheriff, a county assessor, a county coroner and a county treasurer, who is ex-officio public administrator, every four years\"; \"No other county offices shall be established\".",
+        "termYears": 4
       }
     },
     "IL": {
       "prosecutor": {
         "title": "State's attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://ilga.gov/commission/lrb/con7.htm",
+        "note": "Ill. Const. art. VII, sec. 4(c): \"Each county shall elect a sheriff, county clerk and treasurer\"; \"elected county officers shall be elected for terms of four years at general elections as provided by law\".",
+        "termYears": 4
       }
     },
     "IN": {
       "prosecutor": {
         "title": "Prosecuting attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/constitution/indiana/art6.html",
+        "note": "Ind. Const. art. 6, sec. 2(a): elected \"in each county by the voters thereof\", \"a Clerk of the Circuit Court, Auditor, Recorder, Treasurer, Sheriff, Coroner, and Surveyor, who shall, severally, hold their offices for four years.\"",
+        "termYears": 4
       }
     },
     "KS": {
@@ -438,6 +609,35 @@
       "prosecutor": {
         "title": "Commonwealth's attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "title": "Property valuation administrator",
+        "basis": "read",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=108",
+        "note": "Ky. Const. sec. 99: \"there shall be elected in each county a Judge of the County Court, a County Court Clerk, a County Attorney, Sheriff, Jailer, Coroner, Surveyor and Assessor\", \"who shall hold their offices four years\". The office's title today is from NACo's Kentucky profile (\"Property Valuation Administrator Elected Mandatory\", https://www.naco.org/sites/default/files/event_attachments/DRAFT_Kentucky_012022.pdf); that it is section 99's Assessor is an inference.",
+        "termYears": 4
       }
     },
     "LA": {
@@ -484,11 +684,38 @@
       }
     },
     "MA": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVI/Chapter37/Section1",
+        "note": "M.G.L. c. 37 § 1: \"A sheriff shall be elected in each county, as provided in section one hundred and fifty-nine of chapter fifty-four, for six years\".",
+        "termYears": 6
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section143",
+        "note": "M.G.L. c. 54 § 143 fills a county treasurer's office by election: \"Upon failure to choose a county treasurer or a register of deeds for a county or district, except Suffolk and Nantucket counties, the county commissioners shall forthwith issue precepts\". The section sets no term."
+      },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "clerk": {
+        "title": "Clerk of the Courts",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ma/massachusetts-constitution/ma-const-amend-art-xix/",
+        "note": "Mass. Const. amend. art. XIX: the election of \"clerks of the courts, by the people of the several counties\"; M.G.L. c. 221 sec. 3: \"All of said officers shall hold office for six years\".",
+        "termYears": 6
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/Section1",
+        "note": "M.G.L. c. 41 sec. 1: a town chooses \"One or more assessors\" among its own town officers; assessing is a town office, not a county one."
       }
     },
     "MD": {
@@ -501,6 +728,13 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://msa.maryland.gov/megafile/msa/speccol/sc2900/sc2908/000001/000166/html/am166--388.html",
+        "note": "Md. Const. art. IV, sec. 44, as printed in the Maryland Manual 1955-56: \"There shall be elected in each county and in Baltimore City in the year 1946 and in every fourth year thereafter, one person... to the office of Sheriff\"; \"He shall hold office for four years\". A current printing was not read.",
+        "termYears": 4
       }
     },
     "ME": {
@@ -509,24 +743,113 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://legislature.maine.gov/statutes/30-A/title30-Asec151.html",
+        "note": "30-A M.R.S. sec. 151: \"Except as provided in section 156, the voters of each county shall elect a county treasurer\", who \"shall hold office for 4 years\". Section 156 (an appointed treasurer) was not read.",
+        "termYears": 4
       }
     },
     "MI": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://capitol.legislature.mi.gov/documents/mcl/pdf/mcl-Article-VII-4.pdf",
+        "note": "Mich. Const. art. VII, sec. 4: \"There shall be elected for four-year terms in each organized county a sheriff, a county clerk, a county treasurer, a register of deeds and a prosecuting attorney\".",
+        "termYears": 4
       }
     },
     "MN": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
       }
     },
     "MO": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mo.gov/main/OneSection.aspx?section=56.010",
+        "note": "RSMo 56.010: \"there shall be elected in each county of this state a prosecuting attorney\", who \"shall hold his office for four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=57.010",
+        "note": "RSMo 57.010 (effective Aug 28, 2025): \"the voters in every county in this state shall elect some suitable person sheriff\", at \"each general election held every four years thereafter\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/2017/title-vi/chapter-54/section-54.010/",
+        "note": "RSMo 54.010: counties of every class \"elect a county treasurer\" at a general election \"and every four years thereafter\"; a third or fourth class county with township organization elects \"a county collector-treasurer\" instead.",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/2018/title-vi/chapter-58/section-58.020/",
+        "note": "RSMo 58.020 (Justia 2018 copy, which notes a newer version exists): \"in each county in this state in which a coroner is to be elected\" the voters \"shall elect a coroner\", for \"a term of four years\". Which counties have no elected coroner was not read.",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/title-vi/chapter-53/section-53-010/",
+        "note": "RSMo 53.010: \"the qualified voters in each county in this state shall elect a county assessor\", for \"a term of four years\"; \"this section shall not apply to the City of St. Louis\".",
+        "termYears": 4
       }
     },
     "MS": {
@@ -620,21 +943,41 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_153A/GS_153A-103.html",
+        "note": "N.C.G.S. 153A-103: \"Each sheriff and register of deeds elected by the people\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_159/GS_159-24.html",
+        "note": "N.C.G.S. 159-24: each local government shall \"have a finance officer appointed by the local government\"; \"The finance officer may be entitled 'accountant,' 'treasurer,'\"."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-294.html",
+        "note": "N.C.G.S. 105-294: \"the board of county commissioners of each county shall appoint a county assessor to serve a term of not less than two nor more than four years\"."
       }
     },
     "ND": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has an elected sheriff."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "State's attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has an elected state's attorney."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "clerk": {
         "title": "County auditor",
@@ -646,8 +989,9 @@
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has a county treasurer."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "assessor": {
         "elected": false,
@@ -659,34 +1003,89 @@
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has a coroner."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\". The coroner's own section (11-19.1-03) was not read, so the county's term stands."
       }
     },
     "NE": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ne/chapter-32-elections/ne-rev-st-sect-32-522/",
+        "note": "Neb. Rev. Stat. 32-522: \"Except as provided in section 23-1201.01, a county attorney shall be elected in each county\"; \"The term of the county attorney shall be four years\". Section 23-1201.01 was not read.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nebraska/chapter-32/statute-32-521/",
+        "note": "Neb. Rev. Stat. 32-521: \"A county treasurer shall be elected in each county\"; \"The term of the county treasurer shall be four years\".",
+        "termYears": 4
       }
     },
     "NH": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://gc.nh.gov/rsa/html/LXIII/653/653-1.htm",
+        "note": "RSA 653:1: \"At every state general election, the following officers shall be elected for 2-year terms\": \"One sheriff, one county attorney, one county treasurer, one register of deeds, and one register of probate by the voters in each county\". Rockingham (from 2022) and Coos (from 2024) elect them for 4-year terms.",
+        "termYears": 2
       }
     },
     "NJ": {
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nj/the-new-jersey-constitution-of-1947-annotated/nj-const-art-7-sect-2-2/",
+        "note": "N.J. Const. art. VII, sec. II, para. 2: \"County clerks, surrogates and sheriffs shall be elected by the people of their respective counties at general elections\"; \"of sheriffs three years\".",
+        "termYears": 3
+      },
       "prosecutor": {
         "elected": false,
         "basis": "read",
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "note": "Local prosecutors are appointed in Alaska, Connecticut, Delaware and New Jersey."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nj/the-new-jersey-constitution-of-1947-annotated/nj-const-art-7-sect-2-2/",
+        "note": "N.J. Const. art. VII, sec. II, para. 2: county clerks \"shall be elected by the people of their respective counties at general elections\"; \"The term of office of county clerks and surrogates shall be five years\".",
+        "termYears": 5
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-9-27/",
+        "note": "N.J.S.A. 40A:9-27: the board of county commissioners \"shall appoint a county treasurer for a term of 3 years\"."
+      },
+      "assessor": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/new-jersey/title-54/section-54-3-2/",
+        "note": "No county assessor is elected. The county board of taxation is \"to be appointed by the Governor by and with the advice and consent of the Senate\" (N.J.S.A. 54:3-2), and each municipality appoints its own tax assessor (N.J.S.A. 40A:9-146, https://law.justia.com/codes/new-jersey/2017/title-40a/section-40a-9-146/)."
       },
       "coroner": {
         "elected": false,
@@ -701,38 +1100,67 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-x-sect-2/",
+        "note": "N.M. Const. art. X, sec. 2: \"In every county all elected officials shall serve four-year terms\"; \"the assessor, sheriff and probate judge shall be elected to four-year terms and the treasurer and clerk shall be elected\" (after the first election) \"to four-year terms\".",
+        "termYears": 4
       }
     },
     "NV": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected sheriffs."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "prosecutor": {
+        "title": "District attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected district attorneys."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "clerk": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county clerks."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county treasurers."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "assessor": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/nevada/chapter-245/statute-245-043/",
-        "note": "NRS 245.043 sets pay for elected county assessors."
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-245.html",
+        "note": "NRS 245.043(1)(c): \"'Elected officer' means a district attorney, sheriff, county clerk, county assessor, county recorder, county treasurer and public administrator.\" The page gives no term, so the county's term stands."
       },
       "coroner": {
         "elected": false,
@@ -783,8 +1211,37 @@
     },
     "OH": {
       "prosecutor": {
-        "title": "County prosecutor",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "title": "Prosecuting attorney",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-321.01",
+        "note": "Ohio Rev. Code 321.01: \"A county treasurer shall be elected quadrennially in each county\"; he \"shall hold his office for four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
+      },
+      "clerk": {
+        "title": "Clerk of the court of common pleas",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/chapter-305",
+        "note": "Ohio Rev. Code 305.02(A): on a vacancy in the office of \"prosecuting attorney, county auditor, county treasurer, clerk of the court of common pleas, sheriff, county recorder, county engineer, or coroner\" before the next general election, \"a successor shall be elected\". The page gives no term, so the county's term stands."
       }
     },
     "OK": {
@@ -832,6 +1289,34 @@
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors204.html",
+        "note": "ORS 204.005(1): each county elects \"(a) A sheriff.\" \"(b) A county clerk.\" \"(c) A county assessor.\" \"(d) A county treasurer.\"; ORS 204.010(1): \"the term of office of each officer mentioned in ORS 204.005 is four years.\"",
+        "termYears": 4
       }
     },
     "PA": {
@@ -904,34 +1389,60 @@
         "sourceUrl": "https://en.wikipedia.org/wiki/District_attorney",
         "basis": "read",
         "elected": true
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/sc/V/24",
+        "note": "S.C. Const. art. V, sec. 24: \"There shall be elected in each county by the electors thereof a clerk of the circuit court, a sheriff, and a coroner\"; \"All of these officers shall serve for terms of four years\".",
+        "termYears": 4
       }
     },
     "SD": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the sheriff is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "State's attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the state's attorney is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "clerk": {
         "title": "County auditor",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the county auditor is elected and keeps the county's records."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the treasurer is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "assessor": {
         "elected": false,
@@ -943,16 +1454,18 @@
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the coroner is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       }
     },
     "TN": {
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the sheriff an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "District attorney general",
@@ -966,22 +1479,25 @@
       "clerk": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the county clerk an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "treasurer": {
         "title": "Trustee",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the trustee an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\" That the trustee is the county treasurer is from CTAS, https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form.",
+        "termYears": 4
       },
       "assessor": {
         "title": "Assessor of property",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the assessor of property an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
@@ -996,34 +1512,39 @@
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution requires an elected county sheriff (Article V, section 23)."
+        "note": "The constitution requires an elected county sheriff (Article V, section 23). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. V, 23\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "District attorney",
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution provides county attorneys and district attorneys (Article V, sections 20 and 21); a district attorney serves a district.",
-        "scope": "judicial-district"
+        "note": "The constitution provides county attorneys and district attorneys (Article V, sections 20 and 21); a district attorney serves a district. Term from the Secretary of State's list of offices (District Attorney, \"4 years\", \"TX Const. Art. V, 21, 30\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "scope": "judicial-district",
+        "termYears": 4
       },
       "clerk": {
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution requires an elected county clerk (Article V, section 20)."
+        "note": "The constitution requires an elected county clerk (Article V, section 20). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. V, 20\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution has the legislature provide for an elected county treasurer (Article XVI)."
+        "sourceUrl": "https://law.justia.com/constitution/texas/sections/cn001600-004400.html",
+        "note": "Tex. Const. art. XVI, sec. 44(a): the Legislature shall \"provide for the election by the qualified voters of each county in this State, of a County Treasurer\", who holds office \"for four years\". Sec. 44(b): the office \"does not exist in those counties in which the office has been abolished pursuant to constitutional amendment\"; which counties was not read.",
+        "termYears": 4
       },
       "assessor": {
         "title": "Tax assessor-collector",
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "A tax assessor is elected in each county (Article VIII, section 14)."
+        "note": "A tax assessor is elected in each county (Article VIII, section 14). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. VIII, 14\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
@@ -1077,32 +1598,110 @@
     },
     "VA": {
       "prosecutor": {
-        "title": "Commonwealth's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "title": "Attorney for the Commonwealth",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
+      },
+      "assessor": {
+        "title": "Commissioner of the revenue",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue. That the commissioner of the revenue holds the county's assessor role is an inference; the pages read do not say \"assessor\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"a clerk, who shall be clerk of the court in the office of which deeds are recorded\"; \"the clerk shall hold office for eight years\". Va. Code 24.2-217: \"The qualified voters of the several counties shall elect a clerk of the circuit court of the county\".",
+        "termYears": 8
       }
     },
     "VT": {
       "prosecutor": {
         "title": "State's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/vt/II/50",
+        "note": "Vt. Const. ch. II, sec. 50: assistant judges, sheriffs and state's attorneys are \"elected by the voters of their respective districts as established by law\", for \"four years\". That those districts are the counties is an inference.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/vt/II/50",
+        "note": "Vt. Const. ch. II, sec. 50: assistant judges, sheriffs and state's attorneys are \"elected by the voters of their respective districts as established by law\", for \"four years\". That those districts are the counties is an inference.",
+        "termYears": 4
       }
     },
     "WA": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands."
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=36.16.030",
+        "note": "RCW 36.16.030: \"there shall be elected from among the qualified voters of the county a county assessor, a county auditor, a county clerk, a county coroner, three county commissioners, a county prosecuting attorney, a county sheriff, and a county treasurer\". The page gives no term, so the county's term stands. A county under forty thousand people \"may determine that no coroner shall be elected and instead appoint a coroner\", and one of 250,000 or more may \"replace the office of coroner with a medical examiner system\"; which counties did so was not read."
       }
     },
     "WI": {
@@ -1147,13 +1746,69 @@
     "WV": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/1",
+        "note": "W. Va. Const. art. IX, sec. 1: \"The voters of each county shall elect a surveyor of lands, a prosecuting attorney, a sheriff, and one and not more than two assessors, who shall hold their respective offices for the term of four years.\"",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/wv/west-virginia-constitution-of-1872/wv-const-art-ix-sect-2/",
+        "note": "W. Va. Const. art. IX, sec. 2: \"Coroners, overseers of the poor and surveyors of roads, shall be appointed by the county court\" (now the county commission)."
+      },
+      "clerk": {
+        "title": "Clerk of the county commission",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.counselstack.com/constitution/wv/IX/12",
+        "note": "W. Va. Const. art. IX, sec. 12: \"The voters of each county shall elect a clerk of the county commission, whose term of office shall be six years.\"",
+        "termYears": 6
+      },
+      "treasurer": {
+        "elected": false,
+        "basis": "read",
+        "sourceUrl": "https://code.wvlegislature.gov/7-5-1/",
+        "note": "W. Va. Code sec. 7-5-1: \"The sheriff shall be ex officio county treasurer\", so no county elects a treasurer of its own."
       }
     },
     "WY": {
       "prosecutor": {
         "title": "County and prosecuting attorney",
         "titleBasis": "estimated: the state's usual title, not yet read from its law"
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-201/",
+        "note": "W.S. 18-3-201 (2012): \"There shall be elected in each county a county assessor\". No term given, so the county's term stands."
+      },
+      "clerk": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-401/",
+        "note": "W.S. 18-3-401 (2012): \"There shall be elected in each county a county clerk.\" No term given."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/wyoming/2012/title18/chapter3/section18-3-601/",
+        "note": "W.S. 18-3-601 (2012): \"There shall be elected in each county a county sheriff.\" No term given."
       }
     }
   }

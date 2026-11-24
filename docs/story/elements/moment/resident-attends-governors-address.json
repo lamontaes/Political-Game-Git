@@ -1,0 +1,23 @@
+{
+  "id": "resident-attends-governors-address",
+  "kind": "moment",
+  "summary": "A resident goes to hear the governor address an issue facing the state.",
+  "realLife": "owner, Nov 8: The player can be in the audience for a gubernatorial speech.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
+  ],
+  "inGame": "needs: connect attendance by the player to a recorded state address.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{resident}", "{governor}", "{issue}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The resident leaves after the governor discusses the issue that brought them there.",
+      "pulledBy": "Their work shift starts before the address ends.",
+      "writesBack": "The resident can describe the portion they heard."
+    }
+  ]
+}

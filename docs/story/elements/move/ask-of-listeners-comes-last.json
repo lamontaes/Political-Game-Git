@@ -1,0 +1,33 @@
+{
+  "id": "ask-of-listeners-comes-last",
+  "kind": "move",
+  "summary": "In an inaugural, the ask of the people comes near the end and is addressed to citizens.",
+  "realLife": "Kennedy's ask not what your country can do came in his last point; Roosevelt's strongest asks came late.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["term-left"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.4
+  },
+  "usedBy": [],
+  "inGame": "Section order in the inaugural row: `call` comes after `theme` and `second`; shapes call-alone and address-run.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The ask comes first, then the reasons.",
+      "pulledBy": "a blunt speaker; a disaster in the year",
+      "writesBack": "The ask opens the news story."
+    },
+    {
+      "turn": "late",
+      "what": "The ask comes after the blessing, as a last word.",
+      "pulledBy": "a dramatic speaker",
+      "writesBack": "The final line is the ask."
+    }
+  ]
+}

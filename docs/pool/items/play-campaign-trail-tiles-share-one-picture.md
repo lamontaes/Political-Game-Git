@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pt-board-tiles
 pr: #10382
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-24T10:51:21.966Z
 ---
 
 **What.** The CTO's catch on the Nov 23 replay (#10377, comment 7124283577): "Campaign (Board mock, lane 8): four tiles share the same office painting." On the campaign trail (Bordentown, New Jersey, seed 9c78fd91-cdf8-4a17-ad48-6cb31af452a3), Volunteers, Endorsements, Poll, Mail and Pay people to gather signatures all show the campaign office, and Hold an event and Give a speech both show the same courthouse-square rally. Seen: the campaign trail at 1440x900, where every tile shows a picture of its own.
