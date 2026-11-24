@@ -10,5 +10,20 @@
   "slots": ["{chamber}", "{motion}", "{bill}"],
   "gates": ["The motion to proceed is debatable."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The legislature tests Senate cloture. needs: a separate motion to proceed and a debate record attached to that motion.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The opposition lets the chamber take up the bill and reserves its objections.",
+      "pulledBy": "Members have agreed to debate the substance on the floor.",
+      "writesBack": "The motion passes and debate begins on the text."
+    },
+    {
+      "turn": "partial",
+      "what": "The opponents accept a fixed period for debate on taking up the bill.",
+      "pulledBy": "Both sides accept a time agreement while keeping their positions.",
+      "writesBack": "The presiding officer has a time to put the motion."
+    }
+  ]
 }

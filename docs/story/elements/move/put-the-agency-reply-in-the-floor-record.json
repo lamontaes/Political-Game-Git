@@ -10,5 +10,20 @@
   "slots": ["{member}", "{agency}", "{letter}"],
   "gates": ["The agency has answered the member in writing."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: dated agency correspondence linked to the member's entry in the floor record.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member enters the agency's answer and requests the missing enclosure.",
+      "pulledBy": "The reply refers to a policy memorandum that never reached the office.",
+      "writesBack": "The floor entry identifies the document still outstanding."
+    },
+    {
+      "turn": "late",
+      "what": "The member submits a correction when the agency clarifies its answer.",
+      "pulledBy": "The original reply left the scope of a condition unclear.",
+      "writesBack": "A later entry links the clarification to the first one."
+    }
+  ]
 }

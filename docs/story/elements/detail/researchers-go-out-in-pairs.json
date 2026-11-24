@@ -10,5 +10,20 @@
   "slots": ["{researcher}", "{partner}", "{hospital}"],
   "gates": ["Volunteers have been trained for visits."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: field assignments naming both reviewers, their training and the facilities covered.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "One reviewer takes interviews while the other checks the admissions books.",
+      "pulledBy": "The visit window is short and both kinds of evidence are available.",
+      "writesBack": "The team files two sets of notes for the same visit."
+    },
+    {
+      "turn": "late",
+      "what": "The pair moves its visit to the next training session.",
+      "pulledBy": "One volunteer has yet to complete instruction.",
+      "writesBack": "The schedule shows a later visit with both reviewers assigned."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{official}", "{representative}", "{hospital}"],
   "gates": ["A member has challenged how a hospital applies the rule."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a hospital room request with its stated grounds and the institution's ruling.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Staff address a patient's privacy concern without changing the roommate assignment.",
+      "pulledBy": "A documented privacy need can be met within the room.",
+      "writesBack": "The care note records the accommodation and existing placement."
+    },
+    {
+      "turn": "opposite",
+      "what": "Staff approve a transfer on documented medical grounds.",
+      "pulledBy": "The treating team identifies an isolation need independent of the roommate's race.",
+      "writesBack": "The placement record states the medical reason."
+    }
+  ]
 }

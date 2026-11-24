@@ -8,5 +8,20 @@
   "slots": ["{president}", "{hospital_leader}", "{program}"],
   "gates": ["Hospital participation is in doubt before the program opens."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: an executive meeting with hospital representatives tied to a certification condition.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "An association officer attends and takes the condition back to hospital boards.",
+      "pulledBy": "The invitation reaches the association before local boards can meet.",
+      "writesBack": "The local boards receive the officer's report."
+    },
+    {
+      "turn": "late",
+      "what": "A hospital leader calls for a second meeting about the compliance deadline.",
+      "pulledBy": "The board accepts the condition but has yet to approve the revised policy.",
+      "writesBack": "The follow-up concerns timing and leaves the condition in force."
+    }
+  ]
 }

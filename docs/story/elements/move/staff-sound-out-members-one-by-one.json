@@ -10,5 +10,20 @@
   "slots": ["{staffer}", "{member}", "{floor_manager}"],
   "gates": ["A revised bill needs support inside a divided caucus."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: staff conversations tied to individual members' stated reservations about a bill version.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A member gives staff a question for counsel and withholds a position.",
+      "pulledBy": "The answer turns on how one provision will be administered.",
+      "writesBack": "The tally records an open question beside the member's name."
+    },
+    {
+      "turn": "late",
+      "what": "A member calls staff back after reading the revision.",
+      "pulledBy": "The new language resolves the objection raised in the first conversation.",
+      "writesBack": "The second conversation updates the member's recorded position."
+    }
+  ]
 }

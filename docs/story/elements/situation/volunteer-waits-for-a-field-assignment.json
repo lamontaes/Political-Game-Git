@@ -10,5 +10,20 @@
   "slots": ["{volunteer}", "{agency}", "{assignment}"],
   "gates": ["The agency assigns volunteers to fieldwork."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a volunteer roster distinguishing training, availability and actual deployment.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The coordinator assigns the volunteer to an inspection pair.",
+      "pulledBy": "A trained partner and an uncovered facility are both available.",
+      "writesBack": "The roster names a site and visit date."
+    },
+    {
+      "turn": "partial",
+      "what": "The volunteer reviews case files at headquarters.",
+      "pulledBy": "Field positions are filled but inspection reports await review.",
+      "writesBack": "The service record shows a desk assignment."
+    }
+  ]
 }

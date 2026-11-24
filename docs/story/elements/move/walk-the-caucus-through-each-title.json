@@ -10,5 +10,20 @@
   "slots": ["{leader}", "{caucus}", "{bill_title}"],
   "gates": ["The caucus has the revised text."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a caucus briefing agenda with title-level questions and unresolved items.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The caucus spends the meeting on one disputed title.",
+      "pulledBy": "Members disagree about which cases the section would cover.",
+      "writesBack": "The remaining titles carry over to the next agenda."
+    },
+    {
+      "turn": "opposite",
+      "what": "The caucus sends written questions after members read the substitute on their own.",
+      "pulledBy": "The floor schedule leaves no common meeting time.",
+      "writesBack": "The negotiator receives a written list organized by title."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{negotiator}", "{amendment}", "{bill}"],
   "gates": ["Negotiators have a working draft."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: amendment text, the sponsor's classification and a record of contested classifications.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A member moves a supposed drafting fix into the policy discussion.",
+      "pulledBy": "Counsel shows that the change would exclude a group covered by the current text.",
+      "writesBack": "The amendment is considered as a substantive change."
+    },
+    {
+      "turn": "partial",
+      "what": "Counsel divides one amendment into a correction and a separate concession.",
+      "pulledBy": "A single edit changes both a reference and an eligibility condition.",
+      "writesBack": "Members can vote on the two changes separately."
+    }
+  ]
 }

@@ -8,5 +8,20 @@
   "slots": ["{hospital}", "{administrator}", "{application}"],
   "gates": ["The facility is seeking certification."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a hospital application with patient census, admissions policy and reviewer findings.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The reviewer gets the written policy and asks again for the census.",
+      "pulledBy": "The application describes admission rules but supplies no patient breakdown.",
+      "writesBack": "The census request stays open."
+    },
+    {
+      "turn": "late",
+      "what": "The hospital supplies corrected figures after the field visit.",
+      "pulledBy": "Its first return omitted one unit.",
+      "writesBack": "The revised census becomes part of the review file."
+    }
+  ]
 }

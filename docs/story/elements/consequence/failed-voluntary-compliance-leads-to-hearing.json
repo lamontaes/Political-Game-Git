@@ -10,5 +10,20 @@
   "slots": ["{agency}", "{hospital}", "{hearing}"],
   "gates": ["Voluntary resolution has proved impossible."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: an agency compliance case with a notice, corrective agreement and hearing date.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The hospital signs a corrective agreement before the hearing opens.",
+      "pulledBy": "Both sides agree on the admissions changes and who will verify them.",
+      "writesBack": "The agency cancels the hearing and sets a follow-up visit."
+    },
+    {
+      "turn": "partial",
+      "what": "The hospital settles the admissions question and contests the room assignments.",
+      "pulledBy": "The parties agree on only one finding.",
+      "writesBack": "The hearing notice lists the remaining dispute."
+    }
+  ]
 }

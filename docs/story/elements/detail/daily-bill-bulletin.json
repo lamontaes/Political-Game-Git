@@ -10,5 +10,20 @@
   "slots": ["{floor_manager}", "{bill}", "{office}"],
   "gates": ["Floor debate extends across multiple days."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a dated staff bulletin tied to the bill's current text and floor calendar.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Staff circulate only the newly amended page.",
+      "pulledBy": "The rest of yesterday's explanation still matches the bill.",
+      "writesBack": "Members receive a dated correction to the existing bulletin."
+    },
+    {
+      "turn": "late",
+      "what": "The morning bulletin goes out after the floor session.",
+      "pulledBy": "Negotiators are still checking which text they agreed to.",
+      "writesBack": "The published account describes the session members just attended."
+    }
+  ]
 }

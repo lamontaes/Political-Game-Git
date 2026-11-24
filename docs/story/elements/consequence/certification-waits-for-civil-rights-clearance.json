@@ -8,5 +8,20 @@
   "slots": ["{hospital}", "{program}", "{review_office}"],
   "gates": ["The program ties participation to civil rights compliance."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Coverage records identify Medicare beneficiaries. needs: a separate certification decision for each hospital.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Inspectors clear the hospital in time for its first Medicare patients.",
+      "pulledBy": "Interviews and admissions records confirm equal access.",
+      "writesBack": "The hospital enters the program on opening day."
+    },
+    {
+      "turn": "late",
+      "what": "The hospital earns clearance after its first application stalls.",
+      "pulledBy": "A return inspection confirms the hospital has changed how it assigns beds.",
+      "writesBack": "The certification carries the later effective date."
+    }
+  ]
 }

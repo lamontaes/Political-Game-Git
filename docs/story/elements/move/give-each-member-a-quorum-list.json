@@ -10,5 +10,20 @@
   "slots": ["{member}", "{colleague}", "{chamber}"],
   "gates": ["Supporters must be present to establish a quorum."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: responsibility for attendance calls and a record of who answered each call.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The floor manager keeps one central list for the evening.",
+      "pulledBy": "Too few members remain in the building to cover separate lists.",
+      "writesBack": "The manager's desk handles every attendance check."
+    },
+    {
+      "turn": "partial",
+      "what": "A member hands the last two names back to the desk.",
+      "pulledBy": "Those colleagues have already left for committee business.",
+      "writesBack": "The desk takes responsibility for locating them."
+    }
+  ]
 }

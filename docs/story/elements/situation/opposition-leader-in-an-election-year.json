@@ -12,5 +12,20 @@
     "The president needs opposition votes during a presidential campaign."
   ],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a party leader's negotiating position tied to caucus divisions and an approaching election.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The leader supports bringing the bill up while leaving the final vote open.",
+      "pulledBy": "The caucus agrees on debate but remains divided over the negotiated text.",
+      "writesBack": "The procedural commitment and the position on passage are recorded separately."
+    },
+    {
+      "turn": "late",
+      "what": "The leader announces a position after members have read the substitute.",
+      "pulledBy": "Members object to committing on a draft they have yet to see.",
+      "writesBack": "The announcement refers to the circulated version."
+    }
+  ]
 }
