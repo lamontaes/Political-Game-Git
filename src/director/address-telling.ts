@@ -48,6 +48,7 @@ type Facts = Record<string, GroundedEnglishFact>;
 const THEME = speechOutlines as unknown as {
   themeNames: Record<string, string>;
   themeShort: Record<string, string>;
+  themeShortPlural: { themes: readonly string[] };
   nationWords: { nation: string; "nation-full": string };
 };
 
@@ -151,6 +152,10 @@ export function addressFacts(
   const short = family ? THEME.themeShort[family] : undefined;
   if (short) facts["theme-short"] = fact(short, ids);
   else delete facts["theme-short"];
+  // A plural short name ("hard times") takes a plural verb.
+  if (short && family && THEME.themeShortPlural.themes.includes(family))
+    facts["theme-short-plural"] = fact("yes", ids);
+  else delete facts["theme-short-plural"];
   const disaster = facts["story-disaster"];
   const said = disaster ? DISASTER_WORDS[disaster.text] : undefined;
   if (disaster && said)

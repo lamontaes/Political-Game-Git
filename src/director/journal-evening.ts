@@ -34,6 +34,7 @@ const SELF = JOURNAL_EVENING.self;
 const THEME = speechOutlines as unknown as {
   themeNames: Record<string, string>;
   themeShort: Record<string, string>;
+  themeShortPlural: { themes: readonly string[] };
 };
 
 /** A list of names as a sentence says it: "Ann", "Ann and Joe", "Ann, Joe and Lee". */
@@ -107,8 +108,12 @@ export function eveningTelling(
   const family = story.points[P.zero]?.family ?? story.theme;
   if (family && THEME.themeNames[family]) {
     facts["theme-name"] = fact(THEME.themeNames[family]!);
-    if (THEME.themeShort[family])
+    if (THEME.themeShort[family]) {
       facts["theme-short"] = fact(THEME.themeShort[family]!);
+      // A plural short name ("hard times") takes a plural verb.
+      if (THEME.themeShortPlural.themes.includes(family))
+        facts["theme-short-plural"] = fact("yes");
+    }
   }
   const point = addressPoints(story).find((row) => row.kind === "policy");
   if (point) {

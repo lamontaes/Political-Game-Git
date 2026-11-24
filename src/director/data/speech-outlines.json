@@ -501,6 +501,19 @@
     "about": "Themes whose short name does not read after \"On\" (the words lead, Nov 14, round 4): a close for one of them says no theme tag. A tag (\"On X, ...\") is said at most once in an address, so a close that follows a meaning line says none either.",
     "themes": ["safety-net"]
   },
+  "themeShortPlural": {
+    "about": "Themes whose short name is plural (\"hard times\", \"taxes\"): the fact theme-short-plural is set with them, so a line whose verb agrees with {theme-short} is written for one number or the other (the pre-grade of Nov 24: \"If hard times matters\").",
+    "themes": [
+      "taxes",
+      "safety-net",
+      "schools",
+      "self-rule",
+      "unions",
+      "land",
+      "guns",
+      "elections"
+    ]
+  },
   "themeShortWords": {
     "value": 3,
     "tag": "TUNABLE",
