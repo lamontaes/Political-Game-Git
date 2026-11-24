@@ -1534,7 +1534,12 @@ function officialLines(
     row.identity?.givenName === term.identity?.givenName &&
     row.identity?.familyName === term.identity?.familyName &&
     row.identity?.birthDate === term.identity?.birthDate &&
-    row.seatId === term.seatId;
+    // Their terms in the seat the card tells, and in any other seat the same
+    // person held (a President's years as vice president).
+    (row.seatId === term.seatId ||
+      (row.personId !== undefined &&
+        row.personId !== null &&
+        row.personId === term.personId));
   const lines: HistoryLine[] = [];
   for (const row of rows.filter(same)) {
     const office = officeSlotsOf(core, row.officeId);
