@@ -1,0 +1,41 @@
+{
+  "id": "client-reimbursement-holds-up-care-pay",
+  "kind": "situation",
+  "summary": "{person} has finished the home-care visits while the employer is still waiting for reimbursement.",
+  "realLife": "Denver Labor reported that a home-care worker went unpaid during a Medicaid reimbursement problem and investigators worked with the employer to establish the hours.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Ablecare%20Inc."
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A care worker reports unpaid visits and the provider cites a reimbursement delay."
+  ],
+  "weights": [
+    "Verified service hours allow the wage inquiry to proceed."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the confirmed care visits, payroll and reimbursement status.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Payroll paid the worker on time.",
+      "pulledBy": "The provider carried the outstanding invoice itself.",
+      "writesBack": "The dispute stays with the reimbursement account."
+    },
+    {
+      "turn": "partial",
+      "what": "Only some visits are documented.",
+      "pulledBy": "The provider disputes the remaining dates.",
+      "writesBack": "The worksheet lists the confirmed visits."
+    }
+  ]
+}

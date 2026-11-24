@@ -1,0 +1,41 @@
+{
+  "id": "consulate-puts-worker-in-touch",
+  "kind": "moment",
+  "summary": "A consulate puts {person} in touch with a local wage investigator about a deduction.",
+  "realLife": "Denver's account said the Mexican consulate referred a tire service worker whose pay stubs also exposed an hourly shortfall.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=John%20E%27s%20Tire%20Xchange"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A consulate has received a pay complaint and can refer it to the responsible local office."
+  ],
+  "weights": [
+    "The worker's consent makes direct contact possible."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the referring office, worker consent and wage complaint.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The worker calls the wage office directly.",
+      "pulledBy": "The worker already has a contact there.",
+      "writesBack": "The intake lists a direct complaint."
+    },
+    {
+      "turn": "partial",
+      "what": "The worker first asks for an explanation.",
+      "pulledBy": "The worker has not agreed to share contact details.",
+      "writesBack": "The consulate gives the office number to the worker."
+    }
+  ]
+}

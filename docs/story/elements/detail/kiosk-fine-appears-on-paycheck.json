@@ -1,0 +1,41 @@
+{
+  "id": "kiosk-fine-appears-on-paycheck",
+  "kind": "detail",
+  "summary": "{person} finds the airport kiosk's late-opening fine taken out of pay.",
+  "realLife": "A kiosk worker complained to Denver that an employer was passing airport penalties for late openings on to employees.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Bjorn%27s%20Honey"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A deduction corresponds to a charge assessed against the business."
+  ],
+  "weights": [
+    "Matching dates tie a deduction to a particular opening."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the business fine, payroll deduction and dates.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The business absorbed the fine.",
+      "pulledBy": "The payroll record shows no deduction.",
+      "writesBack": "The charge stays in the company's accounts."
+    },
+    {
+      "turn": "partial",
+      "what": "Only one deduction matches a fine.",
+      "pulledBy": "Other entries have different explanations.",
+      "writesBack": "The claim lists each deduction separately."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "payroll-system-changes-after-salon-review",
+  "kind": "move",
+  "summary": "The wage office in {place} checks how the salons will keep payroll after the workers are paid.",
+  "realLife": "Denver reported that the operator of two nail salons made restitution and adopted a payroll system that met recordkeeping requirements.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=AK%20Nails"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A wage review has found gaps in time or pay records at multiple locations."
+  ],
+  "weights": [
+    "A shared payroll process makes a common correction more likely."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the locations covered by the review and their payroll corrections.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The existing system already tracks hours.",
+      "pulledBy": "The problem lies in the rate entered.",
+      "writesBack": "The correction changes the rate setting."
+    },
+    {
+      "turn": "partial",
+      "what": "One location switches first.",
+      "pulledBy": "The locations run different payroll systems.",
+      "writesBack": "The follow-up lists separate conversion dates."
+    }
+  ]
+}

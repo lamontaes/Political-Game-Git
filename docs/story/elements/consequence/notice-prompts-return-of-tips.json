@@ -1,0 +1,41 @@
+{
+  "id": "notice-prompts-return-of-tips",
+  "kind": "consequence",
+  "summary": "After the city sends notice, {person} receives records showing the missing tips have been paid.",
+  "realLife": "Denver reported that an arcade employer responded with payroll documenting payment of the two workers' retained tips.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Claw%20Den"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A tip complaint has generated a notice and the employer has responded."
+  ],
+  "weights": [
+    "Documented transfers make verification easier."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the tip balance and evidence of payment to each worker.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The workers dispute receipt.",
+      "pulledBy": "The employer supplied a calculation without a transfer.",
+      "writesBack": "The balance remains open for verification."
+    },
+    {
+      "turn": "partial",
+      "what": "Only the current worker has received payment.",
+      "pulledBy": "The former worker's check was returned.",
+      "writesBack": "The office keeps the former worker's share outstanding."
+    }
+  ]
+}

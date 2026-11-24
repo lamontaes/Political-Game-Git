@@ -1,0 +1,41 @@
+{
+  "id": "hotel-tip-credit-applied-to-valets",
+  "kind": "detail",
+  "summary": "{person} checks whether the same tip allowance can apply to both the restaurant and the valet stand.",
+  "realLife": "Denver reported that a hotel had applied a food-service tip credit to valets and door and bell staff and that workers recovered the shortfall.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Four%20Seasons%20Hotel"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "The local credit is limited by occupation and a hotel applies it across roles."
+  ],
+  "weights": [
+    "A common payroll code increases the chance of the same error across departments."
+  ],
+  "usedBy": [],
+  "inGame": "needs: job duties, local credit eligibility and shifts.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The departments already use distinct rates.",
+      "pulledBy": "Payroll codes match the work performed.",
+      "writesBack": "The review confirms the valet rate."
+    },
+    {
+      "turn": "partial",
+      "what": "One worker changes roles midweek.",
+      "pulledBy": "Shift records distinguish the two jobs.",
+      "writesBack": "The calculation separates the shifts."
+    }
+  ]
+}

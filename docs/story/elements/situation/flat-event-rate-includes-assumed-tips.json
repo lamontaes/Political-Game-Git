@@ -1,0 +1,41 @@
+{
+  "id": "flat-event-rate-includes-assumed-tips",
+  "kind": "situation",
+  "summary": "A worker in {place} asks what became of the tips customers actually left at the stadium.",
+  "realLife": "A stadium barbecue operator told Denver Labor it had folded estimated tips into hourly pay, and workers recovered withheld tips.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=GQue%20BBQ"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "An event concession pays an hourly amount that the employer says includes tips."
+  ],
+  "weights": [
+    "Actual gratuity receipts sharpen the dispute over the estimate."
+  ],
+  "usedBy": [],
+  "inGame": "needs: actual event tips and the amounts paid to workers.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The gratuities were distributed separately.",
+      "pulledBy": "The payout record matches the receipts.",
+      "writesBack": "The comparison clears that event."
+    },
+    {
+      "turn": "partial",
+      "what": "Only one season has itemized receipts.",
+      "pulledBy": "The operator changed its point-of-sale system.",
+      "writesBack": "The review treats the earlier season separately."
+    }
+  ]
+}

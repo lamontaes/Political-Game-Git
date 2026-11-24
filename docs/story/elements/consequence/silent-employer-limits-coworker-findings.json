@@ -1,0 +1,41 @@
+{
+  "id": "silent-employer-limits-coworker-findings",
+  "kind": "consequence",
+  "summary": "The office in {place} can establish what one worker lost but lacks records for the rest of the crew.",
+  "realLife": "Denver used a restaurant worker's own hours, tips and pay records when the business did not respond, leaving other workers' losses unconfirmed.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Kahlo%27s"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The employer has withheld records and one worker can document their own pay."
+  ],
+  "weights": [
+    "Independent records strengthen that worker's claim."
+  ],
+  "usedBy": [],
+  "inGame": "needs: available worker evidence and outstanding employer records.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Coworkers bring their own records.",
+      "pulledBy": "Additional workers agree to participate.",
+      "writesBack": "The office opens separate calculations."
+    },
+    {
+      "turn": "late",
+      "what": "Payroll arrives after the first determination.",
+      "pulledBy": "The employer responds late.",
+      "writesBack": "The office rechecks the scope of the case."
+    }
+  ]
+}

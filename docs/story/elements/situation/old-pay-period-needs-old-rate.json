@@ -1,0 +1,41 @@
+{
+  "id": "old-pay-period-needs-old-rate",
+  "kind": "situation",
+  "summary": "{person} checks the minimum that applied during the years the worker names.",
+  "realLife": "A Denver waitress reported past underpayment across three calendar years, and analysts checked restaurant payroll for those years.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Las%20Margs%20Tavern"
+  ],
+  "fits": [
+    "office",
+    "work-community",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A complaint spans periods with different wage rates."
+  ],
+  "weights": [
+    "More rate changes make the payment dates more important."
+  ],
+  "usedBy": [],
+  "inGame": "needs: historical wage floors and the dates each worker was paid.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "One rate applied throughout.",
+      "pulledBy": "The claimed dates fall within a single rate period.",
+      "writesBack": "The worksheet uses a single floor."
+    },
+    {
+      "turn": "partial",
+      "what": "The earliest pay period is uncertain.",
+      "pulledBy": "The worker knows the season but lacks a dated stub.",
+      "writesBack": "The city requests the older payroll."
+    }
+  ]
+}
