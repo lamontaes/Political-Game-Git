@@ -57827,6 +57827,484 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-took-in-more-than-we-spent-in-by-more-than-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We took in more than we spent in {budget-year}, by more than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-a-better-gives-more-room-to-choose-than-it-had-a-year-ago",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "A better {budget-year} gives {realm-name} more room to choose than it had a year ago.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-took-in-more-than-we-spent-in-about-as-much-as-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We took in more than we spent in {budget-year}, about as much as the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-staying-ahead-in-gives-room-to-choose-and-no-excuse-to-waste-it",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "Staying ahead in {budget-year} gives {realm-name} room to choose, and no excuse to waste it.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-steady",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-still-took-in-more-than-we-spent-in-but-by-less-than-the-year-befor",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We still took in more than we spent in {budget-year}, but by less than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-is-ahead-for-though-the-cushion-is-thinner-and-i-d-treat-it-that-way",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} is ahead for {budget-year}, though the cushion is thinner, and I'd treat it that way.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-ahead",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-spent-more-than-we-took-in-during-and-by-more-than-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We spent more than we took in during {budget-year}, and by more than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-a-worse-means-harder-choices-for-and-they-re-coming",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "A worse {budget-year} means harder choices for {realm-name}, and they're coming.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-worse",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-spent-more-than-we-took-in-during-about-the-same-as-the-year-before",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We spent more than we took in during {budget-year}, about the same as the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-was-short-for-another-year-so-being-short-is-no-longer-a-surprise",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} was short for another year, so being short is no longer a surprise.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-steady",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-we-still-spent-more-than-we-took-in-during-but-by-less-than-the-year-b",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "We still spent more than we took in during {budget-year}, but by less than the year before.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.budget-condition.plain-is-spending-closer-to-what-it-takes-in-for-and-it-isn-t-there-yet",
+      "move": "budget-condition",
+      "kind": "spoken",
+      "text": "{realm-name} is spending closer to what it takes in for {budget-year}, and it isn't there yet.",
+      "uses": [
+        {
+          "move": "budget-condition",
+          "subject": "town-address",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "budget-condition",
+          "subject": "state-of-the-state",
+          "role": "budget-condition",
+          "choice": "budget-condition",
+          "requiresFacts": [
+            "condition-budget-short",
+            "condition-budget-better",
+            "budget-year",
+            "realm-name"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
+      "issues": ["none"]
     }
   ]
 }
