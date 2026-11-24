@@ -299,3 +299,11 @@ Alexis, North Carolina, seed 85a230de12f5; Loudon, New Hampshire, seed 03475ffc-
 | --- | --- | --- |
 | President's card contradicts itself | **pass**: "President · United States · Since 2021" beside "In office since January 20, 2021", at Alexis NC (85a230de12f5, Jesse Holloway) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91, Michael Montgomery); no scroller, nothing below the panel | replay-pdA-grid.png |
 | P17, C17 empty block | **open, still**: the panels are the same size as at e0f055b0 (President 543 px, sheriff 572 px); the sheriff's card has a large empty area under the middle column and the story, the President's a wide empty strip under the record | replay-pdA-grid.png |
+
+## #10337 at df738481 (played from pull/10337/head)
+
+| Check | Grade | Picture |
+| --- | --- | --- |
+| "Since" and "In office since" read one record | **pass**: both read 2021 on the President at Alexis NC (85a230de12f5) and Loudon NH (03475ffc-637d-433f-8ee8-a6e75f6e0f91) | replay-peA-grid.png |
+| P17, C17 on the sheriff (Micah Webb, Alexis) and a county commissioner (Alina Page) | **pass**: the story now runs under the sections across the card; no empty block under the middle column; no scroller, nothing below the panel | replay-peA-grid.png |
+| P17, C17 on the President (short story beside a long record) | **open, smaller**: the right column below the short story is still empty (a quarter of the card); the panel is unchanged at 543 px | replay-peA-grid.png |
