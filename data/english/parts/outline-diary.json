@@ -818,6 +818,181 @@
         "diary-entry-for-the-evening-of-a-public-event",
         "notes-who-came-round-to-the-nominee"
       ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-had-the-news-on-for-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house had the news on for {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-mediating"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-gave-the-first-speech-as-president-tonight-and-the-whole-house-watched",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} gave the first speech as President tonight, and the whole house watched.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-turned-on-the-news-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} turned on the news and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-put-the-news-on-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "I put the news on and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-stayed-for-all-of-s-speech-by-myself",
+      "move": "watched",
+      "kind": "written",
+      "text": "I stayed for all of {president-name}'s speech, by myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
     }
   ]
 }
