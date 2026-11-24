@@ -1,0 +1,30 @@
+{
+  "id": "honoree-origin-in-a-parent",
+  "kind": "detail",
+  "summary": "The honoree's start is traced to a parent in local government.",
+  "realLife": "The clerk said her father's work first took her to government panels and a governor's address.",
+  "sources": [
+    "Patch (Clark, New Jersey), 'Clark Bids Farewell To Municipal Clerk Edith Merkel After 24 Years Of Service', May 19, 2026: https://patch.com/new-jersey/clark/clark-bids-farewell-municipal-clerk-edith-merkel-after-24-years-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "retirement": 0.8
+  },
+  "inGame": "the honoree's family records (a parent who held office or a job)",
+  "turns": [
+    {
+      "name": "no family origin",
+      "pulledBy": "a career begun by chance",
+      "writes": "the story says how she first applied"
+    },
+    {
+      "name": "origin in a teacher",
+      "pulledBy": "a mentor",
+      "writes": "the story names the mentor"
+    }
+  ],
+  "usedBy": []
+}
