@@ -1,0 +1,23 @@
+{
+  "id": "keynote-speaker-addresses-party-convention",
+  "kind": "situation",
+  "summary": "A delegate audience hears the player build a keynote around the occasion and their own record.",
+  "realLife": "owner, Nov 14: A party convention keynote can give the speaker room to develop an argument.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L203"
+  ],
+  "inGame": "needs: a convention keynote occasion available to the speech planner.",
+  "fits": ["journal", "campaign", "speeches"],
+  "slots": ["{speaker}", "{convention}", "{party}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The speaker shortens the keynote to the event and one episode they witnessed.",
+      "pulledBy": "The convention is running late and the chair asks for a shorter address.",
+      "writesBack": "The record retains the speaker's selected episode."
+    }
+  ]
+}
