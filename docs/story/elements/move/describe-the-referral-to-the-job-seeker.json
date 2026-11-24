@@ -1,0 +1,31 @@
+{
+  "id": "describe-the-referral-to-the-job-seeker",
+  "kind": "move",
+  "summary": "An official tells a job seeker what will happen to their referral and who can use it.",
+  "realLife": "The House résumé bank sends applicants a receipt. A hiring office can request a résumé and contact the applicant directly, and applicants can renew a submission before it expires.",
+  "sources": [
+    "https://www.house.gov/employment/positions-with-members-and-committees/house-resume-bank",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L161"
+  ],
+  "inGame": "recordReferral creates a row employers read when considering applicants.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{official}", "{job_seeker}", "{referral}"],
+  "gates": ["The official can make a job referral."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The official asks the job seeker to come back after the hiring office opens.",
+      "pulledBy": "The listed contact changed and the office needs to verify who receives referrals.",
+      "writesBack": "The case stays open for a confirmed contact."
+    },
+    {
+      "turn": "partial",
+      "what": "The applicant receives confirmation and asks the member which office wants an interview.",
+      "pulledBy": "The bank has acknowledged the résumé but no hiring office has contacted the applicant.",
+      "writesBack": "The member explains who can call next, and the referral record keeps the interview date blank."
+    }
+  ],
+  "issues": ["none"]
+}

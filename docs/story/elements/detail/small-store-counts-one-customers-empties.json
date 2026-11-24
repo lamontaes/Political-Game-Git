@@ -1,0 +1,28 @@
+{
+  "id": "small-store-counts-one-customers-empties",
+  "kind": "detail",
+  "summary": "At a small shop the clerk has to count the returns from one customer before accepting another bag.",
+  "realLife": "Oregon’s 2007 changes allowed smaller stores to set a daily per-person redemption limit.",
+  "sources": ["https://www.oregon.gov/deq/recycling/pages/bottle-bill.aspx"],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{clerk}", "{store}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: store size and adopted return limit.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A shop using the limit explains how many more containers it can take that day.",
+      "pulledBy": "The shop adopted the permitted daily limit and the customer has returned bottles there today.",
+      "writesBack": "The tally records what the shop accepted."
+    },
+    {
+      "turn": "opposite",
+      "what": "If mandatory returns end there, the owner takes down the limit sign once outstanding claims expire.",
+      "pulledBy": "The last redemption obligation at this shop has expired.",
+      "writesBack": "The old limit comes off the customer notice."
+    }
+  ]
+}

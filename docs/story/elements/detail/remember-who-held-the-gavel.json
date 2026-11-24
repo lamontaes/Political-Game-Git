@@ -1,0 +1,30 @@
+{
+  "id": "remember-who-held-the-gavel",
+  "kind": "detail",
+  "summary": "An adviser remembers a ruling by who was presiding when it happened.",
+  "realLife": "Riddick recalled that Watkins could identify the officer and timing of an earlier floor proceeding from memory.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=41"
+  ],
+  "fits": ["office", "journal", "speeches"],
+  "slots": ["{adviser}", "{presiding_officer}", "{ruling}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: prior ruling and a named presiding officer.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The clerk locates the entry.",
+      "pulledBy": "The journal confirms the recollection.",
+      "writesBack": "The member gets a citation."
+    },
+    {
+      "turn": "late",
+      "what": "The clerk checks when the chair changed hands.",
+      "pulledBy": "Two officers presided that afternoon.",
+      "writesBack": "The search shifts to the later entry."
+    }
+  ],
+  "issues": ["none"]
+}

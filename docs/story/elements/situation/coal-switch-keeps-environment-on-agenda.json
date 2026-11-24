@@ -1,0 +1,30 @@
+{
+  "id": "coal-switch-keeps-environment-on-agenda",
+  "kind": "situation",
+  "summary": "A proposed switch to coal in {place} sends the environmental conditions back to the desk.",
+  "realLife": "Carter advocated greater coal use while stressing environmental protection as a condition of the shift.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A proposed fuel conversion would change environmental impacts."],
+  "weights": ["The conversion requires a permit review."],
+  "usedBy": [],
+  "inGame": "needs: the fuel conversion application and permit conditions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Conservation removes the need to convert.",
+      "pulledBy": "Verified demand falls below existing capacity.",
+      "writesBack": "The conversion request is withdrawn."
+    },
+    {
+      "turn": "partial",
+      "what": "A permit limits operating hours.",
+      "pulledBy": "The full schedule exceeds a binding limit.",
+      "writesBack": "The operating plan records the restriction."
+    }
+  ],
+  "issues": ["none"]
+}

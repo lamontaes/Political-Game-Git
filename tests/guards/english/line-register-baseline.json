@@ -1,5 +1,24 @@
 {
   "untiedBankLines": {},
+  "unelementedBankLines": {
+    "bill-paper": 3,
+    "bring-it-up": 40,
+    "calendar": 18,
+    "campaign-standing": 61,
+    "choice-names": 60,
+    "conversation": 1720,
+    "headlines": 387,
+    "journal": 336,
+    "meeting": 8,
+    "news": 695,
+    "newscast": 37,
+    "notice": 1,
+    "opening-speech": 2231,
+    "person-history": 611,
+    "scene-talk": 2571,
+    "scene-words": 444,
+    "speech-stages": 26
+  },
   "saysNothing": [],
   "unreachedConversation": [],
   "unreadBanks": [],
@@ -16,7 +35,7 @@
     "src/english/speech-registers.ts": 1
   },
   "dataHeldLines": {
-    "src/bench/data/controls.json": 623,
+    "src/bench/data/controls.json": 621,
     "src/bench/data/whole-figures.json": 3,
     "src/director/data/local-address.json": 1
   }

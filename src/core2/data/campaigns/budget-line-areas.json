@@ -1,0 +1,10 @@
+{
+  "version": "budget-line-areas-v1",
+  "about": "The policy question families a local government's budget line is about (contest-positions.ts `contestStands`). A council or board runs on a budget line only where the state's law lets its government decide at least one question of the line's family (`levelMayDecide`, the state's Dillon's Rule, home rule and preemption record): a borough whose state lets towns decide no education question has no say over its schools line, and a town whose state lets it decide no health question has none over its health and hospitals line, whatever the Census figures carry for the local sector. A line not listed here is one every body that votes a budget sets (police, fire, highways, parks, housing, administration, interest and the rest). ESTIMATED: the lines to families are the budget-line meanings in data/research/money/public-budget-bases.json and the question families in src/core2/campaign-data.ts; spread: a line's family may be wider than listed. Registered with SG-GOV-office-areas-estimated.",
+  "lines": {
+    "schools": ["education"],
+    "higherEducation": ["education"],
+    "healthAndHospitals": ["health-human-services"],
+    "welfareAndMedicaid": ["health-human-services"]
+  }
+}

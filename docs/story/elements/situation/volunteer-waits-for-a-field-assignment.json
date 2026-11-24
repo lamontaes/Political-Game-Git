@@ -25,5 +25,6 @@
       "pulledBy": "Field positions are filled but inspection reports await review.",
       "writesBack": "The service record shows a desk assignment."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }

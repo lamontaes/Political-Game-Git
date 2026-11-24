@@ -1,0 +1,47 @@
+{
+  "id": "a-voter-turns-on-deportations-after-a-friends-father",
+  "kind": "voice",
+  "summary": "A voter who first backed tougher enforcement softens when it reaches someone he knows who was working.",
+  "realLife": "In interviews with rural voters, several split people who committed serious crimes from workers supporting families. One farmer accepted removing violent offenders, then regretted her vote after a friend's hardworking father was deported. Another was torn after losing a coworker. A third wanted newcomers to come legally and be amazing citizens, and one saw immigrants as a strain on care, a claim a researcher on the page disputes. Personal ties moved two of the voters.",
+  "sources": [
+    "https://kffhealthnews.org/rural-health/ap-kff-rural-voter-poll-midterms-immigration-crackdown-views-economy/ (AP and KFF Health News report on rural voters' views)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the person deported}"],
+  "gates": [
+    "the speaker knows an immigrant through work or a friend",
+    "enforcement has reached someone the speaker knows",
+    "the speaker supported enforcement earlier"
+  ],
+  "weights": [
+    "how close the speaker is to the person",
+    "whether the person worked",
+    "whether the speaker's income depends on immigrant workers"
+  ],
+  "inGame": "reads the tie between speaker and the person affected and the speaker's earlier stand with its reason; needs: an immigration status the speaker knows about a tie",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the voter holds to the law",
+      "what": "He says the law is the law and they should have come legally.",
+      "pulledBy": "no one he knows is touched",
+      "writesBack": "the stand is unchanged; a record notes the argument"
+    },
+    {
+      "turn": "the voter softens only for workers",
+      "what": "He says criminals should go but not the man who farmed beside him.",
+      "pulledBy": "a friend's father is taken",
+      "writesBack": "the stand splits by who is affected; the cause is the friend's loss"
+    },
+    {
+      "turn": "the voter stays torn",
+      "what": "He says he does not know how he will vote now.",
+      "pulledBy": "a coworker leaves and a promise is on the ballot",
+      "writesBack": "the vote record is marked undecided"
+    }
+  ],
+  "issues": [
+    "question:us-federal-positions:immigration.admit-more-immigrants",
+    "question:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+  ]
+}

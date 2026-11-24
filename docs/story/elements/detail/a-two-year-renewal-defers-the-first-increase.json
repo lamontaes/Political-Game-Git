@@ -1,0 +1,34 @@
+{
+  "id": "a-two-year-renewal-defers-the-first-increase",
+  "kind": "detail",
+  "summary": "A tenant signing for two years at {building} gets one year before the guideline permits a higher rent.",
+  "realLife": "Under the 2020 New York City order a covered two-year renewal had a zero first-year adjustment and a one-percent allowance in its second year.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2021/06/2020-Apt-Order-52.pdf#page=1"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{building}"],
+  "gates": [
+    "The case record identifies the order, lease term and anniversary."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: order, lease term and anniversary.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The first-year allowance applies.",
+      "pulledBy": "The first anniversary is still ahead",
+      "writesBack": "Current rent schedule."
+    },
+    {
+      "turn": "another-way",
+      "what": "The owner can apply the stated second-year allowance.",
+      "pulledBy": "The lease enters year two",
+      "writesBack": "Anniversary and permissible amount."
+    }
+  ]
+}

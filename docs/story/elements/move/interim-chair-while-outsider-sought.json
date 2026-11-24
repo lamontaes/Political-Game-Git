@@ -25,5 +25,6 @@
       "pulledBy": "The outside candidate has yet to complete review.",
       "writesBack": "The next meeting minutes name the acting chair."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

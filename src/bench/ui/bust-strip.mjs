@@ -51,7 +51,7 @@ function stripPerson(person, { speakingId, onClick, onCard }) {
 /**
  * `people`: [{ personId, name, face: { bust }, talkable?, role? }]. `more`: how many
  * others are there, said after the busts in `words.more` ("and {count} more").
- * `words.label` names the strip at its left end. `speakingId` lights one person
+  `speakingId` lights one person
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`
  * makes each person with something to say a button; `onCard` is what a click
  * does for the rest, opening that person's card. `speakingId: null` is a talk
@@ -66,14 +66,13 @@ export function bustStrip({
   onCard,
 }) {
   const strip = el("div", { className: "bust-strip" });
+  // Someone speaks: the rest stand back, small and dimmed (play.css).
+  strip.dataset.speaker = speakingId ? "1" : "0";
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));
   // Someone speaks: the rest stand back, small and dimmed (play.css).
   strip.dataset.speaker = speakingId ? "1" : "0";
   strip.append(
-    ...(words.label
-      ? [el("span", { className: "busts-label", textContent: words.label })]
-      : []),
     el(
       "div",
       { className: "busts-row" },

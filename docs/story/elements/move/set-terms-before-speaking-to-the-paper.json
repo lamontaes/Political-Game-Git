@@ -1,0 +1,31 @@
+{
+  "id": "set-terms-before-speaking-to-the-paper",
+  "kind": "move",
+  "summary": "A member agrees to answer on condition that the reporter keep their name out of the story.",
+  "realLife": "Senate aide Charles Ferris recalled playing cards in the press gallery after sessions. The regular players understood that reporters could use his explanations to understand the floor schedule while keeping his name out of their stories.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/ferris-charles-d-full-transcript-with-index.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: an attribution decision retained by the story writer.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{member}", "{reporter}", "{story}"],
+  "gates": ["The interview permits an attribution agreement."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The reporter explains that the paper requires attribution and leaves the question unanswered.",
+      "pulledBy": "The reporter lacks permission to grant anonymity.",
+      "writesBack": "The interview produces no quote on that question."
+    },
+    {
+      "turn": "partial",
+      "what": "A reporter agrees to hear how the schedule works in private, then asks whom she can quote about the bill itself.",
+      "pulledBy": "The aide has permission to explain procedure and the committee chair has offered to discuss the bill publicly.",
+      "writesBack": "The reporter’s notes identify the procedural background and a named contact for the bill."
+    }
+  ],
+  "issues": ["none"]
+}

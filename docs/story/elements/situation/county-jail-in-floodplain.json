@@ -29,5 +29,6 @@
       "pulledBy": "Upper floors and essential services remain available.",
       "writesBack": "The roster identifies the transfers and receiving locations."
     }
-  ]
+  ],
+  "issues": ["budget:corrections"]
 }

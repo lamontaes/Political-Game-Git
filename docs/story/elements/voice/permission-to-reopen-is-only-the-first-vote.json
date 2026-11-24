@@ -1,0 +1,30 @@
+{
+  "id": "permission-to-reopen-is-only-the-first-vote",
+  "kind": "voice",
+  "summary": "A member asks which of two votes can actually restore an old name.",
+  "realLife": "Ranieri asked about the Spring Lake procedure and O’Donnell identified the current vote as the one that could change the earlier decision.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}", "{motion}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: both motions, their order and their recorded dispositions.",
+  "turns": [
+    {
+      "turn": "the-chair-calls-for-the-substantive-motion",
+      "what": "The chair calls for the substantive motion.",
+      "pulledBy": "Only reconsideration has passed.",
+      "writesBack": "The existing name remains in force."
+    },
+    {
+      "turn": "the-clerk-enters-the-restored-name",
+      "what": "The clerk enters the restored name.",
+      "pulledBy": "The restoration motion passes.",
+      "writesBack": "The minutes identify the restored name and the vote that authorized it."
+    }
+  ]
+}

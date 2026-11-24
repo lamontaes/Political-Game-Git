@@ -1,0 +1,30 @@
+{
+  "id": "the-reserve-pays-expenses-before-the-grower",
+  "kind": "consequence",
+  "summary": "The grower at {place} waits for the committee to settle its expenses before learning what the reserve earned the farm.",
+  "realLife": "The historical order paid the raisin committee's costs from reserve sales and divided any remainder among producers according to their shares.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["The record identifies the reserve sale account and expenses."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: reserve sale account and expenses.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Credit growers with the remaining proceeds.",
+      "pulledBy": "Sale proceeds exceed expenses.",
+      "writesBack": "Final grower distribution."
+    },
+    {
+      "turn": "another-way",
+      "what": "Close the account without a grower distribution.",
+      "pulledBy": "Expenses absorb the proceeds.",
+      "writesBack": "Final grower distribution."
+    }
+  ]
+}

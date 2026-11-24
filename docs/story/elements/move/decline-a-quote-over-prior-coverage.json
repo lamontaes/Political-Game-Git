@@ -1,0 +1,31 @@
+{
+  "id": "decline-a-quote-over-prior-coverage",
+  "kind": "move",
+  "summary": "A member declines to comment to an outlet after a story about the member has damaged their relationship.",
+  "realLife": "Jackie Speier declined to speak to a Hill reporter and pointed to John Solomon’s columns in the paper when explaining her objection to its coverage.",
+  "sources": [
+    "https://www.washingtonpost.com/business/2026/08/22/how-john-solomon-became-trumps-white-house-secret-hunter/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L37"
+  ],
+  "inGame": "The press-comment variant reads earlier scandal coverage, the outlet, and the reporter’s tie.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{member}", "{outlet}", "{story}"],
+  "gates": ["A relevant adverse story or strained tie is recorded."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member gives the reporter the roll call and declines a personal quote.",
+      "pulledBy": "An earlier story strained trust but the vote itself is public.",
+      "writesBack": "The reporter has the public record and no attributable comment."
+    },
+    {
+      "turn": "opposite",
+      "what": "The member takes the call after the editor sends the correction the member requested.",
+      "pulledBy": "The corrected article is public and the member has read the revised passage.",
+      "writesBack": "The press log links the new interview to the correction and keeps the earlier refusal on file."
+    }
+  ],
+  "issues": ["none"]
+}

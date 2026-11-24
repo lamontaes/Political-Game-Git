@@ -1,0 +1,32 @@
+{
+  "id": "foreign-health-aid-request-becomes-a-five-year-law",
+  "kind": "consequence",
+  "summary": "A leader asks for a multi-year health fund abroad in an address, and the law authorizing it is signed within months.",
+  "realLife": "Bush's January 2003 State of the Union asked for about $15 billion over five years against AIDS abroad. The United States Leadership Against HIV/AIDS, Tuberculosis, and Malaria Act of 2003, Public Law 108-25, was approved May 27, 2003. It set up a State Department coordinator and authorized programs and Global Fund contributions through fiscal 2008.",
+  "sources": [
+    "https://www.nbcnews.com/nbc-out/out-news/bush-demanded-billions-aids-africa-2003-state-union-paid-rcna69555",
+    "https://www.govinfo.gov/content/pkg/PLAW-108publ25/html/PLAW-108publ25.htm",
+    "Read the news report on the speech and the public law's text."
+  ],
+  "fits": ["speeches", "news"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a catalog policy for foreign aid, a federal foreign-aid line with a multi-year authorization and a coordinator office row.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Congress funds only a fraction and drops the multi-year pledge.",
+      "pulledBy": "a tight federal budget",
+      "writesBack": "The budget line shows a one-year amount and no authorization span."
+    },
+    {
+      "turn": "neutral",
+      "what": "The law passes and spending ramps up over years.",
+      "pulledBy": "a majority in both chambers",
+      "writesBack": "The budget engine records yearly amounts under the act."
+    }
+  ]
+}

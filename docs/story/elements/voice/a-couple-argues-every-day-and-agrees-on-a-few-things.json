@@ -1,0 +1,44 @@
+{
+  "id": "a-couple-argues-every-day-and-agrees-on-a-few-things",
+  "kind": "voice",
+  "summary": "A husband and wife argue about politics daily, talk over each other and stay tied to a short list of shared stands.",
+  "realLife": "A married couple on opposite sides said they fight about politics more than anything and clash at least once a day. She asks pointed questions about whether his party is consistent; he answers with sarcasm and lines that wave her off. Nothing is off limits, they talk over each other, and neither has moved the other. They share two stands, one on abortion rights and one on unions, and she says disagreeing does not mean she loves him less.",
+  "sources": [
+    "https://www.nprillinois.org/post/hes-trump-shes-biden-how-married-couple-navigate-political-differences (NPR piece on a politically divided married couple in Colorado)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the party}"],
+  "gates": [
+    "speaker and listener are spouses",
+    "they hold different parties",
+    "at least two stands they share on the record"
+  ],
+  "weights": [
+    "how combative both are by trait",
+    "an election is close",
+    "how often they are home together"
+  ],
+  "inGame": "reads the tie between speaker and listener and each side's stand with its reason; the shared stands are where the two stand records agree",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "they both go quiet",
+      "what": "Neither will bring it up before the election is over.",
+      "pulledBy": "a campaign that has made one of them exhausted",
+      "writesBack": "the argument count for the household drops"
+    },
+    {
+      "turn": "the sarcasm turns tender",
+      "what": "He says he is just saying it and she says she knows.",
+      "pulledBy": "one of them is ill or worried about money",
+      "writesBack": "the tie warms; stands unchanged"
+    },
+    {
+      "turn": "a shared stand surprises the guests",
+      "what": "They team up against a relative on the one stand they share.",
+      "pulledBy": "the relative says the thing both dislike",
+      "writesBack": "the spouse tie is marked as allied on that question"
+    }
+  ],
+  "issues": ["none"]
+}

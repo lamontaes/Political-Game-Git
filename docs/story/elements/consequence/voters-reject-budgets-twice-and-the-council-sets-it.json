@@ -1,0 +1,42 @@
+{
+  "id": "voters-reject-budgets-twice-and-the-council-sets-it",
+  "kind": "consequence",
+  "summary": "Voters reject a town and a school budget at two referendums with low turnout, and the charter gives the final say to the council.",
+  "realLife": "A town's voters rejected its general and school budgets in April, then rejected a slightly higher revised package in May, with turnout near six percent. Advisory answers split on the town budget, while most school no-voters said spending was too low. The charter allows two referendums, so the finance board and council would finish the plan, as they did the year before.",
+  "sources": [
+    "Patch (Berlin, Connecticut), 'Deja vu: Berlin voters reject town, school budgets, now town officials', May 27, 2026: https://patch.com/connecticut/berlin/deja-vu-berlin-voters-reject-town-school-budgets-now-town-officials",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["count", "percent", "body"],
+  "gates": [],
+  "weights": {
+    "budget": 0.7
+  },
+  "inGame": "a budget referendum record with its turnout and advisory answers; the charter's referendum limit; needs: a charter limit on referendum rounds and an advisory-reason record",
+  "issues": ["law:property-tax", "budget:schools"],
+  "turns": [
+    {
+      "name": "the second vote also fails and the council decides",
+      "pulledBy": "the charter's cap on referendums is reached",
+      "writes": "the council adopts a plan and sets the mill rate without a vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the second vote passes",
+      "pulledBy": "the revised package adds items voters said were missing",
+      "writes": "the budget is adopted by voters and the rate is set from it",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the school budget passes and the town budget fails",
+      "pulledBy": "school no-voters who were told spending was too low are now satisfied",
+      "writes": "only the town side goes to the council",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

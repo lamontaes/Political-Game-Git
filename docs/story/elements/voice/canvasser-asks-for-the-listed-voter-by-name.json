@@ -1,0 +1,30 @@
+{
+  "id": "canvasser-asks-for-the-listed-voter-by-name",
+  "kind": "voice",
+  "summary": "A canvasser asks whether the person on the list is the one at the door before saying anything else.",
+  "realLife": "A volunteer guide opens with a request for the voter by name and says answers from anyone else are never logged as the voter's.",
+  "sources": [
+    "Commons Library, Tools roundup: canvassing and door knocking, undated: https://commonslibrary.org/tools-roundup-canvassing-and-door-knocking/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first", "name"],
+  "gates": [],
+  "inGame": "walk list entry with the listed voter's name; household members from the home record",
+  "weights": {
+    "door": 0.5
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The listed voter is the one who opened",
+      "pulledBy": "the listed person at home",
+      "writesBack": "the pitch goes on with the voter's own record"
+    },
+    {
+      "turn": "Someone else answers and the voter is out",
+      "pulledBy": "another household member present",
+      "writesBack": "the list entry is marked not home, with a note of who spoke"
+    }
+  ]
+}

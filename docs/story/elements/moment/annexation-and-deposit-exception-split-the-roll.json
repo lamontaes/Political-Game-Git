@@ -1,0 +1,28 @@
+{
+  "id": "annexation-and-deposit-exception-split-the-roll",
+  "kind": "moment",
+  "summary": "Two measures moving together draw different votes when the clerk reaches them separately.",
+  "realLife": "Columbia's May minutes record a divided vote on the amended exemption and a separate roll on the related annexation measure, with John abstaining on both.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_may21.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{clerk}", "{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: individual votes and abstentions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A reporter reads the member's two votes back before asking why they differ.",
+      "pulledBy": "A member supports annexation but opposes the waiver.",
+      "writesBack": "The two positions appear on different rolls."
+    },
+    {
+      "turn": "opposite",
+      "what": "The reporter checks the roll rather than assigning the member to either camp.",
+      "pulledBy": "A member abstains on both.",
+      "writesBack": "The minutes record two abstentions by that member without attributing a motive."
+    }
+  ]
+}

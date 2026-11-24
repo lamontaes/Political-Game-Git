@@ -13,5 +13,5 @@ The page is `index.html` ("Who's Talking: Three Ways"), with its pictures in `ar
 ## What it means
 
 - The speaker's bust goes on the dialogue card, as in A.
-- Quiet people (present, not speaking) are small and packed tight at the top, as in C.
+- Quiet people (present, not speaking) are small and packed together in the top-right corner of the screen, as in C (`.corner`: top 26, right 26). "The people in the top tight like c" meant top right (owner, Nov 24: "they're supposed to be at the top right"); this line once read "packed tight at the top", which was a misreading.
 - The strip behind them is only as wide as they are.

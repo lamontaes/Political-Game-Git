@@ -1,0 +1,32 @@
+{
+  "id": "mark-the-next-water-shortage",
+  "kind": "move",
+  "summary": "Before the first request arrives from {place}, the regional partners mark which communities could need help together.",
+  "realLife": "California asked local governments and groundwater agencies to help identify water systems, habitats and communities that might need a joint response if dry weather continued.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A dated joint assessment identifies a threatened system and participating agencies."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a dated joint assessment identifies a threatened system and participating agencies.",
+  "turns": [
+    {
+      "turn": "identified",
+      "pulledBy": "The review identifies the relevant record.",
+      "what": "Put the system on the next coordination agenda.",
+      "writesBack": "Save its lead contact."
+    },
+    {
+      "turn": "unassessed",
+      "pulledBy": "The local system awaits assessment.",
+      "what": "Ask the region for a local assessment.",
+      "writesBack": "Keep the system's status open."
+    }
+  ]
+}

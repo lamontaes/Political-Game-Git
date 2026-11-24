@@ -1,0 +1,34 @@
+{
+  "id": "the-rent-freeze-ends-halfway-through-the-lease",
+  "kind": "moment",
+  "summary": "The guideline on a one-year renewal for {apartment} changes halfway through the term.",
+  "realLife": "New York City's 2021 apartment order allowed no guideline increase for the first six months of a covered one-year lease and allowed 1.5 percent for the rest.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2021/06/2021-Apt-Order-53-1.pdf#page=1"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{apartment}"],
+  "gates": [
+    "The case record identifies the governing order, term and lease start date."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: governing order, term and lease start date.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The guideline leaves the starting rent alone.",
+      "pulledBy": "The tenant is in the first six months",
+      "writesBack": "First-period rent."
+    },
+    {
+      "turn": "another-way",
+      "what": "The later allowance becomes available.",
+      "pulledBy": "The lease enters its seventh month",
+      "writesBack": "Second-period rent and start date."
+    }
+  ]
+}

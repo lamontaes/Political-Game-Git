@@ -1,0 +1,38 @@
+{
+  "id": "minority-floor-speaker-courteous-then-firm",
+  "kind": "voice",
+  "summary": "A minority-party floor speaker begins with thanks and a promise to be constructive, then says plainly and firmly where the majority is wrong and why they must vote no.",
+  "realLife": "Minority leaders in Hawaii and Colorado addressed the chair and the majority with courtesy, praising staff and the chamber, and said disagreement would stay respectful. One promised never to oppose a bill without offering an alternative; another said so in a floor vote on a hard issue and called the process rushed; a third reminded the chamber how many residents his side speaks for.",
+  "sources": [
+    "Beth Fukumoto Chang, Hawaii House minority leader, opening day remarks, Jan 20, 2016: https://data.capitol.hawaii.gov/sessions/session2016/docs/HouseMinorityLeaderFukumotoOpeningRemarks.pdf",
+    "Aaron Ling Johanson and Beth Fukumoto, Hawaii House minority leader and floor leader, floor speeches on Senate Bill 1 in special session, 2013 (excerpts): https://hawaiifreepress.com/Articles-Main/ID/11067/Excerpts-from-House-GOP-Floor-Speeches",
+    "Rep. Caldwell, Colorado House minority leader, opening day speech, Jan 15, 2026: https://www.coloradohouserepublicans.com/news/minority-leader-caldwell-opening-day-speech",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; some pages were read in part or through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["body-name", "office-title"],
+  "gates": [],
+  "weights": {
+    "floor": 0.7
+  },
+  "usedBy": [],
+  "inGame": "personality-v1 facets calm and assertive on the legislator, with the chamber's party split and the record of the member's votes against the majority",
+  "turns": [
+    {
+      "way": "The speaker drops the courtesy and charges the majority with bad faith.",
+      "pulledBy": "a blunt minority leader after a rushed vote",
+      "writes": "no thanks, a direct accusation"
+    },
+    {
+      "way": "The speaker is gracious from start to finish and only says no once.",
+      "pulledBy": "a humble member",
+      "writes": "thanks and an apology for the no"
+    },
+    {
+      "way": "The speaker promises an alternative for every no and offers it on the floor.",
+      "pulledBy": "a practical minority leader",
+      "writes": "a no joined to a named substitute"
+    }
+  ],
+  "issues": ["none"]
+}

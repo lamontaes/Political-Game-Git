@@ -1,0 +1,32 @@
+{
+  "id": "concrete-arterial-on-the-grant-list",
+  "kind": "situation",
+  "summary": "The broken slabs on {street} cost more to replace than the surface on the next arterial.",
+  "realLife": "Oakland staff put costly concrete arterials on an unfunded list and recommended grant applications and localized repairs.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{street}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: concrete arterial, slab repair request and separate estimate for reconstructing the route.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: concrete arterial, slab repair request and separate estimate for reconstructing the route.",
+      "what": "Fund an identified section of slab replacement while the larger grant is pending.",
+      "writesBack": "Concrete repair log and grant scope."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: concrete arterial, slab repair request and separate estimate for reconstructing the route.",
+      "what": "Assign the most urgent slab to the spot crew and keep the reconstruction estimate with the grant request.",
+      "writesBack": "Concrete repair log and grant scope."
+    }
+  ]
+}

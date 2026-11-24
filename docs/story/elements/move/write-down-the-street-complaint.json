@@ -27,5 +27,6 @@
       "pulledBy": "The resident cannot identify when the problem occurred.",
       "writesBack": "The case stays open for a follow-up call."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

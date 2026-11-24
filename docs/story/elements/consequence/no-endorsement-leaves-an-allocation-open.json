@@ -1,0 +1,28 @@
+{
+  "id": "no-endorsement-leaves-an-allocation-open",
+  "kind": "consequence",
+  "summary": "Money reserved for a particular race stays available when the committee endorses nobody in it.",
+  "realLife": "Murphy reported that money designated for a Burien council race remained available because the 34th Democrats had endorsed no candidate for that seat.",
+  "sources": ["https://34dems.org/2023-08-09-membership-meeting/"],
+  "fits": ["campaign", "journal", "news", "office"],
+  "slots": ["{treasurer}", "{race}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the budget allocation, endorsement result and any later spending vote.",
+  "turns": [
+    {
+      "turn": "unassigned-balance",
+      "what": "The treasurer carries the amount forward.",
+      "pulledBy": "The committee makes no new spending decision.",
+      "writesBack": "No candidate receives money by default."
+    },
+    {
+      "turn": "new-allocation",
+      "what": "The treasurer records the new authorization.",
+      "pulledBy": "Members approve a later use of the available money.",
+      "writesBack": "The original race and the eventual recipient have separate entries."
+    }
+  ]
+}

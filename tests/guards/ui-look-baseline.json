@@ -46,5 +46,214 @@
     "politics > Government [sheet]": {
       "div.members-pager.pager scrolls": 1
     }
+  },
+  "clipped": {
+    "Patch notes [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "calendar [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "politics > Elections [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "politics > Parties [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "politics > Issues [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "politics > Budgets [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "guide [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "Race screen [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "who > Jobs and school [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "people [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "Person card from People [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "politics > Bills [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    },
+    "news [sheet]": {
+      "a line of text is cut at a box's edge": 1
+    }
+  },
+  "repeated": {
+    "politics > Bills [sheet]": {
+      "record number shown in two or more places": 1
+    },
+    "news [sheet]": {
+      "date shown in two or more places": 1,
+      "record number shown in two or more places": 1
+    },
+    "calendar [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics > Government [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "politics > Elections [sheet]": {
+      "date shown in two or more places": 1
+    },
+    "Race screen [sheet]": {
+      "date shown in two or more places": 1
+    }
+  },
+  "leading": {
+    "Patch notes [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "New game [front]": {
+      "h1.title wraps under 1.3 leading": 1
+    },
+    "Creator [front]": {
+      "h1.title wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "who [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "who > You [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "who > Jobs and school [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1,
+      "h3.heading wraps under 1.3 leading": 1
+    },
+    "who > Your life [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "journal [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "calendar [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3 wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "money [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Government [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Elections [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2.roster-title wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Parties [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2.roster-title wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Issues [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2.roster-title wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Bills [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2 wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Budgets [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "politics > Metrics [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "news [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h2 wraps under 1.3 leading": 1,
+      "b.news-headline wraps under 1.3 leading": 1,
+      "h3.lead.news-headline wraps under 1.3 leading": 1
+    },
+    "people [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1
+    },
+    "travel [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.travel-group wraps under 1.3 leading": 1,
+      "h2 wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "guide [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2.guide-term wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "Race screen [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h2.roster-title wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "Person card from People [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.pick-head.sechead wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1,
+      "h2.strip-name wraps under 1.3 leading": 1
+    },
+    "Campaign board [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    },
+    "Campaign trail [sheet]": {
+      "h2.heading wraps under 1.3 leading": 1,
+      "h3.travel-group wraps under 1.3 leading": 1,
+      "h2 wraps under 1.3 leading": 1,
+      "h3.sechead wraps under 1.3 leading": 1
+    }
+  },
+  "title": {
+    "politics > Bills [sheet]": {
+      "h2 over a picture": 1
+    },
+    "news [sheet]": {
+      "b.news-headline over a picture": 1
+    }
   }
 }
