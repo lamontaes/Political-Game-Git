@@ -1,6 +1,6 @@
 {
   "version": "outlines-v1",
-  "about": "One outline row per kind of text, read by the one planner (src/english/outline-planner.ts; words composer, units 3 and 6; the Story lead's brief, Nov 24, 2026). A row names its sections in order; each section offers shapes, and a shape is an order of moves, each worded from data/english/parts/outline.json. A move ending in '?' may be left out. A section's `when` facts must hold for it to be said; `joins` keeps it in the paragraph before; `camera` is where the picture is while it is said. Shapes are picked by the speaker's recorded traits (`pull`) among those whose `needs` hold; no shape is forced on every point (owner, Nov 23: 'this is all following the same grammatical pattern'). The rows hold no sentence.",
+  "about": "One outline row per kind of text, read by the one planner (src/english/outline-planner.ts; words composer, units 3 and 6; the Story lead's brief, Nov 24, 2026). A row names its sections in order; each section offers shapes, and a shape is an order of moves, each worded from data/english/parts/outline.json. A move ending in '?' may be left out. A section's `when` facts must hold for it to be said; `joins` keeps it in the paragraph before; `camera` is where the picture is while it is said. Shapes are picked by the speaker's recorded traits (`pull`) among those whose `needs` hold; no shape is forced on every point (owner, Nov 23: 'this is all following the same grammatical pattern'). An address's `occasion` section says what the day is: the inaugural's oath or the election that hired the speaker, a yearly address's report of the state of the union or the state (the move `report`, whose pieces each kind's writer gates on the facts the plan holds: its kind of address, the year's story, the mood). The rows hold no sentence.",
   "source": "docs/research/first-evening-2026-11-24.md",
   "kinds": {
     "inaugural": {
@@ -9,7 +9,8 @@
         "*": 3,
         "theme-name": 1,
         "theme-short": 1,
-        "the-disaster": 1
+        "the-disaster": 1,
+        "term-left": 1
       },
       "sections": [
         {
@@ -121,6 +122,248 @@
       "leastSentences": {
         "value": 11,
         "about": "TUNABLE: the shortest inaugural the planner tells; the addresses the pre-grade passed for length ran 11 to 15 sentences (rounds 2 and 3, Nov 24), and round 5's 6 to 10 failed as too short."
+      }
+    },
+    "state-of-the-union": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 3,
+        "theme-name": 1,
+        "theme-short": 1,
+        "the-disaster": 1,
+        "term-left": 1
+      },
+      "sections": [
+        {
+          "name": "greeting",
+          "required": true,
+          "camera": "salutation",
+          "shapes": ["greeting"]
+        },
+        {
+          "name": "occasion",
+          "required": true,
+          "joins": true,
+          "camera": "occasion",
+          "shapes": ["report-then-charge", "report-alone"]
+        },
+        {
+          "name": "story",
+          "camera": "country",
+          "shapes": [
+            "hard-run-told",
+            "hard-run-asked",
+            "good-run-told",
+            "disaster-told",
+            "disaster-asked"
+          ]
+        },
+        {
+          "name": "theme",
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "second",
+          "point": 1,
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "call",
+          "camera": "families",
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
+        },
+        {
+          "name": "close",
+          "required": true,
+          "camera": "close",
+          "shapes": ["send-off-then-blessing", "blessing-alone"]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "second", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "second", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
+        }
+      ],
+      "leastSentences": {
+        "value": 11,
+        "about": "TUNABLE: the shortest State of the Union the planner tells, the inaugural's until the national speeches writer's pre-grade sets its own; the planner of record's row runs 14 to 30 sentences (src/director/data/speech-outlines.json)."
+      }
+    },
+    "state-of-the-state": {
+      "surface": "dialogue",
+      "budgets": {
+        "*": 3,
+        "theme-name": 1,
+        "theme-short": 1,
+        "the-disaster": 1,
+        "term-left": 1
+      },
+      "sections": [
+        {
+          "name": "greeting",
+          "required": true,
+          "camera": "salutation",
+          "shapes": ["greeting"]
+        },
+        {
+          "name": "occasion",
+          "required": true,
+          "joins": true,
+          "camera": "occasion",
+          "shapes": ["report-then-charge", "report-alone"]
+        },
+        {
+          "name": "story",
+          "camera": "country",
+          "shapes": [
+            "hard-run-told",
+            "hard-run-asked",
+            "good-run-told",
+            "disaster-told",
+            "disaster-asked"
+          ]
+        },
+        {
+          "name": "theme",
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "second",
+          "point": 1,
+          "when": ["about"],
+          "camera": "country",
+          "shapes": [
+            "creed-then-pledge",
+            "today-then-stand",
+            "contrast-then-stand",
+            "question-then-answer",
+            "stand-with-reason"
+          ]
+        },
+        {
+          "name": "call",
+          "camera": "families",
+          "shapes": ["address-run", "call-alone"],
+          "optional": true,
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-supportive",
+            "personality-v1:facet-devoted",
+            "personality-v1:facet-comforting"
+          ]
+        },
+        {
+          "name": "close",
+          "required": true,
+          "camera": "close",
+          "shapes": ["send-off-then-blessing", "blessing-alone"]
+        }
+      ],
+      "terse": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-skeptical"
+      ],
+      "orders": [
+        {
+          "sections": ["story", "theme", "second", "call"],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-duty-bound",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-calm"
+          ]
+        },
+        {
+          "sections": ["call", "story", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-mediating",
+            "personality-v1:facet-forgiving",
+            "personality-v1:facet-fair-minded",
+            "personality-v1:facet-humble"
+          ]
+        },
+        {
+          "sections": ["theme", "second", "story", "call"],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-cocky"
+          ]
+        }
+      ],
+      "leastSentences": {
+        "value": 8,
+        "about": "TUNABLE: the shortest State of the State the planner tells, at the low end of the planner of record's 8 to 18 sentences (src/director/data/speech-outlines.json; a governor's address runs about a third of a State of the Union, Polis 2024) until the writer's pre-grade sets it."
       }
     },
     "talk-address-point": {
@@ -302,6 +545,18 @@
     "oath-alone": {
       "moves": ["oath"],
       "needs": ["took-oath"],
+      "fallback": true
+    },
+    "report-then-charge": {
+      "moves": ["report", "charge?"],
+      "pull": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-polite"
+      ]
+    },
+    "report-alone": {
+      "moves": ["report"],
       "fallback": true
     },
     "hard-run-told": {
@@ -542,7 +797,7 @@
     }
   },
   "disasterWords": {
-    "about": "A declared disaster's incident type (the national events engine's row, lowercased) as a speaker says it after 'the'. TUNABLE wording, read by the inaugural's facts (src/director/inaugural-telling.ts). An incident with no row here is not said.",
+    "about": "A declared disaster's incident type (the national events engine's row, lowercased) as a speaker says it after 'the'. TUNABLE wording, read by an address's facts (src/director/address-telling.ts). An incident with no row here is not said.",
     "flood": "floods",
     "severe storm": "storms",
     "severe storm(s)": "storms",

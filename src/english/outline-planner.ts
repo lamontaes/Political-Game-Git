@@ -23,6 +23,7 @@
  */
 import outlineData from "../../data/english/outlines.json" with { type: "json" };
 import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
+import outlineLoadingBank from "../../data/english/parts/outline-loading.json" with { type: "json" };
 import outlineCallBank from "../../data/english/parts/outline-call.json" with { type: "json" };
 import outlineThemeBank from "../../data/english/parts/outline-theme.json" with { type: "json" };
 import outlineDiaryBank from "../../data/english/parts/outline-diary.json" with { type: "json" };
@@ -158,6 +159,7 @@ export const OUTLINE_BANK_PARTS: readonly TellingPart[] = [
   outlineBank,
   // Each Story writer's own bank (owner, Nov 24: more Story writers), so
   // their branches never meet in one file; the planner reads them as one.
+  outlineLoadingBank,
   outlineCallBank,
   outlineThemeBank,
   outlineDiaryBank,

@@ -22,6 +22,14 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
 import { ADDRESS_FACT } from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
+import {
+  addressTelling,
+  tellingOfPlan,
+  toldSentences,
+  type AddressTelling,
+  type AddressTellingKind,
+} from "./address-telling";
+import { hasOutline } from "../english/outline-planner";
 import { partsOf, saidFact } from "./address-render";
 import {
   planSpeech,
@@ -41,6 +49,10 @@ import { bodySaid } from "./body-said";
 import { headsLocalExecutive } from "../core2/offices-executives";
 
 export type LocalLevel = "state" | "town";
+
+/** Whether a level's address has an outline row the one planner tells it from. */
+const isTold = (subject: OpeningSpeechKind): subject is AddressTellingKind =>
+  hasOutline(subject);
 
 interface LevelData {
   readonly subject: OpeningSpeechKind;
@@ -296,6 +308,53 @@ function realmRead(
 }
 
 /**
+ * Who gives a level's address, as the planner of record hears them: the
+ * speaker, their office row, and the term read of their state or town. Null
+ * where the player's state or town seats no one in the office.
+ */
+export function localAddressSpeaker(
+  core: CoreState,
+  level: LocalLevel,
+): OutlineSpeaker | null {
+  const spoken = speakerOf(core, level);
+  const person = spoken ? core.people.get(spoken.personId) : undefined;
+  if (!spoken || !person) return null;
+  return {
+    person,
+    ...(spoken.official ? { official: spoken.official } : {}),
+    jurisdiction: spoken.jurisdiction,
+    serviceStart: spoken.serviceStart,
+    areas: realmRead(core, level, spoken.serviceStart),
+    ...(spoken.local ? { local: spoken.local } : {}),
+  };
+}
+
+/** The public event a level's address on a date is recorded as. */
+function addressEventId(level: LocalLevel, date: string): string {
+  return `${DATA.levels[level].eventKind}:${date}`;
+}
+
+/**
+ * What a level's address is told from by the one outline planner, planned
+ * from the world as it is now (the sameness gate's inputs read it). Null
+ * where no one gives it, or the level's address has no outline row.
+ */
+export function localAddressTelling(
+  core: CoreState,
+  level: LocalLevel,
+): AddressTelling | null {
+  const speaker = localAddressSpeaker(core, level);
+  const subject = DATA.levels[level].subject;
+  if (!speaker || !isTold(subject)) return null;
+  return addressTelling(
+    core,
+    subject,
+    speaker,
+    addressEventId(level, core.date),
+  );
+}
+
+/**
  * Compose a governor's or mayor's address from the world's records. Null where
  * the player's state or town seats no one in the office, or the address cannot
  * open and close from the record.
@@ -304,25 +363,29 @@ export function composeLocalAddress(
   core: CoreState,
   level: LocalLevel,
 ): LocalStory | null {
-  const spoken = speakerOf(core, level);
-  const speaker = spoken ? core.people.get(spoken.personId) : undefined;
-  if (!spoken || !speaker) return null;
-  const plan = planSpeech(core, DATA.levels[level].subject, {
-    person: speaker,
-    ...(spoken.official ? { official: spoken.official } : {}),
-    jurisdiction: spoken.jurisdiction,
-    serviceStart: spoken.serviceStart,
-    areas: realmRead(core, level, spoken.serviceStart),
-    ...(spoken.local ? { local: spoken.local } : {}),
-  });
+  const outlineSpeaker = localAddressSpeaker(core, level);
+  if (!outlineSpeaker) return null;
+  const speaker = outlineSpeaker.person;
+  const subject = DATA.levels[level].subject;
+  const plan = planSpeech(core, subject, outlineSpeaker);
   // A speech with nothing to say is not given: no theme from the records and
   // nothing to ask (pool note on the pull request: no officials row holds a
   // mayor's views, so a mayor has no stands to ask for).
   if (!plan.theme && !plan.asks.length) return null;
-  const sentences = composeBlocks(core, speaker, plan.blocks);
+  const id = addressEventId(level, core.date);
+  // A State of the State is told through the one outline planner where its
+  // outline bank can say every required section; the old composer stands in
+  // until then, and for a mayor's address (SG-WORDS-addresses-await-outline).
+  const told = isTold(subject)
+    ? toldSentences(tellingOfPlan(core, subject, outlineSpeaker, plan, id))
+    : null;
+  if (!told)
+    // stopgapId: SG-WORDS-addresses-await-outline
+    markWordsStopgap("SG-WORDS-addresses-await-outline");
+  const sentences = told ?? composeBlocks(core, speaker, plan.blocks);
   if (!sentences?.length) return null;
   return {
-    id: `${DATA.levels[level].eventKind}:${core.date}`,
+    id,
     level,
     date: core.date,
     addressKind: plan.addressKind,
@@ -351,7 +414,7 @@ export function recordLocalAddress(
   const playerId = core.playerId;
   const player = playerId ? core.people.get(playerId) : undefined;
   if (!playerId || !player) return null;
-  const id = `${DATA.levels[level].eventKind}:${core.date}`;
+  const id = addressEventId(level, core.date);
   if (core.eventIds.has(id)) return null;
   const story = composeLocalAddress(core, level);
   if (!story) return null;
