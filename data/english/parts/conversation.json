@@ -34728,29 +34728,6 @@
       "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
-      "key": "conversation.own-view-say-core.side-for-you-re-asking-and-i-d-say-the-same-as-always-reason-for",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "You're asking, and I'd say the same as always: {reason-for}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["reason-for", "side-for"],
-          "excludesFacts": []
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "bearing": "warm",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
-    },
-    {
       "key": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
       "move": "own-view-say-core",
       "kind": "spoken",
@@ -34774,29 +34751,6 @@
       "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
-      "key": "conversation.own-view-say-core.side-for-honestly-i-think-reason-for",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Honestly, I think {reason-for}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["reason-for", "side-for"],
-          "excludesFacts": []
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "bearing": "curious",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
-    },
-    {
       "key": "conversation.own-view-say-core.side-against-since-you-ask-i-think-reason-against",
       "move": "own-view-say-core",
       "kind": "spoken",
@@ -34808,29 +34762,6 @@
           "role": "core",
           "requiresFacts": ["reason-against", "side-against"],
           "excludesFacts": ["they-opened"]
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "bearing": "guarded",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
-    },
-    {
-      "key": "conversation.own-view-say-core.side-against-you-re-asking-and-i-d-say-the-same-as-always-reason-against",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "You're asking, and I'd say the same as always: {reason-against}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["reason-against", "side-against"],
-          "excludesFacts": []
         }
       ],
       "tag": {
@@ -34863,29 +34794,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "bearing": "calm",
-      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
-    },
-    {
-      "key": "conversation.own-view-say-core.side-against-honestly-i-think-reason-against",
-      "move": "own-view-say-core",
-      "kind": "spoken",
-      "text": "Honestly, I think {reason-against}.",
-      "uses": [
-        {
-          "move": "own-view-say-core",
-          "subject": "own-view-say",
-          "role": "core",
-          "requiresFacts": ["reason-against", "side-against"],
-          "excludesFacts": []
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "bearing": "blunt",
       "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     }
   ]
