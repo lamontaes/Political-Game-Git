@@ -58,7 +58,10 @@
     "condition-budget-steady": "yes where the town's budget held steady this year, from the budget engine",
     "evening": "yes when the speech is given in the evening",
     "condition-budget-short": "yes where the town's budget came up short this year, from the budget engine",
-    "kind-hopeful": "yes where the year the speaker reports on was a hopeful one, from the year's records"
+    "kind-hopeful": "yes where the year the speaker reports on was a hopeful one, from the year's records",
+    "incumbent": "yes when the candidate holds the seat now, from the seat's serving term",
+    "challenger": "yes when the candidate does not hold the seat now, from the seat's serving term",
+    "theme-short-plural": "yes when the short theme is plural (taxes, hard times, our schools)"
   },
   "maxWords": 30,
   "parts": [
@@ -1825,7 +1828,7 @@
           "role": "send-off",
           "tie": "frame",
           "requiresFacts": ["body-name", "theme-short"],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": [
@@ -2824,6 +2827,158 @@
       "lean": [
         "personality-v1:facet-duty-bound",
         "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-closes-on-community-with-an-invitation"]
+    },
+    {
+      "key": "outline-local.running.i-m-asking-you-to-keep-me-as-your-and-is-the-reason",
+      "move": "running",
+      "kind": "spoken",
+      "text": "I'm asking you to keep me as your {office-title}, and {theme-name} is the reason.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "record",
+          "requiresFacts": ["office-title", "theme-name", "incumbent"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-proud", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.running.i-ve-held-this-seat-and-the-work-on-isn-t-finished",
+      "move": "running",
+      "kind": "spoken",
+      "text": "I've held this seat, and the work on {theme-name} isn't finished.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "incumbent"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.running.i-think-we-can-do-better-on-than-we-have-and-i-d-like-the-chance-as",
+      "move": "running",
+      "kind": "spoken",
+      "text": "I think we can do better on {theme-name} than we have, and I'd like the chance as {office-title}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "record",
+          "requiresFacts": ["office-title", "theme-name", "challenger"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.running.the-person-in-this-seat-hasn-t-done-enough-on-and-i-d-do-more",
+      "move": "running",
+      "kind": "spoken",
+      "text": "The person in this seat hasn't done enough on {theme-name}, and I'd do more.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "running",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "challenger"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "outline-local.send-off.i-ve-asked-for-your-trust-before-i-m-asking-for-it-again",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I've asked for your trust before. I'm asking for it again, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["realm-bare", "incumbent"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.send-off.give-someone-new-a-chance-as",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Give someone new a chance as {office-title}, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "campaign-speech",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["office-title", "realm-bare", "challenger"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-ambitious", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.send-off.if-matter-to-you-come-to-the-next-meeting-of",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If {theme-short} matter to you, come to the next meeting of {body-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "theme-short", "theme-short-plural"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
