@@ -1882,6 +1882,113 @@
       }
     },
     {
+      "key": "news.law.place-put-the-law-into-effect-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} put the {law} into effect on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-is-in-effect-in-place-as-of-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} is in effect in {place} as of {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.since-date-the-law-has-been-in-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "Since {date}, the {law} has been in effect in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-took-effect-in-place-on-date-ending-the-rule-it-repl",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect in {place} on {date}, ending the rule it replaced.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-replaced-the-old-rule-in-place-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} replaced the old rule in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
       "move": "law-amount",
       "kind": "written",
@@ -10824,6 +10931,116 @@
       }
     },
     {
+      "key": "news.crime.property-in-place-was-vandalized-on-date",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property in {place} was vandalized on {date}.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-had-a-break-in-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a break-in on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-had-a-robbery-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a robbery on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-had-an-assault-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had an assault on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["assault", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.crime.place-had-a-case-of-vandalism-on-date-the-ordinal-this-month",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} had a case of vandalism on {date}, the {ordinal} this month.",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "news",
+          "role": "crime",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "ordinal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.graduation.graduates-of-the-number-seniors-in-place-finished-school",
       "move": "graduation",
       "kind": "written",
@@ -16336,6 +16553,50 @@
       "move": "organization.opened",
       "kind": "written",
       "text": "{subject} set up shop in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.owner-opened-subject-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{owner} opened {subject} in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization.opened.a-new-business-subject-opened-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "A new business, {subject}, opened in {place}.",
       "uses": [
         {
           "move": "organization.opened",

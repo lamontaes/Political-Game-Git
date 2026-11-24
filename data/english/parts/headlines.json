@@ -1515,6 +1515,69 @@
       }
     },
     {
+      "key": "headlines.law.law-now-in-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} now in effect in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law.place-puts-law-into-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} puts {law} into effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law.law-takes-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} takes effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.law-amount.measure-in-place-comes-down-to-to",
       "move": "law-amount",
       "kind": "written",
@@ -4852,6 +4915,27 @@
       "move": "organization.opened",
       "kind": "written",
       "text": "Open for business: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-for-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens for business",
       "uses": [
         {
           "move": "organization.opened",
