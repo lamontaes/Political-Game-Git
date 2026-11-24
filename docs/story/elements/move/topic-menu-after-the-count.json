@@ -20,12 +20,16 @@
     {
       "name": "one topic only",
       "pulledBy": "a single-issue meeting",
-      "writes": "the story names it and goes straight to the answers"
+      "writes": "the story names it and goes straight to the answers",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "topics left unsaid",
       "pulledBy": "an issue the officials avoided",
-      "writes": "the story says what was not answered"
+      "writes": "the story says what was not answered",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

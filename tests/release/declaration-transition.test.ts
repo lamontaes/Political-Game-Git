@@ -254,6 +254,58 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  it("needs no declaration for a story-elements-only change, which no client reads", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "elements", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "story", "elements", "moment"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(fixture.root, "docs", "story", "elements", "moment", "x.json"),
+        "{}\n",
+      );
+      const head = fixture.commit("Add a story element row");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "pr",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
+  it("still names a source file added beside a story element", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "elements-src", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "story", "elements", "moment"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(fixture.root, "docs", "story", "elements", "moment", "x.json"),
+        "{}\n",
+      );
+      writeFileSync(
+        join(fixture.root, "src", "beside.ts"),
+        "export const beside = true;\n",
+      );
+      const head = fixture.commit("Element row plus a source file");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "pr",
+      });
+      const said = result.problems.join("\n");
+      expect(said).toContain("src/beside.ts");
+      expect(said).not.toContain("docs/story/elements");
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("accepts explicit none for a fresh source-only branch", () => {
     const fixture = historyFixture();
     try {

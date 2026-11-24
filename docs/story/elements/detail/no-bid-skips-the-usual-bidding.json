@@ -19,12 +19,16 @@
     {
       "name": "an emergency reason",
       "pulledBy": "a disaster or urgent need",
-      "writes": "the story says why bidding was skipped"
+      "writes": "the story says why bidding was skipped",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a late bid",
       "pulledBy": "a vendor who offered after the deadline",
-      "writes": "the story says it was refused"
+      "writes": "the story says it was refused",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

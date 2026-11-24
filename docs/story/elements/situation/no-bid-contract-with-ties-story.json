@@ -19,12 +19,16 @@
     {
       "name": "a bid process that was followed",
       "pulledBy": "a contract put out for proposals",
-      "writes": "the story says how many bid"
+      "writes": "the story says how many bid",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "ties denied and no conflict found",
       "pulledBy": "an inquiry that found nothing",
-      "writes": "the story says the review cleared it"
+      "writes": "the story says the review cleared it",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

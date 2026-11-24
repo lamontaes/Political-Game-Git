@@ -19,12 +19,16 @@
     {
       "name": "no dissent",
       "pulledBy": "a bloc that voted as one",
-      "writes": "the story says no member voted against"
+      "writes": "the story says no member voted against",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
     },
     {
       "name": "a dissenter from the other side",
       "pulledBy": "a member who crossed over",
-      "writes": "the story names who crossed"
+      "writes": "the story names who crossed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
