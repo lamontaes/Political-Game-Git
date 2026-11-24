@@ -4270,5 +4270,549 @@
     "issues": [
       "question:us-policy-positions:housing-land-use.rent-stabilization"
     ]
+  },
+  {
+    "key": "scene-talk.follow-answer.could-that-envelope-have-sat-on-the-kitchen-table-for-a-week-the-postmark-tells-us-when-the-letter-traveled-presiding-check-whether-the-bill-uses-that-date-or-the-start-of-the-lease",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Could that envelope have sat on the kitchen table for a week? The postmark tells us when the letter traveled, {presiding}. Check whether the bill uses that date or the start of the lease.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.would-you-use-the-postmark-on-the-renewal-to-decide-whether-bill-name-covers-it"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-neighbors-renew-under-different-orders"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.read-the-effective-date-clause-aloud-presiding-if-it-says-renewals-starting-after-a-certain-day-the-date-to-look-up-is-on-the-lease",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Read the effective-date clause aloud, {presiding}. If it says renewals starting after a certain day, the date to look up is on the lease.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.would-you-use-the-postmark-on-the-renewal-to-decide-whether-bill-name-covers-it"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-neighbors-renew-under-different-orders"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.give-the-person-opening-the-letter-a-sentence-they-can-finish-for-themselves-presiding-my-renewal-starts-on-this-date-so-this-is-the-rule-that-applies-to-me",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Give the person opening the letter a sentence they can finish for themselves, {presiding}. My renewal starts on this date, so this is the rule that applies to me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.what-would-you-put-on-a-notice-to-tenants-whose-leases-renew-around-the-time-bill-name-takes-effect"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-neighbors-renew-under-different-orders"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.where-can-a-tenant-take-the-notice-if-the-dates-on-it-don-t-match-their-paperwork-put-that-contact-beside-the-effective-date-of-bill-name",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Where can a tenant take the notice if the dates on it don't match their paperwork? Put that contact beside the effective date of {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "bill-name",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.what-would-you-put-on-a-notice-to-tenants-whose-leases-renew-around-the-time-bill-name-takes-effect"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-neighbors-renew-under-different-orders"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.has-the-check-cleared-presiding-that-s-what-the-person-coming-down-to-fix-the-boiler-needs-to-know",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Has the check cleared, {presiding}? That's what the person coming down to fix the boiler needs to know.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-look-for-the-money-to-cover-a-boiler-invoice-if-the-owner-says-bill-name-will-pay-for-it"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["three-rent-roll-figures-for-one-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.start-with-the-balance-the-owner-can-draw-on-today-presiding-then-take-out-whatever-s-already-committed-to-payroll-and-other-bills-is-there-enough-left-for-the-repair",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Start with the balance the owner can draw on today, {presiding}. Then take out whatever's already committed to payroll and other bills. Is there enough left for the repair?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-look-for-the-money-to-cover-a-boiler-invoice-if-the-owner-says-bill-name-will-pay-for-it"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["three-rent-roll-figures-for-one-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.turn-the-ledger-toward-the-tenant-presiding-the-charge-goes-on-one-side-and-the-payment-on-the-other-that-gap-is-what-the-owner-still-says-the-tenant-owes",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Turn the ledger toward the tenant, {presiding}. The charge goes on one side and the payment on the other. That gap is what the owner still says the tenant owes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-tenant-pays-part-of-the-new-rent-where-does-the-rest-show-up-presiding"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["three-rent-roll-figures-for-one-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.there-s-an-unpaid-balance-presiding-and-it-can-follow-that-household-into-next-month-even-if-they-make-next-month-s-payment-in-full",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "There's an unpaid balance, {presiding}, and it can follow that household into next month even if they make next month's payment in full.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-tenant-pays-part-of-the-new-rent-where-does-the-rest-show-up-presiding"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["three-rent-roll-figures-for-one-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.whose-card-is-it-presiding-give-it-back-to-the-renter-and-let-them-decide-whether-to-mark-a-position",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Whose card is it, {presiding}? Give it back to the renter and let them decide whether to mark a position.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.the-witness-card-has-a-space-for-a-position-on-bill-name-what-belongs-there-if-the-renter-spoke-only-about-the-allowed-increase"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-stabilized-tenant-speaks-for-a-parent-who-owns-a-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-minutes-can-say-the-witness-asked-for-a-larger-increase-for-the-clerk-recording-a-position-on-bill-name-the-accurate-entry-is-that-the-witness-gave-none",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The minutes can say the witness asked for a larger increase. For the clerk recording a position on {bill-name}, the accurate entry is that the witness gave none.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "bill-name",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.the-witness-card-has-a-space-for-a-position-on-bill-name-what-belongs-there-if-the-renter-spoke-only-about-the-allowed-increase"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-stabilized-tenant-speaks-for-a-parent-who-owns-a-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-told-us-what-your-parent-s-building-needs-could-we-meet-that-need-and-still-keep-a-ceiling-on-your-own-rent-that-s-what-i-d-want-the-witness-to-address-presiding",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "You told us what your parent's building needs. Could we meet that need and still keep a ceiling on your own rent? That's what I'd want the witness to address, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-that-renter-had-another-minute-at-the-microphone-presiding-what-would-you-ask"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-stabilized-tenant-speaks-for-a-parent-who-owns-a-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.which-expense-in-the-building-is-hardest-to-cover-right-now-i-d-use-the-extra-minute-on-that-presiding-because-the-witness-came-here-with-some-knowledge-our-committee-could-use",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Which expense in the building is hardest to cover right now? I'd use the extra minute on that, {presiding}, because the witness came here with some knowledge our committee could use.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-that-renter-had-another-minute-at-the-microphone-presiding-what-would-you-ask"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-stabilized-tenant-speaks-for-a-parent-who-owns-a-building"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.bring-the-page-both-parties-signed-presiding-point-to-the-month-the-freeze-ends-can-the-owner-show-us-what-permits-a-higher-charge-before-that-month",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Bring the page both parties signed, {presiding}. Point to the month the freeze ends. Can the owner show us what permits a higher charge before that month?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-first-higher-bill-arrives-during-the-frozen-period-what-would-you-ask-to-see-before-saying-it-s-due-under-bill-name"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-rent-freeze-ends-halfway-through-the-lease"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-envelope-might-have-arrived-early-for-a-payment-due-later-check-which-month-the-charge-actually-covers-presiding-then-read-the-clause-that-applies-to-that-month-alongside-the-repeal-provision",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The envelope might have arrived early for a payment due later. Check which month the charge actually covers, {presiding}, then read the clause that applies to that month alongside the repeal provision.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-first-higher-bill-arrives-during-the-frozen-period-what-would-you-ask-to-see-before-saying-it-s-due-under-bill-name"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-rent-freeze-ends-halfway-through-the-lease"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.cover-up-the-new-bill-for-a-moment-presiding-using-just-the-signed-lease-what-would-you-expect-this-month-s-rent-to-be-now-uncover-the-bill-and-compare",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Cover up the new bill for a moment, {presiding}. Using just the signed lease, what would you expect this month's rent to be? Now uncover the bill and compare.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "presiding",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-the-freeze-ends-the-same-month-repeal-takes-effect-how-would-you-tell-what-caused-the-higher-charge-presiding"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-rent-freeze-ends-halfway-through-the-lease"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.maybe-the-sum-is-exactly-what-the-tenant-agreed-to-months-ago-ask-the-owner-to-identify-any-part-of-it-that-depends-on-bill-name-and-show-how-they-got-that-amount",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Maybe the sum is exactly what the tenant agreed to months ago. Ask the owner to identify any part of it that depends on {bill-name} and show how they got that amount.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:housing-land-use.rent-stabilization",
+          "bill-name",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-the-freeze-ends-the-same-month-repeal-takes-effect-how-would-you-tell-what-caused-the-higher-charge-presiding"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["the-rent-freeze-ends-halfway-through-the-lease"],
+    "issues": [
+      "question:us-policy-positions:housing-land-use.rent-stabilization"
+    ]
   }
 ]
