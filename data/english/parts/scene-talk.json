@@ -25806,6 +25806,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Tell me what {bill} does for the budget.",
+      "elements": ["treasurer-has-the-balance-but-no-current-price"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25840,6 +25842,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "What does {bill} actually do?",
+      "elements": ["daily-bill-bulletin"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25891,6 +25895,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "How much of the budget does {bill} take?",
+      "elements": ["street-balance-beside-the-annual-paving-amount"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25916,6 +25922,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Does {bill} take anything from the budget?",
+      "elements": ["street-balance-beside-the-annual-paving-amount"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
@@ -25941,6 +25949,8 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Tell me what {bill} changes for people in {place}.",
+      "elements": ["jobs-at-the-other-end-of-the-route"],
+      "issues": ["none"],
       "uses": [
         {
           "subject": "scene",
