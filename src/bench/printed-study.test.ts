@@ -15,8 +15,6 @@ import { townSeats } from "../core2/modules/offices";
 import { SPEECH_MODULE_ID } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { wordPrintedStory } from "./archive-words";
-import { emptyNewsLine } from "./ui/news-board.mjs";
-import controls from "./data/controls.json";
 import { buildBenchWorld } from "./world";
 
 // A study committee's forming and its report, as the press prints them
@@ -223,26 +221,4 @@ describe("study committee stories", () => {
     }
     throw new Error(`No drawn place had a town body: ${tried.join("; ")}`);
   }, 600_000);
-
-  it("says why an empty News page is empty, by what the player follows", () => {
-    const labels = controls.news;
-    const followed = { name: "KUNB-TV", why: "follows" };
-    const notFollowed = { name: "KWDV-TV", why: "local" };
-    // Follows nothing anywhere: the same line on every tab.
-    expect(emptyNewsLine(followed, false, labels)).toBe(labels.followsNone);
-    expect(emptyNewsLine(notFollowed, false, labels)).toBe(labels.followsNone);
-    // Follows this outlet, and it has nothing yet: named.
-    expect(emptyNewsLine(followed, true, labels)).toBe(
-      "Nothing from KUNB-TV yet.",
-    );
-    // An outlet not followed, or the desk of stories no outlet printed.
-    expect(emptyNewsLine(notFollowed, true, labels)).toBe(labels.nothingYet);
-    expect(emptyNewsLine({ name: labels.title }, true, labels)).toBe(
-      labels.nothingYet,
-    );
-    expect(
-      new Set([labels.followsNone, labels.nothingYet, labels.printedNothing])
-        .size,
-    ).toBe(3);
-  });
 });

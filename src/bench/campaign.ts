@@ -733,6 +733,10 @@ export function campaignAct(
               })?.text ?? "",
           };
         }),
+        // The count shown is the campaign record's, as the volunteers' is.
+        endorsements: endorsementsOf(api, input.filingId).filter(
+          (row) => row.answer === "yes",
+        ).length,
         scene: askScene(core, personId, TRAIL_PLACES.endorsement!),
       };
     case "ad": {

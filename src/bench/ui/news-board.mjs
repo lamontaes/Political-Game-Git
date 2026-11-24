@@ -16,19 +16,6 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-/**
- * What an empty News page says, from the record of what the player follows:
- * they follow no paper or station anywhere; the outlet open is one they
- * follow and it has nothing yet; or it is one they do not follow. The three
- * read differently (Fable A, Nov 12).
- */
-export function emptyNewsLine(outlet, followsAny, labels) {
-  if (!followsAny) return labels.followsNone;
-  return outlet.why === "follows" && outlet.name
-    ? labels.printedNothing.replace("{name}", outlet.name)
-    : labels.nothingYet;
-}
-
 export function newsBoard({
   outlets,
   labels,
@@ -132,10 +119,20 @@ export function newsBoard({
           // What the story's record opens (another state's change: its roll call).
           ...(actionOf?.(lead) ? [actionOf(lead)] : []),
         )
-      : el("p", {
-          className: "intro",
-          textContent: emptyNewsLine(outlet, followsAny, labels),
-        });
+      : el(
+          "div",
+          {},
+          // A paper that has printed nothing shows nothing under its masthead; only a player who
+          // follows no paper is told what to do (the CTO, Nov 24: no filler line).
+          ...(followsAny
+            ? []
+            : [
+                el("p", {
+                  className: "intro",
+                  textContent: labels.followsNone,
+                }),
+              ]),
+        );
     if (lead) page.dataset.key = lead.id;
     // One paper needs no tab over its own masthead.
     holder.replaceChildren(
