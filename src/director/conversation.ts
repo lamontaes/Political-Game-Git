@@ -3706,7 +3706,7 @@ function pointArea(point: AddressPoint): "work" | "money" | null {
 }
 
 /** The knowledge key a person keeps of what the player said to them on one of the address's questions. */
-const pointKey = (playerId: PersonId, question: string) =>
+export const pointKey = (playerId: PersonId, question: string) =>
   `talk:${playerId}:address-point:${question}`;
 
 /** An employer as a person says it, through the said-as reader: never the market outside the town, a treasury as its government. */

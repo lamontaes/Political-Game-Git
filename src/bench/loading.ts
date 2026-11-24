@@ -18,7 +18,6 @@ const SECTION_YEAR: Readonly<Record<string, string>> = {
   born: "born-year",
   school: "school-year",
   moved: "moved-year",
-  arrested: "arrest-year",
   finished: "finished-year",
   college: "college-year",
   lost: "lost-year",
@@ -69,7 +68,6 @@ function toldLife(
           put("moved-for-work", "yes", event.id);
       }
     }
-    if (at === "law/arrested") put("arrest-year", yearOf(event.date), event.id);
     if (at === "school/finished")
       put("finished-year", yearOf(event.date), event.id);
     if (at === "school/college-started") {

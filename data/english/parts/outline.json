@@ -29,7 +29,6 @@
     "moved-year": "the year the player's household moved",
     "moved-from": "the town they moved from",
     "moved-to": "the town they moved to",
-    "arrest-year": "the year of an arrest on the player's record",
     "finished-year": "the year the player finished high school",
     "college-year": "the year the player started college",
     "lost-office": "the office the player ran for and lost, as people say it",
@@ -85,27 +84,6 @@
         "personality-v1:facet-guarded",
         "personality-v1:facet-meticulous",
         "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.greeting.inaugural-good-afternoon-everybody",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Good afternoon, everybody.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "greeting",
-          "tie": "frame"
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -414,24 +392,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.run.inaugural-for-paychecks-have-been-growing-faster-than-prices",
-      "move": "run",
-      "kind": "spoken",
-      "text": "For {run-span}, paychecks have been growing faster than prices.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.run.inaugural-there-s-more-work-out-there-than-there-was-ago",
       "move": "run",
       "kind": "spoken",
@@ -513,25 +473,6 @@
       ],
       "after": ["run"],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.run-meaning.inaugural-i-didn-t-earn-those-you-did-and-i-don-t-plan-to-give-them-ba",
-      "move": "run-meaning",
-      "kind": "spoken",
-      "text": "I didn't earn those {run-span}. You did, and I don't plan to give them back.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "run-meaning",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-inherited", "run-span"]
-        }
-      ],
-      "after": ["run"],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-charming"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -1468,27 +1409,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.call.inaugural-call-your-member-of-congress-about-and-tell-them-where-you-s",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Call your member of Congress about {about}, and tell them where you stand, whichever side you're on.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "law",
-          "requiresFacts": ["about"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-persistent"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -3123,40 +3043,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.arrested.loading-story-there-was-also-the-arrest-in-the-paperwork-outlived-the-exci",
-      "move": "arrested",
-      "kind": "written",
-      "text": "There was also the arrest in {arrest-year}. The paperwork outlived the excitement.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "arrested",
-          "tie": "record",
-          "requiresFacts": ["arrest-year"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.arrested.loading-story-included-an-arrest-which-the-police-wrote-down-in-more-detai",
-      "move": "arrested",
-      "kind": "written",
-      "text": "{arrest-year} included an arrest, which the police wrote down in more detail than you'd like.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "arrested",
-          "tie": "record",
-          "requiresFacts": ["arrest-year"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.finished.loading-story-you-finished-school-in-the-diploma-came-with-no-instructions",
       "move": "finished",
       "kind": "written",
@@ -3785,6 +3671,64 @@
       "author": "the Story lead",
       "date": "2026-11-24",
       "after": ["lede", "next"]
+    },
+    {
+      "key": "outline.run.inaugural-paychecks-have-finally-been-outrunning-prices-these-last",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Paychecks have finally been outrunning prices these last {run-span}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"]
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.run-meaning.inaugural-those-raises-are-yours-not-mine-and-i-don-t-plan-to-lose-them-in",
+      "move": "run-meaning",
+      "kind": "spoken",
+      "text": "Those raises are yours, not mine, and I don't plan to lose them in {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run-meaning",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-inherited", "term-left"]
+        }
+      ],
+      "after": ["run"],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-charming"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.call.inaugural-write-to-congress-about-they-read-the-mail-more-than-they-let-on",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Write to Congress about {about}. They read the mail more than they let on.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "law",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }

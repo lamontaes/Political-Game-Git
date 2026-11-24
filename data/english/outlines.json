@@ -101,10 +101,6 @@
           "shapes": ["loading-moved"]
         },
         {
-          "name": "arrested",
-          "shapes": ["loading-arrested"]
-        },
-        {
           "name": "finished",
           "shapes": ["loading-finished"]
         },
@@ -361,9 +357,6 @@
     "loading-moved": {
       "moves": ["moved"]
     },
-    "loading-arrested": {
-      "moves": ["arrested"]
-    },
     "loading-finished": {
       "moves": ["finished"]
     },
@@ -402,10 +395,10 @@
   },
   "weights": {
     "pieceBase": {
-      "value": 2,
+      "value": 4,
       "tag": "TUNABLE",
       "spread": "1 to 4",
-      "note": "The weight every fitting piece starts from in the stable pick."
+      "note": "The weight every fitting piece starts from in the stable pick; raised from 2 to 4 after the pre-grade of Nov 24 found the same oath and close chosen for different Presidents (traits pulled too hard)."
     },
     "pieceLean": {
       "value": 1,

@@ -12,14 +12,14 @@
 import type { EntityId } from "../core2/kernel/brands";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import type { CoreState, IsoDate, PersonId } from "../core2/types";
+import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import type { GroundedEnglishFact } from "../english/grounded-english";
 import { JOURNAL_EVENING, tell } from "../english/outline-planner";
 import speechOutlines from "./data/speech-outlines.json" with { type: "json" };
-import { addressPointFor } from "./conversation";
+import { addressPointFor, pointKey } from "./conversation";
 import type { JournalChapter } from "./journal";
 import type { Director } from "./ledger";
-import { addressPoints } from "./opening-facts";
+import { addressPoints, type AddressPoint } from "./opening-facts";
 import { spoken } from "./words";
 
 /** The most housemates a diary entry names one by one before it says "the whole house". */
@@ -36,6 +36,29 @@ const THEME = speechOutlines as unknown as {
 function namesSaid(names: readonly string[]): string {
   if (names.length <= P.one) return names.join("");
   return `${names.slice(P.zero, -P.one).join(", ")} and ${names.at(-P.one)}`;
+}
+
+/** The player's stand on the point by what they told a housemate about it, where they did. */
+function saidAtTable(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  others: readonly (PersonState | undefined)[],
+  point: AddressPoint,
+): "with" | "against" | "unsure" | undefined {
+  for (const other of others) {
+    if (!other) continue;
+    const row = core.knowledgeByPerson
+      .get(other.id)
+      ?.get(pointKey(personId, point.question)) as
+      { value?: unknown } | undefined;
+    const move = row?.value;
+    if (move !== "agree" && move !== "disagree") continue;
+    const theirs = addressPointFor(core, other.id as PersonId, [point])?.stand;
+    if (!theirs || theirs === "unsure") continue;
+    if (move === "agree") return theirs;
+    return theirs === "with" ? "against" : "with";
+  }
+  return undefined;
 }
 
 /**
@@ -87,8 +110,13 @@ export function eveningChapter(
     facts.about = fact(point.about, [story.id, ...point.sourceRecordIds]);
     if (point.stance)
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
-    const mine = addressPointFor(core, personId, [point]);
-    if (mine) facts[`stand-${mine.stand}`] = fact("yes", [personId]);
+    // Where the player answered a housemate on it at the table, the entry
+    // keeps what they said there (the talk's record of the reply); else
+    // their own recorded view (pre-grade, Nov 24: the diary said the
+    // opposite of the reply the player chose).
+    const told = saidAtTable(core, personId, others, point);
+    const mine = told ?? addressPointFor(core, personId, [point])?.stand;
+    if (mine) facts[`stand-${mine}`] = fact("yes", [personId]);
   }
   const home = corePlaceByJurisdictionId(me.placeId as never);
   if (home) facts.place = fact(spoken(home), [me.householdId]);
