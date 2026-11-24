@@ -6,23 +6,14 @@
   "sources": [
     "https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/paving-plan/memo-5yp-council-discretion.pdf#page=1"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{member}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}"],
   "gates": [
     "The city manages the affected street and has the project facts described here."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "budget:highways"
-  ],
+  "issues": ["budget:highways"],
   "inGame": "The city highways budget records the appropriation change. needs: member's selection, published endpoints and costed request for an extension.",
   "turns": [
     {

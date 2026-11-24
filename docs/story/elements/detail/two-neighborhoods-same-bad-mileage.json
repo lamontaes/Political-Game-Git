@@ -6,23 +6,14 @@
   "sources": [
     "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=8"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{director}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{director}"],
   "gates": [
     "The city manages the affected street and has the project facts described here."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "budget:highways"
-  ],
+  "issues": ["budget:highways"],
   "inGame": "The city highways budget records the appropriation change. needs: two areas with matching poor-mileage shares, population weights and adopted distribution formula.",
   "turns": [
     {

@@ -6,23 +6,14 @@
   "sources": [
     "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{intersection}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{intersection}"],
   "gates": [
     "The city manages the affected street and has the project facts described here."
   ],
   "weights": [],
   "usedBy": [],
-  "issues": [
-    "budget:highways"
-  ],
+  "issues": ["budget:highways"],
   "inGame": "The city highways budget records the appropriation change. needs: adjacent segments with poor scores, a shared endpoint and an estimate for extending the run.",
   "turns": [
     {
