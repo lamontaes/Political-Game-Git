@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a33-the-old-debt-comes-to-the-door",
+  "kind": "situation",
+  "summary": "The old debt comes to the door: {creditor} is owed money from a business of yours that failed, and you are now a candidate.",
+  "realLife": "One life: His clothing store failed in the 1921 recession, and he did not pay off the last of its debts until 1935. Another: His New Salem store went into debt, and when his partner died he was left with what they owed.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Harry_S._Truman",
+    "https://www.nps.gov/liho/learn/historyculture/newsalem.htm"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["creditor"],
+  "gates": [
+    "A business of yours failed with debts unpaid.",
+    "You are a candidate or hold office."
+  ],
+  "weights": ["How large the debt is.", "How public your profile is."],
+  "pattern": "A33",
+  "choices": [
+    "agree to pay on a schedule",
+    "ask a friend with money for help",
+    "tell them to take it to court",
+    "ask them to wait until after the election"
+  ],
+  "branches": [
+    {
+      "when": "a banker friend offers to cover it",
+      "then": "Taking it clears the debt and makes a debt of another kind."
+    },
+    {
+      "when": "{household member} did not know",
+      "then": "They learn of it at the door, and the talk after is about trust."
+    }
+  ],
+  "usedBy": []
+}

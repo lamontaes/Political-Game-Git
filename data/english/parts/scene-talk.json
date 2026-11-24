@@ -42254,770 +42254,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-sat-with-the-count-in-front-of-them-and-did-not-turn-the-television-back-on",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} sat with the count in front of them and did not turn the television back on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-had-been-the-first-to-call-after-the-count-came-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} had been the first to call after the count came in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-know-you-don-t-want-to-talk-about-the-count-in-place-can-i-sit-with-you-anyway",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I know you don't want to talk about the count in {place}. Can I sit with you anyway?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-ve-been-thinking-about-you-all-day-and-about-what-the-race-took-out-of-place",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I've been thinking about you all day, and about what the race took out of {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.i-m-sorry-about-the-count-you-gave-it-everything-you-had-in-place",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry about the count. You gave it everything you had in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.whatever-the-count-says-i-m-proud-of-what-you-tried-in-place",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "Whatever the count says, I'm proud of what you tried in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.it-hurts-to-lose-i-m-here-and-so-is-the-whole-house-in-place",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "It hurts to lose. I'm here, and so is the whole house in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-name-i-needed-to-hear-that-more-than-i-d-say",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you, {name}. I needed to hear that more than I'd say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-blame.it-wasn-t-supposed-to-go-like-this-name-somebody-let-me-down",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "It wasn't supposed to go like this, {name}. Somebody let me down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "blame",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-blame.i-gave-up-a-lot-for-this-name-and-look-where-it-got-me",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "I gave up a lot for this, {name}, and look where it got me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "blame",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-can-t-talk-about-it-yet-name-ask-me-again-when-place-has-moved-on",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I can't talk about it yet, {name}. Ask me again when {place} has moved on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deflect",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.let-s-not-go-over-the-count-again-name",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Let's not go over the count again, {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deflect",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-make-it-up-to-you-name-for-everything-the-race-took",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make it up to you, {name}, for everything the race took.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.give-me-a-little-time-name-and-i-ll-be-back-to-myself",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Give me a little time, {name}, and I'll be back to myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.you-don-t-have-to-thank-me-first-i-just-wanted-you-to-know",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "You don't have to thank me, {first}. I just wanted you to know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "thank",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.you-can-be-angry-i-d-be-angry-too-here-in-place",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "You can be angry. I'd be angry too, here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "blame",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.i-don-t-think-anyone-let-you-down-i-think-it-was-close-and-it-hurt-here-in-place",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "I don't think anyone let you down. I think it was close, and it hurt, here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "blame",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "disagree",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-don-t-shut-me-out-first-we-re-still-a-team",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please don't shut me out, {first}. We're still a team.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "deflect",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "plea",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.what-do-you-need-from-the-house-in-place-right-now",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "What do you need from the house in {place} right now?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "promise",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-that-s-all-i-wanted-first",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. That's all I wanted, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "promise",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-i-ll-tell-you-when-i-know-name",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll tell you when I know, {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "comfort",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.mostly-i-m-tired-name-and-a-little-relieved",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Mostly I'm tired, {name}. And a little relieved.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "comfort",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-lean-on-you-name-i-promise",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll lean on you, {name}. I promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "comfort",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.you-re-right-name-i-m-angry-and-i-don-t-know-who-at",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "You're right, {name}. I'm angry, and I don't know who at.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "disagree",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-for-saying-that-name-about-place",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you for saying that, {name}, about {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "disagree",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.fine-here-s-what-i-need-name-a-quiet-week",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Fine. Here's what I need, {name}: a quiet week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "plea",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-need-time-name-and-i-need-you-to-give-it-to-me",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I need time, {name}, and I need you to give it to me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "ask",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-for-letting-me-in-first-we-ll-get-through-place-together",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you for letting me in, {first}. We'll get through {place} together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "outcome": "resolved",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.i-ll-leave-you-be-i-m-around-if-the-house-in-place-gets-too-quiet",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "I'll leave you be. I'm around if the house in {place} gets too quiet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "outcome": "refused",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.call-me-when-you-re-ready-to-talk-about-place-again",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Call me when you're ready to talk about {place} again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-stood-at-the-edge-of-things-for-a-moment-not-sure-of-the-welcome",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -43038,7 +42274,8 @@
       "tag": {
         "move": "narrate",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.open-greet.i-wasn-t-sure-you-d-see-me-i-m-glad-you-did-here-in-place",
@@ -43062,7 +42299,8 @@
       "tag": {
         "move": "greet",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.open-greet.it-s-been-a-long-time-i-came-back-to-place-partly-for-this",
@@ -43086,7 +42324,8 @@
       "tag": {
         "move": "greet",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.state-request.i-want-to-make-things-right-between-us-can-we-start-over-in-place",
@@ -43110,7 +42349,8 @@
       "tag": {
         "move": "request",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.state-request.i-was-wrong-about-what-happened-will-you-let-me-say-so-here-in-place",
@@ -43134,7 +42374,8 @@
       "tag": {
         "move": "request",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.state-request.can-we-put-it-behind-us-the-way-we-would-have-if-i-d-stayed-in-place",
@@ -43158,7 +42399,8 @@
       "tag": {
         "move": "request",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-agree.yes-i-ve-missed-you-name-more-than-i-let-on",
@@ -43182,7 +42424,8 @@
       "tag": {
         "move": "agree",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-agree.all-right-name-let-s-start-over",
@@ -43206,7 +42449,8 @@
       "tag": {
         "move": "agree",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-bargain.i-ll-try-name-but-i-need-you-to-be-honest-about-what-happened",
@@ -43230,7 +42474,8 @@
       "tag": {
         "move": "bargain",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-bargain.we-can-start-over-if-we-can-both-stop-litigating-it-in-place",
@@ -43254,7 +42499,8 @@
       "tag": {
         "move": "bargain",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-refuse.i-can-t-name-not-yet-and-not-like-this",
@@ -43278,7 +42524,8 @@
       "tag": {
         "move": "refuse",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-refuse.it-hurt-too-much-name-i-m-not-ready-to-pretend-it-didn-t",
@@ -43302,7 +42549,8 @@
       "tag": {
         "move": "refuse",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-ask.why-now-name-what-changed-for-you",
@@ -43326,7 +42574,8 @@
       "tag": {
         "move": "ask",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-ask.what-do-you-want-from-me-name-if-i-say-yes",
@@ -43350,7 +42599,8 @@
       "tag": {
         "move": "ask",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-didn-t-think-you-d-say-yes",
@@ -43375,7 +42625,8 @@
       "tag": {
         "move": "thank",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-fair-i-ll-be-honest-and-so-will-you-in-place",
@@ -43400,7 +42651,8 @@
       "tag": {
         "move": "accept",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-bargain.i-ll-tell-you-everything-but-i-need-you-to-listen-first-here-in-place",
@@ -43425,7 +42677,8 @@
       "tag": {
         "move": "bargain",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-plea.please-first-i-came-back-to-place-for-this",
@@ -43450,7 +42703,8 @@
       "tag": {
         "move": "plea",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-i-ll-give-you-the-time-you-need-in-place",
@@ -43475,7 +42729,8 @@
       "tag": {
         "move": "accept",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-answer.i-got-tired-of-being-angry-and-i-miss-what-we-had-in-place",
@@ -43500,7 +42755,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.follow-answer.nothing-big-i-just-want-us-to-be-able-to-sit-in-a-room-in-place-again",
@@ -43525,7 +42781,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-agree.then-yes-name-let-s-try",
@@ -43550,7 +42807,8 @@
       "tag": {
         "move": "agree",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-bargain.i-ll-try-but-we-go-slowly-name",
@@ -43575,7 +42833,8 @@
       "tag": {
         "move": "bargain",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-refuse.that-s-not-enough-name-i-m-sorry",
@@ -43600,7 +42859,8 @@
       "tag": {
         "move": "refuse",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-leave.let-me-think-name-i-ll-find-you",
@@ -43625,7 +42885,8 @@
       "tag": {
         "move": "leave",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-agree.all-right-if-it-matters-this-much-name-yes",
@@ -43650,7 +42911,8 @@
       "tag": {
         "move": "agree",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-bargain.maybe-name-if-we-go-step-by-step",
@@ -43675,7 +42937,8 @@
       "tag": {
         "move": "bargain",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-refuse.i-still-can-t-name-please-don-t-ask-again",
@@ -43700,7 +42963,8 @@
       "tag": {
         "move": "refuse",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-agree.okay-slowly-name-but-yes",
@@ -43725,7 +42989,8 @@
       "tag": {
         "move": "agree",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.reply-refuse.no-not-on-those-terms-name",
@@ -43750,7 +43015,8 @@
       "tag": {
         "move": "refuse",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-this-means-more-than-i-can-say-first",
@@ -43775,7 +43041,8 @@
       "tag": {
         "move": "thank",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-in-place",
@@ -43800,7 +43067,8 @@
       "tag": {
         "move": "accept",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.close-press.think-about-it-i-ll-be-around-place-when-you-decide",
@@ -43825,7 +43093,8 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-come-over-with-the-look-of-someone-who-had-practiced-the-first-sentence",
@@ -43848,7 +43117,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-did-not-sit-down-even-when-offered-a-chair",
@@ -43871,7 +43141,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.open-greet.i-owe-you-an-explanation-and-i-didn-t-want-to-give-it-over-the-phone-in-place",
@@ -43895,7 +43166,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.open-greet.thank-you-for-letting-me-in-i-know-what-i-did-around-place",
@@ -43919,7 +43191,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.state-confess.i-broke-my-word-to-you-i-m-not-going-to-pretend-i-didn-t-here-in-place",
@@ -43943,7 +43216,8 @@
       "tag": {
         "move": "confess",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.state-confess.i-told-you-i-d-be-there-and-i-wasn-t-i-want-to-tell-you-why-in-place",
@@ -43967,7 +43241,8 @@
       "tag": {
         "move": "confess",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.state-confess.you-trusted-me-and-i-let-you-down-place-is-a-small-place-and-i-knew-it",
@@ -43991,7 +43266,8 @@
       "tag": {
         "move": "confess",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-ask.why-name-just-tell-me-why",
@@ -44015,7 +43291,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-ask.what-was-so-important-that-you-broke-your-word-name",
@@ -44039,7 +43316,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-confront.you-knew-what-it-meant-to-me-name-and-you-did-it-anyway",
@@ -44063,7 +43341,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-confront.don-t-dress-it-up-name-you-broke-your-word",
@@ -44087,7 +43366,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-comfort.i-m-angry-name-but-i-can-see-this-is-hard-for-you",
@@ -44111,7 +43391,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-comfort.sit-down-name-whatever-it-was-we-can-talk-about-it",
@@ -44135,7 +43416,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-leave.i-can-t-do-this-right-now-name-please-go",
@@ -44159,7 +43441,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-leave.i-need-some-space-from-you-name-and-from-place",
@@ -44183,7 +43466,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.follow-answer.i-was-scared-and-i-took-the-easy-road-that-s-all-of-it-here-in-place",
@@ -44208,7 +43492,8 @@
       "tag": {
         "move": "answer",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.follow-answer.i-thought-i-could-fix-it-before-you-found-out-i-was-wrong-in-place-of-all-places",
@@ -44233,7 +43518,8 @@
       "tag": {
         "move": "answer",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.follow-apologize.you-re-right-first-i-knew-and-i-did-it-anyway-i-m-sorry",
@@ -44258,7 +43544,8 @@
       "tag": {
         "move": "apologize",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.follow-deflect.it-wasn-t-only-my-doing-think-about-how-things-stood-in-place",
@@ -44283,7 +43570,8 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-first-it-means-more-than-i-ll-say",
@@ -44308,7 +43596,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-comfort.thank-you-for-telling-me-name-that-took-nerve",
@@ -44333,7 +43622,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-confront.that-s-not-enough-name-you-were-scared-so-was-i",
@@ -44358,7 +43648,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-bargain.i-ll-hear-the-rest-name-if-you-tell-me-everything-about-place",
@@ -44383,7 +43674,8 @@
       "tag": {
         "move": "bargain",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-leave.i-need-to-think-name-i-ll-find-you-when-i-m-ready",
@@ -44408,7 +43700,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-comfort.i-can-hear-that-you-mean-it-name",
@@ -44433,7 +43726,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-bargain.then-show-me-name-fix-it-and-we-ll-see",
@@ -44458,7 +43752,8 @@
       "tag": {
         "move": "bargain",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-leave.i-m-not-ready-to-forgive-you-name-give-me-time",
@@ -44483,7 +43778,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-confront.don-t-put-this-on-place-name-it-was-yours",
@@ -44508,7 +43804,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.reply-leave.i-m-done-talking-about-it-name",
@@ -44533,7 +43830,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-first-i-won-t-forget-that-you-listened",
@@ -44558,7 +43856,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.close-accept.i-understand-i-ll-go-and-i-ll-be-around-place-if-you-want-me",
@@ -44583,7 +43882,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.close-press.think-about-it-i-m-not-going-anywhere-from-place",
@@ -44608,81 +43908,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-did-not-want-to-be-the-one-to-bring-it-up-but-did",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} did not want to be the one to bring it up, but did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-got-something-in-the-mail-from-opponent-and-i-thought-you-should-know",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I got something in the mail from {opponent}, and I thought you should know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.before-you-hear-it-elsewhere-opponent-s-people-have-been-writing-about-you",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Before you hear it elsewhere: {opponent}'s people have been writing about you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-came-in-with-a-bag-over-one-shoulder-and-stopped-in-the-hall",
@@ -44705,7 +43932,8 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-looked-around-the-house-as-if-every-room-needed-an-introduction",
@@ -44728,7 +43956,8 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-house-had-one-more-person-in-it-now-and-name-was-still-deciding-where-to-stand",
@@ -44751,7 +43980,8 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.open-greet.hi-i-m-name-and-i-m-told-i-live-here-now",
@@ -44775,7 +44005,8 @@
       "tag": {
         "move": "greet",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.open-greet.hello-i-m-name-and-i-don-t-want-to-be-in-anyone-s-way",
@@ -44799,7 +44030,8 @@
       "tag": {
         "move": "greet",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.open-greet.i-m-name-i-hope-the-house-has-room-for-one-more",
@@ -44823,7 +44055,8 @@
       "tag": {
         "move": "greet",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.state-ask.where-should-i-put-my-things-and-who-do-i-ask-about-the-kitchen-here-in-place",
@@ -44847,7 +44080,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.state-ask.is-there-a-rule-i-should-know-about-or-do-i-figure-it-out-as-i-go-here-in-place",
@@ -44871,7 +44105,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.state-ask.could-you-show-me-around-the-house-in-place-so-i-know-which-doors-are-whose",
@@ -44895,7 +44130,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.state-ask.i-d-like-to-pay-my-way-what-does-the-house-in-place-expect-from-me",
@@ -44919,7 +44155,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-offer.take-the-room-down-the-hall-name-and-i-ll-show-you-the-kitchen",
@@ -44944,7 +44181,8 @@
       "tag": {
         "move": "offer",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-offer.stay-as-long-as-you-need-the-house-in-place-has-done-this-before",
@@ -44968,7 +44206,8 @@
       "tag": {
         "move": "offer",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-clear-a-shelf-for-your-things-name-and-show-you-where-everything-lives",
@@ -44993,7 +44232,8 @@
       "tag": {
         "move": "offer",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-bargain.you-can-stay-if-you-chip-in-on-the-groceries-name",
@@ -45018,7 +44258,8 @@
       "tag": {
         "move": "bargain",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-bargain.we-ll-work-out-the-chores-together-name-and-then-the-room-is-yours",
@@ -45043,7 +44284,8 @@
       "tag": {
         "move": "bargain",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-ask.how-long-are-you-planning-to-stay-name",
@@ -45068,7 +44310,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-ask.what-brought-you-to-place-if-you-don-t-mind-my-asking",
@@ -45092,7 +44335,8 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-decline.i-m-sorry-name-but-the-house-is-too-full-for-one-more",
@@ -45117,7 +44361,8 @@
       "tag": {
         "move": "decline",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-decline.i-can-t-make-room-for-you-in-place-right-now",
@@ -45141,7 +44386,8 @@
       "tag": {
         "move": "decline",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-ll-try-not-to-make-it-hard-on-anyone",
@@ -45166,7 +44412,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-promise.i-ll-earn-my-place-here-in-place-you-ll-see",
@@ -45191,7 +44438,8 @@
       "tag": {
         "move": "promise",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-accept.groceries-i-can-do-i-won-t-be-a-burden-to-the-house-in-place",
@@ -45216,7 +44464,8 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-bargain.chores-are-fine-but-let-me-choose-and-we-ll-split-them-fairly-in-place",
@@ -45241,7 +44490,8 @@
       "tag": {
         "move": "bargain",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-answer.a-while-i-think-nowhere-else-in-place-is-open-to-me",
@@ -45266,7 +44516,8 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-answer.it-s-a-long-story-but-it-ended-with-place-being-the-only-door-open",
@@ -45291,7 +44542,8 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-plea.please-i-have-nowhere-else-to-go-in-place",
@@ -45316,7 +44568,8 @@
       "tag": {
         "move": "plea",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-warn.it-won-t-be-easy-for-the-house-in-place-if-i-m-on-the-street",
@@ -45341,7 +44594,8 @@
       "tag": {
         "move": "warn",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-thank.good-then-we-re-agreed-name",
@@ -45367,7 +44621,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-leave.we-ll-see-how-it-goes-name",
@@ -45393,7 +44648,8 @@
       "tag": {
         "move": "leave",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-thank.that-makes-it-easier-to-say-yes-to-name",
@@ -45419,7 +44675,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-agree.then-stay-name-we-ll-make-it-work",
@@ -45445,7 +44702,8 @@
       "tag": {
         "move": "agree",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-relent.all-right-for-name-i-ll-find-a-way",
@@ -45471,7 +44729,8 @@
       "tag": {
         "move": "relent",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.reply-decline.i-m-sorry-name-my-answer-hasn-t-changed",
@@ -45497,7 +44756,8 @@
       "tag": {
         "move": "decline",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-first-i-ll-be-easy-to-live-with",
@@ -45522,7 +44782,8 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-be-a-good-housemate-in-place-you-have-my-word",
@@ -45547,7 +44808,8 @@
       "tag": {
         "move": "promise",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.close-accept.i-understand-i-ll-look-for-somewhere-else-in-place",
@@ -45572,7 +44834,8 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.close-warn.you-ll-regret-this-and-so-will-the-house-in-place",
@@ -45597,7 +44860,8 @@
       "tag": {
         "move": "warn",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.close-press.think-it-over-and-tell-me-before-the-end-of-the-week-here-in-place",
@@ -45622,7 +44886,8 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-was-up-before-you-were-and-the-kitchen-was-too-quiet",
@@ -45645,7 +44910,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-house-had-gone-to-sleep-without-you-except-for-name",
@@ -45668,7 +44934,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.open-greet.you-were-gone-a-long-time-and-i-noticed-here-in-place",
@@ -45692,7 +44959,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.open-greet.we-need-to-talk-about-how-late-the-meeting-ran-i-m-not-angry-only-worried-about-place-s-hours-on-you",
@@ -45717,7 +44985,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.open-greet.i-stayed-up-for-you-it-s-a-long-way-from-place-to-the-meeting-and-back",
@@ -45741,7 +45010,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.state-confront.where-were-you-the-meeting-in-place-was-over-hours-before-you-walked-in",
@@ -45765,7 +45035,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.state-confront.this-is-the-third-time-what-s-more-important-than-home-in-place",
@@ -45789,7 +45060,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.state-confront.is-the-meeting-really-worth-this-with-everything-we-have-at-home-in-place",
@@ -45813,7 +45085,8 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-apologize.i-m-sorry-name-the-meeting-ran-long-and-i-should-have-called",
@@ -45838,7 +45111,8 @@
       "tag": {
         "move": "apologize",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-apologize.you-re-right-to-be-upset-name-i-let-the-time-get-away-from-me",
@@ -45863,7 +45137,8 @@
       "tag": {
         "move": "apologize",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-be-home-earlier-name-that-s-a-promise",
@@ -45888,7 +45163,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-promise.next-time-i-ll-call-before-the-meeting-ends-name-so-you-re-not-waiting-up",
@@ -45913,7 +45189,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-deflect.it-s-the-job-name-i-can-t-walk-out-of-a-meeting",
@@ -45938,7 +45215,8 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-deflect.can-we-talk-about-this-when-i-m-not-so-tired-name",
@@ -45963,7 +45241,8 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-blame.i-wouldn-t-be-so-late-if-everyone-in-place-would-just-say-what-they-came-to-say",
@@ -45987,7 +45266,8 @@
       "tag": {
         "move": "blame",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-blame.you-knew-this-came-with-the-work-name",
@@ -46012,7 +45292,8 @@
       "tag": {
         "move": "blame",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-lie.the-meeting-ran-late-that-s-all-it-was-nothing-name",
@@ -46037,7 +45318,8 @@
       "tag": {
         "move": "lie",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-accept.thank-you-first-that-s-all-i-wanted-to-hear",
@@ -46062,7 +45344,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-press.then-why-does-it-keep-happening-here-in-place",
@@ -46087,7 +45370,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-accept.all-right-i-ll-hold-you-to-that-and-so-will-the-whole-house-in-place",
@@ -46112,7 +45396,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-press.you-ve-said-that-before-how-is-this-time-different-in-place",
@@ -46137,7 +45422,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-press.that-s-not-an-answer-and-you-know-it-here-in-place",
@@ -46162,7 +45448,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-plea.please-just-tell-me-what-s-going-on-out-there-in-place",
@@ -46187,7 +45474,8 @@
       "tag": {
         "move": "plea",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-disagree.that-s-not-fair-and-you-know-it-i-m-not-asking-for-much-in-place",
@@ -46212,7 +45500,8 @@
       "tag": {
         "move": "disagree",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.follow-plea.don-t-turn-this-around-on-me-not-here-in-place",
@@ -46237,7 +45526,8 @@
       "tag": {
         "move": "plea",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-promise.then-here-s-what-i-ll-do-name-be-home-by-a-set-hour-no-matter-what",
@@ -46263,7 +45553,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-apologize.you-re-right-name-i-ve-been-putting-the-meeting-ahead-of-home",
@@ -46289,7 +45580,8 @@
       "tag": {
         "move": "apologize",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-comfort.i-know-it-s-hard-waiting-for-me-name-it-s-hard-for-me-too",
@@ -46315,7 +45607,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-leave.i-need-to-sleep-on-this-name-can-we-pick-it-up-later",
@@ -46341,7 +45634,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-thank.thank-you-for-waiting-up-name-it-means-more-than-i-said",
@@ -46367,7 +45661,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.reply-leave.i-ll-try-name-let-s-see-how-the-next-meeting-goes",
@@ -46393,7 +45688,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.close-thank.thank-you-first-i-feel-better-knowing-you-heard-me",
@@ -46418,7 +45714,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.close-accept.all-right-we-ll-leave-it-there-for-now-in-place",
@@ -46443,7 +45740,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.close-press.we-ll-talk-again-soon-because-i-m-not-letting-this-go-in-place",
@@ -46468,7 +45766,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-seen-the-crowd-on-the-news-and-then-looked-at-you-across-the-room",
@@ -46491,7 +45790,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-waited-until-the-house-was-quiet-before-saying-anything-about-the-protest",
@@ -46514,7 +45814,8 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.open-greet.i-saw-the-crowd-outside-in-place-and-it-s-been-on-my-mind",
@@ -46538,7 +45839,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.open-greet.can-we-talk-about-what-happened-in-place-i-can-t-stop-thinking-about-it",
@@ -46562,7 +45864,8 @@
       "tag": {
         "move": "greet",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.state-ask.is-this-job-worth-it-with-people-shouting-at-you-in-the-streets-of-place",
@@ -46586,7 +45889,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.state-ask.i-m-proud-of-you-but-is-it-worth-what-it-s-doing-to-place-and-to-us",
@@ -46610,7 +45914,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.state-ask.i-saw-it-in-your-face-tell-me-honestly-is-place-getting-to-you",
@@ -46634,7 +45939,8 @@
       "tag": {
         "move": "ask",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-tell.it-looks-worse-than-it-is-most-of-place-wants-this-to-work",
@@ -46658,7 +45964,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-tell.it-s-worth-it-to-me-name-and-i-ll-tell-you-why",
@@ -46683,7 +45990,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-comfort.i-know-it-looked-scary-name-i-m-okay",
@@ -46708,7 +46016,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-comfort.don-t-worry-about-the-crowd-they-ll-quiet-down-name",
@@ -46733,7 +46042,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-be-home-more-name-i-ll-make-the-time",
@@ -46758,7 +46068,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-promise.if-it-gets-to-be-too-much-i-ll-tell-you-first-name",
@@ -46783,7 +46094,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-deflect.can-we-not-do-this-now-name-i-m-worn-out",
@@ -46808,7 +46120,8 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-deflect.let-s-wait-until-the-crowd-in-place-goes-home-then-talk",
@@ -46832,7 +46145,8 @@
       "tag": {
         "move": "deflect",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-accept.okay-i-just-needed-to-hear-it-from-you-about-place",
@@ -46857,7 +46171,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-press.then-explain-it-to-me-because-i-don-t-understand-place-s-side-of-it",
@@ -46882,7 +46197,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-accept.all-right-i-ll-trust-you-on-this-for-place-s-sake",
@@ -46907,7 +46223,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-press.you-say-that-but-i-saw-how-tense-you-were-in-place",
@@ -46932,7 +46249,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-that-s-all-i-wanted",
@@ -46957,7 +46275,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-press.do-you-mean-that-i-ve-heard-it-before-in-place",
@@ -46982,7 +46301,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.follow-press.later-is-fine-but-i-m-not-dropping-it-not-with-place-watching",
@@ -47007,7 +46327,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-tell.here-s-the-truth-name-some-days-it-is-getting-to-me",
@@ -47033,7 +46354,8 @@
       "tag": {
         "move": "tell",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-be-home-by-dinner-on-the-days-i-can-name",
@@ -47059,7 +46381,8 @@
       "tag": {
         "move": "promise",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-comfort.you-re-right-to-ask-name-i-d-ask-too",
@@ -47085,7 +46408,8 @@
       "tag": {
         "move": "comfort",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.reply-leave.give-me-a-day-to-think-about-it-name",
@@ -47111,7 +46435,8 @@
       "tag": {
         "move": "leave",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.close-thank.i-feel-better-thank-you-for-telling-me-first",
@@ -47136,7 +46461,8 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.close-accept.all-right-we-ll-leave-it-for-now-with-place-calmer",
@@ -47161,7 +46487,8 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.close-press.we-ll-talk-again-when-you-ve-had-time-once-place-settles",
@@ -47186,7 +46513,8 @@
       "tag": {
         "move": "press",
         "key": "threat"
-      }
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-repair-bill-for-home-was-on-the-table-and-the-disaster-was-still-on-everybody-s-mind",
@@ -47210,7 +46538,8 @@
       "tag": {
         "move": "narrate",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-gone-over-the-repair-papers-for-home-more-than-once",
@@ -47234,7 +46563,8 @@
       "tag": {
         "move": "narrate",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-aid-had-come-and-so-had-the-bill-for-home",
@@ -47258,7 +46588,8 @@
       "tag": {
         "move": "narrate",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.we-need-to-talk-about-home-and-what-the-disaster-left-us",
@@ -47283,7 +46614,8 @@
       "tag": {
         "move": "greet",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.i-went-through-the-repair-papers-for-home-sit-with-me-a-minute",
@@ -47308,7 +46640,8 @@
       "tag": {
         "move": "greet",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.the-repair-bill-for-home-came-and-i-didn-t-want-to-open-it-alone",
@@ -47333,7 +46666,8 @@
       "tag": {
         "move": "greet",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.the-aid-paid-aid-and-the-repairs-still-come-to-loss",
@@ -47358,7 +46692,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.the-aid-covered-the-loss-so-home-is-paid-for",
@@ -47383,7 +46718,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.no-aid-came-for-home-and-the-repairs-are-loss",
@@ -47408,7 +46744,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.we-still-owe-left-on-the-repairs-after-the-disaster",
@@ -47433,7 +46770,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.it-s-all-paid-up-home-is-fixed-and-the-disaster-is-behind-us",
@@ -47458,7 +46796,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-see-the-repairs-through-and-left-will-get-paid",
@@ -47483,7 +46822,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.we-ll-fix-home-i-ll-make-sure-of-it",
@@ -47508,7 +46848,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.how-much-of-the-loss-is-still-open",
@@ -47533,7 +46874,8 @@
       "tag": {
         "move": "ask",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.did-the-aid-for-home-come-with-any-strings",
@@ -47558,7 +46900,8 @@
       "tag": {
         "move": "ask",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.what-did-the-disaster-leave-in-home-that-we-haven-t-seen-yet",
@@ -47583,7 +46926,8 @@
       "tag": {
         "move": "ask",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-can-put-in-toward-left",
@@ -47608,7 +46952,8 @@
       "tag": {
         "move": "offer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-chip-in-on-home-out-of-my-own-pay",
@@ -47633,7 +46978,8 @@
       "tag": {
         "move": "offer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-look-at-loss-right-now",
@@ -47658,7 +47004,8 @@
       "tag": {
         "move": "deflect",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.let-s-not-talk-about-home-again-today",
@@ -47683,7 +47030,8 @@
       "tag": {
         "move": "deflect",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-i-didn-t-want-to-face-home-alone",
@@ -47709,7 +47057,8 @@
       "tag": {
         "move": "thank",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-press.you-ll-really-see-home-through-it-s-a-lot",
@@ -47735,7 +47084,8 @@
       "tag": {
         "move": "press",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-answer.it-s-loss-in-all-and-the-aid-is-what-it-is",
@@ -47761,7 +47111,8 @@
       "tag": {
         "move": "answer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-answer.the-disaster-did-more-than-we-saw-so-there-may-be-more-to-fix",
@@ -47787,7 +47138,8 @@
       "tag": {
         "move": "answer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-accept.that-helps-it-makes-the-repairs-on-home-easier-to-face",
@@ -47813,7 +47165,8 @@
       "tag": {
         "move": "accept",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-refuse.that-won-t-cover-it-home-needs-more-than-that",
@@ -47839,7 +47192,8 @@
       "tag": {
         "move": "refuse",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-press.we-can-t-put-home-off-winter-is-coming",
@@ -47865,7 +47219,8 @@
       "tag": {
         "move": "press",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-accept.fine-take-a-day-but-home-won-t-fix-itself",
@@ -47891,7 +47246,8 @@
       "tag": {
         "move": "accept",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.yes-we-ll-get-home-done",
@@ -47917,7 +47273,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-put-in-what-i-can-on-home-honestly",
@@ -47943,7 +47300,8 @@
       "tag": {
         "move": "offer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-leave.give-me-a-day-to-think-loss-is-a-lot-to-take-in",
@@ -47969,7 +47327,8 @@
       "tag": {
         "move": "leave",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-start-on-home-first",
@@ -47995,7 +47354,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-put-in-what-i-have-loss-gets-smaller-that-way",
@@ -48021,7 +47381,8 @@
       "tag": {
         "move": "offer",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.that-s-more-than-i-can-take-in-about-home-just-now",
@@ -48047,7 +47408,8 @@
       "tag": {
         "move": "deflect",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-find-another-way-to-pay-for-home",
@@ -48073,7 +47435,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-leave.let-me-work-out-home-and-come-back-to-you",
@@ -48099,7 +47462,8 @@
       "tag": {
         "move": "leave",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-thank.i-feel-better-we-ll-get-home-sorted-together",
@@ -48125,7 +47489,8 @@
       "tag": {
         "move": "thank",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-start-on-home-first-thing",
@@ -48151,7 +47516,8 @@
       "tag": {
         "move": "promise",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-accept.okay-i-ll-leave-home-to-you-then",
@@ -48177,7 +47543,8 @@
       "tag": {
         "move": "accept",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-warn.don-t-wait-on-home-it-only-gets-worse",
@@ -48203,7 +47570,8 @@
       "tag": {
         "move": "warn",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-press.think-about-it-and-tell-me-what-you-decide-about-home",
@@ -48229,7 +47597,8 @@
       "tag": {
         "move": "press",
         "key": "damage"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-landlord-s-notice-was-on-the-table-and-owed-was-the-number-on-it",
@@ -48253,7 +47622,8 @@
       "tag": {
         "move": "narrate",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.i-have-to-show-you-something-from-the-landlord-and-it-says-owed",
@@ -48278,7 +47648,8 @@
       "tag": {
         "move": "greet",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.we-re-late-on-the-rent-and-the-landlord-sent-a-notice",
@@ -48303,7 +47674,8 @@
       "tag": {
         "move": "greet",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.open-greet.the-landlord-served-notice-on-us-here-in-place-and-i-didn-t-want-you-to-hear-it-from-anyone-else",
@@ -48327,7 +47699,8 @@
       "tag": {
         "move": "greet",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.the-landlord-says-we-owe-owed-and-we-have-until-deadline",
@@ -48352,7 +47725,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.we-re-late-on-the-rent-the-landlord-wants-owed-or-we-leave",
@@ -48377,7 +47751,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.it-s-only-owed-but-they-mean-it-we-have-until-deadline",
@@ -48402,7 +47777,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.it-s-owed-and-i-don-t-see-how-we-get-there-by-deadline",
@@ -48427,7 +47803,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.state-deliver-news.the-notice-says-pay-or-get-out-and-i-don-t-know-what-we-do-here-in-place",
@@ -48451,7 +47828,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-get-owed-together-before-deadline",
@@ -48476,7 +47854,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-fix-it-we-re-not-losing-the-house-over-owed",
@@ -48501,7 +47880,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.leave-it-with-me-i-ll-deal-with-the-landlord-about-the-rent-in-place",
@@ -48525,7 +47905,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.is-owed-everything-we-owe-or-is-there-more",
@@ -48550,7 +47931,8 @@
       "tag": {
         "move": "ask",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.what-happens-if-we-re-past-deadline",
@@ -48575,7 +47957,8 @@
       "tag": {
         "move": "ask",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.how-did-we-get-to-be-late",
@@ -48600,7 +47983,8 @@
       "tag": {
         "move": "ask",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-ask.what-did-the-landlord-say-when-they-served-it-here-in-place",
@@ -48624,7 +48008,8 @@
       "tag": {
         "move": "ask",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-cover-part-of-owed-and-we-ll-find-the-rest",
@@ -48649,7 +48034,8 @@
       "tag": {
         "move": "offer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-can-pick-up-extra-work-to-cover-owed",
@@ -48674,7 +48060,8 @@
       "tag": {
         "move": "offer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-talk-to-the-landlord-about-more-time-past-deadline",
@@ -48699,7 +48086,8 @@
       "tag": {
         "move": "offer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-deal-with-owed-right-now",
@@ -48724,7 +48112,8 @@
       "tag": {
         "move": "deflect",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.let-s-not-settle-owed-while-we-re-both-angry",
@@ -48749,7 +48138,8 @@
       "tag": {
         "move": "deflect",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-think-about-the-rent-while-place-is-on-my-mind",
@@ -48773,7 +48163,8 @@
       "tag": {
         "move": "deflect",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-i-was-scared-i-d-be-handling-owed-alone",
@@ -48799,7 +48190,8 @@
       "tag": {
         "move": "thank",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-press.do-you-really-have-owed-by-deadline-be-honest",
@@ -48825,7 +48217,8 @@
       "tag": {
         "move": "press",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-answer.yes-that-s-all-of-it-owed-and-we-have-until-deadline",
@@ -48851,7 +48244,8 @@
       "tag": {
         "move": "answer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-answer.we-ve-been-late-and-the-notices-just-kept-coming",
@@ -48877,7 +48271,8 @@
       "tag": {
         "move": "answer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-accept.that-helps-it-makes-owed-less-scary",
@@ -48903,7 +48298,8 @@
       "tag": {
         "move": "accept",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-refuse.that-won-t-be-enough-for-owed-we-ll-need-more",
@@ -48929,7 +48325,8 @@
       "tag": {
         "move": "refuse",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-press.we-can-t-put-this-off-the-notice-says-deadline",
@@ -48955,7 +48352,8 @@
       "tag": {
         "move": "press",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.follow-accept.fine-take-a-day-but-deadline-isn-t-moving",
@@ -48981,7 +48379,8 @@
       "tag": {
         "move": "accept",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.yes-i-ll-have-it-before-deadline",
@@ -49007,7 +48406,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-put-in-what-i-can-owed-won-t-pay-itself",
@@ -49033,7 +48433,8 @@
       "tag": {
         "move": "offer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-leave.give-me-a-day-to-think-owed-is-a-lot-to-take-in",
@@ -49059,7 +48460,8 @@
       "tag": {
         "move": "leave",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-start-with-owed-first-thing",
@@ -49085,7 +48487,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-offer.i-ll-put-in-what-i-have-owed-gets-smaller-that-way",
@@ -49111,7 +48514,8 @@
       "tag": {
         "move": "offer",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-deflect.that-s-more-than-i-can-take-in-about-place-right-now",
@@ -49136,7 +48540,8 @@
       "tag": {
         "move": "deflect",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-find-another-way-to-cover-owed",
@@ -49162,7 +48567,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.reply-leave.let-me-work-out-how-to-cover-owed-and-come-back-to-you",
@@ -49188,7 +48594,8 @@
       "tag": {
         "move": "leave",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-thank.i-feel-better-we-ll-get-through-owed-together",
@@ -49214,7 +48621,8 @@
       "tag": {
         "move": "thank",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-start-with-owed-first-thing",
@@ -49240,7 +48648,8 @@
       "tag": {
         "move": "promise",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-accept.okay-i-ll-leave-it-to-you-then-with-deadline-coming",
@@ -49266,7 +48675,8 @@
       "tag": {
         "move": "accept",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-warn.don-t-wait-past-deadline",
@@ -49292,7 +48702,8 @@
       "tag": {
         "move": "warn",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.close-press.think-about-it-and-tell-me-before-deadline",
@@ -49318,7 +48729,8 @@
       "tag": {
         "move": "press",
         "key": "notice"
-      }
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-come-to-say-goodbye-before-leaving-for-destination",
@@ -49342,7 +48754,11 @@
       "tag": {
         "move": "narrate",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-was-moving-to-destination-with-companion-and-had-stopped-by-first",
@@ -49366,7 +48782,11 @@
       "tag": {
         "move": "narrate",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-lost-the-place-to-an-eviction-and-this-was-the-last-visit",
@@ -49390,7 +48810,11 @@
       "tag": {
         "move": "narrate",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-was-leaving-for-destination-and-the-goodbye-was-not-easy-for-either-of-you",
@@ -49414,7 +48838,11 @@
       "tag": {
         "move": "narrate",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.open-greet.i-couldn-t-leave-for-destination-without-seeing-you-first",
@@ -49439,7 +48867,11 @@
       "tag": {
         "move": "greet",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.open-greet.i-m-off-to-destination-and-i-wanted-to-say-it-to-your-face",
@@ -49464,7 +48896,11 @@
       "tag": {
         "move": "greet",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.open-greet.companion-is-waiting-but-i-had-to-see-you-first",
@@ -49489,7 +48925,11 @@
       "tag": {
         "move": "greet",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.open-greet.i-m-glad-you-re-home-place-won-t-be-mine-much-longer",
@@ -49513,7 +48953,11 @@
       "tag": {
         "move": "greet",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.i-m-moving-to-destination-it-s-decided",
@@ -49538,7 +48982,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.we-re-going-to-destination-companion-and-i",
@@ -49563,7 +49011,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.i-lost-the-place-so-i-m-moving-to-destination",
@@ -49588,7 +49040,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.work-ended-for-me-and-destination-is-where-i-can-start-over",
@@ -49613,7 +49069,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.there-s-a-job-waiting-for-me-in-destination",
@@ -49638,7 +49098,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.family-is-in-destination-so-that-s-where-i-m-going",
@@ -49663,7 +49127,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.everyone-i-know-has-moved-on-so-i-m-going-to-destination-too",
@@ -49688,7 +49156,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.after-what-we-lost-i-can-t-stay-here-i-m-going-to-destination",
@@ -49713,7 +49185,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.state-tell.i-m-leaving-place-i-wanted-you-to-hear-it-from-me",
@@ -49737,7 +49213,11 @@
       "tag": {
         "move": "tell",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-comfort.you-ll-make-something-good-of-destination",
@@ -49762,7 +49242,11 @@
       "tag": {
         "move": "comfort",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-comfort.place-won-t-be-the-same-without-you",
@@ -49786,7 +49270,11 @@
       "tag": {
         "move": "comfort",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-comfort.whatever-happens-in-destination-you-ll-land-on-your-feet",
@@ -49811,7 +49299,11 @@
       "tag": {
         "move": "comfort",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.why-destination-of-all-places",
@@ -49836,7 +49328,11 @@
       "tag": {
         "move": "ask",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.is-companion-going-with-you-then",
@@ -49861,7 +49357,11 @@
       "tag": {
         "move": "ask",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-finally-made-you-choose-destination",
@@ -49886,7 +49386,11 @@
       "tag": {
         "move": "ask",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.where-will-you-be-once-you-re-not-in-place-anymore",
@@ -49910,7 +49414,11 @@
       "tag": {
         "move": "ask",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-come-see-you-in-destination",
@@ -49935,7 +49443,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.you-won-t-lose-me-even-with-destination-so-far-off",
@@ -49960,7 +49472,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-call-you-and-i-ll-tell-you-everything-about-place",
@@ -49984,7 +49500,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-thank.thank-you-for-everything-you-did-for-me-here-in-place",
@@ -50008,7 +49528,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-thank.i-m-glad-you-came-by-before-destination",
@@ -50033,7 +49557,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.that-means-a-lot-and-i-ll-take-it-with-me-to-destination",
@@ -50059,7 +49587,11 @@
       "tag": {
         "move": "accept",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-s-what-i-needed-from-you-before-destination",
@@ -50085,7 +49617,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.that-helps-i-ll-carry-it-out-of-place",
@@ -50110,7 +49646,11 @@
       "tag": {
         "move": "accept",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.it-s-where-i-can-start-over-destination-is-far-enough",
@@ -50136,7 +49676,11 @@
       "tag": {
         "move": "answer",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.companion-is-going-so-i-m-going",
@@ -50162,7 +49706,11 @@
       "tag": {
         "move": "answer",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.i-didn-t-plan-on-leaving-place-it-just-came-to-that",
@@ -50187,7 +49735,11 @@
       "tag": {
         "move": "answer",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-destination-will-feel-closer-if-you-do",
@@ -50213,7 +49765,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-press.you-ll-really-come-to-destination-don-t-let-it-slide",
@@ -50239,7 +49795,11 @@
       "tag": {
         "move": "press",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.then-we-re-square-take-care-of-place",
@@ -50264,7 +49824,11 @@
       "tag": {
         "move": "accept",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.yes-i-ll-be-in-destination-before-you-ve-unpacked",
@@ -50290,7 +49854,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-comfort.you-ll-be-fine-in-destination-whether-i-get-there-or-not",
@@ -50316,7 +49884,11 @@
       "tag": {
         "move": "comfort",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-ll-tell-you-when-i-can-destination-is-a-long-way",
@@ -50342,7 +49914,11 @@
       "tag": {
         "move": "leave",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-comfort.that-sounds-like-a-fresh-start-in-destination",
@@ -50368,7 +49944,11 @@
       "tag": {
         "move": "comfort",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.then-i-ll-visit-destination-the-first-chance-i-get",
@@ -50394,7 +49974,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.reply-thank.thank-you-for-telling-me-why-you-picked-destination",
@@ -50420,7 +50004,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.close-thank.thank-you-for-this-i-ll-write-from-destination",
@@ -50446,7 +50034,11 @@
       "tag": {
         "move": "thank",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.close-promise.i-ll-call-you-the-first-week-in-destination",
@@ -50472,7 +50064,11 @@
       "tag": {
         "move": "promise",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.close-accept.i-understand-take-care-of-yourself-in-place",
@@ -50497,7 +50093,11 @@
       "tag": {
         "move": "accept",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.close-warn.don-t-let-place-swallow-you-while-i-m-gone",
@@ -50522,7 +50122,11 @@
       "tag": {
         "move": "warn",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.close-press.think-about-it-and-tell-me-before-i-leave-for-destination",
@@ -50548,7 +50152,11 @@
       "tag": {
         "move": "press",
         "key": "moving-goodbye"
-      }
+      },
+      "elements": [
+        "pattern-b6-05-the-last-day",
+        "pattern-b6-01-the-one-who-is-far-away"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.name-stood-in-the-doorway-looking-past-you-toward-kid",
@@ -50572,7 +50180,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-house-was-quiet-the-way-a-house-is-with-kid-asleep-in-it",
@@ -50596,7 +50205,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.narrate-narrate.partner-had-kid-on-one-arm-when-name-came-in",
@@ -50620,7 +50230,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-came-to-the-door-to-meet-kid-and-stayed-a-long-while",
@@ -50644,7 +50255,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-had-come-all-the-way-from-hometown-to-see-kid",
@@ -50668,7 +50280,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.open-greet.is-that-kid-i-hear-i-couldn-t-wait-any-longer",
@@ -50693,7 +50306,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.open-greet.i-came-straight-from-hometown-to-see-kid",
@@ -50718,7 +50332,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.open-greet.sorry-to-drop-in-like-this-i-had-to-see-kid",
@@ -50743,7 +50358,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.can-i-hold-kid-and-is-there-anything-i-can-do-for-you-two",
@@ -50768,7 +50384,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.let-me-bring-you-dinner-this-week-while-kid-keeps-you-up-can-i",
@@ -50793,7 +50410,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.partner-has-to-be-wiped-out-what-can-i-take-off-your-plate-for-kid",
@@ -50818,7 +50436,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.will-you-let-me-watch-kid-one-afternoon-so-you-and-partner-can-sleep",
@@ -50843,7 +50462,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.promise-you-ll-call-me-when-kid-needs-anything-or-when-you-do",
@@ -50868,7 +50488,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.state-ask.i-d-love-to-see-kid-again-once-you-re-settled-even-from-hometown-when-is-good",
@@ -50893,7 +50514,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-tell.kid-eats-sleeps-and-stares-at-the-ceiling-that-s-all-so-far",
@@ -50918,7 +50540,8 @@
       "tag": {
         "move": "tell",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-tell.we-re-tired-but-kid-is-worth-every-bit-of-it",
@@ -50943,7 +50566,8 @@
       "tag": {
         "move": "tell",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-tell.come-in-kid-is-just-through-here",
@@ -50968,7 +50592,8 @@
       "tag": {
         "move": "tell",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-confess.honestly-i-m-scared-i-m-doing-it-wrong-with-kid",
@@ -50993,7 +50618,8 @@
       "tag": {
         "move": "confess",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-confess.i-didn-t-expect-to-feel-this-lost-with-kid-so-small",
@@ -51018,7 +50644,8 @@
       "tag": {
         "move": "confess",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-confess.i-haven-t-slept-and-kid-knows-it-before-i-do",
@@ -51043,7 +50670,8 @@
       "tag": {
         "move": "confess",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-request.would-you-really-take-kid-for-an-afternoon-i-d-sleep",
@@ -51068,7 +50696,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-request.i-could-use-a-hand-with-kid-more-than-i-ve-said",
@@ -51093,7 +50722,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-request.could-you-stay-a-while-and-help-me-settle-kid",
@@ -51118,7 +50748,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-ask.what-did-you-do-when-yours-wouldn-t-sleep-like-kid",
@@ -51143,7 +50774,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-ask.how-did-you-manage-the-first-weeks-before-kid-found-a-rhythm",
@@ -51168,7 +50800,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-accept.that-sounds-right-for-kid-take-all-the-time-you-need",
@@ -51194,7 +50827,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-accept.kid-is-lucky-to-have-you",
@@ -51220,7 +50854,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-accept.of-course-kid-won-t-be-this-small-for-long-so-let-me-help",
@@ -51246,7 +50881,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-accept.anything-you-need-for-kid-just-say-so",
@@ -51272,7 +50908,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-accept.rest-then-kid-has-a-long-way-to-go-and-so-do-you",
@@ -51298,7 +50935,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-comfort.everybody-feels-that-way-kid-just-needs-you-there",
@@ -51324,7 +50962,8 @@
       "tag": {
         "move": "comfort",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-comfort.you-re-not-doing-it-wrong-look-how-kid-settles-for-you",
@@ -51350,7 +50989,8 @@
       "tag": {
         "move": "comfort",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-answer.mostly-i-walked-the-hall-kid-will-sleep-i-promise",
@@ -51376,7 +51016,8 @@
       "tag": {
         "move": "answer",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.follow-answer.i-leaned-on-everyone-i-knew-kid-is-lucky-to-have-people",
@@ -51402,7 +51043,8 @@
       "tag": {
         "move": "answer",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-thank.that-helps-thank-you-for-coming-for-kid",
@@ -51428,7 +51070,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-request.then-help-me-through-the-next-few-weeks-with-kid",
@@ -51454,7 +51097,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-leave.i-ll-hold-on-to-that-kid-will-be-up-soon-though",
@@ -51480,7 +51124,8 @@
       "tag": {
         "move": "leave",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-tell.that-s-what-partner-said-about-kid-too",
@@ -51506,7 +51151,8 @@
       "tag": {
         "move": "tell",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-request.would-you-walk-the-hall-with-me-with-kid-like-this",
@@ -51532,7 +51178,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.reply-leave.i-ll-try-it-kid-is-stirring-so-i-should-go",
@@ -51558,7 +51205,8 @@
       "tag": {
         "move": "leave",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.close-thank.i-m-glad-i-came-give-kid-a-kiss-from-me",
@@ -51584,7 +51232,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.close-promise.i-ll-be-back-soon-to-see-kid",
@@ -51610,7 +51259,8 @@
       "tag": {
         "move": "promise",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.close-accept.i-understand-rest-and-i-ll-see-kid-another-day",
@@ -51636,7 +51286,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.close-warn.don-t-wait-to-ask-for-help-with-kid",
@@ -51662,7 +51313,8 @@
       "tag": {
         "move": "warn",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.close-press.think-about-it-and-call-me-about-kid",
@@ -51688,7 +51340,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-04-news-of-a-baby"]
     },
     {
       "key": "scene-talk.narrate-narrate.relatives-stayed-on-after-the-cake-at-your-wedding-to",
@@ -51712,7 +51365,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-family-had-come-together-for-and-and-the-kitchen-was-loud-with-it",
@@ -51736,7 +51390,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.narrate-narrate.news-of-the-job-at-had-traveled-through-the-family-and-people-came-by-to-mark-it",
@@ -51760,7 +51415,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.narrate-narrate.had-started-at-and-the-family-came-over-to-make-a-party-of-it",
@@ -51784,7 +51440,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.narrate-narrate.you-were-now-and-the-house-filled-up-to-say-so",
@@ -51808,7 +51465,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-family-packed-the-house-for-s-day-and-the-talk-ran-from-room-to-room",
@@ -51832,7 +51490,8 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.open-greet.i-came-in-from-for-this-so-i-m-claiming-a-minute-of-your-time",
@@ -51857,7 +51516,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.open-greet.before-the-cake-is-gone-can-i-borrow-you-it-s-about-s-day",
@@ -51882,7 +51542,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.open-greet.congratulations-again-on-can-i-steal-you-for-a-minute",
@@ -51907,7 +51568,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.open-greet.come-sit-with-me-a-second-now-that-has-the-room-busy",
@@ -51932,7 +51594,8 @@
       "tag": {
         "move": "greet",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.would-you-say-a-few-words-for-everyone-they-d-love-to-hear-it-from-you-on-s-day",
@@ -51957,7 +51620,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.would-you-say-a-few-words-for-everyone-it-s-your-day-with-and-nobody-else-can-say-it-right",
@@ -51982,7 +51646,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.will-you-stand-with-for-a-picture-i-ve-been-trying-to-get-everyone-into-one",
@@ -52007,7 +51672,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.dance-with-me-once-before-wears-out-the-music-will-you",
@@ -52032,7 +51698,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.i-m-out-of-work-right-now-and-you-re-doing-well-at-could-you-help-me-find-something",
@@ -52057,7 +51724,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.i-m-out-of-work-right-now-could-you-help-me-find-something-now-that-you-re",
@@ -52082,7 +51750,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.i-d-love-for-you-to-come-meet-now-that-things-have-settled-at-my-house-will-you-visit",
@@ -52107,7 +51776,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.it-s-a-long-way-from-to-here-will-you-come-see-us-next-time-instead",
@@ -52132,7 +51802,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.state-request.i-haven-t-had-a-real-talk-with-you-in-a-long-while-could-we-get-one-now-that-the-house-is-full-for",
@@ -52157,7 +51828,8 @@
       "tag": {
         "move": "request",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.of-course-for-anything",
@@ -52182,7 +51854,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.yes-would-want-that",
@@ -52207,7 +51880,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.sure-you-came-all-the-way-from",
@@ -52232,7 +51906,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-it-before-leaves",
@@ -52257,7 +51932,8 @@
       "tag": {
         "move": "promise",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-promise.you-have-my-word-before-you-head-back-to",
@@ -52282,7 +51958,8 @@
       "tag": {
         "move": "promise",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-ask.what-is-it",
@@ -52306,7 +51983,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-ask.is-this-about-s-day",
@@ -52331,7 +52009,8 @@
       "tag": {
         "move": "ask",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-decline.i-m-the-wrong-person-and-everyone-in-knows-it",
@@ -52355,7 +52034,8 @@
       "tag": {
         "move": "decline",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-decline.not-today-i-m-sorry-but-deserves-someone-better-at-it",
@@ -52380,7 +52060,8 @@
       "tag": {
         "move": "decline",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-leave.let-me-think-and-i-ll-find-you-before-calls-you-home",
@@ -52406,7 +52087,8 @@
       "tag": {
         "move": "leave",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-leave.ask-me-later-once-s-guests-thin-out",
@@ -52432,7 +52114,8 @@
       "tag": {
         "move": "leave",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.that-s-easy-enough-for-anyone-in-yes",
@@ -52457,7 +52140,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.okay-for-i-can-do-that",
@@ -52483,7 +52167,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-promise.then-yes-and-word-will-get-around-that-i-kept-it",
@@ -52508,7 +52193,8 @@
       "tag": {
         "move": "promise",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-decline.thanks-for-explaining-but-my-answer-is-still-no-even-for",
@@ -52534,7 +52220,8 @@
       "tag": {
         "move": "decline",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-decline.even-so-nobody-in-should-count-on-me-for-that",
@@ -52559,7 +52246,8 @@
       "tag": {
         "move": "decline",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-agree.fine-yes-you-d-wear-down-all-of-with-that-look",
@@ -52584,7 +52272,8 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.reply-promise.yes-and-i-ll-keep-it-this-time-whatever-hears",
@@ -52609,7 +52298,8 @@
       "tag": {
         "move": "promise",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-it-means-a-lot-to-me",
@@ -52634,7 +52324,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-thank.that-s-wonderful-i-knew-i-could-ask-you-for-s-sake",
@@ -52660,7 +52351,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-in-the-nicest-way-thank-you",
@@ -52685,7 +52377,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-press.before-the-cake-is-gone-then-if-can-wait",
@@ -52711,7 +52404,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-press.will-you-really-i-d-hate-for-s-day-to-pass-without-it",
@@ -52737,7 +52431,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-press.even-a-few-minutes-for-it-doesn-t-have-to-be-much",
@@ -52763,7 +52458,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-press.can-you-tell-me-what-s-in-the-way-with-watching",
@@ -52789,7 +52485,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-we-ll-leave-it-then-for-s-sake",
@@ -52815,7 +52512,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-fair-and-thank-you-for-being-honest-about-s-day",
@@ -52841,7 +52539,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-answer.it-s-small-really-i-d-be-grateful-for-any-part-of-it-even-a-word-for",
@@ -52867,7 +52566,8 @@
       "tag": {
         "move": "answer",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-answer.a-little-of-your-time-for-whenever-you-can-spare-it",
@@ -52893,7 +52593,8 @@
       "tag": {
         "move": "answer",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.follow-answer.nothing-complicated-i-only-wanted-it-to-come-from-you-on-s-day",
@@ -52919,7 +52620,8 @@
       "tag": {
         "move": "answer",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-thank.i-m-glad-you-said-yes-it-made-s-day",
@@ -52945,7 +52647,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-thank.that-s-all-i-hoped-for-thank-you",
@@ -52970,7 +52673,8 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-accept.i-ll-leave-it-i-only-wish-had-heard-you-say-yes",
@@ -52996,7 +52700,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-accept.i-understand-it-s-yours-to-decide-and-will-still-be-here",
@@ -53022,7 +52727,8 @@
       "tag": {
         "move": "accept",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-press.take-your-time-but-find-me-before-calls-me-home",
@@ -53048,7 +52754,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-press.no-rush-just-don-t-let-s-day-end-without-us-talking",
@@ -53074,7 +52781,8 @@
       "tag": {
         "move": "press",
         "key": "honor"
-      }
+      },
+      "elements": ["pattern-b6-03-asked-along"]
     },
     {
       "key": "scene-talk.close-press.the-spot-s-open",

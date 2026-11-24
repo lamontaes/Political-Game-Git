@@ -1,0 +1,40 @@
+{
+  "id": "pattern-a31-taken-ill-before-election-day",
+  "kind": "situation",
+  "summary": "Taken ill before election day: You are in the hospital days before the polls open, and {campaign manager} asks what the campaign says.",
+  "realLife": "Running in a 1937 special House election, he was rushed to an Austin hospital with appendicitis about a day and a half before the polls opened, and won with under a third of the vote.",
+  "sources": [
+    "https://www.haysfreepress.com/article/1452,bedridden-lbj-wins-his-first-election"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["campaign manager", "household member"],
+  "gates": [
+    "Candidate, in the final days.",
+    "The health record puts you in the hospital (never authored)."
+  ],
+  "weights": [
+    "How close the race is.",
+    "{household member}'s speaking traits."
+  ],
+  "pattern": "A31",
+  "choices": [
+    "let {household member} speak for you at the final rally",
+    "put out a statement from the bed",
+    "tell {campaign manager} to keep it quiet"
+  ],
+  "branches": [
+    {
+      "when": "{household member} speaks",
+      "then": "Their speech is built one part at a time, and how it goes changes how the town sees your household."
+    },
+    {
+      "when": "the reporter asks",
+      "then": "Whether you will be able to serve."
+    },
+    {
+      "when": "you win from the bed",
+      "then": "The victory plays at the bedside instead of on a stage."
+    }
+  ],
+  "usedBy": []
+}

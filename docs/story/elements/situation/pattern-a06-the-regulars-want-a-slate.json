@@ -1,0 +1,42 @@
+{
+  "id": "pattern-a06-the-regulars-want-a-slate",
+  "kind": "situation",
+  "summary": "The regulars want a slate: {regular} says the people who gather at your work should run their own slate for {the body}, with you on it.",
+  "realLife": "He ran a tailor shop in Greeneville, Tennessee, where locals argued politics while he worked. In 1829 he and friends put up a ticket of working men and he was elected to the town board.",
+  "sources": [
+    "https://www.nps.gov/anjo/learn/historyculture/overview.htm",
+    "https://en.wikipedia.org/wiki/Andrew_Johnson"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["regular"],
+  "gates": [
+    "Not in office.",
+    "Your job record puts you where the public comes in.",
+    "An election with more than one open seat on {the body} is coming."
+  ],
+  "weights": [
+    "How many regulars you have ties with.",
+    "Your household's income and line of work."
+  ],
+  "pattern": "A06",
+  "choices": [
+    "join the slate as a candidate",
+    "offer the place to meet but stay off the ballot",
+    "keep politics out of work"
+  ],
+  "branches": [
+    {
+      "when": "you own the place",
+      "then": "Hosting the meetings costs you customers who back the other side, and the lost business shows up later."
+    },
+    {
+      "when": "you work for someone",
+      "then": "Your boss says no politics on the clock. Joining means meeting somewhere else, or risking the job."
+    },
+    {
+      "when": "{household member} helps",
+      "then": "{household member} offers to write the flyers and coach your speeches, which widens the speech parts you can pick."
+    }
+  ],
+  "usedBy": []
+}
