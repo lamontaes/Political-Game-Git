@@ -1,0 +1,31 @@
+{
+  "id": "ends-on-a-kicker-quote",
+  "kind": "move",
+  "summary": "A story ends on a short quote about the speaker's own plans.",
+  "realLife": "Two of 11 stories end on the owner's or official's own words about what they will do next.",
+  "sources": [
+    "Juneau Empire, Ron's Apothecary Shoppe closing after nearly 50 years: https://juneauempire.com/news/rons-apothecary-shoppe-closing-on-dec-6-after-nearly-50-years-as-co-owners-retire",
+    "Jacksboro Newspapers (Texas), county adopts budget, tax rate increase: https://www.jacksboronewspapers.com/news/county-adopts-budget-tax-rate-increase",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "name"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0,
+    "address": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "ends on the next step",
+      "pulledBy": "a dated deliverable the body set",
+      "writes": "the last line is the date"
+    },
+    {
+      "name": "ends on a figure",
+      "pulledBy": "a story that is mostly numbers",
+      "writes": "the last line is the number that matters"
+    }
+  ]
+}

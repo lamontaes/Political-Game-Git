@@ -1,0 +1,30 @@
+{
+  "id": "oath-waits-for-speaker",
+  "kind": "detail",
+  "summary": "Incoming members sit through successive leadership ballots before anyone can administer their oath.",
+  "realLife": "The House members elected in 2022 waited through four days of voting for Speaker before taking office.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2023-01-06-i5/pdf/CREC-2023-01-06-i5.pdf",
+    "https://en.wikipedia.org/wiki/January_2023_Speaker_of_the_United_States_House_of_Representatives_election"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{chamber}", "{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: successive Speaker ballots and an oath date for incoming members.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The clerk calls the members forward for the oath on opening day.",
+      "pulledBy": "A candidate wins the first leadership ballot.",
+      "writesBack": "Members begin their terms' floor business that day."
+    },
+    {
+      "turn": "partial",
+      "what": "The members elect a Speaker just before adjournment and return for the oath.",
+      "pulledBy": "The leadership ballot ends as the session breaks.",
+      "writesBack": "The Speaker election and group oath fall on different days."
+    }
+  ]
+}

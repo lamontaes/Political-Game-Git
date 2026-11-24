@@ -1,0 +1,29 @@
+{
+  "id": "union-members-split-from-leadership",
+  "kind": "consequence",
+  "summary": "A campaign worker wins support among fellow members even as parts of their organization work for the opponent.",
+  "realLife": "Peters credited Moroney with reaching rank-and-file workers despite organized opposition on election day.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{worker}", "{organization}", "{opponent}"],
+  "gates": ["Members and leaders have taken different positions."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an organization's endorsement stored separately from members' voluntary campaign work.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The members who turn up for the shift follow the local's endorsement.",
+      "pulledBy": "Those volunteers had already committed to the endorsed candidate.",
+      "writesBack": "The shift roster and the local's endorsement point to the same campaign."
+    },
+    {
+      "turn": "neutral",
+      "what": "The local leaves the choice to individual members.",
+      "pulledBy": "Members fail to agree at the endorsement meeting.",
+      "writesBack": "The local records no endorsement and the volunteers retain their own affiliations."
+    }
+  ]
+}
