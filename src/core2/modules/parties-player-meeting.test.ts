@@ -17,6 +17,7 @@ import { applyCoreEvent, coreAPI } from "../state";
 import type { CoreState } from "../types";
 import {
   PARTY_MEETING_INVITED,
+  PARTIES_MODULE_ID,
   joinParty,
   partiesHere,
   partyMeetings,
@@ -47,8 +48,24 @@ const invitesFor = (core: CoreState) =>
       e.kind === PARTY_MEETING_INVITED && e.facts?.askedId === core.playerId,
   );
 
+function answerInvite(
+  core: CoreState,
+  invite: ReturnType<typeof invitesFor>[number],
+  move: string,
+) {
+  applyCoreEvent(core, {
+    id: `scene-reply:test:${invite.id}:${move}`,
+    date: core.date,
+    kind: "scene.reply",
+    personIds: [...invite.personIds],
+    placeId: core.people.get(core.playerId!)!.placeId,
+    facts: { typeKey: "party-meeting-invite", causeId: invite.id, move },
+    source: { tag: "SOURCED", citation: "test", asOf: core.date },
+  });
+}
+
 /** The player joins the town's largest party, answers its invitation and lives to the meeting. */
-function meetingAfter(core: CoreState, move: string) {
+function meetingAfter(core: CoreState, move?: string) {
   const api = coreAPI(core);
   const party = [...partiesHere(api)].sort(
     (a, b) => b.share - a.share || a.id.localeCompare(b.id),
@@ -56,16 +73,7 @@ function meetingAfter(core: CoreState, move: string) {
   joinParty(api, core.playerId!, party.id);
   const invites = invitesFor(core);
   const invite = invites[0];
-  if (invite)
-    applyCoreEvent(core, {
-      id: `scene-reply:test:${invite.id}:${move}`,
-      date: core.date,
-      kind: "scene.reply",
-      personIds: [...invite.personIds],
-      placeId: core.people.get(core.playerId!)!.placeId,
-      facts: { typeKey: "party-meeting-invite", causeId: invite.id, move },
-      source: { tag: "SOURCED", citation: "test", asOf: core.date },
-    });
+  if (invite && move) answerInvite(core, invite, move);
   const date = String(invite?.facts?.meetingDate ?? "");
   if (date) advanceCore(core, date);
   const meeting = partyMeetings(api, party.id).find((m) => m.date === date);
@@ -82,6 +90,20 @@ describe("the player's party meeting", () => {
     console.log(
       `party meeting, yes: ${where}; ${meeting!.attendeeIds.length} in the room`,
     );
+  }, 600_000);
+
+  it("keeps a missed meeting unanswered when an old invitation receives a late decline", () => {
+    const { core, where } = world("party-meeting:no");
+    const { invites, meeting } = meetingAfter(core);
+    const invite = invites[0]!;
+    expect(meeting?.date, where).toBe(core.date);
+    expect(meeting?.attendeeIds, where).not.toContain(core.playerId);
+    answerInvite(core, invite, "decline");
+    const answer = coreAPI(core)
+      .moduleState(PARTIES_MODULE_ID)
+      .table("playerAttends")
+      .get(String(invite.facts?.inviteId));
+    expect(answer?.answer, where).toBe("asked");
   }, 600_000);
 
   it("a no keeps the player home", () => {
