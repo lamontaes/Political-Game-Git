@@ -1,20 +1,36 @@
 # Pre-grade: Writer W2, local and campaign speeches (opening-speech.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `c4f5a3f0`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (162 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `8416afbf`, `data/english/parts/outline-local.json`, every line authored by this writer at that head (169 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 162 of 162 pass (100%); 0 fail.
-- **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, NC 8/8, ND 8/8, NE 8/8, NF 8/8, PA 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 165 of 169 pass (98%); 4 fail.
+- **Calibration:** C4 8/8, E3 8/8, F1 8/8, MA 8/8, MB 8/8, NB 8/8, NC 8/8, ND 8/8, NE 8/8, NF 8/8, NG 8/8, PA 8/8, R1 8/8, S3 8/8, V1 8/8, W1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** at `2151b523` (the previous head; the 4 new send-offs show only as read) through `scripts/words/speech-sheets.ts` in Rainelle, Midway and Washington County: 32 of these lines played.
+- **Played:** at `8416afbf` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 34 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
+
+## Play findings (whole speeches, not one line)
+
+- No grammar or fact faults in the six speeches at this head, and the three campaign speeches now close on three different send-offs.
+- To check against the seat record: "As your council member, I've worked on the cost of a place to live, and I want to finish the job." (Midway campaign) is true only if the speaker holds the seat; the line's own facts should require that.
 
 ## Failing lines by rule
 
+### no-literary-phrasing (2)
+
+- `outline-local.report.you-saw-it-too-was-in-front-of-us-all-year`: "You saw it too: {theme-name} was in front of us all year." — 'You saw it too: X was in front of us all year' is visibly composed colon texture and presumes what the listener saw.
+- `outline-local.report.money-was-tight-this-year-and-felt-it`: "Money was tight this year, and {theme-name} felt it." — '{theme-name} felt it' personifies a theme; it says nothing about what the tight money did.
+
+### no-stock-phrases (1)
+
+- `outline-local.report.what-did-do-this-year-a-lot-of-it-was-about`: "What did {realm-name} do this year? A lot of it was about {theme-name}." — A mayor asking what the town did and answering it himself is a canned rhetorical setup that sounds simulated.
+
+### stance-is-plainly-for-or-against (1)
+
+- `outline-local.report.the-books-held-steady-this-year-so-we-could-stay-with`: "The books held steady this year, so we could stay with {theme-name}." — 'Stay with {theme-name}' says nothing clear about what the town did or will do.
+
 ## As played
 
-- pass: `outline-local.greeting.members-of-department-heads-and-neighbors` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Members of the Rainelle City Council, department heads and neighbors. Nothing took more of my time this year than how we help people through hard times.
-- pass: `outline-local.running.before-you-decide-on-your-hear-me-out-on` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Friends and neighbors of Washington County, thank you. Before you decide on your commissioner, hear me out on the cost of a place to live.
-- pass: `outline-local.running.what-brought-me-into-this-race-for-is` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Rainelle, thank you for being here. What brought me into this race for council member is our land and water.
+- pass: `outline-local.running.what-brought-me-into-this-race-for-is` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Hello, neighbors. What brought me into this race for council member is our land and water.
 - pass: `outline-local.creed.i-ve-held-the-view-for-years-that` → **the local head's address, 2409400, seed eb7bf596, part 3** I've held the view for years that a call for help should be answered fast. I'll work to give the police department more to work with, and I won't quit at the first no.
 - pass: `outline-local.pledge.i-ll-work-to-and-i-won-t-quit-at-the-first-no` → **the local head's address, 2409400, seed eb7bf596, part 3** I've held the view for years that a call for help should be answered fast. I'll work to give the police department more to work with, and I won't quit at the first no.
 - pass: `outline-local.pledge.i-ll-be-against-every-time-it-comes-up` → **a town member's campaign speech, 2409400, seed eb7bf596, part 2** I've held the view for years that builders build more homes when the rules don't make them lose money. I'll be against an affordable-housing requirement for new buildings every time it comes up.
@@ -27,23 +43,27 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `c4f5a3f0`, `data/englis
 - pass: `outline-local.answer.yes-because` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 2** Is this the year we do more to care for our creeks and woods? Yes, because clean water is cheaper to keep than to win back.
 - pass: `outline-local.stand-reason.to-me-comes-down-to-this` → **the local head's address, 5466652, seed 2f25fb7e, part 2** To me, more assistance spending comes down to this: a family in trouble shouldn't wait weeks for aid it qualifies for.
 - pass: `outline-local.stand-reason.i-m-for-keeping` → **the governor's address, 2409400, seed eb7bf596, part 4** I'm for keeping the photo ID law. No citizen should be turned away from the polls for lacking the right card.
-- pass: `outline-local.send-off.thank-you-for-coming-out` → **the local head's address, 5466652, seed 2f25fb7e, part 3** Thank you for coming out, Rainelle.
-- pass: `outline-local.greeting.thank-you-for-being-here` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Rainelle, thank you for being here. What brought me into this race for council member is our land and water.
-- pass: `outline-local.greeting.friends-and-neighbors-of-thank-you` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Friends and neighbors of Washington County, thank you. Before you decide on your commissioner, hear me out on the cost of a place to live.
-- pass: `outline-local.report.the-thing-kept-coming-back-to-this-year-was` → **the local head's address, 4949820, seed af873500, part 1** Residents of Midway, thank you for coming. The thing Midway kept coming back to this year was how we help people through hard times.
-- pass: `outline-local.report.the-budget-held-up-this-year-and-is-where-should-look-next` → **the local head's address, 2409400, seed eb7bf596, part 1** Good evening, neighbors. The budget held up this year, and how we keep people safe and treat them fairly is where Washington County should look next.
-- pass: `outline-local.report.nothing-took-more-of-my-time-this-year-than` → **the local head's address, 5466652, seed 2f25fb7e, part 1** Members of the Rainelle City Council, department heads and neighbors. Nothing took more of my time this year than how we help people through hard times.
-- pass: `outline-local.running.i-m-running-because-needs-somebody-s-full-attention` → **a town member's campaign speech, 4949820, seed af873500, part 1** Hello, neighbors. I'm running because the cost of a place to live needs somebody's full attention.
-- pass: `outline-local.send-off.thank-you-for-listening-i-hope-to-see-you-at-the-polls` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 3** Thank you for listening. I hope to see you at the polls, Rainelle.
+- pass: `outline-local.greeting.friends-and-neighbors-of-thank-you` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Friends and neighbors of Washington County, thank you. Most of what I'd do as commissioner comes back to the cost of a place to live.
+- pass: `outline-local.report.the-budget-held-up-this-year-and-is-where-should-look-next` → **the local head's address, 2409400, seed eb7bf596, part 1** Neighbors and friends from across Washington County, welcome. The budget held up this year, and how we keep people safe and treat them fairly is where Washington County should look next.
+- pass: `outline-local.send-off.thank-you-i-ll-see-you-at-the-next-meeting-of` → **the local head's address, 5466652, seed 2f25fb7e, part 3** Thank you, Rainelle. I'll see you at the next meeting of the Rainelle City Council.
+- pass: `outline-local.send-off.thanks-for-listening-i-d-be-glad-to-be-your` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 3** Thanks for listening, Rainelle. I'd be glad to be your council member.
+- pass: `outline-local.running.most-of-what-i-d-do-as-comes-back-to` → **a town member's campaign speech, 2409400, seed eb7bf596, part 1** Friends and neighbors of Washington County, thank you. Most of what I'd do as commissioner comes back to the cost of a place to live.
 - pass: `outline-local.stand.i-m-for` → **the governor's address, 5466652, seed 2f25fb7e, part 2** At the moment, the minimum wage has gone up, and so have paychecks. I'm for the higher minimum wage, and that doesn't change.
 - pass: `outline-local.stand.i-m-against` → **a town member's campaign speech, 4949820, seed af873500, part 2** Today, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction.
 - pass: `outline-local.today.today` → **a town member's campaign speech, 4949820, seed af873500, part 2** Today, eviction court works the way it always has, between the two sides. I'm against a lawyer for tenants facing eviction.
-- pass: `outline-local.send-off.if-matter-to-you-come-to-the-next-meeting-of` → **the local head's address, 4949820, seed af873500, part 3** If hard times matter to you, come to the next meeting of the Midway City Council.
-- pass: `outline-local.send-off.you-know-where-to-find-me` → **the local head's address, 2409400, seed eb7bf596, part 4** You know where to find me, Washington County.
-- pass: `outline-local.greeting.hello-neighbors` → **a town member's campaign speech, 4949820, seed af873500, part 1** Hello, neighbors. I'm running because the cost of a place to live needs somebody's full attention.
-- pass: `outline-local.greeting.residents-of-thank-you-for-coming` → **the local head's address, 4949820, seed af873500, part 1** Residents of Midway, thank you for coming. The thing Midway kept coming back to this year was how we help people through hard times.
-- pass: `outline-local.greeting.good-evening-neighbors` → **the local head's address, 2409400, seed eb7bf596, part 1** Good evening, neighbors. The budget held up this year, and how we keep people safe and treat them fairly is where Washington County should look next.
+- pass: `outline-local.greeting.neighbors-department-heads-and-members-of-thank-you` → **the local head's address, 4949820, seed af873500, part 1** Neighbors, department heads, and members of the Midway City Council: thank you. What did Midway do this year? A lot of it was about how we help people through hard times.
+- pass: `outline-local.send-off.get-home-safe-and-thank-you` → **the local head's address, 2409400, seed eb7bf596, part 4** Get home safe, Washington County, and thank you.
+- pass: `outline-local.send-off.tell-a-neighbor-what-you-heard-today-and-tell-me-if-i-got-it-wrong` → **a town member's campaign speech, 2409400, seed eb7bf596, part 3** Tell a neighbor what you heard today, Washington County, and tell me if I got it wrong.
+- pass: `outline-local.send-off.if-you-ve-got-a-question-on-i-ll-stay-and-answer-it` → **a town member's campaign speech, 4949820, seed af873500, part 4** If you've got a question on housing, I'll stay and answer it.
+- pass: `outline-local.greeting.you-didn-t-have-to-come-out-for-this-and-i-m-glad-you-did` → **the local head's address, 5466652, seed 2f25fb7e, part 1** You didn't have to come out for this, Rainelle, and I'm glad you did. We spent a lot of this year on how we help people through hard times.
+- pass: `outline-local.greeting.i-m-glad-to-be-asking-for-your-vote-in-person` → **a town member's campaign speech, 4949820, seed af873500, part 1** Midway, I'm glad to be asking for your vote in person. As your council member, I've worked on the cost of a place to live, and I want to finish the job.
+- pass: `outline-local.send-off.thank-you-all` → **the local head's address, 4949820, seed af873500, part 3** Thank you all.
+- pass: `outline-local.greeting.hello-neighbors` → **a town member's campaign speech, 5466652, seed 2f25fb7e, part 1** Hello, neighbors. What brought me into this race for council member is our land and water.
+- pass: `outline-local.running.as-your-i-ve-worked-on-and-i-want-to-finish-the-job` → **a town member's campaign speech, 4949820, seed af873500, part 1** Midway, I'm glad to be asking for your vote in person. As your council member, I've worked on the cost of a place to live, and I want to finish the job.
+- pass: `outline-local.greeting.neighbors-and-friends-from-across-welcome` → **the local head's address, 2409400, seed eb7bf596, part 1** Neighbors and friends from across Washington County, welcome. The budget held up this year, and how we keep people safe and treat them fairly is where Washington County should look next.
 - pass: `outline-local.send-off.thank-you-everyone` → **the President's inaugural, 2409400, seed eb7bf596, part 1** Thank you, everyone. In November the votes came in, and now the work is mine for four years. Nothing I say today matters more than our place in the world.
+- fail: `outline-local.report.what-did-do-this-year-a-lot-of-it-was-about` → **the local head's address, 4949820, seed af873500, part 1** Neighbors, department heads, and members of the Midway City Council: thank you. What did Midway do this year? A lot of it was about how we help people through hard times.
+- pass: `outline-local.report.we-spent-a-lot-of-this-year-on` → **the local head's address, 5466652, seed 2f25fb7e, part 1** You didn't have to come out for this, Rainelle, and I'm glad you did. We spent a lot of this year on how we help people through hard times.
 
 ## Passing lines
 
@@ -209,3 +229,6 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `c4f5a3f0`, `data/englis
 - `outline-local.send-off.thanks-for-listening`: "Thanks for listening."
 - `outline-local.send-off.thank-you-everyone`: "Thank you, everyone."
 - `outline-local.send-off.i-d-be-glad-to-talk-more-about`: "I'd be glad to talk more about {theme-short}."
+- `outline-local.report.we-spent-a-lot-of-this-year-on`: "We spent a lot of this year on {theme-name}."
+- `outline-local.report.in-my-time-as-has-taken-more-of-my-attention-than-anything-else`: "In my time as {office-title}, {theme-name} has taken more of my attention than anything else."
+- `outline-local.report.we-finished-the-year-with-money-to-spare-and-is-the-first-place-i-d-sp`: "We finished the year with money to spare, and {theme-name} is the first place I'd spend it."
