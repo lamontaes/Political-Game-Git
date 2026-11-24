@@ -28,6 +28,7 @@
 import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
+import { LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
 import { stanceReader } from "./campaign-stances";
@@ -186,6 +187,15 @@ export function standReasons(
   personId: string,
   party: string | null | undefined,
 ): string[] {
+  // A filing that states no stand has no reason to keep, and a world that
+  // files without its laws or offices (a small test world) has no seat to
+  // read one from.
+  if (
+    !platform.length ||
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return [];
   const stands = new Map(
     contestStands(api, contest).map((s) => [s.position, s.reason]),
   );
