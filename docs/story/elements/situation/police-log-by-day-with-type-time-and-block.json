@@ -18,12 +18,16 @@
     {
       "name": "a month summary instead",
       "pulledBy": "a small town with few reports",
-      "writes": "one line gives the month's count"
+      "writes": "one line gives the month's count",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "only the notable incidents",
       "pulledBy": "a busy week",
-      "writes": "the log keeps the five that matter"
+      "writes": "the log keeps the five that matter",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

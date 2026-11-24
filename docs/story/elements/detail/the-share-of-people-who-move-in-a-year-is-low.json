@@ -1,0 +1,31 @@
+{
+  "id": "the-share-of-people-who-move-in-a-year-is-low",
+  "kind": "detail",
+  "summary": "Fewer than one person in ten changes residence in a given year.",
+  "realLife": "The 2022 mover rate was 8.7%, close to the historic low of 8.4% in 2021.",
+  "sources": [
+    "U.S. Census Bureau, Why People Move (Sept 19, 2023): https://www.census.gov/library/stories/2023/09/why-people-move.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["moved-year"],
+  "gates": [],
+  "weights": {
+    "moved-year": 0.5
+  },
+  "inGame": "the move/moved-in events by year across the world's people.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A year with a flood of moves after a layoff or a closure.",
+      "pulledBy": "a layoff or closure record",
+      "writesBack": "many moves in that year"
+    },
+    {
+      "turn": "neutral",
+      "what": "An ordinary year, with one move among many.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}
