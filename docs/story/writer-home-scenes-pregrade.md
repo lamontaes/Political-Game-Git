@@ -1,34 +1,22 @@
 # Pre-grade: Writer Home, scenes at home (scene-talk.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `b50c4160`, every line authored by this writer at that head (231 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `65e044a3`, every line authored by this writer at that head (227 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 223 of 231 pass (97%); 8 fail.
-- **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8, Y1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 225 of 227 pass (99%); 2 fail.
+- **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8, Y1 8/8, Z1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### no-literary-phrasing (3)
+### narration-assumes-no-reason (1)
 
-- `scene-talk.narrate-narrate.name-stood-at-the-edge-of-the-room-as-if-waiting-to-be-told-where-to-stand`: "{name} stood at the edge of the room, as if waiting to be told where to stand." — Composed 'as if waiting to be told where to stand' image, with 'stood... stand' echo.
-- `scene-talk.narrate-narrate.name-took-one-long-breath-before-saying-the-first-word`: "{name} took one long breath before saying the first word." — Visibly composed narration ('one long breath before saying the first word').
-- `scene-talk.state-confront.i-waited-up-and-the-whole-street-in-place-went-quiet-around-me-where-were-you`: "I waited up, and the whole street in {place} went quiet around me. Where were you?" — 'The whole street went quiet around me' is a literary image.
+- `scene-talk.narrate-narrate.name-had-come-over-to-say-something-that-was-hard-to-say`: "{name} had come over to say something that was hard to say." — "Say something that was hard to say" repeats itself and tells the visitor's feeling, and it is the same opening move as Z1-004.
 
-### vary-the-shape (2)
+### vary-the-shape (1)
 
-- `scene-talk.state-confess.i-let-you-down-and-i-owe-you-the-reason-before-place-makes-one-up`: "I let you down, and I owe you the reason before {place} makes one up." — Same confess-before-the-town-tells-you shape as 001, and 'before the town makes one up' personifies the town.
-- `scene-talk.state-confess.i-promised-you-something-and-then-broke-it-place-has-been-talking-so-you-ll-hear-it-from-me`: "I promised you something and then broke it. {place} has been talking, so you'll hear it from me." — Third version of the confess-before-the-town shape, and 'so you'll hear it from me' is a clumsy join.
-
-### false for its facts (2)
-
-- `scene-talk.state-confront.the-meeting-in-place-ended-hours-ago-where-were-you`: "The meeting in {place} ended hours ago. Where were you?" — Asserts a meeting that the absence scene's facts do not hold, and points at 'the meeting' unnamed.
-- `scene-talk.state-ask.is-the-job-worth-it-half-of-place-was-out-there-against-you`: "Is the job worth it? Half of {place} was out there against you." — Claims 'half of the town' was against the player, a count the record does not give, and repeats 022's 'is it worth it' shape.
-
-### no-pointing-at-the-unnamed (1)
-
-- `scene-talk.state-ask.i-m-proud-of-you-but-is-it-worth-what-place-is-doing-to-us`: "I'm proud of you, but is it worth what {place} is doing to us?" — 'What the town is doing to us' points at something the line never names.
+- `scene-talk.state-confront.i-know-the-meeting-ran-late-how-much-of-home-are-we-giving-up-for-place`: "I know the meeting ran late. How much of home are we giving up for {place}?" — Same shape as Z1-025 (the meeting ran late, then a question about the place), and "how much of home" is literary.
 
 ## Passing lines
 
@@ -224,6 +212,8 @@ Pre-grader, 2026-11-24. Branch `story/w-talk` at `b50c4160`, every line authored
 - `scene-talk.close-thank.i-m-glad-you-said-yes-it-made-s-day`: "I'm glad you said yes. It made {honoree}'s day."
 - `scene-talk.close-thank.that-s-all-i-hoped-for-thank-you`: "That's all I hoped for. Thank you, {first}."
 - `scene-talk.close-press.no-rush-just-don-t-let-s-day-end-without-us-talking`: "No rush. Just don't let {honoree}'s day end without us talking."
+- `scene-talk.narrate-narrate.name-came-in-and-sat-down-without-being-asked`: "{name} came in and sat down without being asked."
+- `scene-talk.state-confront.the-meeting-ran-late-and-i-was-the-one-who-waited-is-place-worth-that-to-you`: "The meeting ran late, and I was the one who waited. Is {place} worth that to you?"
 - `scene-talk.state-confess.i-broke-my-word-i-d-rather-you-hear-why-from-me-than-from-anyone-in-place`: "I broke my word. I'd rather you hear why from me than from anyone in {place}."
 - `scene-talk.state-ask.i-saw-your-face-when-the-crowd-in-place-turned-out-is-it-getting-to-you`: "I saw your face when the crowd in {place} turned out. Is it getting to you?"
 - `scene-talk.state-ask.i-don-t-know-my-way-around-place-yet-where-should-i-put-my-things-and-who-runs-the-kitchen`: "I don't know my way around {place} yet. Where should I put my things, and who runs the kitchen?"
