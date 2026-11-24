@@ -60,6 +60,19 @@ try {
     }
   }
   assert.ok(timelines > 0, "no measure opened a timeline");
+  // The years table: the open area's rows each carry a figure per shown year, and a row opens its measure.
+  await areas.first().click();
+  const table = await page.evaluate(() => ({
+    rows: document.querySelectorAll("button.metrics-yrow").length,
+    measures: document.querySelectorAll(".metric-rows .metric-row").length,
+    cells: document.querySelectorAll(".metrics-yhead .metrics-ycell").length,
+  }));
+  assert.equal(table.rows, table.measures, "years table: a row per measure");
+  assert.ok(table.cells >= 2, "years table: needs two years to read across");
+  const last = page.locator("button.metrics-yrow").last();
+  const key = await last.getAttribute("data-measure");
+  await last.click();
+  await page.waitForSelector(`.metrics-page[data-measure="${key}"]`);
   console.log(
     `metrics-timeline: ${total} areas fit, ${timelines} timelines drawn`,
   );
