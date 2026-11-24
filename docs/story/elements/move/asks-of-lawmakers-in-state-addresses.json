@@ -19,5 +19,19 @@
     "state": 0.13
   },
   "usedBy": [],
-  "inGame": "The state-of-the-state row (kinds.state-of-the-state in data/english/outlines.json) with body-word (the legislature) and realm-name; stance and law facts gate pledge and stand."
+  "inGame": "The state-of-the-state row (kinds.state-of-the-state in data/english/outlines.json) with body-word (the legislature) and realm-name; stance and law facts gate pledge and stand.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No ask of the legislature; the speaker asks the public.",
+      "pulledBy": "a body held by the other party (party-holds-body false)",
+      "writesBack": "The paper reports an appeal over the legislature's head."
+    },
+    {
+      "turn": "partial",
+      "what": "A soft ask: the speaker names a bill and waits.",
+      "pulledBy": "a body held by the speaker's party",
+      "writesBack": "The bill record can move without a pledge on it."
+    }
+  ]
 }

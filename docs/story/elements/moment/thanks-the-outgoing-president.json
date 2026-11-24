@@ -14,5 +14,19 @@
     "inaugural": 0.15
   },
   "usedBy": [],
-  "inGame": "needs: the outgoing President as a named slot. The officials engine keeps earlier terms for the seat, but no slot names the predecessor."
+  "inGame": "needs: the outgoing President as a named slot. The officials engine keeps earlier terms for the seat, but no slot names the predecessor.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No thanks; the speech turns to the change in direction.",
+      "pulledBy": "the other party takes office",
+      "writesBack": "The paper reports a hard break."
+    },
+    {
+      "turn": "partial",
+      "what": "Thanks for service, no more.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "One line the outgoing person can hear back."
+    }
+  ]
 }

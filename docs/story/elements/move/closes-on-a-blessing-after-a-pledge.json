@@ -25,5 +25,19 @@
     "all": 0.75
   },
   "usedBy": [],
-  "inGame": "Section `close`, shapes send-off-then-blessing and blessing-alone; the `blessing` move in outline-theme.json."
+  "inGame": "Section `close`, shapes send-off-then-blessing and blessing-alone; the `blessing` move in outline-theme.json.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speech ends on a pledge with no blessing.",
+      "pulledBy": "a speaker who does not pray in speeches (secular traits)",
+      "writesBack": "The final line is the pledge; the paper quotes it."
+    },
+    {
+      "turn": "neutral",
+      "what": "A thank-you only, no blessing.",
+      "pulledBy": "a short address; a plain speaker",
+      "writesBack": "The last line is gratitude."
+    }
+  ]
 }

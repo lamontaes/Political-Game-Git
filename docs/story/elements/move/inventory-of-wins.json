@@ -15,5 +15,19 @@
     "state": 0.17
   },
   "usedBy": [],
-  "inGame": "Shape `good-run-told` tells a good year (run-good, run-pay-ahead, run-jobs-gained from the macro months). needs: a section that tells several wins in a row; the planner tells one story section."
+  "inGame": "Shape `good-run-told` tells a good year (run-good, run-pay-ahead, run-jobs-gained from the macro months). needs: a section that tells several wins in a row; the planner tells one story section.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A list of failures owned, not wins.",
+      "pulledBy": "a humble speaker in a hard year (run-hard, run-own)",
+      "writesBack": "The journal records a speaker who owned the year."
+    },
+    {
+      "turn": "partial",
+      "what": "Two wins named and the rest left out.",
+      "pulledBy": "a speaker low in boastful traits",
+      "writesBack": "The paper repeats the two."
+    }
+  ]
 }

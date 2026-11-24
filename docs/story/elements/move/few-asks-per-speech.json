@@ -26,5 +26,19 @@
     "state": 0.17
   },
   "usedBy": [],
-  "inGame": "The `call` section is optional and its shapes (call-alone, address-run) are picked by the speaker's trait `pull`, so asks per speech vary with the speaker; there is no per-point ask."
+  "inGame": "The `call` section is optional and its shapes (call-alone, address-run) are picked by the speaker's trait `pull`, so asks per speech vary with the speaker; there is no per-point ask.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Asks in most points, as Arizona's governor did (eight in one speech).",
+      "pulledBy": "a speaker high in assertive or work-centered; a state kind with a legislature that holds a bill",
+      "writesBack": "The talk at home can reply to several asks; a promise record can follow each."
+    },
+    {
+      "turn": "neutral",
+      "what": "One ask, near the close.",
+      "pulledBy": "most worlds; the speaker's `call` section said once",
+      "writesBack": "The ask is the line the news story and the housemate answer."
+    }
+  ]
 }

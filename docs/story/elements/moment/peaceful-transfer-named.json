@@ -14,5 +14,19 @@
     "inaugural": 0.15
   },
   "usedBy": [],
-  "inGame": "took-oath and elected-last-fall are facts on the inaugural row. needs: a fact that party control changed hands (party-democratic describes the speaker only)."
+  "inGame": "took-oath and elected-last-fall are facts on the inaugural row. needs: a fact that party control changed hands (party-democratic describes the speaker only).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The transfer is not mentioned; the speech starts on the work.",
+      "pulledBy": "a speaker high in blunt",
+      "writesBack": "The first line is the job."
+    },
+    {
+      "turn": "late",
+      "what": "The transfer is named near the close, as a point of pride.",
+      "pulledBy": "a duty-bound speaker",
+      "writesBack": "The close carries it."
+    }
+  ]
 }

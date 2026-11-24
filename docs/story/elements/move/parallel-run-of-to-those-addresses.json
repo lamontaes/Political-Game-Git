@@ -16,5 +16,19 @@
     "inaugural": 0.25
   },
   "usedBy": [],
-  "inGame": "Shape `address-run` in the `call` section, with `address-to` pieces gated on the-disaster, run-jobs-lost, run-prices-ahead, run-span and term-left."
+  "inGame": "Shape `address-run` in the `call` section, with `address-to` pieces gated on the-disaster, run-jobs-lost, run-prices-ahead, run-span and term-left.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "One group is singled out, not a run.",
+      "pulledBy": "a short speech; few story facts (no disaster, no run flags)",
+      "writesBack": "One person or group hears itself named; that group's later talk can bring it up."
+    },
+    {
+      "turn": "late",
+      "what": "The run comes at the close, as a thank-you to each group.",
+      "pulledBy": "a speaker who thanks (polite, humble); a good year",
+      "writesBack": "Each group named is a line the housemate or paper can repeat."
+    }
+  ]
 }

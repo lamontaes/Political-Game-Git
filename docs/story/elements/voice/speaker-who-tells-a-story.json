@@ -18,5 +18,19 @@
     "analytical": 0.2
   },
   "usedBy": [],
-  "inGame": "needs: a named person's story record; see late-story-reframes-the-speech."
+  "inGame": "needs: a named person's story record; see late-story-reframes-the-speech.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A speaker who argues from figures only.",
+      "pulledBy": "high analytical",
+      "writesBack": "The paper quotes the measure."
+    },
+    {
+      "turn": "partial",
+      "what": "A story told in one sentence.",
+      "pulledBy": "a speaker with one memorable record",
+      "writesBack": "The sentence is the quote."
+    }
+  ]
 }

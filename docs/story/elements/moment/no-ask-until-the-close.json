@@ -14,5 +14,19 @@
     "inaugural": 0.05
   },
   "usedBy": [],
-  "inGame": "A world without a stand (no `about` fact) skips the `theme` and `second` sections, and the optional `call` leaves a speech with no ask; traits pull toward shapes with fewer moves."
+  "inGame": "A world without a stand (no `about` fact) skips the `theme` and `second` sections, and the optional `call` leaves a speech with no ask; traits pull toward shapes with fewer moves.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Asks in every point.",
+      "pulledBy": "see few-asks-per-speech",
+      "writesBack": "Several asks to answer."
+    },
+    {
+      "turn": "partial",
+      "what": "One ask, in the middle.",
+      "pulledBy": "a state kind",
+      "writesBack": "The housemate answers the middle point."
+    }
+  ]
 }

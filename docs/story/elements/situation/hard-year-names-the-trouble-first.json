@@ -16,5 +16,19 @@
     "blunt": 0.6
   },
   "usedBy": [],
-  "inGame": "See diagnosis-before-acts: the `story` shapes come before `theme`, gated on run-hard and the-disaster."
+  "inGame": "See diagnosis-before-acts: the `story` shapes come before `theme`, gated on run-hard and the-disaster.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A hard year opens with thanks and hope.",
+      "pulledBy": "a speaker high in optimistic or comforting traits",
+      "writesBack": "The paper reports reassurance, and the housemate may call it out."
+    },
+    {
+      "turn": "late",
+      "what": "The trouble named after the stand.",
+      "pulledBy": "a speaker with a stand ready",
+      "writesBack": "The stand reads as an answer to it."
+    }
+  ]
 }

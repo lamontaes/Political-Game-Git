@@ -25,5 +25,19 @@
     "all": 0.58
   },
   "usedBy": [],
-  "inGame": "Sections `greeting` and `occasion` (oath-then-charge, hired-then-charge, report-then-charge) with took-oath, elected-last-fall, term-left and the-vice-president from the officials engine's term and seat records."
+  "inGame": "Sections `greeting` and `occasion` (oath-then-charge, hired-then-charge, report-then-charge) with took-oath, elected-last-fall, term-left and the-vice-president from the officials engine's term and seat records.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speech opens on the trouble, with no occasion line.",
+      "pulledBy": "a hard year and a blunt speaker",
+      "writesBack": "The news story opens on the trouble."
+    },
+    {
+      "turn": "neutral",
+      "what": "The occasion and the thanks in one line.",
+      "pulledBy": "an inaugural after a close race",
+      "writesBack": "The first line carries both."
+    }
+  ]
 }

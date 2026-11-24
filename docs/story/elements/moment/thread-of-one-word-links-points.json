@@ -14,5 +14,19 @@
     "state": 0.1
   },
   "usedBy": [],
-  "inGame": "theme-short and theme-name are slots, each allowed one mention per address. needs: a slot allowed to repeat across points."
+  "inGame": "theme-short and theme-name are slots, each allowed one mention per address. needs: a slot allowed to repeat across points.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Each point uses its own word.",
+      "pulledBy": "the default budget (one mention per slot)",
+      "writesBack": "The points read as separate."
+    },
+    {
+      "turn": "partial",
+      "what": "The word appears at the open and the close only.",
+      "pulledBy": "a persistent speaker",
+      "writesBack": "The close returns to the word."
+    }
+  ]
 }

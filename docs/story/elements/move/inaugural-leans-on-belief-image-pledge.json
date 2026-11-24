@@ -19,5 +19,19 @@
     "inaugural": 0.82
   },
   "usedBy": [],
-  "inGame": "The inaugural row, moves creed, pledge and value (data/english/parts/outline-theme.json); the planner weights pieces by the speaker's traits."
+  "inGame": "The inaugural row, moves creed, pledge and value (data/english/parts/outline-theme.json); the planner weights pieces by the speaker's traits.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Points end on asks.",
+      "pulledBy": "an assertive speaker in a hard year",
+      "writesBack": "The call section carries more weight."
+    },
+    {
+      "turn": "partial",
+      "what": "Belief and image, with the pledge left out.",
+      "pulledBy": "a speaker with no law in play",
+      "writesBack": "No pledge record is written."
+    }
+  ]
 }

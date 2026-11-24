@@ -16,5 +16,19 @@
     "inaugural": 0.25
   },
   "usedBy": [],
-  "inGame": "needs: a record of one named person's story to tell late in the speech. The closest records are the year's disaster row (disaster-image) and the player's household; no named-person story record exists at the address."
+  "inGame": "needs: a record of one named person's story to tell late in the speech. The closest records are the year's disaster row (disaster-image) and the player's household; no named-person story record exists at the address.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The story comes first and the argument follows.",
+      "pulledBy": "a dramatic speaker; a disaster in the year (the-disaster)",
+      "writesBack": "The news story leads on the person, not the policy."
+    },
+    {
+      "turn": "neutral",
+      "what": "The story is one sentence inside a point.",
+      "pulledBy": "most worlds with a disaster row",
+      "writesBack": "A single image line (disaster-image) stands for the story."
+    }
+  ]
 }

@@ -26,5 +26,19 @@
     "inaugural": 0.13
   },
   "usedBy": [],
-  "inGame": "context-years and context-name facts (contextFacts in src/director/speech-outline.ts) carry a span and measure said in words (countSaid), never as figures."
+  "inGame": "context-years and context-name facts (contextFacts in src/director/speech-outline.ts) carry a span and measure said in words (countSaid), never as figures.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No figures at all, even said in words.",
+      "pulledBy": "an inaugural; the game's rule for speeches",
+      "writesBack": "The speech names the thing, not the number."
+    },
+    {
+      "turn": "partial",
+      "what": "One figure said in words, near the stand.",
+      "pulledBy": "a state kind with a measure",
+      "writesBack": "The figure is the line the news story quotes."
+    }
+  ]
 }

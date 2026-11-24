@@ -14,5 +14,19 @@
     "inaugural": 0.1
   },
   "usedBy": [],
-  "inGame": "The term-left fact, from the officials engine's term record for the seat."
+  "inGame": "The term-left fact, from the officials engine's term record for the seat.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speaker promises results within the term.",
+      "pulledBy": "an ambitious speaker; a short term (term-left one year)",
+      "writesBack": "A promise record the speaker can break."
+    },
+    {
+      "turn": "partial",
+      "what": "The speaker says the work is long and names no end.",
+      "pulledBy": "a humble speaker",
+      "writesBack": "No date to hold the speaker to."
+    }
+  ]
 }

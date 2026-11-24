@@ -16,5 +16,19 @@
     "inaugural": 0.25
   },
   "usedBy": [],
-  "inGame": "Section `story` (shapes hard-run-told, hard-run-asked, disaster-told) comes before `theme`; facts run-hard, run-prices-ahead, run-jobs-lost come from the macro-month records and the-disaster from the national events row."
+  "inGame": "Section `story` (shapes hard-run-told, hard-run-asked, disaster-told) comes before `theme`; facts run-hard, run-prices-ahead, run-jobs-lost come from the macro-month records and the-disaster from the national events row.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Acts first, trouble named after.",
+      "pulledBy": "a good run (run-good) or a speaker high in ambitious",
+      "writesBack": "The year's news story leads on what was done."
+    },
+    {
+      "turn": "neutral",
+      "what": "Trouble and act in the same sentence.",
+      "pulledBy": "a mixed year (mood-mixed)",
+      "writesBack": "The housemate's talk answers the act, not the trouble."
+    }
+  ]
 }
