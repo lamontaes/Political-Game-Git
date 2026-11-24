@@ -296,9 +296,19 @@ function wordMove(
   );
   const earlier = new Set(input.said ?? []);
   const fresh = fitting.filter((part) => !earlier.has(part.key));
-  const pool = fresh.some((part) => holds(input.facts, part.use.requiresFacts))
+  // Every fitting piece said before: the one said longest ago comes back
+  // (the composer's rule since Nov 12, "one greeting in address after
+  // address"), so a voice never settles on one wording.
+  const sayable = (part: (typeof fitting)[number]) =>
+    holds(input.facts, part.use.requiresFacts);
+  const oldest = (input.said ?? []).find((key) =>
+    fitting.some((part) => part.key === key && sayable(part)),
+  );
+  const pool = fresh.some(sayable)
     ? fresh
-    : fitting;
+    : oldest
+      ? fitting.filter((part) => part.key === oldest)
+      : fitting;
   if (!pool.length) return null;
   const base = OUTLINES.weights.pieceBase.value;
   const per = OUTLINES.weights.pieceLean.value;

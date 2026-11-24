@@ -204,52 +204,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-sit-down-at-the-kitchen-table",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You sit down at the kitchen table.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone",
-          "excludesFacts": ["speech-giver"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter",
       "move": "arrival-home-alone",
       "kind": "spoken",
       "text": "It's {landing}. A stack of mail sits on the counter.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone",
-          "excludesFacts": ["speech-giver"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-hang-your-coat-by-the-door",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You hang your coat by the door.",
       "uses": [
         {
           "move": "arrival-home-alone",
