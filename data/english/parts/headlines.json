@@ -5208,7 +5208,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.home-sale.home-goes-to-family-family",
@@ -5229,7 +5230,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.homes-built.number-homes-built-in-place",
@@ -5251,7 +5253,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.new-house-done-in-place",
@@ -5273,7 +5276,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.place-gets-new-home",
@@ -5295,7 +5299,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.one-new-home-in-place",
@@ -5317,7 +5322,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homes-built.house-finished-in-place",
@@ -5339,7 +5345,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.homeless-count.number-without-homes-in-place",
@@ -7324,7 +7331,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "headlines.birth.place-birth-on-record",
@@ -7759,7 +7767,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "headlines.unfilled.no-candidates-for-office",

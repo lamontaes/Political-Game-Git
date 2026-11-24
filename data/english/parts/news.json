@@ -5855,7 +5855,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-now-owns-a-home-in-place",
@@ -5876,7 +5877,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.homes-built.number-new-houses-went-up-in-place",
@@ -5898,7 +5900,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.one-new-house-was-built-in-place-on-date",
@@ -5920,7 +5923,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homeless-count.place-took-a-count-of-people-who-have-no-home",
@@ -11238,7 +11242,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-one-new-home-in-place",
@@ -11260,7 +11265,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-apartments-were-completed-in-place",
@@ -11282,7 +11288,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.number-new-homes-were-completed-in-place-and-affordable-are",
@@ -11304,7 +11311,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-completed-number-new-apartments-in-place-after-starting-work",
@@ -11326,7 +11334,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.subject-built-a-new-home-that-was-completed-in-place",
@@ -11348,7 +11357,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.all-number-of-the-new-homes-in-place-are-priced",
@@ -11370,7 +11380,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.homes-built.work-started-in-began-and-produced-number-new-homes-in",
@@ -11392,7 +11403,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["one-stat-per-short-paragraph"]
     },
     {
       "key": "news.home-sale.the-family-family-paid-money-for-a-home-in-place",
@@ -11414,7 +11426,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.a-home-in-place-was-sold-for-money-to-the",
@@ -11436,7 +11449,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-put-down-down-on-a-home-in",
@@ -11458,7 +11472,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-had-been-renting-and-now-owns-a",
@@ -11480,7 +11495,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.home-sale.the-family-family-bought-a-home-in-place-with-a",
@@ -11502,7 +11518,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["every-change-with-a-base-or-an-absolute-figure"]
     },
     {
       "key": "news.birth.name-was-born-in-place-on-date-the-child-of",
