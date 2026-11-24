@@ -47,6 +47,15 @@ export function stripScreen({
     el("h2", { className: "strip-name", textContent: name }),
     ...(role ? [el("p", { className: "strip-role", textContent: role })] : []),
   );
+  // A person card whose sections all fit one column sets them in two, so no half of the card
+  // stands empty (owner, Nov 23, C17: "People: the right half of the panel is empty").
+  const shown =
+    nameBeside && columns.length === 1 && columns[0].length > 1
+      ? [
+          columns[0].slice(0, Math.ceil(columns[0].length / 2)),
+          columns[0].slice(Math.ceil(columns[0].length / 2)),
+        ]
+      : columns;
   // `nameBeside`: the name over the sections, beside the bust (the approved
   // person card on People, pl-people); otherwise over the bust (You).
   return el(
@@ -74,8 +83,8 @@ export function stripScreen({
       ...(nameBeside ? [banner] : []),
       el(
         "div",
-        { className: `mx3cols${columns.length === 1 ? " one" : ""}` },
-        ...columns.map((sections) =>
+        { className: `mx3cols${shown.length === 1 ? " one" : ""}` },
+        ...shown.map((sections) =>
           el("div", { className: "mx3col" }, ...sections),
         ),
       ),
