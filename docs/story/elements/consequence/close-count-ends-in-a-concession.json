@@ -14,5 +14,17 @@
     "result": 0.8
   },
   "inGame": "election-result record, the margin from race-margin; needs: a recount step",
-  "usedBy": ["race-lost", "news"]
+  "usedBy": ["race-lost", "news"],
+  "turns": [
+    {
+      "turn": "The count flips on the late ballots",
+      "pull": "the count's own record",
+      "writes": "a reversed result"
+    },
+    {
+      "turn": "The lead is large enough to concede the same night",
+      "pull": "the margin",
+      "writes": "a quick concession"
+    }
+  ]
 }

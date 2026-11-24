@@ -14,5 +14,17 @@
     "volunteer": 0.8
   },
   "inGame": "volunteer-offered record (weighed by liking, closeness and work hours)",
-  "usedBy": ["offer-help"]
+  "usedBy": ["offer-help"],
+  "turns": [
+    {
+      "turn": "A regular volunteer returns for another race",
+      "pull": "a helped-before record",
+      "writes": "a quick yes"
+    },
+    {
+      "turn": "The volunteer backs out after the first door",
+      "pull": "low resilience",
+      "writes": "a left campaign and a quiet note"
+    }
+  ]
 }

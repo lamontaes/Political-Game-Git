@@ -14,5 +14,17 @@
     "donor": 0.7
   },
   "inGame": "campaign-gift record (gift, gift-weight, gift-biggest), relationFacts for the donor",
-  "usedBy": ["donor-ask"]
+  "usedBy": ["donor-ask"],
+  "turns": [
+    {
+      "turn": "Early money comes from strangers",
+      "pull": "a viral cause",
+      "writes": "a donor who does not know them"
+    },
+    {
+      "turn": "Friends decline to give",
+      "pull": "tie strain",
+      "writes": "a hurt ask and a refused gift"
+    }
+  ]
 }

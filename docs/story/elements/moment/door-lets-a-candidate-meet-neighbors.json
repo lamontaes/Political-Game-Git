@@ -13,5 +13,17 @@
     "door": 0.6
   },
   "inGame": "circumstance:door-first, the second-knock flag (knocked-before), people met through the ledger",
-  "usedBy": ["ask-support", "journal"]
+  "usedBy": ["ask-support", "journal"],
+  "turns": [
+    {
+      "turn": "The candidate meets only people already known",
+      "pull": "a small circle",
+      "writes": "no new ties"
+    },
+    {
+      "turn": "A door turns into a lasting tie",
+      "pull": "a long talk and shared trouble",
+      "writes": "a new acquaintance in the ledger"
+    }
+  ]
 }

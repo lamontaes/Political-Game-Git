@@ -13,5 +13,17 @@
     "filing": 0.8
   },
   "inGame": "first-filing and repeat-filing facts on the filing scene",
-  "usedBy": ["filing-petition"]
+  "usedBy": ["filing-petition"],
+  "turns": [
+    {
+      "turn": "A repeat filer is waved through",
+      "pull": "repeat-filing",
+      "writes": "a one-line check"
+    },
+    {
+      "turn": "A first-time filer is afraid to ask",
+      "pull": "shy traits",
+      "writes": "an ask reply the clerk answers"
+    }
+  ]
 }

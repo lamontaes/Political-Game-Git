@@ -14,5 +14,17 @@
     "result": 1.0
   },
   "inGame": "election-result record, race-lost, campaign staff and volunteers named from the campaign record",
-  "usedBy": ["race-lost", "news"]
+  "usedBy": ["race-lost", "news"],
+  "turns": [
+    {
+      "turn": "The loser does not concede that night",
+      "pull": "a close count",
+      "writes": "a waiting scene and a recount"
+    },
+    {
+      "turn": "The loser is bitter and says so",
+      "pull": "low agreeableness",
+      "writes": "a cold close and a press story"
+    }
+  ]
 }

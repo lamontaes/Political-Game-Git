@@ -13,5 +13,17 @@
     "family": 0.7
   },
   "inGame": "relationFacts (kin), household members' own records, rival-word and press stories that name a relative",
-  "usedBy": ["family-filing", "rival-word"]
+  "usedBy": ["family-filing", "rival-word"],
+  "turns": [
+    {
+      "turn": "A relative's remark causes a press story",
+      "pull": "an outlet's record",
+      "writes": "a rival-word or press line"
+    },
+    {
+      "turn": "A relative becomes the best door-knocker",
+      "pull": "a close tie",
+      "writes": "a volunteer offer"
+    }
+  ]
 }

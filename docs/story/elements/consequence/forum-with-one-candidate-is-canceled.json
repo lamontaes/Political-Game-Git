@@ -14,5 +14,17 @@
     "debate": 0.9
   },
   "inGame": "debate-invited and debate-accepted records; the player's decline",
-  "usedBy": ["invite-debate", "news"]
+  "usedBy": ["invite-debate", "news"],
+  "turns": [
+    {
+      "turn": "Both candidates come and the forum runs",
+      "pull": "two accepted invitations",
+      "writes": "a sitting"
+    },
+    {
+      "turn": "The sponsor holds the forum with one candidate anyway",
+      "pull": "the sponsor's rule",
+      "writes": "the empty chair"
+    }
+  ]
 }

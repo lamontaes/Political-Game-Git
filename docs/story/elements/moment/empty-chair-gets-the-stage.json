@@ -14,5 +14,17 @@
     "debate": 0.8
   },
   "inGame": "debate-accepted record for one side only; needs: an empty-chair outcome in the debate sitting",
-  "usedBy": ["invite-debate"]
+  "usedBy": ["invite-debate"],
+  "turns": [
+    {
+      "turn": "The absent candidate sends a stand-in",
+      "pull": "an ally on the record",
+      "writes": "a short substitute speech"
+    },
+    {
+      "turn": "The present candidate declines the empty stage",
+      "pull": "fairness",
+      "writes": "a refusal and a story"
+    }
+  ]
 }

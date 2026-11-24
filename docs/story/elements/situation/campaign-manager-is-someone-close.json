@@ -13,5 +13,17 @@
     "manager": 1.0
   },
   "inGame": "volunteer-offered record with role manager, managerReason, the campaign staff the cast and election night read",
-  "usedBy": ["offer-to-run"]
+  "usedBy": ["offer-to-run"],
+  "turns": [
+    {
+      "turn": "The close person is turned down kindly",
+      "pull": "the player's decline",
+      "writes": "a hurt tie and a smaller helper role"
+    },
+    {
+      "turn": "An outside professional runs it instead",
+      "pull": "money",
+      "writes": "a cooler office"
+    }
+  ]
 }

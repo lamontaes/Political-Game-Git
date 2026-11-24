@@ -13,5 +13,17 @@
     "petition": 0.9
   },
   "inGame": "the clerk's check against the voter roll (striking moved, unregistered and duplicate names), petition record",
-  "usedBy": ["filing-petition", "news"]
+  "usedBy": ["filing-petition", "news"],
+  "turns": [
+    {
+      "turn": "Every name stands and the count holds",
+      "pull": "clean signers on the roll",
+      "writes": "a short filing note, no scene"
+    },
+    {
+      "turn": "A challenger strikes names too",
+      "pull": "a rival's filing",
+      "writes": "a challenge and a press story"
+    }
+  ]
 }

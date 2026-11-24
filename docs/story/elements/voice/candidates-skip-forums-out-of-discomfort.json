@@ -13,5 +13,17 @@
     "debate": 0.5
   },
   "inGame": "the player's decline of a debate invitation, guarded and stall moves",
-  "usedBy": ["invite-debate"]
+  "usedBy": ["invite-debate"],
+  "turns": [
+    {
+      "turn": "The candidate attends and is bad at it",
+      "pull": "shy traits",
+      "writes": "a rough forum story"
+    },
+    {
+      "turn": "The candidate skips and wins anyway",
+      "pull": "name recognition",
+      "writes": "a quiet result"
+    }
+  ]
 }

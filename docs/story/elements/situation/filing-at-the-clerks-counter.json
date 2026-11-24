@@ -14,5 +14,17 @@
     "filing": 1.0
   },
   "inGame": "candidate-filed record, filingOfficeFor, openContests, the filing-petition scene, petitionFacts",
-  "usedBy": ["filing-petition", "family-filing"]
+  "usedBy": ["filing-petition", "family-filing"],
+  "turns": [
+    {
+      "turn": "The clerk refuses the papers for an eligibility rule",
+      "pull": "checkEligibility",
+      "writes": "the rule said plainly and no filing"
+    },
+    {
+      "turn": "The filing is taken and the clerk hurries them out",
+      "pull": "a busy counter",
+      "writes": "a short scene"
+    }
+  ]
 }

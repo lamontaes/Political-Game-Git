@@ -13,5 +13,17 @@
     "door": 0.7
   },
   "inGame": "relationFacts (acquainted, kin, tie-friend), the second knock, the resident's own records",
-  "usedBy": ["ask-support"]
+  "usedBy": ["ask-support"],
+  "turns": [
+    {
+      "turn": "The resident does not know the candidate at all",
+      "pull": "the stranger fact",
+      "writes": "a plain introduction"
+    },
+    {
+      "turn": "The resident knows the candidate's family and says so first",
+      "pull": "acquainted or kin",
+      "writes": "a warmer yes or a pointed no"
+    }
+  ]
 }

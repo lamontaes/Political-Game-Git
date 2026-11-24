@@ -14,5 +14,17 @@
     "endorsement": 0.8
   },
   "inGame": "endorsement-asked record, the player's decline, closeness effects of a refusal",
-  "usedBy": ["ask-endorsement"]
+  "usedBy": ["ask-endorsement"],
+  "turns": [
+    {
+      "turn": "The official endorses early and openly",
+      "pull": "a strong tie",
+      "writes": "a public yes"
+    },
+    {
+      "turn": "The official endorses late, after the count",
+      "pull": "a close race",
+      "writes": "a late story"
+    }
+  ]
 }

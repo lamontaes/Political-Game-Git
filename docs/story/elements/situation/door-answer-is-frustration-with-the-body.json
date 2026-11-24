@@ -14,5 +14,17 @@
     "door": 0.9
   },
   "inGame": "circumstance:door-first, ask-support variants, the resident's views from the views engine (doorViewFacts)",
-  "usedBy": ["ask-support"]
+  "usedBy": ["ask-support"],
+  "turns": [
+    {
+      "turn": "The resident is warm to the candidate and about the body",
+      "pull": "the resident's friendly traits and a recent good result",
+      "writes": "the second-knock yes"
+    },
+    {
+      "turn": "The resident has no view of the body at all",
+      "pull": "the no-view fact",
+      "writes": "a brief decline and no stand said"
+    }
+  ]
 }

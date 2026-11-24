@@ -14,5 +14,17 @@
     "filing": 0.5
   },
   "inGame": "filingOfficeFor and checkEligibility; needs: a fee mechanic if the place has one",
-  "usedBy": ["filing-petition"]
+  "usedBy": ["filing-petition"],
+  "turns": [
+    {
+      "turn": "The candidate files in the right office first time",
+      "pull": "a clear record",
+      "writes": "no detour"
+    },
+    {
+      "turn": "A fee or paperwork gap sends them away",
+      "pull": "needs a fee mechanic",
+      "writes": "a return visit"
+    }
+  ]
 }

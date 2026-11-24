@@ -14,5 +14,17 @@
     "family": 1.0
   },
   "inGame": "household stakes (stake-time, stake-money, child), candidate-filed record, the family-filing scene",
-  "usedBy": ["family-filing"]
+  "usedBy": ["family-filing"],
+  "turns": [
+    {
+      "turn": "The family is glad and asks nothing",
+      "pull": "a no-cost race",
+      "writes": "a news-heard filing talk"
+    },
+    {
+      "turn": "The family refuses to cover the nights",
+      "pull": "strain",
+      "writes": "a decline and a second plan"
+    }
+  ]
 }

@@ -13,5 +13,17 @@
     "endorsement": 0.9
   },
   "inGame": "endorsement-asked record, endorsed-other fact, the player's answer",
-  "usedBy": ["ask-endorsement", "news"]
+  "usedBy": ["ask-endorsement", "news"],
+  "turns": [
+    {
+      "turn": "The mayor endorses nobody",
+      "pull": "caution",
+      "writes": "a neutral story"
+    },
+    {
+      "turn": "The left-out candidate gains from it",
+      "pull": "the town's mood toward the mayor",
+      "writes": "a sympathetic story"
+    }
+  ]
 }

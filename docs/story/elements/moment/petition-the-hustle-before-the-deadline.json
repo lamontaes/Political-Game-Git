@@ -13,5 +13,17 @@
     "petition": 0.8
   },
   "inGame": "campaign day choice (canvass), petition due date, the petition-short event",
-  "usedBy": ["petition-short", "news"]
+  "usedBy": ["petition-short", "news"],
+  "turns": [
+    {
+      "turn": "The candidate finishes early and rests",
+      "pull": "early canvass",
+      "writes": "a quiet week and a calm journal line"
+    },
+    {
+      "turn": "The deadline passes with the sheets still out",
+      "pull": "neglect",
+      "writes": "the lost ballot line"
+    }
+  ]
 }

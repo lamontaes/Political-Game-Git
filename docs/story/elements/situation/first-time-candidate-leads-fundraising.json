@@ -13,5 +13,17 @@
     "donor": 0.7
   },
   "inGame": "campaign-gift records, the fundraising totals; donor-ask scenes",
-  "usedBy": ["donor-ask", "news"]
+  "usedBy": ["donor-ask", "news"],
+  "turns": [
+    {
+      "turn": "The first-time candidate trails the money",
+      "pull": "a small circle",
+      "writes": "a thin-pockets story"
+    },
+    {
+      "turn": "A rival's money comes from one donor",
+      "pull": "a gift record",
+      "writes": "a donor call to the other side"
+    }
+  ]
 }

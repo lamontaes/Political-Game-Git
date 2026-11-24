@@ -13,5 +13,17 @@
     "endorsement": 0.6
   },
   "inGame": "endorsement-asked, endorsed-other; needs: whether the player holds office when asked",
-  "usedBy": ["ask-endorsement"]
+  "usedBy": ["ask-endorsement"],
+  "turns": [
+    {
+      "turn": "The official backs the open-seat candidate",
+      "pull": "a favor or a friendship",
+      "writes": "an ask accepted"
+    },
+    {
+      "turn": "The official backs the incumbent against a friend",
+      "pull": "loyalty",
+      "writes": "a quiet decline"
+    }
+  ]
 }

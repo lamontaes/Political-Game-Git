@@ -15,5 +15,17 @@
     "petition": 1.0
   },
   "inGame": "petition-short event, petitionOf (needed, due), the clerk's check, campaign day choices",
-  "usedBy": ["petition-short", "filing-petition"]
+  "usedBy": ["petition-short", "filing-petition"],
+  "turns": [
+    {
+      "turn": "The petition is comfortably over the count",
+      "pull": "early canvass shifts",
+      "writes": "no petition-short scene at all"
+    },
+    {
+      "turn": "The petition is short by many names, not a few",
+      "pull": "a late start",
+      "writes": "a clerk's warning with less hope"
+    }
+  ]
 }

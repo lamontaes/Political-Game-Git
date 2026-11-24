@@ -13,5 +13,17 @@
     "volunteer": 0.4
   },
   "inGame": "party and cause group records; needs: group canvass teams as a recorded source of volunteers",
-  "usedBy": ["offer-help"]
+  "usedBy": ["offer-help"],
+  "turns": [
+    {
+      "turn": "The group endorses the rival and sends canvassers there",
+      "pull": "the group's record",
+      "writes": "a rival's door visit"
+    },
+    {
+      "turn": "The group stays neutral",
+      "pull": "a split membership",
+      "writes": "no team"
+    }
+  ]
 }

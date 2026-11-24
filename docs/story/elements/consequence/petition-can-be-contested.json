@@ -13,5 +13,17 @@
     "petition": 0.7
   },
   "inGame": "needs: a challenge or cure step after a short petition; the clerk's check exists, a formal contest does not",
-  "usedBy": ["petition-short"]
+  "usedBy": ["petition-short"],
+  "turns": [
+    {
+      "turn": "The candidate accepts the ruling and drops out",
+      "pull": "low stubbornness",
+      "writes": "a withdrawal and a family talk"
+    },
+    {
+      "turn": "The candidate cures it in the days left",
+      "pull": "days remaining",
+      "writes": "a second canvass and a late filing"
+    }
+  ]
 }

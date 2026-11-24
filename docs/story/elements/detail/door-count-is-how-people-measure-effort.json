@@ -13,5 +13,17 @@
     "news": 0.5
   },
   "inGame": "campaign day choices (canvass shift) and the campaign's own records; no count is said in speech by rule",
-  "usedBy": ["news"]
+  "usedBy": ["news"],
+  "turns": [
+    {
+      "turn": "The paper prints no door count and says the candidate barely campaigned",
+      "pull": "few canvass shifts",
+      "writes": "a thin news line"
+    },
+    {
+      "turn": "The count is large but residents still say they are ignored",
+      "pull": "the views engine",
+      "writes": "the gap into the story"
+    }
+  ]
 }

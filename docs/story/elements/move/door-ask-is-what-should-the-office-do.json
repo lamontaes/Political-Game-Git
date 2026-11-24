@@ -13,5 +13,17 @@
     "door": 0.8
   },
   "inGame": "ask-support follow ask, resident's strongest question from the views engine",
-  "usedBy": ["ask-support"]
+  "usedBy": ["ask-support"],
+  "turns": [
+    {
+      "turn": "The candidate tells first and never asks",
+      "pull": "a bold, low-agreeable candidate",
+      "writes": "a colder second knock"
+    },
+    {
+      "turn": "The resident turns the question back on the candidate",
+      "pull": "a curious resident",
+      "writes": "an ask reply and the candidate's answer"
+    }
+  ]
 }

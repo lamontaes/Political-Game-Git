@@ -13,5 +13,17 @@
     "manager": 0.7
   },
   "inGame": "campaign staff record; election night result read by staff",
-  "usedBy": ["offer-to-run", "race-lost", "race-won"]
+  "usedBy": ["offer-to-run", "race-lost", "race-won"],
+  "turns": [
+    {
+      "turn": "The manager stays calm in defeat",
+      "pull": "steady traits",
+      "writes": "a steady election night"
+    },
+    {
+      "turn": "The manager quits after a bad week",
+      "pull": "pressure",
+      "writes": "a staff gap and a Journal line"
+    }
+  ]
 }
