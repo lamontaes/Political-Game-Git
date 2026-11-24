@@ -1,0 +1,62 @@
+{
+  "id": "pattern-b5-05-under-one-roof-or-not",
+  "kind": "situation",
+  "summary": "Under one roof, or not: {the partner} asks to share a roof, to marry, or to end it, and the household has to rearrange around the answer.",
+  "realLife": "One life: A restaurant owner and a woman he met at an engagement party in 1971 married about a week later. He moved in with her, her mother and her grandfather until they could afford their own home. Her mother opposed it at first and later came to love him, and they were still together near their fiftieth anniversary. Another: After three months together he proposed during a recorded interview, using the ring his late father had used. She said yes. They married, stayed together nearly twenty years and have two sons. Another: A mother who divorced through a mediator tells another who is divorcing how she and her ex told their daughter together, sitting on the floor and stressing routines that stay the same. They share custody on a written plan and stayed on civil terms. Another: Her son, twelve, recalls the yelling at home before his parents' 2009 divorce, being torn, and his grades slipping for two school years. He now spends alternate weeks with each parent and mostly wants his mother to be happy.",
+  "sources": [
+    "https://www.gpb.org/news/2021/03/19/we-mesh-together-one-miami-love-story",
+    "https://www.kunc.org/2023-09-01/celebrating-a-couple-who-got-engaged-in-a-storycorps-booth-2-decades-ago",
+    "https://www.wunc.org/2016-11-10/finding-a-new-kind-of-partnership-through-divorce",
+    "https://www.kunc.org/2012-12-06/3-years-after-parents-divorce-son-looks-back"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": [
+    "the partner",
+    "the household",
+    "the one who objects or backs",
+    "the child"
+  ],
+  "gates": [
+    "{the partner} is tied to the player on the tie record as a partner or a would-be partner.",
+    "The housing record shows either a home or a room that could hold both, or a household that must change.",
+    "{the partner} has made the ask, or the break, on the calendar.",
+    "The player has not answered it before."
+  ],
+  "weights": [
+    "How long the tie has run.",
+    "Whether {the child} is in either household.",
+    "Whether either household's money is tight.",
+    "Whether {the one who objects or backs} lives in the same home.",
+    "Traits that commit or hold back."
+  ],
+  "pattern": "B5-05",
+  "choices": [
+    "say yes and name what changes in the home",
+    "say yes when a stated thing is settled",
+    "say not yet and give a time",
+    "say no and say why"
+  ],
+  "branches": [
+    {
+      "when": "the player says yes",
+      "then": "The household record changes: one joins the other, or a new home is found, and the money record is shared from that date."
+    },
+    {
+      "when": "the player says not yet",
+      "then": "A date to revisit goes on the calendar and the tie record shows a doubt."
+    },
+    {
+      "when": "the player says no",
+      "then": "The tie record cools, and the one who asked remembers it at the next big choice."
+    },
+    {
+      "when": "the partner ends it",
+      "then": "The household record splits, the child's days are set between homes, and who keeps the home goes on the housing record."
+    },
+    {
+      "when": "{the one who objects or backs} is in the house",
+      "then": "They speak up, and their stand reaches the family's later votes of confidence."
+    }
+  ],
+  "usedBy": ["move-in", "proposal", "breakup"]
+}

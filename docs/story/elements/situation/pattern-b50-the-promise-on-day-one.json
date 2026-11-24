@@ -1,0 +1,37 @@
+{
+  "id": "pattern-b50-the-promise-on-day-one",
+  "kind": "situation",
+  "summary": "The promise on day one: {the promise} can be kept at once, by order, minutes after the oath, or broken when the numbers turn.",
+  "realLife": "One life: Minutes after his swearing-in as California governor in 2003, he signed an order repealing the tripled vehicle license fee, his main pledge. Another: After taking office as Detroit's mayor in 1974, he disbanded the police decoy unit he had campaigned against. Another: Elected in 1990 after saying he would not seek an income tax, he faced a large deficit, vetoed budgets without one, and signed a 6 percent income tax in 1991. Tens of thousands rallied against him, and he did not run again.",
+  "sources": [
+    "https://consumerwatchdog.org/energy/governors-first-act-rescind-car-fee-hike/",
+    "https://en.wikipedia.org/wiki/Coleman_Young",
+    "https://en.wikipedia.org/wiki/Lowell_Weicker"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["the promise"],
+  "gates": ["You hold an executive office.", "{the promise} is on record."],
+  "weights": ["What it costs.", "The budget record."],
+  "pattern": "B50",
+  "choices": [
+    "keep it at once by order",
+    "keep it later through {the body}",
+    "break it and say why",
+    "delay"
+  ],
+  "branches": [
+    {
+      "when": "kept at once",
+      "then": "You sign the order minutes after the oath. The cost lands on the budget and on the places that relied on the money."
+    },
+    {
+      "when": "the police unit you ran against",
+      "then": "You disband it in your first weeks."
+    },
+    {
+      "when": "the numbers turn",
+      "then": "You veto budgets until the tax you promised against passes. Tens of thousands rally against you, and you may not run again."
+    }
+  ],
+  "usedBy": []
+}
