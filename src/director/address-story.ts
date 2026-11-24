@@ -97,7 +97,10 @@ export interface StorySpeaker {
 }
 
 /** The whole years left in the speaker's term, in words ("four years"), where the record holds its end. */
-function termLeft(core: CoreState, speaker: StorySpeaker): Facts {
+export function termLeft(
+  core: CoreState,
+  speaker: Pick<StorySpeaker, "term">,
+): Facts {
   if (!speaker.term) return {};
   const years = Math.round(
     daysBetweenText(core.date, speaker.term.endDate) /

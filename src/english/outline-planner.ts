@@ -65,6 +65,7 @@ interface ShapeRow {
 }
 
 const OUTLINES = outlineData as unknown as {
+  readonly disasterWords: Readonly<Record<string, string>>;
   readonly kinds: Readonly<Record<string, OutlineRow>>;
   readonly shapes: Readonly<Record<string, ShapeRow>>;
   readonly weights: {
@@ -82,6 +83,10 @@ interface TellingUse {
   readonly excludesFacts?: readonly string[];
 }
 
+/** A declared disaster's incident type as a speaker says it after "the" (outlines.json `disasterWords`). */
+export const DISASTER_WORDS: Readonly<Record<string, string>> =
+  OUTLINES.disasterWords;
+
 /** One piece of the planner's bank. */
 interface TellingPart {
   readonly key: string;
@@ -93,6 +98,11 @@ interface TellingPart {
   /** The recorded facets that pull a speaker toward the piece. */
   readonly lean?: readonly string[];
 }
+
+/** Every piece of the planner's bank, as written (the address record re-says its pieces from these). */
+export const OUTLINE_BANK_PARTS: readonly TellingPart[] = (
+  outlineBank as unknown as { parts: TellingPart[] }
+).parts;
 
 const PARTS: readonly TellingPart[] = admittedParts(
   (outlineBank as unknown as { parts: TellingPart[] }).parts,

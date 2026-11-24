@@ -3020,7 +3020,7 @@ function spanAgrees(topic: string, facts: Facts): boolean {
 }
 
 /** The speaker's serving term by its id, with its end, from the offices engine. */
-function termOf(
+export function termOf(
   core: CoreState,
   termId: string | null,
 ): { term?: { id: string; endDate: string } } {

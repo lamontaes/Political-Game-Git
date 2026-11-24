@@ -9,25 +9,31 @@
  * more than an ask of Congress (research: 4 of 88 inaugural points end in
  * an ask of a body; docs/research/first-evening-2026-11-24.md).
  */
-import outlineData from "../../data/english/outlines.json" with { type: "json" };
 import speechOutlines from "./data/speech-outlines.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
-import type { OfficialRow } from "../core2/modules/officials";
-import { PRESIDENT_FACT } from "../core2/officials-president";
+import {
+  officialsIn,
+  PRESIDENT_FACT,
+  type OfficialRow,
+} from "../core2/modules/officials";
+import { P } from "../core2/parameters";
+import { coreAPI } from "../core2/state";
+import { termLeft } from "./address-story";
 import type { CoreState, PersonState } from "../core2/types";
 import type { OpeningLevel } from "../english/english-opening-speech";
 import type { GroundedEnglishFact } from "../english/grounded-english";
-import { tell, type ToldSentence } from "../english/outline-planner";
+import {
+  DISASTER_WORDS,
+  tell,
+  type ToldSentence,
+} from "../english/outline-planner";
 import { officeWords } from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import type { OpeningSentence } from "./opening-story";
-import { planSpeech, type SpeechPlan } from "./speech-outline";
+import { planSpeech, termOf, type SpeechPlan } from "./speech-outline";
 
 type Facts = Record<string, GroundedEnglishFact>;
 
-const DISASTER_WORDS = (
-  outlineData as unknown as { disasterWords: Record<string, string> }
-).disasterWords;
 const THEME_NAMES = (
   speechOutlines as unknown as { themeNames: Record<string, string> }
 ).themeNames;
@@ -60,13 +66,27 @@ export function inauguralFacts(
 ): Facts {
   const facts = planFacts(plan);
   const ids = [official.id];
+  // The years left and the Vice President, from the offices and officials
+  // engines, where the plan's blocks did not carry them.
+  if (!facts["term-left"])
+    Object.assign(facts, termLeft(core, termOf(core, official.termId)));
+  if (!facts["vice-president"]) {
+    const vice = officialsIn(coreAPI(core), "US:vice-president")[P.zero];
+    const person = vice ? core.people.get(vice.id) : undefined;
+    if (vice && person)
+      facts["vice-president"] = fact(
+        [person.givenName, person.familyName].join(" "),
+        [vice.id],
+      );
+  }
   facts["took-oath"] = fact("yes", [inaugurationId, official.id]);
   const elected = (president.pastFacts ?? []).find(
     (row) => row.kind === PRESIDENT_FACT.elected,
   );
   if (
     elected &&
-    Number(elected.facts?.year) === Number(core.date.slice(0, 4)) - 1
+    Number(elected.facts?.year) ===
+      Number(core.date.slice(P.zero, core.date.indexOf("-"))) - P.one
   )
     facts["elected-last-fall"] = fact("yes", [elected.id]);
   const theme = plan.theme ? THEME_NAMES[plan.theme] : undefined;
@@ -77,7 +97,7 @@ export function inauguralFacts(
     facts["the-disaster"] = fact(said, disaster.sourceRecordIds);
   // The Vice President by office and name, as the said-as reader words an office.
   const vp = facts["vice-president"];
-  const vpId = vp?.sourceRecordIds[0];
+  const vpId = vp?.sourceRecordIds[P.zero];
   const vpOffice = vpId
     ? officeWords(
         saidPersonOf(core, vpId, {

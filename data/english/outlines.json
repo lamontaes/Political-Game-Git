@@ -38,7 +38,6 @@
         },
         {
           "name": "theme",
-          "required": true,
           "when": ["about"],
           "camera": "country",
           "shapes": [

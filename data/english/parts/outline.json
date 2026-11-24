@@ -240,7 +240,7 @@
           "subject": "inaugural",
           "role": "charge",
           "tie": "frame",
-          "requiresFacts": ["theme-name"]
+          "requiresFacts": ["theme-name", "about"]
         }
       ],
       "after": ["oath", "hired"],
@@ -263,7 +263,7 @@
           "subject": "inaugural",
           "role": "charge",
           "tie": "frame",
-          "requiresFacts": ["theme-name"]
+          "requiresFacts": ["theme-name", "about"]
         }
       ],
       "after": ["oath", "hired"],
@@ -285,7 +285,7 @@
           "subject": "inaugural",
           "role": "charge",
           "tie": "frame",
-          "requiresFacts": ["theme-name"]
+          "requiresFacts": ["theme-name", "about"]
         }
       ],
       "after": ["oath", "hired"],
@@ -364,10 +364,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.run.inaugural-these-last-have-been-hard-on-working-families-and-i-won-t-st",
+      "key": "outline.run.inaugural-the-last-have-been-hard-on-working-families",
       "move": "run",
       "kind": "spoken",
-      "text": "These last {run-span} have been hard on working families, and I won't stand up here and pretend they weren't.",
+      "text": "The last {run-span} have been hard on working families, and I won't stand up here and pretend they weren't.",
       "uses": [
         {
           "subject": "inaugural",
@@ -1197,10 +1197,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.question.inaugural-so-should-this-country",
+      "key": "outline.question.inaugural-should-this-country",
       "move": "question",
       "kind": "spoken",
-      "text": "So should this country {to}?",
+      "text": "Should this country {to}?",
       "uses": [
         {
           "subject": "inaugural",

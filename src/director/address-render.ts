@@ -16,7 +16,7 @@ import {
   type OpeningLevel,
 } from "../english/english-opening-speech";
 import type { PartTie } from "../english/bank-parts";
-import outlineBank from "../../data/english/parts/outline.json" with { type: "json" };
+import { OUTLINE_BANK_PARTS } from "../english/outline-planner";
 import { ADDRESS_FACT } from "./opening-facts";
 import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
@@ -41,15 +41,11 @@ export interface SaidSentence {
 
 // The inaugural's pieces come from the outline planner's bank (the Story
 // lead, Nov 24); every other address's from the opening-speech bank.
-const OUTLINE_PARTS = (
-  outlineBank as unknown as {
-    parts: {
-      key: string;
-      text: string;
-      uses: { subject: string; tie?: PartTie }[];
-    }[];
-  }
-).parts;
+const OUTLINE_PARTS = OUTLINE_BANK_PARTS as readonly {
+  key: string;
+  text: string;
+  uses: readonly { subject: string; tie?: PartTie }[];
+}[];
 const TEXT_OF = new Map([
   ...OPENING_SPEECH_BANK.parts.map((part) => [part.key, part.text] as const),
   ...OUTLINE_PARTS.map((part) => [part.key, part.text] as const),
