@@ -4843,6 +4843,11 @@ select.release-pick {
   border-bottom: 2px dotted rgba(226, 191, 110, 0.4);
   transform: translateY(-4px);
 }
+/* A date and a name on one row never break ("November 2, / 2021", "Reese / Warner"). */
+.strip-screen .dotrows.one-line .dotlabel,
+.strip-screen .dotrows.one-line .dotvalue {
+  white-space: nowrap;
+}
 .strip-screen .dotvalue {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
@@ -4851,6 +4856,8 @@ select.release-pick {
   position: absolute;
   top: 22px;
   right: 30px;
+  /* Above the name heading, which spans the card: the close mark takes the click. */
+  z-index: 3;
 }
 .strip-screen .mx3cols.one {
   grid-template-columns: minmax(0, 640px);
@@ -5561,11 +5568,11 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
-/* The side column is wide enough for a date and a name on one row
-   ("November 2, 2021 ... Holly Robles"), which wrapped to four lines. */
+/* The side column takes the width its longest line needs, up to 440px, so a date and a name sit
+   on one row ("November 2, 2021 ... Holly Robles") and never wrap or clip. */
 .roster-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) fit-content(440px);
   gap: 18px;
   align-items: start;
 }
