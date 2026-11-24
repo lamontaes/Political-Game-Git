@@ -19,12 +19,16 @@
     {
       "name": "no caution",
       "pulledBy": "a report with no caveat",
-      "writes": "the story gives the figures plainly"
+      "writes": "the story gives the figures plainly",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a caution that changes the story",
       "pulledBy": "a caveat that undoes the headline",
-      "writes": "the story leads with the caveat"
+      "writes": "the story leads with the caveat",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

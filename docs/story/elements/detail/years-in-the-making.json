@@ -19,12 +19,16 @@
     {
       "name": "a project approved fast",
       "pulledBy": "a short review",
-      "writes": "no mention of years"
+      "writes": "no mention of years",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a project revived after years",
       "pulledBy": "an old plan brought back",
-      "writes": "the story says when it was first filed"
+      "writes": "the story says when it was first filed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

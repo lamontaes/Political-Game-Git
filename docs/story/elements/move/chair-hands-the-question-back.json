@@ -19,12 +19,16 @@
     {
       "name": "the chair steps aside",
       "pulledBy": "a chair who recuses",
-      "writes": "the story says they left the room for the vote"
+      "writes": "the story says they left the room for the vote",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the chair abstains",
       "pulledBy": "a vote the chair sat out",
-      "writes": "the story says it passed without their vote"
+      "writes": "the story says it passed without their vote",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

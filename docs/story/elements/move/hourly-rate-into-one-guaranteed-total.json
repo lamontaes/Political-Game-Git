@@ -19,12 +19,16 @@
     {
       "name": "a flat fee",
       "pulledBy": "a contract paid in one sum",
-      "writes": "the story gives the fee as stated"
+      "writes": "the story gives the fee as stated",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "an open-ended total",
       "pulledBy": "a contract with no cap",
-      "writes": "the story says there is no ceiling"
+      "writes": "the story says there is no ceiling",
+      "requiresFacts": ["ended"],
+      "excludesFacts": []
     }
   ]
 }

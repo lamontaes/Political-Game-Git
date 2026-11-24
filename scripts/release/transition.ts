@@ -257,13 +257,16 @@ export function checkDeclarationTransition(
   // agreements (docs/lanes, written straight to main by every lane and the
   // merge desk) carry no release impact, and so does the play-first lane's
   // progress log (docs/play-first/PROGRESS.md), which every lane session
-  // appends to straight on main.
+  // appends to straight on main. The story element files
+  // (docs/story/elements) are research rows no client reads, so they carry no
+  // release impact either (CTO order 7135158792 on #9750, item 3).
   const eligiblePaths = paths.filter(
     (path) =>
       !isDeclarationPath(path) &&
       !path.startsWith("docs/coordination/") &&
       !path.startsWith("docs/pool/") &&
       !path.startsWith("docs/lanes/") &&
+      !path.startsWith("docs/story/elements/") &&
       !LANE_STATUS_PATHS.has(path),
   );
   const declarationPaths = paths.filter(

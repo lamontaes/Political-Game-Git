@@ -19,12 +19,16 @@
     {
       "name": "one bit of news",
       "pulledBy": "a single announcement",
-      "writes": "one line after the quotes"
+      "writes": "one line after the quotes",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a long list",
       "pulledBy": "a meeting with many items",
-      "writes": "a labeled list of items"
+      "writes": "a labeled list of items",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

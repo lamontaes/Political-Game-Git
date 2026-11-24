@@ -19,12 +19,16 @@
     {
       "name": "a town hall nobody attends",
       "pulledBy": "a poor turnout",
-      "writes": "the story is a short line that few came"
+      "writes": "the story is a short line that few came",
+      "requiresFacts": ["nobody"],
+      "excludesFacts": []
     },
     {
       "name": "a town hall that turns hostile",
       "pulledBy": "a hot issue and a hostile crowd",
-      "writes": "the story leads with the sharpest exchange"
+      "writes": "the story leads with the sharpest exchange",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
