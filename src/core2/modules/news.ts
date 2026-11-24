@@ -520,9 +520,15 @@ function scheduleDeliveries(
 ): number {
   let scheduled = 0;
   const maxAge = n(api, "newsMaxAgeDays");
+  // The played person does their own reading: a story an outlet they follow
+  // prints reaches them the day it is printed, not after the delay a person's
+  // habits give someone else (an 18-year-old at low engagement waited weeks,
+  // so a Week of play showed no story from the paper they follow).
+  const player = (api.state as { playerId?: PersonId }).playerId;
   for (const personId of readerIds) {
     if (skip.has(personId)) continue;
-    const exact = atOnce.has(personId) ? 0 : readingDelay(api, personId);
+    const now = atOnce.has(personId) || personId === player;
+    const exact = now ? 0 : readingDelay(api, personId);
     if (exact === null) continue;
     // A printed story's readers catch up with it in waves: the next day,
     // then each time the delay grows by the wave factor, so a story is read
@@ -539,15 +545,12 @@ function scheduleDeliveries(
             ),
         )
       : exact;
-    const date = addDays(
-      makeIsoDate(story.date),
-      atOnce.has(personId) ? 0 : delay,
-    );
+    const date = addDays(makeIsoDate(story.date), now ? 0 : delay);
     // A reading day already past is heard on that day; the story's own
     // subject hears it now. A delivery for today would wait on today's
     // reading, which has already run when a story is printed in the player's
     // turn (an interview sat for), so it is never left to the queue.
-    if (date < api.state.date || atOnce.has(personId))
+    if (date < api.state.date || now)
       hear(api, personId, story, "public", story.id, date);
     else
       deliveries(api).put({
