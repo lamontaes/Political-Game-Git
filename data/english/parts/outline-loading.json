@@ -3427,6 +3427,388 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.you-got-your-diploma-in-finished-year-after-more-years-of-homework-than-you-coul",
+      "move": "finished",
+      "kind": "written",
+      "text": "You got your diploma in {finished-year}, after more years of homework than you could count.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.finished-year-diploma-photos-and-a-lot-of-relatives-asking-what-comes-next",
+      "move": "finished",
+      "kind": "written",
+      "text": "{finished-year}: diploma, photos and a lot of relatives asking what comes next.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.you-finished-school-in-finished-year-and-found-out-how-many-forms-need-a-high-sc",
+      "move": "finished",
+      "kind": "written",
+      "text": "You finished school in {finished-year} and found out how many forms need a high school diploma.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.the-diploma-is-dated-finished-year-and-it-has-been-the-answer-to-a-lot-of-questi",
+      "move": "finished",
+      "kind": "written",
+      "text": "The diploma is dated {finished-year}, and it has been the answer to a lot of questions since.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.finished.when-you-graduated-in-finished-year-everyone-had-advice-and-none-of-it-was-the-s",
+      "move": "finished",
+      "kind": "written",
+      "text": "When you graduated in {finished-year}, everyone had advice and none of it was the same.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "finished",
+          "tie": "record",
+          "requiresFacts": ["finished-year"]
+        }
+      ],
+      "elements": ["a-diploma-is-counted-from-the-first-day-of-ninth-grade"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.in-college-year-you-started-college-and-learned-that-the-first-week-is-mostly-li",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you started college and learned that the first week is mostly lines.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-in-college-year-meant-a-schedule-a-reading-list-and-a-student-id-that-op",
+      "move": "college",
+      "kind": "written",
+      "text": "College in {college-year} meant a schedule, a reading list and a student ID that opened most doors.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-year-was-your-first-year-of-college-and-the-first-time-anyone-handed-you",
+      "move": "college",
+      "kind": "written",
+      "text": "{college-year} was your first year of college, and the first time anyone handed you a syllabus.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.you-went-to-college-in-college-year-and-every-office-on-campus-wanted-a-form",
+      "move": "college",
+      "kind": "written",
+      "text": "You went to college in {college-year}, and every office on campus wanted a form.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.in-college-year-you-enrolled-chose-a-few-classes-and-discovered-how-early-the-mo",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you enrolled, chose a few classes and discovered how early the morning ones start.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-started-in-college-year-tuition-came-due-on-a-schedule-whether-or-not-yo",
+      "move": "college",
+      "kind": "written",
+      "text": "College started in {college-year}. Tuition came due on a schedule, whether or not you felt ready.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.in-lost-year-you-ran-for-lost-office-lost-votes-voters-picked-you-and-winner-vot",
+      "move": "lost",
+      "kind": "written",
+      "text": "In {lost-year} you ran for {lost-office}. {lost-votes} voters picked you, and {winner-votes} picked the winner.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.the-lost-year-race-for-lost-office-ended-with-winner-votes-votes-for-the-winner",
+      "move": "lost",
+      "kind": "written",
+      "text": "The {lost-year} race for {lost-office} ended with {winner-votes} votes for the winner and {lost-votes} for you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.you-were-on-the-ballot-for-lost-office-in-lost-year-and-the-count-came-to-lost-v",
+      "move": "lost",
+      "kind": "written",
+      "text": "You were on the ballot for {lost-office} in {lost-year}, and the count came to {lost-votes} for you.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.lost-year-you-ran-for-lost-office-got-lost-votes-votes-and-lost-to-a-candidate-w",
+      "move": "lost",
+      "kind": "written",
+      "text": "{lost-year}: you ran for {lost-office}, got {lost-votes} votes and lost to a candidate with {winner-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.the-lost-year-election-for-lost-office-went-to-someone-else-winner-votes-votes-t",
+      "move": "lost",
+      "kind": "written",
+      "text": "The {lost-year} election for {lost-office} went to someone else, {winner-votes} votes to {lost-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.you-lost-the-lost-year-race-for-lost-office-lost-votes-to-winner-votes-and-the-w",
+      "move": "lost",
+      "kind": "written",
+      "text": "You lost the {lost-year} race for {lost-office}, {lost-votes} to {winner-votes}, and the winner took the seat.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.in-lost-year-you-put-your-name-on-the-ballot-for-lost-office-and-lost-votes-peop",
+      "move": "lost",
+      "kind": "written",
+      "text": "In {lost-year} you put your name on the ballot for {lost-office}, and {lost-votes} people marked it.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.lost.when-the-votes-for-lost-office-were-counted-in-lost-year-you-had-lost-votes-and",
+      "move": "lost",
+      "kind": "written",
+      "text": "When the votes for {lost-office} were counted in {lost-year}, you had {lost-votes} and the winner had {winner-votes}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "lost",
+          "tie": "record",
+          "requiresFacts": [
+            "lost-year",
+            "lost-office",
+            "lost-votes",
+            "winner-votes"
+          ]
+        }
+      ],
+      "elements": ["lincoln-lost-his-first-race"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
