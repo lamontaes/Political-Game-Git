@@ -159,7 +159,7 @@
   --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
   /* Government's room painting, a strip across the screen (gov-local mock). */
-  --room-strip-h: 72px;
+  --room-strip-h: 112px;
   /* The person card's bust column. */
   --card-bust: 440px;
   --pick-pad: 6px 12px;
@@ -3904,7 +3904,7 @@ details.entry[open] {
 .government-screen > .chamber {
   height: var(--room-strip-h);
   margin: 0 0 12px;
-  background-position: center 62%;
+  background-position: center 45%;
 }
 .chamber-name {
   font: 800 var(--t-h3)/1.1 var(--name);
@@ -5017,6 +5017,12 @@ select.release-pick {
 }
 .strip-screen .dotrow.typed .dotvalue {
   white-space: nowrap;
+}
+/* A vote's name in Recent votes wraps rather than ending in an ellipsis: a long bill name reads whole. */
+.vote-rows .dotrow.typed .dotlabel {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .strip-board {
   width: 100%;

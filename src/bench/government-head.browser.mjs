@@ -61,8 +61,10 @@ try {
         m.room.width >= m.screenWidth - 2,
         `${level}: the room does not run across the screen`,
       );
+      // Tall enough to read as a room (owner's Player, Nov 24: "a thin sliver of a painting, not a room"),
+      // short enough to stay a strip under the tabs.
       assert.ok(
-        m.room.height <= 100,
+        m.room.height >= 100 && m.room.height <= 130,
         `${level}: the room is ${m.room.height} tall`,
       );
       assert.ok(
@@ -70,6 +72,22 @@ try {
         `${level}: the room is not above both columns`,
       );
     }
+  }
+  // A vote's name in Recent votes is never cut to an ellipsis, in a wide window or a narrow one.
+  for (const width of [1440, 1000]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page
+      .getByRole("button", { name: "State", exact: true })
+      .first()
+      .click();
+    await page.waitForTimeout(1200);
+    const clipped = await page.evaluate(() =>
+      [...document.querySelectorAll(".vote-rows .dotlabel")]
+        .filter((n) => n.scrollWidth > n.clientWidth + 1)
+        .map((n) => n.textContent.trim()),
+    );
+    console.log(`${width}px: ${clipped.length} vote names cut`);
+    assert.deepEqual(clipped, [], `${width}px: a vote name is cut off`);
   }
   assert.deepEqual(errors, []);
   console.log("government head: pass");
