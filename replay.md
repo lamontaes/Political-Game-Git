@@ -178,3 +178,10 @@ Heads: main 1ceba440; main+#10346 925a2448 (local merge); main+ten PRs+#10391 4a
 | Row | Grade | Note |
 | --- | --- | --- |
 | N8-P8 | **pass** | The CTO says the map was meant to go (he said it "looks awful", Nov 8) and the approved loading mock has no map, so the capitol painting with the step list is right (comment 7127749697, answer 2). |
+
+## Re-played on main 0ed6d08e (#10314 and #10386 landed)
+
+| Row | His words | PR and head | Place and seed | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- | --- | --- |
+| N16-12 | "lots of empty, dead space right here" (creator) | #10314 (910c6540), main 0ed6d08e | creator (Random drew Cabin John, Maryland) | **pass** | replay-m7cr-2-random.png | The town list runs down the left column to the buttons; no empty block. |
+| Bills list scroller | the bill list stopped at its fourth bill with free room below | #10386 (37166d5d), main 0ed6d08e | Eastshore, Kansas, seed 90a8995c-9514-4ee0-afed-95537ae52877 | **pass** (the list now shows seven bills and fills the panel to its bottom edge; it still scrolls for the rest, pager 1,328 in 610, the only overflow auto element) | replay-m7-bills.png | Bills: Drafted list of seven bills, then the banner, Where it is and The bill. |
