@@ -165,27 +165,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.call.inaugural-i-ll-need-i-ll-need-congress-and-most-of-all-i-ll-need-you",
-      "move": "call",
-      "kind": "spoken",
-      "text": "I'll need {the-vice-president}, I'll need Congress, and most of all I'll need you.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.call.inaugural-if-you-think-i-m-wrong-about-tell-me-i-d-rather-hear-it-from",
       "move": "call",
       "kind": "spoken",
@@ -286,28 +265,6 @@
       "lean": [
         "personality-v1:facet-supportive",
         "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.inaugural-show-up-for-your-town-whoever-you-voted-for-the-next-belong-to-all-of-us",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Show up for your town, whoever you voted for. The next {term-left} belong to all of us.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "law",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-devoted",
-        "personality-v1:facet-sincere"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -1134,10 +1091,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.charge.spoken-nobody-has-to-guess-what-i-think-matters-most-it-s",
+      "key": "outline-call.charge.spoken-you-shouldn-t-need-to-read-between-the-lines-to-learn-my-priority",
       "move": "charge",
       "kind": "spoken",
-      "text": "Nobody has to guess what I think matters most. It's {theme-name}.",
+      "text": "You shouldn't need to read between the lines to learn my priority: {theme-name}.",
       "uses": [
         {
           "subject": "inaugural",
@@ -1388,6 +1345,226 @@
       "lean": [
         "personality-v1:facet-studious",
         "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-whoever-you-voted-for-there-s-work-in-the-next-that-needs-your-hands-n",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Whoever you voted for, there's work in the next {term-left} that needs your hands, not mine.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-and-i-are-both-listening-so-if-no-one-in-your-town-is-say-it-to-us",
+      "move": "call",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I are both listening, so if no one in your town is, say it to us.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-tell-the-people-who-disagree-with-you-about-one-thing-they-got-right",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Tell the people who disagree with you about {about} one thing they got right.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-mediating"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-learn-who-sits-on-the-board-that-decides-where-you-live",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Learn who sits on the board that decides {theme-short} where you live.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-don-t-scroll-past-the-story-on-read-it-to-the-end-then-tell-someone",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Don't scroll past the story on {theme-short}. Read it to the end, then tell someone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-bring-your-questions-about-to-whoever-runs-your-town-and-keep-asking-u",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Bring your questions about {about} to whoever runs your town, and keep asking until you get an answer.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.spoken-say-thank-you-to-one-person-in-your-town-who-keeps-showing-up-it-adds",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Say thank you to one person in your town who keeps showing up. It adds up over {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "frame",
+          "requiresFacts": ["term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-there-s-a-long-list-of-worries-i-could-name-today-but-is-the-one-i-ll",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "There's a long list of worries I could name today, but {theme-name} is the one I'll stay with.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-the-first-test-of-this-term-is-and-you-can-grade-me-on-it",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "The first test of this term is {theme-name}, and you can grade me on it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.charge.spoken-i-know-it-s-hard-to-hear-about-one-more-time-here-s-why-i-m-saying-it",
+      "move": "charge",
+      "kind": "spoken",
+      "text": "I know it's hard to hear about {theme-name} one more time. Here's why I'm saying it anyway.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "charge",
+          "tie": "frame",
+          "requiresFacts": ["theme-name", "about"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["oath", "hired"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-tender-hearted"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
