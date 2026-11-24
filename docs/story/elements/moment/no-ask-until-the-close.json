@@ -28,5 +28,6 @@
       "pulledBy": "a state kind",
       "writesBack": "The housemate answers the middle point."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

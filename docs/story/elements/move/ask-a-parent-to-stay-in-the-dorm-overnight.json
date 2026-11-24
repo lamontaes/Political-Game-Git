@@ -1,0 +1,32 @@
+{
+  "id": "ask-a-parent-to-stay-in-the-dorm-overnight",
+  "kind": "move",
+  "summary": "A student calls home late because the next morning’s class depends on overnight assistance.",
+  "realLife": "Tomko recalled calling her mother late at night to stay at the dorm so she could sleep and attend class the next day.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/26f63a1e-00d1-6ad6-379e-0693ea26dbc9/Official%20Hearing%20Transcript_8.7.2024.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{student}", "{parent}", "{class}"],
+  "gates": [
+    "Overnight assistance is missing and the student has contacted a parent."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a parent’s contact and overnight coverage for the student.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A replacement arrives before the parent leaves home.",
+      "pulledBy": "The agency fills the shift and the student confirms it.",
+      "writesBack": "The parent can keep their own evening plans."
+    },
+    {
+      "turn": "partial",
+      "what": "The parent covers the night only.",
+      "pulledBy": "The daytime assignment is still open.",
+      "writesBack": "The student and agency must arrange the next shift."
+    }
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
+}
