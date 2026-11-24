@@ -18,6 +18,12 @@
       "what": "The employer calls to invite the applicant for another interview.",
       "pulledBy": "The application passed its first review and the hiring decision is open.",
       "writesBack": "The application advances to an interview with no offer recorded."
+    },
+    {
+      "turn": "late",
+      "what": "The offer comes after the applicant has accepted work somewhere else.",
+      "pulledBy": "Both employers have dated correspondence on file and the applicant has a confirmed start date.",
+      "writesBack": "The applicant declines the later offer and the first job remains on the employment record."
     }
   ]
 }

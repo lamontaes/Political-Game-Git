@@ -18,6 +18,12 @@
       "what": "The player arrives in time for the questions after the speech.",
       "pulledBy": "A prior commitment ran past the advertised start.",
       "writesBack": "Their recollection covers the exchange they heard."
+    },
+    {
+      "turn": "opposite",
+      "what": "At the microphone a listener defends the governor’s decision and asks the speaker to explain a local exception.",
+      "pulledBy": "The chair opens questions and the listener has the notice granting the exception.",
+      "writesBack": "The meeting account includes the question and the speaker’s answer."
     }
   ]
 }

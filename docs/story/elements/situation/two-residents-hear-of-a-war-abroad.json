@@ -18,6 +18,12 @@
       "what": "One resident tells the other where the report came from and asks to talk later.",
       "pulledBy": "The second resident wants to contact family before discussing it.",
       "writesBack": "The encounter ends with a source and a request for privacy."
+    },
+    {
+      "turn": "late",
+      "what": "One resident phones the other after a relative abroad manages to call home.",
+      "pulledBy": "The family has heard directly from the relative since the two residents last spoke.",
+      "writesBack": "Their next conversation can establish that one person’s whereabouts are known."
     }
   ]
 }

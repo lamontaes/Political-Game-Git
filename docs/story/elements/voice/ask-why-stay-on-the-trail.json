@@ -18,6 +18,12 @@
       "what": "The candidate decides to end the run after reflecting on the demands of the job.",
       "pulledBy": "The office would require a commitment the candidate no longer wants to make.",
       "writesBack": "The private decision precedes the campaign's public announcement."
+    },
+    {
+      "turn": "partial",
+      "what": "The candidate decides to keep running and gives up an overnight stop to make a family appointment.",
+      "pulledBy": "The candidate has an invitation for that night and a prior commitment at home.",
+      "writesBack": "The host gets a cancellation while the candidacy remains active."
     }
   ]
 }

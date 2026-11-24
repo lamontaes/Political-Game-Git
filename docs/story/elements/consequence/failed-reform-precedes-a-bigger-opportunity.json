@@ -18,6 +18,12 @@
       "what": "The member accepts a place on the larger effort while declining to lead it.",
       "pulledBy": "Their current office leaves time for hearings but not for running the effort.",
       "writesBack": "The new appointment carries a narrower responsibility."
+    },
+    {
+      "turn": "late",
+      "what": "When the state opens applications for its study panel, the former sponsor sends in the town’s defeated proposal.",
+      "pulledBy": "The panel’s charge includes the same question and accepts earlier local work.",
+      "writesBack": "The panel receives the proposal with its local vote history attached."
     }
   ]
 }

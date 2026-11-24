@@ -18,6 +18,12 @@
       "what": "The two remember meeting at work and disagree about which shift it was.",
       "pulledBy": "Their job dates overlap but neither kept the old roster.",
       "writesBack": "The workplace remains established and the shift stays uncertain."
+    },
+    {
+      "turn": "late",
+      "what": "The retired dispatcher mails over the shift photograph after the call.",
+      "pulledBy": "The two friends worked at the same depot and the dispatcher kept the annotated print.",
+      "writesBack": "The photo supplies the missing date for their first shift together."
     }
   ]
 }

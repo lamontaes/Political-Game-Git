@@ -18,6 +18,12 @@
       "what": "The paper holds the story until the college confirms the athlete is on the roster.",
       "pulledBy": "The family has announced plans and the roster has yet to be published.",
       "writesBack": "The published story uses the confirmed entry date."
+    },
+    {
+      "turn": "partial",
+      "what": "The athlete makes the college roster and spends the opener on the bench.",
+      "pulledBy": "The official roster includes the athlete and the game report records no playing time.",
+      "writesBack": "The hometown story reports the roster spot and saves the debut for the first appearance."
     }
   ]
 }

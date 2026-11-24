@@ -18,6 +18,12 @@
       "what": "The member asks which commitment is in doubt and the counterpart declines to specify.",
       "pulledBy": "The counterpart has only informal influence over the organization.",
       "writesBack": "The meeting records uncertainty and no confirmed withdrawal."
+    },
+    {
+      "turn": "opposite",
+      "what": "A union delegate says the local’s endorsement must go to a membership vote whatever happens at this meeting.",
+      "pulledBy": "The local’s rules reserve endorsement to the members, and no vote has occurred.",
+      "writesBack": "The office removes the supposed commitment from its count."
     }
   ]
 }

@@ -18,6 +18,12 @@
       "what": "The member hears which provision is disputed and asks for the text at their desk.",
       "pulledBy": "The next meeting is starting and the colleague has no copy along.",
       "writesBack": "The open request identifies the provision to review."
+    },
+    {
+      "turn": "late",
+      "what": "By the time the two members meet again, the disputed sentence has been struck from the draft.",
+      "pulledBy": "The clerk has published a newer version since the hallway conversation.",
+      "writesBack": "The negotiators close the request against the earlier text and turn to the remaining clauses."
     }
   ]
 }

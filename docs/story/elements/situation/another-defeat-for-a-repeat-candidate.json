@@ -18,6 +18,12 @@
       "what": "The candidate wins after several unsuccessful races.",
       "pulledBy": "The certified return puts them ahead for the first time.",
       "writesBack": "The electoral history records a first victory alongside the earlier losses."
+    },
+    {
+      "turn": "late",
+      "what": "The candidate waits for a close result to be certified before sending a note to former volunteers.",
+      "pulledBy": "The unofficial count shows a loss and the elections board still has ballots to review.",
+      "writesBack": "The campaign adds a defeat to the history only after certification."
     }
   ]
 }

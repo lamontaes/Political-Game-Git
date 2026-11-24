@@ -18,6 +18,12 @@
       "what": "The counterpart says their existing support will stand despite the disagreement.",
       "pulledBy": "Their endorsement was based on an earlier commitment independent of this vote.",
       "writesBack": "The endorsement remains in place after the dispute."
+    },
+    {
+      "turn": "partial",
+      "what": "A supporter withdraws permission to use their name in the mailer but keeps a promise to host a public forum.",
+      "pulledBy": "The endorsement and the forum invitation are recorded separately.",
+      "writesBack": "The printer drops the name and the scheduler keeps the forum date."
     }
   ]
 }
