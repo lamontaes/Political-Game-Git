@@ -1,0 +1,36 @@
+{
+  "id": "mass-layoff-leaves-long-tenured-workers-at-higher-risk-of-early-death",
+  "kind": "consequence",
+  "summary": "Long-tenured workers who lose their jobs in a mass layoff die sooner on average than similar workers who keep working.",
+  "realLife": "Using Pennsylvania records matched to death records, researchers found job loss raised death rates by roughly 15 to 20 percent over the next twenty years.",
+  "sources": [
+    "NBER working paper w13626, Mortality, Mass-Layoffs, and Career Outcomes: https://www.nber.org/papers/w13626"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a health record that reads job loss and earnings loss as a cause; the person's job-ended event, pay change and age can feed it.",
+  "turns": [
+    {
+      "turn": "worker-sees-a-doctor-after-the-layoff",
+      "summary": "The worker goes in for a check-up and a problem is found early.",
+      "pulledBy": ["a spouse who insists", "health coverage"],
+      "writesBack": "health note; spouse tie closer"
+    },
+    {
+      "turn": "worker-ignores-symptoms",
+      "summary": "The worker puts off care to save money.",
+      "pulledBy": ["no coverage", "trait: stubborn"],
+      "writesBack": "health note worse; journal note"
+    },
+    {
+      "turn": "neighbors-bring-meals",
+      "summary": "Neighbors learn of the layoff and check in.",
+      "pulledBy": ["neighbor ties", "small town"],
+      "writesBack": "neighbor ties closer; mood: supported"
+    }
+  ]
+}

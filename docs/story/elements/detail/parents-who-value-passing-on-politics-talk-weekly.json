@@ -34,5 +34,6 @@
       "pulledBy": "Closeness.",
       "writesBack": "Writes view to the spouse."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

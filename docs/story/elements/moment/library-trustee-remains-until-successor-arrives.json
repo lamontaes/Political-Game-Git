@@ -1,0 +1,31 @@
+{
+  "id": "library-trustee-remains-until-successor-arrives",
+  "kind": "moment",
+  "summary": "A trustee stays at the table after the term ends while the mayor chooses a successor.",
+  "realLife": "At the May 2024 annual meeting, Boston trustees heard that Chynah Tyler would continue serving until the mayor appointed her replacement.",
+  "sources": [
+    "https://cdn-web-main.bibliocms.com/wp-content/uploads/sites/30/2024/09/Draft-Minutes-BOT-1st-Meeting-5.21.24.pdf#page=1",
+    "https://cdn-web-main.bibliocms.com/wp-content/uploads/sites/30/2025/05/Approved-Minutes-BOT-Meeting-9.24.24.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{trustee}", "{appointing_official}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: appointment record and local holdover rule.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The successor takes office before the next meeting.",
+      "what": "The outgoing trustee passes on the branch file.",
+      "writesBack": "The next roll names the successor."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The appointment is still pending when the board meets.",
+      "what": "The clerk calls the continuing trustee's name.",
+      "writesBack": "The minutes identify who actually held the seat."
+    }
+  ]
+}

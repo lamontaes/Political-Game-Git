@@ -1,0 +1,36 @@
+{
+  "id": "visitor-brings-news-from-outside-and-talks-lightly",
+  "kind": "voice",
+  "summary": "A church visitor to a homebound member shares family news and church news and does most of the talking.",
+  "realLife": "A deacon ministry guide says visits can be one-sided when the person has trouble speaking, so visitors bring news of family, weather and church, and respect those who don't want visits.",
+  "sources": [
+    "Baptist News Global, Deacon ministry to the homebound: https://baptistnews.com/article/leadershiplinkdeaconministrytothehomebound/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: churches; a friend or relative visit scene with a sick person tie",
+  "turns": [
+    {
+      "turn": "visitor-talks-about-their-own-troubles",
+      "summary": "The visitor drifts into their own complaints.",
+      "pulledBy": ["a self-absorbed visitor"],
+      "writesBack": "the person tires; a cooler tie"
+    },
+    {
+      "turn": "visitor-is-turned-away",
+      "summary": "The person asks not to have visitors.",
+      "pulledBy": ["a proud or private person"],
+      "writesBack": "the visitor leaves a note; respect recorded"
+    },
+    {
+      "turn": "visitor-reads-aloud",
+      "summary": "The visitor reads a short passage or the newsletter.",
+      "pulledBy": ["a warm visitor", "a person with poor eyesight"],
+      "writesBack": "a closer tie; a recurring visit"
+    }
+  ]
+}

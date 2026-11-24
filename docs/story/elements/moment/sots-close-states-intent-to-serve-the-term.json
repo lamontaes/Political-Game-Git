@@ -1,0 +1,32 @@
+{
+  "id": "sots-close-states-intent-to-serve-the-term",
+  "kind": "moment",
+  "summary": "The governor says plainly how many years of the term remain.",
+  "realLife": "Lee in 2023 said he looked forward to this year and three more with the legislature.",
+  "sources": [
+    "https://www.wsmv.com/2023/02/07/gov-bill-lee-state-state-remarks/",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["term-left"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The `term-left` fact from the term record, said in words; a budget of one per address.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No mention of the term at the close.",
+      "pulledBy": "a speaker in a last year",
+      "writesBack": "The close is the thanks."
+    },
+    {
+      "turn": "partial",
+      "what": "`this year` only.",
+      "pulledBy": "term-left one year",
+      "writesBack": "A shorter line."
+    }
+  ]
+}

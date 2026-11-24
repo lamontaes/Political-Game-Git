@@ -26,5 +26,6 @@
       "pulledBy": "The visitor asks for privacy before handing over the document.",
       "writesBack": "The aide can confirm the subject of the visit and the caseworker alone handles the personal details."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

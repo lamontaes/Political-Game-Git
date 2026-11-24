@@ -1,0 +1,28 @@
+{
+  "id": "petition-group-draws-line-at-repeal-wording",
+  "kind": "situation",
+  "summary": "A group willing to renegotiate store costs refuses to endorse ballot language that opens the door to repeal.",
+  "realLife": "Hank Ottinger told the council that Columbians Against Throwaways would consider adjustments but opposed a ballot proposal mentioning repeal.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{group}", "{ballot}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: group position and ballot wording.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "An organizer asks for copies to circulate before the next meeting.",
+      "pulledBy": "A revision keeps the deposit in force.",
+      "writesBack": "The organizers take the revised text back to their group."
+    },
+    {
+      "turn": "opposite",
+      "what": "The group sends its own speaker to the ballot hearing.",
+      "pulledBy": "Repeal remains a ballot option.",
+      "writesBack": "The group's objection appears alongside its offer to negotiate costs."
+    }
+  ]
+}

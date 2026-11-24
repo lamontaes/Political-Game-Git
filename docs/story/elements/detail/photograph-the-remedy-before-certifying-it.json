@@ -1,0 +1,32 @@
+{
+  "id": "photograph-the-remedy-before-certifying-it",
+  "kind": "detail",
+  "summary": "{architect} attaches photographs to an independent finding about a county repair.",
+  "realLife": "Merced agreed to pay for an independent licensed architect whose certifications would document corrected barriers with photographs.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_sa.html#:~:text=reports%20with%20photographs"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{architect}"],
+  "gates": [
+    "A repair subject to independent certification is ready for inspection."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the work order, inspection photographs and independent finding.",
+  "turns": [
+    {
+      "turn": "repair certified",
+      "what": "The architect signs the finding with photographs.",
+      "pulledBy": "The installed work meets the applicable standard.",
+      "writesBack": "The repair file gains an independent certification."
+    },
+    {
+      "turn": "repair returned",
+      "what": "The architect documents the remaining barrier.",
+      "pulledBy": "The installation differs from the drawing.",
+      "writesBack": "The work order returns to the installer."
+    }
+  ],
+  "issues": ["budget:administration"]
+}

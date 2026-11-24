@@ -1,0 +1,32 @@
+{
+  "id": "food-bank-network-carries-the-state-program",
+  "kind": "move",
+  "summary": "When a resident asks about a state food initiative in {place}, the sponsor points to the local distribution partner.",
+  "realLife": "The Nourish New York proposal assigned financial and technical support to a state department and named food banks and emergency food providers as distributors.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/6.17.21_senator_borrello_joins_colleagues_to_urge_governor_to_sign_nourish_ny_f.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "A program record identifies the administering department and the local delivery network."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a program record identifies the administering department and the local delivery network.",
+  "turns": [
+    {
+      "turn": "provider-known",
+      "pulledBy": "The area has a documented distributor.",
+      "what": "Give the resident that provider's public details.",
+      "writesBack": "Record the referral."
+    },
+    {
+      "turn": "provider-unknown",
+      "pulledBy": "The directory lacks a confirmed local provider.",
+      "what": "Send the availability question to the program office.",
+      "writesBack": "Keep the referral open."
+    }
+  ]
+}

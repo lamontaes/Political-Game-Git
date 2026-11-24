@@ -1,0 +1,32 @@
+{
+  "id": "sots-close-announces-a-new-policy",
+  "kind": "moment",
+  "summary": "The close announces a new office or program.",
+  "realLife": "Evers in 2024 closed by announcing an office for state employee engagement and retention before his slogan.",
+  "sources": [
+    "https://urbanmilwaukee.com/pressrelease/press-release-gov-evers-delivers-2024-state-of-the-state-address/",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: an executive-act record created at the speech that the close can name.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No announcement; a thank-you.",
+      "pulledBy": "default",
+      "writesBack": "No record."
+    },
+    {
+      "turn": "late",
+      "what": "The announcement is the last line.",
+      "pulledBy": "a speaker with a new act ready",
+      "writesBack": "The paper leads on it."
+    }
+  ]
+}

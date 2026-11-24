@@ -1,0 +1,36 @@
+{
+  "id": "parents-of-children-volunteer-at-school-and-youth-groups",
+  "kind": "consequence",
+  "summary": "Parents are the ones most often pulled into school and youth groups, and working there ties them to other parents and staff.",
+  "realLife": "The Bureau of Labor Statistics found about 31 percent of parents of children under 18 volunteered, versus about 23 percent of adults without children, and a quarter of volunteers served mainly with educational or youth groups.",
+  "sources": [
+    "U.S. Bureau of Labor Statistics, Volunteering in the United States news release: https://www.bls.gov/news.release/volun.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "school"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["budget:schools"],
+  "inGame": "school record of the child links a parent to the school; ties to other parents and staff change with shared work.",
+  "turns": [
+    {
+      "turn": "parent-joins-the-parent-group",
+      "summary": "The parent signs up and makes friends there.",
+      "pulledBy": ["child in school", "friend in the group"],
+      "writesBack": "ties with other parents; tie to teacher closer"
+    },
+    {
+      "turn": "parent-gives-one-day-and-stops",
+      "summary": "The parent helps once and drops out.",
+      "pulledBy": ["two jobs", "trait: reserved"],
+      "writesBack": "no lasting ties"
+    },
+    {
+      "turn": "parent-ends-up-speaking-at-a-board-meeting",
+      "summary": "Volunteering leads the parent to speak on a school issue.",
+      "pulledBy": ["a school budget fight", "angry neighbors"],
+      "writesBack": "a cause shared with neighbors; invitation to a meeting"
+    }
+  ]
+}

@@ -32,5 +32,9 @@
       "pulledBy": ["management leaning", "gossip in workplace"],
       "writesBack": "tie cools; boss tie changes"
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.right-to-work",
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
   ]
 }

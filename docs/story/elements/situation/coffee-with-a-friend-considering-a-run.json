@@ -1,0 +1,31 @@
+{
+  "id": "coffee-with-a-friend-considering-a-run",
+  "kind": "situation",
+  "summary": "A friend asks the player to meet while deciding whether to run for office.",
+  "realLife": "Before settling on a race in 1952, John Kennedy asked Thomas Costin to meet at his Boston apartment. Kennedy wanted Costin to host a gathering in Lynn while a Senate run and a race for governor were both possibilities.",
+  "sources": [
+    "https://static.jfklibrary.org/468j7wmi7030ys07yd370f7grrwyreqg.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L184"
+  ],
+  "inGame": "needs: a prospective candidacy that can cause the meeting before filing.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{friend}", "{office}", "{place}"],
+  "gates": ["The friend is considering an eligible office."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The friend arrives with a decision to stay out of the race.",
+      "pulledBy": "They have checked the filing calendar against a family commitment.",
+      "writesBack": "The meeting ends with no candidacy."
+    },
+    {
+      "turn": "partial",
+      "what": "Over coffee the friend offers a living room for a few introductions but asks to leave the office off the invitation.",
+      "pulledBy": "The prospective candidate is still considering two races and has announced neither.",
+      "writesBack": "The invitation describes a private gathering and the campaign record leaves the choice of office open."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -25,5 +25,6 @@
       "pulledBy": "a move or a grade change",
       "writesBack": "the entry names the school"
     }
-  ]
+  ],
+  "issues": ["budget:schools"]
 }

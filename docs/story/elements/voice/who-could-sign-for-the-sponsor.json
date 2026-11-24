@@ -1,0 +1,30 @@
+{
+  "id": "who-could-sign-for-the-sponsor",
+  "kind": "voice",
+  "summary": "A sponsor asks a board to undo a decision made on the strength of an unauthorized endorsement.",
+  "realLife": "The Scout council told the committee that the person who backed Lake Killian could not speak for its directors and asked for Spring Lake back.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{sponsor}", "{endorsement}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the disputed endorsement, its signatory and the directors’ response.",
+  "turns": [
+    {
+      "turn": "a-staff-member-attaches-their-vote",
+      "what": "A staff member attaches their vote.",
+      "pulledBy": "The directors confirm the endorsement.",
+      "writesBack": "The endorsement stays in the file."
+    },
+    {
+      "turn": "the-sponsor-asks-for-reconsideration",
+      "what": "The sponsor asks for reconsideration.",
+      "pulledBy": "The directors disavow the endorsement.",
+      "writesBack": "The file records a disputed endorsement."
+    }
+  ]
+}

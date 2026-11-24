@@ -1,0 +1,30 @@
+{
+  "id": "endorsements-fall-away-after-an-online-controversy",
+  "kind": "consequence",
+  "summary": "A candidate loses endorsements one by one after criticism, and then leaves the race with the name still on the ballot.",
+  "realLife": "A school board candidate lost the support of sitting board members over alleged ties he denied, announced a withdrawal, and had his name remain on the ballot because it was already printed.",
+  "sources": [
+    "OPB, school board candidate withdraws again, May 10, 2023: https://www.opb.org/article/2023/05/10/portland-school-board-candidate-derrick-peterson-withdraws-from-the-race-again"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "needs: an endorsement that can be withdrawn and a ballot-printing date after which a withdrawal leaves the name",
+  "weights": {
+    "endorsement": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The endorsers stay",
+      "pulledBy": "trust in the candidate holds",
+      "writesBack": "the endorsement list stays and the race goes on"
+    },
+    {
+      "turn": "The endorsers pull back and the candidate exits",
+      "pulledBy": "a story that spreads and a printed ballot",
+      "writesBack": "a withdrawal on the record with the name still listed"
+    }
+  ]
+}

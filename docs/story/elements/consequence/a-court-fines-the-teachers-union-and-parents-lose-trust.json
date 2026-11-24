@@ -1,0 +1,36 @@
+{
+  "id": "a-court-fines-the-teachers-union-and-parents-lose-trust",
+  "kind": "consequence",
+  "summary": "After an illegal strike, a union faces a large court fine and some parents say their trust in the teachers has dropped.",
+  "realLife": "After a two-week teachers' strike in Newton, Massachusetts, in 2024, the union was fined $625,000 and the settlement raised pay about 12.6 percent over four years.",
+  "sources": [
+    "Boston Globe, Newton strike ends: winners and losers: https://www.bostonglobe.com/2024/02/03/metro/newton-strike-ends-update-winners-losers/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place", "school"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["budget:schools"],
+  "inGame": "strike formed by the public-action engine ends; the settlement changes teacher pay on job records; parent ties to teachers can cool.",
+  "turns": [
+    {
+      "turn": "parents-forgive-and-move-on",
+      "summary": "Parents shrug and the year resumes.",
+      "pulledBy": ["children back in class", "a teacher they like"],
+      "writesBack": "parent-teacher tie holds"
+    },
+    {
+      "turn": "special-education-families-stay-angry",
+      "summary": "Families of students who lost services stay critical.",
+      "pulledBy": ["a child with a lost service"],
+      "writesBack": "parent tie colder; cause for the school board"
+    },
+    {
+      "turn": "city-struggles-to-pay",
+      "summary": "The city worries it cannot afford the deal in a downturn.",
+      "pulledBy": ["tight budget"],
+      "writesBack": "a budget cause among neighbors"
+    }
+  ]
+}

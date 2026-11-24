@@ -1,0 +1,31 @@
+{
+  "id": "fewer-families-have-children-at-home",
+  "kind": "detail",
+  "summary": "A smaller share of families have their own children under 18 at home than in 1976.",
+  "realLife": "Families with their own children under 18 fell from 54% of families in 1976 to 38% in 2026.",
+  "sources": [
+    "U.S. Census Bureau, Census Bureau Releases New Estimates on America's Families and Living Arrangements (Nov 17, 2026): https://www.census.gov/newsroom/press-releases/2026/new-estimates-on-families-and-living-arrangements.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["household-members"],
+  "gates": [],
+  "weights": {
+    "household-members": 0.5
+  },
+  "inGame": "the household record's members at the opening (person.householdId), as `loadingTelling` reads the household for the start facts and the children in it. needs: nothing beyond the household children.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A household with several children, in a world where that is common.",
+      "pulledBy": "birth records in the household",
+      "writesBack": "a larger household at the opening"
+    },
+    {
+      "turn": "neutral",
+      "what": "A couple with grown children who have left.",
+      "pulledBy": "the household's members",
+      "writesBack": "a household of two"
+    }
+  ],
+  "usedBy": []
+}

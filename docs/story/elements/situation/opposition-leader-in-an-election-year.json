@@ -27,5 +27,6 @@
       "pulledBy": "Members object to committing on a draft they have yet to see.",
       "writesBack": "The announcement refers to the circulated version."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

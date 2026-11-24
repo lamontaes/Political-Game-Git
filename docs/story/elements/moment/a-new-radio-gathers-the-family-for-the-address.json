@@ -29,5 +29,6 @@
       "pulledBy": "Memory.",
       "writesBack": "Adds a remembered address."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

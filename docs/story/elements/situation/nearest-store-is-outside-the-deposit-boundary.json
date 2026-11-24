@@ -1,0 +1,28 @@
+{
+  "id": "nearest-store-is-outside-the-deposit-boundary",
+  "kind": "situation",
+  "summary": "Two nearby convenience stores face different rules because only one parcel is coming inside the city.",
+  "realLife": "At the May hearing Tom Mendenhall described rival stores on either side as Columbia considered a temporary exception for newly annexed properties near outside retailers.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_may21.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{store}", "{parcel}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: annexation boundary and competing outlet distance.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The shop owner asks when to start changing shelf notices.",
+      "pulledBy": "The annexing property meets the waiver terms.",
+      "writesBack": "The store records when its temporary exception ends."
+    },
+    {
+      "turn": "opposite",
+      "what": "A distributor checks the address before quoting the store a price.",
+      "pulledBy": "An outside competitor fails the distance test.",
+      "writesBack": "The applicant remains subject to the usual deposit rule."
+    }
+  ]
+}
