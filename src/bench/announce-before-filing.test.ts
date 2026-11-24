@@ -18,6 +18,7 @@ import { campaignFor } from "../core2/modules/campaigns";
 import { campaignDayOpen } from "../core2/campaign-day";
 import { campaignDay } from "./campaign";
 import { announceForOffice, fileForOffice, localRaces } from "./government";
+import { announceWays } from "../core2/modules/candidacy";
 import {
   buildBenchWorld,
   NoPlayerHereError,
@@ -99,6 +100,14 @@ describe("announcing before filing opens", () => {
         .table("filings")
         .get(filingId) as unknown as FilingRow;
     expect(announced().announcedOn, where).toBe(core.date);
+    // The button stands in for Story's ways (SG-GOV-announce-button-says-a-word):
+    // a word, heard by the one closest to the player that the ways read offers.
+    const word = announceWays(api, playerId).find((w) => w.channel === "word")!;
+    expect(announced().announcedBy, where).toEqual({
+      channel: "word",
+      heardBy: word.reach.slice(0, 1),
+      venueId: null,
+    });
     // Not yet in the race: not on its ballot, and the page still waits for the window.
     expect(standing(announced()), where).toBe(false);
     expect(

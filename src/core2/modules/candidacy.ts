@@ -51,6 +51,12 @@ import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import {
+  announceWays,
+  heardOnTheDay,
+  type AnnounceChannel,
+  type AnnounceWay,
+} from "../announce-ways";
 import type { OfficeInput } from "../offices-local";
 import {
   announceCandidacy,
@@ -131,6 +137,9 @@ export interface CandidacyDecision {
     readonly date: string;
     readonly filingId: string;
     readonly reasons: Readonly<Record<string, number>>;
+    /** The way they said so, and what drew them to it. */
+    readonly channel: AnnounceChannel;
+    readonly channelReasons: Readonly<Record<string, number>>;
   };
   /** What came of a decision to run: the filing, or the rules it didn't meet. */
   filing?: {
@@ -1617,22 +1626,109 @@ export function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
     const chosen = decisionFromScores(api.state, personId, scored);
     pendingAnnounce.delete(api.state);
     if (chosen.selected?.definition.id !== ANNOUNCE.id) continue;
+    const way = chooseAnnounceWay(api, person);
+    if (!way) continue;
     const made = announceCandidacy(api, {
       personId,
       contestId: contest.id,
       ...runnerPaper(api, person, contest, partisan),
+      way: heardOnTheDay(way.way),
     });
     if (made.status !== "announced") continue;
-    // Why they said so when they did, kept with their decision to run.
+    // Why they said so when they did, and why that way, kept with their
+    // decision to run.
     table(api).put({
       ...decision,
       announced: {
         date: api.state.date,
         filingId: made.filing.id,
         reasons: announceReasons(api, person, contest),
+        channel: way.way.channel,
+        channelReasons: way.reasons,
       },
     } as unknown as { id: string });
   }
+}
+
+/**
+ * How a runner says so, among the ways their record offers today
+ * (`announceWays`), through the core's one chooser: how many people the way
+ * reaches pulls toward it, and the party roles they hold pull toward the
+ * party's office; their temperament does the rest (trait decision
+ * candidacy.announce-way). Null when no way is offered.
+ */
+function announceWayAction(channel: AnnounceChannel): ActionDefinition {
+  const id = `candidacy-announce-${channel}`;
+  return {
+    id,
+    actKinds: decisionKinds("candidacy.announce-way", id),
+    goalKinds: [],
+    need: "time",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "person",
+    effect: "candidacy",
+    reasonBindings: [
+      {
+        id: "announce-way",
+        provider: "candidacy-announce-way",
+        weightParameter: "one",
+        arguments: { channel },
+      },
+    ],
+  };
+}
+const WAY_ACTIONS = new Map<AnnounceChannel, ActionDefinition>(
+  (["word", "party-office", "public", "asking"] as const).map((channel) => [
+    channel,
+    announceWayAction(channel),
+  ]),
+);
+const pendingWays = new WeakMap<object, readonly AnnounceWay[]>();
+
+/** What draws a runner to one way of saying so, from the way's reach and their own roles. */
+function announceWayReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  way: AnnounceWay,
+): Record<string, number> {
+  const one = api.parameter("one");
+  return {
+    reach:
+      c(api, "candidacyAnnounceWayReachWeight") *
+      Math.min(one, way.reach.length / c(api, "candidacyStandingCircle")),
+    partyRole:
+      way.channel === "party-office"
+        ? c(api, "candidacyAnnounceWayPartyWeight") *
+          Math.min(one, rolesOfNamed(api, person).partyActivity)
+        : api.parameter("zero"),
+  };
+}
+
+function chooseAnnounceWay(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): { way: AnnounceWay; reasons: Record<string, number> } | null {
+  const ways = announceWays(api, person.id).filter((way) => way.offered);
+  if (!ways.length) return null;
+  pendingWays.set(api.state, ways);
+  const scored = scoreOffers(
+    api.state,
+    person.id,
+    ways.map((way) => ({
+      definition: WAY_ACTIONS.get(way.channel)!,
+      targetId: person.id,
+      availableHours: api.parameter("hoursPerDay"),
+    })),
+    { needValues: { time: api.parameter("zero") } },
+  );
+  const chosen = decisionFromScores(api.state, person.id, scored);
+  pendingWays.delete(api.state);
+  const way = ways.find(
+    (row) =>
+      WAY_ACTIONS.get(row.channel)!.id === chosen.selected?.definition.id,
+  );
+  return way ? { way, reasons: announceWayReasons(api, person, way) } : null;
 }
 
 /** The kind of a party's ask that someone run for a seat. */
@@ -2384,6 +2480,19 @@ export const candidacyModule: CoreModule = {
     noteHouseholdBacking(api, event);
   },
   reasonProviders: {
+    "candidacy-announce-way": (api, actor, _offer, binding) => {
+      const way = pendingWays
+        .get(api.state)
+        ?.find((row) => row.channel === binding.arguments?.channel);
+      if (!way) return undefined;
+      return {
+        value: Object.values(announceWayReasons(api, actor, way)).reduce(
+          (sum, value) => sum + value,
+          api.parameter("zero"),
+        ),
+        sourceIds: [actor.id, ...(way.venueId ? [way.venueId] : [])],
+      };
+    },
     "candidacy-announce-circumstances": (api, actor, offer, binding) => {
       const contest = pendingAnnounce.get(api.state);
       if (!contest || contest.id !== offer.targetId) return undefined;
@@ -2417,6 +2526,7 @@ export const candidacyModule: CoreModule = {
 
 /** The filing clerk who takes a local race's papers, read by other families through this entry. */
 export { localClerkFor } from "./filing-clerk";
+export { announceWays, heardOnTheDay } from "../announce-ways";
 
 export const PARTY_MENTORSHIP = "party.mentorship-formed";
 export const CAMPAIGN_MENTORSHIP = "campaign.mentorship-formed";

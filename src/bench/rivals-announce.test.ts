@@ -12,6 +12,7 @@ import {
   weighingDate,
 } from "../core2/modules/candidacy";
 import {
+  CANDIDATE_ANNOUNCED_EVENT,
   ELECTIONS_MODULE_ID,
   type ContestRow,
   type FilingRow,
@@ -117,7 +118,7 @@ describe(`rivals announce before filing opens (seed ${seed})`, () => {
     const passed: string[] = [];
     const { world, label, filing, contest } = findAnnouncedRival(passed);
     process.stdout.write(
-      `rivals-announce: ${label}, ${filing.personId} announced for ${contest.title} on ${filing.announcedOn}; passed over: ${passed.join("; ") || "none"}\n`,
+      `rivals-announce: ${label}, ${filing.personId} announced for ${contest.title} on ${filing.announcedOn} by ${filing.announcedBy?.channel} to ${filing.announcedBy?.heardBy.length} people; passed over: ${passed.join("; ") || "none"}\n`,
     );
     const api = coreAPI(world.core);
     const decision = (
@@ -142,6 +143,32 @@ describe(`rivals announce before filing opens (seed ${seed})`, () => {
     expect(filing.announcedOn! < filingWindowOpens(api, contest), label).toBe(
       true,
     );
+
+    // How they said so and who heard it (owner, Nov 17: "There needs to be a
+    // bunch of different ways"): the way their decision chose is the one on
+    // the announcement, its hearers are people of the world other than the
+    // candidate, and the announcement's record names each of them.
+    const by = filing.announcedBy;
+    expect(by?.channel, label).toBe(decision!.announced!.channel);
+    expect(["word", "party-office", "public", "asking"], label).toContain(
+      by?.channel,
+    );
+    expect(
+      Object.keys(decision!.announced!.channelReasons).sort(),
+      label,
+    ).toEqual(["partyRole", "reach"]);
+    for (const heard of by!.heardBy) {
+      expect(heard, label).not.toBe(filing.personId);
+      expect(world.core.people.has(heard), `${label}: ${heard}`).toBe(true);
+    }
+    if (by!.channel === "word" || by!.channel === "asking")
+      expect(by!.heardBy.length, label).toBe(1);
+    const record = world.core.durableLog.get(
+      `${CANDIDATE_ANNOUNCED_EVENT}:${filing.id}:${filing.announcedOn}`,
+    );
+    expect(record?.facts?.channel, label).toBe(by!.channel);
+    for (const heard of by!.heardBy)
+      expect(record?.personIds, `${label}: ${heard}`).toContain(heard);
 
     // The race page lists them under Who's running, marked announced.
     const race = localRaces(world.core).races.find((row) =>
@@ -171,5 +198,7 @@ describe(`rivals announce before filing opens (seed ${seed})`, () => {
       .get(filing.id) as unknown as FilingRow | undefined;
     expect(after?.status, label).not.toBe("announced");
     expect(after?.announcedOn, label).toBe(filing.announcedOn);
+    if (after?.status !== "withdrawn")
+      expect(after?.announcedBy, label).toEqual(filing.announcedBy);
   }, 900_000);
 });
