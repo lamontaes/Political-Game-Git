@@ -189,7 +189,7 @@
             "theme-name",
             "condition-budget-ahead"
           ],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": [
@@ -1699,7 +1699,7 @@
             "theme-name",
             "condition-budget-steady"
           ],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": [
@@ -1722,7 +1722,7 @@
           "role": "running",
           "tie": "frame",
           "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": [
@@ -1745,7 +1745,7 @@
           "role": "running",
           "tie": "frame",
           "requiresFacts": ["office-title", "theme-name"],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
@@ -2023,7 +2023,7 @@
           "role": "running",
           "tie": "frame",
           "requiresFacts": ["theme-name"],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
@@ -2493,7 +2493,7 @@
             "theme-name",
             "condition-budget-short"
           ],
-          "excludesFacts": []
+          "excludesFacts": ["theme-short-plural"]
         }
       ],
       "lean": [
