@@ -2,6 +2,21 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 23-24, 2026, about 11:05 p.m. to 12:20 a.m.: the story session (owner, verbatim; recorded by the CTO)
+
+- **Start the story session, and get it right this time:** "it doesnt look like anything is working. i do want to start the story session. how do you propose finally getting this right. take your time"
+  - The CTO's plan, approved at about 12:20 a.m.:
+    - stop adding one-line pieces;
+    - one stretch at a time, starting with the first evening;
+    - an outline built from real speeches, with many shapes and no forced context, stand, ask;
+    - the Journal and news told as stories;
+    - few pieces, written by the Story lead;
+    - his ear is the gate, and nothing merges until he passes it in a played game.
+  - The plan is in `cto-notes/goals-2026-11-24-story.md`, posted on #9750.
+- **Words are back in the builder account's work, through the Story lead:** "go ahead. and have the other account start it. i'm going to bed so have story work through the night. once the other builders finish then have them transition to story"
+  - This replaces Nov 23's "keep words out of the coordinator's work". The Coordinator opens the Story lead and sends it builders as their rows finish.
+  - The merger desk, the Replay and Red main keep their jobs.
+
 ## Nov 23, 2026, about 5:35 p.m.: after playing v0.114.0 (owner, verbatim; recorded by the CTO)
 
 The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
