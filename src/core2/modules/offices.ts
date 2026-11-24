@@ -314,6 +314,20 @@ function seatingPlace(api: CoreAPI, office: object | null | undefined): string {
   ).townPlaceId;
 }
 
+/**
+ * Whether a serving term's holder has taken the seat: its first day is today
+ * or past. A holder seated for a start day in a warm-up's last days is
+ * serving on the record from the world's first day but takes office on the
+ * term's true first day, and nothing the office does (nominations, orders)
+ * runs before it.
+ */
+export function termHasBegun(
+  api: CoreAPI,
+  term: { readonly startDate: string },
+): boolean {
+  return term.startDate <= api.state.date;
+}
+
 /** A new mandate vacates only offices the law makes incompatible. */
 export function enforceIncompatibility(
   api: CoreAPI,
@@ -1074,12 +1088,49 @@ function seatOutsideOffices(
 }
 
 /**
- * Inauguration Day (U.S. Const. amend. XX, § 1): when the world opens on the
- * day the president's and vice president's terms begin, their taking office
- * is a public record on day one. Nothing else follows from it.
+ * Inauguration Day (U.S. Const. amend. XX, § 1): the day the president's and
+ * vice president's terms begin, their taking office is a public record. A
+ * world that opens on that day records it at once; one that opens before it (a
+ * new game builds its world 31 days early) schedules it for the term's own
+ * first day, and the record is written when the world reaches it. Nothing
+ * else follows from it.
  */
 function recordInauguration(api: CoreAPI, townPlaceId: string): void {
   const date = api.state.date;
+  const terms = ["seat:US:president", "seat:US:vice-president"]
+    .map(
+      (seatId) =>
+        (
+          table(api, "terms").query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0],
+    )
+    .filter((term): term is TermRow => term !== undefined);
+  const first = terms.map((term) => term.startDate).sort()[0];
+  if (!first) return;
+  if (first === date) emitInauguration(api, townPlaceId, first);
+  else if (first > date)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `inauguration:${first}`,
+      date: first,
+      kind: "inauguration",
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
+        asOf: date,
+      },
+      sourceRecordIds: terms.map((term) => term.id),
+    });
+}
+
+/** The inauguration record of the president and vice president whose terms begin on `date`. */
+function emitInauguration(
+  api: CoreAPI,
+  townPlaceId: string,
+  date: string,
+): void {
   const began = ["seat:US:president", "seat:US:vice-president"]
     .map(
       (seatId) =>
@@ -1091,7 +1142,7 @@ function recordInauguration(api: CoreAPI, townPlaceId: string): void {
         )[0],
     )
     .filter((term): term is TermRow => term?.startDate === date);
-  if (!began.length) return;
+  if (!began.length || api.state.date !== date) return;
   api.emit({
     id: `inauguration:${date}`,
     date,
@@ -1182,7 +1233,7 @@ function pastTerms(
       table(api, "terms").put({
         ...term,
         ...elected,
-        startDate: start > api.state.date ? api.state.date : start,
+        startDate: start,
         serviceStart,
       } as unknown as ModuleRow);
     else if ("elected" in elected)
@@ -1323,10 +1374,11 @@ function pastTerms(
   }
   table(api, "terms").put({
     ...term,
-    // A term that begins after the world opened (a warm-up's last days) is
-    // held from the day the world opened by the person who takes it, so a
-    // death in between ends a term that had begun (`endDate` never before `startDate`).
-    startDate: start > api.state.date ? api.state.date : start,
+    // The term's true first day, also when it falls in a warm-up's last days
+    // (before the day the player starts): the holder takes the seat that day
+    // and not before (`termHasBegun`); a death in between ends a term that
+    // never began (`vacateSeat` keeps `endDate` from before `startDate`).
+    startDate: start,
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
@@ -1555,7 +1607,7 @@ export function vacateSeat(
   table(api, "terms").put({
     ...term,
     status: "ended",
-    endDate: date,
+    endDate: date < term.startDate ? term.startDate : date,
     endEstimated: false,
     endedBy: cause,
   } as unknown as ModuleRow);
@@ -2416,6 +2468,12 @@ function officesCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
+  if (work.kind === "inauguration") {
+    const town = table(api, "loaded").get("town") as unknown as
+      { townPlaceId: string } | undefined;
+    if (town) emitInauguration(api, town.townPlaceId, api.state.date);
+    return;
+  }
   if (work.kind !== "special-election") return;
   const vacancy = table(api, "vacancies").get(
     work.sourceRecordIds[0]!,
