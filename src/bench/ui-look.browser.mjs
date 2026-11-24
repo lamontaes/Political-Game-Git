@@ -47,11 +47,15 @@ function growth() {
     return [];
   }
   const mine = JSON.parse(readFileSync(BASELINE, "utf8"));
+  // Main's keys may still carry the scroll axis ("scrolls y"); the key is now "scrolls" alone.
+  const mainKeys = JSON.parse(
+    JSON.stringify(main).replace(/ scrolls [xy]+"/g, ' scrolls"'),
+  );
   const added = [];
   for (const kind of ["box", "scroll"])
     for (const [menu, keys] of Object.entries(mine[kind] ?? {}))
       for (const key of Object.keys(keys))
-        if (!(key in (main[kind]?.[menu] ?? {})))
+        if (!(key in (mainKeys[kind]?.[menu] ?? {})))
           added.push(`${kind} · ${menu} · ${key}`);
   return added;
 }
@@ -121,11 +125,7 @@ async function scan(menu) {
     for (const [key, n] of counts) tally("box", `${menu} [${id}]`, key, n);
     for (const row of await page.evaluate(scanScrollers, selector))
       if (!row.full)
-        tally(
-          "scroll",
-          `${menu} [${id}]`,
-          `${row.selector} scrolls ${row.axis}`,
-        );
+        tally("scroll", `${menu} [${id}]`, `${row.selector} scrolls`);
   }
   if (shots)
     await page.screenshot({
