@@ -86,6 +86,10 @@ const flags = [
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
+  cut: fact("$80,000"),
+  line: fact("fire protection"),
+  post: fact("fire chief"),
+  percent: fact("12"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   // What the bill does, as the desk visit says it (billTitleOf).
