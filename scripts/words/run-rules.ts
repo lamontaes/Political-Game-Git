@@ -28,7 +28,10 @@ import {
 } from "../../src/english/reply-follows";
 import { verdictId, type JudgedStores } from "../../src/english/judged";
 import { playable } from "../../src/english/bank-parts";
-import type { BankPart } from "../../src/english/scene-talk-words";
+import {
+  sceneTalkParts,
+  type BankPart,
+} from "../../src/english/scene-talk-words";
 import { readStore, readStores, textsOf } from "./verdicts";
 import type { PartGradeLedger } from "../../src/english/english-grades";
 import {
@@ -62,14 +65,10 @@ export const PARTS_DIR = "data/english/parts";
 export const GRADES_DIR = "data/english/grades";
 export const RULINGS_FILE = "data/english/rulings-read.json";
 export const NOTES_FILE = "data/english/notes-not-rules.json";
-export const SCENE_TALK_FILE = "data/english/parts/scene-talk.json";
 
 /** The scene-talk bank's pieces play may say. */
 export function playableParts(): BankPart[] {
-  const bank = JSON.parse(readFileSync(SCENE_TALK_FILE, "utf8")) as {
-    parts: BankPart[];
-  };
-  return bank.parts.filter(playable);
+  return sceneTalkParts.filter(playable);
 }
 
 /** Every bank piece, in file order. */

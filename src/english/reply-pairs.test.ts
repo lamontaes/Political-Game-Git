@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { playable } from "./bank-parts";
-import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
+import { sceneTalkParts } from "./scene-talk-words";
 import type { BankPart } from "./scene-talk-words";
 import {
   distinctPairs,
@@ -17,9 +17,7 @@ import {
   observedPairs,
 } from "../../tests/support/scene-talk-fixture";
 
-const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
-  playable,
-);
+const parts = sceneTalkParts.filter(playable);
 
 describe("reply pairs", () => {
   const scenes = talkScenes();

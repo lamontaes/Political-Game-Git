@@ -20,7 +20,7 @@
  * sheet; `npm run words:verdicts -- --from <dir>` folds them into the store.
  */
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import type { PartGradeLedger } from "../../src/english/english-grades";
 import type { JudgedStore } from "../../src/english/judged";
@@ -33,9 +33,11 @@ import {
   readLedger,
   readRules,
   RULES_FILE,
-  SCENE_TALK_FILE,
 } from "./run-rules";
-import type { BankPart } from "../../src/english/scene-talk-words";
+import {
+  sceneTalkParts,
+  type BankPart,
+} from "../../src/english/scene-talk-words";
 import {
   REPLY_FOLLOWS,
   REPLY_FOLLOWS_RUBRIC,
@@ -90,10 +92,7 @@ export function pairsOf(
 
 /** Every bank piece's key, playable or not. */
 export function bankKeys(): Set<string> {
-  const bank = JSON.parse(readFileSync(SCENE_TALK_FILE, "utf8")) as {
-    parts: { key: string }[];
-  };
-  return new Set(bank.parts.map((part) => part.key));
+  return new Set(sceneTalkParts.map((part) => part.key));
 }
 
 /**
