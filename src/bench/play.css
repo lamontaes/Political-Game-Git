@@ -5487,6 +5487,9 @@ select.release-pick {
 .pick-list .pick,
 #sheet-body .pick-list .pick {
   display: flex;
+  /* A long name keeps its words whole and sends its aside under it, never squeezing both
+     into one narrow line (owner, Nov 16, N16-58: "it's squished right here"). */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
@@ -5504,7 +5507,7 @@ select.release-pick {
 .pick b {
   font: var(--pick-font);
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .pick span {
   font: var(--pick-aside-font);
