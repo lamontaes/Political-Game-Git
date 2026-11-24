@@ -19,12 +19,16 @@
     {
       "name": "a plan with more lots",
       "pulledBy": "a revised plan that grew",
-      "writes": "the story says the count went up"
+      "writes": "the story says the count went up",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "an unchanged count",
       "pulledBy": "a plan that held",
-      "writes": "the story says nothing changed"
+      "writes": "the story says nothing changed",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

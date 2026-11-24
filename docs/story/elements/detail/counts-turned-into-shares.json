@@ -19,12 +19,16 @@
     {
       "name": "shares turned back into counts",
       "pulledBy": "a small sector",
-      "writes": "the story gives the count of jobs"
+      "writes": "the story gives the count of jobs",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no share",
       "pulledBy": "a flat figure",
-      "writes": "the story states the number alone"
+      "writes": "the story states the number alone",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

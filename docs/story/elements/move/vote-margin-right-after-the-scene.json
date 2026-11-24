@@ -19,12 +19,16 @@
     {
       "name": "a lopsided vote",
       "pulledBy": "a unanimous or wide vote",
-      "writes": "the story gives the count and no scene"
+      "writes": "the story gives the count and no scene",
+      "requiresFacts": ["no-dissent"],
+      "excludesFacts": []
     },
     {
       "name": "a vote that fails",
       "pulledBy": "a measure rejected after the scene",
-      "writes": "the story says it failed and by how many"
+      "writes": "the story says it failed and by how many",
+      "requiresFacts": ["failed"],
+      "excludesFacts": []
     }
   ]
 }
