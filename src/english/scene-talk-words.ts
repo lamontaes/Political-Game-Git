@@ -16,6 +16,7 @@
  * stable pick by the speaker's voice chooses.
  */
 import { P } from "../core2/parameters";
+import officeTalk from "../../data/english/parts/scene-talk-office.json" with { type: "json" };
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
 import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
@@ -102,9 +103,12 @@ export interface BankPart {
   piece?: { of: string; part: LinePart; required?: boolean };
 }
 
-const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
+export const sceneTalkParts = [
+  ...sceneTalkBank.parts,
+  ...officeTalk.parts,
+] as unknown as BankPart[];
 /** What play may say: a part the owner's grades hold back is not. */
-const SHIPPED = admittedParts(PARTS);
+const SHIPPED = admittedParts(sceneTalkParts);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
 const SHIPPED_BY_KEY = new Map(SHIPPED.map((part) => [part.key, part]));
 
@@ -135,13 +139,15 @@ export function factsSetBy(
 const VOCATIVE = /\{first\}/;
 const TAIL_NAME = /, \{\{first\}\}(?=[.?!,;])/g;
 const VOCATIVE_KEYS = new Set(
-  PARTS.filter((part) => VOCATIVE.test(part.text)).map((part) => part.key),
+  sceneTalkParts
+    .filter((part) => VOCATIVE.test(part.text))
+    .map((part) => part.key),
 );
 /** Whether play may say this piece: the owner's grades do not hold it. */
 export function shipped(partKey: string): boolean {
   return SHIPPED_KEYS.has(partKey);
 }
-const PART_BY_KEY = new Map(PARTS.map((part) => [part.key, part]));
+const PART_BY_KEY = new Map(sceneTalkParts.map((part) => [part.key, part]));
 const TAGS = (tagsFile as unknown as { tags: Record<string, string> }).tags;
 
 /** A turn the director asks to have worded. */
@@ -488,7 +494,8 @@ export function wordSceneMove(input: {
     !!taggedBy(part) === onlyTagged &&
     !(options.freshOnly && options.shown?.has(part.key)) &&
     !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero);
-  const pool = options.parts ?? (options.includeHeld ? PARTS : SHIPPED);
+  const pool =
+    options.parts ?? (options.includeHeld ? sceneTalkParts : SHIPPED);
   const verdicts = options.replyFollows ?? REPLY_FOLLOWS;
   const whole = scoredFits(
     use,
@@ -717,7 +724,7 @@ export function sceneMoveFits(
   facts: Readonly<Record<string, Fact>>,
   options: Pick<SceneWordingOptions, "includeHeld" | "replyFollows"> = {},
 ): boolean {
-  const parts = options.includeHeld ? PARTS : SHIPPED;
+  const parts = options.includeHeld ? sceneTalkParts : SHIPPED;
   return (
     fitting(use, facts, undefined, parts, options.replyFollows).length > zero ||
     joinedFitting(use, facts, undefined, parts, options.replyFollows).length >
@@ -739,7 +746,8 @@ export function sceneMovesWritten(filter: {
 }): string[] {
   return [
     ...new Set(
-      PARTS.flatMap((part) => part.uses)
+      sceneTalkParts
+        .flatMap((part) => part.uses)
         .filter(
           (u) =>
             u.step === filter.step &&

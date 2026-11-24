@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { playable } from "./bank-parts";
-import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
+import { sceneTalkParts } from "./scene-talk-words";
 import {
   factsSetBy,
   fitting,
@@ -19,9 +19,7 @@ import {
   type ObservedPair,
 } from "../../tests/support/scene-talk-fixture";
 
-const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
-  playable,
-);
+const parts = sceneTalkParts.filter(playable);
 const NONE: ReplyFollowsTable = new Map();
 
 /**
