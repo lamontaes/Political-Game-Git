@@ -565,10 +565,14 @@ export function backdropFile(
     rows.find((r) => r.variant === wanted) ??
     rows.find((r) => r.variant === "midday") ??
     rows[0]!;
+  // stopgapId: SG-BENCH-painted-tv-rooms-checked
+  const screens = scenePlaces.paintedScreens as Record<string, number[]>;
   return {
     file: row.file,
     variant: row.variant,
     url: `/art/backdrops/${row.file}`,
+    /** The glass of a television this picture paints, in percent of the picture. */
+    ...(screens[place] ? { screen: screens[place] } : {}),
   };
 }
 
