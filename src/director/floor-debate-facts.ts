@@ -13,12 +13,14 @@
  */
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
+  billJurisdiction,
   billOf,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
   members,
 } from "../core2/modules/legislature";
+import { billValueInForce } from "../core2/laws-bill-values";
 import { P } from "../core2/parameters";
 import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
@@ -103,15 +105,28 @@ export function floorDebateFacts(
   // A speaker's position on a package does not establish a position on each
   // clause. For a single question, use the value the legislature would enact.
   if (
+    bill.status === "drafted" &&
+    !bill.chambersPassed?.some((roll) => roll.chamber === said.chamber) &&
     bill.provisions.length === 1 &&
     section?.kind === "policy-question" &&
     section.question
   ) {
-    const direction = section.value > P.zero ? "enact" : "repeal";
-    facts[`proposes-${direction}:${section.question}`] = {
-      text: "yes",
-      sourceRecordIds: cited,
-    };
+    const jurisdiction = billJurisdiction(api, bill);
+    const before = billValueInForce(api, section, jurisdiction);
+    const enacting = section.value > P.zero;
+    // Ending a refund presupposes this government's own active law. A
+    // repeated yes vote likewise gives stores no new collection duty.
+    const changes = enacting
+      ? (before.value ?? P.zero) <= P.zero
+      : before.row?.jurisdiction === jurisdiction &&
+        (before.value ?? P.zero) > P.zero;
+    if (changes) {
+      const direction = enacting ? "enact" : "repeal";
+      facts[`proposes-${direction}:${section.question}`] = {
+        text: "yes",
+        sourceRecordIds: before.recordId ? [...cited, before.recordId] : cited,
+      };
+    }
   }
   if (about) facts.issue = { text: about, sourceRecordIds: cited };
   if (bill.sponsorId === speakerId)

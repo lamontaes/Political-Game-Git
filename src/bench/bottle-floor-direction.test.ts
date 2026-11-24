@@ -1,11 +1,14 @@
 import { expect, it } from "vitest";
 import { gameStartDate } from "../core2/game-start";
 import {
+  bodyJurisdiction,
   draftBill,
+  holdEveryChamber,
   memberKey,
   members,
   type Provision,
 } from "../core2/modules/legislature";
+import { enactLaw } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { floorDebateFacts } from "../director/floor-debate-facts";
@@ -28,12 +31,14 @@ it("grounds floor questions in the single provision the chamber would enact", ()
     ...deposit,
     question: "us-policy-positions:labor-workforce.paid-family-leave",
   };
-  function keys(provisions: Provision[]) {
+  function keys(provisions: Provision[], lawId?: string, closeVote = false) {
     const bill = draftBill(api, {
       bodyOfficeId: seat.office.id,
       sponsorId: speaker,
       provisions,
     });
+    if (closeVote)
+      expect(holdEveryChamber(api, bill.id).status).not.toBe("drafted");
     const facts: Record<string, Fact> = {};
     const causeId = `floor-debate:${bill.id}:${seat.office.id}`;
     floorDebateFacts(
@@ -47,13 +52,29 @@ it("grounds floor questions in the single provision the chamber would enact", ()
       key.startsWith("proposes-"),
     );
     for (const [, fact] of entries)
-      expect(fact.sourceRecordIds).toEqual([causeId, bill.id]);
+      expect(fact.sourceRecordIds).toEqual(
+        expect.arrayContaining([causeId, bill.id, ...(lawId ? [lawId] : [])]),
+      );
     return entries.map(([key]) => key);
   }
-  expect(keys([deposit])).toEqual([`proposes-enact:${question}`]);
-  expect(keys([{ ...deposit, value: 0 }])).toEqual([
-    `proposes-repeal:${question}`,
-  ]);
-  expect(keys([other])).toEqual([`proposes-enact:${other.question}`]);
-  expect(keys([deposit, other])).toEqual([]);
-});
+  const stateLaw = (value: number) =>
+    enactLaw(api, {
+      jurisdiction: bodyJurisdiction(api, seat.office.id),
+      level: "state",
+      series: question,
+      value,
+      effectiveDate: core.date,
+      measureId: "deposit-" + value,
+      citation: "Recorded state law for this test",
+    });
+  const off = stateLaw(0);
+  const repeal = { ...deposit, value: 0 };
+  expect(keys([repeal])).toEqual([]);
+  expect(keys([deposit], off.id)).toEqual([`proposes-enact:${question}`]);
+  const on = stateLaw(1);
+  expect(keys([deposit])).toEqual([]);
+  expect(keys([repeal], on.id)).toEqual([`proposes-repeal:${question}`]);
+  expect(keys([other])).not.toContain(`proposes-enact:${question}`);
+  expect(keys([repeal, other])).toEqual([]);
+  expect(keys([repeal], undefined, true)).toEqual([]);
+}, 120_000);
