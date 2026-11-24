@@ -4204,8 +4204,10 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
-.roster-screen.patch-notes > .pick-list.roster {
+/* The patch notes and bills lists are the pager's own box and scroll there; the list around it is no second
+   scroll and no cap at 46% of the window (owner, Nov 23: "none of these scrollers ... when there's ample dead
+   space"; the Bills list stopped at its fourth bill with the sheet's room below it empty). */
+.roster-screen:is(.patch-notes, .bills) > .pick-list.roster {
   max-height: none;
   overflow: visible;
 }

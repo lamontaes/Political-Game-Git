@@ -15,36 +15,36 @@
   },
   "scroll": {
     "Creator [front]": {
-      "#cr-states scrolls y": 1
+      "#cr-states scrolls": 1
     },
     "politics > Elections [sheet]": {
-      "nav.pick-list.roster scrolls y": 1
+      "nav.pick-list.roster scrolls": 1
     },
     "politics > Issues [sheet]": {
-      "nav.pick-list.roster scrolls y": 1,
-      "div.pager.roster-pages scrolls yx": 1
+      "nav.pick-list.roster scrolls": 1,
+      "div.pager.roster-pages scrolls": 1
     },
     "guide [sheet]": {
-      "nav.pick-list.roster scrolls y": 1,
-      "div.pager.roster-pages scrolls y": 1
+      "nav.pick-list.roster scrolls": 1,
+      "div.pager.roster-pages scrolls": 1
     },
     "Race screen [sheet]": {
-      "nav.pick-list.roster scrolls y": 1
+      "nav.pick-list.roster scrolls": 1
     },
     "politics > Parties [sheet]": {
-      "div.pager scrolls y": 1
+      "div.pager scrolls": 1
     },
     "politics > Budgets [sheet]": {
-      "div.bsdepts.pager scrolls y": 1
+      "div.bsdepts.pager scrolls": 1
     },
     "travel [sheet]": {
-      "div.travel-left scrolls y": 1
+      "div.travel-left scrolls": 1
     },
     "politics [sheet]": {
-      "div.members-pager.pager scrolls y": 1
+      "div.members-pager.pager scrolls": 1
     },
     "politics > Government [sheet]": {
-      "div.members-pager.pager scrolls y": 1
+      "div.members-pager.pager scrolls": 1
     }
   }
 }

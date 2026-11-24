@@ -5858,6 +5858,9 @@ const sheets = {
     return rosterScreen({
       title: controls.titles.bills,
       className: "bills",
+      // The list takes the sheet's room: the pager gives rows back until the sheet fits.
+      maxRows: 20,
+      reserve: 240,
       groups: stages.map((stage) => ({
         title: status[stage] ?? "",
         entries: list
