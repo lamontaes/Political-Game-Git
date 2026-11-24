@@ -172,7 +172,8 @@
       "surface": "journal",
       "budgets": {
         "*": 2,
-        "about": 1
+        "about": 1,
+        "theme-name": 1
       },
       "sections": [
         {
