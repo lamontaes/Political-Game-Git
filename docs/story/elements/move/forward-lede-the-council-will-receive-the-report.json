@@ -18,12 +18,16 @@
     {
       "name": "lede on the result",
       "pulledBy": "a meeting already held",
-      "writes": "the lede says what the council did"
+      "writes": "the lede says what the council did",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "lede on the delay",
       "pulledBy": "a report held to the next meeting",
-      "writes": "the lede says it was put off"
+      "writes": "the lede says it was put off",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

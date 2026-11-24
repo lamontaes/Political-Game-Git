@@ -18,12 +18,16 @@
     {
       "name": "foreclosures falling",
       "pulledBy": "a strong job market",
-      "writes": "the count fell"
+      "writes": "the count fell",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     },
     {
       "name": "none",
       "pulledBy": "a town with no foreclosures",
-      "writes": "the story leaves it out"
+      "writes": "the story leaves it out",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

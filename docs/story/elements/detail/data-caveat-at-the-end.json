@@ -18,12 +18,16 @@
     {
       "name": "no caveat",
       "pulledBy": "a clean data series",
-      "writes": "the story ends on the last figure"
+      "writes": "the story ends on the last figure",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a caveat that undoes the lede",
       "pulledBy": "a data gap",
-      "writes": "the story leads with the gap"
+      "writes": "the story leads with the gap",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

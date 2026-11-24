@@ -18,12 +18,16 @@
     {
       "name": "no record month",
       "pulledBy": "a steady month",
-      "writes": "the tally ends on the year's total"
+      "writes": "the tally ends on the year's total",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a record low",
       "pulledBy": "a slump",
-      "writes": "the tally ends on the lowest month on record"
+      "writes": "the tally ends on the lowest month on record",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []
