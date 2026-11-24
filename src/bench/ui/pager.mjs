@@ -1,4 +1,4 @@
-/* global requestAnimationFrame */
+/* global requestAnimationFrame, ResizeObserver */
 // The one long-list box: a bounded box that shows `rows` rows and scrolls
 // inside itself for the rest. No arrows and no "1 of N" (owner, Nov 8: "like
 // those shitty survey sites"); the menu panel itself still never scrolls (Oct
@@ -61,6 +61,14 @@ export function pager({
     if (height > 0) box.style.maxHeight = `${Math.ceil(height)}px`;
   };
   sizeBox();
+  // The content settles after it is on the page (fonts, faces): fit again when it does.
+  if (wholeRows && growRows && typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(() => {
+      box.style.maxHeight = "";
+      sizeBox();
+      fitWholeRows();
+    }).observe(grid);
+  }
   if (wholeRows) requestAnimationFrame(() => fitWholeRows());
   // A screen that finds its box too tall for the room asks for fewer rows (never fewer than one).
   box.rowCount = () => rows;
