@@ -15,7 +15,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { rowsOf } from "./law-reach/group-b-store";
 import { voucherShare } from "./law-reach/group-b-money";
 import { appliedOn } from "./law-reach/applied";
-import { peopleInGroup } from "./counted-money";
+import { flowWeights, peopleInGroup } from "./counted-money";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
@@ -102,9 +102,28 @@ it("pays the state's share of town private tuition while the law stands, and sto
       // tuition of up to a month ago: the bound is the highest tuition in the
       // review window, not the day's.
       const tuitionByDay: number[] = [];
+      // A group's size on each day of the window: a counted group can change
+      // size at a month's start, and a record counts the people its group
+      // stood for on the day it was written, not at the end of the window.
+      const sizesSeen = new Map<number, number[]>();
+      const sampleSizes = () => {
+        const rt0 = residentsRuntime(core);
+        for (const flow of rt0?.flows.values() ?? [])
+          if (
+            flow.kind === "purchase" &&
+            flow.financeKind === tuition.contractKind
+          )
+            for (const group of flowWeights(rt0!, flow).keys())
+              sizesSeen.set(group, [
+                ...(sizesSeen.get(group) ?? []),
+                peopleInGroup(rt0!, group),
+              ]);
+      };
+      sampleSizes();
       for (let day = 0; day < 45; day += 1) {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
         tuitionByDay.push(monthlyTuition());
+        sampleSizes();
       }
       const opened = taken();
       expect(opened.length, where).toBeGreaterThan(0);
@@ -117,13 +136,27 @@ it("pays the state's share of town private tuition while the law stands, and sto
           opened.length,
       );
       expect(monthly, where).toBeLessThanOrEqual(tuitionBefore * 2);
+      // The law's monthly review opens each group's voucher on the first of the
+      // month and its first payment falls on the group's own due day: wait out
+      // the last of those days, then every opened voucher has paid.
+      const lastDue = opened
+        .map((row) => api.accounts().obligation(row.obligationId)!.firstDueAt)
+        .sort()
+        .at(-1)!;
+      while (core.date < lastDue) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        sampleSizes();
+      }
       let paid = 0;
       for (const row of opened) {
         expect(row.governmentId, where).toBe(state);
         expect(row.line, where).toBe("schools");
         const obligation = api.accounts().obligation(row.obligationId)!;
         expect(obligation.endedAt, where).toBeUndefined();
-        expect(obligation.paidMinor, where).toBeGreaterThan(0);
+        expect(
+          obligation.paidMinor,
+          `${where} ${row.obligationId} (first due ${obligation.firstDueAt}, today ${core.date})`,
+        ).toBeGreaterThan(0);
         paid += obligation.paidMinor;
       }
       expect(paid, where).toBeGreaterThan(0);
@@ -135,13 +168,15 @@ it("pays the state's share of town private tuition while the law stands, and sto
       );
       for (const row of groupRows) {
         const group = Number(row.targetId.split(":private-tuition-group:")[1]);
-        // The group's size when the record was written, which moves a little with later moves:
-        // within a factor of two of its size now, where a dollar weight is orders of magnitude off.
-        const size = peopleInGroup(rt!, group);
-        expect(row.count, `${where} ${row.targetId}`).toBeGreaterThan(size / 2);
-        expect(row.count, `${where} ${row.targetId}`).toBeLessThan(
-          size * 2 + 1,
-        );
+        // Within a factor of two of the group's size on some day of the window,
+        // where a dollar weight is orders of magnitude off.
+        const sizes = sizesSeen.get(group) ?? [peopleInGroup(rt!, group)];
+        expect(
+          sizes.some(
+            (size) => row.count > size / 2 && row.count < size * 2 + 1,
+          ),
+          `${where} ${row.targetId}: recorded ${row.count} people, the group's size on the days of the window ${[...new Set(sizes.map(Math.round))].join(", ")}`,
+        ).toBe(true);
       }
       if (process.env.VOUCHER_PROOF)
         writeFileSync(
