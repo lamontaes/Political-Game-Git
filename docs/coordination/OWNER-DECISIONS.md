@@ -20,6 +20,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
   - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
+## Nov 24, 2026, about 1:25 p.m.: people in a scene go in the top-right corner (owner, verbatim; recorded by the CTO)
+
+- "the people are not supposed to be at the bottom. They're supposed to be at the top right... they were designed last week... Literally look at the files."
+  - The design is `docs/mocks/2026-11-16-speaker/`. His Nov 16, 5:43 p.m. pick: "the design of a but the people in the top tight like c". "Tight" was "right": mock C puts the quiet people in the top-right corner.
+  - The speaker's bust is on the dialogue card. Everyone else is small, in the top-right corner. No strip at the bottom of a room.
+  - **Correction:** this replaces "the others in a row at the top" in the Nov 23 Desk answer below, which followed the README's misreading.
+
 ## Nov 24, 2026, about 1:00 p.m.: the game's laws and issues dictate what gets made (owner, verbatim; recorded by the CTO)
 
 - "A great place to, I guess, build exponentially would be, I mean, I mentioned this before, looking at all the laws and issues and, you know, putting things toward those... I think using what's in the game to help dictate what to be made will help immensely."
