@@ -285,7 +285,8 @@ function drawTalkStrip() {
       ? [
           bustStrip({
             people: shown,
-            speakingId: talkPersonId ?? undefined,
+            // Nobody on the strip speaks while the narrator does: all stand small.
+            speakingId: talkPersonId ?? null,
             onCard: openCard,
           }),
         ]
