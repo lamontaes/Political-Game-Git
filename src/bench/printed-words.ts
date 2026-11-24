@@ -3929,6 +3929,9 @@ const schoolTests: Builder = (read) => {
       number: read.fact(count(math.students), math.id),
       math: read.fact(percent(math.value), math.id),
       reading: read.fact(percent(reading.value), reading.id),
+      // The lines say how many "passed": the news engine says a pass only
+      // when the story's record carries one, and a test result is that record.
+      passed: read.fact("yes", math.id, reading.id),
     },
     ["place", "math", "reading"],
   );
