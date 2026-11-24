@@ -224,3 +224,33 @@ Draws: Laurel, Delaware 360d9fcc-3f4f-43eb-8668-be5bde7377c9; Sumner, Mississipp
 | N16-44 (a call stages the player alone) | #10383 | **pass** | replay-m11c-call-1.png | The reporter's call (Joseph Rowe, Bloomsbury Messenger, toward evening Jan 21) plays in the player's kitchen with no caller bust; the speaker's name is on the talk box only. |
 | Captions: refusal on a disabled button, no caption under it | #10395 | **pass** for "no caption under a race's buttons" (Announce and Sim to Jun 27 have nothing under them); **not reached** for the refusal on a disabled button (no race the player could not run for was on this ballot; no disabled button on the sheet) | replay-m11c-elections.png | The race pane ends at its buttons; "Filing opens June 27" shows only as the row's aside in the left list. |
 | C16 and the News catch (panel ends under its stories) | #10402 | **pass** | replay-m11c-news.png | The News panel ends under its last story with a small margin, no empty tail; the story body sits in one column. |
+
+## The CTO's build pass: every row on one head, main a227f3a2303896693fd9cd700bfb424606a27534 (has #10399)
+
+Grade words: **pass** / **open since v0.114.0, no worse** / **worse on this head** / Story's. Nothing is worse on this head. Places: Bloomsbury NJ 28dfb4d4-b272-4bf8-81ee-014b6880f860 (his-life rows); Beason, Illinois 299eb3c8-05e0-49a1-be54-14dda6c1eb9d; Cape May Point, New Jersey 3fbc5a87-22b9-4534-a45e-2e6d740eb805; Walnut Grove, Georgia 05ac81ff-03c5-448f-bc1c-a35084a9f44c. Pictures: replay-fg1.png (President card, Capitol, Oval), replay-fg2.png (trail, porch, Bills, Budgets), replay-fg3.png (News, Week, TV, patch notes), replay-fg4.png (You, Journal).
+
+| Rows | Grade on a227f3a2 | Picture |
+| --- | --- | --- |
+| P2, P3, P4, N16-1/6/7/10/11, N8-P2, N16-3/5 (title and creator) | **pass** | replay-fg3.png (patch notes over the title), replay-fcr-2-random.png |
+| P8, P9, P10, P12, P13, N16-39/40/41, N8-P10 (the address and its strip) | **pass** (Capitol beat, Oval cutaway alone, America cutaway, LIVE corner; busts open cards) | replay-fg1.png, replay-fopen-01.png |
+| P18, P27 (X closes a card) | **pass** (scene card; the X closes it) | replay-fg1.png |
+| C2, C4 | **pass** ("In office since January 20, 2025") | replay-fg1.png |
+| P20, N16-24, N16-38, N16-42, N8-P12, N8-P11, C15, N8-C32/33 (Journal pop-up, strip, dock, rail, You, Journal) | **pass** | replay-fmisc-who.png, replay-fmisc-journal.png |
+| P21, C8, C7, P22, N16-58, C16 (lists, votes, News column) | **pass** | replay-fg3.png |
+| P31, P47, N16-48, N16-14/15 (loading title, calendar, loading steps) | **pass** | replay-fnj-load-2.png |
+| P33, P37, C14 (no tray, tiles with their own places) | **pass** | replay-fg2.png |
+| P40, P41, P50, P51, P46, N16-44, N16-34 (trail, porch, interview, week, follow) | **pass** | replay-fg2.png, replay-fg3.png |
+| P48, C5, C6, C12 (Bloomsbury) | **pass** (siblings and son Spence; no county assessor or treasurer) | replay-fnj-room.png |
+| N8-P31, C23 to C25 (Bills), N8-P28 (Budgets), N8-C20, N16-70 (Metrics) | **pass** (federal bill now has its banner, #10399) | replay-fg2.png |
+| C18 | **pass** (painted TV shows the broadcast; Walthill NE) | replay-c18b-2.png |
+| N16-12, N16-9, N16-13 (creator) | **pass** | replay-fcr-2-random.png |
+| N8-P41 (Week 356 ms to first stop) | **pass** | none |
+| P1 (patch notes: two overflow-auto containers on the builds list) | **open since v0.114.0, no worse** | replay-fg3.png |
+| P23, P24, P25, P26, P17, N16-53/54, N8-P34, C17 (the one person card, #10337) | **open since v0.114.0, no worse** (President card still lacks age and place; the council card is the wide layout) | replay-fg1.png |
+| P28, C11 (the stands, #10363) | **open since v0.114.0, no worse** (budget-line names in sentence case) | replay-fnj-room.png |
+| C10 (card career fold, #10338) | **open since v0.114.0, no worse** (stacked jobs in one year at a drawn age, seen on the last head) | none |
+| P12 and the talk layout (#10349), P35 (record part, claude/pt-stuck-p35), P38 (the board, waits on the owner) | **open since v0.114.0, no worse** | none |
+| N16-49/50 (morning text under sunset light), N16-27 (TV graphic, art), N16-26 (room paintings, art) | **open since v0.114.0, no worse** | replay-fw-2.png |
+| N16-21 (Quorum text in the Guide) | **Story's** | replay-fm3a-guide-term.png |
+| P5, P6, P7, P11, P17 text, P19, P20 line, P34, P36, P39, P42, P43, P45, C13, C20 and the English-held carryover rows | **Story's** | none |
+| Rows not replayed on this exact head (graded earlier, no change since): N8-P1, N8-P8 (pass), N8-P21, N8-P33, N8-C28, N16-67, C19, C9, C1, C3 | **not replayed on a227f3a2**; last grade stands | none |
