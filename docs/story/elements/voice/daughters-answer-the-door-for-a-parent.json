@@ -1,0 +1,30 @@
+{
+  "id": "daughters-answer-the-door-for-a-parent",
+  "kind": "voice",
+  "summary": "Daughters answer for a parent who does not speak English and say so.",
+  "realLife": "A Central Valley canvasser reached a man whose daughters came to the door and said he did not speak English.",
+  "sources": [
+    "San Francisco Chronicle, canvassing in California's Central Valley, undated: https://preview-prod.w.sfchronicle.com/politics/article/canvassing-california-central-valley-19852147.php"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": [],
+  "inGame": "household language record; adult children in the home as the listed voters' kin",
+  "weights": {
+    "door": 0.6
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "A child translates and the parent says what matters to him",
+      "pulledBy": "a household language gap with a daughter home",
+      "writesBack": "the daughter speaks for him and the list notes a need for a follow-up in his language"
+    },
+    {
+      "turn": "The daughters say he is not interested",
+      "pulledBy": "a household that wants to be left alone",
+      "writesBack": "the list entry is closed"
+    }
+  ]
+}
