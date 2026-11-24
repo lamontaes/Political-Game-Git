@@ -29,10 +29,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for",
+    "key": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting",
     "move": "reply-ask",
     "kind": "spoken",
-    "text": "When I tell people at home about this debate, who should I say you spoke for?",
+    "text": "When people back home ask about {issue}, whose view should I tell them you brought to the meeting?",
     "uses": [
       {
         "subject": "scene",
@@ -110,7 +110,67 @@
         "purpose": "floor-debate",
         "key": "honor",
         "requiresFacts": ["reason-own-view", "issue"],
-        "after": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for"
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
       }
     ],
     "bearing": "firm",
@@ -150,7 +210,67 @@
         "purpose": "floor-debate",
         "key": "honor",
         "requiresFacts": ["reason-own-view", "issue"],
-        "after": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for"
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "issue"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
       }
     ],
     "bearing": "calm",
@@ -190,7 +310,67 @@
         "purpose": "floor-debate",
         "key": "honor",
         "requiresFacts": ["reason-people", "issue"],
-        "after": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for"
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
       }
     ],
     "bearing": "firm",
@@ -230,7 +410,67 @@
         "purpose": "floor-debate",
         "key": "honor",
         "requiresFacts": ["reason-people", "issue"],
-        "after": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for"
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-people", "issue"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
       }
     ],
     "bearing": "calm",
@@ -247,10 +487,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.speak-of-me-as-the-sponsor-i-m-the-one-who-put-that-proposal-before-us",
+    "key": "scene-talk.follow-answer.i-m-speaking-as-the-sponsor-of-bill-name-i-brought-it-here-and-i-ll-answer-for-what-it-says",
     "move": "follow-answer",
     "kind": "spoken",
-    "text": "Speak of me as the sponsor. I'm the one who put that proposal before us.",
+    "text": "I'm speaking as the sponsor of {bill-name}. I brought it here, and I'll answer for what it says.",
     "uses": [
       {
         "subject": "scene",
@@ -259,7 +499,7 @@
         "role": "asker",
         "purpose": "floor-debate",
         "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it"],
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
         "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
       },
       {
@@ -269,8 +509,68 @@
         "role": "asker",
         "purpose": "floor-debate",
         "key": "honor",
-        "requiresFacts": ["reason-own-bill", "speaker-wrote-it"],
-        "after": "scene-talk.reply-ask.when-i-tell-people-at-home-about-this-debate-who-should-i-say-you-spoke-for"
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-bill", "speaker-wrote-it", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
       }
     ],
     "bearing": "calm",
@@ -287,10 +587,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.yes-i-introduced-it-i-can-take-a-look-at-the-provision-you-mean",
+    "key": "scene-talk.follow-answer.yes-bring-me-the-section-of-bill-name-you-want-to-change-i-ll-read-it-with-you",
     "move": "follow-answer",
     "kind": "spoken",
-    "text": "Yes. I introduced it. I can take a look at the provision you mean.",
+    "text": "Yes. Bring me the section of {bill-name} you want to change. I'll read it with you.",
     "uses": [
       {
         "subject": "scene",
@@ -299,7 +599,7 @@
         "role": "asker",
         "purpose": "floor-debate",
         "key": "honor",
-        "requiresFacts": ["speaker-wrote-it"],
+        "requiresFacts": ["speaker-wrote-it", "bill-name"],
         "after": "scene-talk.reply-ask.i-d-like-the-sponsor-to-look-at-a-change-to-bill-name-should-i-bring-it-to-you"
       }
     ],
@@ -317,10 +617,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.bring-it-to-me-as-the-sponsor-i-d-like-to-see-the-wording-you-re-proposing",
+    "key": "scene-talk.follow-answer.i-d-like-to-see-your-wording-for-bill-name-could-you-mark-the-passage-it-would-replace",
     "move": "follow-answer",
     "kind": "spoken",
-    "text": "Bring it to me. As the sponsor, I'd like to see the wording you're proposing.",
+    "text": "I'd like to see your wording for {bill-name}. Could you mark the passage it would replace?",
     "uses": [
       {
         "subject": "scene",
@@ -329,7 +629,7 @@
         "role": "asker",
         "purpose": "floor-debate",
         "key": "honor",
-        "requiresFacts": ["speaker-wrote-it"],
+        "requiresFacts": ["speaker-wrote-it", "bill-name"],
         "after": "scene-talk.reply-ask.i-d-like-the-sponsor-to-look-at-a-change-to-bill-name-should-i-bring-it-to-you"
       }
     ],
@@ -347,10 +647,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.yes-it-s-my-bill-let-me-look-at-your-change-before-i-say-where-i-stand",
+    "key": "scene-talk.follow-answer.yes-you-have-the-right-person-i-d-want-to-read-the-change-alongside-the-rest-of-bill-name-before-taking-a-position",
     "move": "follow-answer",
     "kind": "spoken",
-    "text": "Yes, it's my bill. Let me look at your change before I say where I stand.",
+    "text": "Yes, you have the right person. I'd want to read the change alongside the rest of {bill-name} before taking a position.",
     "uses": [
       {
         "subject": "scene",
@@ -359,7 +659,7 @@
         "role": "asker",
         "purpose": "floor-debate",
         "key": "honor",
-        "requiresFacts": ["speaker-wrote-it"],
+        "requiresFacts": ["speaker-wrote-it", "bill-name"],
         "after": "scene-talk.reply-ask.i-d-like-the-sponsor-to-look-at-a-change-to-bill-name-should-i-bring-it-to-you"
       }
     ],
@@ -374,6 +674,180 @@
     "elements": [
       "rehearse-floor-questions-at-home",
       "sort-drafting-fixes-from-concessions"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Whose position on {issue} should I take back to the neighborhood after this meeting?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-council"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "I'd like to get this straight before I repeat it. When you spoke about {issue}, who were you speaking for?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-council"]
+      }
+    ],
+    "bearing": "guarded",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "May I ask the member whose judgment we just heard on {issue}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-formal"]
+      }
+    ],
+    "bearing": "steady",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Suppose someone reads this debate and asks me who took that position on {issue}. Whom should I name?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-formal"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "If somebody stops me on the way out and asks who spoke for that view on {issue}, what should I tell them?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-small"]
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Can I check one thing about {issue} before we move on? Whose side were you putting to us just now?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["issue", "body-small"]
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-reasons-are-facts-not-stories"
     ]
   }
 ]
