@@ -81373,7 +81373,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "solemn",
@@ -81398,7 +81398,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "braced",
@@ -81423,7 +81423,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "guarded",
@@ -81448,7 +81448,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "calm",
@@ -88246,7 +88246,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "solemn",
@@ -88276,7 +88276,7 @@
           "role": "narrator",
           "purpose": "layoff-terms",
           "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
+          "requiresFacts": ["employer", "workplace"]
         }
       ],
       "bearing": "solemn",
