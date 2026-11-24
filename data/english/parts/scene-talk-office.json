@@ -6917,6 +6917,380 @@
         "key": "cut-heard"
       },
       "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-i-ll-bring-you-a-request-for-half-the-balance",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. I'll bring you a request for half the balance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.could-you-manage-with-half-of-what-s-still-missing-from-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-can-work-with-that-leave-the-other-half-out-of-this-amendment",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can work with that. Leave the other half out of this amendment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.could-you-manage-with-half-of-what-s-still-missing-from-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-ll-ask-council-for-half-the-balance-is-that-enough-for-you-to-come-with-me",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll ask council for half the balance. Is that enough for you to come with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-come-i-want-them-to-hear-why-even-half-matters-to-line",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll come. I want them to hear why even half matters to {line}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-ll-ask-council-for-half-the-balance-is-that-enough-for-you-to-come-with-me"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-you-can-tell-them-the-department-and-the-mayor-are-asking-for-the-same-amount",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. You can tell them the department and the mayor are asking for the same amount.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-ll-ask-council-for-half-the-balance-is-that-enough-for-you-to-come-with-me"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.i-can-carry-half-of-what-s-missing-would-you-put-your-name-beside-mine-on-that-request",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I can carry half of what's missing. Would you put your name beside mine on that request?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.put-my-name-on-it-i-ll-answer-for-the-department",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Put my name on it. I'll answer for the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-can-carry-half-of-what-s-missing-would-you-put-your-name-beside-mine-on-that-request"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-i-ll-sign-a-request-for-half",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. I'll sign a request for half.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.i-can-carry-half-of-what-s-missing-would-you-put-your-name-beside-mine-on-that-request"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.suppose-we-split-the-difference-on-line-will-you-back-an-amendment-for-half-of-the-shortfall",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Suppose we split the difference on {line}. Will you back an amendment for half of the shortfall?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-will-if-somebody-asks-about-the-rest-i-ll-explain-what-we-agreed-to",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I will. If somebody asks about the rest, I'll explain what we agreed to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.suppose-we-split-the-difference-on-line-will-you-back-an-amendment-for-half-of-the-shortfall"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.half-is-a-smaller-request-than-i-brought-in-you-ve-got-my-backing-for-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Half is a smaller request than I brought in. You've got my backing for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.suppose-we-split-the-difference-on-line-will-you-back-an-amendment-for-half-of-the-shortfall"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.could-we-go-back-to-council-together-for-half-of-what-you-re-asking",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Could we go back to council together for half of what you're asking?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.i-ll-go-with-you-half-would-give-me-something-to-take-back-to-the-department",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll go with you. Half would give me something to take back to the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.could-we-go-back-to-council-together-for-half-of-what-you-re-asking"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-accept.yes-when-it-s-our-turn-let-me-explain-the-cut-before-you-ask-for-half-back",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Yes. When it's our turn, let me explain the cut before you ask for half back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-bargain.could-we-go-back-to-council-together-for-half-of-what-you-re-asking"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
     }
   ]
 }
