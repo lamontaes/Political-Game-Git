@@ -3067,7 +3067,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathIllness.name-had-been-after-illness-before-the-end",
@@ -3093,7 +3094,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedFrom.i-came-here-from-moved-from",
@@ -3119,7 +3121,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.i-had-been-living-in-moved-from-before-that",
@@ -3145,7 +3148,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.we-came-from-moved-from",
@@ -3171,7 +3175,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-came-with-me",
@@ -3197,7 +3202,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-moved-with-me",
@@ -3223,7 +3229,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.i-brought-moved-with-along",
@@ -3249,7 +3256,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-my-first-child",
@@ -3275,7 +3283,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-our-first",
@@ -3301,7 +3310,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-the-first-child-we-had",
@@ -3327,7 +3337,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.home-livelihood.other-works-as-job",
@@ -5095,7 +5106,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.at-age-years-old",
@@ -5121,7 +5133,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.at-the-age-of-age",
@@ -5147,7 +5160,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.back-when-i-was-age",
@@ -5173,7 +5187,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-decided.i-decided-to-run-for-office",
@@ -5303,7 +5318,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-was-part-of-what-came-after",
@@ -5329,7 +5345,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-showed-up-again-in-my-story",
@@ -5355,7 +5372,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-was-in-my-life-again-after-that",
@@ -5381,7 +5399,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-turned-up-in-my-life-again-later",
@@ -5407,7 +5426,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-and-i-crossed-paths-again-after-that",
@@ -5433,7 +5453,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-was-someone-i-met-again-afterward",
@@ -5459,7 +5480,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-remember.i-knew-name",
@@ -5589,7 +5611,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.name-is-office-now",
@@ -5615,7 +5638,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.name-went-on-to-serve-as-office",
@@ -5641,7 +5665,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.he-became-office",
@@ -5667,7 +5692,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.she-became-office",
@@ -5693,7 +5719,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-meantFriend.we-were-friends",
@@ -6031,7 +6058,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-at-the-time",
@@ -6057,7 +6085,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-that-day",
@@ -6083,7 +6112,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-and-had-been-after-illness",
@@ -6109,7 +6139,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-had-been-after-illness-and-was-death-age",
@@ -6135,7 +6166,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-after-being-after-illness-for-a-time",
@@ -6161,7 +6193,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-schoolFor.i-had-been-there-for-school-for",
@@ -6187,7 +6220,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolFor.i-had-been-there-for-school-for-by-then",
@@ -6213,7 +6247,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolFor.that-ended-my-school-for-there",
@@ -6239,7 +6274,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-years-old-then",
@@ -6265,7 +6301,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-at-the-time",
@@ -6291,7 +6328,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-that-year",
@@ -6317,7 +6355,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-birthAge.name-arrived-when-i-was-age-then",
@@ -6343,7 +6382,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthAge.name-came-along-when-i-was-age-then",
@@ -6369,7 +6409,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthAge.age-then-was-my-age-when-name-arrived",
@@ -6395,7 +6436,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedAge.i-was-age-then-when-i-moved",
@@ -6421,7 +6463,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.i-was-age-then-years-old-at-the-move",
@@ -6447,7 +6493,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.the-move-came-when-i-was-age-then",
@@ -6473,7 +6523,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-firstPay.employer-paid-me-wage-an-hour",
@@ -6499,7 +6553,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-firstPay.wage-an-hour-was-my-first-pay",
@@ -6525,7 +6580,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-firstPay.employer-started-me-at-wage-an-hour",
@@ -6551,7 +6607,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.employer-offered-wage-an-hour",
@@ -6577,7 +6634,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-the-pay-there",
@@ -6603,7 +6661,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-what-the-job-paid",
@@ -6629,7 +6688,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-more-than-the-paid-more-than-before",
@@ -6655,7 +6715,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-less-than-the-paid-less-than-before",
@@ -6681,7 +6742,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againFelt.span-had-gone-by-without-a-job",
@@ -6875,7 +6937,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-letGoPay.wage-an-hour-was-my-pay-at-employer",
@@ -6901,7 +6964,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-letGoPay.employer-was-paying-me-wage-an-hour",
@@ -6927,7 +6991,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.at-next-i-was-paid-wage-an-hour",
@@ -6953,7 +7018,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.the-job-at-next-paid-wage-an-hour",
@@ -6979,7 +7045,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.my-pay-at-next-was-wage-an-hour",
@@ -7005,7 +7072,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-up-from-paid-more-than",
@@ -7031,7 +7099,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-down-from-paid-less-than",
@@ -7057,7 +7126,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-togetherFor.that-was-together-ago",
@@ -9233,7 +9303,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedFrom.before-that-home-was",
@@ -9259,7 +9330,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.i-had-lived-in-until-then",
@@ -9285,7 +9357,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.we-had-left-behind",
@@ -9311,7 +9384,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.made-the-move-with-me",
@@ -9337,7 +9411,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-birthFirst.our-first-child-was",
@@ -9363,7 +9438,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.came-first",
@@ -9389,7 +9465,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-whenAge.this-was-when-i-was",
@@ -9415,7 +9492,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.i-was-then",
@@ -9441,7 +9519,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-decided.i-put-my-name-forward-for",
@@ -9545,7 +9624,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.turned-up-once-more-after-that",
@@ -9571,7 +9651,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.i-met-again-some-time-afterward",
@@ -9597,7 +9678,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-remember.i-had-known-for-a-good-while",
@@ -9701,7 +9783,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.took-on-the-job-of",
@@ -9727,7 +9810,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.ended-up-as",
@@ -9753,7 +9837,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-meantFriend.we-were-close",
@@ -9883,7 +9968,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-birthAge.was-born-when-i-was",
@@ -9909,7 +9995,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedAge.i-was-when-we-moved",
@@ -9935,7 +10022,11 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.at-i-moved",
@@ -9961,7 +10052,11 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-firstPay.my-first-job-paid-an-hour",
@@ -9987,7 +10082,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-firstPay.i-started-at-on-an-hour",
@@ -10013,7 +10109,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.the-pay-at-was-an-hour",
@@ -10039,7 +10136,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.i-would-make-an-hour-at",
@@ -10065,7 +10163,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againFelt.i-went-without-a-job",
@@ -10203,7 +10302,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-letGoPay.i-was-making-an-hour-at",
@@ -10229,7 +10329,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.i-would-earn-an-hour-at",
@@ -10255,7 +10356,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.the-wage-at-was-an-hour",
@@ -10281,7 +10383,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.i-went-to-and-was-paid-an-hour",
@@ -10307,7 +10410,8 @@
       "date": "2026-11-24",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     }
   ]
 }
