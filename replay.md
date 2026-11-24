@@ -209,3 +209,10 @@ Draws: Laurel, Delaware 360d9fcc-3f4f-43eb-8668-be5bde7377c9; Sumner, Mississipp
 | P8 (Capitol beat, Oval cutaway alone, America cutaway) | #10344, #10391 | all four draws | **pass** (4 of 4) | replay-m10a-sheet.png, replay-m10b-sheet.png, replay-m10c-sheet.png, replay-m10d-sheet.png | Left to right in each: the speech in front of the Capitol at night (President large, Speaker and Vice President small); the President alone at the Resolute desk with flags (Oval cutaway); the train-station America shot with the LIVE corner. |
 | C18 | #10309 | Boyd WI dba6ba04 | **not reached** (the Governor's address was played in a trailer home with no painted TV; the painted-TV case needs a living room with a TV, which none of the two Week draws gave) | replay-m10wa-2.png | LIVE box shows the Governor; no TV in this room. |
 | N16-27 | #10316 (wanted-picture line only) | same | **open, art** | replay-m10wa-2.png | Same. |
+
+## C18 (Coordinator, 11:48Z): Walthill, Nebraska, seed 567111a1-8684-4ce3-ba8b-a8eedb8bd323, main 7fcae4d8 (the bench's checkout; origin/main was 1497aab0)
+
+| Row | PR | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- |
+| C18 | #10309 | **pass** (Governor's address during the Week of Jan 22) | replay-c18b-2.png, replay-c18b-1.png | The painted TV set in the living room shows Governor Douglas Bradley's head and shoulders while his State of the State address plays; before the address (c18b-1) the set is dark. The LIVE corner shows the same Governor. The opening's President address cuts to the train-station America shot, and the home evening scene (replay-c18-open-6.png) shows the same TV dark (no broadcast then). |
+| N16-27 | #10316 (wanted-picture line) | **open, art** | replay-c18b-2.png | The set shows the Governor's bust, not a dedicated TV graphic. |
