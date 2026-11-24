@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: maintenance visits after project completion.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The county closes routine maintenance at the site.",
+      "pulledBy": "A follow-up inspection finds that native vegetation meets the agreed target.",
+      "writesBack": "The inspection closes the work order."
+    },
+    {
+      "turn": "late",
+      "what": "The crew returns after the growing season.",
+      "pulledBy": "Site access is restricted while wildlife is nesting.",
+      "writesBack": "The maintenance order records the new work window."
+    }
+  ]
 }

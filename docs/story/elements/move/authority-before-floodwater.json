@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the limits of a county emergency authorization.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council reserves the decision until the river rises.",
+      "pulledBy": "The vote to grant advance authority falls short.",
+      "writesBack": "The minutes leave the ordinary declaration process in effect."
+    },
+    {
+      "turn": "partial",
+      "what": "The council authorizes advance purchases up to a limit.",
+      "pulledBy": "Members approve supplies and withhold broader contracting authority.",
+      "writesBack": "The ordinance records the spending ceiling."
+    }
+  ]
 }

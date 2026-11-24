@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: field observations by species and survey date.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The first survey finds no young fish in the restored channel.",
+      "pulledBy": "Biologists complete the survey without a sighting.",
+      "writesBack": "The field log records the survey effort and zero sightings."
+    },
+    {
+      "turn": "late",
+      "what": "Young fish appear on the next survey.",
+      "pulledBy": "A later observation follows a change in river level.",
+      "writesBack": "The survey record gives the date of the first sighting."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: connections opened by a floodplain project.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The old channel stays separated from the river.",
+      "pulledBy": "Engineers find that reopening it would threaten a neighboring road.",
+      "writesBack": "The approved plan removes that connection."
+    },
+    {
+      "turn": "partial",
+      "what": "The old channel reconnects only at high flows.",
+      "pulledBy": "The installed inlet sits above ordinary water level.",
+      "writesBack": "Monitoring records when water reaches the channel."
+    }
+  ]
 }

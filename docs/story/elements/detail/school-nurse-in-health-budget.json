@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the department responsible for a school health post.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The school system funds the nurse directly.",
+      "pulledBy": "The school board assumes the position in its adopted budget.",
+      "writesBack": "The staffing ledger charges the post to the schools."
+    },
+    {
+      "turn": "partial",
+      "what": "One nurse serves two schools.",
+      "pulledBy": "The funded appropriation covers only one position.",
+      "writesBack": "The assignment calendar divides the nurse's time."
+    }
+  ]
 }

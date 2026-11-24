@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: animal shelter transport and boarding capacity.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The animals stay at the shelter.",
+      "pulledBy": "An updated forecast keeps its access road open.",
+      "writesBack": "The shelter cancels boarding reservations."
+    },
+    {
+      "turn": "partial",
+      "what": "Foster households take some animals before a transfer.",
+      "pulledBy": "Available foster homes accept only certain animals.",
+      "writesBack": "The roster records foster placements and remaining transport needs."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: scope and expiration of emergency purchasing waivers.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The county uses normal bidding for the order.",
+      "pulledBy": "Suppliers can meet the deadline under existing procedures.",
+      "writesBack": "The purchase file carries the regular bid record."
+    },
+    {
+      "turn": "partial",
+      "what": "The waiver covers sandbags but excludes long-term construction.",
+      "pulledBy": "The council limits it to immediate supplies.",
+      "writesBack": "The purchasing office records separate procurement routes."
+    }
+  ]
 }

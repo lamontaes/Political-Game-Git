@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: funding continuity after temporary aid expires.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The program ends with the temporary grant.",
+      "pulledBy": "The county declines to assume its annual cost.",
+      "writesBack": "The school budget records an end date."
+    },
+    {
+      "turn": "partial",
+      "what": "The county covers the program through the semester.",
+      "pulledBy": "Recurring funding falls short of the annual cost.",
+      "writesBack": "The appropriation records a midyear expiration."
+    }
+  ]
 }

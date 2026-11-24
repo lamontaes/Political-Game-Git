@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: construction stages and nearby farm access.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The county retains the levee along the farm.",
+      "pulledBy": "The landowner and county cannot agree on an easement.",
+      "writesBack": "The revised design keeps the barrier in place."
+    },
+    {
+      "turn": "partial",
+      "what": "Crews remove one section before planting season.",
+      "pulledBy": "The farm access agreement limits when heavy equipment can enter.",
+      "writesBack": "The remaining section goes on the next construction schedule."
+    }
+  ]
 }

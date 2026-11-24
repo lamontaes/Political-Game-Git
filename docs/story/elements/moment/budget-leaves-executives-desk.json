@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: transmission of the executive budget to council.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive recalls the draft before council review.",
+      "pulledBy": "The finance office finds an error in the revenue estimate.",
+      "writesBack": "The clerk marks the first version withdrawn."
+    },
+    {
+      "turn": "late",
+      "what": "A corrected schedule follows the budget submission.",
+      "pulledBy": "A department spots a missing appropriation table.",
+      "writesBack": "The council docket links the supplement to the original proposal."
+    }
+  ]
 }

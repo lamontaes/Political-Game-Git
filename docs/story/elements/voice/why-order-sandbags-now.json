@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: timing of supply orders against forecast lead time.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council delays the order.",
+      "pulledBy": "The county already holds enough supplies for the current forecast.",
+      "writesBack": "The inventory review sets the next reorder date."
+    },
+    {
+      "turn": "partial",
+      "what": "The county buys a first shipment and reserves the remainder.",
+      "pulledBy": "Storage space is limited until another site opens.",
+      "writesBack": "The order separates immediate delivery from the reserved quantity."
+    }
+  ]
 }

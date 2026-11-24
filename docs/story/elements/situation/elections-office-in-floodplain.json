@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: contingency locations for election operations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The election office remains open at its original address.",
+      "pulledBy": "The flood assessment clears access through election day.",
+      "writesBack": "The county withdraws the relocation notice."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff move ballot processing and keep voter services downtown.",
+      "pulledBy": "The alternate site can handle counting but lacks a public counter.",
+      "writesBack": "The election notice lists both locations and their functions."
+    }
+  ]
 }

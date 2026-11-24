@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the disposition of school budget request items.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive recommends the entire school request.",
+      "pulledBy": "The revised forecast covers the outstanding amount.",
+      "writesBack": "The proposal matches the board's request."
+    },
+    {
+      "turn": "partial",
+      "what": "The proposal covers negotiated raises and postpones a new program.",
+      "pulledBy": "The agreement sets a pay date before the program would begin.",
+      "writesBack": "The budget distinguishes the funded obligation from the deferred program."
+    }
+  ]
 }

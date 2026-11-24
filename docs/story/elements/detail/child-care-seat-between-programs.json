@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a child's placement and subsidy eligibility.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A family gets a place through an existing program.",
+      "pulledBy": "A new eligibility determination covers the child.",
+      "writesBack": "The placement uses the existing subsidy."
+    },
+    {
+      "turn": "partial",
+      "what": "The county offers fewer days than the family requested.",
+      "pulledBy": "Only a part-week opening matches the child's age.",
+      "writesBack": "The placement record keeps the remaining days on the waiting list."
+    }
+  ]
 }

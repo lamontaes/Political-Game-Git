@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: funding decisions linked to submitted requests.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive restores a request before submitting the budget.",
+      "pulledBy": "An updated revenue estimate covers the cost.",
+      "writesBack": "The recommendation identifies the restored service."
+    },
+    {
+      "turn": "partial",
+      "what": "The executive funds a trial at one site.",
+      "pulledBy": "The full request exceeds available money.",
+      "writesBack": "The proposal records the site and duration of the trial."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: receipt and handling of recorded testimony.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A resident gets a live hearing slot.",
+      "pulledBy": "A cancellation opens a place before the deadline.",
+      "writesBack": "The speakers' list replaces the recorded submission with live testimony."
+    },
+    {
+      "turn": "late",
+      "what": "A message enters the record after the hearing.",
+      "pulledBy": "The recording arrived on time but staff retrieved it the next morning.",
+      "writesBack": "The clerk preserves both receipt and transcription dates."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: participation by parents in budget preparation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Parents bring their request to the public hearing instead.",
+      "pulledBy": "Their association cannot arrange a separate session before submission.",
+      "writesBack": "Council testimony carries the request."
+    },
+    {
+      "turn": "partial",
+      "what": "The association sends written priorities ahead of a shorter meeting.",
+      "pulledBy": "Working parents have limited time to attend.",
+      "writesBack": "The executive's meeting file includes the written requests."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: reservoir capacity before the wet season.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Full storage capacity returns before the wet season.",
+      "pulledBy": "Engineers certify that repairs are complete.",
+      "writesBack": "The county revises the flood planning assumption."
+    },
+    {
+      "turn": "partial",
+      "what": "A repair restores some storage space.",
+      "pulledBy": "The operator still limits how high the reservoir can rise.",
+      "writesBack": "The seasonal briefing records the revised capacity."
+    }
+  ]
 }

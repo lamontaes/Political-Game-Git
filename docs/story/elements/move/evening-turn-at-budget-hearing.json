@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: speaking slots and attendance at budget hearings.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident gives testimony in the afternoon.",
+      "pulledBy": "An employer approves time away from work.",
+      "writesBack": "The hearing roster records the afternoon appearance."
+    },
+    {
+      "turn": "partial",
+      "what": "The resident joins the evening hearing by phone.",
+      "pulledBy": "The resident cannot reach the council building before the assigned time.",
+      "writesBack": "The clerk records remote testimony."
+    }
+  ]
 }

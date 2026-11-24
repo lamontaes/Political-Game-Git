@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: price adjustments by county contract.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The county renews contracts at their existing rates.",
+      "pulledBy": "The adopted budget has no inflation allowance.",
+      "writesBack": "The renewal lists the prior rate."
+    },
+    {
+      "turn": "partial",
+      "what": "Only contracts up for renewal get the adjustment.",
+      "pulledBy": "Other agreements lock in their rates for another year.",
+      "writesBack": "The contract register shows which providers qualify."
+    }
+  ]
 }

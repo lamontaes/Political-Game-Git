@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: custody placements during a flood advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "People in custody remain at the facility.",
+      "pulledBy": "An updated assessment keeps the jail outside the projected flooding.",
+      "writesBack": "The county cancels the transfer request."
+    },
+    {
+      "turn": "partial",
+      "what": "The county moves only the occupied ground-floor units.",
+      "pulledBy": "Upper floors and essential services remain available.",
+      "writesBack": "The roster identifies the transfers and receiving locations."
+    }
+  ]
 }

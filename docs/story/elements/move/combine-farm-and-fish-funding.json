@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: funding sources and eligible river project costs.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "One program pays for the whole project.",
+      "pulledBy": "The award covers all approved costs.",
+      "writesBack": "The project ledger records one funding source."
+    },
+    {
+      "turn": "partial",
+      "what": "The county phases the work after one grant falls through.",
+      "pulledBy": "Habitat money is secured but the road work lacks funding.",
+      "writesBack": "The revised schedule separates funded and deferred work."
+    }
+  ]
 }

@@ -10,5 +10,20 @@
   "slots": ["{person}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: language coverage at a public budget forum.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Residents must wait for a session in their language.",
+      "pulledBy": "The scheduled interpreter cancels and no replacement is available.",
+      "writesBack": "The notice sets a replacement hearing date."
+    },
+    {
+      "turn": "partial",
+      "what": "Residents submit written questions for translation after the meeting.",
+      "pulledBy": "Interpretation covers the presentation but ends before questions.",
+      "writesBack": "The meeting record includes a pending list for translated answers."
+    }
+  ]
 }

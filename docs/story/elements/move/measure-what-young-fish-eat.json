@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: sampling methods and usable field observations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Biologists use observations from free-swimming fish alone.",
+      "pulledBy": "The study permit excludes enclosures.",
+      "writesBack": "The methods record drops the enclosure comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "The team reports growth but postpones the diet comparison.",
+      "pulledBy": "Too few food samples meet the study criteria.",
+      "writesBack": "The interim report identifies the missing measure."
+    }
+  ]
 }

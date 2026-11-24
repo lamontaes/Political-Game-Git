@@ -10,5 +10,20 @@
   "slots": ["{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: flood works installed alongside a county road.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Crews build protection alongside the existing road.",
+      "pulledBy": "The road alignment cannot move within the right of way.",
+      "writesBack": "The final design records the surface barrier."
+    },
+    {
+      "turn": "late",
+      "what": "The road opens after a second inspection.",
+      "pulledBy": "The first inspection leaves a buried component unverified.",
+      "writesBack": "The acceptance record gives the later inspection date."
+    }
+  ]
 }
