@@ -1,0 +1,32 @@
+{
+  "id": "a-town-hesitates-to-bring-its-bonds-to-market",
+  "kind": "consequence",
+  "summary": "As borrowing costs rise, {issuer} hesitates over a bond sale.",
+  "realLife": "Fed staff reported that municipal borrowers who had recently seen strong demand were growing reluctant to issue bonds as market spreads widened.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{issuer}"],
+  "gates": [
+    "The record identifies the issuer's financing calendar and market quotes."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: issuer's financing calendar and market quotes.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The financing calendar moves.",
+      "pulledBy": "The issuer postpones the offering",
+      "writesBack": "Revised date on the municipal financing calendar."
+    },
+    {
+      "turn": "another-way",
+      "what": "The treasurer records the terms actually obtained.",
+      "pulledBy": "The issuer goes ahead",
+      "writesBack": "Settlement date and borrowing cost."
+    }
+  ]
+}

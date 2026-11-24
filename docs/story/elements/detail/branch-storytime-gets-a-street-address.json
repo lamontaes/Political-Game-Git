@@ -1,0 +1,30 @@
+{
+  "id": "branch-storytime-gets-a-street-address",
+  "kind": "detail",
+  "summary": "A parent needs the address of the borrowed room to find a familiar library program.",
+  "realLife": "Boston's neighborhood services director announced a weekly storytime at United South End Settlements on Rutland Street and directed patrons to the branch events calendar.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2023/09/Submited-Public-Comments-9.26.23.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{program}", "{host}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: confirmed host address and event date.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The host confirms the regular room.",
+      "what": "Staff put the host address on the branch listing.",
+      "writesBack": "Families receive directions to the off-site session."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The regular room is unavailable for a week.",
+      "what": "Staff contact the host before listing a substitute.",
+      "writesBack": "The event notice records the changed location or cancellation."
+    }
+  ]
+}

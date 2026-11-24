@@ -1,0 +1,32 @@
+{
+  "id": "the-evening-paper-waits-at-the-office-door",
+  "kind": "detail",
+  "summary": "Regulars at {place} can pick up the latest edition while its young seller finishes the route.",
+  "realLife": "Michael Johnson recalled listing his regular Senate office customers and leaving newspapers at a doorway where passersby paid in change.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the newspaper route and office delivery arrangement."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: newspaper route and office delivery arrangement.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Leave the afternoon paper for the office.",
+      "pulledBy": "The subscriber is on the delivery list.",
+      "writesBack": "Deliveries and receipts."
+    },
+    {
+      "turn": "another-way",
+      "what": "Count a single sale.",
+      "pulledBy": "A visitor buys from the remaining stack.",
+      "writesBack": "Deliveries and receipts."
+    }
+  ]
+}

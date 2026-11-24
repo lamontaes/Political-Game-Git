@@ -1,0 +1,32 @@
+{
+  "id": "occasion-counts-as-one-gift",
+  "kind": "move",
+  "summary": "{person} puts everything presented at the visit on the same tally.",
+  "realLife": "State's reporting instructions for 2024 counted the combined value of gifts presented on one occasion when applying the cutoff.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Multiple gifts presented on one occasion under an aggregation rule."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: multiple gifts presented on one occasion under an aggregation rule.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "An aide files two pieces separately",
+      "what": "Reunite the entries",
+      "writesBack": "The visit has one reportable total"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The dates turn out to differ",
+      "what": "Check the presentation calendar",
+      "writesBack": "The tally follows the actual occasions"
+    }
+  ]
+}

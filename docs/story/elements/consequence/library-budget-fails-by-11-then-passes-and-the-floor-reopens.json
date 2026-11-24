@@ -1,0 +1,38 @@
+{
+  "id": "library-budget-fails-by-11-then-passes-and-the-floor-reopens",
+  "kind": "consequence",
+  "summary": "Voters turn down a library's levy by a few votes, the library cuts staff and closes a floor, and a smaller levy passes a year later.",
+  "realLife": "Gloversville voters rejected the library's budget in 2024 by 11 votes; the library laid off three workers, cut weekend hours and closed its upper floor. On May 20, 2025, voters approved a roughly $1 million budget with a 28.9 percent levy rise by 168 votes, and the library planned to reopen the floor and hire two workers. In Spokane, voters renewed a library levy in February 2024 that supplies about 18 percent of the library's budget, with officials saying hours and programs could be cut if it failed.",
+  "sources": [
+    "WAMC, Gloversville public library returning to full service after budget approval, Jun 13, 2025: https://www.wamc.org/news/2025-06-13/gloversville-public-library-returning-to-full-service-after-budget-approval",
+    "The Spokesman-Review, Voters agree to tax for Spokane Public Library to maintain services, Feb 13, 2024: https://spokesman.com/stories/2024/feb/13/voters-poised-to-give-spokane-libraries-funds-to-m",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["won", "challenger"],
+  "weights": {
+    "parks": 0.4,
+    "schools": 0.3
+  },
+  "usedBy": [],
+  "inGame": "a library levy ballot result; library staff, hours and a floor's open or closed state",
+  "turns": [
+    {
+      "way": "The second vote fails and the library stays closed upstairs.",
+      "pulledBy": "voters unmoved",
+      "writes": "the speech asks neighbors to use the first floor"
+    },
+    {
+      "way": "The library gets a smaller levy and reopens part of a floor.",
+      "pulledBy": "a middle sum",
+      "writes": "the speech says half the work is done"
+    },
+    {
+      "way": "The town adds library money from its general budget.",
+      "pulledBy": "a council that finds the funds",
+      "writes": "the speech says no new levy was needed"
+    }
+  ],
+  "issues": ["budget:parks"]
+}

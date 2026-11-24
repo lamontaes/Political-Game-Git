@@ -1,0 +1,30 @@
+{
+  "id": "resident-says-take-me-off-your-list",
+  "kind": "voice",
+  "summary": "A household that supports the other side tells the canvasser to take them off the list.",
+  "realLife": "A volunteer in northern Virginia met a household that said to take her off the list.",
+  "sources": [
+    "Daily Kos, Tales from the Field: Hitting the Doors in NOVA, 2021-10-31: https://www.dailykos.com/stories/2021/10/31/2061272/-Tales-from-the-Field-Hitting-the-Doors-in-NOVA"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": [],
+  "inGame": "household leaning against the player on the views record; the list entry marked do not contact",
+  "weights": {
+    "door": 0.6
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The household is removed from further contact",
+      "pulledBy": "an opposing lean on the household",
+      "writesBack": "the list entry is struck, no second knock"
+    },
+    {
+      "turn": "The resident says it and then asks a question about the candidate",
+      "pulledBy": "a mixed lean",
+      "writesBack": "the canvasser answers once and thanks them"
+    }
+  ]
+}

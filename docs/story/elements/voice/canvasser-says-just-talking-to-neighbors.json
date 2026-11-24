@@ -1,0 +1,31 @@
+{
+  "id": "canvasser-says-just-talking-to-neighbors",
+  "kind": "voice",
+  "summary": "A canvasser opens by saying they are just talking to people in the neighborhood about the election.",
+  "realLife": "A canvasser in a Phoenix feature knocked, asked how the resident was, and said she was just talking to folks nearby about the election.",
+  "sources": [
+    "Yahoo News, Canvassers descend on Phoenix for one last push: what it is like on both sides of the door, undated: https://www.yahoo.com/news/canvassers-descend-phoenix-one-last-200537117.html",
+    "Goodreads author blog, What it's like to canvas and knock on voters' doors in Pennsylvania, undated: https://www.goodreads.com/author_blog_posts/25177131-what-it-s-like-to-canvas-and-knock-on-voters-doors-in-pennsylvania"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first"],
+  "gates": [],
+  "inGame": "canvass shift record plus ask-support opener; the stranger fact picks this plain intro",
+  "weights": {
+    "door": 0.6
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The resident turns out to be a neighbor already",
+      "pulledBy": "acquainted",
+      "writesBack": "the plain opener gives way to a first-name hello"
+    },
+    {
+      "turn": "The resident has heard it from every campaign this month",
+      "pulledBy": "a long run of earlier knocks",
+      "writesBack": "a shorter, weary opener that gets to the point"
+    }
+  ]
+}

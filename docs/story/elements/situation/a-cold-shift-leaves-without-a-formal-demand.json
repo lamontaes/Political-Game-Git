@@ -1,0 +1,34 @@
+{
+  "id": "a-cold-shift-leaves-without-a-formal-demand",
+  "kind": "situation",
+  "summary": "An unrepresented crew at {workplace} decides together to leave a cold shop after individual complaints have failed.",
+  "realLife": "Several Washington Aluminum machinists had complained about the cold before the furnace failed. Most of the shift then left together without first presenting a formal demand for repairs.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep370/usrep370009/usrep370009.pdf#page=3",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep370/usrep370009/usrep370009.pdf#page=4",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep370/usrep370009/usrep370009.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the earlier complaints, shared decision, shop conditions and departure."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: earlier complaints, shared decision, shop conditions and departure.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Witnesses can describe the common reason for leaving.",
+      "pulledBy": "The crew leaves together",
+      "writesBack": "Statements and shift attendance."
+    },
+    {
+      "turn": "another-way",
+      "what": "The record reflects their individual reasons.",
+      "pulledBy": "Workers leave independently for unrelated reasons",
+      "writesBack": "Individual accounts."
+    }
+  ]
+}

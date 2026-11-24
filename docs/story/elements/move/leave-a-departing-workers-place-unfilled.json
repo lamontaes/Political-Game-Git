@@ -1,0 +1,32 @@
+{
+  "id": "leave-a-departing-workers-place-unfilled",
+  "kind": "move",
+  "summary": "An employer leaves a job at {workplace} vacant to reduce the need for layoffs.",
+  "realLife": "March participants heard that some firms avoided replacing workers who left as one way of reducing the immediate need for layoffs.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The record identifies the departure, hiring decision and current staff plan."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: departure, hiring decision and current staff plan.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The payroll shrinks through attrition.",
+      "pulledBy": "The employer freezes the opening",
+      "writesBack": "Unfilled job on the staffing plan."
+    },
+    {
+      "turn": "another-way",
+      "what": "The employer can recruit a replacement.",
+      "pulledBy": "Orders return before the vacancy is frozen",
+      "writesBack": "Authorization to refill the opening."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "new-leak-rule-applied-to-old-request",
+  "kind": "consequence",
+  "summary": "A resident asks {person} to reopen a leak adjustment after the city changes its policy.",
+  "realLife": "Portland agreed to reconsider a leak case under a recently adopted policy, and the homeowners received a reduction.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=Two%20elderly%20military%20veterans%20had%20a%20longstanding%20water%20leak"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": [
+    "The rule has changed and the utility can determine whether reconsideration is available."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the rule has changed and the utility can determine whether reconsideration is available.",
+  "turns": [
+    {
+      "turn": "the-reviewer-accepts-the-case-under-the-new-rule",
+      "pulledBy": "The reviewer accepts the case under the new rule.",
+      "what": "Request a revised bill showing the result.",
+      "writesBack": "The revised statement records the decision on the old leak."
+    },
+    {
+      "turn": "the-rule-does-not-cover-the-old-claim",
+      "pulledBy": "The rule does not cover the old claim.",
+      "what": "Ask for the effective date and available review route.",
+      "writesBack": "The homeowner receives the rule date and next available step."
+    }
+  ]
+}

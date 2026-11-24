@@ -1,0 +1,43 @@
+{
+  "id": "county-executive-answers-the-address-with-a-home-deficit",
+  "kind": "voice",
+  "summary": "A county or local official answers the address by talking about the family budget and the deficit at home.",
+  "realLife": "A county executive and several nearby state senators said residents were struggling with costs and that the state faced a deficit of billions, then asked for ways to pay for services without charging families more and said constituents talked about moving away.",
+  "sources": [
+    "Mid-Hudson News (Hudson Valley, New York), 'Lawmakers react to Hochul's State of the State', January 10, 2024: https://midhudsonnews.com/2024/01/10/lawmakers-react-to-hochuls-state-of-the-state/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote", "about", "place"],
+  "gates": [],
+  "weights": {
+    "address": 0.5,
+    "deficit": 0.4
+  },
+  "inGame": "the county treasury balance, resident out-migration and a household cost record; needs: a stored local official reaction",
+  "issues": ["law:property-tax", "budget:administration"],
+  "turns": [
+    {
+      "name": "offers to work with the governor",
+      "pulledBy": "the official wants state money for county services",
+      "writes": "the story says the official promises help and asks for aid",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "warns that people are leaving",
+      "pulledBy": "moves out of the place were high this year",
+      "writes": "the story ties the speech to families who plan to leave",
+      "requiresFacts": ["people-leaving"],
+      "excludesFacts": []
+    },
+    {
+      "name": "blames past spending",
+      "pulledBy": "the official's party opposed the last budget",
+      "writes": "the story quotes a charge that earlier spending caused the gap",
+      "requiresFacts": [],
+      "excludesFacts": ["offers-to-work"]
+    }
+  ],
+  "usedBy": []
+}

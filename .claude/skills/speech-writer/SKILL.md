@@ -25,7 +25,7 @@ The owner on speeches:
 - Nov 24: "There's no build up or working of points."
 - Nov 24: "you can find speech writers talking about how they write speeches ... There has to be something on GitHub that helps you with this."
 
-Read `story-writer` first. The planner is `src/director/speech-outline.ts` with `src/director/data/speech-outlines.json`, and the lane's moves and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`.
+Read `story-writer` first, and your area's part of its `references/his-words.md`: what he already said, so you don't start from scratch. The planner is `src/director/speech-outline.ts` with `src/director/data/speech-outlines.json`, and the lane's moves and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`.
 
 ## The rules that must hold
 

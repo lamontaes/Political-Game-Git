@@ -1,0 +1,30 @@
+{
+  "id": "loaned-library-room-comes-with-a-fee",
+  "kind": "detail",
+  "summary": "A room offered for library service turns out to have a price attached to its regular use.",
+  "realLife": "Boston's library president said the weekly Rutland Street arrangement followed clarification of the terms, including the charge for using the space.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2023/09/Submited-Public-Comments-9.26.23.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home", "work-community"],
+  "slots": ["{host}", "{room}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: host's terms of use and service budget.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The board has funds for the quoted hours.",
+      "what": "Staff confirm the recurring booking.",
+      "writesBack": "The schedule and expense record cover the same dates."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The host quotes a price above the available funds.",
+      "what": "Staff seek fewer paid hours or another room.",
+      "writesBack": "The next request identifies which sessions lack a home."
+    }
+  ]
+}

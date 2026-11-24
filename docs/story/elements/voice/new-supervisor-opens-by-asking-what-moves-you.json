@@ -1,0 +1,36 @@
+{
+  "id": "new-supervisor-opens-by-asking-what-moves-you",
+  "kind": "voice",
+  "summary": "A supervisor meeting a team asks what motivates each person and what they want from a leader before laying out rules.",
+  "realLife": "A university HR guide tells new managers to hold an introduction meeting, ask staff what motivates them, and say how they plan to lead through one-on-ones and open talk.",
+  "sources": [
+    "University of Toledo HR, Manager's First Week guide: https://www.utoledo.edu/depts/hr/training-and-organizational-development/docs/Manager-Week-One.pdf"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "the person's job record (employer, position, workplace) and the new-coworker event carry who and where; the speaker's habit is a line choice by trait; needs: a recorded orientation or training session",
+  "turns": [
+    {
+      "turn": "rules-first",
+      "summary": "The supervisor reads the rules and expectations first and asks nothing.",
+      "pulledBy": ["a strict supervisor", "a rushed start"],
+      "writesBack": "a cooler tie; the newcomer notes feeling talked at"
+    },
+    {
+      "turn": "asks-but-does-not-follow-up",
+      "summary": "The supervisor asks, nods, and never mentions it again.",
+      "pulledBy": ["a busy supervisor"],
+      "writesBack": "a promise left unkept in the journal as a mild mood drop"
+    },
+    {
+      "turn": "asks-and-remembers",
+      "summary": "The supervisor brings up the newcomer's answer a week later.",
+      "pulledBy": ["an attentive supervisor", "a newcomer who answered openly"],
+      "writesBack": "a tie rises; a kept small promise"
+    }
+  ]
+}

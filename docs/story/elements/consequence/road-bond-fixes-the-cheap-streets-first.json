@@ -1,0 +1,37 @@
+{
+  "id": "road-bond-fixes-the-cheap-streets-first",
+  "kind": "consequence",
+  "summary": "Voters approve a street bond and the city starts with repaving, leaving the costly rebuilds for later years.",
+  "realLife": "Dallas voters approved about $534 million in 2017 for roughly 1,000 street and alley projects, planning 567 lane miles of resurfacing and 82 lane miles of reconstruction. A year later, 142 projects were complete and 30 underway, and city staff said resurfacing came first because reconstruction costs more and takes longer to plan; potholes were paid for from general funds.",
+  "sources": [
+    "CBS Texas, Dallas bond projects to be completed by 2022, Nov 8, 2017: https://www.cbsnews.com/texas/news/street-projects-dallas-completed-by-2022",
+    "CBS Texas, progress on Dallas street repairs from voters' bond program, Dec 2018: https://www.cbsnews.com/texas/news/progress-street-repairs-dallas-voters-bond-program",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["won", "incumbent"],
+  "weights": {
+    "highways": 0.7
+  },
+  "usedBy": [],
+  "inGame": "the street bond and its project rows by stage; road condition ratings on repaved streets",
+  "turns": [
+    {
+      "way": "Costs run high and fewer streets are done by the deadline.",
+      "pulledBy": "rising costs",
+      "writes": "the speech names the streets left waiting"
+    },
+    {
+      "way": "The city does reconstruction first on the worst streets.",
+      "pulledBy": "a council that targets the worst blocks",
+      "writes": "the speech names the hardest streets fixed"
+    },
+    {
+      "way": "The deadline is moved out a year to finish the list.",
+      "pulledBy": "a funding reduction",
+      "writes": "the speech admits the delay"
+    }
+  ],
+  "issues": ["budget:highways"]
+}

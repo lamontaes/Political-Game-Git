@@ -365,6 +365,27 @@ function servingOffices(core: CoreState, personId: string): string[] {
 }
 
 /**
+ * The words under a person's name on a scene's strip of busts (mock C: "Vice
+ * President", or for family the tie, "Dad"): the tie to the viewer where there
+ * is one, the English engine's own relation word; else the office they serve
+ * in now, from the offices engine's own title. None where the records name
+ * neither.
+ */
+export function roleWord(
+  core: CoreState,
+  viewerId: string,
+  otherId: string,
+): string | undefined {
+  const viewer = core.people.get(viewerId as PersonId);
+  const relation = viewer
+    ? familyFactsOf(viewer).get(otherId as PersonId)?.relation
+    : undefined;
+  const word = relationWord(core, otherId, relation);
+  if (word) return word.charAt(0).toUpperCase() + word.slice(1);
+  return servingOffices(core, otherId)[0];
+}
+
+/**
  * A person's life as their card tells it, oldest first: one worded line per
  * event the one life reader returns (`lifeOf`: what they were made with, the
  * simulated past and what the engines recorded in play), each on the record
