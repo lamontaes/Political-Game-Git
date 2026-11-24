@@ -21,8 +21,9 @@
     "born-president-party": "The party that held the White House when the player was born, as an adjective, from the century's presidency rows.",
     "school-president-party": "The party that held the White House when the player started school, as an adjective.",
     "moved-president-party": "The party that held the White House when the household moved, as an adjective.",
-    "start-president-party": "The party that holds the White House as the game opens, as an adjective.",
-    "governor-party": "The player's governor's party, as an adjective, from the offices engine's seat."
+    "school-state": "The state the player's first school was in, said as a sentence says it, from the school record's place.",
+    "moved-from-state": "The state the household moved out of, from the move record's from-place.",
+    "moved-to-state": "The state the household moved into, from the move record's to-place."
   },
   "maxWords": 30,
   "parts": [
@@ -471,40 +472,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-loading.now.a-start-president-party-president-is-in-the-white-house",
-      "move": "now",
-      "kind": "written",
-      "text": "A {start-president-party} president is in the White House.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["start-president-party"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.your-governor-is-governor-party-and-the-president-is-start-president-party",
-      "move": "now",
-      "kind": "written",
-      "text": "Your governor is {governor-party}, and the President is {start-president-party}.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["governor-party", "start-president-party"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.lost.you-ran-for-lost-office-in-lost-year-the-year-you-finished-high-school-and-lost",
       "move": "lost",
       "kind": "written",
@@ -547,6 +514,73 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["lincoln-lost-his-first-race"]
+    },
+    {
+      "key": "outline-loading.school.in-school-year-you-were-a-student-in-school-place-which-is-in-school-state",
+      "move": "school",
+      "kind": "written",
+      "text": "In {school-year} you were a student in {school-place}, which is in {school-state}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place", "school-state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["school-is-assigned-by-address"]
+    },
+    {
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-took-the-family-out-of-moved-from-state-and-into-moved-to-state",
+      "move": "moved",
+      "kind": "written",
+      "text": "The move from {moved-from} to {moved-to} took your family out of {moved-from-state} and into {moved-to-state}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-from-state",
+            "moved-to-state",
+            "moved-across-state"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["some-moves-are-for-a-job"]
+    },
+    {
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-stayed-inside-moved-to-state",
+      "move": "moved",
+      "kind": "written",
+      "text": "The move from {moved-from} to {moved-to} stayed inside {moved-to-state}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-to-state",
+            "moved-within-state"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["some-moves-are-for-a-job"]
     }
   ]
 }
