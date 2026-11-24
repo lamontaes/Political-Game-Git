@@ -35,7 +35,7 @@ The owner, Nov 24: "all of these shouldn't be necessarily written independently.
   - A line PR whose lines cite no element is sent back.
 - **Picking: the most specific match wins** (Valve's dynamic dialogue, Elan Ruskin, GDC 2012). The director holds the facts a moment can test. The element, turn or line whose conditions match the most facts plays, with general ones as the fallback. A line just used is down-weighted.
 - **Depth, not breadth** (owner, Nov 24: "a million times more variety"). Aim for hundreds of whole versions per slot, multiplied by the speaker's voice, record inserts, turns and the situation. The sameness gate measures it across many drawn lives.
-- **Element PRs** are docs only, titled `elements: …`, with the JSON formatted by Prettier and a `docs/release/changes/<id>.md` declaring `impact: none`. The CTO checks the sources and merges them.
+- **Element PRs** are docs only, titled `elements: …`, with the JSON formatted by Prettier and no release declaration (element files need none since #10429; see the Nov 24 gotcha). The CTO checks the sources and merges them.
 - **Nobody waits** (owner, Nov 24: "It keeps stopping at every little step. It needs to keep working."). Cite an element that is still in review. If you are blocked, post it once and move to the next element, slot or turn.
 
 ## The scope (owner, Oct 27)
