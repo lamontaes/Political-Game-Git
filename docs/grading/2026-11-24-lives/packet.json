@@ -22,79 +22,62 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-01-loading.jpg"
+       "img": "img/L1-01-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Building the town | Writing everyone's past | Opening the economy | Starting the world | Connecting Greeley to Colorado and Colorado to the country.",
+       "text": "Building the town | Writing everyone's past | Opening the economy | Starting the world | Wiring Greeley to the rest of Colorado, so one thing can affect another.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-02-loading.jpg"
+       "img": "img/L1-02-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Seating the government | Putting people in offices in Greeley, which is how offices usually get filled.",
+       "text": "Seating the government | Deciding who holds which office in Greeley, and since when.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-03-loading.jpg"
+       "img": "img/L1-03-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Deciding who holds which office in Greeley, and since when.",
+       "text": "Opening the elections | Setting the election dates for Greeley, so someone can be disappointed on time.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-04-loading.jpg"
+       "img": "img/L1-04-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Telling the people in charge in Greeley that they are in charge.",
+       "text": "Opening the budgets | Seating the legislature | Seating the lawmakers of Colorado. Everyone has a desk and a view on the desk.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-05-loading.jpg"
+       "img": "img/L1-05-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Filling the offices from the town hall in Greeley up to the capital of Colorado.",
+       "text": "Appointing the cabinet | Opening the press, courts and meetings | Filling the calendar in Greeley with meetings no one will want to attend.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-06-loading.jpg"
+       "img": "img/L1-06-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Opening the elections | Registering the voters of Greeley. Some of them will read the form.",
+       "text": "Writing the country's history | Running a century of elections in Colorado, a year at a time, so the country has a past.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-07-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Opening the budgets | Seating the legislature | Sorting out who sits on which committee in Colorado, which is where the work gets done.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L1-08-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Appointing the cabinet | Opening the press, courts and meetings | Sending reporters to the town hall in Greeley. They will wait.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L1-09-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Writing the country's history | Deciding who won every election in Colorado and who held office after.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L1-10-loading.jpg"
+       "img": "img/L1-07-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -102,7 +85,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-11-loading.jpg"
+       "img": "img/L1-08-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -110,7 +94,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-12-loading.jpg"
+       "img": "img/L1-09-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -118,7 +103,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-13-loading.jpg"
+       "img": "img/L1-10-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -126,7 +112,35 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L1-14-loading.jpg"
+       "img": "img/L1-11-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Greeley, Colorado | 2007 | Before you had a word to say, a clerk had a form for 2007 with your name on it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-12-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2023 | By 2012 you were in school in Greeley, learning to read and to wait in line.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-13-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | Most of what happens in Greeley happens without you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-14-loading.jpg",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -137,7 +151,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L1-14-loading.jpg",
+     "img": "img/L1-15-loading.jpg",
      "life": 1,
      "id": "L1-1"
     },
@@ -157,42 +171,59 @@
       {
        "who": "President John Cunningham",
        "text": "Fellow citizens. I swore to protect the Constitution, and for four years, that comes before everything else on my list. Let me get right to what health care costs.",
-       "piece": null,
-       "elements": [],
+       "piece": "opening-speech.ask.n19-both-belief-sentence, outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list, outline-call.charge.inaugural-let-me-get-right-to",
+       "elements": [
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President John Cunningham",
        "text": "I've thought about Medicare negotiating drug prices, and I land on no, since the next cure comes from companies that can afford to look for it. Of everything on my list, health care is where I expect to be tested first.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-theme.stand-reason.inaugural-i-ve-thought-about-and-i-land-on-no-since, outline-theme.value.inaugural-of-everything-on-my-list-is-where-i-expect-to-be-tested-first",
+       "elements": [
+        "ask-in-the-middle-belief-after"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President John Cunningham",
        "text": "Some of the damage from the storms will take a long time to repair.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-call.disaster.spoken-some-of-the-damage-from-the-will-take-a-long-time-to-repair",
+       "elements": [
+        "diagnosis-before-acts"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President John Cunningham",
        "text": "Whatever you think about whether to let Medicare negotiate drug prices, take a minute to learn what the other side is afraid of.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-call.call.spoken-whatever-you-think-of-take-a-minute-to-learn-what-the-other-side-is-af",
+       "elements": [
+        "ask-of-listeners-comes-last"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President John Cunningham",
        "text": "God bless us. On whether to let Medicare negotiate drug prices, my first step is a meeting, not a speech, and it's tomorrow.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-call.blessing.state-of-the-state-god-bless, outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
+       "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sots-close-ends-on-a-blessing",
+        "victory-ends-on-a-call-to-work"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -207,7 +238,7 @@
        "NEWS | Week of January 14, 2025: what meets"
       ]
      },
-     "img": "img/L1-15-the-president-s-address.jpg",
+     "img": "img/L1-16-the-president-s-address.jpg",
      "life": 1,
      "id": "L1-2"
     },
@@ -220,50 +251,58 @@
       {
        "who": "Parker Potts",
        "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
-       "piece": null,
+       "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Parker Potts",
-       "text": "SAMANTHA POTTS I don't know. I'm with him on this one.",
-       "piece": null,
+       "who": "Samantha Potts",
+       "text": "I don't know. I'm with him on this one.",
+       "piece": "opening-speech.ask.n19-both-belief-sentence, outline-talk.verdict-cold.talk-address-point-i-m-with-on",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Parker Potts",
        "text": "You'll come around, Samantha. Or I will.",
-       "piece": null,
+       "piece": "opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Parker Potts",
        "text": "I've said it before: I want Medicare negotiating drug prices.",
-       "piece": null,
+       "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Parker Potts",
-       "text": "SAMANTHA POTTS I hadn't looked at it that way before.",
-       "piece": null,
+       "who": "Samantha Potts",
+       "text": "I hadn't looked at it that way before.",
+       "piece": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Parker Potts",
        "text": "I figured you'd say that about it.",
-       "piece": null,
-       "elements": [],
+       "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -287,7 +326,7 @@
        "NEWS | Week of January 14, 2025: what meets"
       ]
      },
-     "img": "img/L1-16-talk-at-home-with-parker-pot.jpg",
+     "img": "img/L1-17-talk-at-home-with-parker-pot.jpg",
      "life": 1,
      "id": "L1-3"
     },
@@ -302,7 +341,9 @@
        "text": "Journal | MY STORY | Greeley, Colorado | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched John Cunningham's speech together tonight. The President came out against Medicare negotiating drug prices. I agree with the President about health care. I want to hear what my neighbors in Greeley thought.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -313,7 +354,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L1-17-journal.jpg",
+     "img": "img/L1-18-journal.jpg",
      "life": 1,
      "id": "L1-4"
     },
@@ -328,7 +369,9 @@
        "text": "News | Greeley Register | KBMG | KBZK-TV | Greeley Enterprise | Greeley Leader | Greeley Courier | KILA | KTJX-TV | KRSS-TV | KXPD-TV | Nation | Greeley Register | Monday, January 20, 2025 | Unfollow | Nothing from Greeley Register yet.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -339,7 +382,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L1-18-news.jpg",
+     "img": "img/L1-19-news.jpg",
      "life": 1,
      "id": "L1-5"
     },
@@ -357,8 +400,8 @@
        "issues": []
       },
       {
-       "who": "Frederick Stein",
-       "text": "SAMANTHA POTTS Good morning. I'm Samantha, and I'm out early asking for votes for the Greeley City Council.",
+       "who": "Samantha Potts",
+       "text": "Good morning. I'm Samantha, and I'm out early asking for votes for the Greeley City Council.",
        "piece": "scene-talk.state-request.good-morning-i-m-self-and-i-m-out-early-asking-for-votes-for-office",
        "elements": [
         "door-answer-is-frustration-with-the-body",
@@ -375,8 +418,8 @@
        "issues": []
       },
       {
-       "who": "Frederick Stein",
-       "text": "SAMANTHA POTTS How are you feeling? The race for the Greeley City Council can wait.",
+       "who": "Samantha Potts",
+       "text": "How are you feeling? The race for the Greeley City Council can wait.",
        "piece": "scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait",
        "elements": [],
        "issues": []
@@ -389,8 +432,8 @@
        "issues": []
       },
       {
-       "who": "Frederick Stein",
-       "text": "SAMANTHA POTTS I hope you're well soon. I'll come back about the race for the Greeley City Council.",
+       "who": "Samantha Potts",
+       "text": "I hope you're well soon. I'll come back about the race for the Greeley City Council.",
        "piece": "scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office",
        "elements": [],
        "issues": []
@@ -416,7 +459,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-19-knock-on-doors.jpg",
+     "img": "img/L1-20-knock-on-doors.jpg",
      "life": 1,
      "id": "L1-6"
     },
@@ -455,8 +498,8 @@
        "issues": []
       },
       {
-       "who": "Darlene Wells",
-       "text": "SAMANTHA POTTS I need time.",
+       "who": "Samantha Potts",
+       "text": "I need time.",
        "piece": "scene-talk.reply-deflect.i-need-time",
        "elements": [],
        "issues": []
@@ -469,8 +512,8 @@
        "issues": []
       },
       {
-       "who": "Darlene Wells",
-       "text": "SAMANTHA POTTS Sorry, busy now.",
+       "who": "Samantha Potts",
+       "text": "Sorry, busy now.",
        "piece": "scene-talk.reply-leave.sorry-busy-now",
        "elements": [],
        "issues": []
@@ -505,7 +548,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-20-ask-for-an-interview.jpg",
+     "img": "img/L1-21-ask-for-an-interview.jpg",
      "life": 1,
      "id": "L1-7"
     },
@@ -521,7 +564,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Frederick Stein",
@@ -529,7 +573,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Mary Richard",
@@ -537,7 +582,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Emma Potts",
@@ -545,7 +591,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Parker Potts",
@@ -553,7 +600,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Lucy Potts",
@@ -561,7 +609,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Narrator",
@@ -569,7 +618,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -582,7 +632,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-21-call-donors.jpg",
+     "img": "img/L1-22-call-donors.jpg",
      "life": 1,
      "id": "L1-8"
     },
@@ -593,23 +643,13 @@
      "here": "Greeley, Colorado",
      "blocks": [
       {
-       "who": "Michael Middleton",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech, scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door, scene-talk.state-request.good-morning-i-m-self-and-i-m-out-early-asking-for-votes-for-office, scene-talk.reply-decline.i-haven-t-been-well-i-can-t-think-about-the-race-for-office-right-now, scene-talk.follow-accept.no-pressure-i-ll-be-on-this-block-again-before-vote-day, scene-talk.follow-press.is-it-me-or-is-it-the-race-for-office-you-re-unsure-of, scene-talk.reply-decline.i-m-busy-and-the-race-for-office-isn-t-something-i-follow-maybe-closer-to-vote-d, scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait, scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office, scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office, scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door, scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name, scene-talk.narrate-narrate.name-is-on-the-phone, scene-talk.open-greet.hello-is-this-first, scene-talk.state-request.outlet-would-like-to-interview-you-about-the-race-for-office, scene-talk.reply-ask.which-questions, scene-talk.follow-answer.mostly-your-plans-for-office, scene-talk.reply-agree.yes-i-ll-sit, scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes, scene-talk.reply-decline.i-ll-decline, scene-talk.follow-press.we-d-still-like-your-side-for-outlet, scene-talk.reply-agree.happy-to, scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform, scene-talk.reply-decline.no-interview-thanks, scene-talk.follow-press.the-invitation-from-outlet-stands, scene-talk.reply-agree.yes-book-it, scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record, scene-talk.reply-decline.not-for-me, scene-talk.follow-press.outlet-would-still-like-to-hear-from-you, scene-talk.close-accept.understood-then, scene-talk.reply-leave.sorry-bad-timing, scene-talk.close-press.the-door-at-outlet-stays-open, scene-talk.reply-leave.sorry-busy-now, scene-talk.close-press.the-invitation-from-outlet-stays-open, scene-talk.reply-leave.excuse-me-sorry, scene-talk.reply-agree.i-ll-do-it, scene-talk.reply-decline.please-no, scene-talk.follow-accept.no-problem-outlet-understands, scene-talk.reply-leave.gotta-go, scene-talk.close-press.outlet-would-still-welcome-you, scene-talk.reply-deflect.i-need-time",
-       "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Asked 12, 5 said yes: 5 volunteers now",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -622,7 +662,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-22-volunteers.jpg",
+     "img": "img/L1-23-volunteers.jpg",
      "life": 1,
      "id": "L1-9"
     },
@@ -633,23 +673,13 @@
      "here": "Greeley, Colorado",
      "blocks": [
       {
-       "who": "Michael Middleton",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech, scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door, scene-talk.state-request.good-morning-i-m-self-and-i-m-out-early-asking-for-votes-for-office, scene-talk.reply-decline.i-haven-t-been-well-i-can-t-think-about-the-race-for-office-right-now, scene-talk.follow-accept.no-pressure-i-ll-be-on-this-block-again-before-vote-day, scene-talk.follow-press.is-it-me-or-is-it-the-race-for-office-you-re-unsure-of, scene-talk.reply-decline.i-m-busy-and-the-race-for-office-isn-t-something-i-follow-maybe-closer-to-vote-d, scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait, scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office, scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office, scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door, scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name, scene-talk.narrate-narrate.name-is-on-the-phone, scene-talk.open-greet.hello-is-this-first, scene-talk.state-request.outlet-would-like-to-interview-you-about-the-race-for-office, scene-talk.reply-ask.which-questions, scene-talk.follow-answer.mostly-your-plans-for-office, scene-talk.reply-agree.yes-i-ll-sit, scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes, scene-talk.reply-decline.i-ll-decline, scene-talk.follow-press.we-d-still-like-your-side-for-outlet, scene-talk.reply-agree.happy-to, scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform, scene-talk.reply-decline.no-interview-thanks, scene-talk.follow-press.the-invitation-from-outlet-stands, scene-talk.reply-agree.yes-book-it, scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record, scene-talk.reply-decline.not-for-me, scene-talk.follow-press.outlet-would-still-like-to-hear-from-you, scene-talk.close-accept.understood-then, scene-talk.reply-leave.sorry-bad-timing, scene-talk.close-press.the-door-at-outlet-stays-open, scene-talk.reply-leave.sorry-busy-now, scene-talk.close-press.the-invitation-from-outlet-stays-open, scene-talk.reply-leave.excuse-me-sorry, scene-talk.reply-agree.i-ll-do-it, scene-talk.reply-decline.please-no, scene-talk.follow-accept.no-problem-outlet-understands, scene-talk.reply-leave.gotta-go, scene-talk.close-press.outlet-would-still-welcome-you, scene-talk.reply-deflect.i-need-time",
-       "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Endorsements: 12 / 12",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -662,7 +692,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-23-endorsements.jpg",
+     "img": "img/L1-24-endorsements.jpg",
      "life": 1,
      "id": "L1-10"
     },
@@ -681,35 +711,51 @@
       },
       {
        "who": "Governor Wendy Snow",
-       "text": "KTJX-TV People of Colorado, it's good to be with you. Having a legislature that shares my party means Colorado gets no excuses from either of us.",
-       "piece": null,
+       "text": "People of Colorado, it's good to be with you. Having a legislature that shares my party means Colorado gets no excuses from either of us.",
+       "where": "KTJX-TV",
+       "piece": "outline-call.greeting.state-of-the-state-people-of-it-s-good-to-be-with-you, outline-call.report.state-of-the-state-having-a-bodyword-that-shares-my-party-means-realmname-gets",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Wendy Snow",
-       "text": "KTJX-TV Plenty of good people want to repeal collective bargaining for public workers, and I'll hear them out. I can't go along with that, since public workers deserve a say in what they're paid.",
-       "piece": null,
-       "elements": [],
+       "text": "Plenty of good people want to repeal collective bargaining for public workers, and I'll hear them out. I can't go along with that, since public workers deserve a say in what they're paid.",
+       "where": "KTJX-TV",
+       "piece": "outline-theme.contrast.inaugural-plenty-of-good-people-want-to-and-i-ll-hear-them-out, outline-theme.stand.inaugural-i-can-t-go-along-with-that-since",
+       "elements": [
+        "inaugural-point-opens-on-a-contrast",
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Wendy Snow",
-       "text": "KTJX-TV Are the right-to-work rules doing what they were meant to do? I'm a no on that. Everybody who gets the union's raise should pay a share of winning it.",
-       "piece": null,
-       "elements": [],
+       "text": "Are the right-to-work rules doing what they were meant to do? I'm a no on that. Everybody who gets the union's raise should pay a share of winning it.",
+       "where": "KTJX-TV",
+       "piece": "outline-theme.question.spoken-are-doing-what-they-were-meant-to-do-plural, conversation.own-work-new-answer-brief.i-m-my-position, headlines.court.name-gets-term",
+       "elements": [
+        "inaugural-point-opens-on-a-question-to-the-listeners"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Wendy Snow",
-       "text": "KTJX-TV Tomorrow I'll read what the experts have written on whether to let public workers bargain collectively, and then I'll ask them questions. God bless Colorado.",
-       "piece": null,
-       "elements": [],
+       "text": "Tomorrow I'll read what the experts have written on whether to let public workers bargain collectively, and then I'll ask them questions. God bless Colorado.",
+       "where": "KTJX-TV",
+       "piece": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then, outline-call.blessing.state-of-the-state-god-bless",
+       "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sots-close-ends-on-a-blessing"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -722,7 +768,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-24-a-scene.jpg",
+     "img": "img/L1-25-a-scene.jpg",
      "life": 1,
      "id": "L1-11"
     },
@@ -741,27 +787,42 @@
       },
       {
        "who": "Mayor Mackenzie McNeil",
-       "text": "KTJX-TV Good evening, neighbors. The budget stayed steady this year, and that let us keep working on how we help people through hard times.",
-       "piece": null,
-       "elements": [],
+       "text": "Good evening, neighbors. The budget stayed steady this year, and that let us keep working on how we help people through hard times.",
+       "where": "KTJX-TV",
+       "piece": "outline-local.greeting.good-evening-neighbors, outline-local.report.the-budget-stayed-steady-this-year-and-that-let-us-keep-working-on",
+       "elements": [
+        "mayor-opens-by-thanking-host-and-officials",
+        "mayor-tours-the-departments",
+        "state-of-the-city-situation"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Mayor Mackenzie McNeil",
-       "text": "KTJX-TV I've held the view for years that a family in trouble shouldn't wait weeks for aid it qualifies for. I'll push for more assistance spending at every meeting.",
-       "piece": null,
-       "elements": [],
+       "text": "I've held the view for years that a family in trouble shouldn't wait weeks for aid it qualifies for. I'll push for more assistance spending at every meeting.",
+       "where": "KTJX-TV",
+       "piece": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that, outline-local.pledge.i-ll-push-for-at-every-meeting",
+       "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "stump-platform-as-a-topic-by-topic-list"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Mayor Mackenzie McNeil",
-       "text": "KTJX-TV If something I said about hard times doesn't sit right with you, tell me.",
-       "piece": null,
-       "elements": [],
+       "text": "If something I said about hard times doesn't sit right with you, tell me.",
+       "where": "KTJX-TV",
+       "piece": "outline-local.send-off.if-something-i-said-about-doesn-t-sit-right-with-you-tell-me",
+       "elements": [
+        "mayor-closes-on-community-with-an-invitation"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -774,7 +835,7 @@
       ],
       "news": []
      },
-     "img": "img/L1-25-a-scene.jpg",
+     "img": "img/L1-26-a-scene.jpg",
      "life": 1,
      "id": "L1-12"
     },
@@ -786,11 +847,25 @@
      "blocks": [
       {
        "who": "Journal",
-       "text": "Journal | MY STORY | Greeley, Colorado | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched John Cunningham's speech together tonight. The President came out against Medicare negotiating drug prices. I agree with the President about health care. I want to hear what my neighbors in Greeley thought.",
+       "chapter": "Greeley, Colorado 2007 to 2025",
+       "text": "MY STORY Greeley, Colorado 2007 to 2025 Monday, January 20 2025 Greeley, Colorado Iwas born in Greeley, Colorado. I grew up at home with my father Parker and my mother Emma. My sister Megan, my sister Robin and my brother Neil are older than I am. My brother Sebastian and my sister Lucy were born after me. Back when I was 5, my first school was Greeley Public Schools. Voting age came.",
+       "kind": "screen",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "the Journal page as a player reads it; chapter and opener keys are not exposed on this screen"
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L1-27-journal-end-1.jpg"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Greeley, Colorado 2007 to 2025 Monday, January 20 2025 Monday, January 20 We all watched John Cunningham's speech together tonight. The President came out against Medicare negotiating drug prices. I agree with the President about health care. I want to hear what my neighbors in Greeley thought.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L1-28-journal-end-2.jpg"
       }
      ],
      "replies": {
@@ -801,7 +876,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L1-26-journal-end.jpg",
+     "img": "img/L1-27-journal-end-1.jpg",
      "life": 1,
      "id": "L1-13"
     }
@@ -824,67 +899,48 @@
      "blocks": [
       {
        "who": "Loading screen",
-       "text": "Our Civic Duty | Building the town | Writing everyone's past | Opening the economy | Opening the shops and the employers in Towaoc, and the one place everyone has opinions about.",
+       "text": "Our Civic Duty | Building the town | Writing everyone's past | Giving everyone in Towaoc a childhood, a school and a few regrets.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-01-loading.jpg"
+       "img": "img/L2-01-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Pricing groceries, rent and gas in Towaoc, so the complaints have something to be about.",
+       "text": "Opening the economy | Starting the world | Seating the government | Putting people in offices in Towaoc, which is how offices usually get filled.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-02-loading.jpg"
+       "img": "img/L2-02-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Starting the world | Seating the government | Putting people in offices in Towaoc, which is how offices usually get filled.",
+       "text": "Opening the elections | Opening the budgets | Writing the budget for Towaoc, which is where it admits what it can afford.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-03-loading.jpg"
+       "img": "img/L2-03-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Deciding who holds which office in Towaoc, and since when.",
+       "text": "Seating the legislature | Appointing the cabinet | Opening the press, courts and meetings | Sending reporters to the town hall in Towaoc. They will wait.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-04-loading.jpg"
+       "img": "img/L2-04-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Telling the people in charge in Towaoc that they are in charge.",
+       "text": "Writing the country's history | Letting the country, the state and the town run two months on their own before your first evening. | Towaoc is running without you, and it will remind you of that.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-05-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Filling the offices from the town hall in Towaoc up to the capital of Colorado.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L2-06-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Opening the elections | Opening the budgets | Seating the legislature | Appointing the cabinet | Opening the press, courts and meetings | Writing the country's history | Running a century of elections in Colorado, a year at a time, so the country has a past.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L2-07-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Letting the country, the state and the town run two months on their own before your first evening. | Towaoc is running without you, and it will remind you of that.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L2-08-loading.jpg"
+       "img": "img/L2-05-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -892,15 +948,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-09-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Everyone in Towaoc is getting a head start on you.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L2-10-loading.jpg"
+       "img": "img/L2-06-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -908,7 +957,26 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L2-11-loading.jpg"
+       "img": "img/L2-07-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2021 | Your first school was Towaoc Public Schools, in Towaoc.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-08-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | You have no job in Towaoc yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-09-loading.jpg",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -919,7 +987,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L2-11-loading.jpg",
+     "img": "img/L2-10-loading.jpg",
      "life": 2,
      "id": "L2-1"
     },
@@ -939,34 +1007,48 @@
       {
        "who": "President Monica Benton",
        "text": "Fellow citizens. The election ended in November. The job starts today and runs four years. I came here to get one thing moving first, and that's trust in government.",
-       "piece": null,
-       "elements": [],
+       "piece": "opening-speech.ask.n19-both-belief-sentence, headlines.trip.name-in-place, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
+       "elements": [
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Monica Benton",
        "text": "Neighbors cooked meals, hauled debris and opened their homes after the storms.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-call.disaster.spoken-neighbors-cooked-meals-hauled-debris-and-opened-their-homes-after-the",
+       "elements": [
+        "diagnosis-before-acts"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Monica Benton",
        "text": "Lawmakers disclose every trade they make. I'd say that's the best argument I know against a ban on stock trading by members of Congress.",
-       "piece": null,
-       "elements": [],
+       "piece": "opening-speech.ask.n19-both-belief-sentence, outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-against",
+       "elements": [
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Monica Benton",
        "text": "The first memo I read tomorrow will be about whether to ban members of Congress from trading stocks. Godspeed, America.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-theme.send-off.spoken-the-first-memo-i-read-tomorrow-will-be-about, outline-theme.blessing.spoken-godspeed-america",
+       "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sotu-close-ends-god-bless-america",
+        "victory-ends-on-a-call-to-work"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -981,7 +1063,7 @@
        "NEWS | Clean Electricity Standard Repeal Act takes effect in New York"
       ]
      },
-     "img": "img/L2-12-the-president-s-address.jpg",
+     "img": "img/L2-11-the-president-s-address.jpg",
      "life": 2,
      "id": "L2-2"
     },
@@ -994,50 +1076,60 @@
       {
        "who": "Lara Richardson",
        "text": "I like where the President landed on Congress trading stocks.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Lara Richardson",
-       "text": "PIPER RICHARDSON I'd have said the same, Mom.",
-       "piece": null,
+       "who": "Piper Richardson",
+       "text": "I'd have said the same, Mom.",
+       "piece": "conversation.address-point-answer-agree.i-d-have-said-the-same-name",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Lara Richardson",
        "text": "Congress can bury it, for all I care.",
-       "piece": null,
+       "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Lara Richardson",
        "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
-       "piece": null,
+       "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Lara Richardson",
-       "text": "PIPER RICHARDSON Honestly, it bothers me more than I let on.",
-       "piece": null,
+       "who": "Piper Richardson",
+       "text": "Honestly, it bothers me more than I let on.",
+       "piece": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Lara Richardson",
        "text": "I'll think about what you said on it.",
-       "piece": null,
-       "elements": [],
+       "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -1061,7 +1153,7 @@
        "NEWS | Clean Electricity Standard Repeal Act takes effect in New York"
       ]
      },
-     "img": "img/L2-13-talk-at-home-with-lara-richa.jpg",
+     "img": "img/L2-12-talk-at-home-with-lara-richa.jpg",
      "life": 2,
      "id": "L2-3"
     },
@@ -1076,7 +1168,9 @@
        "text": "Journal | MY STORY | Towaoc, Colorado | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched Monica Benton's speech together tonight. The President came out against a ban on stock trading by members of Congress. Most of what the President said was about trust in government. I agree with the President about trust in government.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -1087,7 +1181,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L2-14-journal.jpg",
+     "img": "img/L2-13-journal.jpg",
      "life": 2,
      "id": "L2-4"
     },
@@ -1102,7 +1196,9 @@
        "text": "News | KFLY-TV | KJYA-TV | KPOI-TV | KJIY-TV | Lodestar News Network | The Crossroads | Nation | KFLY-TV | Monday, January 20, 2025 | Unfollow | Paul Sims to lead Colorado House of Representatives | January 17 | Joseph McBride gives state address | January 17 | Paul Sims to lead Colorado House of Representatives | January 17 | The Colorado House of Representatives met to organize and picked Paul Sims to lead. | Rebecca Klein is the new majority leader. | Bernard Norman is the new minority leader.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -1113,7 +1209,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L2-15-news.jpg",
+     "img": "img/L2-14-news.jpg",
      "life": 2,
      "id": "L2-5"
     },
@@ -1131,8 +1227,8 @@
        "issues": []
       },
       {
-       "who": "Mary Merrill",
-       "text": "PIPER RICHARDSON My petition for commissioner in District 3 is due March 18, 2026. I'm Piper. Will you sign?",
+       "who": "Piper Richardson",
+       "text": "My petition for commissioner in District 3 is due March 18, 2026. I'm Piper. Will you sign?",
        "piece": "scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign",
        "elements": [
         "petition-the-hustle-before-the-deadline",
@@ -1148,8 +1244,8 @@
        "issues": []
       },
       {
-       "who": "Mary Merrill",
-       "text": "PIPER RICHARDSON Thank you. That's one more before March 18, 2026.",
+       "who": "Piper Richardson",
+       "text": "Thank you. That's one more before March 18, 2026.",
        "piece": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
        "elements": [],
        "issues": []
@@ -1170,7 +1266,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-16-knock-on-doors.jpg",
+     "img": "img/L2-15-knock-on-doors.jpg",
      "life": 2,
      "id": "L2-6"
     },
@@ -1186,7 +1282,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Lara Richardson",
@@ -1194,7 +1291,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Mary Merrill",
@@ -1202,7 +1300,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Craig Merrill",
@@ -1210,7 +1309,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Narrator",
@@ -1218,7 +1318,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -1231,7 +1332,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-17-call-donors.jpg",
+     "img": "img/L2-16-call-donors.jpg",
      "life": 2,
      "id": "L2-7"
     },
@@ -1242,22 +1343,13 @@
      "here": "Towaoc, Colorado",
      "blocks": [
       {
-       "who": "Sam Richardson",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president, scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door, scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign, scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen, scene-talk.follow-thank.thank-you-that-s-one-more-before-due, scene-talk.follow-ask.what-matters-most-to-you-in-the-race-for-office, scene-talk.reply-tell.honestly-i-haven-t-followed-the-race-for-office, scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time, scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
-       "elements": [
-        "petition-the-hustle-before-the-deadline",
-        "door-on-a-small-town-street"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Asked 8, 0 said yes: 0 volunteers now",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -1270,7 +1362,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-18-volunteers.jpg",
+     "img": "img/L2-17-volunteers.jpg",
      "life": 2,
      "id": "L2-8"
     },
@@ -1281,22 +1373,13 @@
      "here": "Towaoc, Colorado",
      "blocks": [
       {
-       "who": "Sam Richardson",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president, scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door, scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign, scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen, scene-talk.follow-thank.thank-you-that-s-one-more-before-due, scene-talk.follow-ask.what-matters-most-to-you-in-the-race-for-office, scene-talk.reply-tell.honestly-i-haven-t-followed-the-race-for-office, scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time, scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
-       "elements": [
-        "petition-the-hustle-before-the-deadline",
-        "door-on-a-small-town-street"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Endorsements: 6 / 8",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -1309,7 +1392,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-19-endorsements.jpg",
+     "img": "img/L2-18-endorsements.jpg",
      "life": 2,
      "id": "L2-9"
     },
@@ -1328,35 +1411,52 @@
       },
       {
        "who": "Governor Joseph McBride",
-       "text": "KPOI-TV People of Colorado, and the legislature that serves them. Whatever else is true, Colorado is a state that takes care of its own. Who here has talked about how we count the vote at a kitchen table? That's who I'm speaking to.",
-       "piece": null,
-       "elements": [],
+       "text": "People of Colorado, and the legislature that serves them. Whatever else is true, Colorado is a state that takes care of its own. Who here has talked about how we count the vote at a kitchen table? That's who I'm speaking to.",
+       "where": "KPOI-TV",
+       "piece": "outline-call.greeting.state-of-the-state-people-of-and-the-that-serves-them, outline-call.report.state-of-the-state-whatever-else-is-true-is-a-state-that-takes-care-of-its-own, opening-speech.ask.n19-both-belief-sentence",
+       "elements": [
+        "sots-opens-with-a-claim-about-the-state"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Joseph McBride",
-       "text": "KPOI-TV The way I see it, voters come to a polling place, where workers check names against the rolls. I'm against voting by mail for everyone, and I'd veto it.",
-       "piece": null,
-       "elements": [],
+       "text": "The way I see it, voters come to a polling place, where workers check names against the rolls. I'm against voting by mail for everyone, and I'd veto it.",
+       "where": "KPOI-TV",
+       "piece": "outline-theme.today.inaugural-the-way-i-see-it, outline-theme.stand.inaugural-i-m-against-and-i-d-veto-it",
+       "elements": [
+        "diagnosis-before-acts",
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Joseph McBride",
-       "text": "KPOI-TV I think every vote counts only if every voter is checked. I always have. I'll keep pushing to require photo ID to vote until it's done. I'll take the criticism on elections if it means getting it right.",
-       "piece": null,
+       "text": "I think every vote counts only if every voter is checked. I always have. I'll keep pushing to require photo ID to vote until it's done. I'll take the criticism on elections if it means getting it right.",
+       "where": "KPOI-TV",
+       "piece": "journal.home-livelihood-office-plain.other-is-office, opening-speech.ask.n19-both-belief-sentence, outline-theme.pledge.inaugural-i-ll-keep-pushing-to-until-it-s-done, outline-theme.value.inaugural-i-ll-take-the-criticism-on-if-it-means-getting-it-right",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Joseph McBride",
-       "text": "KPOI-TV God bless Colorado. My staff will have a briefing on whether to send every voter a mail ballot on my desk by the end of the week.",
-       "piece": null,
-       "elements": [],
+       "text": "God bless Colorado. My staff will have a briefing on whether to send every voter a mail ballot on my desk by the end of the week.",
+       "where": "KPOI-TV",
+       "piece": "outline-call.blessing.state-of-the-state-god-bless, outline-theme.send-off.spoken-my-staff-will-have-a-plan-for-on-my-desk-by-the-end-of-the-w",
+       "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "sots-close-ends-on-a-blessing",
+        "victory-ends-on-a-call-to-work"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -1369,7 +1469,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-20-a-scene.jpg",
+     "img": "img/L2-19-a-scene.jpg",
      "life": 2,
      "id": "L2-10"
     },
@@ -1388,35 +1488,51 @@
       },
       {
        "who": "Chair John Clayton",
-       "text": "KPOI-TV You didn't have to come out for this, Montezuma County, and I'm glad you did. The subject that kept coming up at the Montezuma County Board of Commissioners this year was public safety.",
-       "piece": null,
-       "elements": [],
+       "text": "You didn't have to come out for this, Montezuma County, and I'm glad you did. The subject that kept coming up at the Montezuma County Board of Commissioners this year was public safety.",
+       "where": "KPOI-TV",
+       "piece": "outline-local.greeting.you-didn-t-have-to-come-out-for-this-and-i-m-glad-you-did, outline-local.report.the-subject-that-kept-coming-up-at-this-year-was",
+       "elements": [
+        "mayor-opens-by-thanking-host-and-officials",
+        "mayor-tours-the-departments",
+        "state-of-the-city-situation"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Chair John Clayton",
-       "text": "KPOI-TV Some want to block a bigger police budget, and I disagree. People in Montezuma County want an officer who gets there fast. I'm for paying for more of them.",
-       "piece": null,
-       "elements": [],
+       "text": "Some want to block a bigger police budget, and I disagree. People in Montezuma County want an officer who gets there fast. I'm for paying for more of them.",
+       "where": "KPOI-TV",
+       "piece": "outline-theme.contrast.inaugural-some-want-to-and-i-disagree, headlines.grant.purpose-in-place-gets-money, conversation.own-work-new-answer-brief.i-m-my-position",
+       "elements": [
+        "inaugural-point-opens-on-a-contrast"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Chair John Clayton",
-       "text": "KPOI-TV I think a call for help should be answered fast. I always have. I'll push for more jail spending at every meeting.",
-       "piece": null,
-       "elements": [],
+       "text": "I think a call for help should be answered fast. I always have. I'll push for more jail spending at every meeting.",
+       "where": "KPOI-TV",
+       "piece": "headlines.court.term-for-name, opening-speech.ask.n19-both-belief-sentence, outline-local.pledge.i-ll-push-for-at-every-meeting",
+       "elements": [
+        "stump-platform-as-a-topic-by-topic-list"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Chair John Clayton",
-       "text": "KPOI-TV Thank you all.",
-       "piece": null,
+       "text": "Thank you all.",
+       "where": "KPOI-TV",
+       "piece": "opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -1429,7 +1545,7 @@
       ],
       "news": []
      },
-     "img": "img/L2-21-a-scene.jpg",
+     "img": "img/L2-20-a-scene.jpg",
      "life": 2,
      "id": "L2-11"
     },
@@ -1441,11 +1557,25 @@
      "blocks": [
       {
        "who": "Journal",
-       "text": "Journal | MY STORY | Towaoc, Colorado | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched Monica Benton's speech together tonight. The President came out against a ban on stock trading by members of Congress. Most of what the President said was about trust in government. I agree with the President about trust in government.",
+       "chapter": "Towaoc, Colorado 2007 to 2025",
+       "text": "MY STORY Towaoc, Colorado 2007 to 2025 Monday, January 20 2025 Towaoc, Colorado My first home was in Towaoc, Colorado. My mother Lara brought me up. My father Peter lived apart from us. My sister Yasmin was born before me. My brother Adam and my sister Kayla were born after me. I was 5 then, I started at Towaoc Public Schools. Voting age came.",
+       "kind": "screen",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "the Journal page as a player reads it; chapter and opener keys are not exposed on this screen"
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L2-21-journal-end-1.jpg"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Towaoc, Colorado 2007 to 2025 Monday, January 20 2025 Monday, January 20 We all watched Monica Benton's speech together tonight. The President came out against a ban on stock trading by members of Congress. Most of what the President said was about trust in government. I agree with the President about trust in government.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L2-22-journal-end-2.jpg"
       }
      ],
      "replies": {
@@ -1456,7 +1586,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L2-22-journal-end.jpg",
+     "img": "img/L2-21-journal-end-1.jpg",
      "life": 2,
      "id": "L2-12"
     }
@@ -1483,55 +1613,44 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-01-loading.jpg"
+       "img": "img/L3-01-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Building the town | Writing everyone's past | Opening the economy | Pricing groceries, rent and gas in Hartford, so the complaints have something to be about.",
+       "text": "Building the town | Writing everyone's past | Deciding where Hartford went to school and who sat next to whom.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-02-loading.jpg"
+       "img": "img/L3-02-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Starting the world | Seating the government | Deciding who holds which office in Hartford, and since when.",
+       "text": "Opening the economy | Starting the world | Seating the government | Putting people in offices in Hartford, which is how offices usually get filled.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-03-loading.jpg"
+       "img": "img/L3-03-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Telling the people in charge in Hartford that they are in charge.",
+       "text": "Opening the elections | Opening the budgets | Writing the budget for Hartford, which is where it admits what it can afford.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-04-loading.jpg"
+       "img": "img/L3-04-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Opening the elections | Setting the election dates for Hartford, so someone can be disappointed on time.",
+       "text": "Seating the legislature | Appointing the cabinet | Opening the press, courts and meetings | Writing the country's history | Running a century of elections in Michigan, a year at a time, so the country has a past.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-05-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Opening the budgets | Seating the legislature | Sorting out who sits on which committee in Michigan, which is where the work gets done.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L3-06-loading.jpg"
-      },
-      {
-       "who": "Loading screen",
-       "text": "Appointing the cabinet | Opening the press, courts and meetings | Writing the country's history | Running a century of elections in Michigan, a year at a time, so the country has a past.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "img": "img/L3-07-loading.jpg"
+       "img": "img/L3-05-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -1539,7 +1658,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-08-loading.jpg"
+       "img": "img/L3-06-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -1547,7 +1667,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-09-loading.jpg"
+       "img": "img/L3-07-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -1555,7 +1676,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-10-loading.jpg"
+       "img": "img/L3-08-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
@@ -1563,15 +1685,44 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-11-loading.jpg"
+       "img": "img/L3-09-loading.jpg",
+       "kind": "screen"
       },
       {
        "who": "Loading screen",
-       "text": "Hartford, Michigan | 2012 | You were born in 2007. | Your first school was in Hartford, and you started there in 2012.",
+       "text": "Hartford, Michigan | 2007 | You were born in 2007.",
        "piece": null,
        "elements": [],
        "issues": [],
-       "img": "img/L3-12-loading.jpg"
+       "img": "img/L3-10-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2021 | Your first school was in Hartford, and you started there in 2012.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-11-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | You have no job in Hartford yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-12-loading.jpg",
+       "kind": "screen"
+      },
+      {
+       "who": "Loading screen",
+       "text": "HERE | Kevin Yates | Jacqueline Yates | Joseph Yates | JOURNAL | I turned eighteen. We all watched Brenda Vaughan's speech together tonight. The President means to keep a higher federal minimum wage. | Robin Yates | Monday, January 20, 2025 | 9:00 PM | Hour | Day | Week",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-13-loading.jpg",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -1582,7 +1733,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-12-loading.jpg",
+     "img": "img/L3-13-loading.jpg",
      "life": 3,
      "id": "L3-1"
     },
@@ -1602,42 +1753,55 @@
       {
        "who": "President Brenda Vaughan",
        "text": "My fellow Americans. November's votes are counted, and today I start earning them for four years. I came here to get one thing moving first, and that's what work pays.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-call.greeting.state-of-the-union-spoken-my-fellow-americans, outline.hired.inaugural-november-s-votes-are-counted-and-today-i-start-earning-them-for, outline-call.charge.inaugural-i-came-here-to-get-one-thing-moving-first-and-that-s",
+       "elements": [
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Brenda Vaughan",
        "text": "Starting pay at many jobs is higher than it was four years ago.",
-       "piece": null,
+       "piece": "outline-call.run.spoken-starting-pay-at-many-jobs-is-higher-than-it-was-ago",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Brenda Vaughan",
        "text": "I believe a full day's work ought to pay enough to live on. I won't sign anything that weakens the higher federal minimum wage. On pay, I'd rather be clear than liked.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-theme.creed.inaugural-i-believe, outline-theme.pledge.inaugural-i-won-t-sign-anything-that-weakens, outline-theme.value.inaugural-on-i-d-rather-be-clear-than-liked",
+       "elements": [
+        "inaugural-leans-on-belief-image-pledge"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Brenda Vaughan",
        "text": "Should the law raising the debt limit only with spending cuts to match stay as it is? Put me down as a no. The country should pay the bills it has already run up.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-theme.question.inaugural-should-stay-as-it-is, opening-speech.ask.n19-both-belief-sentence",
+       "elements": [
+        "inaugural-point-opens-on-a-question-to-the-listeners"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "President Brenda Vaughan",
        "text": "Thank you again. On whether to raise the federal minimum wage, my first step is a meeting, not a speech, and it's tomorrow.",
-       "piece": null,
-       "elements": [],
+       "piece": "opening-speech.ask.n19-both-belief-sentence, outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
+       "elements": [
+        "victory-ends-on-a-call-to-work"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -1652,7 +1816,7 @@
        "NEWS | Local Wage Authority Act now applies in New York"
       ]
      },
-     "img": "img/L3-13-the-president-s-address.jpg",
+     "img": "img/L3-14-the-president-s-address.jpg",
      "life": 3,
      "id": "L3-2"
     },
@@ -1665,50 +1829,60 @@
       {
        "who": "Kevin Yates",
        "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
-       "piece": null,
-       "elements": [],
+       "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Kevin Yates",
-       "text": "ROBIN YATES I'm with you on that, Dad.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "I'm with you on that, Dad.",
+       "piece": "outline-talk.verdict-cold.talk-address-point-i-m-with-on",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Kevin Yates",
        "text": "Then let's hope Congress lets it die.",
-       "piece": null,
+       "piece": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Kevin Yates",
        "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
-       "piece": null,
+       "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Kevin Yates",
-       "text": "ROBIN YATES No, not me.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "No, not me.",
+       "piece": "opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Kevin Yates",
        "text": "I'll think about what you said on it.",
-       "piece": null,
-       "elements": [],
+       "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -1732,7 +1906,7 @@
        "NEWS | Local Wage Authority Act now applies in New York"
       ]
      },
-     "img": "img/L3-14-talk-at-home-with-kevin-yate.jpg",
+     "img": "img/L3-15-talk-at-home-with-kevin-yate.jpg",
      "life": 3,
      "id": "L3-3"
     },
@@ -1747,7 +1921,9 @@
        "text": "Journal | MY STORY | Hartford, Michigan | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched Brenda Vaughan's speech together tonight. The President means to keep a higher federal minimum wage.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -1758,7 +1934,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-15-journal.jpg",
+     "img": "img/L3-16-journal.jpg",
      "life": 3,
      "id": "L3-4"
     },
@@ -1773,7 +1949,9 @@
        "text": "News | Hartford Observer | WGOA-TV | WTCO-TV | WFBT-TV | WQXZ-TV | Meridian News Network | The Cornerstone | The Republic Herald | Nation | Hartford Observer | Monday, January 20, 2025 | Unfollow | Laura Newton writes on the Mixed-Income Housing Ordinance | January 17 | Laura Newton meets residents | January 17 | 40 come to town hall with Joanne Weber | January 17 | Van Buren County Board of Commissioners adopts the Immigration Enforcement Partnership Ordinance | January 10 | Van Buren County Board of Commissioners backs the Mixed-Income Housing Ordinance | January 10 | Hartford City Council approves the Mixed-Income Housing Ordinance | January 10 | Hartford City Council approves the Immigration Enforcement Partnership Ordinance | January 10 | Van Buren County Board of Commissioners adopts the Budget Ordinance | January 3 | Greene Inn opens its doors | January 3 | Marshall Manufacturing opens its doors | January 3 | More out of work in Hartford: 8.3% | January 3 | Charles Mitchell leaves Gordon and Associates | January 3 | More out of work in Hartford: 8.3% | January 3 | The jobless rate in Hartford rose to 8.3% from 6.4%. | 91 people in Hartford are out of work and looking. | Burglaries climbed too.",
        "piece": null,
        "elements": [],
-       "issues": []
+       "issues": [],
+       "kind": "screen",
+       "note": "screen text, not a line from the bank"
       }
      ],
      "replies": {
@@ -1784,7 +1962,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-16-news.jpg",
+     "img": "img/L3-17-news.jpg",
      "life": 3,
      "id": "L3-5"
     },
@@ -1802,8 +1980,8 @@
        "issues": []
       },
       {
-       "who": "Nancy Lara",
-       "text": "ROBIN YATES My petition for the Hartford City Council is due July 22. I'm Robin. Will you sign?",
+       "who": "Robin Yates",
+       "text": "My petition for the Hartford City Council is due July 22. I'm Robin. Will you sign?",
        "piece": "scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign",
        "elements": [
         "petition-the-hustle-before-the-deadline",
@@ -1819,8 +1997,8 @@
        "issues": []
       },
       {
-       "who": "Nancy Lara",
-       "text": "ROBIN YATES Thank you. That's one more before July 22.",
+       "who": "Robin Yates",
+       "text": "Thank you. That's one more before July 22.",
        "piece": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
        "elements": [],
        "issues": []
@@ -1839,7 +2017,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-17-knock-on-doors.jpg",
+     "img": "img/L3-18-knock-on-doors.jpg",
      "life": 3,
      "id": "L3-6"
     },
@@ -1878,8 +2056,8 @@
        "issues": []
       },
       {
-       "who": "Erica Kim",
-       "text": "ROBIN YATES Happy to.",
+       "who": "Robin Yates",
+       "text": "Happy to.",
        "piece": "scene-talk.reply-agree.happy-to",
        "elements": [],
        "issues": []
@@ -1907,7 +2085,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-18-ask-for-an-interview.jpg",
+     "img": "img/L3-19-ask-for-an-interview.jpg",
      "life": 3,
      "id": "L3-7"
     },
@@ -1923,7 +2101,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Charles Mitchell",
@@ -1931,7 +2110,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Kevin Yates",
@@ -1939,7 +2119,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Jacqueline Yates",
@@ -1947,7 +2128,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Joseph Yates",
@@ -1955,7 +2137,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Keanu Rice",
@@ -1963,7 +2146,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Nancy Lara",
@@ -1971,7 +2155,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Lila Russell",
@@ -1979,7 +2164,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Sean Bates",
@@ -1987,7 +2173,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       },
       {
        "who": "Narrator",
@@ -1995,7 +2182,8 @@
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -2006,7 +2194,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-19-call-donors.jpg",
+     "img": "img/L3-20-call-donors.jpg",
      "life": 3,
      "id": "L3-8"
     },
@@ -2017,22 +2205,13 @@
      "here": "Hartford, Michigan",
      "blocks": [
       {
-       "who": "Charles Mitchell",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president, scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in, scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign, scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen, scene-talk.follow-thank.thank-you-that-s-one-more-before-due, scene-talk.follow-ask.what-should-the-race-for-office-be-about, scene-talk.reply-tell.i-don-t-keep-up-with-the-race-for-office, scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time, scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office, scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line, scene-talk.narrate-narrate.name-is-on-the-phone, scene-talk.open-greet.first-thanks-for-picking-up, scene-talk.state-request.would-you-sit-down-with-outlet-about-the-race-for-office, scene-talk.reply-ask.which-questions, scene-talk.follow-answer.mostly-your-plans-for-office, scene-talk.reply-agree.yes-i-ll-sit, scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform, scene-talk.reply-decline.please-no, scene-talk.follow-press.outlet-would-still-like-to-hear-from-you, scene-talk.reply-agree.i-ll-do-it, scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record, scene-talk.reply-decline.i-ll-decline, scene-talk.follow-press.the-invitation-from-outlet-stands, scene-talk.reply-agree.yes-book-it, scene-talk.reply-decline.no-interview-thanks, scene-talk.follow-press.we-d-still-like-your-side-for-outlet, scene-talk.close-accept.as-you-wish, scene-talk.reply-leave.gotta-go, scene-talk.close-press.the-door-at-outlet-stays-open, scene-talk.reply-leave.excuse-me-sorry, scene-talk.close-press.the-invitation-from-outlet-stays-open, scene-talk.reply-leave.sorry-busy-now, scene-talk.reply-agree.happy-to, scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes, scene-talk.reply-decline.not-for-me, scene-talk.follow-accept.that-s-your-call-outlet-won-t-push, scene-talk.close-press.outlet-would-still-welcome-you, scene-talk.reply-stall.let-me-check, scene-talk.reply-leave.sorry-bad-timing",
-       "elements": [
-        "petition-the-hustle-before-the-deadline",
-        "door-on-a-small-town-street"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Asked 12, 2 said yes: 2 volunteers now",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -2043,7 +2222,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-20-volunteers.jpg",
+     "img": "img/L3-21-volunteers.jpg",
      "life": 3,
      "id": "L3-9"
     },
@@ -2054,22 +2233,13 @@
      "here": "Hartford, Michigan",
      "blocks": [
       {
-       "who": "Charles Mitchell",
-       "text": "",
-       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president, scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in, scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign, scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen, scene-talk.follow-thank.thank-you-that-s-one-more-before-due, scene-talk.follow-ask.what-should-the-race-for-office-be-about, scene-talk.reply-tell.i-don-t-keep-up-with-the-race-for-office, scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time, scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office, scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line, scene-talk.narrate-narrate.name-is-on-the-phone, scene-talk.open-greet.first-thanks-for-picking-up, scene-talk.state-request.would-you-sit-down-with-outlet-about-the-race-for-office, scene-talk.reply-ask.which-questions, scene-talk.follow-answer.mostly-your-plans-for-office, scene-talk.reply-agree.yes-i-ll-sit, scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform, scene-talk.reply-decline.please-no, scene-talk.follow-press.outlet-would-still-like-to-hear-from-you, scene-talk.reply-agree.i-ll-do-it, scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record, scene-talk.reply-decline.i-ll-decline, scene-talk.follow-press.the-invitation-from-outlet-stands, scene-talk.reply-agree.yes-book-it, scene-talk.reply-decline.no-interview-thanks, scene-talk.follow-press.we-d-still-like-your-side-for-outlet, scene-talk.close-accept.as-you-wish, scene-talk.reply-leave.gotta-go, scene-talk.close-press.the-door-at-outlet-stays-open, scene-talk.reply-leave.excuse-me-sorry, scene-talk.close-press.the-invitation-from-outlet-stays-open, scene-talk.reply-leave.sorry-busy-now, scene-talk.reply-agree.happy-to, scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes, scene-talk.reply-decline.not-for-me, scene-talk.follow-accept.that-s-your-call-outlet-won-t-push, scene-talk.close-press.outlet-would-still-welcome-you, scene-talk.reply-stall.let-me-check, scene-talk.reply-leave.sorry-bad-timing",
-       "elements": [
-        "petition-the-hustle-before-the-deadline",
-        "door-on-a-small-town-street"
-       ],
-       "issues": []
-      },
-      {
        "who": "Narrator",
        "text": "Endorsements: 11 / 12",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "kind": "screen"
       }
      ],
      "replies": {
@@ -2080,7 +2250,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-21-endorsements.jpg",
+     "img": "img/L3-22-endorsements.jpg",
      "life": 3,
      "id": "L3-10"
     },
@@ -2099,43 +2269,63 @@
       },
       {
        "who": "Governor Ruth McLeod",
-       "text": "WGOA-TV Members of the legislature, and people of Michigan. The people of Michigan have waited a long time for some of what's on the table this year. I didn't run to keep a chair warm. What I came to talk about is how families are treated when they buy and borrow.",
-       "piece": null,
-       "elements": [],
+       "text": "Members of the legislature, and people of Michigan. The people of Michigan have waited a long time for some of what's on the table this year. I didn't run to keep a chair warm. What I came to talk about is how families are treated when they buy and borrow.",
+       "where": "WGOA-TV",
+       "piece": "outline-call.greeting.state-of-the-state-spoken-members-of-the-and-people-of, outline-call.report.state-of-the-state-the-people-of-realmname-have-waited-a-long-time-for, opening-speech.ask.n19-both-belief-sentence, journal.home-livelihood-office-plain.other-is-office",
+       "elements": [
+        "sots-opens-with-a-salutation-to-named-officials"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Ruth McLeod",
-       "text": "WGOA-TV To the member of the legislature who disagrees with me most: I'll start with you, in the next two years. Go to a public meeting about fair lending, even if you never speak.",
-       "piece": null,
-       "elements": [],
+       "text": "To the member of the legislature who disagrees with me most: I'll start with you, in the next two years. Go to a public meeting about fair lending, even if you never speak.",
+       "where": "WGOA-TV",
+       "piece": "outline-call.address-to.state-of-the-state-to-the-member-of-the-who-disagrees-with-me-most-i-ll-start-w, outline-call.call.spoken-go-to-a-public-meeting-about-even-if-you-never-speak",
+       "elements": [
+        "ask-of-listeners-comes-last",
+        "parallel-run-of-to-those-addresses"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Ruth McLeod",
-       "text": "WGOA-TV At the moment, cannabis is sold legally, in licensed stores, and the money is taxed. I'd keep legal cannabis sales just as it is.",
-       "piece": null,
-       "elements": [],
+       "text": "At the moment, cannabis is sold legally, in licensed stores, and the money is taxed. I'd keep legal cannabis sales just as it is.",
+       "where": "WGOA-TV",
+       "piece": "opening-speech.today.polished-at-the-moment-today-clause-second, outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
+       "elements": [
+        "point-opens-on-a-claim"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Ruth McLeod",
-       "text": "WGOA-TV Should age checks for social media stay as it is? I wouldn't, since adults shouldn't hand over an ID to use a website.",
-       "piece": null,
-       "elements": [],
+       "text": "Should age checks for social media stay as it is? I wouldn't, since adults shouldn't hand over an ID to use a website.",
+       "where": "WGOA-TV",
+       "piece": "outline-theme.question.inaugural-should-stay-as-it-is, outline-theme.answer.inaugural-i-wouldn-t-since",
+       "elements": [
+        "inaugural-leans-on-belief-image-pledge",
+        "inaugural-point-opens-on-a-question-to-the-listeners"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Governor Ruth McLeod",
-       "text": "WGOA-TV Tomorrow I'll read what the experts have written on whether to legalize cannabis sales, and then I'll ask them questions.",
-       "piece": null,
+       "text": "Tomorrow I'll read what the experts have written on whether to legalize cannabis sales, and then I'll ask them questions.",
+       "where": "WGOA-TV",
+       "piece": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -2146,7 +2336,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-22-a-scene.jpg",
+     "img": "img/L3-23-a-scene.jpg",
      "life": 3,
      "id": "L3-11"
     },
@@ -2159,50 +2349,58 @@
       {
        "who": "Joseph Yates",
        "text": "The President has the minimum wage wrong.",
-       "piece": null,
+       "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Joseph Yates",
-       "text": "ROBIN YATES Same here, Joseph.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "Same here, Joseph.",
+       "piece": "conversation.address-point-answer-agree.same-here-name",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Joseph Yates",
        "text": "Good. Then it's not just me, Robin.",
-       "piece": null,
+       "piece": "opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Joseph Yates",
        "text": "If a higher federal minimum wage is on the table, I'm out.",
-       "piece": null,
+       "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Joseph Yates",
-       "text": "ROBIN YATES Actually, I'm less sure about it than I sounded.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "Actually, I'm less sure about it than I sounded.",
+       "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Joseph Yates",
        "text": "We'll never settle it at this table.",
-       "piece": null,
-       "elements": [],
+       "piece": "conversation.own-view-take-core.disagree-we-ll-never-settle-about-at-this-table",
+       "elements": [
+        "pattern-a47-the-first-word-on-the-address"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -2222,7 +2420,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-23-talk-at-home-with-joseph-yat.jpg",
+     "img": "img/L3-24-talk-at-home-with-joseph-yat.jpg",
      "life": 3,
      "id": "L3-12"
     },
@@ -2235,26 +2433,29 @@
       {
        "who": "Kevin Yates",
        "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
-       "piece": null,
+       "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, headlines.court.term-for-name, opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Kevin Yates",
-       "text": "ROBIN YATES I wouldn't back it myself.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "I wouldn't back it myself.",
+       "piece": "conversation.government-news-answer-against.i-wouldn-t-back-about-myself",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Kevin Yates",
        "text": "We see it differently, then.",
-       "piece": null,
+       "piece": "conversation.government-news-back-core.we-see-about-differently-then",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -2274,7 +2475,7 @@
       ],
       "news": []
      },
-     "img": "img/L3-24-talk-at-home-with-kevin-yate.jpg",
+     "img": "img/L3-25-talk-at-home-with-kevin-yate.jpg",
      "life": 3,
      "id": "L3-13"
     },
@@ -2287,26 +2488,29 @@
       {
        "who": "Jacqueline Yates",
        "text": "Since you ask, I'm for paid family leave.",
-       "piece": null,
+       "piece": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
-       "who": "Jacqueline Yates",
-       "text": "ROBIN YATES You might be right about it.",
-       "piece": null,
+       "who": "Robin Yates",
+       "text": "You might be right about it.",
+       "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Jacqueline Yates",
        "text": "Good. I wasn't sure anyone else saw it that way.",
-       "piece": null,
+       "piece": "opening-speech.ask.n19-both-belief-sentence",
        "elements": [],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -2325,7 +2529,7 @@
       ],
       "news": []
      },
-     "img": "img/L3-25-talk-at-home-with-jacqueline.jpg",
+     "img": "img/L3-26-talk-at-home-with-jacqueline.jpg",
      "life": 3,
      "id": "L3-14"
     },
@@ -2344,27 +2548,43 @@
       },
       {
        "who": "Mayor Kathryn Donovan",
-       "text": "WGOA-TV Neighbors and friends from across Hartford, welcome. Nothing took more of my time this year than how people get around.",
-       "piece": null,
-       "elements": [],
+       "text": "Neighbors and friends from across Hartford, welcome. Nothing took more of my time this year than how people get around.",
+       "where": "WGOA-TV",
+       "piece": "outline-local.greeting.neighbors-and-friends-from-across-welcome, outline-local.report.nothing-took-more-of-my-time-this-year-than",
+       "elements": [
+        "mayor-opens-by-thanking-host-and-officials",
+        "mayor-tours-the-departments",
+        "state-of-the-city-situation"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Mayor Kathryn Donovan",
-       "text": "WGOA-TV Here in Hartford, the road budget grows, and we keep paving instead of fixing what we have. I'm not for spending more on roads in Hartford while other needs go short.",
-       "piece": null,
-       "elements": [],
-       "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "text": "Here in Hartford, the road budget grows, and we keep paving instead of fixing what we have. I'm not for spending more on roads in Hartford while other needs go short.",
+       "where": "WGOA-TV",
+       "piece": "outline-local.today.here-in, outline-local.stand.i-m-not-for-spending-more-on-roads-in-while-other-needs-go-short",
+       "elements": [
+        "stump-platform-as-a-topic-by-topic-list"
+       ],
+       "issues": [
+        "budget:highways"
+       ],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       },
       {
        "who": "Mayor Kathryn Donovan",
-       "text": "WGOA-TV If something I said about getting around doesn't sit right with you, tell me.",
-       "piece": null,
-       "elements": [],
+       "text": "If something I said about getting around doesn't sit right with you, tell me.",
+       "where": "WGOA-TV",
+       "piece": "outline-local.send-off.if-something-i-said-about-doesn-t-sit-right-with-you-tell-me",
+       "elements": [
+        "mayor-closes-on-community-with-an-invitation"
+       ],
        "issues": [],
-       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner",
+       "piece_source": "matched to bank text templates by sentence"
       }
      ],
      "replies": {
@@ -2377,7 +2597,7 @@
       ],
       "news": []
      },
-     "img": "img/L3-26-a-scene.jpg",
+     "img": "img/L3-27-a-scene.jpg",
      "life": 3,
      "id": "L3-15"
     },
@@ -2389,11 +2609,25 @@
      "blocks": [
       {
        "who": "Journal",
-       "text": "Journal | MY STORY | Hartford, Michigan | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | The President means to keep a higher federal minimum wage. The speech came back to what work pays more than once. The President is right about pay, and I will say so.",
+       "chapter": "Hartford, Michigan 2007 to 2025",
+       "text": "MY STORY Hartford, Michigan 2007 to 2025 Monday, January 20 2025 Hartford, Michigan My first home was in Hartford, Michigan. My father Kevin and my mother Jacqueline brought me up. My brother Joseph was born after me. At the age of 5, my first school was Hartford Public Schools. When I was 14, my mother went from Alexander Supply Company to Gordon and Associates. I turned eighteen.",
+       "kind": "screen",
        "piece": null,
        "elements": [],
        "issues": [],
-       "note": "the Journal page as a player reads it; chapter and opener keys are not exposed on this screen"
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L3-28-journal-end-1.jpg"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Hartford, Michigan 2007 to 2025 Monday, January 20 2025 Monday, January 20 The President means to keep a higher federal minimum wage. The speech came back to what work pays more than once. The President is right about pay, and I will say so.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L3-29-journal-end-2.jpg"
       }
      ],
      "replies": {
@@ -2404,7 +2638,7 @@
       "journal": [],
       "news": []
      },
-     "img": "img/L3-27-journal-end.jpg",
+     "img": "img/L3-28-journal-end-1.jpg",
      "life": 3,
      "id": "L3-16"
     }
