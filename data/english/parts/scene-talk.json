@@ -33586,36 +33586,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.your-phone-shows-name-you-remember-the-contribution",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "Your phone shows {name}. You remember the contribution.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "gift"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "a-gift-comes-with-a-call-about-a-bill",
-        "early-money-comes-from-people-you-know",
-        "first-time-candidate-leads-fundraising"
-      ]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-has-a-folder-on-bill-and-has-clearly-rehearsed-the-call",
       "move": "narrate-narrate",
       "kind": "written",
@@ -61830,36 +61800,6 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["office", "not-started"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      },
-      "elements": [
-        "petition-short-by-a-few-names",
-        "petition-struck-names-decide-it",
-        "petition-the-hustle-before-the-deadline"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-ve-been-putting-this-off-and-the-sheets-for-office-show-it",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You've been putting this off, and the sheets for {office} show it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["office"]
         }
       ],
       "bearing": "calm",
@@ -96103,35 +96043,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.you-come-in-late-from-the-filing-for-office-and-child-s-shoes-are-still-by-the-d",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You come in late from the filing for {office}, and {child}'s shoes are still by the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["child", "office", "stake-time"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-asks-who-covers-the-kids",
-        "family-is-a-sounding-board-and-a-risk"
-      ]
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-kitchen-light-is-on-the-filing-for-office-is-the-first-thing-on-the-table",
       "move": "narrate-narrate",
       "kind": "written",
@@ -96174,35 +96085,6 @@
           "move": "narrate",
           "role": "narrator",
           "requiresFacts": ["office", "stake-time"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      },
-      "elements": [
-        "family-asks-who-covers-the-kids",
-        "family-is-a-sounding-board-and-a-risk"
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-been-doing-the-numbers-on-the-back-of-an-envelope-since-you-left-for-th",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} has been doing the numbers on the back of an envelope since you left for the clerk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name", "stake-money"]
         }
       ],
       "bearing": "calm",
