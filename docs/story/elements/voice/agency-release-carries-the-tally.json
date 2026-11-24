@@ -1,0 +1,34 @@
+{
+  "id": "agency-release-carries-the-tally",
+  "kind": "voice",
+  "summary": "The agency's own release carries the whole tally; the reporter's text stays short.",
+  "realLife": "A block of the labor agency's text gave counties up, down and unchanged, highs, lows and the state rate.",
+  "sources": [
+    "WNCT Greenville (Nexstar) via Yahoo News, 'Unemployment rates surge in 93 N.C. counties, highest in Edgecombe', July 2, 2025: https://www.yahoo.com/news/unemployment-rates-surge-93-n-160544749.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "percent", "place"],
+  "gates": [],
+  "weights": {
+    "conditions": 1.0
+  },
+  "inGame": "`economy.state-jobs-report` row for the state; needs: counties",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "the reporter carries the tally",
+      "pulledBy": "a release with no usable table",
+      "writes": "the story's own text gives the counts",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the release is quoted in part",
+      "pulledBy": "a long release",
+      "writes": "the story quotes the sentence that matters",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}
