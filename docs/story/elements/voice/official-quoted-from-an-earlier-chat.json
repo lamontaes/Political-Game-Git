@@ -19,12 +19,16 @@
     {
       "name": "a quote from the event",
       "pulledBy": "an official who spoke up in the room",
-      "writes": "the story quotes the event"
+      "writes": "the story quotes the event",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no quote at all",
       "pulledBy": "an official who declined",
-      "writes": "the story says they did not comment"
+      "writes": "the story says they did not comment",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
     }
   ]
 }

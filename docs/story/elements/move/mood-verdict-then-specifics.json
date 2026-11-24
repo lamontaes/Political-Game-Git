@@ -19,12 +19,16 @@
     {
       "name": "specifics first",
       "pulledBy": "a measured meeting",
-      "writes": "the lede is the count and the place"
+      "writes": "the lede is the count and the place",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "praise only",
       "pulledBy": "a meeting that went well",
-      "writes": "the lede says residents were pleased"
+      "writes": "the lede says residents were pleased",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

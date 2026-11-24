@@ -19,12 +19,16 @@
     {
       "name": "no resident named",
       "pulledBy": "a crowd that gave no names",
-      "writes": "the story relays the suggestion unnamed"
+      "writes": "the story relays the suggestion unnamed",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "resident opposes",
       "pulledBy": "a resident who opposes the plan",
-      "writes": "the story ends on their objection"
+      "writes": "the story ends on their objection",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

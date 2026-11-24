@@ -19,12 +19,16 @@
     {
       "name": "no next date",
       "pulledBy": "a one-time report",
-      "writes": "the story ends on the figure"
+      "writes": "the story ends on the figure",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a revision",
       "pulledBy": "a corrected report",
-      "writes": "the story says the earlier figure was revised"
+      "writes": "the story says the earlier figure was revised",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
