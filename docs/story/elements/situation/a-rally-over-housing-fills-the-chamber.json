@@ -1,0 +1,29 @@
+{
+  "id": "a-rally-over-housing-fills-the-chamber",
+  "kind": "situation",
+  "summary": "After a housing rally, advocates fill the chamber for the next meeting.",
+  "realLife": "Charlottesville advocates packed the chamber after an affordable housing rally.",
+  "sources": [
+    "The Cavalier Daily, at the first regular council meeting since the affordable housing rally, advocates pack the chamber: https://www.cavalierdaily.com/article/2026/04/at-first-regular-city-council-meeting-since-affordable-housing-rally-advocates-pack-chamber"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["issue", "place"],
+  "gates": [],
+  "weights": {
+    "rally-word": 0.8
+  },
+  "inGame": "civic.rally, the cause group's invitation; town-hall-question scene",
+  "turns": [
+    {
+      "turn": "The room is half empty",
+      "pull": "a tired cause",
+      "writes": "writes a short list of speakers"
+    },
+    {
+      "turn": "The room spills into the hall",
+      "pull": "a growing cause",
+      "writes": "writes an overflow scene"
+    }
+  ],
+  "usedBy": ["rally-word", "rally-opponent"]
+}

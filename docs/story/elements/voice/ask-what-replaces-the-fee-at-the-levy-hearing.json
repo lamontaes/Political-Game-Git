@@ -1,0 +1,37 @@
+{
+  "id": "ask-what-replaces-the-fee-at-the-levy-hearing",
+  "kind": "voice",
+  "summary": "{member} asks what will pay for affordable classes when residents are asked to renew the parks levy.",
+  "realLife": "Portland's 2025 ballot materials linked levy renewal to continuing free and discounted programs, and voters approved the five-year measure.",
+  "sources": [
+    "https://www.portland.gov/parks/parks-levy#:~:text=Continue%20free%2C%20discounted%20recreation"
+  ],
+  "fits": ["office", "speeches", "news", "work-community", "journal"],
+  "slots": ["{member}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "law:fee-level:parks-and-recreation",
+    "budget:parks",
+    "law:local-power:dedicated-parks-funding",
+    "law:property-tax"
+  ],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a levy referral, operating forecast and commitment to discounted recreation.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A higher participation fee would replace part of the tax support.",
+      "what": "The member asks staff to price the increase for a family using a discount.",
+      "writesBack": "The hearing records the family's net charge."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The proposed levy supports lower prices.",
+      "what": "The member asks which activities the appropriation can keep affordable.",
+      "writesBack": "The budget records the activities covered by the commitment."
+    }
+  ]
+}

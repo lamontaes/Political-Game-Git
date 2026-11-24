@@ -1,0 +1,30 @@
+{
+  "id": "customer-note-missing-the-sidewalk-score",
+  "kind": "detail",
+  "summary": "{aide} finds a note about a site visit but no score to show where the sidewalk stands.",
+  "realLife": "Auditors found that notes to residents did not consistently preserve the rating, inspector identity or other fields of an inspection record.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{aide}"],
+  "gates": ["Customer note about a visit, with the formal rating missing."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: customer note about a visit, with the formal rating missing.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The original inspection sheet supplies the rating.",
+      "what": "Link the sheet to the address.",
+      "writesBack": "Restore the missing score.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The score cannot be recovered.",
+      "what": "Ask forestry how to obtain a verified rating.",
+      "writesBack": "Keep the priority unresolved.."
+    }
+  ]
+}
