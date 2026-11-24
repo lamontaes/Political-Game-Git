@@ -27,5 +27,6 @@
       "pulledBy": "The rider’s trip still falls outside the funded hours.",
       "writesBack": "Route the trip example to the next service review."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

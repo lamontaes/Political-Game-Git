@@ -27,5 +27,6 @@
       "pulledBy": "The bus arrives in time but the connecting service does not.",
       "writesBack": "Open a connection review for the feeder trip."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

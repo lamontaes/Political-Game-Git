@@ -29,5 +29,6 @@
       "pulledBy": "The figures use comparable expenses.",
       "writesBack": "Keep the service need beside the cost comparison."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

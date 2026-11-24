@@ -27,5 +27,6 @@
       "pulledBy": "The rider travels the other way.",
       "writesBack": "Record the applicable departure without redirecting the rider."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

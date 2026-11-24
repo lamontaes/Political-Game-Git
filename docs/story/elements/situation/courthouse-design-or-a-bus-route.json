@@ -29,5 +29,6 @@
       "pulledBy": "The transfer passes under applicable budget rules.",
       "writesBack": "Update both appropriations and the project schedule."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

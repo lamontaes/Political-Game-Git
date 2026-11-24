@@ -29,5 +29,6 @@
       "pulledBy": "A later bus fits the school day.",
       "writesBack": "Add the transfer result to the route comparison."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

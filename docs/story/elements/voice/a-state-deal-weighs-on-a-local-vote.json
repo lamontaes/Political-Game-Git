@@ -27,5 +27,6 @@
       "pulledBy": "The objection rests on a prediction.",
       "writesBack": "Attribute the concern to its speaker."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

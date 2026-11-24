@@ -27,5 +27,6 @@
       "pulledBy": "The revised shifts still leave a shortage.",
       "writesBack": "Carry the shortage into the staffing request."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

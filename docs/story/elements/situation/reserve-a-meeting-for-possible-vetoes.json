@@ -28,5 +28,6 @@
       "pulledBy": "The executive signs every item.",
       "writesBack": "Mark the contingency resolved."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

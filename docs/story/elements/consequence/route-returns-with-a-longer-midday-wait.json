@@ -27,5 +27,6 @@
       "pulledBy": "The slower interval breaks the connection.",
       "writesBack": "Register the transfer problem against the timetable."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

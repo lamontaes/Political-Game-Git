@@ -29,5 +29,6 @@
       "pulledBy": "No alternative arrives before the shift.",
       "writesBack": "Add the workplace trip to the service review."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

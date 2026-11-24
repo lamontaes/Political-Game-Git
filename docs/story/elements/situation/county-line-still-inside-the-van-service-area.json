@@ -29,5 +29,6 @@
       "pulledBy": "The pickup lies beyond the county boundary.",
       "writesBack": "Keep the cross-boundary referral on the case."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -29,5 +29,6 @@
       "pulledBy": "A caller rides a regular bus at a reduced fare.",
       "writesBack": "Mark it as proposed until adoption."
     }
-  ]
+  ],
+  "issues": ["law:local-power:fare-free-transit"]
 }

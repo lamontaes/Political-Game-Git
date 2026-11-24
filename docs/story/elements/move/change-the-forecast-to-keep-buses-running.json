@@ -27,5 +27,6 @@
       "pulledBy": "Receipts fall short of the estimate.",
       "writesBack": "Record the new gap against the original forecast."
     }
-  ]
+  ],
+  "issues": ["law:sales-tax"]
 }

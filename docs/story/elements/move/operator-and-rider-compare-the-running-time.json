@@ -29,5 +29,6 @@
       "pulledBy": "Drivers and riders report different trouble spots.",
       "writesBack": "Retain both observations pending a timing check."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

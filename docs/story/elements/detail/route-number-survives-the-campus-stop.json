@@ -27,5 +27,6 @@
       "pulledBy": "The traveler needs the lost segment.",
       "writesBack": "Record the extra transfer or the uncovered destination."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

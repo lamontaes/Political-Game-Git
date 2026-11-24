@@ -29,5 +29,6 @@
       "pulledBy": "A resident cannot reach the nearest stop on that map.",
       "writesBack": "Attach the access problem to the alternative."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

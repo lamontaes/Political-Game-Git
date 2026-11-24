@@ -29,5 +29,6 @@
       "pulledBy": "No eligible trip reaches the appointment.",
       "writesBack": "Document the access gap whether or not the clinic can reschedule."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

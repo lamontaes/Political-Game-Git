@@ -27,5 +27,6 @@
       "pulledBy": "A volunteer cannot attend the scheduled class.",
       "writesBack": "Keep that training component pending."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
