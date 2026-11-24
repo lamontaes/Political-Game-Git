@@ -24,25 +24,27 @@ import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
 import { forceLegislatureScene } from "../dev-force-legislature";
+import { forceEvent, OWN_RECIPES } from "../dev-force-event";
 import forceMap from "./scene-force-map.json";
 
-/** How each situation type can be forced, measured by scripts/words/force-all-probe.mts: a record of its cause kind that the director stages from, or the reason that takes its module's own writer. */
+/**
+ * How each situation type can be forced, measured by scripts/words/force-all-probe.mts: a record of
+ * its cause kind that the director stages from (built for the player at the force, dev-force-event.ts),
+ * or the reason that takes its module's own writer. The recipes that cause a cause through an engine's
+ * own function (`OWN_RECIPES`) are never overridden by the map.
+ */
 const FORCE = (
   forceMap as {
     types: Record<
       string,
       {
         how: "event" | "writer" | "legislature";
-        kind?: string;
-        facts?: Record<string, string>;
         reason?: string;
         recipe?: string;
       }
     >;
   }
 ).types;
-/** The recipes that already cause a cause through an engine's own function: the map never overrides them. */
-const OWN_RECIPES = ["death", "illness", "layoff"];
 
 const MOMENTS = 20;
 
@@ -233,33 +235,28 @@ const view: DevView = {
       const way = FORCE[typeKey];
       const own = mode.scenes().find((row) => row.key === typeKey);
       const playerId = mode.core.playerId as PersonId | undefined;
-      if (
+      const type = SITUATION_LIBRARY.types.find((row) => row.key === typeKey);
+      const eventId = `dev-force:${typeKey}:${mode.core.date}`;
+      const event =
         way?.how === "event" &&
-        way.kind &&
+        type &&
         playerId &&
         mode.director &&
         !OWN_RECIPES.includes(own?.recipe ?? "")
-      ) {
+          ? forceEvent(
+              mode.core,
+              type,
+              playerId,
+              eventId,
+              `Dev mode forced ${typeKey}`,
+            )
+          : undefined;
+      if (event && playerId && mode.director) {
         // The cause as a record of its kind naming the player, entered through the core's one event
         // entry; the director measures it at the day's end and stages it as it would any moment.
         const book = mode.director.ledger.people.get(playerId);
         const seen = book?.schedule.length ?? 0;
-        const eventId = `dev-force:${typeKey}:${mode.core.date}`;
-        const player = mode.core.people.get(playerId)!;
-        applyCoreEvent(mode.core, {
-          id: eventId,
-          date: mode.core.date,
-          kind: way.kind,
-          personIds: [playerId],
-          witnessIds: [],
-          placeId: player.placeId,
-          facts: { ...way.facts },
-          source: {
-            tag: "ESTIMATED",
-            citation: `Dev mode forced ${typeKey}`,
-            asOf: mode.core.date,
-          },
-        } as never);
+        applyCoreEvent(mode.core, event as never);
         mode.advance(addDays(makeIsoDate(mode.core.date), 1));
         const staged = !!book?.schedule
           .slice(seen)
