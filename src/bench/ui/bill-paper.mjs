@@ -42,6 +42,12 @@ const estimateOf = (estimate) => [
   ...estimate.lines.filter(Boolean).map((text) => line(text)),
 ];
 
+const sponsorLine = (text) => {
+  const node = line(text);
+  node.dataset.noTerms = "";
+  return node;
+};
+
 /**
  * The paper as the legislation mock draws it (docs/mocks/2026-11-08-legislation/, "Following a
  * bill"): three columns, where it is on the left, the bill typed on the paper in the middle, the
@@ -165,7 +171,9 @@ export function billPaper(paper) {
     ...(viewBar ? [viewBar] : []),
     heading(paper.spoken, "h2"),
     prose(paper.title),
-    line(paper.sponsor),
+    // A field and a name, not prose: the glossary does not underline the label (CTO, Nov 24:
+    // "Sponsor is underlined like a link").
+    sponsorLine(paper.sponsor),
     ...(views ? [changes] : []),
     // A section the paper has typed above is not listed again; one with no
     // typed clause is listed here, so every section can be clicked once.

@@ -1989,6 +1989,15 @@ body:not(.dev) .dev-only {
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
 }
+/* Bills: the panel ends under its list and its bill, and grows to the window's height when they
+   are longer (CTO, Nov 24: with three bills the lower half was empty). */
+#game.in-play #sheet.hugs {
+  bottom: auto;
+  max-height: calc(var(--vh) - var(--gutter) - 26px);
+}
+#sheet.hugs #sheet-body {
+  flex: 0 1 auto;
+}
 #game:not(.in-play) #sheet {
   left: 50%;
   transform: translateX(-50%);

@@ -5068,7 +5068,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-the-first-meeting-on-my-schedule-is-about",
@@ -5101,7 +5102,11 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-people-in-congress-who-can-move-and-i",
@@ -5130,7 +5135,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-if-you-want-to-know-where-i-ll-be-tomorrow-i-ll-be-working-o",
@@ -5166,7 +5175,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-congress-will-work-with-me-on",
@@ -5195,7 +5205,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-my-staff-will-have-a-plan-for-on-my-desk-by-the-end-of-the-w",
@@ -5231,7 +5242,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-over-the-next-few-weeks-i-ll-be-meeting-people-on-both-sides",
@@ -5267,7 +5279,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-starts-with-and-i-m-glad-it-does",
@@ -5300,7 +5313,11 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-meet-with-people-on-both-sides-of-this-week-starting-wi",
@@ -5336,7 +5353,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-keep-the-people-who-disagree-with-me-about-in-the-room",
@@ -5372,7 +5390,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-members-of-the-who-can-move-and-i-ll",
@@ -5394,7 +5416,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-the-will-work-with-me-on",
@@ -5416,7 +5442,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-and-i-start-work-tomorrow-morning",
@@ -5445,7 +5472,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-and-i-will-meet-tomorrow-to-set-our-first-week-s-schedule",
@@ -5474,7 +5502,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-and-i-sit-down-with-congress",
@@ -5500,7 +5529,11 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-see-you-at-work-tomorrow-along-with",
@@ -5529,7 +5562,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-god-bless-us",
@@ -5558,7 +5592,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-god-bless-everyone",
@@ -5584,7 +5619,8 @@
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-thank-you-america",
@@ -5610,7 +5646,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-thanks-everyone",
@@ -5636,7 +5673,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-thank-you-again",
@@ -5662,7 +5700,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-thank-you-friends",
@@ -5691,7 +5730,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-godspeed-america",
@@ -5720,7 +5760,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-bless-you-all",
@@ -5749,7 +5790,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-god-bless-americans",
@@ -5778,7 +5820,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-good-night-america",
@@ -5804,7 +5847,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.blessing.spoken-good-night-everyone",
@@ -5830,7 +5874,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-the-people-who-disagree-with-me-on-will-hear-from-my-office",
@@ -5866,7 +5911,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-ask-the-people-who-know-best-to-come-see-me-before-the",
@@ -5899,7 +5945,11 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
@@ -5932,7 +5982,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then",
@@ -5968,7 +6019,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-spend-part-of-tomorrow-with-people-who-ve-been-affected",
@@ -6004,7 +6059,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-somebody-in-my-office-will-be-reading-every-letter-about-sta",
@@ -6040,7 +6096,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-call-the-leaders-of-both-parties-about-before-the-end-o",
@@ -6069,7 +6126,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-by-the-end-of-the-month-i-ll-have-a-list-of-what-can-move-on",
@@ -6105,7 +6163,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-the-first-memo-i-read-tomorrow-will-be-about",
@@ -6141,7 +6203,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-before-i-do-anything-on-i-ll-ask-the-people-it-affects-what",
@@ -6177,7 +6240,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-go-over-again-tomorrow-with-fresh-eyes-and-a-long-list",
@@ -6213,7 +6280,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-next-week-i-ll-hold-a-meeting-on-and-anyone-with-a-stake-can",
@@ -6249,7 +6317,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-has-a-full-schedule-tomorrow-and-so-do-i",
@@ -6278,7 +6347,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-and-i-will-go-over-the-week-s-calendar-tomorrow-morning",
@@ -6307,7 +6377,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-i-ll-go-over-the-calendar-with-tomorrow-morning",
@@ -6333,7 +6404,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-and-i-are-on-duty-from-tomorrow-morning",
@@ -6359,7 +6431,8 @@
       "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-theme.send-off.spoken-tomorrow-morning-i-meet-with-to-start-on-the-list",
@@ -6388,7 +6461,11 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
     },
     {
       "key": "outline-theme.send-off.spoken-my-first-call-tomorrow-is-to-and-then-we-start",
@@ -6417,7 +6494,8 @@
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
     }
   ]
 }
