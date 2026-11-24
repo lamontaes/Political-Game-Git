@@ -14,11 +14,6 @@
     }
   },
   "scroll": {
-    "Patch notes [sheet]": {
-      "nav.pick-list.roster scrolls y": 1,
-      "div.pager.roster-pages scrolls y": 1,
-      "div.roster-page.strip-screen.strips scrolls y": 1
-    },
     "Creator [front]": {
       "#cr-states scrolls y": 1
     },
