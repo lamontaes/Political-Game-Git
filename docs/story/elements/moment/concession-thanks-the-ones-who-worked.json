@@ -1,0 +1,18 @@
+{
+  "id": "concession-thanks-the-ones-who-worked",
+  "kind": "moment",
+  "summary": "A losing candidate thanks the people who worked the race and says what comes next.",
+  "realLife": "Boston and Columbus candidates thanked supporters and unions on election night; one said he hopes to run again.",
+  "sources": [
+    "Boston.com, Annissa Essaibi George concedes to Michelle Wu: https://www.boston.com/news/politics/2021/11/02/annissa-essaibi-george-concedes-michelle-wu/",
+    "WOSU, Columbus council candidate Jesse Vogel concedes and says he hopes to run again: https://www.wosu.org/politics-government/2025-11-05/columbus-city-council-candidate-jesse-vogel-concedes-to-tiara-ross-says-he-hopes-to-run-again"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "office"],
+  "gates": ["lost"],
+  "weights": {
+    "result": 1.0
+  },
+  "inGame": "election-result record, race-lost, campaign staff and volunteers named from the campaign record",
+  "usedBy": ["race-lost", "news"]
+}

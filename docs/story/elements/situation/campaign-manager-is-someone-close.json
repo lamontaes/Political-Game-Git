@@ -1,0 +1,17 @@
+{
+  "id": "campaign-manager-is-someone-close",
+  "kind": "situation",
+  "summary": "A partner, friend or relative offers to run the campaign, and some people question whether that is wise.",
+  "realLife": "A council candidate's campaign manager was his then-fiancee, and local party leaders raised questions.",
+  "sources": [
+    "Augusta Free Press, a council candidate whose campaign manager is his fiancee: https://augustafreepress.com/?p=20684"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": ["kin", "tie-friend"],
+  "weights": {
+    "manager": 1.0
+  },
+  "inGame": "volunteer-offered record with role manager, managerReason, the campaign staff the cast and election night read",
+  "usedBy": ["offer-to-run"]
+}

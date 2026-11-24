@@ -1,0 +1,17 @@
+{
+  "id": "a-gift-comes-with-a-call-about-a-bill",
+  "kind": "consequence",
+  "summary": "A donor calls afterward about a bill they care about, and the candidate must say where they stand.",
+  "realLife": "Fundraising coverage notes who gives and how candidates answer once a donor has an interest.",
+  "sources": [
+    "Anchorage mayor's race first fundraising reports, via Yahoo: https://news.yahoo.com/lafrance-far-outpaces-competitors-first-145000328.html"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["bill", "money"],
+  "gates": ["gift"],
+  "weights": {
+    "donor": 1.0
+  },
+  "inGame": "campaign-gift record, donor-bill, bill stage, the lie-caught check against the roll call",
+  "usedBy": ["donor-ask"]
+}

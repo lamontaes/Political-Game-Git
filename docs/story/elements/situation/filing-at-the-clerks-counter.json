@@ -1,0 +1,18 @@
+{
+  "id": "filing-at-the-clerks-counter",
+  "kind": "situation",
+  "summary": "A candidate hands papers to a clerk who checks them and says what comes next.",
+  "realLife": "County clerks take school board and council papers in a fixed window, with the signatures, fee and residency checked.",
+  "sources": [
+    "Laramie County (Wyoming) Clerk, candidate filing for school and college boards: https://laramiecountywy.gov/Press-Release/County-Clerk-announces-candidate-filing-for-school-and-college-boards-Aug.-7-through-26",
+    "Texas Secretary of State, filing as a candidate in a local general election: https://www.sos.texas.gov/elections/laws/filing-in-a-local-election.shtml"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["office", "due"],
+  "gates": [],
+  "weights": {
+    "filing": 1.0
+  },
+  "inGame": "candidate-filed record, filingOfficeFor, openContests, the filing-petition scene, petitionFacts",
+  "usedBy": ["filing-petition", "family-filing"]
+}

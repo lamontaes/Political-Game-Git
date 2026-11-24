@@ -1,0 +1,17 @@
+{
+  "id": "volunteers-for-endorsed-candidates",
+  "kind": "detail",
+  "summary": "Groups send canvassers and phone bankers for the candidates they endorsed, and a voter notes it.",
+  "realLife": "Down Home NC reported its canvassers and phone bankers worked for endorsed candidates, and one voter said he had rarely engaged locally.",
+  "sources": [
+    "Down Home NC, canvassers and phone bankers for endorsed candidates: https://downhomenc.org/?p=13563"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["outlet"],
+  "gates": [],
+  "weights": {
+    "volunteer": 0.4
+  },
+  "inGame": "party and cause group records; needs: group canvass teams as a recorded source of volunteers",
+  "usedBy": ["offer-help"]
+}

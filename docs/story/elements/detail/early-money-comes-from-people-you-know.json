@@ -1,0 +1,18 @@
+{
+  "id": "early-money-comes-from-people-you-know",
+  "kind": "detail",
+  "summary": "Early gifts come mostly from friends, family and neighbors who already know the candidate.",
+  "realLife": "Fundraising guides say most early local money comes from personal contacts.",
+  "sources": [
+    "Anchorage mayor's race first fundraising reports, via Yahoo: https://news.yahoo.com/lafrance-far-outpaces-competitors-first-145000328.html",
+    "Worcester Telegram via Yahoo, first-time Worcester candidate has raised nearly half again as much as any competitor: https://www.yahoo.com/news/articles/first-time-worcester-candidate-raised-093000976.html"
+  ],
+  "fits": ["campaign"],
+  "slots": ["money", "name"],
+  "gates": ["acquainted"],
+  "weights": {
+    "donor": 0.7
+  },
+  "inGame": "campaign-gift record (gift, gift-weight, gift-biggest), relationFacts for the donor",
+  "usedBy": ["donor-ask"]
+}

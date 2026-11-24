@@ -1,0 +1,17 @@
+{
+  "id": "mayor-endorses-all-but-one",
+  "kind": "situation",
+  "summary": "A mayor endorses every candidate but one, and the left-out candidate turns it into a campaign line.",
+  "realLife": "A mayor backed four of five council candidates, and the one left out said being the change candidate means no mayor's endorsement.",
+  "sources": [
+    "Patch (Highland Park, Illinois), mayor endorses all but one city council candidate: https://patch.com/illinois/highlandpark/highland-park-mayor-endorses-all-one-city-council-candidate"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "office"],
+  "gates": ["endorsed-other"],
+  "weights": {
+    "endorsement": 0.9
+  },
+  "inGame": "endorsement-asked record, endorsed-other fact, the player's answer",
+  "usedBy": ["ask-endorsement", "news"]
+}

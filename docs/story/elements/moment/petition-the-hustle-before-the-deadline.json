@@ -1,0 +1,17 @@
+{
+  "id": "petition-the-hustle-before-the-deadline",
+  "kind": "moment",
+  "summary": "Signature gathering gets frantic in the last days before the deadline.",
+  "realLife": "Chicago school board candidates described the final push to collect and submit signatures as a hustle.",
+  "sources": [
+    "Chicago Sun-Times, Chicago school board candidates submit signatures, 'It was a hustle': https://chicago.suntimes.com/education/chicago-school-board/2024/06/17/chicago-school-board-candidates-submit-signatures-it-was-a-hustle"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["due"],
+  "gates": [],
+  "weights": {
+    "petition": 0.8
+  },
+  "inGame": "campaign day choice (canvass), petition due date, the petition-short event",
+  "usedBy": ["petition-short", "news"]
+}

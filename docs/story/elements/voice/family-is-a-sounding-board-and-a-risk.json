@@ -1,0 +1,17 @@
+{
+  "id": "family-is-a-sounding-board-and-a-risk",
+  "kind": "voice",
+  "summary": "Family members advise the candidate and also make the candidate answer for what they say.",
+  "realLife": "A reporter described relatives as sounding boards and as trouble when their remarks need explaining.",
+  "sources": [
+    "HeraldNet, family ties can be a candidate's blessing or curse: https://www.heraldnet.com/news/family-ties-can-be-a-candidates-blessing-or-curse/"
+  ],
+  "fits": ["campaign", "home"],
+  "slots": ["name", "child"],
+  "gates": ["kin"],
+  "weights": {
+    "family": 0.7
+  },
+  "inGame": "relationFacts (kin), household members' own records, rival-word and press stories that name a relative",
+  "usedBy": ["family-filing", "rival-word"]
+}

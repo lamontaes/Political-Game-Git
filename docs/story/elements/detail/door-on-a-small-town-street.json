@@ -1,0 +1,17 @@
+{
+  "id": "door-on-a-small-town-street",
+  "kind": "detail",
+  "summary": "In a small town a door knock is as much a visit as an ask, and the resident usually knows the candidate's family.",
+  "realLife": "A volunteer's account of canvassing in a small town stressed the personal side of it.",
+  "sources": [
+    "Hoptown Chronicle, the human side of canvassing in a small town: https://hoptownchronicle.org/?p=87258"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place", "name"],
+  "gates": ["acquainted"],
+  "weights": {
+    "door": 0.7
+  },
+  "inGame": "relationFacts (acquainted, kin, tie-friend), the second knock, the resident's own records",
+  "usedBy": ["ask-support"]
+}

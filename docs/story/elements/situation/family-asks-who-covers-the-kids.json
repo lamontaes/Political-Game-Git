@@ -1,0 +1,18 @@
+{
+  "id": "family-asks-who-covers-the-kids",
+  "kind": "situation",
+  "summary": "A candidate's family asks who covers the children on campaign nights, and the answer is a calendar.",
+  "realLife": "Candidates and their spouses have described the toll on family life and questions about who watches the children.",
+  "sources": [
+    "HeraldNet, elections are tough on candidate families: https://www.heraldnet.com/news/elections-tough-on-candidate-families/",
+    "Florida Politics, candidate says she is asked who watches her children: https://floridapolitics.com/archives/319345-cindy-banyai-announces-separation-impending-divorce-from-husband"
+  ],
+  "fits": ["campaign", "home"],
+  "slots": ["child", "office"],
+  "gates": ["stake-time"],
+  "weights": {
+    "family": 1.0
+  },
+  "inGame": "household stakes (stake-time, stake-money, child), candidate-filed record, the family-filing scene",
+  "usedBy": ["family-filing"]
+}

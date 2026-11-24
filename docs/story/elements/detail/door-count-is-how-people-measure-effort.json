@@ -1,0 +1,17 @@
+{
+  "id": "door-count-is-how-people-measure-effort",
+  "kind": "detail",
+  "summary": "Candidates tell the press how many doors they have knocked, as the mark of effort.",
+  "realLife": "A candidate who had knocked about three thousand doors told the paper residents felt ignored on traffic and a golf course plan.",
+  "sources": [
+    "New Bedford Light, Shawn Oliver: residents feel ignored on traffic jams, golf course plans and other issues: https://newbedfordlight.org/shawn-oliver-residents-feel-ignored-on-traffic-jams-golf-course-plans-and-other-issues/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["issue"],
+  "gates": [],
+  "weights": {
+    "news": 0.5
+  },
+  "inGame": "campaign day choices (canvass shift) and the campaign's own records; no count is said in speech by rule",
+  "usedBy": ["news"]
+}

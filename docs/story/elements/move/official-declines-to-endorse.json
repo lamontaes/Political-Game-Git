@@ -1,0 +1,18 @@
+{
+  "id": "official-declines-to-endorse",
+  "kind": "move",
+  "summary": "A public figure says they will make no endorsement, and the refusal is the story.",
+  "realLife": "A San Antonio mayor said he would not endorse in the mayor's race; an Anchorage police union also declined.",
+  "sources": [
+    "KSAT, San Antonio mayor says he won't make an official endorsement: https://www.ksat.com/video/news/2025/05/28/ron-nirenberg-says-he-wont-make-an-official-endorsement-in-san-antonio-mayors-race",
+    "Anchorage Daily News, police union will not endorse a candidate for mayor: https://adn.com/alaska-news/anchorage/2021/04/13/anchorage-police-union-will-not-endorse-a-candidate-for-mayor"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "office"],
+  "gates": [],
+  "weights": {
+    "endorsement": 0.8
+  },
+  "inGame": "endorsement-asked record, the player's decline, closeness effects of a refusal",
+  "usedBy": ["ask-endorsement"]
+}

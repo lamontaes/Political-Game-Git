@@ -1,0 +1,17 @@
+{
+  "id": "official-backs-incumbents-not-open-seats",
+  "kind": "detail",
+  "summary": "Officials often endorse sitting colleagues and step back from open seats.",
+  "realLife": "A Dallas mayor backed council incumbents but stayed out of open seats.",
+  "sources": [
+    "Dallas Morning News, mayor backs council incumbents but backs away from open seats: https://dallasnews.com/news/2015/05/04/dallas-mayor-mike-rawlings-backs-city-council-incumbents-but-backs-away-from-open-seats"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "weights": {
+    "endorsement": 0.6
+  },
+  "inGame": "endorsement-asked, endorsed-other; needs: whether the player holds office when asked",
+  "usedBy": ["ask-endorsement"]
+}

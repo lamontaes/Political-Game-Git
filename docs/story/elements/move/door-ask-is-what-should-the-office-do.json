@@ -1,0 +1,17 @@
+{
+  "id": "door-ask-is-what-should-the-office-do",
+  "kind": "move",
+  "summary": "At the door a candidate asks the voter what they want done, before saying what they will do.",
+  "realLife": "A Texas candidate with no opponent still went door to door asking which priorities residents wanted addressed.",
+  "sources": [
+    "Daily Northwestern, new strategies and a door-knocking flurry kick off city council bids: https://dailynorthwestern.com/2025/02/02/city/new-strategies-door-knocking-flurry-kick-off-city-council-bids/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["office", "issue"],
+  "gates": [],
+  "weights": {
+    "door": 0.8
+  },
+  "inGame": "ask-support follow ask, resident's strongest question from the views engine",
+  "usedBy": ["ask-support"]
+}

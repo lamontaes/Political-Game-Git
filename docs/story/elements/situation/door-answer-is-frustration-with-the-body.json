@@ -1,0 +1,18 @@
+{
+  "id": "door-answer-is-frustration-with-the-body",
+  "kind": "situation",
+  "summary": "A voter's first words at the door are often about the sitting council, not the candidate.",
+  "realLife": "A first-time candidate reported most door criticism was frustration with the council, and that being rejected at the door feels confronting.",
+  "sources": [
+    "Otago Daily Times (Christchurch Star), voters' buttons pushed by rates, potholes, e-scooters: https://www.odt.co.nz/star-news/star-christchurch/voters-buttons-pushed-rates-potholes-e-scooters",
+    "Daily Northwestern, new strategies and a door-knocking flurry kick off city council bids: https://dailynorthwestern.com/2025/02/02/city/new-strategies-door-knocking-flurry-kick-off-city-council-bids/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["office", "issue"],
+  "gates": [],
+  "weights": {
+    "door": 0.9
+  },
+  "inGame": "circumstance:door-first, ask-support variants, the resident's views from the views engine (doorViewFacts)",
+  "usedBy": ["ask-support"]
+}

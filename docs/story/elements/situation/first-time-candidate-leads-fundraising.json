@@ -1,0 +1,17 @@
+{
+  "id": "first-time-candidate-leads-fundraising",
+  "kind": "situation",
+  "summary": "A first-time candidate raises more than established competitors, and the paper reports it.",
+  "realLife": "A first-time Worcester candidate raised nearly half again as much as any competitor.",
+  "sources": [
+    "Worcester Telegram via Yahoo, first-time Worcester candidate has raised nearly half again as much as any competitor: https://www.yahoo.com/news/articles/first-time-worcester-candidate-raised-093000976.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "office"],
+  "gates": [],
+  "weights": {
+    "donor": 0.7
+  },
+  "inGame": "campaign-gift records, the fundraising totals; donor-ask scenes",
+  "usedBy": ["donor-ask", "news"]
+}
