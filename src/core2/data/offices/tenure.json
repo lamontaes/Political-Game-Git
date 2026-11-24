@@ -37,6 +37,13 @@
       "source": "The youngest common minimum age for state legislative and local office (21 to 25 in most states; 18 in some localities).",
       "spread": [18, 25]
     },
+    "yearsPastMinimumAtFirstTerm": {
+      "value": 14,
+      "role": "opening",
+      "tag": "ESTIMATED",
+      "source": "Estimated: people first win office well past the minimum age (the Rutgers Center for Youth Political Participation's Mayors and Young Elected Leaders reports count the under-35 mayors as a small minority); not checked against a fetched table. Sets how far past the minimum a seat's career may begin, never a holder's count of terms.",
+      "spread": [8, 22]
+    },
     "usHouseWinnerShare": {
       "value": 0.64,
       "tag": "ESTIMATED",

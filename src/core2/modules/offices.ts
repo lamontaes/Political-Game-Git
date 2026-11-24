@@ -1115,6 +1115,20 @@ const TENURE = (
 const tenureYears = (key: string) => TENURE[key]!.value;
 const tenureSpread = (key: string) =>
   (TENURE[key] as unknown as { spread: readonly [number, number] }).spread;
+/**
+ * The age a seat's holder first took office at: the minimum age plus a spread
+ * with its mode past the minimum (the sum of two exponentials, Erlang 2, whose
+ * mean is the table's years past the minimum), seeded per seat. Real figures
+ * give only how far past the minimum people tend to be; nothing pins a count.
+ */
+export function firstTermAge(worldSeed: string, seatId: string): number {
+  const mean = tenureYears("yearsPastMinimumAtFirstTerm");
+  const half = (label: string) =>
+    -Math.log(1 - seededUnit(worldSeed, `${seatId}:firstAge:${label}`));
+  return (
+    tenureYears("minimumAgeAtFirstTerm") + (mean / 2) * (half("a") + half("b"))
+  );
+}
 const shiftYears = (date: string, years: number) =>
   `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
 const LEGISLATIVE = /^(council|county-board|legislature-)/;
@@ -1256,11 +1270,17 @@ function pastTerms(
             Math.log(q),
         )
       : 0;
-  // No one first served younger than the minimum age.
+  // No one first served younger than the age they first ran at: the minimum
+  // age and a stretch past it, drawn once per seat (who exists, not what anyone
+  // decides) so first terms spread over a working life and do not pile up at
+  // the minimum age (owner's playthrough, Nov 23, row C10: a mayor "elected at
+  // 21"). A seat's holder whose current term began before that age has it as
+  // their first term.
+  const firstAge = firstTermAge(worldSeed, seat.id);
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
-    (firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm") ||
+    (firstYear(prior) - born < firstAge ||
       (created !== undefined &&
         termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
