@@ -1,0 +1,30 @@
+{
+  "id": "strain-in-a-named-staffers-words",
+  "kind": "move",
+  "summary": "Each strain on the system, a backlog or a missing desk, is said by a named staffer in plain speech.",
+  "realLife": "A building inspector and the city manager each described the backlog in their own words.",
+  "sources": [
+    "Community Impact (Austin edition), 'Leander swamped by record number of permit requests', Nov. 17, 2014 (updated June 2015; the page text came without paragraph breaks, so the paragraph order was rebuilt from sentence logic): https://communityimpact.com/cedar-park-leander/city-county/leander-swamped-by-record-number-of-permit-requests-2/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.8
+  },
+  "inGame": "the officials table (a named inspector or manager when filled in); needs: a department with a backlog",
+  "turns": [
+    {
+      "name": "no strain",
+      "pulledBy": "a staff keeping up",
+      "writes": "the story says inspections are on time"
+    },
+    {
+      "name": "strain with no names",
+      "pulledBy": "staff who will not be quoted",
+      "writes": "the story says staff said the load was heavy"
+    }
+  ],
+  "usedBy": []
+}

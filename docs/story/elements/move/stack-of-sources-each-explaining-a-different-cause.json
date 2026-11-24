@@ -1,0 +1,30 @@
+{
+  "id": "stack-of-sources-each-explaining-a-different-cause",
+  "kind": "move",
+  "summary": "Several sources are stacked, each given a quote on a different cause.",
+  "realLife": "A chamber head, a builders' association head and a Realtors' leader each explained the boom a different way.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.8
+  },
+  "inGame": "needs: several named experts as sources for one story; the officials and organizations rows",
+  "turns": [
+    {
+      "name": "one source",
+      "pulledBy": "a thin story",
+      "writes": "one voice explains it"
+    },
+    {
+      "name": "sources who disagree",
+      "pulledBy": "a contested boom",
+      "writes": "the story sets the quotes against each other"
+    }
+  ],
+  "usedBy": []
+}

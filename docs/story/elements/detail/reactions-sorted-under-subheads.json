@@ -1,0 +1,30 @@
+{
+  "id": "reactions-sorted-under-subheads",
+  "kind": "detail",
+  "summary": "Reactions are grouped under short subheads: the winners, the runners-up, the parties.",
+  "realLife": "A long election story used three subheads to sort who said what.",
+  "sources": [
+    "WHQR (Wilmington, North Carolina), 'For the second election in a row, Democrats sweep Wilmington council and mayoral races', Nov. 5, 2025: https://www.whqr.org/local/2025-11-05/for-the-second-election-in-a-row-democrats-sweep-wilmington-council-and-mayoral-races",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "election": 0.5
+  },
+  "inGame": "needs: subheads in a news story (a layout line, not a record)",
+  "turns": [
+    {
+      "name": "no subheads",
+      "pulledBy": "a short story",
+      "writes": "the reactions run in one paragraph"
+    },
+    {
+      "name": "subheads by seat",
+      "pulledBy": "a ballot with several offices",
+      "writes": "each office gets its own block"
+    }
+  ],
+  "usedBy": []
+}

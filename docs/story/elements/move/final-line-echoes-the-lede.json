@@ -1,0 +1,30 @@
+{
+  "id": "final-line-echoes-the-lede",
+  "kind": "move",
+  "summary": "The last paragraph echoes the lede's theme: a place that matters to the owner and the town.",
+  "realLife": "The story opened on a long wish and closed on hoping the place matters to the city as the city did to him.",
+  "sources": [
+    "Patch (Naperville, Illinois), 'We Want Every Dish To Tell A Story: Taco Grill Cantina Now Open In Naperville', Nov. 23, 2026: https://patch.com/illinois/naperville/we-want-every-dish-tell-story-taco-grill-cantina-now-open-naperville",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {
+    "opening": 0.8
+  },
+  "inGame": "needs: nothing; a closing line from the owner's stated hope",
+  "turns": [
+    {
+      "name": "closes on hours",
+      "pulledBy": "a plain opening",
+      "writes": "the last line is when it is open"
+    },
+    {
+      "name": "closes on the next event",
+      "pulledBy": "a grand opening planned",
+      "writes": "the last line is the date"
+    }
+  ],
+  "usedBy": []
+}

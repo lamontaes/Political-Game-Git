@@ -1,0 +1,30 @@
+{
+  "id": "dollar-value-of-the-loss",
+  "kind": "detail",
+  "summary": "Each loss is given its dollar value.",
+  "realLife": "A log gave the value of stolen camera equipment, a bicycle and a handbag.",
+  "sources": [
+    "Patch (Pleasanton, California), 'Police Log: Break-In Suspects Bail Out, Plus More Burglaries', Sept. 11, 2012 (a neighbor-contributed post): https://patch.com/california/pleasanton/police-log-break-in-suspects-out-on-bail-plus-more-burglaries",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["amount"],
+  "gates": [],
+  "weights": {
+    "crime": 0.9
+  },
+  "inGame": "a crime row's loss amount; needs: a value on a theft",
+  "turns": [
+    {
+      "name": "no value",
+      "pulledBy": "a theft with an unknown loss",
+      "writes": "the line says the loss is not known"
+    },
+    {
+      "name": "a large loss",
+      "pulledBy": "a burglary of a business",
+      "writes": "the story leads with the sum"
+    }
+  ],
+  "usedBy": []
+}

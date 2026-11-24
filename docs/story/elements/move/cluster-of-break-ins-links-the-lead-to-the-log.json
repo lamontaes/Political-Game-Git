@@ -1,0 +1,30 @@
+{
+  "id": "cluster-of-break-ins-links-the-lead-to-the-log",
+  "kind": "move",
+  "summary": "Three break-ins in a week are grouped into a short paragraph that links the lead to the log.",
+  "realLife": "A short run of burglary paragraphs sat between the arrest and the full log.",
+  "sources": [
+    "Patch (Pleasanton, California), 'Police Log: Break-In Suspects Bail Out, Plus More Burglaries', Sept. 11, 2012 (a neighbor-contributed post): https://patch.com/california/pleasanton/police-log-break-in-suspects-out-on-bail-plus-more-burglaries",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "number"],
+  "gates": [],
+  "weights": {
+    "crime": 0.8
+  },
+  "inGame": "the burglary counts in `conditions` up or down",
+  "turns": [
+    {
+      "name": "one break-in only",
+      "pulledBy": "a single crime",
+      "writes": "no cluster paragraph"
+    },
+    {
+      "name": "a cluster across a month",
+      "pulledBy": "a rising count",
+      "writes": "the story says the month's count rose"
+    }
+  ],
+  "usedBy": []
+}
