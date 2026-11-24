@@ -11,5 +11,32 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "needs: severance agreements; unemployment pay can ride on the job-ended event."
+  "inGame": "needs: severance agreements; unemployment pay can ride on the job-ended event. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "papers-claim-to-waive-benefits",
+      "summary": "The paper hints that signing gives up unemployment pay, and the person is unsure.",
+      "pulledBy": [
+        "a pushy employer",
+        "a person who is worried or unsure",
+        "who is watching the meeting"
+      ],
+      "writesBack": "The person may delay signing, and a note says the terms were questioned."
+    },
+    {
+      "turn": "person-checks-first",
+      "summary": "The person asks a helper or friend what the paper can and cannot take away before signing.",
+      "pulledBy": [
+        "a careful person",
+        "a friend or relative who knows the rules"
+      ],
+      "writesBack": "The tie to the helper gets closer, and the person signs with the benefits intact."
+    },
+    {
+      "turn": "signs-and-claims-anyway",
+      "summary": "The person signs, then claims unemployment pay without trouble.",
+      "pulledBy": ["a person who knows the rules", "the job-ended event"],
+      "writesBack": "Unemployment pay starts and the mood eases."
+    }
+  ]
 }

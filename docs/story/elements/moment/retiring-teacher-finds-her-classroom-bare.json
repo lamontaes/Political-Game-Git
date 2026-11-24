@@ -11,5 +11,31 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Job-ended event for retirement, tenure from the job record (employer, position, workplace, pay, tenure) in the jobs module, and the player's tie to the person (coworker or former student)."
+  "inGame": "Job-ended event for retirement, tenure from the job record (employer, position, workplace, pay, tenure) in the jobs module, and the player's tie to the person (coworker or former student).",
+  "turns": [
+    {
+      "turn": "classroom-left-as-is",
+      "summary": "The classroom is left as she knew it, and she says goodbye over a quiet lunch.",
+      "pulledBy": [
+        "a school that plans a gentler send-off",
+        "a warm principal"
+      ],
+      "writesBack": "The last day is calm, and a happy note is made."
+    },
+    {
+      "turn": "no-one-comes-to-say-goodbye",
+      "summary": "The day passes and hardly anyone stops by.",
+      "pulledBy": [
+        "a cold or busy workplace",
+        "a long tenure unseen by new staff"
+      ],
+      "writesBack": "The mood is sad, and the player may feel moved to visit."
+    },
+    {
+      "turn": "former-students-fill-the-room",
+      "summary": "Former students and coworkers fill the room with cards and flowers.",
+      "pulledBy": ["a long tenure", "a player tie of former student"],
+      "writesBack": "Ties among those present get closer, and the day is kept in the journal."
+    }
+  ]
 }

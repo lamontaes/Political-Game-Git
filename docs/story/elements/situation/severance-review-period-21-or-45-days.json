@@ -11,5 +11,31 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "needs: severance agreements and the revocation window; the person's age is on the person record."
+  "inGame": "needs: severance agreements and the revocation window; the person's age is on the person record. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "signs-on-the-spot",
+      "summary": "The person signs in the meeting without using the review time.",
+      "pulledBy": [
+        "a person who is stunned or trusting",
+        "a boss who is watching"
+      ],
+      "writesBack": "The terms are fixed, and regret may follow in the mood."
+    },
+    {
+      "turn": "uses-the-full-review-time",
+      "summary": "The person takes the whole review period and has the paper read by someone they trust.",
+      "pulledBy": [
+        "a careful person",
+        "a friend or relative who knows the rules"
+      ],
+      "writesBack": "The tie to the helper gets closer, and the terms may be bargained."
+    },
+    {
+      "turn": "employer-pushes-a-short-deadline",
+      "summary": "The employer asks for an answer in a few days despite the review time.",
+      "pulledBy": ["a pushy employer", "a group layoff"],
+      "writesBack": "The person pushes back or gives in, and the tie to the employer cools."
+    }
+  ]
 }

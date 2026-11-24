@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "New-coworker event when someone is hired where the player works; the newcomer's name and position come from the job record (employer, position, workplace, pay, tenure) in the jobs module."
+  "inGame": "New-coworker event when someone is hired where the player works; the newcomer's name and position come from the job record (employer, position, workplace, pay, tenure) in the jobs module.",
+  "turns": [
+    {
+      "turn": "manager-says-no-note",
+      "summary": "The manager says the team can learn who they are in person.",
+      "pulledBy": ["a blunt or busy manager", "a small team"],
+      "writesBack": "No note is sent, and the newcomer works to meet people one at a time."
+    },
+    {
+      "turn": "manager-writes-it-instead",
+      "summary": "The manager sends a short introduction themselves.",
+      "pulledBy": ["an organized manager", "a larger employer"],
+      "writesBack": "The team knows the newcomer's name, and the manager tie warms."
+    },
+    {
+      "turn": "newcomer-doesnt-ask",
+      "summary": "The newcomer is too shy to ask, and no one writes anything.",
+      "pulledBy": ["a shy newcomer", "who is watching"],
+      "writesBack": "The newcomer stays unknown for weeks, and the mood is lonely."
+    }
+  ]
 }

@@ -12,5 +12,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "The new hire's job record (employer, position, workplace, pay, tenure) in the jobs module; the manager is the person whose job record is the supervisor at the same workplace, with a coworker tie to the player when the player is the new hire."
+  "inGame": "The new hire's job record (employer, position, workplace, pay, tenure) in the jobs module; the manager is the person whose job record is the supervisor at the same workplace, with a coworker tie to the player when the player is the new hire.",
+  "turns": [
+    {
+      "turn": "manager-is-away",
+      "summary": "The manager is out and the new hire waits until a coworker steps in.",
+      "pulledBy": ["a busy manager", "a coworker tie that helps"],
+      "writesBack": "The coworker tie gets closer, and the manager tie starts late."
+    },
+    {
+      "turn": "meeting-is-a-quick-hello",
+      "summary": "The manager only says a quick hello and hands the new hire off to HR.",
+      "pulledBy": ["a rushed manager", "a large employer"],
+      "writesBack": "The new hire feels unwelcome, and a mood dips."
+    },
+    {
+      "turn": "coworker-greets-first",
+      "summary": "A friendly coworker greets the new hire at the door before the manager arrives.",
+      "pulledBy": ["a warm coworker", "the new-coworker event"],
+      "writesBack": "A friendly tie forms before the manager tie."
+    }
+  ]
 }

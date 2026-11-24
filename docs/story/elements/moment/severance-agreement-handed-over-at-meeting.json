@@ -11,5 +11,28 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Job-ended event; severance agreement is not in the game, so it needs: severance and agreement records."
+  "inGame": "Job-ended event; severance agreement is not in the game, so it needs: severance and agreement records. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "papers-sent-later",
+      "summary": "The person hears the news first, and the paper arrives in the mail a few days later.",
+      "pulledBy": ["a considerate employer", "a person who is shaken"],
+      "writesBack": "The person gets time to think, and the mood is steadier."
+    },
+    {
+      "turn": "no-paper-offered",
+      "summary": "The person hears the news and no agreement is offered.",
+      "pulledBy": ["an employer short of money", "a short tenure"],
+      "writesBack": "The person leaves with the last paycheck only, and the tie cools."
+    },
+    {
+      "turn": "person-refuses-to-sign-there",
+      "summary": "The person refuses to sign at the meeting and takes the paper home.",
+      "pulledBy": [
+        "a careful or guarded person",
+        "a friend who knows the rules"
+      ],
+      "writesBack": "The terms are bargained later, and the tie to the employer is strained."
+    }
+  ]
 }

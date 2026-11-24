@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "New-coworker and job-ended events at one workplace; remaining coworkers' mood can read from the count of ended jobs."
+  "inGame": "New-coworker and job-ended events at one workplace; remaining coworkers' mood can read from the count of ended jobs.",
+  "turns": [
+    {
+      "turn": "no-gathering",
+      "summary": "The employer says nothing to the staff who remain, and rumors spread.",
+      "pulledBy": ["a guarded employer", "a rushed cut"],
+      "writesBack": "Worry rises among the remaining staff, and trust in the manager falls."
+    },
+    {
+      "turn": "gathering-feels-hollow",
+      "summary": "The employer holds the meeting but staff feel it is a script and trust it little.",
+      "pulledBy": ["a distant boss", "who is watching the meeting"],
+      "writesBack": "Mood stays low, and the journal notes the meeting."
+    },
+    {
+      "turn": "manager-speaks-warmly",
+      "summary": "The manager speaks plainly about the loss and takes questions.",
+      "pulledBy": ["a warm manager", "coworker ties to those let go"],
+      "writesBack": "Trust is rebuilt, and the remaining staff stay on."
+    }
+  ]
 }

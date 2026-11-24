@@ -11,5 +11,32 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Follows the job-ended event: a later hire in the jobs module with a new pay; age is on the person. Targets should come from the simulation, not these figures, which only suggest direction."
+  "inGame": "Follows the job-ended event: a later hire in the jobs module with a new pay; age is on the person. Targets should come from the simulation, not these figures, which only suggest direction.",
+  "turns": [
+    {
+      "turn": "still-looking-after-a-year",
+      "summary": "The laid-off worker is still searching a year later.",
+      "pulledBy": [
+        "an older worker",
+        "a thin local job market",
+        "a weak school record"
+      ],
+      "writesBack": "Savings shrink, the mood sinks, and the journal notes the long search."
+    },
+    {
+      "turn": "takes-a-lower-paying-job",
+      "summary": "The worker takes new work at lower pay to cover bills.",
+      "pulledBy": [
+        "a pay figure that is too low to wait",
+        "a family to support"
+      ],
+      "writesBack": "A new job record starts at lower pay, and the mood is mixed."
+    },
+    {
+      "turn": "starts-own-work",
+      "summary": "The worker gives up on hiring and starts something of their own.",
+      "pulledBy": ["a bold or outgoing person", "a savings buffer"],
+      "writesBack": "A new work record begins, and ties to old coworkers help with the first customers."
+    }
+  ]
 }

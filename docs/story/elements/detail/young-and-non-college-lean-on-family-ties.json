@@ -11,5 +11,35 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Person's age and schooling on their record choose which tie to ask; the job-lost call is the carrier."
+  "inGame": "Person's age and schooling on their record choose which tie to ask; the job-lost call is the carrier.",
+  "turns": [
+    {
+      "turn": "asks-former-coworkers-instead",
+      "summary": "The job seeker goes to old coworkers and bosses before family.",
+      "pulledBy": [
+        "a person with a longer job record",
+        "a college degree on the school record",
+        "a guarded trait about family"
+      ],
+      "writesBack": "A work tie is used and warmed, and the family tie stays unused."
+    },
+    {
+      "turn": "too-proud-to-ask",
+      "summary": "The job seeker keeps the search to themselves and asks nobody.",
+      "pulledBy": [
+        "a guarded or proud person",
+        "the sense of being watched by family"
+      ],
+      "writesBack": "No lead is found, the mood sinks, and the journal notes the silence."
+    },
+    {
+      "turn": "family-has-no-lead",
+      "summary": "The relative or friend is asked but has no opening to offer.",
+      "pulledBy": [
+        "a relative with a small circle",
+        "a friend who is also out of work"
+      ],
+      "writesBack": "The tie stays warm, the person feels let down, and the search widens."
+    }
+  ]
 }

@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "New-coworker event plus the person's tie to the player (coworker) and traits such as shy or outgoing; no lunch mechanic, so it needs: a meal or break scene hook."
+  "inGame": "New-coworker event plus the person's tie to the player (coworker) and traits such as shy or outgoing; no lunch mechanic, so it needs: a meal or break scene hook. Scene: needs a producer for first-day-ropes.",
+  "turns": [
+    {
+      "turn": "waits-to-be-asked",
+      "summary": "The newcomer eats alone at the desk and waits for an invitation.",
+      "pulledBy": ["a shy or guarded newcomer", "who is watching"],
+      "writesBack": "No tie forms yet, and the first week feels lonely."
+    },
+    {
+      "turn": "colleague-turns-it-down",
+      "summary": "The colleague already has plans or a lunch habit and politely declines.",
+      "pulledBy": ["a busy or guarded colleague", "a tie that is still thin"],
+      "writesBack": "A small sting, and the newcomer tries someone else."
+    },
+    {
+      "turn": "colleague-invites-first",
+      "summary": "A colleague invites the newcomer before they can ask.",
+      "pulledBy": ["a warm coworker", "the new-coworker event"],
+      "writesBack": "A friendly tie forms, and the newcomer owes a return lunch."
+    }
+  ]
 }

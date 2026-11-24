@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: a tie-growth read tied to tenure; the coworker ties between people at one workplace can carry it, aged by tenure in the job record (employer, position, workplace, pay, tenure) in the jobs module."
+  "inGame": "Needs: a tie-growth read tied to tenure; the coworker ties between people at one workplace can carry it, aged by tenure in the job record (employer, position, workplace, pay, tenure) in the jobs module. Scene: needs a producer for first-day-ropes.",
+  "turns": [
+    {
+      "turn": "meeting-never-happens",
+      "summary": "The manager is too busy and the first-week one-on-one slips away.",
+      "pulledBy": ["a busy manager", "a large employer"],
+      "writesBack": "The newcomer's network stays small, and the manager tie stays thin."
+    },
+    {
+      "turn": "meeting-is-all-business",
+      "summary": "The one-on-one covers tasks only, with no talk about people or the team.",
+      "pulledBy": ["a blunt manager", "a rushed first week"],
+      "writesBack": "The newcomer learns the job but meets few coworkers, and ties grow slowly."
+    },
+    {
+      "turn": "manager-introduces-everyone",
+      "summary": "The manager uses the meeting to walk the newcomer around and name each coworker.",
+      "pulledBy": ["a warm manager", "a small workplace"],
+      "writesBack": "Several coworker ties form at once, and the newcomer feels welcome."
+    }
+  ]
 }

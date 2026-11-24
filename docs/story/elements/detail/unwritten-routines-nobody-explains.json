@@ -11,5 +11,28 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: a per-workplace habits record; today it can ride on the job record (employer, position, workplace, pay, tenure) in the jobs module and coworker ties, and be told by a senior coworker when the new-coworker event fires."
+  "inGame": "Needs: a per-workplace habits record; today it can ride on the job record (employer, position, workplace, pay, tenure) in the jobs module and coworker ties, and be told by a senior coworker when the new-coworker event fires. Scene: needs a producer for first-day-ropes.",
+  "turns": [
+    {
+      "turn": "senior-coworker-explains",
+      "summary": "A senior coworker walks the newcomer through the habits on the first day.",
+      "pulledBy": ["a warm or senior coworker", "the new-coworker event"],
+      "writesBack": "A tie with the senior coworker gets closer, and the newcomer fits in sooner."
+    },
+    {
+      "turn": "learns-by-getting-it-wrong",
+      "summary": "The newcomer breaks a habit, such as arriving late to the morning gathering, and is teased.",
+      "pulledBy": [
+        "a blunt coworker",
+        "a newcomer who is shy and does not ask"
+      ],
+      "writesBack": "The newcomer's mood dips and a coworker tie stays distant."
+    },
+    {
+      "turn": "manager-writes-it-down",
+      "summary": "The manager hands over a short written page of how the team works.",
+      "pulledBy": ["an organized manager", "a larger employer"],
+      "writesBack": "The newcomer starts steady, and the manager tie gets a bit warmer."
+    }
+  ]
 }

@@ -12,5 +12,28 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Job offer is not a record in the game; carried as a call from an employer to a person with a deadline slot, tied to the person's traits (careful, impulsive). Needs: an offer record with a deadline."
+  "inGame": "Job offer is not a record in the game; carried as a call from an employer to a person with a deadline slot, tied to the person's traits (careful, impulsive). Needs: an offer record with a deadline. Scene: needs a producer for job-offer.",
+  "turns": [
+    {
+      "turn": "says-yes-on-the-call",
+      "summary": "The candidate accepts on the spot and does not wait.",
+      "pulledBy": [
+        "an impulsive or eager candidate",
+        "a candidate short of money"
+      ],
+      "writesBack": "The job record begins, and other leads are dropped."
+    },
+    {
+      "turn": "turns-it-down-on-the-call",
+      "summary": "The candidate says no on the call because another job fits better.",
+      "pulledBy": ["a candidate with another lead", "a poor pay figure"],
+      "writesBack": "The offer closes, and the tie to the employer cools slightly."
+    },
+    {
+      "turn": "employer-refuses-the-days",
+      "summary": "The employer says the offer stands only today.",
+      "pulledBy": ["a pushy employer", "an urgent vacancy"],
+      "writesBack": "The candidate must decide under pressure, and trust in the employer drops."
+    }
+  ]
 }

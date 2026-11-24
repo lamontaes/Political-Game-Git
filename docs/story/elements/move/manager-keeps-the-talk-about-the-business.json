@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Job-ended event for a layoff, with the manager's traits deciding tone; the person's reaction by their traits."
+  "inGame": "Job-ended event for a layoff, with the manager's traits deciding tone; the person's reaction by their traits.",
+  "turns": [
+    {
+      "turn": "manager-blames-performance",
+      "summary": "The manager says the cut is about the person's work.",
+      "pulledBy": ["a blunt manager", "a poor note on the job record"],
+      "writesBack": "Trust in the boss falls, and the person's mood drops."
+    },
+    {
+      "turn": "manager-hides-behind-others",
+      "summary": "The manager passes the news to a human resources person and avoids the talk.",
+      "pulledBy": ["a guarded or timid manager", "a large employer"],
+      "writesBack": "The person feels brushed off, and the tie to the manager cools."
+    },
+    {
+      "turn": "manager-shares-the-pain",
+      "summary": "The manager admits the cut hurts them too and offers to be a reference.",
+      "pulledBy": ["a warm manager", "a long tie to the person"],
+      "writesBack": "The tie gets closer, and a promise of a reference is made."
+    }
+  ]
 }

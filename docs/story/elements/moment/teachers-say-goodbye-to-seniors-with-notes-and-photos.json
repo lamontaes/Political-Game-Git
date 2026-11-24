@@ -11,5 +11,28 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "A school and graduation or last day at school; the tie between the player and the teacher decides who gives a note."
+  "inGame": "A school and graduation or last day at school; the tie between the player and the teacher decides who gives a note.",
+  "turns": [
+    {
+      "turn": "no-goodbye-event",
+      "summary": "The school holds no goodbye, and seniors leave with little said.",
+      "pulledBy": ["a school with little money", "a busy or cold teacher"],
+      "writesBack": "No tie is renewed, and the last day passes quietly."
+    },
+    {
+      "turn": "teacher-gives-one-note",
+      "summary": "One teacher with a close tie writes a personal note while the others say nothing.",
+      "pulledBy": ["a warm teacher", "a close tie to the player"],
+      "writesBack": "That teacher tie gets closer, and a note is kept in the journal."
+    },
+    {
+      "turn": "student-skips-it",
+      "summary": "The graduating student skips the goodbye to be with friends.",
+      "pulledBy": [
+        "a student who is shy or restless",
+        "a friend tie that pulls elsewhere"
+      ],
+      "writesBack": "The teacher tie stays unfinished, and a small regret is noted."
+    }
+  ]
 }

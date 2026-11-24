@@ -11,5 +11,31 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: military service as a job record; leaving a job and searching can ride on the jobs module."
+  "inGame": "Needs: military service as a job record; leaving a job and searching can ride on the jobs module.",
+  "turns": [
+    {
+      "turn": "no-job-lined-up",
+      "summary": "The veteran leaves service with no job and starts to search right away.",
+      "pulledBy": [
+        "a person with no work contacts",
+        "the end of a service record"
+      ],
+      "writesBack": "A new search begins, and the mood is uneasy."
+    },
+    {
+      "turn": "job-through-a-buddy",
+      "summary": "A service friend passes along a lead at their own employer.",
+      "pulledBy": ["a friend from service", "a warm friend tie"],
+      "writesBack": "A job lead is made, and a favor is owed to the friend."
+    },
+    {
+      "turn": "takes-time-off-first",
+      "summary": "The veteran takes a few months before looking for work.",
+      "pulledBy": [
+        "a person with savings",
+        "a relative who offers a place to stay"
+      ],
+      "writesBack": "A gap is recorded in the job record, and the search starts later."
+    }
+  ]
 }

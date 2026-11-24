@@ -11,5 +11,28 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Job-ended event (a layoff) written by the jobs module, with the reason picked from the employer's records and the person's job record (employer, position, workplace, pay, tenure) in the jobs module."
+  "inGame": "Job-ended event (a layoff) written by the jobs module, with the reason picked from the employer's records and the person's job record (employer, position, workplace, pay, tenure) in the jobs module.",
+  "turns": [
+    {
+      "turn": "fired-for-performance",
+      "summary": "The job ends over the person's work, not the position.",
+      "pulledBy": ["a blunt boss", "a poor note on the job record"],
+      "writesBack": "A harsher journal note, a mood drop, and trust in the boss falls."
+    },
+    {
+      "turn": "plant-closes",
+      "summary": "The whole workplace closes and everyone goes at once.",
+      "pulledBy": [
+        "a layoff event for the business",
+        "the situation of the town"
+      ],
+      "writesBack": "Many people are out together, and ties among former coworkers grow closer."
+    },
+    {
+      "turn": "moved-to-another-role",
+      "summary": "The person's position is cut, but they are offered another role at the same employer.",
+      "pulledBy": ["a warm boss", "a record of good work"],
+      "writesBack": "The job record changes position, and a promise to keep the person on is made."
+    }
+  ]
 }

@@ -11,5 +11,32 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: an offer record with a deadline; the deadline slot can be filled by a short span on the employer's job-offer call."
+  "inGame": "Needs: an offer record with a deadline; the deadline slot can be filled by a short span on the employer's job-offer call. Scene: needs a producer for job-offer.",
+  "turns": [
+    {
+      "turn": "deadline-same-day",
+      "summary": "The employer wants an answer the same day.",
+      "pulledBy": [
+        "a pushy or hurried employer",
+        "a vacancy that must be filled now"
+      ],
+      "writesBack": "The candidate feels pressed, may turn down the offer, and the tie to the employer cools."
+    },
+    {
+      "turn": "deadline-a-week",
+      "summary": "The employer gives a full week, and the candidate uses it to weigh other leads.",
+      "pulledBy": [
+        "a patient employer",
+        "a candidate with another job lead",
+        "a record of the pay figure"
+      ],
+      "writesBack": "The candidate decides with more information, and the employer waits."
+    },
+    {
+      "turn": "deadline-extended",
+      "summary": "The employer extends the deadline when asked for a few more days.",
+      "pulledBy": ["a candidate who asks politely", "a warm hiring manager"],
+      "writesBack": "A small favor is owed, and the tie to the hiring manager gets closer."
+    }
+  ]
 }

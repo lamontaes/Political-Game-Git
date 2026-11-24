@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: relocation and contract terms on an offer; the person's job record carries only employer, position, workplace and pay."
+  "inGame": "Needs: relocation and contract terms on an offer; the person's job record carries only employer, position, workplace and pay. Scene: needs a producer for job-offer.",
+  "turns": [
+    {
+      "turn": "extra-time-granted",
+      "summary": "The employer grants the extra days for the move or contract review.",
+      "pulledBy": ["a flexible employer", "a candidate who asks politely"],
+      "writesBack": "The candidate answers later, and a small favor is owed."
+    },
+    {
+      "turn": "extra-time-refused",
+      "summary": "The employer says the deadline cannot move, even for a relocation.",
+      "pulledBy": ["a rigid employer", "a busy vacancy"],
+      "writesBack": "The candidate decides under pressure or turns the job down, and the tie cools."
+    },
+    {
+      "turn": "candidate-doesnt-ask",
+      "summary": "The candidate has a hard contract but does not ask for more time and signs in a rush.",
+      "pulledBy": ["a shy or eager candidate", "a candidate short of money"],
+      "writesBack": "A rushed job is taken, with a note of doubt in the journal."
+    }
+  ]
 }

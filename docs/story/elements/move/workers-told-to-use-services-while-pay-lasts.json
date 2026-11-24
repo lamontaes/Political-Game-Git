@@ -11,5 +11,25 @@
   "gates": [],
   "weights": {},
   "usedBy": [],
-  "inGame": "Needs: severance payments, which the game does not have; unemployment pay can ride on the job-ended event."
+  "inGame": "Needs: severance payments, which the game does not have; unemployment pay can ride on the job-ended event. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "nobody-mentions-services",
+      "summary": "No one tells the workers about the help available, and they find out late.",
+      "pulledBy": ["a hurried employer", "no help office nearby"],
+      "writesBack": "Benefits start late, and the mood sours."
+    },
+    {
+      "turn": "worker-waits-and-loses-time",
+      "summary": "The worker waits until the pay runs out before seeking help.",
+      "pulledBy": ["a proud or guarded worker", "a long tenure"],
+      "writesBack": "Money gets tight, and a late journal note shows the delay."
+    },
+    {
+      "turn": "coworker-drags-them-in",
+      "summary": "A coworker takes the worker to the help office the next day.",
+      "pulledBy": ["a warm coworker", "a tie of coworker to the worker"],
+      "writesBack": "The tie gets closer, and the worker starts the search sooner."
+    }
+  ]
 }
