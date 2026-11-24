@@ -190,7 +190,8 @@
     },
     "oath-alone": {
       "moves": ["oath"],
-      "needs": ["took-oath"]
+      "needs": ["took-oath"],
+      "fallback": true
     },
     "hard-run-told": {
       "moves": ["run", "run-meaning?"],
@@ -374,7 +375,8 @@
       "needs": ["about"]
     },
     "watched-said": {
-      "moves": ["watched", "said?"]
+      "moves": ["watched", "said?"],
+      "fallback": true
     },
     "looking-ahead": {
       "moves": ["ahead"]

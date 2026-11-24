@@ -63,6 +63,8 @@ interface ShapeRow {
   readonly needs?: readonly string[];
   /** The recorded facets that pull a speaker toward the shape. */
   readonly pull?: readonly string[];
+  /** Said only when no other shape of the section can be (a shorter form of a fuller shape). */
+  readonly fallback?: boolean;
 }
 
 const OUTLINES = outlineData as unknown as {
@@ -235,7 +237,8 @@ function shapeOrder(
     })
     .map((name) => ({
       name,
-      used: used.has(name) ? 1 : 0,
+      // A fallback shape counts as used: it is drawn only when nothing else fits.
+      used: used.has(name) || OUTLINES.shapes[name]!.fallback ? 1 : 0,
       pull: leanOf(traits, OUTLINES.shapes[name]!.pull),
     }))
     .sort(
