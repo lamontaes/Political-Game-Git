@@ -5866,9 +5866,9 @@ const sheets = {
               title: askWords.title,
               entries: asked.asks.map((ask) => ({
                 key: ask.id,
-                label: ask.candidate,
-                // The office they run for, not a figure: the page has the sum.
-                aside: ask.race,
+                // Office first, like every row of the list; the page names who asks.
+                label: ask.race,
+                aside: askWords.title,
                 data: { ask: ask.id },
                 ask,
               })),
