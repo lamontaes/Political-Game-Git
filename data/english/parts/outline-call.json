@@ -9096,6 +9096,447 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-realmname-is-still-living-with-thedisaster-and-this-years-work",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} is still living with {the-disaster}, and this year's work starts there.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-after-thedisaster-realmname-has-a-different-kind-of-year-ahead",
+      "move": "report",
+      "kind": "spoken",
+      "text": "After {the-disaster}, {realm-name} has a different kind of year ahead of it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-i-cant-give-this-report-without-starting-with-thedisaster-because",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I can't give this report without starting with {the-disaster}, because {realm-name} is still recovering.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-bodyword-and-i-come-from-the-same-party-and",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The {body-word} and I come from the same party, and {realm-name} will hold us both to what we do with that.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-holds-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-having-a-bodyword-that-shares-my-party-means-realmname-gets",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Having a {body-word} that shares my party means {realm-name} gets no excuses from either of us.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-holds-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-theres-no-one-else-to-blame-this-year-in-realmname",
+      "move": "report",
+      "kind": "spoken",
+      "text": "There's no one else to blame this year in {realm-name}: the {body-word} and I are on the same side of the aisle.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-holds-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-bodyword-and-i-dont-share-a-party-and-realmname",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The {body-word} and I don't share a party, and {realm-name} needs us to work anyway.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-lacks-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-nothing-gets-done-in-realmname-this-year-unless-the-bodyword",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Nothing gets done in {realm-name} this year unless the {body-word} and I agree to meet in the middle.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-lacks-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-i-came-here-knowing-the-bodyword-would-push-back-and",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I came here knowing the {body-word} would push back, and {realm-name} is better for it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "body-word", "party-lacks-body"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-im-hopeful-about-realmname-and-id-like-to-say-why",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I'm hopeful about {realm-name}, and I'd like to say why.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "kind-hopeful"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-hope-is-an-easy-thing-to-ask-for-in-realmname",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Hope is an easy thing to ask for in {realm-name} this year, and an easier thing to earn.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "kind-hopeful"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-realmname-is-in-a-hard-stretch-and-im-going-to",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} is in a hard stretch, and I'm going to say so plainly.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "kind-crisis"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-this-is-not-an-ordinary-year-for-realmname-and-i",
+      "move": "report",
+      "kind": "spoken",
+      "text": "This is not an ordinary year for {realm-name}, and I won't pretend it is.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "kind-crisis"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-people-in-realmname-have-work-this-year-than-last",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More people in {realm-name} have work this year than last, and that's where I'll start.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "jobs-better"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-work-is-easier-to-find-in-realmname-than-it-was",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Work is easier to find in {realm-name} than it was a year ago.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "jobs-better"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-work-is-harder-to-find-in-realmname-than-it-was",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Work is harder to find in {realm-name} than it was a year ago, and that's where I'll start.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "jobs-worse"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-too-many-people-in-realmname-are-out-of-work-this",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Too many people in {realm-name} are out of work this year, and the {body-word} knows it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "jobs-worse", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-realmname-has-more-coming-in-than-going-out-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} has more coming in than going out this year, and that gives the {body-word} a choice to make.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": [
+            "realm-name",
+            "condition-budget-ahead",
+            "body-word"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-realmnames-books-are-steady-this-year-which-is-not-the",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name}'s books are steady this year, which is not the same as easy.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "condition-budget-steady"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-ive-watched-realmname-change-over-a-lot-of-years-and",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I've watched {realm-name} change over a lot of years, and I've rarely seen a year like this one.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "context-years"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-people-of-realmname-have-waited-a-long-time-for",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The people of {realm-name} have waited a long time for some of what's on the table this year.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "context-years"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-ill-tell-you-what-i-believe-about-realmname-and-then",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I'll tell you what I believe about {realm-name}, and then I'll tell you what I want to do.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-realmname-has-a-law-on-the-books-that-this-years",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} has a law on the books that this year's work comes back to.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["realm-name", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
