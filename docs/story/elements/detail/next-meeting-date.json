@@ -18,12 +18,17 @@
     {
       "name": "no next date",
       "pulledBy": "a body that set none",
-      "writes": "the story says no date was set"
+      "writes": "the story says no date was set",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a next date that moves",
       "pulledBy": "a rescheduled meeting",
-      "writes": "a later story says it moved"
+      "writes": "a later story says it moved",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`meetings-week` rows (date, body); needs: the next meeting as a record"
 }

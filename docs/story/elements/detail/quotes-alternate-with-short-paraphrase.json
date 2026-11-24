@@ -18,12 +18,16 @@
     {
       "name": "all paraphrase",
       "pulledBy": "an owner with little to say",
-      "writes": "no quotes"
+      "writes": "no quotes",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a run of quotes",
       "pulledBy": "a talkative owner",
-      "writes": "three quotes in a row"
+      "writes": "three quotes in a row",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

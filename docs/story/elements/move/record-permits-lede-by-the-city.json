@@ -1,0 +1,34 @@
+{
+  "id": "record-permits-lede-by-the-city",
+  "kind": "move",
+  "summary": "The lede is that the city issued more permits than ever, with the count and the year.",
+  "realLife": "A city story opened on the town issuing over a thousand new-home permits, a record, with the year still running.",
+  "sources": [
+    "Community Impact (Austin edition), 'Leander swamped by record number of permit requests', Nov. 17, 2014 (updated June 2015; the page text came without paragraph breaks, so the paragraph order was rebuilt from sentence logic): https://communityimpact.com/cedar-park-leander/city-county/leander-swamped-by-record-number-of-permit-requests-2/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "number"],
+  "gates": [],
+  "weights": {
+    "homes-built": 1.0
+  },
+  "inGame": "`housing.completed` and the permits a town issues (`homes-built` news kind); needs: permits as a record separate from completions",
+  "turns": [
+    {
+      "name": "lede on a drop",
+      "pulledBy": "a year below the last",
+      "writes": "the lede says permits fell and by how much",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
+    },
+    {
+      "name": "lede on the people",
+      "pulledBy": "a town where buyers wait",
+      "writes": "the lede says how many families are waiting",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

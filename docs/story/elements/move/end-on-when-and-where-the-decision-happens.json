@@ -1,0 +1,34 @@
+{
+  "id": "end-on-when-and-where-the-decision-happens",
+  "kind": "move",
+  "summary": "The story ends on when and where the decision happens and how to read the source.",
+  "realLife": "The last lines gave the meeting time and links to the report and agenda.",
+  "sources": [
+    "Patch (Redwood City, California), 'Record Number Of ADU Approvals In Redwood City Last Year: Report', Mar. 18, 2022: https://patch.com/california/redwoodcity-woodside/record-number-adu-approvals-redwood-city-last-year-report",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body"],
+  "gates": [],
+  "weights": {
+    "meetings": 0.8
+  },
+  "inGame": "`meetings-week` rows (date, body); needs: a way to read the record",
+  "turns": [
+    {
+      "name": "ends on the result",
+      "pulledBy": "a decided item",
+      "writes": "the last line is the vote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "ends on a reaction",
+      "pulledBy": "a loud meeting",
+      "writes": "the last line is a resident's word",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

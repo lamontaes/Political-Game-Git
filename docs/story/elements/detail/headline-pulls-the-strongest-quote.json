@@ -18,12 +18,16 @@
     {
       "name": "headline is a fact",
       "pulledBy": "a plain opening",
-      "writes": "the headline says what opened and where"
+      "writes": "the headline says what opened and where",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "headline is a number",
       "pulledBy": "a big opening",
-      "writes": "the headline gives the seats or jobs"
+      "writes": "the headline gives the seats or jobs",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

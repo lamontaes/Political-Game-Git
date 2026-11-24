@@ -1,0 +1,35 @@
+{
+  "id": "topic-menu-after-the-count",
+  "kind": "move",
+  "summary": "One short line lists the topics residents raised, for skimming.",
+  "realLife": "Both town hall stories list the subjects raised in a single line before any official is quoted.",
+  "sources": [
+    "ALXnow (Alexandria, Virginia), 'Dozens attend second Alexandria City Council Town Hall of the year', June 13, 2025: https://www.alxnow.com/2025/06/13/dozens-attend-second-alexandria-city-council-town-hall-of-the-year/",
+    "WCBU Peoria Public Radio, 'Pekin residents question council members about roads, home rule and more', Nov. 6, 2025: https://www.wcbu.org/local-news/2025-11-06/pekin-residents-question-council-members-about-roads-home-rule-and-more",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["issue"],
+  "gates": [],
+  "weights": {
+    "town-hall": 0.9
+  },
+  "inGame": "public-action question (the demand or issue); needs: more than one topic per meeting",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "one topic only",
+      "pulledBy": "a single-issue meeting",
+      "writes": "the story names it and goes straight to the answers",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "topics left unsaid",
+      "pulledBy": "an issue the officials avoided",
+      "writes": "the story says what was not answered",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ]
+}

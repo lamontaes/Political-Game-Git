@@ -1,13 +1,13 @@
 ---
 name: scenes-from-life
 description: >
-  Grows scenes and dialogue from real political lives: take one episode from a
-  real American's life in office, write it as a fact packet, ask whether the
-  director and English engine would produce it from a played world's records,
-  and turn each gap into a producer, a bank or a SMART item. Never ships the
-  real person's words or name. Use when the owner says there are not enough
-  scenes, a season or office is quiet in play, or in a words-and-scenes lead
-  pass.
+  Grows scenes, speeches, talk, the Journal and the news from real lives through
+  one shared element bank (docs/story/elements): research real moments into
+  elements with turns, tie every line to an element, pick lines by the most
+  specific match to the world, and turn each gap into a producer or a question.
+  Never ships a real person's words or name. Use when writing or researching any
+  line, adding elements, or when the owner says scenes repeat or a stretch is
+  quiet in play.
 ---
 
 # Scenes from real lives
@@ -15,6 +15,28 @@ description: >
 **Look first:** run the `look-first` search before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because, again, you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes." Real life is the calibration set for scenes, the way real rates calibrate the simulation (`research-habit`). Nothing from it ships: no real name, no quoted line, no copied text. What ships is a producer that fires from the game's own records and bank lines written for the game's people.
+
+## The element bank (owner, Nov 24, 2026)
+
+The owner, Nov 24: "all of these shouldn't be necessarily written independently... use real life for everything... There should be a place where they can all see, I guess, the elements." And: "every single line in the game right now needs to be go back and matched to an element or an element created if there's not one... the opposite of most of these elements should also be possible as well, just like the laws."
+
+- **The bank.** It lives in `docs/story/elements/<kind>/<id>.json`, one file per element, so many writers can add at once without clashing. The kinds are moment, move, voice, situation, detail and consequence.
+- **Fields.**
+  - `id`, `kind`, and a one-sentence `summary` with slots.
+  - `realLife`: what real people did or said, paraphrased, with no more than 15 words quoted.
+  - `sources`: real https pages, with our own research notes as extra lines only.
+  - `fits`: which systems can use it (speeches, journal, home, news, campaign, office, loading, work-community).
+  - `inGame`: the records and mechanics that carry it, or `"needs: …"`, which goes to the owner as a question and is never built on a hunch.
+  - `slots`, `gates`, `weights`, `usedBy`, and `turns`.
+- **Turns.** Every element can go other ways: the opposite, neutral, partial or late. Each turn names what pulls it (traits, records, the situation, who is watching) and what it writes back. The director picks the turn from the world, never from a roll.
+- **Every line cites its elements.**
+  - A line in any bank that matches no element gets one, from real life or from the owner's own ideas (`docs/story/owner-ideas/`, `docs/coordination/voice-notes/`), turned into the general pattern and never a script.
+  - A line nothing real stands behind is deleted, not reworded.
+  - A line PR whose lines cite no element is sent back.
+- **Picking: the most specific match wins** (Valve's dynamic dialogue, Elan Ruskin, GDC 2012). The director holds the facts a moment can test. The element, turn or line whose conditions match the most facts plays, with general ones as the fallback. A line just used is down-weighted.
+- **Depth, not breadth** (owner, Nov 24: "a million times more variety"). Aim for hundreds of whole versions per slot, multiplied by the speaker's voice, record inserts, turns and the situation. The sameness gate measures it across many drawn lives.
+- **Element PRs** are docs only, titled `elements: …`, with the JSON formatted by Prettier and a `docs/release/changes/<id>.md` declaring `impact: none`. The CTO checks the sources and merges them.
+- **Nobody waits** (owner, Nov 24: "It keeps stopping at every little step. It needs to keep working."). Cite an element that is still in review. If you are blocked, post it once and move to the next element, slot or turn.
 
 ## The scope (owner, Oct 27)
 
@@ -70,3 +92,6 @@ When one situation (a knock at a door, a visit to office hours) needs many scene
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 17, 03:47Z: the owner found the real-lives scene bank "a little too specific" (dinner at home, the party's meeting room, a senator who comes to campaign). Cause: scenes tied to one place and one office. Write patterns with slots for the role ("a powerful officeholder") and the setting, and let a pattern feed or merge into others.
+- Nov 24: the first eight element PRs failed `repository` twice: once on Prettier, then on `release:check`, which counts element JSON as changed paths. Format the JSON and add the `impact: none` declaration in the first push.
+- Nov 24: a Codex writer stopped work to wait for its elements to reach main. Cite elements from open PRs and keep writing; the owner called the stopping "why nothing is getting done".
+- Nov 24: the first Claude writers' elements cited only our own research notes as sources. Every element names the real speech, paper or record behind it.

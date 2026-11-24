@@ -2,8 +2,9 @@
   "id": "constituent-stops-member-after-passage",
   "kind": "moment",
   "summary": "A constituent recognizes a member on the street and asks about a law that just passed.",
-  "realLife": "owner, Oct 27: A new law can prompt a resident to approach an officeholder in public.",
+  "realLife": "Marsha Blackburn told the House that a shopper with two children recognized her in a grocery aisle. The woman asked to speak about her hours at work and the insurance her family received through her job during the debate over the Affordable Care Act.",
   "sources": [
+    "https://www.congress.gov/113/crec/2014/04/03/CREC-2014-04-03.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
   ],
   "inGame": "The constituent-stop situation and the law’s jurisdiction establish who can ask about which law.",
@@ -18,6 +19,12 @@
       "what": "The constituent comes to office hours with the notice they received after passage.",
       "pulledBy": "The street conversation left the effective date uncertain.",
       "writesBack": "The follow-up ties the question to a dated notice."
+    },
+    {
+      "turn": "partial",
+      "what": "The member recognizes the law and has to look up when the resident’s provision takes effect.",
+      "pulledBy": "The enacted text gives different start dates for different sections.",
+      "writesBack": "The district office undertakes to send the date for the resident’s section."
     }
   ]
 }
