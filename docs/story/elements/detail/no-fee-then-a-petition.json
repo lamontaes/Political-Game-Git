@@ -1,0 +1,17 @@
+{
+  "id": "no-fee-then-a-petition",
+  "kind": "detail",
+  "summary": "A candidate who cannot pay the filing fee may instead hand in signatures worth the fee.",
+  "realLife": "A filing-fee petition is allowed, and its valid signatures must total at least the fee in dollars.",
+  "sources": [
+    "Washington Secretary of State, File for Office: https://www.sos.wa.gov/elections/candidates/filing-resources/file-office"
+  ],
+  "fits": ["loading"],
+  "slots": ["lost-office"],
+  "gates": [],
+  "weights": {
+    "money": 0.6
+  },
+  "inGame": "the petition and fee records the filing already keeps.",
+  "usedBy": []
+}

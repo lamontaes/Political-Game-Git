@@ -1,0 +1,17 @@
+{
+  "id": "the-first-loss-comes-before-the-first-win",
+  "kind": "consequence",
+  "summary": "The same man won the same kind of seat two years later and kept it for years.",
+  "realLife": "Lincoln won on August 4, 1834, representing Sangamon County, and was re-elected in 1836, 1838 and 1840.",
+  "sources": [
+    "National Park Service, Lincoln Chronology, Lincoln Home National Historic Site: https://www.nps.gov/liho/learn/historyculture/lincolnchronology.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["lost-year", "lost-office"],
+  "gates": [],
+  "weights": {
+    "votes": 0.5
+  },
+  "inGame": "needs: a later win after a lost race, told as the next section of the loading story.",
+  "usedBy": []
+}

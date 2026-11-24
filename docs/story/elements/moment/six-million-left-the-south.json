@@ -1,0 +1,17 @@
+{
+  "id": "six-million-left-the-south",
+  "kind": "moment",
+  "summary": "A very large number of families left the South over six decades, each by its own decision.",
+  "realLife": "About six million Black Americans moved from the South to Northern, Midwestern and Western states from the 1910s to the 1970s, escaping racial violence and seeking work and schools.",
+  "sources": [
+    "National Archives, The Great Migration (1910-1970): https://www.archives.gov/research/african-americans/migrations/great-migration"
+  ],
+  "fits": ["loading"],
+  "slots": ["moved-year", "moved-from", "moved-to"],
+  "gates": [],
+  "weights": {
+    "conditions": 0.8
+  },
+  "inGame": "needs: a migration wave in the history run that a moved record can cite. Voice: plain and respectful, never dry.",
+  "usedBy": []
+}

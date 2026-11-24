@@ -1,0 +1,17 @@
+{
+  "id": "a-move-changes-the-school",
+  "kind": "consequence",
+  "summary": "When a family moves, the school follows the new address, and the district has to be told.",
+  "realLife": "Families who move are told to update their address with the district; families who want a different school can apply to a choice program.",
+  "sources": [
+    "Seattle Public Schools, Enroll Now: https://www.seattleschools.org/enrollment/"
+  ],
+  "fits": ["loading"],
+  "slots": ["moved-year", "moved-to", "school-place"],
+  "gates": [],
+  "weights": {
+    "place": 0.5
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (move/moved-in, then school/started at the new place). needs: a school change tied to the move record.",
+  "usedBy": []
+}

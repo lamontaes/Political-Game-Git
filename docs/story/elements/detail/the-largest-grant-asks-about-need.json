@@ -1,0 +1,17 @@
+{
+  "id": "the-largest-grant-asks-about-need",
+  "kind": "detail",
+  "summary": "The biggest federal grant goes only to students who can show financial need.",
+  "realLife": "The Federal Pell Grant is the largest federal grant and requires demonstrated financial need.",
+  "sources": [
+    "NCES, Fast Facts: Financial aid: https://nces.ed.gov/fastfacts/display.asp?id=31"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year"],
+  "gates": [],
+  "weights": {
+    "money": 0.6
+  },
+  "inGame": "needs: a need test on the aid award, read from the household's money records.",
+  "usedBy": []
+}

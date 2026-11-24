@@ -1,0 +1,17 @@
+{
+  "id": "school-starting-age-is-the-states-call",
+  "kind": "detail",
+  "summary": "Each state sets its own age range for required school attendance, so there is no single national starting age.",
+  "realLife": "Compulsory attendance ranges differ by state; the table shows ages such as 6 to 17 in one state, 7 to 16 in another and 5 to 18 in a third.",
+  "sources": [
+    "NCES, compulsory school attendance laws by state (table 5.1, 2017): https://nces.ed.gov/programs/statereform/tab5_1.asp"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-year", "state"],
+  "gates": [],
+  "weights": {
+    "state": 0.7
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/started), and the player's state from the home place. needs: a state compulsory-age row in the school module.",
+  "usedBy": []
+}

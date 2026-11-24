@@ -1,0 +1,17 @@
+{
+  "id": "a-false-declaration-is-a-crime",
+  "kind": "detail",
+  "summary": "Giving false information on the declaration of candidacy is a felony.",
+  "realLife": "The page says giving false information on the Declaration of Candidacy is a class C felony.",
+  "sources": [
+    "Washington Secretary of State, File for Office: https://www.sos.wa.gov/elections/candidates/filing-resources/file-office"
+  ],
+  "fits": ["loading"],
+  "slots": ["lost-office"],
+  "gates": [],
+  "weights": {
+    "law": 0.5
+  },
+  "inGame": "needs: a false-filing offense in the justice engine's list.",
+  "usedBy": []
+}

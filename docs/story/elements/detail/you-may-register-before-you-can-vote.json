@@ -1,0 +1,17 @@
+{
+  "id": "you-may-register-before-you-can-vote",
+  "kind": "detail",
+  "summary": "In almost every state a person can register before turning eighteen if they will be eighteen by Election Day.",
+  "realLife": "Some states also let seventeen-year-olds who will be 18 by Election Day vote in primaries.",
+  "sources": [
+    "USAGov, Who can and cannot vote: https://www.usa.gov/who-can-vote"
+  ],
+  "fits": ["loading"],
+  "slots": ["start-year"],
+  "gates": [],
+  "weights": {
+    "age": 0.6
+  },
+  "inGame": "the registration record; needs: the primary rule for 17-year-olds.",
+  "usedBy": []
+}

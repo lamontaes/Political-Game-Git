@@ -1,0 +1,17 @@
+{
+  "id": "college-is-paid-for-in-grants-and-loans",
+  "kind": "moment",
+  "summary": "Paying for the first year comes down to two kinds of money: what is repaid and what is not.",
+  "realLife": "Grants and loans are the main federal aid for first-time, full-time undergraduates; loans typically have to be repaid and grants do not.",
+  "sources": [
+    "NCES, Fast Facts: Financial aid: https://nces.ed.gov/fastfacts/display.asp?id=31"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year"],
+  "gates": [],
+  "weights": {
+    "money": 0.7
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/college-started). needs: a student loan record opened at the start.",
+  "usedBy": []
+}

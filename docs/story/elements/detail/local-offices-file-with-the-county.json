@@ -1,0 +1,17 @@
+{
+  "id": "local-offices-file-with-the-county",
+  "kind": "detail",
+  "summary": "A candidate for a local seat files with the county elections office, and must be a registered voter in the district.",
+  "realLife": "The state office handles state and federal filings and tells candidates to contact the county elections office for other offices; online filers must be registered in the district.",
+  "sources": [
+    "Washington Secretary of State, File for Office: https://www.sos.wa.gov/elections/candidates/filing-resources/file-office"
+  ],
+  "fits": ["loading"],
+  "slots": ["lost-office", "place"],
+  "gates": [],
+  "weights": {
+    "place": 0.7
+  },
+  "inGame": "the filing records (clerk, registrar or board of elections from the place's own records), as the director reads for the filing visit.",
+  "usedBy": []
+}

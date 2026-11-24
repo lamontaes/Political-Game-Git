@@ -1,0 +1,17 @@
+{
+  "id": "school-is-assigned-by-address",
+  "kind": "moment",
+  "summary": "A district assigns a child to the neighborhood school for the address the family lives at.",
+  "realLife": "Students are assigned to a neighborhood school based on where they live, found with an address lookup tool and attendance-area maps.",
+  "sources": [
+    "Seattle Public Schools, Enroll Now: https://www.seattleschools.org/enrollment/"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-place", "school-year"],
+  "gates": [],
+  "weights": {
+    "place": 0.6
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/started, with its placeId).",
+  "usedBy": []
+}

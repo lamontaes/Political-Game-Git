@@ -1,0 +1,17 @@
+{
+  "id": "birth-is-a-form-the-state-keeps",
+  "kind": "moment",
+  "summary": "A birth becomes a state record: the law requires a certificate for every birth.",
+  "realLife": "State law requires a birth certificate to be completed for every birth, and the state forms feed a national count.",
+  "sources": [
+    "CDC National Center for Health Statistics, NVSS Birth Data: https://www.cdc.gov/nchs/nvss/births.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["born-year", "state"],
+  "gates": [],
+  "weights": {
+    "state": 0.6
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (the born/born event, with its year).",
+  "usedBy": []
+}
