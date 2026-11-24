@@ -1,0 +1,29 @@
+{
+  "id": "walk-the-caucus-through-each-title",
+  "kind": "move",
+  "summary": "A leader opens the revised text and answers colleagues’ objections one section at a time.",
+  "realLife": "Dirksen reviewed the compromise title by title with Republicans before the substitute reached the floor.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{caucus}", "{bill_title}"],
+  "gates": ["The caucus has the revised text."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a caucus briefing agenda with title-level questions and unresolved items.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The caucus spends the meeting on one disputed title.",
+      "pulledBy": "Members disagree about which cases the section would cover.",
+      "writesBack": "The remaining titles carry over to the next agenda."
+    },
+    {
+      "turn": "opposite",
+      "what": "The caucus sends written questions after members read the substitute on their own.",
+      "pulledBy": "The floor schedule leaves no common meeting time.",
+      "writesBack": "The negotiator receives a written list organized by title."
+    }
+  ]
+}

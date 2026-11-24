@@ -1,0 +1,30 @@
+{
+  "id": "unpaid-seat-or-city-paycheck",
+  "kind": "situation",
+  "summary": "A council member weighs another unpaid term against paid legal work for the same city.",
+  "realLife": "Calvin Coolidge passed up another unpaid Northampton council term to become city solicitor. He recalled that the salary mattered and the chance to become a better lawyer mattered more.",
+  "sources": [
+    "https://www.gutenberg.org/cache/epub/76649/pg76649-images.html",
+    "https://standardebooks.org/ebooks/calvin-coolidge/the-autobiography-of-calvin-coolidge/text/chapter-3"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{city}", "{job}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a paid city job offer and an unpaid council term with overlapping dates.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member declines the city job and stands for the unpaid term.",
+      "pulledBy": "Outside earnings cover the member's household and a council matter is unfinished.",
+      "writesBack": "The member files again and leaves the job open."
+    },
+    {
+      "turn": "late",
+      "what": "The member finishes the unpaid term before starting paid city work.",
+      "pulledBy": "The city can hold the position open until the term ends.",
+      "writesBack": "The two roles appear consecutively in the work record."
+    }
+  ]
+}
