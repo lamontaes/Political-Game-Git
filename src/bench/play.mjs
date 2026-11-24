@@ -6953,6 +6953,20 @@ function fitPagers(root) {
       image.addEventListener("load", () => fitPagersNow(root), { once: true });
   fitPagersNow(root);
 }
+/**
+ * A list that still scrolls takes the room a whole row, or a cap, could not use (owner, Nov 23: no
+ * scroller "when there's ample dead space"): a sheet that ends under its content stops at its
+ * tallest height, so the list's box grows by what is left of it instead of leaving a gap under it.
+ */
+function growIntoRoom(box) {
+  const sheet = $("sheet");
+  const tallest = parseFloat(getComputedStyle(sheet).maxHeight);
+  if (!Number.isFinite(tallest)) return;
+  const hidden = box.scrollHeight - box.clientHeight;
+  const room = tallest - sheet.getBoundingClientRect().height / uiScale();
+  if (hidden <= 1 || room <= 1) return;
+  box.style.maxHeight = `${box.clientHeight + Math.min(hidden, Math.floor(room))}px`;
+}
 function fitPagersNow(root, waits = 30) {
   window.requestAnimationFrame(() => {
     // A screen fitted as it is built waits for the sheet to mount it.
@@ -6984,7 +6998,10 @@ function fitPagersNow(root, waits = 30) {
         box.setRows(box.rowCount() + 1);
         break;
       }
+      growIntoRoom(box);
     }
+    // The News list is a capped list, not a pager: it takes the room the same way.
+    for (const list of root.querySelectorAll(".news-list")) growIntoRoom(list);
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {
