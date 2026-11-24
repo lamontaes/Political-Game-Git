@@ -1,0 +1,30 @@
+{
+  "id": "coalition-letter-has-many-uniforms",
+  "kind": "move",
+  "summary": "When {person} asks who supports the reimbursement bill, the sponsor can name county executives as well as ambulance and fire representatives.",
+  "realLife": "The New York sponsors reported support from county executive, health official and fire chief associations as well as ambulance organizations.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2024/michelle-hinchey/hinchey-kelles-ems-and-fire-coalition-urge-governor"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A dated endorsement list naming each represented organization."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a dated endorsement list naming each represented organization.",
+  "turns": [
+    {
+      "turn": "endorsed",
+      "pulledBy": "The organization appears on the endorsement.",
+      "what": "Attribute its position to that organization.",
+      "writesBack": "Attach the endorsement date."
+    },
+    {
+      "turn": "unconfirmed",
+      "pulledBy": "The organization has made no recorded endorsement.",
+      "what": "Ask its representative for a position.",
+      "writesBack": "Leave its name off the supporters list."
+    }
+  ]
+}
