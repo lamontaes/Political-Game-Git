@@ -1,0 +1,552 @@
+{
+  "schema": "english-parts/1",
+  "register": "scene-talk-office",
+  "description": "The governor's replies during an emergency briefing.",
+  "slots": {
+    "disaster": "The incident named in the emergency offer.",
+    "deadline": "The day the emergency offer expires."
+  },
+  "maxWords": 70,
+  "parts": [
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-i-ll-be-the-one-to-tell-people-what-to-do-about-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign. I'll be the one to tell people what to do about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["governor-will-give-instructions"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-when-you-explain-the-order-for-the-disaster-say-who-it-covers",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. When you explain the order for the {disaster}, say who it covers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["advisory-names-who-should-leave"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.declare-it-the-counties-should-hear-our-plans-for-the-disaster-from-us-first",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Declare it. The counties should hear our plans for the {disaster} from us first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-m-declaring-an-emergency-for-the-disaster-who-calls-the-county-offices",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm declaring an emergency for the {disaster}. Who calls the county offices?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["briefing-travels-through-county"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-now-health-officials-shouldn-t-have-to-wait-until-deadline-to-hear-from-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign now. Health officials shouldn't have to wait until {deadline} to hear from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["health-office-missing-from-plan"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-get-me-someone-who-has-seen-the-disaster-firsthand",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Get me someone who has seen the {disaster} firsthand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["president-names-the-envoy"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-the-order-for-the-disaster-how-can-i-reach-you-from-here",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign the order for the {disaster}. How can I reach you from here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["white-house-sends-phone-crew"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.declare-it-what-should-the-hospitals-tell-staff-who-live-near-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Declare it. What should the hospitals tell staff who live near the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "solemn",
+      "elements": ["health-workers-leave-too"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-when-you-brief-people-about-the-disaster-say-what-we-know-so-far",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign. When you brief people about the {disaster}, say what we know so far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["readings-and-forecast-disagree"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-i-d-like-to-speak-with-whoever-recommended-declaring-an-emergency-for-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'd like to speak with whoever recommended declaring an emergency for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["governor-calls-to-confirm-advice"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.give-me-the-order-for-the-disaster-to-sign-and-a-copy-the-papers-can-print",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Give me the order for the {disaster} to sign and a copy the papers can print.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["fact-sheet-after-presidents-statement"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-announce-the-declaration-will-you-stay-to-answer-questions-about-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll announce the declaration. Will you stay to answer questions about the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["advisers-take-over-press-room"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-won-t-wait-until-deadline-i-ll-sign-today-and-explain-why",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I won't wait until {deadline}. I'll sign today and explain why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "solemn",
+      "elements": ["governor-explains-precaution"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.declare-it-who-can-speak-for-us-if-people-call-about-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Declare it. Who can speak for us if people call about the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["chair-authorized-to-speak-in-emergency"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-before-i-speak-about-the-disaster-tell-the-local-emergency-offices",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign. Before I speak about the {disaster}, tell the local emergency offices.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["county-learns-from-broadcast"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-declare-it-what-should-families-do-about-the-disaster-once-they-hear-from-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, declare it. What should families do about the {disaster} once they hear from me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "calm",
+      "elements": ["advisory-names-who-should-leave"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-sign-the-order-for-the-disaster-has-the-department-head-heard-your-recommendation",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign the order for the {disaster}. Has the department head heard your recommendation?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "guarded",
+      "elements": ["advice-issued-before-supervisors-reached"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.yes-who-can-go-see-the-disaster-and-report-straight-back-to-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Who can go see the {disaster} and report straight back to me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "steady",
+      "elements": ["envoy-takes-staff-along"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.get-me-the-order-to-sign-who-s-briefing-public-health-on-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Get me the order to sign. Who's briefing public health on the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "solemn",
+      "elements": ["health-office-missing-from-plan"]
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-declare-it-today-please-have-the-counties-tell-their-towns-what-we-re-doing-about-the-disaster",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll declare it today. Please have the counties tell their towns what we're doing about the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"],
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      },
+      "bearing": "firm",
+      "elements": ["briefing-travels-through-county"]
+    }
+  ]
+}
