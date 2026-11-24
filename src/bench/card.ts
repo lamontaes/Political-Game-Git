@@ -1158,7 +1158,11 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       ...line.slots,
       ...(stretchWay ? { then: stretchWay.text } : {}),
       ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
-      who: first ? teller.name : (teller.words?.subject ?? ""),
+      // The subject of a sentence about them, from their record's pronouns
+      // (the they form says "they"; the player's own life says "I").
+      who: first
+        ? teller.name
+        : (teller.words?.subject ?? (voice === "i" ? "I" : "they")),
       whom: first ? teller.name : (teller.words?.object ?? ""),
       their: teller.words?.possessive ?? (first ? "their" : ""),
     };
