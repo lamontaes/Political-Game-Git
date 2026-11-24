@@ -76,54 +76,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-on-i-think-the-president-has-it-wrong",
-      "move": "mine",
-      "kind": "written",
-      "text": "On {theme-short}, I think the President has it wrong.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-can-t-tell-yet-what-i-think-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I can't tell yet what I think about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-intimacy-guarded"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
       "key": "outline-diary.ahead.journal-evening-tomorrow-i-start-working-out-where-i-fit-in",
       "move": "ahead",
       "kind": "written",
@@ -479,81 +431,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-on-the-president-and-i-are-on-the-same-side",
-      "move": "mine",
-      "kind": "written",
-      "text": "On {about}, the President and I are on the same side.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-generous"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-hearing-named-in-the-speech-i-caught-myself-nodding",
-      "move": "mine",
-      "kind": "written",
-      "text": "Hearing {about} named in the speech, I caught myself nodding.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-of-everything-in-the-speech-was-the-part-i-would-have-said-myself",
-      "move": "mine",
-      "kind": "written",
-      "text": "Of everything in the speech, {about} was the part I would have said myself.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
       "key": "outline-diary.mine.journal-evening-was-where-i-stopped-agreeing",
       "move": "mine",
       "kind": "written",
@@ -575,111 +452,6 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-my-answer-on-is-no-and-one-speech-did-not-move-it",
-      "move": "mine",
-      "kind": "written",
-      "text": "My answer on {about} is no, and one speech did not move it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-cynical", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-push-through-and-i-will-be-one-of-the-people-complaining",
-      "move": "mine",
-      "kind": "written",
-      "text": "Push {about} through and I will be one of the people complaining.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-sassy"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-ask-me-about-next-week-and-i-might-have-an-answer",
-      "move": "mine",
-      "kind": "written",
-      "text": "Ask me about {about} next week and I might have an answer.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-intimacy-guarded",
-        "personality-v1:facet-shy"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-deserves-more-thought-than-one-speech-gave-it",
-      "move": "mine",
-      "kind": "written",
-      "text": "{theme-short} deserves more thought than one speech gave it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-contented"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
       ]
     },
     {
@@ -969,111 +741,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-count-me-in-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "Count me in on {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-not-one-word-on-sounded-right-to-me",
-      "move": "mine",
-      "kind": "written",
-      "text": "Not one word on {about} sounded right to me.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-cynical",
-        "personality-v1:facet-observant"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-have-not-made-up-my-mind-about-and-tonight-did-not-settle-it",
-      "move": "mine",
-      "kind": "written",
-      "text": "I have not made up my mind about {about}, and tonight did not settle it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-contented"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-maybe-is-right-i-would-need-to-see-it-work-first",
-      "move": "mine",
-      "kind": "written",
-      "text": "Maybe {about} is right. I would need to see it work first.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-cynical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
       "key": "outline-diary.said.journal-evening-was-there-anything-in-the-speech-besides-not-that-i-noticed",
       "move": "said",
       "kind": "written",
@@ -1201,30 +868,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-about-i-am-a-no-tonight-and-probably-tomorrow-too",
-      "move": "mine",
-      "kind": "written",
-      "text": "About {about}, I am a no, tonight and probably tomorrow too.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
       "key": "outline-diary.mine.journal-evening-the-speech-made-its-case-on-and-the-case-did-not-work-on-me",
       "move": "mine",
       "kind": "written",
@@ -1249,30 +892,6 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-is-the-answer-i-am-not-ready-to-say",
-      "move": "mine",
-      "kind": "written",
-      "text": "Is {about} the answer? I am not ready to say.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-studious"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
       ]
     },
     {
@@ -1531,33 +1150,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-am-for-and-the-president-saying-so-does-not-hurt",
-      "move": "mine",
-      "kind": "written",
-      "text": "I am for {about}, and the President saying so does not hurt.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-deferential",
-        "personality-v1:facet-sassy"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
       "key": "outline-diary.mine.journal-evening-when-came-up-i-leaned-forward",
       "move": "mine",
       "kind": "written",
@@ -1579,192 +1171,6 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-is-exactly-what-i-would-have-asked-for",
-      "move": "mine",
-      "kind": "written",
-      "text": "{about} is exactly what I would have asked for.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-generous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-the-more-i-think-about-the-less-i-like-it",
-      "move": "mine",
-      "kind": "written",
-      "text": "The more I think about {about}, the less I like it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-there-were-a-dozen-better-ways-to-handle",
-      "move": "mine",
-      "kind": "written",
-      "text": "There were a dozen better ways to handle {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-somebody-should-tell-the-president-what-looks-like-from-here",
-      "move": "mine",
-      "kind": "written",
-      "text": "Somebody should tell the President what {theme-short} looks like from here.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-can-wait-until-i-know-more",
-      "move": "mine",
-      "kind": "written",
-      "text": "{about} can wait until I know more.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-would-need-to-hear-the-other-side-on-before-i-took-one",
-      "move": "mine",
-      "kind": "written",
-      "text": "I would need to hear the other side on {about} before I took one.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-is-a-question-i-am-still-working-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "{theme-short} is a question I am still working on.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
       ]
     },
     {
@@ -2356,54 +1762,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-the-president-is-wrong-about-i-am-sure-of-it",
-      "move": "mine",
-      "kind": "written",
-      "text": "The President is wrong about {about}, I am sure of it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-hot-headed"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-would-like-to-know-more-about-before-i-take-a-side",
-      "move": "mine",
-      "kind": "written",
-      "text": "I would like to know more about {about} before I take a side.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-tactful"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
       "key": "outline-diary.watched.journal-evening-watched-s-speech-on-the-tv-tonight",
       "move": "watched",
       "kind": "written",
@@ -2697,32 +2055,6 @@
         }
       ],
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "names-who-else-was-listening"
-      ]
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-i-turned-on-the-tv-and-watched-by-myself",
-      "move": "watched",
-      "kind": "written",
-      "text": "I turned on the TV and watched {president-name} by myself.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["alone", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-generous",
-        "personality-v1:facet-self-conscious"
-      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
@@ -3031,369 +2363,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-agree-with-the-president-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I agree with the President about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-deferential",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-think-the-president-is-right-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I think the President is right about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-self-conscious",
-        "personality-v1:facet-defensive"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-support-same-as-the-president",
-      "move": "mine",
-      "kind": "written",
-      "text": "I support {about}, same as the President.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-am-for",
-      "move": "mine",
-      "kind": "written",
-      "text": "I am for {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-shy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-disagree-with-the-president-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I disagree with the President about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-enterprising",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-think-the-president-is-wrong-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I think the President is wrong about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-am-against",
-      "move": "mine",
-      "kind": "written",
-      "text": "I am against {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-shy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-think-is-a-mistake",
-      "move": "mine",
-      "kind": "written",
-      "text": "I think {about} is a mistake.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-generous", "personality-v1:facet-cynical"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-do-not-know-yet-what-i-think-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I do not know yet what I think about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-have-not-decided-about",
-      "move": "mine",
-      "kind": "written",
-      "text": "I have not decided about {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-independent"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-am-undecided-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "I am undecided on {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-self-conscious",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-need-to-know-more-before-i-take-a-side-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "I need to know more before I take a side on {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-deferential",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-cannot-say-yet-whether-i-am-for",
-      "move": "mine",
-      "kind": "written",
-      "text": "I cannot say yet whether I am for {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-contented",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-would-like-to-read-more-about-first",
-      "move": "mine",
-      "kind": "written",
-      "text": "I would like to read more about {about} first.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-teasing", "personality-v1:facet-studious"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
       "key": "outline-diary.ahead.journal-evening-tomorrow-i-will-talk-to-people-in-about-the-speech",
       "move": "ahead",
       "kind": "written",
@@ -3539,33 +2508,6 @@
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-meticulous"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "ordinary-day-follows-the-event",
-        "ends-the-entry-on-bed"
-      ]
-    },
-    {
-      "key": "outline-diary.ahead.journal-evening-tomorrow-i-will-listen-for-what-people-in-say-about-the-speech",
-      "move": "ahead",
-      "kind": "written",
-      "text": "Tomorrow I will listen for what people in {place} say about the speech.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "ahead",
-          "tie": "record",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-tender-hearted"
-      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
@@ -3787,135 +2729,6 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-do-not-know-yet-what-to-make-of-tonight-s-speech-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "I do not know yet what to make of tonight's speech on {theme-short}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-self-conscious"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-will-have-to-wait-and-see-what-comes-to",
-      "move": "mine",
-      "kind": "written",
-      "text": "I will have to wait and see what {about} comes to.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-want-to-see-how-would-work-before-i-say-yes-or-no",
-      "move": "mine",
-      "kind": "written",
-      "text": "I want to see how {about} would work before I say yes or no.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-unsure"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-charming", "personality-v1:facet-teasing"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-agreed-with-the-president-about-and-i-will-say-so-tomorrow",
-      "move": "mine",
-      "kind": "written",
-      "text": "I agreed with the President about {about}, and I will say so tomorrow.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-did-not-agree-with-the-president-about-and-i-will-say-so-tomorrow",
-      "move": "mine",
-      "kind": "written",
-      "text": "I did not agree with the President about {about}, and I will say so tomorrow.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-against"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-nurturing",
-        "personality-v1:facet-charming"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
-      ]
-    },
-    {
       "key": "outline-diary.said.journal-evening-the-speech-came-back-to-more-than-once",
       "move": "said",
       "kind": "written",
@@ -3968,21 +2781,22 @@
       ]
     },
     {
-      "key": "outline-diary.watched.journal-evening-gave-the-speech-tonight-and-i-was-the-only-one-in-the-house-watching",
-      "move": "watched",
+      "key": "outline-diary.mine.journal-evening-i-agree-with-the-president-about",
+      "move": "mine",
       "kind": "written",
-      "text": "{president-name} gave the speech tonight, and I was the only one in the house watching.",
+      "text": "I agree with the President about {theme-short}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "watched",
+          "role": "mine",
           "tie": "record",
-          "requiresFacts": ["alone", "president-name"]
+          "requiresFacts": ["theme-short", "stand-with"]
         }
       ],
+      "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-tender-hearted"
+        "personality-v1:facet-practical",
+        "personality-v1:facet-friendly"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3990,7 +2804,397 @@
       "elements": [
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
-        "names-who-else-was-listening"
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-think-the-president-has-the-right-idea-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I think the President has the right idea about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-cynical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-side-with-the-president-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I side with the President on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-sassy"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-would-have-said-the-same-thing-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I would have said the same thing about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-sassy",
+        "personality-v1:facet-enterprising"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-the-president-is-right-about-and-i-will-say-so",
+      "move": "mine",
+      "kind": "written",
+      "text": "The President is right about {theme-short}, and I will say so.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-contented",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-have-no-quarrel-with-what-the-president-said-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I have no quarrel with what the President said about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-what-the-president-said-about-is-what-i-think",
+      "move": "mine",
+      "kind": "written",
+      "text": "What the President said about {theme-short} is what I think.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-nurturing"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-will-tell-people-i-agree-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I will tell people I agree about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-shy", "personality-v1:facet-teasing"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-back-the-president-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I back the President on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-disagree-with-the-president-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I disagree with the President about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-nurturing"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-think-the-president-is-wrong-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I think the President is wrong about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-will-tell-people-i-disagree-about",
+      "move": "mine",
+      "kind": "written",
+      "text": "I will tell people I disagree about {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-nurturing", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-am-not-with-the-president-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I am not with the President on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-enterprising"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-what-the-president-said-about-is-not-what-i-think",
+      "move": "mine",
+      "kind": "written",
+      "text": "What the President said about {theme-short} is not what I think.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-independent"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-take-the-other-side-from-the-president-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "I take the other side from the President on {theme-short}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-think-the-president-got-wrong",
+      "move": "mine",
+      "kind": "written",
+      "text": "I think the President got {theme-short} wrong.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-generous"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
       ]
     }
   ]
