@@ -30,3 +30,7 @@
 - Not reached: nothing.
 
 Replay: start the bench, choose New game, Advanced, and use the seed above.
+
+## Reply trees (grading page v2)
+
+`tree-life-1.json` is life 1's tree (Greeley, Colorado, seed `56f2d087-96cd-49e1-85d4-ba22eb3c176e`, head 1ca359b2). Each scene with replies is a node: the line, the replies offered (and the lies, when the game offers any), and for each reply the lines that follow, with each line's piece key, `elements`, `issues`, bank and record ids. `kind: "story-scene"` trees (a door knock, an interview call) come whole from the game's own story payload (`talk.tree`), so every branch is the game's own. `kind: "conversation"` trees (a talk with someone at home) were branched from the same recorded request log, rebuilt from the same seed once per reply and once per lie, to two levels; a `result.lines` list there is the whole talk so far, the earlier lines first. Nothing was re-rolled and no scene was triggered through dev mode.

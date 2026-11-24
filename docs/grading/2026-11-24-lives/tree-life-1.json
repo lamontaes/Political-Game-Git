@@ -1,0 +1,1736 @@
+{
+ "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
+ "life": 1,
+ "policy": "warm",
+ "place": "Greeley, Colorado",
+ "seed": "56f2d087-96cd-49e1-85d4-ba22eb3c176e",
+ "note": "story-scene trees come whole from the game's own story payload; conversation trees are branched from the same recorded request log rebuilt on the same seed, once per reply and per lie, to two levels",
+ "scenes": [
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_dd22a271bb473973",
+   "otherId": "person_dd22a271bb473973",
+   "scene": {
+    "n": 3,
+    "title": "Talk at home with Parker Potts",
+    "when": "Monday, January 20, 20257:00 PM",
+    "here": "Parker Potts, Emma Potts, Sebastian Potts, Lucy Potts"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Parker Potts",
+      "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+      "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+      "elements": [],
+      "issues": [],
+      "bank": "outline:talk-address-point",
+      "recordIds": [
+       "person_dd22a271bb473973",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:health.medicare-drug-price-negotiation",
+       "data/research/powers-catalog/catalog.json#medicare/federal",
+       "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "household_02e90f72d5e30344",
+       "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "You're right about that, Dad.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_02e90f72d5e30344",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:health.medicare-drug-price-negotiation",
+       "data/research/powers-catalog/catalog.json#medicare/federal",
+       "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_dd22a271bb473973",
+       "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Parker Potts",
+         "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+         "elements": [],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_dd22a271bb473973",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_02e90f72d5e30344",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+         ]
+        },
+        {
+         "who": "Samantha Potts",
+         "text": "You're right about that, Dad.",
+         "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_dd22a271bb473973",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+         ]
+        },
+        {
+         "who": "Parker Potts",
+         "text": "That's two of us in Greeley, then.",
+         "piece": "conversation.address-point-back-agree.that-s-two-of-us-in-place-then",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_02e90f72d5e30344",
+          "person_dd22a271bb473973",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+          "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:agree"
+         ]
+        },
+        {
+         "who": "Parker Potts",
+         "text": "I've said it before: I want Medicare negotiating drug prices.",
+         "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_dd22a271bb473973",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "person_dd22a271bb473973"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "I'm on the other side of it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "person_dd22a271bb473973"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Parker Potts",
+            "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_dd22a271bb473973",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "You're right about that, Dad.",
+            "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "That's two of us in Greeley, then.",
+            "piece": "conversation.address-point-back-agree.that-s-two-of-us-in-place-then",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I've said it before: I want Medicare negotiating drug prices.",
+            "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I'm on the other side of it.",
+            "piece": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "Fair enough. We don't have to agree on it.",
+            "piece": "conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "I hadn't looked at it that way before.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "person_dd22a271bb473973"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Parker Potts",
+            "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_dd22a271bb473973",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "You're right about that, Dad.",
+            "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "That's two of us in Greeley, then.",
+            "piece": "conversation.address-point-back-agree.that-s-two-of-us-in-place-then",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I've said it before: I want Medicare negotiating drug prices.",
+            "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I hadn't looked at it that way before.",
+            "piece": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "I don't know. I'm with him on this one.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-disagree.i-don-t-know-i-m-with-president-object-on-this-one",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_02e90f72d5e30344",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:health.medicare-drug-price-negotiation",
+       "data/research/powers-catalog/catalog.json#medicare/federal",
+       "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_dd22a271bb473973",
+       "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Parker Potts",
+         "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+         "elements": [],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_dd22a271bb473973",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_02e90f72d5e30344",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+         ]
+        },
+        {
+         "who": "Samantha Potts",
+         "text": "I don't know. I'm with him on this one.",
+         "piece": "conversation.address-point-answer-disagree.i-don-t-know-i-m-with-president-object-on-this-one",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_dd22a271bb473973",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+         ]
+        },
+        {
+         "who": "Parker Potts",
+         "text": "You'll come around, Samantha. Or I will.",
+         "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:health.medicare-drug-price-negotiation",
+          "data/research/powers-catalog/catalog.json#medicare/federal",
+          "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_02e90f72d5e30344",
+          "person_dd22a271bb473973",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+          "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:disagree"
+         ]
+        },
+        {
+         "who": "Parker Potts",
+         "text": "I've said it before: I want Medicare negotiating drug prices.",
+         "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_dd22a271bb473973",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+          "person_dd22a271bb473973"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "I'm on the other side of it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+          "person_dd22a271bb473973"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Parker Potts",
+            "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_dd22a271bb473973",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I don't know. I'm with him on this one.",
+            "piece": "conversation.address-point-answer-disagree.i-don-t-know-i-m-with-president-object-on-this-one",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "You'll come around, Samantha. Or I will.",
+            "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I've said it before: I want Medicare negotiating drug prices.",
+            "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I'm on the other side of it.",
+            "piece": "conversation.own-view-answer-disagree.i-m-on-the-other-side-of",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "Fair enough. We don't have to agree on it.",
+            "piece": "conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "I hadn't looked at it that way before.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_02e90f72d5e30344",
+          "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+          "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+          "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+          "person_dd22a271bb473973"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Parker Potts",
+            "text": "We ought to let Medicare negotiate drug prices, whatever the President says.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_dd22a271bb473973",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I don't know. I'm with him on this one.",
+            "piece": "conversation.address-point-answer-disagree.i-don-t-know-i-m-with-president-object-on-this-one",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "You'll come around, Samantha. Or I will.",
+            "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:health.medicare-drug-price-negotiation",
+             "data/research/powers-catalog/catalog.json#medicare/federal",
+             "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_02e90f72d5e30344",
+             "person_dd22a271bb473973",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I've said it before: I want Medicare negotiating drug prices.",
+            "piece": "conversation.own-view-say-core.i-ve-said-it-before-i-want-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Samantha Potts",
+            "text": "I hadn't looked at it that way before.",
+            "piece": "conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_02e90f72d5e30344",
+             "person_dd22a671bb47403f:us-federal-positions:health.medicare-drug-price-negotiation",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973"
+            ]
+           },
+           {
+            "who": "Parker Potts",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_dd22a271bb473973",
+             "views:stances:person_dd22a271bb473973:us-federal-positions:health.medicare-drug-price-negotiation",
+             "kinship_c1c6e2eda30c4de1:past:person_dd22a671bb47403f",
+             "person_dd22a271bb473973",
+             "conversation:person_dd22a671bb47403f:person_dd22a271bb473973:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "door-ask",
+   "purpose": "ask-support.sick",
+   "momentId": "person_dd22a671bb47403f:2025-01-20:cause:person_1a5cb6b9cf7d1c24:person_dd22a671bb47403f:2025-01-20:1",
+   "scene": {
+    "n": 6,
+    "title": "Knock on doors",
+    "when": "Tuesday, January 21, 202510:00 AM",
+    "here": "Frederick Stein"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Late in the morning on January 21st, you knock, and Frederick Stein opens the door.",
+     "piece": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
+     "elements": [],
+     "issues": [],
+     "recordIds": [
+      "person_dd22a671bb47403f:2025-01-20:cause:person_1a5cb6b9cf7d1c24:person_dd22a671bb47403f:2025-01-20:1",
+      "person_1a5cb6b9cf7d1c24",
+      "cause:person_1a5cb6b9cf7d1c24:person_dd22a671bb47403f:2025-01-20:1"
+     ]
+    }
+   ],
+   "opening": [
+    {
+     "who": "Samantha Potts",
+     "text": "Good morning. I'm Samantha, and I'm out early asking for votes for the Greeley City Council.",
+     "piece": "scene-talk.state-request.good-morning-i-m-self-and-i-m-out-early-asking-for-votes-for-office",
+     "elements": [
+      "door-answer-is-frustration-with-the-body",
+      "door-ask-is-what-should-the-office-do",
+      "door-lets-a-candidate-meet-neighbors"
+     ],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [
+     {
+      "who": "Frederick Stein",
+      "text": "I haven't been well. I can't think about the race for the Greeley City Council right now.",
+      "piece": "scene-talk.reply-decline.i-haven-t-been-well-i-can-t-think-about-the-race-for-office-right-now",
+      "elements": [],
+      "issues": []
+     }
+    ],
+    "choices": [
+     {
+      "text": "No pressure. I'll be on this block again before November 4.",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.follow-accept.no-pressure-i-ll-be-on-this-block-again-before-vote-day",
+      "elements": [
+       "door-answer-is-frustration-with-the-body",
+       "door-ask-is-what-should-the-office-do",
+       "door-lets-a-candidate-meet-neighbors"
+      ],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [],
+       "choices": [],
+       "end": {
+        "outcome": "refused"
+       }
+      }
+     },
+     {
+      "text": "Is it me, or is it the race for the Greeley City Council you're unsure of?",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.follow-press.is-it-me-or-is-it-the-race-for-office-you-re-unsure-of",
+      "elements": [
+       "door-answer-is-frustration-with-the-body",
+       "door-ask-is-what-should-the-office-do",
+       "door-lets-a-candidate-meet-neighbors"
+      ],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Frederick Stein",
+         "text": "I'm busy, and the race for the Greeley City Council isn't something I follow. Maybe closer to November 4.",
+         "piece": "scene-talk.reply-decline.i-m-busy-and-the-race-for-office-isn-t-something-i-follow-maybe-closer-to-vote-d",
+         "elements": [
+          "door-answer-is-frustration-with-the-body",
+          "door-ask-is-what-should-the-office-do",
+          "door-lets-a-candidate-meet-neighbors"
+         ],
+         "issues": []
+        }
+       ],
+       "choices": [],
+       "end": {
+        "outcome": "refused"
+       }
+      }
+     },
+     {
+      "text": "How are you feeling? The race for the Greeley City Council can wait.",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.follow-ask.how-are-you-feeling-the-race-for-office-can-wait",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Frederick Stein",
+         "text": "I haven't been well. It's hard to think about the race for the Greeley City Council.",
+         "piece": "scene-talk.reply-tell.i-haven-t-been-well-it-s-hard-to-think-about-the-race-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I hope you're well soon. I'll come back about the race for the Greeley City Council.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.follow-promise.i-hope-you-re-well-soon-i-ll-come-back-about-the-race-for-office",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "refused"
+          }
+         }
+        },
+        {
+         "text": "I'm sorry you've been sick. The race for the Greeley City Council is the last thing you need at the door.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "refused"
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "interview-invite",
+   "purpose": "invite-interview",
+   "momentId": "person_dd22a671bb47403f:2025-01-21:interview-invited:interview:outlet:newspaper:0:jurisdiction_aa4bf988bc600ceb:filing:contest:seat:gus2025:207635:council:0:2025-11-04:person_dd22a671bb47403f:2025-01-21:0",
+   "scene": {
+    "n": 7,
+    "title": "Ask for an interview",
+    "when": "Tuesday, January 21, 202510:00 AM",
+    "here": "Greeley, Colorado"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Late in the morning on January 21st, you pick up, and it's Darlene Wells.",
+     "piece": "scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name",
+     "elements": [],
+     "issues": []
+    },
+    {
+     "who": null,
+     "text": "Darlene is on the phone.",
+     "piece": "scene-talk.narrate-narrate.name-is-on-the-phone",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "opening": [
+    {
+     "who": "Darlene Wells",
+     "text": "Hello, is this Samantha?",
+     "piece": "scene-talk.open-greet.hello-is-this-first",
+     "elements": [],
+     "issues": []
+    },
+    {
+     "who": "Darlene Wells",
+     "text": "Greeley Enterprise would like to interview you about the race for council member.",
+     "piece": "scene-talk.state-request.outlet-would-like-to-interview-you-about-the-race-for-office",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [],
+    "choices": [
+     {
+      "text": "Which questions?",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.reply-ask.which-questions",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Darlene Wells",
+         "text": "Mostly your plans for council member.",
+         "piece": "scene-talk.follow-answer.mostly-your-plans-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Yes, I'll sit.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "Good. I'll tell the desk at Greeley Enterprise you said yes.",
+            "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "I'll decline.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-decline.i-ll-decline",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "We'd still like your side, for Greeley Enterprise.",
+            "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Happy to.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-agree.happy-to",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "Thank you. Greeley Enterprise will take your answers from your platform.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "No interview, thanks.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-decline.no-interview-thanks",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "The invitation from Greeley Enterprise stands.",
+               "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Yes. Book it.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-agree.yes-book-it",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "Thank you. Greeley Enterprise will have your answers on the record.",
+                  "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "Not for me.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-decline.not-for-me",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "Greeley Enterprise would still like to hear from you.",
+                  "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused",
+                 "close": {
+                  "speaker": "Darlene Wells",
+                  "speakerId": "person_0018f0364975911d",
+                  "role": "asker",
+                  "text": "Understood, then.",
+                  "parts": [
+                   "scene-talk.close-accept.understood-then"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              },
+              {
+               "text": "Sorry, bad timing.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-leave.sorry-bad-timing",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Darlene Wells",
+                  "speakerId": "person_0018f0364975911d",
+                  "role": "asker",
+                  "text": "The door at Greeley Enterprise stays open.",
+                  "parts": [
+                   "scene-talk.close-press.the-door-at-outlet-stays-open"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Sorry, busy now.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-leave.sorry-busy-now",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Darlene Wells",
+               "speakerId": "person_0018f0364975911d",
+               "role": "asker",
+               "text": "The invitation from Greeley Enterprise stays open.",
+               "parts": [
+                "scene-talk.close-press.the-invitation-from-outlet-stays-open"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Darlene Wells",
+            "speakerId": "person_0018f0364975911d",
+            "role": "asker",
+            "text": "The door at Greeley Enterprise stays open.",
+            "parts": [
+             "scene-talk.close-press.the-door-at-outlet-stays-open"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "I'll do it.",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.reply-agree.i-ll-do-it",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Darlene Wells",
+         "text": "Good. I'll tell the desk at Greeley Enterprise you said yes.",
+         "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "Please, no.",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.reply-decline.please-no",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Darlene Wells",
+         "text": "We'd still like your side, for Greeley Enterprise.",
+         "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Yes, I'll sit.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "Good. I'll tell the desk at Greeley Enterprise you said yes.",
+            "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "No interview, thanks.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-decline.no-interview-thanks",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "Greeley Enterprise would still like to hear from you.",
+            "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Happy to.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-agree.happy-to",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "Thank you. Greeley Enterprise will take your answers from your platform.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "Not for me.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-decline.not-for-me",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "The invitation from Greeley Enterprise stands.",
+               "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Yes. Book it.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-agree.yes-book-it",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "Good. I'll tell the desk at Greeley Enterprise you said yes.",
+                  "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "I'll decline.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-decline.i-ll-decline",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "No problem. Greeley Enterprise understands.",
+                  "piece": "scene-talk.follow-accept.no-problem-outlet-understands",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused"
+                }
+               }
+              },
+              {
+               "text": "Gotta go.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-leave.gotta-go",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Darlene Wells",
+                  "speakerId": "person_0018f0364975911d",
+                  "role": "asker",
+                  "text": "The door at Greeley Enterprise stays open.",
+                  "parts": [
+                   "scene-talk.close-press.the-door-at-outlet-stays-open"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Excuse me, sorry.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-leave.excuse-me-sorry",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Darlene Wells",
+               "speakerId": "person_0018f0364975911d",
+               "role": "asker",
+               "text": "The door at Greeley Enterprise stays open.",
+               "parts": [
+                "scene-talk.close-press.the-door-at-outlet-stays-open"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Sorry, bad timing.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-leave.sorry-bad-timing",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Darlene Wells",
+            "speakerId": "person_0018f0364975911d",
+            "role": "asker",
+            "text": "Greeley Enterprise would still welcome you.",
+            "parts": [
+             "scene-talk.close-press.outlet-would-still-welcome-you"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "I need time.",
+      "who": "Samantha Potts",
+      "piece": "scene-talk.reply-deflect.i-need-time",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Darlene Wells",
+         "text": "We'd still like your side, for Greeley Enterprise.",
+         "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Yes, I'll sit.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "Thank you. Greeley Enterprise will take your answers from your platform.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Not for me.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-decline.not-for-me",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Darlene Wells",
+            "text": "The invitation from Greeley Enterprise stands.",
+            "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Yes. Book it.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-agree.yes-book-it",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "Good. I'll tell the desk at Greeley Enterprise you said yes.",
+               "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "No interview, thanks.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-decline.no-interview-thanks",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Darlene Wells",
+               "text": "Greeley Enterprise would still like to hear from you.",
+               "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Happy to.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-agree.happy-to",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "Thank you. Greeley Enterprise will take your answers from your platform.",
+                  "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "I'll decline.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-decline.i-ll-decline",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Darlene Wells",
+                  "text": "No problem. Greeley Enterprise understands.",
+                  "piece": "scene-talk.follow-accept.no-problem-outlet-understands",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused"
+                }
+               }
+              },
+              {
+               "text": "Gotta go.",
+               "who": "Samantha Potts",
+               "piece": "scene-talk.reply-leave.gotta-go",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Darlene Wells",
+                  "speakerId": "person_0018f0364975911d",
+                  "role": "asker",
+                  "text": "Greeley Enterprise would still welcome you.",
+                  "parts": [
+                   "scene-talk.close-press.outlet-would-still-welcome-you"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Sorry, bad timing.",
+            "who": "Samantha Potts",
+            "piece": "scene-talk.reply-leave.sorry-bad-timing",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Darlene Wells",
+               "speakerId": "person_0018f0364975911d",
+               "role": "asker",
+               "text": "The invitation from Greeley Enterprise stays open.",
+               "parts": [
+                "scene-talk.close-press.the-invitation-from-outlet-stays-open"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Sorry, busy now.",
+         "who": "Samantha Potts",
+         "piece": "scene-talk.reply-leave.sorry-busy-now",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Darlene Wells",
+            "speakerId": "person_0018f0364975911d",
+            "role": "asker",
+            "text": "The invitation from Greeley Enterprise stays open.",
+            "parts": [
+             "scene-talk.close-press.the-invitation-from-outlet-stays-open"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}
