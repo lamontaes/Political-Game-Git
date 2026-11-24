@@ -70,20 +70,11 @@ function lineNode(line, className) {
 }
 
 function memberLayout(person, large) {
-  const face = drawFace(person.face);
+  const face = drawFace(person.face, { shape: "bust-small" });
   face.classList.add("member-face");
   const card = makeButton(
     {
       className: `member-card ${partyClass(person.party)}${large ? " large" : ""}`,
-      title: [
-        person.name,
-        person.party,
-        typeof person.line === "string"
-          ? person.line
-          : person.line?.textContent,
-      ]
-        .filter(Boolean)
-        .join(", "),
     },
     face,
     el(
