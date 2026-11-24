@@ -21,16 +21,15 @@ try {
   let single = 0;
   for (let at = 0; at < rows; at += 1) {
     await page.locator(".roster-row").nth(at).click();
-    await page.waitForFunction(
-      (index) =>
-        document
-          .querySelectorAll(".roster-row")
-          [index]?.getAttribute("aria-pressed") === "true" &&
+    await page.waitForFunction((index) => {
+      const row = document.querySelectorAll(".roster-row")[index];
+      return (
+        row?.getAttribute("aria-pressed") === "true" &&
         document.querySelector(".roster-page")?.dataset.key ===
-          document.querySelectorAll(".roster-row")[index].dataset.key &&
-        document.querySelector(".roster-page .mx3cols"),
-      at,
-    );
+          row.dataset.key &&
+        document.querySelector(".roster-page .mx3cols")
+      );
+    }, at);
     const shape = await page.evaluate(() => ({
       columns: document.querySelectorAll(".roster-page .mx3col").length,
       sections: document.querySelectorAll(".roster-page .mx3col > .sec").length,
