@@ -15,6 +15,7 @@ import { coreAPI } from "./state";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import {
   OFFICES_MODULE_ID,
+  careerKept,
   firstTermAge,
   townSeats,
   type TermRow,
@@ -47,7 +48,38 @@ describe("a career begins at an age spread past the minimum", () => {
     expect(near(minimum)).toBeLessThan(near(minimum + past));
   });
 
-  it("starts no sitting holder's service before the seat's first-term age, unless the current term is their first", () => {
+  it("leaves a career the minimum age did not cut as drawn, and moves one it cut off the minimum", () => {
+    const base = {
+      years: 4,
+      minimumAge: minimum,
+      beforeCreated: () => false,
+    };
+    // A holder born 1957 whose current term began in 2022, four earlier terms
+    // (first at 2006, age 49): the minimum cuts nothing, so a late draw of
+    // 63 changes nothing (Bloomsbury's commissioner, Player's finding).
+    expect(
+      careerKept({
+        ...base,
+        prior: 4,
+        startYear: 2022,
+        born: 1957,
+        firstAge: () => 63,
+      }),
+    ).toBe(4);
+    // A holder born 1984 whose draw reaches back to age 22 (twelve terms in
+    // 2025 at four years): the minimum cuts it, so it begins at the drawn age.
+    const kept = careerKept({
+      ...base,
+      prior: 12,
+      startYear: 2025,
+      born: 1984,
+      firstAge: () => 38,
+    });
+    expect(2025 - kept * 4 - 1984).toBeGreaterThanOrEqual(38);
+    expect(2025 - (kept + 1) * 4 - 1984).toBeLessThan(38);
+  });
+
+  it("opens a drawn world's sitting holders no younger than the minimum age", () => {
     const world = buildBenchWorld(seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -63,13 +95,11 @@ describe("a career begins at an age spread past the minimum", () => {
       )[0];
       if (!term?.serviceStart || term.serviceStart >= term.startDate) continue;
       careers += 1;
-      const first =
-        Number(term.serviceStart.slice(0, 4)) -
-        Number(term.identity.birthDate.slice(0, 4));
       expect(
-        first >= Math.floor(firstTermAge(world.core.seed, seat.id)),
-        `${seat.id}: service began at ${first}`,
-      ).toBe(true);
+        Number(term.serviceStart.slice(0, 4)) -
+          Number(term.identity.birthDate.slice(0, 4)),
+        seat.id,
+      ).toBeGreaterThanOrEqual(minimum);
     }
     expect(careers).toBeGreaterThan(0);
   }, 240_000);

@@ -1116,6 +1116,38 @@ const tenureYears = (key: string) => TENURE[key]!.value;
 const tenureSpread = (key: string) =>
   (TENURE[key] as unknown as { spread: readonly [number, number] }).spread;
 /**
+ * The earlier terms a holder keeps. None began before the minimum age, nor
+ * before the office existed (`beforeCreated`). A career the minimum age cut
+ * short (a long draw for a young holder, which would pile at the minimum)
+ * is cut again to begin at `firstAge`; a career the minimum did not cut is
+ * left as drawn, whatever the holder's age.
+ */
+export function careerKept(input: {
+  readonly prior: number;
+  readonly startYear: number;
+  readonly born: number;
+  readonly years: number;
+  readonly minimumAge: number;
+  readonly firstAge: () => number;
+  readonly beforeCreated: (k: number) => boolean;
+}): number {
+  const firstYear = (k: number) => input.startYear - k * input.years;
+  let prior = input.prior;
+  let cutByAge = false;
+  while (prior > 0) {
+    const tooYoung = firstYear(prior) - input.born < input.minimumAge;
+    if (!tooYoung && !input.beforeCreated(prior)) break;
+    if (tooYoung) cutByAge = true;
+    prior -= 1;
+  }
+  if (cutByAge) {
+    const firstAge = input.firstAge();
+    while (prior > 0 && firstYear(prior) - input.born < firstAge) prior -= 1;
+  }
+  return prior;
+}
+
+/**
  * The age a seat's holder first took office at: the minimum age plus a spread
  * with its mode past the minimum (the sum of two exponentials, Erlang 2, whose
  * mean is the table's years past the minimum), seeded per seat. Real figures
@@ -1270,21 +1302,24 @@ function pastTerms(
             Math.log(q),
         )
       : 0;
-  // No one first served younger than the age they first ran at: the minimum
-  // age and a stretch past it, drawn once per seat (who exists, not what anyone
-  // decides) so first terms spread over a working life and do not pile up at
-  // the minimum age (owner's playthrough, Nov 23, row C10: a mayor "elected at
-  // 21"). A seat's holder whose current term began before that age has it as
-  // their first term.
-  const firstAge = firstTermAge(worldSeed, seat.id);
-  const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
-  while (
-    prior > 0 &&
-    (firstYear(prior) - born < firstAge ||
-      (created !== undefined &&
-        termStartInYear(office, shiftYears(start, -prior * years)) < created))
-  )
-    prior -= 1;
+  // No one first served younger than the minimum age. A career that age
+  // would have started at the minimum itself (the age floor cutting a long
+  // draw short) begins instead at the age the seat's holder first ran at: the
+  // minimum plus a spread past it, drawn once per seat (who exists, not what
+  // anyone decides), so first terms do not pile up at the minimum (owner's
+  // playthrough, Nov 23, row C10: a mayor "elected at 21"). A career the
+  // minimum did not cut is left as drawn.
+  prior = careerKept({
+    prior,
+    startYear: Number(start.slice(0, 4)),
+    born,
+    years,
+    minimumAge: tenureYears("minimumAgeAtFirstTerm"),
+    firstAge: () => firstTermAge(worldSeed, seat.id),
+    beforeCreated: (k) =>
+      created !== undefined &&
+      termStartInYear(office, shiftYears(start, -k * years)) < created,
+  });
   // A state that limits legislative terms caps the service before today: the
   // office's own state, the town's for a local body.
   const state = office.jurisdiction.startsWith("US-")
