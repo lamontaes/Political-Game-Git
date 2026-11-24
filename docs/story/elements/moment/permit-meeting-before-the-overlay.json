@@ -1,0 +1,41 @@
+{
+  "id": "permit-meeting-before-the-overlay",
+  "kind": "moment",
+  "summary": "At the monthly permit meeting, {director} sees a planned excavation on a street already booked for paving.",
+  "realLife": "Oakland brought utility permits and near-term conflicts to a monthly meeting so crews could sequence underground work ahead of resurfacing.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=13"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{director}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: near-term dig permit, paving booking and utility completion date.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: near-term dig permit, paving booking and utility completion date.",
+      "what": "Move another ready street into the open paving date and rebook the excavated one.",
+      "writesBack": "Coordinated excavation and paving calendar."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: near-term dig permit, paving booking and utility completion date.",
+      "what": "Hold the conflicting paving order and keep the utility's restoration deadline in the permit.",
+      "writesBack": "Coordinated excavation and paving calendar."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "stop-at-the-area-allotment",
+  "kind": "move",
+  "summary": "The next street on {area}'s condition list sits just below the pencil mark on the budget sheet.",
+  "realLife": "After choosing the roughest approaches to parks, Oakland staff worked down the remaining condition scores until each area's allocation ran out.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{area}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: ranked local street candidates, segment estimates and remaining area allocation.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: ranked local street candidates, segment estimates and remaining area allocation.",
+      "what": "Move the first affordable waiting segment onto the funded sheet.",
+      "writesBack": "Ranked waiting list with funded cutoff."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: ranked local street candidates, segment estimates and remaining area allocation.",
+      "what": "Return the marginal segment to the waiting list with its ranking intact.",
+      "writesBack": "Ranked waiting list with funded cutoff."
+    }
+  ]
+}

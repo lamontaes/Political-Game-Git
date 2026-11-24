@@ -1,0 +1,41 @@
+{
+  "id": "sweeper-on-the-equipment-request",
+  "kind": "detail",
+  "summary": "The new crew roster reaches {director} with a separate request for the machines the crew needs.",
+  "realLife": "Oakland's expansion proposal listed a dedicated sweeper along with equipment for milling, paving and marking streets.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=16"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{director}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: funded crew, required equipment inventory and purchase or rental estimates.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: funded crew, required equipment inventory and purchase or rental estimates.",
+      "what": "Approve the missing machine alongside the crew's first assignment.",
+      "writesBack": "Equipment bookings and crew assignments."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: funded crew, required equipment inventory and purchase or rental estimates.",
+      "what": "Check available shared equipment and shorten the schedule to the days it can actually run.",
+      "writesBack": "Equipment bookings and crew assignments."
+    }
+  ]
+}

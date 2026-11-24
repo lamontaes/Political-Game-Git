@@ -1,0 +1,41 @@
+{
+  "id": "paint-crew-after-the-paver",
+  "kind": "situation",
+  "summary": "The paving crew can finish {street} on Friday but the striping supervisor has another crew call that afternoon.",
+  "realLife": "Oakland proposed adding paint crews to cover more in-house resurfacing while keeping other traffic-marking work moving.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=16"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{street}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: paving completion, striping availability and competing marking order.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: paving completion, striping availability and competing marking order.",
+      "what": "Give the newly available paint crew the resurfaced street.",
+      "writesBack": "Paired paving and striping shifts."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: paving completion, striping availability and competing marking order.",
+      "what": "Reschedule the paving finish to a date with confirmed striping coverage.",
+      "writesBack": "Paired paving and striping shifts."
+    }
+  ]
+}

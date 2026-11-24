@@ -1,0 +1,41 @@
+{
+  "id": "end-of-the-paver-run",
+  "kind": "detail",
+  "summary": "The paving foreman points past {intersection} to the next block of broken pavement.",
+  "realLife": "Oakland gave a damaged stretch more weight when it continued a stretch crews were already due to pave.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{intersection}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: adjacent segments with poor scores, a shared endpoint and an estimate for extending the run.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: adjacent segments with poor scores, a shared endpoint and an estimate for extending the run.",
+      "what": "Extend the same crew's run through the adjoining block.",
+      "writesBack": "Crew sheet with terminal intersection."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: adjacent segments with poor scores, a shared endpoint and an estimate for extending the run.",
+      "what": "Mark the last funded intersection on the crew sheet and give the adjoining block its own estimate.",
+      "writesBack": "Crew sheet with terminal intersection."
+    }
+  ]
+}

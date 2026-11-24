@@ -1,0 +1,41 @@
+{
+  "id": "reserve-the-next-pipe-job",
+  "kind": "move",
+  "summary": "The water district gives {director} a construction date before the city has picked the year's final streets.",
+  "realLife": "Oakland proposed keeping money available for qualifying pipe projects and spending it in construction order.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{director}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: ordered pipe schedule, eligible local streets and uncommitted matching balance.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: ordered pipe schedule, eligible local streets and uncommitted matching balance.",
+      "what": "Reserve a match for the next qualifying dig on the calendar.",
+      "writesBack": "Dated utility matching commitments."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: ordered pipe schedule, eligible local streets and uncommitted matching balance.",
+      "what": "Tell the utility which scheduled dig exhausts the matching account.",
+      "writesBack": "Dated utility matching commitments."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "short-block-on-the-truck-route-in",
+  "kind": "situation",
+  "summary": "The crew would have to bring all its machines to {street} for a stretch shorter than a city block.",
+  "realLife": "Oakland staff considered neighboring streets when a selected piece was less than a tenth of a mile long.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{street}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: short selected segment, neighboring candidate and mobilization estimate.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: short selected segment, neighboring candidate and mobilization estimate.",
+      "what": "Bundle the neighbor with the short job in the bid.",
+      "writesBack": "Bid schedule and mobilization allowance."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: short selected segment, neighboring candidate and mobilization estimate.",
+      "what": "Check whether the short job still has a crew visit after the neighboring work drops out.",
+      "writesBack": "Bid schedule and mobilization allowance."
+    }
+  ]
+}

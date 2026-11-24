@@ -1,0 +1,41 @@
+{
+  "id": "too-many-corridors-one-project-manager",
+  "kind": "situation",
+  "summary": "The calendar on {manager}'s wall has room for fewer neighborhood design meetings than the paving plan requires.",
+  "realLife": "Oakland staff identified dozens of potential stand-alone projects and reported capacity to manage only three complex projects annually.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=15"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{manager}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: complex corridor count, assigned managers and available engagement dates.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: complex corridor count, assigned managers and available engagement dates.",
+      "what": "Assign a manager and offer the newly staffed corridor a meeting date.",
+      "writesBack": "Named corridor assignments and meeting dates."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: complex corridor count, assigned managers and available engagement dates.",
+      "what": "Resequence the unstaffed corridor and give residents the name of the manager keeping its file.",
+      "writesBack": "Named corridor assignments and meeting dates."
+    }
+  ]
+}

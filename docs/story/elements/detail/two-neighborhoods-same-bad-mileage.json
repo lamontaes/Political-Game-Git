@@ -1,0 +1,41 @@
+{
+  "id": "two-neighborhoods-same-bad-mileage",
+  "kind": "detail",
+  "summary": "Two neighborhoods bring {director} the same share of the city's worst local streets and leave with different allocations.",
+  "realLife": "Oakland staff found a tie in poor-road mileage between two planning areas and also counted where underserved residents lived when distributing funds.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=8"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{director}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: two areas with matching poor-mileage shares, population weights and adopted distribution formula.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: two areas with matching poor-mileage shares, population weights and adopted distribution formula.",
+      "what": "Use both weights to divide the increase and publish the resulting allocations.",
+      "writesBack": "Area allocations and marginal streets."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: two areas with matching poor-mileage shares, population weights and adopted distribution formula.",
+      "what": "Run the reduction through both weights and identify the last affordable street in each area.",
+      "writesBack": "Area allocations and marginal streets."
+    }
+  ]
+}

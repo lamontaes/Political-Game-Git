@@ -1,0 +1,41 @@
+{
+  "id": "bike-plan-under-the-stripe-sheet",
+  "kind": "detail",
+  "summary": "When the paint comes off {street}, the bike planner brings an adopted drawing for a different stripe pattern.",
+  "realLife": "Oakland matched upcoming resurfacing with places its bicycle plan called for upgrading existing lanes.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=12"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{street}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: existing lane, approved upgrade drawing and resurfacing bid.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: existing lane, approved upgrade drawing and resurfacing bid.",
+      "what": "Add the designed buffer to the striping bid.",
+      "writesBack": "Adopted bikeway project status."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: existing lane, approved upgrade drawing and resurfacing bid.",
+      "what": "Identify the funded markings and record the upgrade separately if its installation slips.",
+      "writesBack": "Adopted bikeway project status."
+    }
+  ]
+}

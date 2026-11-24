@@ -1,0 +1,41 @@
+{
+  "id": "pave-the-injury-corridor",
+  "kind": "move",
+  "summary": "The traffic engineer lays the crash map over the paving list at {place}.",
+  "realLife": "Oakland used its map of streets with concentrated serious crashes to coordinate safety work with arterial resurfacing.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=7"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "budget:highways"
+  ],
+  "inGame": "The city highways budget records the appropriation change. needs: mapped injury corridor, resurfacing proposal and designed safety treatment.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: mapped injury corridor, resurfacing proposal and designed safety treatment.",
+      "what": "Schedule the designed safety treatment during resurfacing.",
+      "writesBack": "Corridor safety funding schedule."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: mapped injury corridor, resurfacing proposal and designed safety treatment.",
+      "what": "Have traffic staff identify which approved safety work has separate funding if resurfacing slips.",
+      "writesBack": "Corridor safety funding schedule."
+    }
+  ]
+}
