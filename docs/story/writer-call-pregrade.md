@@ -1,169 +1,132 @@
 # Pre-grade: Writer speeches, call and charge (W1)
 
-Pre-grader, 2026-11-24. Branch `story/w-call-charge` at `cd89c6e6`, every line authored by this writer at that head (260 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-call-charge` at `b702357d`, every line authored by this writer at that head (282 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 165 of 260 pass (63%); 95 fail.
-- **Calibration:** C4 8/8, D1 8/8, E1 8/8, F1 8/8, J1 8/8, J2 8/8, L1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
+- **Result:** 200 of 282 pass (71%); 82 fail.
+- **Calibration:** C4 8/8, D1 8/8, E1 8/8, F1 8/8, J1 8/8, J2 8/8, L1 8/8, N1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the packet script at `d2e38614` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
 
-### address-name-check-does-work (17)
+### figure-says-which-way-and-whose (20)
 
-- `outline-call.report.state-of-the-union-spoken-once-a-year-the-constitution-has-the-president-report-to-con`: "Once a year the Constitution has the President report to Congress, and this year that's me, with {the-vice-president} here." — The Vice President is named only to say he is here, and 'this year that's me' is a flat announcement.
-- `outline-call.report.state-of-the-union-spoken-as-the-constitution-asks-i-m-here-to-report-to-congress-on-h`: "As the Constitution asks, I'm here to report to Congress on how the country is doing, and {the-vice-president} is here with me." — Names the Vice President only to place him in the room; the line announces a report instead of making one.
-- `outline-call.report.state-of-the-union-spoken-the-constitution-says-the-president-reports-to-congress-on-t`: "The Constitution says the President reports to Congress on the state of the Union, and {the-vice-president} and I are here for that." — The Vice President does no work in the point; a civics recital, not a report.
-- `outline-call.report.state-of-the-union-spoken-a-president-reports-to-congress-once-a-year-and-is-here-whil`: "A President reports to Congress once a year, and {the-vice-president} is here while I do." — Names the Vice President only to say he is present while the President talks.
-- `outline-call.report.state-of-the-union-spoken-i-m-here-to-report-to-congress-on-how-the-country-stands-wit`: "I'm here to report to Congress on how the country stands, with {the-vice-president} behind me." — 'with {the-vice-president} behind me' is the 'With Vice President X here' name check he rejected.
-- `outline-call.blessing.state-of-the-union-thank-you-and-thank-you-congress-god-bless-america`: "Thank you, {the-vice-president}, and thank you, Congress. God bless America." — Thanking the Vice President by name and 'thank you, Congress' is a name check and not how a President closes.
-- `outline-call.report.state-of-the-union-the-constitution-requires-the-president-to-report-to-congres`: "The Constitution requires the President to report to Congress from time to time, and {the-vice-president} is here to hear it." — The Vice President is there only 'to hear it'; announces the report rather than giving it.
-- `outline-call.report.state-of-the-union-and-the-members-of-congress-are-here-for-the-report-the-cons`: "{the-vice-president} and the members of Congress are here for the report the Constitution asks of me." — Opens on a list of people present, the pattern he rejected ('why are we just singling out random people?').
-- `outline-call.report.state-of-the-union-every-year-the-president-walks-into-this-chamber-to-report-t`: "Every year the President walks into this chamber to report to Congress, and {the-vice-president} is here to hear it." — Narrates the ritual and names the Vice President only to hear it; same shape as L1-038.
-- `outline-call.report.state-of-the-union-this-report-to-congress-is-required-by-the-constitution-and`: "This report to Congress is required by the Constitution, and {the-vice-president} is here to see it done." — 'here to see it done' names the Vice President for nothing, and the line announces.
-- `outline-call.report.state-of-the-union-i-m-here-to-report-to-congress-and-is-here-to-hear-me-do-it`: "I'm here to report to Congress, and {the-vice-president} is here to hear me do it." — 'here to hear me do it' is a name check and repeats the 'here to hear it' shape.
-- `outline-call.report.state-of-the-union-tonight-the-president-reports-to-congress-and-is-here-to-hea`: "Tonight the President reports to Congress, and {the-vice-president} is here to hear it." — Third person 'the President reports' plus the Vice President 'here to hear it', the same shape again.
-- `outline-call.report.state-of-the-union-tonight-i-report-to-congress-on-the-country-with-behind-me-a`: "Tonight I report to Congress on the country, with {the-vice-president} behind me and the nation watching." — The 'with {the-vice-president} behind me' name check again, plus 'the nation watching' texture.
-- `outline-call.report.state-of-the-union-the-people-watching-tonight-can-see-behind-me-and-congress-i`: "The people watching tonight can see {the-vice-president} behind me and Congress in front of me." — Describes who is on screen instead of saying anything; pure name check.
-- `outline-call.oath.spoken-and-i-swore-to-the-same-constitution-a-few-minutes-apart`: "{the-vice-president} and I swore to the same Constitution a few minutes apart." — 'a few minutes apart' makes the point about timing; the name does no work.
-- `outline-call.oath.spoken-swore-the-oath-first-and-i-swore-mine-right-after-both-of-us-to-the-co`: "{the-vice-president} swore the oath first, and I swore mine right after, both of us to the Constitution." — Narrates the order of the oaths, a point about nothing.
-- `outline-call.oath.spoken-and-i-have-both-promised-to-defend-the-constitution-against-enemies-fo`: "{the-vice-president} and I have both promised to defend the Constitution against enemies foreign and domestic." — Quotes the Vice President's oath for no point.
+- `outline-call.report.state-of-the-union-more-has-gotten-better-than-worse-in-this-country-this-year`: "More has gotten better than worse in this country this year, and there's {term-left} left in this term." — 'More has gotten better than worse' says nothing about what; he rejected this accounting ('By the plain measure, what?').
+- `outline-call.report.state-of-the-union-this-country-is-doing-better-than-it-was-a-year-ago-in-more`: "This country is doing better than it was a year ago in more ways than it's doing worse, with {term-left} still ahead." — Repeats the 'better than a year ago' line he rejected, and names nothing.
+- `outline-call.report.state-of-the-union-most-of-what-i-can-measure-is-up-this-year-and-that-gives-me`: "Most of what I can measure is up this year, and that gives me a better start on the next {term-left}." — 'Most of what I can measure is up' names nothing that went up.
+- `outline-call.report.state-of-the-union-more-got-better-than-worse-this-year-and-i-ll-take-that-into`: "More got better than worse this year, and I'll take that into the next {term-left}." — Bean-counting with no subject; the same pattern he complained about.
+- `outline-call.report.state-of-the-union-more-has-gotten-worse-than-better-in-this-country-this-year`: "More has gotten worse than better in this country this year, and there's {term-left} left in this term to change it." — Vague tally, nothing named that got worse.
+- `outline-call.report.state-of-the-union-this-country-is-doing-worse-than-it-was-a-year-ago-in-more-w`: "This country is doing worse than it was a year ago in more ways than it's doing better, with {term-left} still ahead." — Same rejected 'than a year ago' accounting with nothing named.
+- `outline-call.report.state-of-the-union-most-of-what-i-can-measure-is-down-this-year-and-that-s-the`: "Most of what I can measure is down this year, and that's the starting point for the next {term-left}." — 'Most of what I can measure is down' names nothing.
+- `outline-call.report.state-of-the-union-about-as-much-got-better-as-got-worse-in-this-country-this-y`: "About as much got better as got worse in this country this year, and there's {term-left} left in this term." — A vague even tally that names nothing.
+- `outline-call.report.state-of-the-union-some-of-what-i-can-measure-is-up-this-year-and-some-is-down`: "Some of what I can measure is up this year and some is down, and I'll carry both into the next {term-left}." — Names nothing that is up or down.
+- `outline-call.report.state-of-the-union-the-year-split-evenly-between-better-and-worse-and-i-have-le`: "The year split evenly between better and worse, and I have {term-left} left to work with." — 'Split evenly between better and worse' is a vague tally.
+- `outline-call.report.state-of-the-state-more-has-gotten-better-than-worse-in-this-year-and-i-have-le`: "More has gotten better than worse in {realm-name} this year, and I have {term-left} left in my term." — Vague tally with nothing named.
+- `outline-call.report.state-of-the-state-is-doing-better-than-it-was-a-year-ago-in-more-ways-than-it`: "{realm-name} is doing better than it was a year ago in more ways than it's doing worse, with {term-left} still ahead of me." — The rejected 'better than a year ago' accounting.
+- `outline-call.report.state-of-the-state-most-of-what-i-can-measure-is-up-in-this-year-and-that-gives`: "Most of what I can measure is up in {realm-name} this year, and that gives me a better start on the next {term-left}." — Names nothing that went up.
+- `outline-call.report.state-of-the-state-more-got-better-than-worse-in-this-year-and-i-ll-take-that-i`: "More got better than worse in {realm-name} this year, and I'll take that into the next {term-left}." — Vague tally, same pattern.
+- `outline-call.report.state-of-the-state-more-has-gotten-worse-than-better-in-this-year-and-i-have-le`: "More has gotten worse than better in {realm-name} this year, and I have {term-left} left in my term to change it." — Vague tally, nothing named.
+- `outline-call.report.state-of-the-state-is-doing-worse-than-it-was-a-year-ago-in-more-ways-than-it-s`: "{realm-name} is doing worse than it was a year ago in more ways than it's doing better, with {term-left} still ahead of me." — The rejected 'than a year ago' accounting.
+- `outline-call.report.state-of-the-state-most-of-what-i-can-measure-is-down-in-this-year-and-that-s-t`: "Most of what I can measure is down in {realm-name} this year, and that's the starting point for the next {term-left}." — Names nothing that went down.
+- `outline-call.report.state-of-the-state-about-as-much-got-better-as-got-worse-in-this-year-and-i-hav`: "About as much got better as got worse in {realm-name} this year, and I have {term-left} left in my term." — Vague even tally.
+- `outline-call.report.state-of-the-state-some-of-what-i-can-measure-is-up-in-this-year-and-some-is-do`: "Some of what I can measure is up in {realm-name} this year and some is down, and I'll carry both into the next {term-left}." — Names nothing up or down.
+- `outline-call.report.state-of-the-state-the-year-split-evenly-between-better-and-worse-for-and-i-hav`: "The year split evenly between better and worse for {realm-name}, and I have {term-left} left to work with." — Vague tally.
 
-### address-argues-not-announces (11)
+### one-idea-to-a-sentence (16)
 
-- `outline-call.report.state-of-the-state-spoken-once-a-year-the-governor-reports-to-the-on-how-stands-and-th`: "Once a year the governor reports to the {body-word} on how {realm-name} stands, and this year that's me." — Announces the report instead of giving it, and 'this year that's me' is awkwardly casual.
-- `outline-call.report.state-of-the-state-spoken-a-governor-reports-to-the-once-a-year-on-how-is-doing-and-th`: "A governor reports to the {body-word} once a year on how {realm-name} is doing, and this is my report for the year." — Says it reports twice over ('reports... and this is my report') without reporting anything.
-- `outline-call.send-off.state-of-the-union-i-ll-be-at-my-desk-for-the-next-working-on-this`: "I'll be at my desk for the next {term-left}, working on this." — 'working on this' leans on an unnamed 'this' and is the 'now I'll go do it' close.
-- `outline-call.send-off.state-of-the-state-the-and-i-have-to-get-this-done-and-i-m-ready-to-start-tomor`: "The {body-word} and I have {term-left} to get this done, and I'm ready to start tomorrow." — Same 'get this done... start tomorrow' close as L1-021, with the unnamed 'this'.
-- `outline-call.report.state-of-the-union-in-this-chamber-presides-over-the-senate-and-i-report-to-bot`: "In this chamber, {the-vice-president} presides over the Senate and I report to both houses." — A civics lesson on who presides, not a report; the Vice President is named only for it.
-- `outline-call.report.state-of-the-union-i-report-to-congress-with-left-in-my-term-and-i-d-rather-you`: "I report to Congress with {term-left} left in my term, and I'd rather you hear it from me than read it." — Term-left said for nothing, and 'than read it' is unclear (read what?).
-- `outline-call.address-to.state-of-the-union-to-everyone-watching-who-has-never-written-to-congress-a-let`: "To everyone watching who has never written to Congress: a letter takes a few minutes, and for the next {term-left} this is the room that gets it." — A civics tip about letters, not an argument; 'this is the room that gets it' is composed.
-- `outline-call.report.state-of-the-state-the-constitution-of-has-the-governor-report-to-the-and-i-m-h`: "The constitution of {realm-name} has the governor report to the {body-word}, and I'm here for that." — A civics recital ending 'I'm here for that'; nothing reported.
-- `outline-call.report.state-of-the-state-every-year-the-governor-of-reports-to-the-and-this-is-my-tur`: "Every year the governor of {realm-name} reports to the {body-word}, and this is my turn." — 'this is my turn' is flat and announces the report instead of giving it.
-- `outline-call.report.state-of-the-state-the-governor-of-reports-to-the-every-year-and-i-m-giving-min`: "The governor of {realm-name} reports to the {body-word} every year, and I'm giving mine with {term-left} left in my term." — A long announcement of the ritual plus term-left; reports nothing.
-- `outline-call.address-to.state-of-the-state-to-everyone-in-who-has-never-written-to-the-a-letter-takes-a`: "To everyone in {realm-name} who has never written to the {body-word}: a letter takes a few minutes, and this is the room that gets it." — A letter-writing tip, not an argument, and 'the room that gets it' is composed.
+- `outline-call.disaster-meaning.spoken-for-the-next-no-recovery-payment-in-this-government-should-s`: "For the next {term-left}, no recovery payment in this government should sit unsigned for a week." — 'No recovery payment in this government should sit unsigned' is stiff and 'should' hedges the promise.
+- `outline-call.disaster-meaning.spoken-families-that-lost-their-homes-will-hear-from-a-real-person`: "Families that lost their homes will hear from a real person at the agency, not a recorded line, over the next {term-left}." — The term tag trails after 'not a recorded line' and 'the agency' is never named.
+- `outline-call.report.state-of-the-state-members-of-the-will-vote-on-a-lot-of-what-i-say-and-the-peop`: "Members of the {body-word} will vote on a lot of what I say, and the people of {realm-name} are listening." — Two unrelated clauses joined by 'and', both about the speech itself.
+- `outline-call.run.spoken-people-who-stayed-in-the-same-job-for-are-mostly-earning-more-at-it-to`: "People who stayed in the same job for {run-span} are mostly earning more at it today." — 'Mostly earning more at it today' is clumsy.
+- `outline-call.run.spoken-workers-have-both-more-openings-and-higher-pay-to-choose-from-than-ago`: "Workers have both more openings and higher pay to choose from than {run-span} ago." — 'Higher pay to choose from' is awkward.
+- `outline-call.report.state-of-the-union-the-year-went-better-than-it-went-badly-and-with-left-that-s`: "The year went better than it went badly, and with {term-left} left, that's a good place to start." — 'Went better than it went badly' is AI-sounding.
+- `outline-call.report.state-of-the-union-the-year-went-worse-than-it-went-well-and-with-left-that-s-w`: "The year went worse than it went well, and with {term-left} left, that's where we begin." — 'Went worse than it went well' is AI-sounding.
+- `outline-call.report.state-of-the-union-the-year-was-mixed-for-the-country-some-things-up-and-some-d`: "The year was mixed for the country, some things up and some down, with {term-left} still ahead." — 'Some things up and some down' dangles and names nothing.
+- `outline-call.report.state-of-the-state-the-year-went-better-than-it-went-badly-for-and-with-left-th`: "The year went better than it went badly for {realm-name}, and with {term-left} left, that's a good place to start." — 'Went better than it went badly' is AI-sounding.
+- `outline-call.report.state-of-the-state-the-year-went-worse-than-it-went-well-for-and-with-left-that`: "The year went worse than it went well for {realm-name}, and with {term-left} left, that's where we begin." — 'Went worse than it went well' is AI-sounding.
+- `outline-call.report.state-of-the-state-the-year-was-mixed-for-some-things-up-and-some-down-with-sti`: "The year was mixed for {realm-name}, some things up and some down, with {term-left} still ahead of me." — Dangling 'some things up and some down' with nothing named.
+- `outline-call.call.spoken-learn-what-your-own-household-s-stake-in-is-and-say-it-out-l`: "Learn what your own household's stake in {about} is, and say it out loud to someone." — 'Your household's stake in' and 'say it out loud' read awkward.
+- `outline-call.hired.spoken-i-took-this-job-in-november-and-the-next-are-the-only-part-o`: "I took this job in November, and the next {term-left} are the only part of it that you'll remember." — 'The only part of it that you'll remember' makes no sense.
+- `outline-call.address-to.state-of-the-union-to-the-teachers-and-nurses-who-run-on-tight-budgets-this-cha`: "To the teachers and nurses who run on tight budgets: this chamber sets some of that, and I'll listen to you about it for {term-left}." — 'Listen to you about it' is awkward, and 'run on tight budgets' is unclear.
+- `outline-call.address-to.state-of-the-state-to-the-teachers-and-nurses-who-run-on-tight-budgets-this-roo`: "To the teachers and nurses who run on tight budgets: this room sets some of that, and I'll listen to you about it for {term-left}." — 'Listen to you about it' is awkward.
+- `outline-call.address-to.state-of-the-state-to-everyone-in-watching-from-home-what-happens-in-this-room`: "To everyone in {realm-name} watching from home: what happens in this room reaches your town, and it will for {term-left}." — 'And it will for four years' is an awkward tail.
 
-### no-literary-phrasing (11)
+### address-argues-not-announces (15)
 
-- `outline-call.report.state-of-the-state-spoken-this-is-the-year-s-report-on-given-to-the-that-works-on-it`: "This is the year's report on {realm-name}, given to the {body-word} that works on it." — 'given to the {body-word} that works on it' is a stiff composed phrase.
-- `outline-call.report.state-of-the-state-spoken-i-stand-before-the-to-report-on-as-the-governors-before-me-h`: "I stand before the {body-word} to report on {realm-name}, as the governors before me have." — 'I stand before... as the governors before me have' is ceremonial literary texture.
-- `outline-call.report.state-of-the-union-congress-is-in-session-is-behind-me-and-the-report-is-mine-t`: "Congress is in session, {the-vice-president} is behind me, and the report is mine to give." — Three-beat composed cadence ending 'the report is mine to give', with a name check.
-- `outline-call.report.state-of-the-union-behind-me-sit-and-the-speaker-of-the-house-and-in-front-of-m`: "Behind me sit {the-vice-president} and the Speaker of the House, and in front of me sit the people who write the laws." — Inverted 'Behind me sit... in front of me sit' is visibly composed and lists people present.
-- `outline-call.report.state-of-the-union-and-i-are-on-the-same-stage-and-between-us-we-answer-to-the`: "{the-vice-president} and I are on the same stage, and between us we answer to the people watching." — 'on the same stage... between us we answer' is composed and says nothing about the country.
-- `outline-call.address-to.state-of-the-union-to-the-people-of-the-states-hit-hardest-by-the-congress-is-i`: "To the people of the states hit hardest by the {the-disaster}: Congress is in this room, and the next {term-left} are when it acts." — 'the next {term-left} are when it acts' is composed and promises for Congress, not for the President.
-- `outline-call.greeting.state-of-the-state-friends-in-the-and-neighbors-across`: "Friends in the {body-word}, and neighbors across {realm-name}." — 'Friends in the legislature, and neighbors across {realm-name}' is folksy and composed.
-- `outline-call.address-to.state-of-the-state-to-the-people-of-listening-far-from-this-room-the-meets-here`: "To the people of {realm-name} listening far from this room: the {body-word} meets here, but the work lands in your town." — 'the work lands in your town' is a literary turn.
-- `outline-call.address-to.state-of-the-state-to-the-people-in-hit-hardest-by-the-the-is-in-this-room-and`: "To the people in {realm-name} hit hardest by the {the-disaster}: the {body-word} is in this room, and the next {term-left} are when it acts." — Composed line, and the governor promises on the legislature's behalf.
-- `outline-call.oath.spoken-the-oath-binds-me-the-way-it-bound-a-few-minutes-ago-to-the-constituti`: "The oath binds me the way it bound {the-vice-president} a few minutes ago: to the Constitution, not to a party." — 'The oath binds me the way it bound' is composed phrasing.
-- `outline-call.call.spoken-share-one-fact-about-you-checked-yourself-with-someone-who-hasn-t-hear`: "Share one fact about {theme-short} you checked yourself with someone who hasn't heard it." — 'one fact... you checked yourself' is AI-sounding composed advice.
+- `outline-call.report.state-of-the-state-the-governor-s-report-to-the-is-a-duty-of-the-office-in-and`: "The governor's report to the {body-word} is a duty of the office in {realm-name}, and I'm glad to give it." — Talks about giving the report instead of saying anything.
+- `outline-call.report.state-of-the-state-the-meets-here-i-report-to-it-and-the-people-of-can-follow-a`: "The {body-word} meets here, I report to it, and the people of {realm-name} can follow along." — A three-part civics description of the room; AI-sounding and says nothing.
+- `outline-call.report.state-of-the-state-this-is-the-s-time-to-hear-from-the-governor-of-and-i-m-here`: "This is the {body-word}'s time to hear from the governor of {realm-name}, and I'm here." — 'And I'm here' is empty and awkward.
+- `outline-call.report.state-of-the-union-on-balance-the-year-was-a-good-one-for-the-country-and-the-n`: "On balance the year was a good one for the country, and the next {term-left} start from there." — Vague verdict on the year with a stock 'start from there' tail.
+- `outline-call.report.state-of-the-union-on-balance-the-year-was-a-hard-one-for-the-country-and-the-n`: "On balance the year was a hard one for the country, and the next {term-left} start from there." — Vague verdict with a stock tail.
+- `outline-call.report.state-of-the-state-on-balance-the-year-was-a-good-one-for-and-my-next-start-fro`: "On balance the year was a good one for {realm-name}, and my next {term-left} start from there." — Vague verdict with stock tail; 'my next four years' is odd.
+- `outline-call.report.state-of-the-state-on-balance-the-year-was-a-hard-one-for-and-my-next-start-fro`: "On balance the year was a hard one for {realm-name}, and my next {term-left} start from there." — Vague verdict with stock tail.
+- `outline-call.call.spoken-read-a-letter-to-the-editor-about-and-decide-whether-you-agr`: "Read a letter to the editor about {about} and decide whether you agree." — Too small and odd an ask for an inaugural.
+- `outline-call.hired.spoken-you-picked-me-last-november-and-the-first-thing-i-owe-you-is`: "You picked me last November, and the first thing I owe you is to do what I said I would in the next {term-left}." — 'Do what I said I would' is vague ('It. What is it?') and announces doing it.
+- `outline-call.hired.spoken-last-fall-you-chose-someone-to-do-this-work-for-and-today-i`: "Last fall you chose someone to do this work for {term-left}, and today I start." — 'Today I start' is the 'now I'll go do it' he rejected.
+- `outline-call.send-off.state-of-the-union-i-ll-spend-the-next-on-the-things-i-named-today`: "I'll spend the next {term-left} on the things I named today." — 'I'll spend the next years on the things I named' is a bare 'now I'll go do it'.
+- `outline-call.send-off.state-of-the-union-i-ll-be-at-my-desk-tomorrow-with-left-in-this-term-and-a-lon`: "I'll be at my desk tomorrow, with {term-left} left in this term and a long list." — 'I'll be at my desk tomorrow' is the 'now I'll go do it' close.
+- `outline-call.send-off.state-of-the-union-now-i-go-back-to-work-and-the-next-are-the-part-that-counts`: "Now I go back to work, and the next {term-left} are the part that counts." — 'Now I go back to work' is the rejected close.
+- `outline-call.send-off.state-of-the-union-if-congress-sends-me-bills-on-these-subjects-i-ll-read-them`: "If Congress sends me bills on these subjects, I'll read them before the next {term-left} are over, and I'll answer each one." — Promising to read bills is an odd, empty promise.
+- `outline-call.send-off.state-of-the-state-i-ll-be-at-my-desk-tomorrow-with-left-in-my-term-and-a-long`: "I'll be at my desk tomorrow, with {term-left} left in my term and a long list." — 'I'll be at my desk tomorrow' is the 'now I'll go do it' close.
 
-### speech-has-a-core (9)
+### no-pointing-at-the-unnamed (8)
 
-- `outline-call.call.state-of-the-union-read-the-committee-report-on-before-you-decide-what-congress`: "Read the committee report on {about} before you decide what Congress should do." — Telling the nation to read a committee report is homework, not a President's ask.
-- `outline-call.call.state-of-the-union-find-out-which-committee-in-congress-handles-and-read-its-sc`: "Find out which committee in Congress handles {theme-short}, and read its schedule." — Assigning viewers a committee schedule to read is AI-sounding civics homework.
-- `outline-call.call.state-of-the-state-read-the-committee-report-on-before-you-decide-what-the-shou`: "Read the committee report on {about} before you decide what the {body-word} should do." — A governor assigning committee reports is homework, not an ask.
-- `outline-call.call.state-of-the-state-find-out-which-committee-in-the-handles-and-read-its-schedul`: "Find out which committee in the {body-word} handles {theme-short}, and read its schedule." — Reading a committee schedule is AI-sounding civics homework.
-- `outline-call.call.spoken-look-for-a-local-news-story-on-and-notice-who-it-quotes`: "Look for a local news story on {about}, and notice who it quotes." — Media-literacy homework ('notice who it quotes'); not an inaugural ask.
-- `outline-call.call.spoken-write-down-your-own-question-about-and-take-it-to-someone-who-disagree`: "Write down your own question about {about}, and take it to someone who disagrees with you." — AI-sounding self-help exercise, not a President's call.
-- `outline-call.call.spoken-talk-to-someone-older-and-someone-younger-than-you-about-and-compare-w`: "Talk to someone older and someone younger than you about {about}, and compare what they say." — Survey homework with no stand.
-- `outline-call.call.spoken-ask-your-local-newspaper-what-it-s-covering-on`: "Ask your local newspaper what it's covering on {theme-short}." — An odd errand that asks a newspaper about its coverage.
-- `outline-call.call.spoken-if-touches-your-job-ask-your-employer-or-your-union-what-they-re-doing`: "If {theme-short} touches your job, ask your employer or your union what they're doing about it." — Errand homework with no stand from the President.
+- `outline-call.report.state-of-the-union-more-went-wrong-than-right-this-year-and-i-ll-carry-that-int`: "More went wrong than right this year, and I'll carry that into the next {term-left}." — 'Carry that' points at a vague tally; no subject.
+- `outline-call.report.state-of-the-union-as-many-things-got-better-as-got-worse-this-year-and-i-d-lik`: "As many things got better as got worse this year, and I'd like the next {term-left} to tilt it toward better." — 'Tilt it toward better' leans on an unnamed 'it'.
+- `outline-call.report.state-of-the-state-more-went-wrong-than-right-in-this-year-and-i-ll-carry-that`: "More went wrong than right in {realm-name} this year, and I'll carry that into the next {term-left}." — 'Carry that' with no subject.
+- `outline-call.report.state-of-the-state-as-many-things-got-better-as-got-worse-in-this-year-and-i-d`: "As many things got better as got worse in {realm-name} this year, and I'd like the next {term-left} to tilt it toward better." — 'Tilt it' leans on an unnamed it.
+- `outline-call.send-off.state-of-the-union-thank-you-for-having-me-in-this-chamber-i-have-left-to-earn`: "Thank you for having me in this chamber. I have {term-left} left to earn it." — 'Earn it'; what is it?
+- `outline-call.send-off.state-of-the-state-thank-you-for-having-me-in-this-room-i-have-left-to-earn-it`: "Thank you for having me in this room. I have {term-left} left to earn it." — 'Earn it'; what is it?
+- `outline-call.address-to.state-of-the-union-to-the-people-who-take-a-day-off-to-vote-it-counted-and-the`: "To the people who take a day off to vote: it counted, and the next {term-left} show how much." — 'Show how much' is vague; how much what?
+- `outline-call.address-to.state-of-the-state-to-the-people-who-take-a-day-off-to-vote-in-it-counted-and-t`: "To the people who take a day off to vote in {realm-name}: it counted, and the next {term-left} show how much." — 'Show how much' is vague.
 
-### one-idea-to-a-sentence (8)
+### address-name-check-does-work (6)
 
-- `outline-call.send-off.state-of-the-state-i-have-in-this-term-and-i-d-like-to-spend-them-working-with`: "I have {term-left} in this term, and I'd like to spend them working with this {body-word}." — 'I have {term-left} in this term' drops 'left' and reads wrong, then 'spend them' has a loose referent.
-- `outline-call.report.state-of-the-state-i-m-reporting-on-to-the-that-has-to-act-on-it`: "I'm reporting on {realm-name} to the {body-word} that has to act on it." — 'reporting on {realm-name} to the {body-word} that has to act on it' is awkward, with a loose 'it'.
-- `outline-call.report.state-of-the-state-the-writes-the-laws-i-sign-or-veto-them-and-today-i-report-o`: "The {body-word} writes the laws, I sign or veto them, and today I report on {realm-name}." — Three clauses glued by commas into a civics lesson.
-- `outline-call.report.state-of-the-state-i-work-for-so-does-the-and-i-report-to-it-on-how-things-are`: "I work for {realm-name}, so does the {body-word}, and I report to it on how things are going." — 'I work for X, so does the {body-word}, and...' glues clauses at commas.
-- `outline-call.report.state-of-the-state-i-report-to-the-for-with-left-in-my-term`: "I report to the {body-word} for {realm-name} with {term-left} left in my term." — 'report to the {body-word} for {realm-name} with...' is a tangle of prepositions.
-- `outline-call.address-to.state-of-the-state-to-the-voters-across-who-backed-someone-else-you-ll-get-the`: "To the voters across {realm-name} who backed someone else: you'll get the same hearing from my office as anyone, over {term-left}." — The trailing 'over {term-left}' is awkward; it's the 'I didn't forget about you' format he rejected.
-- `outline-call.hired.spoken-last-fall-s-ballot-had-two-names-on-it-for-this-job-mine-and-s-and-you`: "Last fall's ballot had two names on it for this job, mine and {the-vice-president}'s, and you picked both." — 'two names on it for this job, mine and X's' is awkward and says the same as L1-111.
-- `outline-call.hired.spoken-voters-picked-a-ticket-in-november-with-on-it-beside-me-and-today-the`: "Voters picked a ticket in November, with {the-vice-president} on it beside me, and today the ticket takes office." — Stiff, and 'the ticket takes office' is odd phrasing.
+- `outline-call.greeting.state-of-the-union-members-of-congress-my-fellow-americans`: "{the-vice-president}, members of Congress, my fellow Americans." — He objected to openings that single out named people ('why are we just singling out random people?'), and it skips the Speaker.
+- `outline-call.report.state-of-the-union-members-of-both-parties-are-in-this-room-tonight-and-is-here`: "Members of both parties are in this room tonight, and {the-vice-president} is here to hear the report with them." — Names the Vice President only to say they are in the room.
+- `outline-call.report.state-of-the-union-it-s-my-job-to-report-to-congress-and-sits-behind-me-while-i`: "It's my job to report to Congress, and {the-vice-president} sits behind me while I do." — Names the Vice President only to say where they sit.
+- `outline-call.report.state-of-the-union-the-constitution-gives-the-president-one-duty-that-comes-wit`: "The Constitution gives the President one duty that comes with a podium: report to Congress. {the-vice-president} is here for it." — 'One duty that comes with a podium' is composed, and the Vice President is named only to be present.
+- `outline-call.report.state-of-the-union-everyone-in-this-chamber-included-has-a-job-in-this-report-a`: "Everyone in this chamber, {the-vice-president} included, has a job in this report, and mine is to give it." — Awkward meta talk about the report, with the Vice President named for nothing.
+- `outline-call.report.state-of-the-union-i-m-reporting-to-congress-and-is-here-to-see-that-the-senate`: "I'm reporting to Congress, and {the-vice-president} is here to see that the Senate hears it too." — A contrived reason to name the Vice President; the line announces instead of arguing.
 
-### stance-is-plainly-for-or-against (8)
+### names-something-specific (5)
 
-- `outline-call.call.state-of-the-union-learn-what-your-state-legislature-is-doing-on-many-of-these`: "Learn what your state legislature is doing on {theme-short}. Many of these decisions start there." — A President sends people to their state legislature and says the decisions start there, asking the wrong level.
-- `outline-call.call.state-of-the-state-learn-what-your-city-council-is-doing-on-many-of-these-decis`: "Learn what your city council is doing on {theme-short}. Many of these decisions start there." — A governor sends people to their city council, the wrong level.
-- `outline-call.call.spoken-check-whether-a-bill-on-has-been-introduced-in-your-state-and-read-it`: "Check whether a bill on {about} has been introduced in your state, and read it." — A President sends people to state bills, the wrong level for his ask.
-- `outline-call.call.spoken-see-what-your-own-town-has-already-tried-on`: "See what your own town has already tried on {about}." — A President sends people to town policy, the wrong level.
-- `outline-call.call.spoken-read-both-sides-arguments-on-before-deciding-which-one-persuades-you`: "Read both sides' arguments on {about} before deciding which one persuades you." — The President takes no side and tells listeners to pick one.
-- `outline-call.call.spoken-find-your-town-s-budget-and-see-what-it-spends-on`: "Find your town's budget and see what it spends on {theme-short}." — A President points to the town budget, the wrong level.
-- `outline-call.call.spoken-sit-in-on-one-meeting-of-your-school-board-or-town-council-and-listen`: "Sit in on one meeting of your school board or town council and listen for {theme-short}." — School board or town council, the wrong level for a national address.
-- `outline-call.call.spoken-look-up-who-represents-you-in-your-state-legislature-and-see-what-they`: "Look up who represents you in your state legislature, and see what they've said about {theme-short}." — Points to the state legislature from an inaugural, the wrong level.
+- `outline-call.run.spoken-workers-have-been-getting-raises-for-and-families-can-do-more-with-the`: "Workers have been getting raises for {run-span}, and families can do more with them." — 'Families can do more with them' is vague.
+- `outline-call.run.spoken-hiring-went-up-and-pay-went-up-over-in-the-same-places`: "Hiring went up and pay went up over {run-span}, in the same places." — 'In the same places' is an unexplained, unsupported tag.
+- `outline-call.report.state-of-the-union-on-balance-the-year-was-neither-good-nor-bad-for-the-country`: "On balance the year was neither good nor bad for the country, and the next {term-left} start from there." — 'Neither good nor bad' says nothing and takes no stand.
+- `outline-call.report.state-of-the-state-on-balance-the-year-was-neither-good-nor-bad-for-and-my-next`: "On balance the year was neither good nor bad for {realm-name}, and my next {term-left} start from there." — 'Neither good nor bad' takes no stand.
+- `outline-call.call.spoken-find-a-free-public-meeting-this-month-where-is-on-the-agenda`: "Find a free public meeting this month where {theme-short} is on the agenda." — 'Free' public meeting is an odd detail, and the ask is flat.
 
-### vary-the-shape (6)
+### line-fits-the-roles-in-its-situation (4)
 
-- `outline-call.greeting.state-of-the-union-members-of-congress-and-my-fellow-citizens`: "{the-vice-president}, members of Congress, and my fellow citizens." — Near word-for-word twin of L1-002.
-- `outline-call.call.state-of-the-union-take-one-question-about-to-the-next-town-hall-your-member-of`: "Take one question about {about} to the next town hall your member of Congress holds." — Same 'take your question to your member' shape as L1-064, and 'one question' is composed.
-- `outline-call.report.state-of-the-state-i-m-here-as-the-governor-of-to-report-to-the-on-the-year`: "I'm here as the governor of {realm-name} to report to the {body-word} on the year." — Same 'I'm here to report to the {body-word} on...' shape as L1-016.
-- `outline-call.call.state-of-the-state-take-one-question-about-to-the-next-town-hall-your-member-of`: "Take one question about {about} to the next town hall your member of the {body-word} holds." — Same take-a-question-to-your-member shape as L1-095.
-- `outline-call.hired.spoken-and-i-were-on-the-same-ballot-in-november-and-you-chose-both-of-us`: "{the-vice-president} and I were on the same ballot in November, and you chose both of us." — Same 'we were on one ballot and you chose us' shape as L1-113 and L1-114, and it thanks no one.
-- `outline-call.hired.spoken-the-ticket-that-won-in-november-was-and-me-and-we-both-start-work-toda`: "The ticket that won in November was {the-vice-president} and me, and we both start work today." — Another ticket-won line in the same shape, closing on 'start work today'.
+- `outline-call.call.spoken-bring-a-question-about-to-the-next-open-house-at-your-school`: "Bring a question about {theme-short} to the next open house at your school, library or fire station." — A fire station open house is an odd place for a policy question.
+- `outline-call.address-to.state-of-the-union-to-the-people-who-work-for-the-government-and-read-the-news`: "To the people who work for the government and read the news about it: the next {term-left} are about your jobs too." — An odd group to address, and 'about your jobs too' is unclear.
+- `outline-call.address-to.state-of-the-union-to-the-people-who-didn-t-watch-tonight-the-news-will-have-th`: "To the people who didn't watch tonight: the news will have this tomorrow, and the next {term-left} start with it." — It addresses people who aren't watching.
+- `outline-call.address-to.state-of-the-state-to-the-people-who-work-for-s-government-and-read-the-news-ab`: "To the people who work for {realm-name}'s government and read the news about it: the next {term-left} are about your jobs too." — An odd group, and the line is unclear.
 
-### no-stock-phrases (4)
+### no-literary-phrasing (3)
 
-- `outline-call.report.state-of-the-union-it-falls-to-the-president-to-report-to-congress-and-is-here`: "It falls to the President to report to Congress, and {the-vice-president} is here for it." — 'It falls to the President' is stock, and the Vice President is a bare name check.
-- `outline-call.send-off.state-of-the-union-thank-you-for-your-time-we-have-to-use-well`: "Thank you for your time. We have {term-left} to use well." — 'Thank you for your time' and 'use well' are stock and name nothing the speech said.
-- `outline-call.report.state-of-the-state-it-falls-to-the-governor-to-report-to-the-on-and-i-m-glad-to`: "It falls to the governor to report to the {body-word} on {realm-name}, and I'm glad to do it." — 'It falls to the governor... I'm glad to do it' is stock.
-- `outline-call.oath.spoken-my-oath-is-to-the-constitution-and-s-is-too-so-the-two-of-us-start-fro`: "My oath is to the Constitution, and {the-vice-president}'s is too, so the two of us start from the same page." — 'start from the same page' is stock.
+- `outline-call.disaster-meaning.spoken-for-rebuilding-gets-a-seat-in-every-budget-meeting-i-m-in`: "For {term-left}, rebuilding gets a seat in every budget meeting I'm in." — 'Rebuilding gets a seat in every budget meeting' is a figure of speech, and 'For four years' reads clipped.
+- `outline-call.disaster-image.spoken-a-bus-driver-in-one-of-the-hit-towns-still-takes-a-longer-ro`: "A bus driver in one of the hit towns still takes a longer route to school because of the {the-disaster}." — 'One of the hit towns' is reporter shorthand and the bus route detail is strained.
+- `outline-call.disaster-image.spoken-a-couple-somewhere-is-rebuilding-a-porch-board-by-board-afte`: "A couple somewhere is rebuilding a porch, board by board, after the {the-disaster}." — 'Board by board' is composed texture, the literary turn he rejects.
 
-### no-pointing-at-the-unnamed (3)
+### tense-of-the-record (2)
 
-- `outline-call.send-off.state-of-the-union-there-s-a-lot-on-this-list-for-the-next-and-i-ll-need-member`: "There's a lot on this list for the next {term-left}, and I'll need members of both parties to get through it." — Calls the speech a list ('this list') and leans on 'it' with nothing named.
-- `outline-call.send-off.state-of-the-state-there-s-a-lot-on-this-list-for-the-next-and-i-ll-need-member`: "There's a lot on this list for the next {term-left}, and I'll need members of both parties in the {body-word} to get through it." — Calls the speech a list and leans on an unnamed 'it'.
-- `outline-call.send-off.state-of-the-union-whatever-happens-in-the-next-i-d-rather-we-work-on-it-togeth`: "Whatever happens in the next {term-left}, I'd rather we work on it together than apart." — 'work on it' has no referent, and 'together than apart' is a stock contrast.
+- `outline-call.run.spoken-a-good-share-of-workers-have-moved-up-a-pay-grade-over-the-last`: "A good share of workers have moved up a pay grade over the last {run-span}." — 'Moved up a pay grade' claims something no record holds and is office-chart talk.
+- `outline-call.run.spoken-paychecks-have-grown-in-most-states-over`: "Paychecks have grown in most states over {run-span}." — 'In most states' claims a state-by-state fact the national record doesn't give.
 
-### every-line-gives-its-context (3)
+### concrete-image-over-generic (1)
 
-- `outline-call.address-to.state-of-the-union-to-the-families-who-sent-a-member-of-congress-here-they-hear`: "To the families who sent a member of Congress here: for the next {term-left}, they hear from you more than from me, and they should." — Members serve two-year terms, so 'for the next {term-left}' can be false, and 'they hear from you more than from me' is muddled.
-- `outline-call.address-to.state-of-the-state-to-the-families-in-who-sent-a-member-of-the-here-they-hear-f`: "To the families in {realm-name} who sent a member of the {body-word} here: they hear from you more than from me, and they should." — 'they hear from you more than from me, and they should' is muddled.
-- `outline-call.call.spoken-learn-how-is-decided-where-you-live`: "Learn how {theme-short} is decided where you live." — Vague homework with no stand.
-
-### It. What is it? (2)
-
-- `outline-call.send-off.state-of-the-union-congress-and-i-have-to-get-this-done-and-i-m-ready-to-start`: "Congress and I have {term-left} to get this done, and I'm ready to start tomorrow." — 'to get this done' points at an unnamed 'this', and 'ready to start tomorrow' is the 'now I'll go do it' close he rejected.
-- `outline-call.send-off.state-of-the-union-the-next-will-be-busy-and-i-m-glad-to-be-doing-it-with-you`: "The next {term-left} will be busy, and I'm glad to be doing it with you." — 'doing it' has nothing to refer to, and the close names nothing the speech said.
-
-### With 4 years ahead... It. What is it? (2)
-
-- `outline-call.report.state-of-the-union-with-left-in-this-term-i-m-here-to-report-to-congress-on-how`: "With {term-left} left in this term, I'm here to report to Congress on how the country stands." — Leads on the term left for its own sake, the opener he flagged Nov 23, and announces a report.
-- `outline-call.report.state-of-the-state-with-left-in-my-term-i-report-to-the-on-how-is-doing`: "With {term-left} left in my term, I report to the {body-word} on how {realm-name} is doing." — Opens on the term left for its own sake, the Nov 23 complaint.
-
-### hold me to it (2)
-
-- `outline-call.call.state-of-the-union-watch-how-congress-handles-this-year-and-compare-it-with-wha`: "Watch how Congress handles {theme-short} this year, and compare it with what was said here." — 'compare it with what was said here' is the 'hold me to it' move he mocked.
-- `outline-call.call.state-of-the-state-watch-how-the-handles-this-year-and-compare-it-with-what-was`: "Watch how the {body-word} handles {theme-short} this year, and compare it with what was said here." — The 'compare it with what was said here' move he mocked.
-
-### no-explaining (2)
-
-- `outline-call.call.state-of-the-state-tell-a-neighbor-in-what-you-learned-about-today`: "Tell a neighbor in {realm-name} what you learned about {theme-short} today." — 'Tell a neighbor what you learned today' is condescending, AI-sounding filler.
-- `outline-call.hired.spoken-in-november-you-voted-for-me-and-together-since-the-two-of-us-ran-as-o`: "In November you voted for me and {the-vice-president} together, since the two of us ran as one ticket." — 'since the two of us ran as one ticket' explains the obvious.
-
-### speech-craft-is-earned (2)
-
-- `outline-call.hired.spoken-and-i-ran-together-and-won-together-so-we-ll-be-working-this-out-toget`: "{the-vice-president} and I ran together and won together, so we'll be working this out together." — A 'together... together... together' triple, and 'working this out' points at nothing.
-- `outline-call.call.spoken-ask-a-teacher-a-nurse-or-a-business-owner-how-looks-from-where-they-wo`: "Ask a teacher, a nurse or a business owner how {about} looks from where they work." — A composed three-part list of jobs, and 'how it looks from where they work' is AI texture.
-
-### speech-follows-its-kinds-order (1)
-
-- `outline-call.greeting.state-of-the-state-spoken-neighbors-and-members-of-the`: "Neighbors, and members of the {body-word}." — Opening a State of the State on 'Neighbors' before the legislature reads folksy and out of order.
-
-### address-close-names-the-body (1)
-
-- `outline-call.send-off.state-of-the-union-thank-you-for-listening-and-thank-you-for-the-we-ll-be-worki`: "Thank you for listening, and thank you for the {term-left} we'll be working together." — Presumes Congress's cooperation and closes on a pleasantry that names nothing the speech said.
+- `outline-call.disaster-image.spoken-a-town-clerk-somewhere-is-answering-questions-about-the-yet`: "A town clerk somewhere is answering questions about the {the-disaster} yet again." — A clerk answering questions 'yet again' is a weak picture that says little about the disaster.
 
 ### fits-speaker-and-tie (1)
 
-- `outline-call.send-off.state-of-the-union-i-ll-see-many-of-you-in-the-hallways-over-the-next-and-i-ll`: "I'll see many of you in the hallways over the next {term-left}, and I'll listen to what you tell me." — A President is not in Congress's hallways to see members; the promise does not fit the speaker.
+- `outline-call.greeting.state-of-the-state-colleagues-in-the-and-fellow-residents-of`: "Colleagues in the {body-word}, and fellow residents of {realm-name}." — A governor is not a colleague in the legislature.
 
-### false for its facts (1)
+### stance-is-plainly-for-or-against (1)
 
-- `outline-call.oath.spoken-i-just-promised-to-preserve-protect-and-defend-the-constitution-and-ma`: "I just promised to preserve, protect and defend the Constitution, and {the-vice-president} made that promise a few minutes before me." — The Vice President's oath is not the presidential 'preserve, protect and defend' oath.
-
-### address-no-capital-after-comma (1)
-
-- `outline-call.oath.spoken-i-m-sworn-to-the-constitution-so-is-and-neither-oath-mentions-a-party`: "I'm sworn to the Constitution, so is {the-vice-president}, and neither oath mentions a party." — Three clauses glued at commas ('I'm sworn..., so is X, and...').
+- `outline-call.call.spoken-look-up-the-last-vote-your-state-legislature-took-on`: "Look up the last vote your state legislature took on {theme-short}." — A national address sends people to the state legislature on a question it may not decide.
 
 ## As played
 
@@ -351,3 +314,38 @@ Pre-grader, 2026-11-24. Branch `story/w-call-charge` at `cd89c6e6`, every line a
 - `outline-call.oath.spoken-i-swore-to-defend-the-constitution-a-few-minutes-ago-and-so-did`: "I swore to defend the Constitution a few minutes ago, and so did {the-vice-president}."
 - `outline-call.hired.spoken-and-i-ran-together-last-fall-and-the-votes-you-gave-us-are-why-we-re-s`: "{the-vice-president} and I ran together last fall, and the votes you gave us are why we're standing here."
 - `outline-call.call.spoken-ask-a-few-neighbors-what-they-think-about`: "Ask a few neighbors what they think about {theme-short}."
+- `outline-call.disaster-meaning.spoken-a-family-should-know-within-days-whether-its-claim-was-appro`: "A family should know within days whether its claim was approved, and that's the rule I'll set for the next {term-left}."
+- `outline-call.disaster-meaning.spoken-in-the-next-the-people-who-run-disaster-relief-will-answer-q`: "In the next {term-left}, the people who run disaster relief will answer questions from the families they serve."
+- `outline-call.disaster-meaning.spoken-over-the-next-a-town-that-has-lost-its-school-or-its-clinic`: "Over the next {term-left}, a town that has lost its school or its clinic will not wait in line behind paperwork."
+- `outline-call.disaster-meaning.spoken-the-recovery-will-have-one-phone-number-a-family-can-call-an`: "The recovery will have one phone number a family can call, and it will stay open for the next {term-left}."
+- `outline-call.disaster-meaning.spoken-small-towns-will-get-the-same-attention-as-big-ones-for-the`: "Small towns will get the same attention as big ones for the next {term-left}."
+- `outline-call.disaster-meaning.spoken-rebuilding-money-will-go-to-rebuilding-and-over-the-next-i-l`: "Rebuilding money will go to rebuilding, and over the next {term-left} I'll have it audited."
+- `outline-call.disaster-image.spoken-a-family-somewhere-is-still-living-out-of-suitcases-because`: "A family somewhere is still living out of suitcases because of the {the-disaster}."
+- `outline-call.disaster-image.spoken-a-man-somewhere-is-sleeping-in-his-truck-outside-what-s-left`: "A man somewhere is sleeping in his truck outside what's left of his house after the {the-disaster}."
+- `outline-call.disaster-image.spoken-a-nurse-somewhere-is-working-a-double-shift-in-a-clinic-the`: "A nurse somewhere is working a double shift in a clinic the {the-disaster} damaged."
+- `outline-call.disaster-image.spoken-a-teacher-somewhere-is-holding-class-in-a-borrowed-room-beca`: "A teacher somewhere is holding class in a borrowed room because the {the-disaster} closed her school."
+- `outline-call.disaster-image.spoken-a-woman-somewhere-is-filling-out-another-form-for-help-after`: "A woman somewhere is filling out another form for help after the {the-disaster}."
+- `outline-call.disaster-image.spoken-a-boy-somewhere-is-sleeping-on-a-cot-in-a-gym-because-the-to`: "A boy somewhere is sleeping on a cot in a gym because the {the-disaster} took his bedroom."
+- `outline-call.greeting.state-of-the-state-members-of-the-and-everyone-in-listening`: "Members of the {body-word}, and everyone in {realm-name} listening."
+- `outline-call.greeting.state-of-the-state-members-of-the-guests-and-people-of`: "Members of the {body-word}, guests, and people of {realm-name}."
+- `outline-call.greeting.state-of-the-state-lawmakers-of-and-neighbors-listening-at-home`: "Lawmakers of {realm-name}, and neighbors listening at home."
+- `outline-call.greeting.state-of-the-state-to-the-and-to-the-people-of`: "To the {body-word}, and to the people of {realm-name}."
+- `outline-call.report.state-of-the-state-i-report-to-the-today-and-what-i-say-is-for-every-person-in`: "I report to the {body-word} today, and what I say is for every person in {realm-name}, not only the people in this room."
+- `outline-call.run.spoken-starting-pay-at-many-jobs-is-higher-than-it-was-ago`: "Starting pay at many jobs is higher than it was {run-span} ago."
+- `outline-call.run.spoken-more-families-can-cover-their-bills-without-a-second-job-than-ago`: "More families can cover their bills without a second job than {run-span} ago."
+- `outline-call.run.spoken-wage-growth-has-been-steady-for-and-most-workers-have-felt-some-of-it`: "Wage growth has been steady for {run-span}, and most workers have felt some of it."
+- `outline-call.run.spoken-employers-have-raised-pay-to-keep-their-workers-over-the-last`: "Employers have raised pay to keep their workers over the last {run-span}."
+- `outline-call.run.spoken-over-the-last-jobs-got-easier-to-find-and-better-paid`: "Over the last {run-span}, jobs got easier to find and better paid."
+- `outline-call.run.spoken-for-a-person-could-find-a-job-and-then-ask-for-a-raise-and-expect-to-g`: "For {run-span}, a person could find a job and then ask for a raise and expect to get one."
+- `outline-call.call.spoken-ask-a-coach-a-pastor-or-a-shop-steward-what-they-hear-from-p`: "Ask a coach, a pastor or a shop steward what they hear from people about {about}."
+- `outline-call.call.spoken-ask-the-person-who-cuts-your-hair-or-fixes-your-car-what-the`: "Ask the person who cuts your hair or fixes your car what they think about {about}."
+- `outline-call.call.spoken-before-you-argue-about-online-call-or-visit-someone-who-sees`: "Before you argue about {about} online, call or visit someone who sees it differently."
+- `outline-call.call.spoken-find-the-person-in-your-town-who-knows-the-most-about-and-as`: "Find the person in your town who knows the most about {theme-short} and ask them a question."
+- `outline-call.call.spoken-tell-the-people-in-your-life-where-you-stand-on-and-ask-wher`: "Tell the people in your life where you stand on {about}, and ask where they stand."
+- `outline-call.hired.spoken-the-vote-in-november-was-close-in-some-places-and-wide-in-ot`: "The vote in November was close in some places and wide in others, and I'll answer to all of them for {term-left}."
+- `outline-call.hired.spoken-you-gave-me-in-november-and-i-know-that-s-all-i-get`: "You gave me {term-left} in November, and I know that's all I get."
+- `outline-call.send-off.state-of-the-union-congress-writes-the-bills-and-i-sign-them-or-send-them-back`: "Congress writes the bills and I sign them or send them back, so for the next {term-left} we'll have to work out each one."
+- `outline-call.send-off.state-of-the-state-the-writes-the-bills-and-i-sign-them-or-send-them-back-so-fo`: "The {body-word} writes the bills and I sign them or send them back, so for the next {term-left} we'll have to work out each one."
+- `outline-call.address-to.state-of-the-union-to-the-people-who-voted-for-the-other-party-the-next-are-you`: "To the people who voted for the other party: the next {term-left} are yours as much as mine."
+- `outline-call.address-to.state-of-the-union-to-the-member-of-congress-who-disagrees-with-me-most-i-ll-st`: "To the member of Congress who disagrees with me most: I'll start with you, in the next {term-left}."
+- `outline-call.address-to.state-of-the-state-to-the-member-of-the-who-disagrees-with-me-most-i-ll-start-w`: "To the member of the {body-word} who disagrees with me most: I'll start with you, in the next {term-left}."
