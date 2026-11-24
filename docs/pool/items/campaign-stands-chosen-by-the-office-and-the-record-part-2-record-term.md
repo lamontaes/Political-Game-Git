@@ -32,7 +32,7 @@ Seen: the stands under each candidate on the Elections screen's race page, and t
 
 **Done when.** A second session builds a played world in a drawn place on main after the merge, advances it until local races have filers, and finds a candidate whose job or vote matches one of their stands, with that record's id on the filing as the stand's reason. It records the place, the seed and the filing's record id, and a test over drawn places shows the record term changing a platform against the same world with the weight set to zero.
 
-**Waits on.** The CTO's word that the owner's Nov 23 answer reopens the record term triage dropped on Nov 10 (asked on #9747 by the Dead stops tracer), and campaign-stands-chosen-by-the-office-and-the-record (part 1: the office's own questions and the reason kept on the filing).
+**Waits on.** campaign-stands-chosen-by-the-office-and-the-record (part 1: the office's own questions and the reason kept on the filing).
 
 **Files.** src/core2/campaign-stances.ts, src/core2/data/campaigns/parameters.json
 
@@ -41,3 +41,5 @@ Seen: the stands under each candidate on the Elections screen's race page, and t
 **Screenshot.** A local race's page on the Elections screen with a stand that names its reason, from a drawn place, with the place and seed under it.
 
 **Notes.** Split from part 1 so each part fits a 4-hour box (pool standard).
+
+The CTO answered on Nov 24, about 04:20Z (#10377, comment 7121916599): a candidate runs only on stands "their own record gives a reason for", and that the office can act on. So the record term is in, and the Nov 10 triage drop no longer stands. The Stands lane builds the record reason into #10363 (branch claude/pt-stands-p28).
