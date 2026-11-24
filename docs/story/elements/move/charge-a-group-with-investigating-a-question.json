@@ -2,8 +2,9 @@
   "id": "charge-a-group-with-investigating-a-question",
   "kind": "move",
   "summary": "Members set a research question for a new group before asking it to report back.",
-  "realLife": "owner, Nov 8: Forming a committee or task force to learn about an issue can be a scene.",
+  "realLife": "The Senate created a select committee to investigate the 1972 presidential campaign. Its Watergate inquiry took testimony and pursued recordings before the committee issued its final report.",
   "sources": [
+    "https://www.senate.gov/about/powers-procedures/investigations/watergate.htm",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
   ],
   "inGame": "The study-formed situation and the legislature’s study committee record supply the charge.",
@@ -18,6 +19,12 @@
       "what": "Members narrow the charge to the question their records can answer.",
       "pulledBy": "The original request also covered an issue outside the group's authority.",
       "writesBack": "The adopted charge names the narrower question and its reporting date."
+    },
+    {
+      "turn": "late",
+      "what": "The group brings in its report after the council has already adopted the annual budget.",
+      "pulledBy": "The report depends on a survey returned after the budget vote.",
+      "writesBack": "The clerk puts its cost estimates in the file for the next budget hearing."
     }
   ]
 }
