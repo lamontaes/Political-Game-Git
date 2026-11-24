@@ -9321,10 +9321,10 @@
       "bearing": "firm"
     },
     {
-      "key": "scene-talk-office.close-answer.that-gives-me-a-date-what-i-still-want-to-understand-is-why-my-rate-stayed-at-pay",
+      "key": "scene-talk-office.close-answer.that-gives-me-a-date-i-d-still-like-agency-to-explain-why-my-rate-stayed-the-same",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "That gives me a date. What I still want to understand is why my rate stayed at {pay}.",
+      "text": "That gives me a date. I'd still like {agency} to explain why my rate stayed the same.",
       "uses": [
         {
           "subject": "scene",
@@ -9334,8 +9334,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-wage", "agency", "case-response-date"],
-          "after": "scene-talk-office.reply-leave.give-me-until-case-response-date-to-decide-whether-to-refer-the-difference-in-your-pay",
-          "onlyWhen": ["pay"]
+          "after": "scene-talk-office.reply-leave.give-me-until-case-response-date-to-decide-whether-to-refer-the-difference-in-your-pay"
         }
       ],
       "elements": ["one-stale-rate-leads-to-payroll-check"],
@@ -9376,10 +9375,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.close-answer.put-my-rate-down-as-pay-anybody-else-would-have-to-give-you-their-own",
+      "key": "scene-talk-office.close-answer.if-agency-wants-to-know-what-anybody-else-makes-they-ll-have-to-ask-them-i-can-give-you-my-own-rate",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "Put my rate down as {pay}. Anybody else would have to give you their own.",
+      "text": "If {agency} wants to know what anybody else makes, they'll have to ask them. I can give you my own rate.",
       "uses": [
         {
           "subject": "scene",
@@ -9389,8 +9388,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-wage", "agency", "case-response-date"],
-          "after": "scene-talk-office.reply-leave.i-ve-heard-what-you-make-your-case-stays-open-here-until-we-decide-by-case-response-date",
-          "onlyWhen": ["pay"]
+          "after": "scene-talk-office.reply-leave.i-ve-heard-what-you-make-your-case-stays-open-here-until-we-decide-by-case-response-date"
         }
       ],
       "elements": ["silent-employer-limits-coworker-findings"],
@@ -9566,10 +9564,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.close-answer.even-if-the-rate-was-different-then-it-s-those-hours-at-pay-i-want-checked",
+      "key": "scene-talk-office.close-answer.even-if-the-rate-was-different-then-it-s-those-earlier-hours-i-want-agency-to-check",
       "move": "close-answer",
       "kind": "spoken",
-      "text": "Even if the rate was different then, it's those hours at {pay} I want checked.",
+      "text": "Even if the rate was different then, it's those earlier hours I want {agency} to check.",
       "uses": [
         {
           "subject": "scene",
@@ -9579,8 +9577,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-wage", "agency", "case-response-date"],
-          "after": "scene-talk-office.reply-leave.case-response-date-is-our-deadline-to-decide-on-the-referral-the-rate-for-those-earlier-hours-is-a-separate-question",
-          "onlyWhen": ["pay"]
+          "after": "scene-talk-office.reply-leave.case-response-date-is-our-deadline-to-decide-on-the-referral-the-rate-for-those-earlier-hours-is-a-separate-question"
         }
       ],
       "elements": ["old-pay-period-needs-old-rate"],
