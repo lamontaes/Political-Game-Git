@@ -3652,14 +3652,19 @@ export function replyInScene(
   // One record per scene of the moment and reply path: a record that stages
   // several scenes keeps each one's replies apart.
   const unit = scene.unit ?? scene.typeKey;
-  const id = `scene-reply:${entry.momentId}:${unit}:${path.join(".")}`;
+  const replyPrefix = `scene-reply:${entry.momentId}:${unit}:`;
+  const id = replyPrefix + path.join(".");
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
   // Replaying a recorded answer is safe. A different answer needs an open
   // meeting and an offer the sitting governor can still decide.
   if (scene.typeKey === "emergency-briefing") {
+    // The player screen saves each step. A later step must continue the
+    // same path, including when an earlier question left the offer open.
     if (
-      entry.answered?.includes(unit) ||
+      entry.replies?.some(
+        (prior) => prior.startsWith(replyPrefix) && !id.startsWith(prior + "."),
+      ) ||
       !core.modules.has(EXECUTIVE_MODULE_ID)
     )
       return null;

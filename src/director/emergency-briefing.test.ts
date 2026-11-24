@@ -170,12 +170,29 @@ describe(`the governor's briefing room (${where})`, () => {
     );
     expect(yes, where).toBeGreaterThanOrEqual(0);
     const entryBeforeAnswer = { ...entry! };
+    const question = scene.scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "ask",
+    );
+    expect(question, where).toBeGreaterThanOrEqual(0);
+    const answer = scene.scene.talk.tree.replies[
+      question
+    ]!.next!.replies.findIndex((reply) => reply.line.move === "agree");
+    expect(answer, where).toBeGreaterThanOrEqual(0);
+    const options = { typeKey: "emergency-briefing" };
+    expect(
+      replyInScene(core, world.director, playerId, entry!, [question], options),
+      where,
+    ).toBeTruthy();
+    expect(
+      replyInScene(core, world.director, playerId, entry!, [yes], options),
+      where,
+    ).toBeNull();
     const replyId = replyInScene(
       core,
       world.director,
       playerId,
       entry!,
-      [yes],
+      [question, answer],
       {
         typeKey: "emergency-briefing",
       },
@@ -189,7 +206,17 @@ describe(`the governor's briefing room (${where})`, () => {
       replyInScene(core, world.director, playerId, entry!, [choice], {
         typeKey: "emergency-briefing",
       });
-    expect(replyAgain(yes), where).toBe(replyId);
+    expect(
+      replyInScene(
+        core,
+        world.director,
+        playerId,
+        entry!,
+        [question, answer],
+        options,
+      ),
+      where,
+    ).toBe(replyId);
     expect(replyAgain(no), where).toBeNull();
     expect(
       replyInScene(core, world.director, playerId, entryBeforeAnswer, [no], {
