@@ -1,0 +1,30 @@
+{
+  "id": "kicker-what-if-quote",
+  "kind": "voice",
+  "summary": "The last line is the opponent's one-line what-if.",
+  "realLife": "The opposing member said an earlier resignation would have put the seat on the ballot.",
+  "sources": [
+    "Patch (Brick, New Jersey), 'New Councilmember Appointed In Brick After Resignation', Oct. 15, 2026: https://patch.com/new-jersey/brick/new-councilmember-appointed-brick-after-resignation",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote", "date"],
+  "gates": [],
+  "weights": {
+    "vacancy": 0.9
+  },
+  "inGame": "the resignation date record and the election calendar (`election-notice`)",
+  "turns": [
+    {
+      "name": "kicker from the appointee",
+      "pulledBy": "a new member with a plan",
+      "writes": "the last line is their promise"
+    },
+    {
+      "name": "no kicker",
+      "pulledBy": "a plain story",
+      "writes": "the last line is the next meeting"
+    }
+  ],
+  "usedBy": []
+}

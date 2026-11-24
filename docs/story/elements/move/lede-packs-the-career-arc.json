@@ -1,0 +1,30 @@
+{
+  "id": "lede-packs-the-career-arc",
+  "kind": "move",
+  "summary": "The lede packs the whole career into one clause before any ceremony.",
+  "realLife": "The first sentence gave the retiring clerk's years and the date she leaves.",
+  "sources": [
+    "Patch (Clark, New Jersey), 'Clark Bids Farewell To Municipal Clerk Edith Merkel After 24 Years Of Service', May 19, 2026: https://patch.com/new-jersey/clark/clark-bids-farewell-municipal-clerk-edith-merkel-after-24-years-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "number", "date"],
+  "gates": [],
+  "weights": {
+    "retirement": 1.0
+  },
+  "inGame": "the `retirement` news kind and the filled-in official's service record",
+  "turns": [
+    {
+      "name": "a short lede",
+      "pulledBy": "a brief notice",
+      "writes": "the lede says only who retires and when"
+    },
+    {
+      "name": "lede on the ceremony",
+      "pulledBy": "an event at a meeting",
+      "writes": "the lede says what was given"
+    }
+  ],
+  "usedBy": []
+}

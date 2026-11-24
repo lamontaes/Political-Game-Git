@@ -1,0 +1,30 @@
+{
+  "id": "neutral-procedural-lede-dispute-late",
+  "kind": "move",
+  "summary": "The lede is neutral and procedural; the dispute comes late in the story.",
+  "realLife": "A vacancy story opened on the council having a new member, and the objections arrived near the end.",
+  "sources": [
+    "Patch (Brick, New Jersey), 'New Councilmember Appointed In Brick After Resignation', Oct. 15, 2026: https://patch.com/new-jersey/brick/new-councilmember-appointed-brick-after-resignation",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "body"],
+  "gates": [],
+  "weights": {
+    "vacancy": 1.0
+  },
+  "inGame": "`seat-vacated` and `vacancy-fill` news kinds and the offices table",
+  "turns": [
+    {
+      "name": "lede on the dispute",
+      "pulledBy": "a party-line fight",
+      "writes": "the lede says the vote split"
+    },
+    {
+      "name": "lede on the appointee",
+      "pulledBy": "a well-known pick",
+      "writes": "the lede names the new member"
+    }
+  ],
+  "usedBy": []
+}

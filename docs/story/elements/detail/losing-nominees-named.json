@@ -1,0 +1,30 @@
+{
+  "id": "losing-nominees-named",
+  "kind": "detail",
+  "summary": "The other nominees are named, to show the field was real.",
+  "realLife": "Two other Democrats put forward for the seat were described.",
+  "sources": [
+    "Patch (Brick, New Jersey), 'New Councilmember Appointed In Brick After Resignation', Oct. 15, 2026: https://patch.com/new-jersey/brick/new-councilmember-appointed-brick-after-resignation",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "vacancy": 0.7
+  },
+  "inGame": "`seat-vacated` and `vacancy-fill` news kinds and the offices table; needs: nominees for a seat",
+  "turns": [
+    {
+      "name": "one nominee",
+      "pulledBy": "no field",
+      "writes": "the story says it was the only name"
+    },
+    {
+      "name": "a nominee withdrew",
+      "pulledBy": "a late exit",
+      "writes": "the story says who and why"
+    }
+  ],
+  "usedBy": []
+}
