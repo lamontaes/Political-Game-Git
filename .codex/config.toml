@@ -1,0 +1,4 @@
+# Trusted-project profile. Fresh sessions opened in this repository load it.
+# This ceiling excludes the primary thread and does not cap other project jobs.
+[agents]
+max_concurrent_threads_per_session = 2

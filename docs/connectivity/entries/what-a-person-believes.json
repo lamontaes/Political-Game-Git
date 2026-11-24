@@ -1,0 +1,30 @@
+{
+  "control": {
+    "detail": "The formation path's only non-test consumer in the whole of src is src/simulation/demo.ts. Nothing in an ordinary save calls it, so no belief is ever formed in a game anybody plays.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "entryId": "what-a-person-believes",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "research queue lane, on the hardcoded-content audit lane's lead",
+  "measurements": [
+    {
+      "at": "claude/project-thread-k8w14s at 2349466f, measured 2026-09-22",
+      "found": "recordPrivateBelief is defined at politics.ts:93 and referenced by political-belief-formation.ts:283 and by demo.ts:229. The formation module itself is imported by demo.ts and re-exported by the simulation barrel at index.ts:207, which is not a caller. So the only non-test caller of the whole apparatus is the demo.",
+      "what": "Every reference to recordPrivateBelief and to the political-belief-formation module across src, excluding tests"
+    }
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "Nothing a player does causes anyone, themselves included, to form or change a view.",
+  "reMeasuredByPublisher": true,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "No screen shows what a person believes, what they have said, or that they have changed their mind.",
+    "present": false
+  },
+  "system": {
+    "detail": "Fully built at both ends. src/simulation/politics.ts carries recordPrivateBelief and its companions, and src/simulation/political-belief-formation.ts is a complete formation path on top of them.",
+    "present": true
+  },
+  "title": "What a person privately believes, says publicly, and has changed their mind about"
+}

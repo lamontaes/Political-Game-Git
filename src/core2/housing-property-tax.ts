@@ -1,0 +1,357 @@
+/**
+ * Property tax on owners' homes: each month an owner household pays a
+ * twelfth of its home's assessed value times the rate in force, through the
+ * ledger, to the taxing government. The assessed value follows the home's
+ * value each January, but where the law caps assessment growth it rises no
+ * faster than the cap (a home bought since is assessed at its price).
+ *
+ * The rate, the cap and who's paid come from the law in force (OPUS-GOV's
+ * `lawInForce(api, "property-tax")` and the county's treasury), registered
+ * with `registerPropertyTax` by the budgets engine. Where none is registered
+ * nothing is billed. The state's average effective rate still sizes the
+ * opening's outside living cost (`stateEffectiveRate`).
+ */
+import taxData from "./data/housing/property-tax.json" with { type: "json" };
+import { countedHouseholdStands, countedPayment } from "./counted-money";
+import { lawApplied } from "./law-reach/applied";
+import type { ModuleTable } from "./module-state";
+import { isoDateFromParts } from "./kernel/dates";
+import { townOutsideOf } from "./opening-outside-market";
+import { placeStateKey } from "./place-map";
+import { transferCash } from "./world-transfer";
+import type { CoreAPI, CoreState, Source } from "./types";
+
+export interface PropertyTaxTerms {
+  /** Annual tax as a share of assessed value. */
+  readonly rate: number;
+  /** The most assessed value may rise in a year, as a share; none when uncapped. */
+  readonly assessmentCapShare?: number;
+  readonly assessmentLawRowId?: string;
+  /** Who's paid; the place's outside account when not given. */
+  readonly payeeId?: string;
+  /** The law row the rate comes from; named on any arrears it leaves. */
+  readonly lawRowId?: string;
+  readonly source: Source;
+}
+
+/** Tax a household (or a place's counted owners) couldn't pay; the next bill adds it and is paid it first. */
+export interface PropertyTaxArrearsRow {
+  id: string;
+  householdId: string;
+  dwellingId: string;
+  placeId: string;
+  amountMinor: number;
+  since: string;
+  lawRowId: string;
+}
+
+const ARREARS_PREFIX = "tax-arrears:";
+const UNNAMED_LAW = "property-tax:unnamed-law-row";
+
+type TermsSource = (
+  api: CoreAPI,
+  placeId: string,
+) => PropertyTaxTerms | undefined;
+let termsSource: TermsSource | undefined;
+
+export function registerPropertyTax(source: TermsSource): void {
+  termsSource = source;
+}
+
+const RATES = taxData.byState as Record<string, number>;
+
+/** Where the state averages come from (ACS, by state). */
+export const PROPERTY_TAX_AVERAGE_SOURCE = taxData.source;
+
+/** The state's average effective rate on owner-occupied homes, as an annual share of value. */
+export function stateEffectiveRate(usps: string): number {
+  return RATES[usps] ?? taxData.national;
+}
+
+/** One bill date: a day of the month, the month's last day, or the nth weekday (1 = Monday). */
+export type PropertyTaxDueDate =
+  | { readonly month: number; readonly day: number | "last" }
+  | { readonly month: number; readonly nth: number; readonly weekday: number };
+
+export interface PropertyTaxDueDates {
+  readonly installments: number;
+  readonly dueDates: readonly PropertyTaxDueDate[];
+  /** Counties or towns set their own dates; these are the most common pattern. */
+  readonly setLocally: boolean;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly estimatedFrom: string;
+}
+
+const DUE_DATES = taxData.dueDates.byState as unknown as Record<
+  string,
+  PropertyTaxDueDates
+>;
+
+/** When a place's property tax is billed: its installments and due dates, from its state's row. */
+export function propertyTaxDueDates(usps: string): PropertyTaxDueDates {
+  const row = DUE_DATES[usps];
+  if (!row) throw new Error(`No property-tax due dates for ${usps}.`);
+  return row;
+}
+
+/** The calendar date one due date falls on in a year (an nth weekday counts 1 = Monday, "last" is the month's last day). */
+function dueDateIn(year: number, due: PropertyTaxDueDate): string {
+  const lastDay = new Date(Date.UTC(year, due.month, 0)).getUTCDate();
+  if ("day" in due)
+    return isoDateFromParts(
+      year,
+      due.month,
+      due.day === "last" ? lastDay : Math.min(due.day, lastDay),
+    );
+  const first = new Date(Date.UTC(year, due.month - 1, 1)).getUTCDay() || 7;
+  const day = 1 + ((due.weekday - first + 7) % 7) + 7 * (due.nth - 1);
+  return isoDateFromParts(year, due.month, Math.min(day, lastDay));
+}
+
+/**
+ * Whether one of a place's property tax due dates falls from this review day
+ * up to the next month's: an owner without an escrow account pays an
+ * installment at the review just before it is due.
+ */
+function installmentDue(date: string, due: PropertyTaxDueDates): boolean {
+  const [year, month, day] = date.split("-").map(Number) as [
+    number,
+    number,
+    number,
+  ];
+  const next = isoDateFromParts(
+    month === 12 ? year + 1 : year,
+    month === 12 ? 1 : month + 1,
+    day,
+  );
+  return [year, year + 1].some((y) =>
+    due.dueDates.some((d) => {
+      const at = dueDateIn(y, d);
+      return at >= date && at < next;
+    }),
+  );
+}
+
+/**
+ * The property tax rate in force where owners are billed, as a share of home
+ * value, and the law row it stands on; none until a government's rate is
+ * registered.
+ */
+export function propertyTaxRateInForce(
+  api: CoreAPI,
+  placeId: string,
+): { share: number; recordId: string | null } | null {
+  // The rate in force is the town's law; other places are not billed by it.
+  if (api.state.placeMetadata?.housingTown !== placeId) return null;
+  const registered = termsSource?.(api, placeId);
+  return registered
+    ? { share: registered.rate, recordId: registered.lawRowId ?? null }
+    : null;
+}
+
+/** The rate, cap and payee in force; none where no law is registered (the budgets engine registers it from the law in force). */
+function terms(api: CoreAPI, placeId: string): PropertyTaxTerms | undefined {
+  return termsSource?.(api, placeId);
+}
+
+interface AssessmentRow {
+  id: string;
+  householdId: string;
+  assessedMinor: number;
+  year: number;
+}
+
+/**
+ * Bills every owner household whose bill falls this month; returns what was
+ * paid. An owner with a mortgage pays a twelfth each month through the
+ * lender's escrow; an owner without one pays an installment on the place's
+ * own due dates (`propertyTaxDueDates`, the state's pattern, an estimate where
+ * counties differ) at the review before each falls due.
+ */
+export function billPropertyTax(
+  api: CoreAPI,
+  assessments: ModuleTable,
+  homes: readonly {
+    householdId: string;
+    placeId: string;
+    valueMinor: number;
+  }[],
+  /** Whether a household pays through a mortgage escrow account (monthly). */
+  escrowed: (householdId: string) => boolean,
+  /** Where unpaid tax is kept as arrears rows (the assessments table when not given). */
+  arrears: ModuleTable = assessments,
+): number {
+  const c = api.state as CoreState,
+    year = Number(c.date.slice(0, 4)),
+    months = api.parameter("macroMonthsPerYear");
+  const owedRow = (id: string) =>
+    arrears.get(ARREARS_PREFIX + id) as unknown as
+      PropertyTaxArrearsRow | undefined;
+  /** What stays unpaid is kept as the household's arrears (the earliest start kept); a fully paid row is removed. */
+  const keepArrears = (
+    id: string,
+    home: { householdId: string; placeId: string },
+    t: PropertyTaxTerms,
+    unpaid: number,
+  ) => {
+    const prior = owedRow(id);
+    if (unpaid <= 0) {
+      if (prior) arrears.remove(ARREARS_PREFIX + id);
+      return;
+    }
+    arrears.put({
+      id: ARREARS_PREFIX + id,
+      householdId: home.householdId,
+      dwellingId: `dwelling:${home.householdId}`,
+      placeId: home.placeId,
+      amountMinor: unpaid,
+      since: prior?.since ?? c.date,
+      lawRowId: prior?.lawRowId ?? t.lawRowId ?? UNNAMED_LAW,
+    });
+  };
+  const byPlace = new Map<string, PropertyTaxTerms | null>();
+  const termsFor = (placeId: string) => {
+    let row = byPlace.get(placeId);
+    if (row === undefined)
+      byPlace.set(placeId, (row = terms(api, placeId) ?? null));
+    return row;
+  };
+  const payee = (placeId: string, t: PropertyTaxTerms) =>
+    t.payeeId ?? townOutsideOf(c.organizations.values(), placeId)?.id;
+  let total = 0;
+  for (const home of homes) {
+    const t = termsFor(home.placeId);
+    // No law in force for this place: nothing is billed.
+    if (!t) continue;
+    // The owner household (a counted record stands for its people) was billed
+    // at the rate in force, and by the growth cap where one limits the
+    // assessment: recorded where the bill is worked out.
+    const applied = (
+      targetId: string,
+      target: "household" | "group",
+      count: number,
+      paidMinor: number,
+      households = 1,
+      share = months,
+    ) => {
+      if (t.lawRowId)
+        lawApplied(api, {
+          key: "property-tax",
+          lawId: t.lawRowId,
+          targetId,
+          target,
+          engine: "core2-housing-v1",
+          what: "property-tax-billed",
+          count,
+          amountMinor: paidMinor,
+        });
+      const assessedNow = assessments.get(
+        `assessment:${targetId}`,
+      ) as unknown as AssessmentRow | undefined;
+      if (t.assessmentLawRowId && assessedNow)
+        lawApplied(api, {
+          key: "us-policy-positions:fiscal.cap-property-tax-growth",
+          lawId: t.assessmentLawRowId,
+          targetId,
+          target,
+          engine: "core2-housing-v1",
+          what: "assessment-growth-capped",
+          count,
+          // The tax the cap saved on this bill: the value the assessment left
+          // untaxed times the rate, one installment.
+          amountMinor: Math.round(
+            (Math.max(0, home.valueMinor - assessedNow.assessedMinor) *
+              t.rate *
+              households) /
+              share,
+          ),
+        });
+    };
+    const id = `assessment:${home.householdId}`;
+    const last = assessments.get(id) as unknown as AssessmentRow | undefined;
+    // Each January the assessment follows the market, no faster than a cap where the law sets one.
+    let assessed = last?.assessedMinor ?? home.valueMinor;
+    if (last && last.year < year)
+      assessed =
+        t.assessmentCapShare === undefined
+          ? home.valueMinor
+          : Math.min(
+              home.valueMinor,
+              Math.round(last.assessedMinor * (1 + t.assessmentCapShare)),
+            );
+    if (!last || last.year < year)
+      assessments.put({
+        id,
+        householdId: home.householdId,
+        assessedMinor: assessed,
+        year,
+        marketValueMinor: home.valueMinor,
+        previousAssessedMinor: last?.assessedMinor ?? null,
+        capLawId: t.assessmentLawRowId ?? null,
+        savedAssessmentMinor: Math.max(0, home.valueMinor - assessed),
+      });
+    // An owner without an escrow account is billed only when a due date is near.
+    const schedule = escrowed(home.householdId)
+      ? undefined
+      : (() => {
+          const usps = (
+            placeStateKey(home.placeId) ?? c.placeMetadata?.housingState
+          )?.replace(/^US-/, "");
+          return usps ? DUE_DATES[usps] : undefined;
+        })();
+    if (schedule && !installmentDue(c.date, schedule)) continue;
+    const share = schedule ? schedule.installments : months;
+    // Last installments' unpaid tax is added to this one and paid first.
+    const owed = owedRow(home.householdId)?.amountMinor ?? 0;
+    const bill = Math.round((assessed * t.rate) / share) + owed;
+    if (bill <= 0) continue;
+    const household = c.households.get(home.householdId);
+    const to = payee(home.placeId, t);
+    if (!to) continue;
+    if (household) {
+      // A full household pays from its members' cash, largest balance first.
+      let paid = 0;
+      for (const personId of [...household.memberIds]
+        .filter((pid) => c.people.get(pid)?.alive)
+        .sort(
+          (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
+        )) {
+        if (paid >= bill) break;
+        paid += transferCash(
+          api,
+          `property-tax:${home.householdId}:${c.date}:${personId}:${t.lawRowId ?? UNNAMED_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
+          personId,
+          to,
+          bill - paid,
+          t.source,
+        );
+      }
+      total += paid;
+      keepArrears(home.householdId, home, t, bill - paid);
+      applied(home.householdId, "household", 1, paid, 1, share);
+    } else {
+      const paid = countedPayment(api, {
+        id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? UNNAMED_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
+        placeId: home.placeId,
+        householdId: home.householdId,
+        otherOwnerId: to,
+        amountMinor: bill,
+        reasonKey: "property-tax",
+        source: t.source,
+      });
+      total += paid;
+      keepArrears(home.householdId, home, t, bill - paid);
+      const stands = countedHouseholdStands(api, home.householdId);
+      applied(
+        home.householdId,
+        "group",
+        stands?.people ?? 1,
+        // The record stands for its weight: the tax it paid in all.
+        paid * (stands?.households ?? 1),
+        stands?.households ?? 1,
+        share,
+      );
+    }
+  }
+  return total;
+}

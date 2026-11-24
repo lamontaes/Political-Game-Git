@@ -1,0 +1,289 @@
+{
+  "schema": "p8-opening-payroll-primary-reference-v1",
+  "status": "PRIMARY_CONTEXT_NOT_INDIVIDUAL_EMPLOYER_FACTS",
+  "sources": [
+    {
+      "id": "bls-2013-private-frequency",
+      "title": "How frequently do private businesses pay workers?",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "url": "https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm",
+      "publicationDate": "2014-05-23",
+      "availableAt": "2014-05-23",
+      "reference": "March2013",
+      "cohort": "Weighted single-pay-period private businesses with valid hours/earnings, not workers; nonfarm survey; government and all education excluded."
+    },
+    {
+      "id": "santa-barbara-2021-pay-calendar",
+      "title": "2021 Biweekly Payroll Schedule",
+      "publisher": "County of Santa Barbara, Office of the Auditor Controller, Payroll Division",
+      "url": "https://essplus.co.santa-barbara.ca.us/ESS/PayrollCalendars/Calendars/2021%20Pay%20Schedule.pdf",
+      "publicationMonth": "2020-11",
+      "availableAt": "2020-11-30",
+      "availabilityLimit": "Month-only issue date. Last day of that month is conservative availability, not an asserted publication day.",
+      "reference": "Published2021 scheduled period bounds and paydays; not proof payments occurred."
+    },
+    {
+      "id": "american-university-2020-payroll",
+      "title": "Important2020 Year-End Payroll and Tax-Related Deadlines",
+      "publisher": "American University, Payroll Office",
+      "url": "https://www.american.edu/finance/memos/important-2020-year-end-payroll-and-tax-related-deadlines.cfm",
+      "publicationDate": "2020-12-11",
+      "availableAt": "2020-12-11",
+      "reference": "December2020 biweekly/monthly payroll options and last paycheck dates; no full2021 calendar or national shares."
+    }
+  ],
+  "observations": [
+    {
+      "quantity": "all-private reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 32.4,
+        "biweekly": 36.5,
+        "semimonthly": 19.8,
+        "monthly": 11.3
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "natural-resources-and-mining reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 44.2,
+        "biweekly": 25.5,
+        "semimonthly": 19.1,
+        "monthly": 11.2
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "construction reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 70.6,
+        "biweekly": 18.3,
+        "semimonthly": 5.2,
+        "monthly": 5.9
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "manufacturing reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 50.8,
+        "biweekly": 35.9,
+        "semimonthly": 9.5,
+        "monthly": 3.8
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "trade-transportation-and-utilities reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 36.1,
+        "biweekly": 37.3,
+        "semimonthly": 16.4,
+        "monthly": 10.2
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "information reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 10.2,
+        "biweekly": 43.7,
+        "semimonthly": 35.9,
+        "monthly": 10.2
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "financial-activities reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 18.0,
+        "biweekly": 33.9,
+        "semimonthly": 30.5,
+        "monthly": 17.6
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "professional-and-business-services reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 20.4,
+        "biweekly": 36.0,
+        "semimonthly": 28.0,
+        "monthly": 15.6
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "education-and-health-services reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 12.6,
+        "biweekly": 52.9,
+        "semimonthly": 22.9,
+        "monthly": 11.6
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "leisure-and-hospitality reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 28.9,
+        "biweekly": 46.2,
+        "semimonthly": 17.0,
+        "monthly": 7.9
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "other-services reported frequency weights",
+      "unit": "percent of single-pay-period private businesses",
+      "observedCounts": {
+        "weekly": 42.5,
+        "biweekly": 28.4,
+        "semimonthly": 17.1,
+        "monthly": 12.0
+      },
+      "dateWindow": {
+        "earliest": "2013-03-01",
+        "latest": "2013-03-31",
+        "precision": "reference month"
+      },
+      "sourceRefs": ["bls-2013-private-frequency"],
+      "sourceLocation": "Chart1 for overall; Table1 for industry",
+      "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded."
+    },
+    {
+      "quantity": "Published county payperiod01 scheduled dates",
+      "unit": "scheduled civil calendar days",
+      "observedValue": 14,
+      "observedCounts": {
+        "periodLengthDays": 14,
+        "inclusiveEndToPaydayDays": 11
+      },
+      "dateWindow": {
+        "earliest": "2020-12-14",
+        "latest": "2021-01-07",
+        "precision": "published exact calendar dates"
+      },
+      "sourceRefs": ["santa-barbara-2021-pay-calendar"],
+      "sourceLocation": "PDFlines1,55–65; issuedNovember2020",
+      "periodStartsAt": "2020-12-14",
+      "periodThroughAt": "2020-12-27",
+      "paydayAt": "2021-01-07",
+      "limit": "Only this recorded county calendar; later holiday exceptions differ from the base lag."
+    },
+    {
+      "quantity": "University explicitly named payroll frequencies",
+      "unit": "named employer options",
+      "observedCounts": {
+        "biweeklyOptionExists": 1,
+        "monthlyOptionExists": 1
+      },
+      "dateWindow": {
+        "earliest": "2020-12-24",
+        "latest": "2020-12-31",
+        "precision": "published final paycheck dates"
+      },
+      "sourceRefs": ["american-university-2020-payroll"],
+      "sourceLocation": "MemorandumDecember11,2020, lines118–130",
+      "limit": "Option existence is not1:1 prevalence or national education weighting."
+    }
+  ],
+  "cachePins": [
+    {
+      "path": "/workspace/p8-review-artifacts/review20-root/bls-2013-pay-frequency-observed.json",
+      "sha256": "a3e89ca1891ba1df2a1d7c589964713575066de1a3a9e49693e44060fa6b4db7"
+    },
+    {
+      "path": "/workspace/p8-review-artifacts/review20-root/payday-primary-examples-observed.json",
+      "sha256": "33fcd121df9e378ecdbc206436e92e7fdadb4c86a721a4f0b6dd0a23736ae5b8"
+    }
+  ],
+  "scopeNotes": [
+    "BLS percentages are business weights, not worker outcomes.94.8% single-period and5.2% multiple; four-frequency distribution is single only.",
+    "Government and private/public education require separate proxy options. Farm/unknown-owner extrapolation is outside the source cohort and remains explicitly estimated.",
+    "BLS size bins use prior twelve-month maximum employment. No current-headcount bins are used by this candidate.",
+    "No original source supplies a fictional employer phase, lag, holiday rule, group membership or legal-frequency compliance.",
+    "SantaBarbara actual holiday overrides are not represented by the no-adjustment pure resolver. They are not silently claimed as copied.",
+    "FailedCalifornia HTML fetch and failedDOL403 are not calendar or legal evidence."
+  ]
+}

@@ -1,0 +1,1076 @@
+{
+  "schema": "session11-source-request-v1",
+  "inspectedCommit": "b4d425b3ee85a4c232f36184bb49cbc9b33672cb",
+  "runtimeManifest": "art/people-engine/v1/manifest.json",
+  "runtimeManifestSha256": "15bb12119199293aeb314a3125972b9045aff3b1954188004e19c8a8d8ccbbb2",
+  "builder": "scripts/appearance/build-people-pack.ts",
+  "sourceRoot": "/Users/lamontae/political-game-play/cto-notes/firefly/three-quarter",
+  "orientation": "toward right; mirror existing turned composition for left",
+  "canvasContract": "Expected source canvas inferred from the builder output: 1024 x 1536, matching existing source registration; builder adds 80 top rows and downsamples to 512 x 808. Confirm delivered dimensions and anchors before building.",
+  "presentations": {
+    "feminine": {
+      "faces": [
+        {
+          "id": "20s30s-01",
+          "source": "faces/face-feminine-20s30s-01.png",
+          "runtime": "face-feminine-20s30s-01-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-02",
+          "source": "faces/face-feminine-20s30s-02.png",
+          "runtime": "face-feminine-20s30s-02-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-03",
+          "source": "faces/face-feminine-20s30s-03.png",
+          "runtime": "face-feminine-20s30s-03-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-04",
+          "source": "faces/face-feminine-20s30s-04.png",
+          "runtime": "face-feminine-20s30s-04-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-05",
+          "source": "faces/face-feminine-20s30s-05.png",
+          "runtime": "face-feminine-20s30s-05-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-06",
+          "source": "faces/face-feminine-20s30s-06.png",
+          "runtime": "face-feminine-20s30s-06-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-01",
+          "source": "faces/face-feminine-50s-01.png",
+          "runtime": "face-feminine-50s-01-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-02",
+          "source": "faces/face-feminine-50s-02.png",
+          "runtime": "face-feminine-50s-02-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-03",
+          "source": "faces/face-feminine-50s-03.png",
+          "runtime": "face-feminine-50s-03-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-04",
+          "source": "faces/face-feminine-50s-04.png",
+          "runtime": "face-feminine-50s-04-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-05",
+          "source": "faces/face-feminine-50s-05.png",
+          "runtime": "face-feminine-50s-05-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-06",
+          "source": "faces/face-feminine-50s-06.png",
+          "runtime": "face-feminine-50s-06-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-01",
+          "source": "faces/face-feminine-70s-01.png",
+          "runtime": "face-feminine-70s-01-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-02",
+          "source": "faces/face-feminine-70s-02.png",
+          "runtime": "face-feminine-70s-02-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-03",
+          "source": "faces/face-feminine-70s-03.png",
+          "runtime": "face-feminine-70s-03-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-04",
+          "source": "faces/face-feminine-70s-04.png",
+          "runtime": "face-feminine-70s-04-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-05",
+          "source": "faces/face-feminine-70s-05.png",
+          "runtime": "face-feminine-70s-05-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-06",
+          "source": "faces/face-feminine-70s-06.png",
+          "runtime": "face-feminine-70s-06-three-quarter.png",
+          "registry": "presentations.feminine.views.three-quarter.faces"
+        }
+      ],
+      "hair": [
+        {
+          "id": "wavy-bob",
+          "source": [
+            "hair/hair-feminine-wavy-bob-back.png",
+            "hair/hair-feminine-wavy-bob-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-wavy-bob-back-three-quarter.png",
+            "hair-feminine-wavy-bob-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "afro",
+          "source": [
+            "hair/hair-feminine-afro-back.png",
+            "hair/hair-feminine-afro-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-afro-back-three-quarter.png",
+            "hair-feminine-afro-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "bob-bangs",
+          "source": [
+            "hair/hair-feminine-bob-bangs-back.png",
+            "hair/hair-feminine-bob-bangs-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-bob-bangs-back-three-quarter.png",
+            "hair-feminine-bob-bangs-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "box-braids",
+          "source": [
+            "hair/hair-feminine-box-braids-back.png",
+            "hair/hair-feminine-box-braids-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-box-braids-back-three-quarter.png",
+            "hair-feminine-box-braids-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "box-braids-2",
+          "source": [
+            "hair/hair-feminine-box-braids-2-back.png",
+            "hair/hair-feminine-box-braids-2-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-box-braids-2-back-three-quarter.png",
+            "hair-feminine-box-braids-2-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "locs",
+          "source": [
+            "hair/hair-feminine-locs-back.png",
+            "hair/hair-feminine-locs-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-locs-back-three-quarter.png",
+            "hair-feminine-locs-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "long-straight",
+          "source": [
+            "hair/hair-feminine-long-straight-back.png",
+            "hair/hair-feminine-long-straight-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-long-straight-back-three-quarter.png",
+            "hair-feminine-long-straight-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "low-ponytail",
+          "source": [
+            "hair/hair-feminine-low-ponytail-back.png",
+            "hair/hair-feminine-low-ponytail-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-low-ponytail-back-three-quarter.png",
+            "hair-feminine-low-ponytail-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "pixie",
+          "source": [
+            "hair/hair-feminine-pixie-back.png",
+            "hair/hair-feminine-pixie-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-pixie-back-three-quarter.png",
+            "hair-feminine-pixie-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "top-bun",
+          "source": [
+            "hair/hair-feminine-top-bun-back.png",
+            "hair/hair-feminine-top-bun-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-top-bun-back-three-quarter.png",
+            "hair-feminine-top-bun-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        },
+        {
+          "id": "wavy-shoulder",
+          "source": [
+            "hair/hair-feminine-wavy-shoulder-back.png",
+            "hair/hair-feminine-wavy-shoulder-front.png"
+          ],
+          "runtime": [
+            "hair-feminine-wavy-shoulder-back-three-quarter.png",
+            "hair-feminine-wavy-shoulder-front-three-quarter.png"
+          ],
+          "registry": "presentations.feminine.views.three-quarter.hair"
+        }
+      ],
+      "existingTurnedBodies": [
+        {
+          "build": "lean",
+          "file": "body-feminine-lean-three-quarter.png",
+          "sha256": "31338da73db7c8776a2823b00e48418842beceee66410d0df78b062d3808c901"
+        },
+        {
+          "build": "average",
+          "file": "body-feminine-average-three-quarter.png",
+          "sha256": "7ea50d506f74bb4b7a5f21049696eb2f64c87946ffecb3db39db2ac0f78889c0"
+        },
+        {
+          "build": "fuller",
+          "file": "body-feminine-fuller-three-quarter.png",
+          "sha256": "da78af0ffc6306d69712518e5d71b2e674187b1fe84efdc1c5268edff4786108"
+        }
+      ],
+      "missingMinimumSeatedSources": [
+        "seated/feminine-lean-bare-v1.png",
+        "seated/feminine-average-bare-v1.png",
+        "seated/feminine-fuller-bare-v1.png"
+      ],
+      "missingMinimumSeatedOutfitSources": [
+        "seated/feminine-casual-lean-onbody-v1.png",
+        "seated/feminine-casual-lean-skin-v1.png",
+        "seated/feminine-casual-average-onbody-v1.png",
+        "seated/feminine-casual-average-skin-v1.png",
+        "seated/feminine-casual-fuller-onbody-v1.png",
+        "seated/feminine-casual-fuller-skin-v1.png",
+        "seated/feminine-formal-lean-onbody-v1.png",
+        "seated/feminine-formal-lean-skin-v1.png",
+        "seated/feminine-formal-average-onbody-v1.png",
+        "seated/feminine-formal-average-skin-v1.png",
+        "seated/feminine-formal-fuller-onbody-v1.png",
+        "seated/feminine-formal-fuller-skin-v1.png",
+        "seated/feminine-cardigan-jeans-lean-onbody-v1.png",
+        "seated/feminine-cardigan-jeans-lean-skin-v1.png",
+        "seated/feminine-cardigan-jeans-average-onbody-v1.png",
+        "seated/feminine-cardigan-jeans-average-skin-v1.png",
+        "seated/feminine-cardigan-jeans-fuller-onbody-v1.png",
+        "seated/feminine-cardigan-jeans-fuller-skin-v1.png",
+        "seated/feminine-hoodie-jeans-lean-onbody-v1.png",
+        "seated/feminine-hoodie-jeans-lean-skin-v1.png",
+        "seated/feminine-hoodie-jeans-average-onbody-v1.png",
+        "seated/feminine-hoodie-jeans-average-skin-v1.png",
+        "seated/feminine-hoodie-jeans-fuller-onbody-v1.png",
+        "seated/feminine-hoodie-jeans-fuller-skin-v1.png",
+        "seated/feminine-sweater-slacks-lean-onbody-v1.png",
+        "seated/feminine-sweater-slacks-lean-skin-v1.png",
+        "seated/feminine-sweater-slacks-average-onbody-v1.png",
+        "seated/feminine-sweater-slacks-average-skin-v1.png",
+        "seated/feminine-sweater-slacks-fuller-onbody-v1.png",
+        "seated/feminine-sweater-slacks-fuller-skin-v1.png",
+        "seated/feminine-winter-coat-lean-onbody-v1.png",
+        "seated/feminine-winter-coat-lean-skin-v1.png",
+        "seated/feminine-winter-coat-average-onbody-v1.png",
+        "seated/feminine-winter-coat-average-skin-v1.png",
+        "seated/feminine-winter-coat-fuller-onbody-v1.png",
+        "seated/feminine-winter-coat-fuller-skin-v1.png",
+        "seated/feminine-blouse-skirt-lean-onbody-v1.png",
+        "seated/feminine-blouse-skirt-lean-skin-v1.png",
+        "seated/feminine-blouse-skirt-average-onbody-v1.png",
+        "seated/feminine-blouse-skirt-average-skin-v1.png",
+        "seated/feminine-blouse-skirt-fuller-onbody-v1.png",
+        "seated/feminine-blouse-skirt-fuller-skin-v1.png",
+        "seated/feminine-dress-blazer-lean-onbody-v1.png",
+        "seated/feminine-dress-blazer-lean-skin-v1.png",
+        "seated/feminine-dress-blazer-average-onbody-v1.png",
+        "seated/feminine-dress-blazer-average-skin-v1.png",
+        "seated/feminine-dress-blazer-fuller-onbody-v1.png",
+        "seated/feminine-dress-blazer-fuller-skin-v1.png",
+        "seated/feminine-skirt-suit-lean-onbody-v1.png",
+        "seated/feminine-skirt-suit-lean-skin-v1.png",
+        "seated/feminine-skirt-suit-average-onbody-v1.png",
+        "seated/feminine-skirt-suit-average-skin-v1.png",
+        "seated/feminine-skirt-suit-fuller-onbody-v1.png",
+        "seated/feminine-skirt-suit-fuller-skin-v1.png",
+        "seated/feminine-scrubs-lean-onbody-v1.png",
+        "seated/feminine-scrubs-lean-skin-v1.png",
+        "seated/feminine-scrubs-average-onbody-v1.png",
+        "seated/feminine-scrubs-average-skin-v1.png",
+        "seated/feminine-scrubs-fuller-onbody-v1.png",
+        "seated/feminine-scrubs-fuller-skin-v1.png",
+        "seated/feminine-hi-vis-lean-onbody-v1.png",
+        "seated/feminine-hi-vis-lean-skin-v1.png",
+        "seated/feminine-hi-vis-average-onbody-v1.png",
+        "seated/feminine-hi-vis-average-skin-v1.png",
+        "seated/feminine-hi-vis-fuller-onbody-v1.png",
+        "seated/feminine-hi-vis-fuller-skin-v1.png",
+        "seated/feminine-police-lean-onbody-v1.png",
+        "seated/feminine-police-lean-skin-v1.png",
+        "seated/feminine-police-average-onbody-v1.png",
+        "seated/feminine-police-average-skin-v1.png",
+        "seated/feminine-police-fuller-onbody-v1.png",
+        "seated/feminine-police-fuller-skin-v1.png",
+        "seated/feminine-judge-robe-lean-onbody-v1.png",
+        "seated/feminine-judge-robe-lean-skin-v1.png",
+        "seated/feminine-judge-robe-average-onbody-v1.png",
+        "seated/feminine-judge-robe-average-skin-v1.png",
+        "seated/feminine-judge-robe-fuller-onbody-v1.png",
+        "seated/feminine-judge-robe-fuller-skin-v1.png"
+      ],
+      "missingSeatedRegistry": "presentations.feminine.views.three-quarter.seated.bodies",
+      "outfitIds": [
+        "casual",
+        "formal",
+        "cardigan-jeans",
+        "hoodie-jeans",
+        "sweater-slacks",
+        "winter-coat",
+        "blouse-skirt",
+        "dress-blazer",
+        "skirt-suit",
+        "scrubs",
+        "hi-vis",
+        "police",
+        "judge-robe"
+      ],
+      "missingOutfitRegistry": "presentations.feminine.outfits[id].views.three-quarter.seated",
+      "activityPoseFolders": [
+        "seated-leaning",
+        "seated-writing",
+        "seated-hands-folded",
+        "seated-listening"
+      ],
+      "activityContract": "For each activity folder, same bare/onbody/skin names as seated. Basic seated unblocks cushion contact through existing fallbacks; painted activity variants are needed to preserve exact activity poses."
+    },
+    "masculine": {
+      "faces": [
+        {
+          "id": "20s30s-01",
+          "source": "faces/face-masculine-20s30s-01.png",
+          "runtime": "face-masculine-20s30s-01-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-02",
+          "source": "faces/face-masculine-20s30s-02.png",
+          "runtime": "face-masculine-20s30s-02-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-03",
+          "source": "faces/face-masculine-20s30s-03.png",
+          "runtime": "face-masculine-20s30s-03-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-04",
+          "source": "faces/face-masculine-20s30s-04.png",
+          "runtime": "face-masculine-20s30s-04-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-05",
+          "source": "faces/face-masculine-20s30s-05.png",
+          "runtime": "face-masculine-20s30s-05-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "20s30s-06",
+          "source": "faces/face-masculine-20s30s-06.png",
+          "runtime": "face-masculine-20s30s-06-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-01",
+          "source": "faces/face-masculine-50s-01.png",
+          "runtime": "face-masculine-50s-01-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-02",
+          "source": "faces/face-masculine-50s-02.png",
+          "runtime": "face-masculine-50s-02-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-03",
+          "source": "faces/face-masculine-50s-03.png",
+          "runtime": "face-masculine-50s-03-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-04",
+          "source": "faces/face-masculine-50s-04.png",
+          "runtime": "face-masculine-50s-04-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-05",
+          "source": "faces/face-masculine-50s-05.png",
+          "runtime": "face-masculine-50s-05-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "50s-06",
+          "source": "faces/face-masculine-50s-06.png",
+          "runtime": "face-masculine-50s-06-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-01",
+          "source": "faces/face-masculine-70s-01.png",
+          "runtime": "face-masculine-70s-01-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-02",
+          "source": "faces/face-masculine-70s-02.png",
+          "runtime": "face-masculine-70s-02-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-03",
+          "source": "faces/face-masculine-70s-03.png",
+          "runtime": "face-masculine-70s-03-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-04",
+          "source": "faces/face-masculine-70s-04.png",
+          "runtime": "face-masculine-70s-04-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-05",
+          "source": "faces/face-masculine-70s-05.png",
+          "runtime": "face-masculine-70s-05-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        },
+        {
+          "id": "70s-06",
+          "source": "faces/face-masculine-70s-06.png",
+          "runtime": "face-masculine-70s-06-three-quarter.png",
+          "registry": "presentations.masculine.views.three-quarter.faces"
+        }
+      ],
+      "hair": [
+        {
+          "id": "short-coils",
+          "source": [
+            "hair/hair-masculine-short-coils-back.png",
+            "hair/hair-masculine-short-coils-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-short-coils-back-three-quarter.png",
+            "hair-masculine-short-coils-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "buzz",
+          "source": [
+            "hair/hair-masculine-buzz-back.png",
+            "hair/hair-masculine-buzz-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-buzz-back-three-quarter.png",
+            "hair-masculine-buzz-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "curly-top",
+          "source": [
+            "hair/hair-masculine-curly-top-back.png",
+            "hair/hair-masculine-curly-top-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-curly-top-back-three-quarter.png",
+            "hair-masculine-curly-top-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "fade",
+          "source": [
+            "hair/hair-masculine-fade-back.png",
+            "hair/hair-masculine-fade-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-fade-back-three-quarter.png",
+            "hair-masculine-fade-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "locs-long",
+          "source": [
+            "hair/hair-masculine-locs-long-back.png",
+            "hair/hair-masculine-locs-long-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-locs-long-back-three-quarter.png",
+            "hair-masculine-locs-long-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "locs-short",
+          "source": [
+            "hair/hair-masculine-locs-short-back.png",
+            "hair/hair-masculine-locs-short-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-locs-short-back-three-quarter.png",
+            "hair-masculine-locs-short-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "man-bun",
+          "source": [
+            "hair/hair-masculine-man-bun-back.png",
+            "hair/hair-masculine-man-bun-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-man-bun-back-three-quarter.png",
+            "hair-masculine-man-bun-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "short-coils-2",
+          "source": [
+            "hair/hair-masculine-short-coils-2-back.png",
+            "hair/hair-masculine-short-coils-2-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-short-coils-2-back-three-quarter.png",
+            "hair-masculine-short-coils-2-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "short-crop",
+          "source": [
+            "hair/hair-masculine-short-crop-back.png",
+            "hair/hair-masculine-short-crop-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-short-crop-back-three-quarter.png",
+            "hair-masculine-short-crop-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "side-part",
+          "source": [
+            "hair/hair-masculine-side-part-back.png",
+            "hair/hair-masculine-side-part-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-side-part-back-three-quarter.png",
+            "hair-masculine-side-part-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "slicked-back",
+          "source": [
+            "hair/hair-masculine-slicked-back-back.png",
+            "hair/hair-masculine-slicked-back-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-slicked-back-back-three-quarter.png",
+            "hair-masculine-slicked-back-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "swept-back",
+          "source": [
+            "hair/hair-masculine-swept-back-back.png",
+            "hair/hair-masculine-swept-back-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-swept-back-back-three-quarter.png",
+            "hair-masculine-swept-back-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "top-knot",
+          "source": [
+            "hair/hair-masculine-top-knot-back.png",
+            "hair/hair-masculine-top-knot-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-top-knot-back-three-quarter.png",
+            "hair-masculine-top-knot-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "wavy-long",
+          "source": [
+            "hair/hair-masculine-wavy-long-back.png",
+            "hair/hair-masculine-wavy-long-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-wavy-long-back-three-quarter.png",
+            "hair-masculine-wavy-long-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        },
+        {
+          "id": "wavy-medium",
+          "source": [
+            "hair/hair-masculine-wavy-medium-back.png",
+            "hair/hair-masculine-wavy-medium-front.png"
+          ],
+          "runtime": [
+            "hair-masculine-wavy-medium-back-three-quarter.png",
+            "hair-masculine-wavy-medium-front-three-quarter.png"
+          ],
+          "registry": "presentations.masculine.views.three-quarter.hair"
+        }
+      ],
+      "existingTurnedBodies": [
+        {
+          "build": "lean",
+          "file": "body-masculine-lean-three-quarter.png",
+          "sha256": "ec478178d1d7d0466620e9018e946b7f9973c653925be21b2830aebcb3508229"
+        },
+        {
+          "build": "average",
+          "file": "body-masculine-average-three-quarter.png",
+          "sha256": "e019c2c409f8c0f7a1095b697b2c3c9b5453ab7d557e4877b2b65095eeec9e9f"
+        },
+        {
+          "build": "fuller",
+          "file": "body-masculine-fuller-three-quarter.png",
+          "sha256": "b32f49b64f2fba4436f8413eca41686c410ebfaa8e56392438182b1db22d72c7"
+        }
+      ],
+      "missingMinimumSeatedSources": [
+        "seated/masculine-lean-bare-v1.png",
+        "seated/masculine-average-bare-v1.png",
+        "seated/masculine-fuller-bare-v1.png"
+      ],
+      "missingMinimumSeatedOutfitSources": [
+        "seated/masculine-casual-lean-onbody-v1.png",
+        "seated/masculine-casual-lean-skin-v1.png",
+        "seated/masculine-casual-average-onbody-v1.png",
+        "seated/masculine-casual-average-skin-v1.png",
+        "seated/masculine-casual-fuller-onbody-v1.png",
+        "seated/masculine-casual-fuller-skin-v1.png",
+        "seated/masculine-formal-lean-onbody-v1.png",
+        "seated/masculine-formal-lean-skin-v1.png",
+        "seated/masculine-formal-average-onbody-v1.png",
+        "seated/masculine-formal-average-skin-v1.png",
+        "seated/masculine-formal-fuller-onbody-v1.png",
+        "seated/masculine-formal-fuller-skin-v1.png",
+        "seated/masculine-polo-khakis-lean-onbody-v1.png",
+        "seated/masculine-polo-khakis-lean-skin-v1.png",
+        "seated/masculine-polo-khakis-average-onbody-v1.png",
+        "seated/masculine-polo-khakis-average-skin-v1.png",
+        "seated/masculine-polo-khakis-fuller-onbody-v1.png",
+        "seated/masculine-polo-khakis-fuller-skin-v1.png",
+        "seated/masculine-hoodie-jeans-lean-onbody-v1.png",
+        "seated/masculine-hoodie-jeans-lean-skin-v1.png",
+        "seated/masculine-hoodie-jeans-average-onbody-v1.png",
+        "seated/masculine-hoodie-jeans-average-skin-v1.png",
+        "seated/masculine-hoodie-jeans-fuller-onbody-v1.png",
+        "seated/masculine-hoodie-jeans-fuller-skin-v1.png",
+        "seated/masculine-sweater-collar-lean-onbody-v1.png",
+        "seated/masculine-sweater-collar-lean-skin-v1.png",
+        "seated/masculine-sweater-collar-average-onbody-v1.png",
+        "seated/masculine-sweater-collar-average-skin-v1.png",
+        "seated/masculine-sweater-collar-fuller-onbody-v1.png",
+        "seated/masculine-sweater-collar-fuller-skin-v1.png",
+        "seated/masculine-work-jacket-lean-onbody-v1.png",
+        "seated/masculine-work-jacket-lean-skin-v1.png",
+        "seated/masculine-work-jacket-average-onbody-v1.png",
+        "seated/masculine-work-jacket-average-skin-v1.png",
+        "seated/masculine-work-jacket-fuller-onbody-v1.png",
+        "seated/masculine-work-jacket-fuller-skin-v1.png",
+        "seated/masculine-overcoat-lean-onbody-v1.png",
+        "seated/masculine-overcoat-lean-skin-v1.png",
+        "seated/masculine-overcoat-average-onbody-v1.png",
+        "seated/masculine-overcoat-average-skin-v1.png",
+        "seated/masculine-overcoat-fuller-onbody-v1.png",
+        "seated/masculine-overcoat-fuller-skin-v1.png",
+        "seated/masculine-double-breasted-lean-onbody-v1.png",
+        "seated/masculine-double-breasted-lean-skin-v1.png",
+        "seated/masculine-double-breasted-average-onbody-v1.png",
+        "seated/masculine-double-breasted-average-skin-v1.png",
+        "seated/masculine-double-breasted-fuller-onbody-v1.png",
+        "seated/masculine-double-breasted-fuller-skin-v1.png",
+        "seated/masculine-scrubs-lean-onbody-v1.png",
+        "seated/masculine-scrubs-lean-skin-v1.png",
+        "seated/masculine-scrubs-average-onbody-v1.png",
+        "seated/masculine-scrubs-average-skin-v1.png",
+        "seated/masculine-scrubs-fuller-onbody-v1.png",
+        "seated/masculine-scrubs-fuller-skin-v1.png",
+        "seated/masculine-hi-vis-lean-onbody-v1.png",
+        "seated/masculine-hi-vis-lean-skin-v1.png",
+        "seated/masculine-hi-vis-average-onbody-v1.png",
+        "seated/masculine-hi-vis-average-skin-v1.png",
+        "seated/masculine-hi-vis-fuller-onbody-v1.png",
+        "seated/masculine-hi-vis-fuller-skin-v1.png",
+        "seated/masculine-police-lean-onbody-v1.png",
+        "seated/masculine-police-lean-skin-v1.png",
+        "seated/masculine-police-average-onbody-v1.png",
+        "seated/masculine-police-average-skin-v1.png",
+        "seated/masculine-police-fuller-onbody-v1.png",
+        "seated/masculine-police-fuller-skin-v1.png",
+        "seated/masculine-judge-robe-lean-onbody-v1.png",
+        "seated/masculine-judge-robe-lean-skin-v1.png",
+        "seated/masculine-judge-robe-average-onbody-v1.png",
+        "seated/masculine-judge-robe-average-skin-v1.png",
+        "seated/masculine-judge-robe-fuller-onbody-v1.png",
+        "seated/masculine-judge-robe-fuller-skin-v1.png"
+      ],
+      "missingSeatedRegistry": "presentations.masculine.views.three-quarter.seated.bodies",
+      "outfitIds": [
+        "casual",
+        "formal",
+        "polo-khakis",
+        "hoodie-jeans",
+        "sweater-collar",
+        "work-jacket",
+        "overcoat",
+        "double-breasted",
+        "scrubs",
+        "hi-vis",
+        "police",
+        "judge-robe"
+      ],
+      "missingOutfitRegistry": "presentations.masculine.outfits[id].views.three-quarter.seated",
+      "activityPoseFolders": [
+        "seated-leaning",
+        "seated-writing",
+        "seated-hands-folded",
+        "seated-listening"
+      ],
+      "activityContract": "For each activity folder, same bare/onbody/skin names as seated. Basic seated unblocks cushion contact through existing fallbacks; painted activity variants are needed to preserve exact activity poses."
+    }
+  },
+  "privateBank": {
+    "packId": "modular41-current-0a044d183ad7",
+    "manifestSha256": "0a044d183ad7ac4f38f2e88f72ba294cd1496c8b4cc4466cce023b6a7b0694a2",
+    "registry": "art/manifest/character_candidate_modular45_registry.json",
+    "builder": "art/authoring/modular45/build.py",
+    "fireflyLedger": "art/authoring/modular45/firefly/ledger.json",
+    "presentInThisCheckout": false,
+    "coordinatorLandLookup": {
+      "evidence": "Coordinator read-only lookup reported on October 5, 2026; not independently read in this execution environment",
+      "candidatePackId": "modular47-gen16-postmerge-65f7704b6f35",
+      "registrySha256": "0bfb02547a3d480ede5384100cd08af7f8fe99b65b62fe5bef9cf1f403ee319c",
+      "builderSha256": "769143237eea9a12791b8df2ac169b8e58f3819933d1522d82fe81e68ba02499",
+      "ledgerSha256": "0eeb3a48f66526b1945237f0d4d85c53e45260f9396ba6165066ccc914355fb1",
+      "status": "Current local candidates; not older requested pack, not runtime approval; exact private delivery metadata pending"
+    }
+  },
+  "rearView": {
+    "registered": false,
+    "requiredAction": "Request authored rear-view family and explicit schema/identity mapping; no existing rear asset IDs or source paths are known."
+  },
+  "failedHairPairs": [
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_light_long_older_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "dc917f88be89edbe58cdcfca2e252cbebf01f019f356b039d8d47128404b46c0",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "75542f9be224f18302bab5fff38ec3dfcb544f7f83d39837fe4cc94b846fb438"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_light_oval_young_fem_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "226cf7551a91cf892ed05758d53238eed4d3261af56a75417412f8e48eea3ba7",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "47309ea8c342ed68166964f086365702493ea589c3bca6c25d2b064184457048"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_light_oval_young_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "6ca19e6841e94b543b9107ab7f78799997ff60d85fc0c82a6d49ea0d44c17ab6",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "38c160022eb618af63d62e4d3f094c0f84868d782dad8146649ddec1982109f8"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "28a2fc7097bbe1bf211b6a884e50f339f6071d7271c8368f1e4a8955128f64d5",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_light_square_older_masc_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "2bf8d1768cc192abdbe3acfadbf7fd895f61d1aebb5767a7197710d2f5264a8d",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "577d7f458a476a817b81067c06c05303beccece4b1b19522e0deae315e458f0b"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_olive_oval_adult_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "53de49b3a7524f15f7b7a11df2469bad277ab52704adbc72e71eaab0a8827ac6",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "f43bf03180e39582e2b9c0eb7d3705b04c5e0943ba5026ae523d38e3cf491988"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_tan_oval_adult_fem_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "33136fa4565b3803cdd8db9c38ad7348368c56d62484e42b10a4119ce5d8c5ec",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "9cd10bdd6180592ecca16367bae3cb0c0c6ea9045a7eab8d86b6c816857d30ef"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_tan_round_young_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "471c37aff13c8659a88215d91dc9224ad95723d3bf4fd06d2183c98123b56892",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "4232f8eb48689c576f1bdd0e07275063a15d21f36009b1260ff9656a7cf1f62e"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_LIGHT_COLOR_AGE_FEMININE_WARM_BLOND_SHOULDER_LAYERED_V1.png",
+      "sourceSha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "headId": "pv4_ocd_head_adult_tan_square_adult_masc_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "eb6fb30e9ad9ba2cf98ddedc99627ed774dad8fb41c1cab4100a99765d710e75",
+      "source_sha256": "9d25d0039684211f90318df8ca0ac6bee092999b61ba993b47f4964712dd7e25",
+      "head_sha256": "79aeaf52acde6c02a8ea25b7329426ff83bb1fe5b29f4496ccfa0fda9c7a6281"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_light_long_older_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "c74e97eaa1bfe5bdab514ad3d309f5cb371082d1a41eaf7c75b96fa0c03ccf20",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "75542f9be224f18302bab5fff38ec3dfcb544f7f83d39837fe4cc94b846fb438"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_light_oval_young_fem_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "ad2e5c39b0f57d1f3443cda1e5740613f946bedd189278e424cfb9330ac62a03",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "47309ea8c342ed68166964f086365702493ea589c3bca6c25d2b064184457048"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_light_oval_young_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "2b71cb1071695e5abfb3400dca4d019cec22a0cfbe481bf3b2b6c7827c1dbedf",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "38c160022eb618af63d62e4d3f094c0f84868d782dad8146649ddec1982109f8"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "e8405f6bbee135fbe74dac3b8e2da5531548e20cd16723141030204886e1f854",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_light_square_older_masc_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "1b563fc36134c42e8eb13e2e936bec763f1249210353de9c52679b5e1bd5d7dc",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "577d7f458a476a817b81067c06c05303beccece4b1b19522e0deae315e458f0b"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_olive_oval_adult_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "fb0a9b1917a735bb4c2d7d759a3c99b673fd268a9160323f537d1913621a51e3",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "f43bf03180e39582e2b9c0eb7d3705b04c5e0943ba5026ae523d38e3cf491988"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_tan_oval_adult_fem_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "58e42996cd07f291f009e718659f0a9c563690f2f21e416491eadf600154b8fd",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "9cd10bdd6180592ecca16367bae3cb0c0c6ea9045a7eab8d86b6c816857d30ef"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_tan_round_young_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "2f84b781d5a14bf66a3f8c7ebf067c8a121dce19d4e38014ff9115e062107c7b",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "4232f8eb48689c576f1bdd0e07275063a15d21f36009b1260ff9656a7cf1f62e"
+    },
+    {
+      "sourcePath": "art/references/candidates/people-visual4-hair/OCD_HAIR_FEM_STRAIGHT_DENSE_SIDE_SWEPT_LAYERED_MEDIUM_V1.png",
+      "sourceSha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "headId": "pv4_ocd_head_adult_tan_square_adult_masc_v1",
+      "status": "failed-fit",
+      "observations": [
+        "Asymmetric fringe source aperture leaves a visible triangular scalp gap with this head when the full temple width is matched.",
+        "Moving the source reference row upward encounters separate fringe gaps and causes asymmetric lateral displacement/oversized aperture. No uniform exact-pair correction verified; retain source for contour/attachment engineering, not a missing-resolution claim."
+      ],
+      "composite_sha256": "319ad846b79ef1a9e522fb864b6a11fb12b176fe9e427fad2faf7691d46b6b25",
+      "source_sha256": "c811eff9d0ca01f5450ca503ec120fb7a5e4a5b268a2598ea5224d8f0103456b",
+      "head_sha256": "79aeaf52acde6c02a8ea25b7329426ff83bb1fe5b29f4496ccfa0fda9c7a6281"
+    }
+  ],
+  "turnedOwnerLookup": {
+    "evidence": "Coordinator read-only lookup; owner Mac source root",
+    "standingFileCount": 156,
+    "absentSubfolders": ["faces", "hair", "seated"]
+  },
+  "privateDriveReference": {
+    "folderId": "1v8N5Zuo6-TPQtbVN0VpdjGAgQ3mTBg58",
+    "sourceCommit": "d75abfcb4cd0dd18550de1f5cd9b942ef214a782",
+    "contractFileId": "1Ry0mIISw7rlIejCb9Cf7f2aIAFQRLCma",
+    "contractSha256": "7e415cdd3c78410b7c9b94d9c7276e061586b45b8f1a916bc81b6c8bdc11725e",
+    "productionInputsFileId": "1GQX9mdvpamNyWslWyPbTyVHwN4eOBsvy",
+    "productionInputsSha256": "25f457f17b76a795f83d9625a3ea516a4715e3c6481a6cd12818175571950d26",
+    "status": "Private-unapproved historical KIT41 reference; not current runtime",
+    "posePackFileId": "1nYjToVvV1HxSDBRLE3PYV1RzltkPNvqv",
+    "correctedPosePackFileId": "1qwhL8BKSOZ3qjFdsCW2vsDqMBt2-MmJS",
+    "usefulInputs": [
+      "six standing front family contracts",
+      "collar and garment layer relations",
+      "26 front pose fits",
+      "16 corrected front identity fits",
+      "source provenance hashes and contact uncertainty"
+    ]
+  }
+}

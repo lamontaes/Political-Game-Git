@@ -1,0 +1,211 @@
+/* global console, process */
+/**
+ * Suggest a focused test cadence from the files actually changed on this branch.
+ *
+ * This does not run gates or weaken required final checks. It routes workers to
+ * the smallest honest commands during iteration, and to readiness commands when
+ * asked. Pair recorded stages with scripts/agent-run-receipt.mjs for LAND.
+ */
+import { execFileSync } from "node:child_process";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+/** @typedef {{ readonly label: string; readonly command: string; readonly receiptStage: string; readonly kind: "focus" | "readiness" }} CadenceStage */
+
+/**
+ * @param {readonly string[]} changedFiles
+ * @param {{ readonly readiness?: boolean }} options
+ * @returns {readonly CadenceStage[]}
+ */
+export function planCadence(changedFiles, options = {}) {
+  const paths = changedFiles.map((file) => file.replace(/\\/g, "/"));
+  const stages = [];
+  const has = (pattern) => paths.some((file) => pattern.test(file));
+
+  const code = has(
+    /\.(ts|tsx|mjs|js|json)$|^package\.json$|^tsconfig|^vite\.config/i,
+  );
+  const release = has(/^docs\/release\//);
+  const pool = has(/^docs\/pool\//);
+  const core = has(/^src\/(core2|rules|director|english)\//);
+  const screens = has(/^src\/bench\/(play\.(mjs|css|html)|.*\.browser\.mjs)$/);
+  const skillOps = has(
+    /^scripts\/skill-ops\/|^\.agents\/|^\.claude\/|^AGENTS\.md$|^CLAUDE\.md$|^\.cursor\/|^\.codex\//,
+  );
+  const receipt = has(/^scripts\/agent-(run-receipt|test-cadence|preflight)/);
+  const changedTests = paths.filter((file) =>
+    /\.test\.(ts|tsx|mjs)$/.test(file),
+  );
+
+  if (code) {
+    stages.push({
+      label: "Typecheck",
+      command: "npm run typecheck",
+      receiptStage: "typecheck",
+      kind: "focus",
+    });
+  }
+
+  if (skillOps || receipt) {
+    stages.push({
+      label: "Instruction and receipt contracts",
+      command: "npm run test:skill-ops",
+      receiptStage: "skill-ops",
+      kind: "focus",
+    });
+  }
+
+  if (changedTests.length > 0) {
+    stages.push({
+      label: "Changed tests",
+      command: `npx vitest run ${changedTests.join(" ")}`,
+      receiptStage: "changed-tests",
+      kind: "focus",
+    });
+  }
+
+  if (core) {
+    stages.push({
+      label: "Zero-dice guard",
+      command: "npm run zero-dice",
+      receiptStage: "zero-dice",
+      kind: "focus",
+    });
+    // Owner, Oct 27: no statistic but law opens on its published value.
+    stages.push({
+      label: "Zero-real-data guard",
+      command: "npm run zero-real-data",
+      receiptStage: "zero-real-data",
+      kind: "focus",
+    });
+  }
+
+  // Any file can add an importer of the deleted old folders; the check refuses one.
+  if (has(/\.(ts|tsx|mts|mjs|js)$/)) {
+    stages.push({
+      label: "Old-engine imports",
+      command: "npm run old-imports",
+      receiptStage: "old-imports",
+      kind: "focus",
+    });
+  }
+
+  if (screens) {
+    stages.push({
+      label: "Bench browser checks (start the bench first: npm run bench)",
+      command: "node src/bench/no-scroll.browser.mjs",
+      receiptStage: "browser",
+      kind: options.readiness ? "readiness" : "focus",
+    });
+  }
+
+  if (has(/^src\/bench\/(title\.ts|play\.(mjs|css|html))$/)) {
+    stages.push({
+      label: "Title tests and motion check (bench running)",
+      command:
+        "npx vitest run src/bench/title.test.ts && node src/bench/title-motion.browser.mjs",
+      receiptStage: "title",
+      kind: "focus",
+    });
+  }
+
+  if (pool) {
+    stages.push({
+      label: "Pool items",
+      command: "npm run pool -- --check",
+      receiptStage: "pool",
+      kind: "focus",
+    });
+  }
+
+  if (release) {
+    stages.push({
+      label: "Release declaration range",
+      command: "npm run release:check",
+      receiptStage: "release-check",
+      kind: "focus",
+    });
+  }
+
+  if (options.readiness) {
+    stages.push({
+      label: "Release gate for this PR",
+      command: "npm run release:check -- --mode pr",
+      receiptStage: "release-pr",
+      kind: "readiness",
+    });
+  }
+
+  const seen = new Set();
+  return stages.filter((stage) => {
+    if (seen.has(stage.command)) return false;
+    seen.add(stage.command);
+    return true;
+  });
+}
+
+function gitChangedFiles() {
+  const run = (args) =>
+    execFileSync("git", args, {
+      cwd: REPO_ROOT,
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+    }).trim();
+  try {
+    const upstream = run(["rev-parse", "--abbrev-ref", "@{upstream}"]);
+    if (upstream) {
+      const base = run(["merge-base", "HEAD", "@{upstream}"]);
+      return run(["diff", "--name-only", `${base}...HEAD`])
+        .split("\n")
+        .filter(Boolean);
+    }
+  } catch {
+    // No upstream yet; fall back to the working tree.
+  }
+  const tracked = run(["diff", "--name-only", "HEAD"])
+    .split("\n")
+    .filter(Boolean);
+  const untracked = run(["ls-files", "--others", "--exclude-standard"])
+    .split("\n")
+    .filter(Boolean);
+  return [...tracked, ...untracked];
+}
+
+function printPlan(stages) {
+  if (stages.length === 0) {
+    console.log("No changed files detected. Run agent:preflight, then edit.");
+    return;
+  }
+  console.log("Suggested cadence for changed files:\n");
+  for (const stage of stages) {
+    console.log(`- [${stage.kind}] ${stage.label}`);
+    console.log(`  command: ${stage.command}`);
+    console.log(
+      `  receipt: node scripts/agent-run-receipt.mjs --stage ${stage.receiptStage} --out .agent-receipts -- ${stage.command}`,
+    );
+    console.log("");
+  }
+  console.log(
+    "Record readiness with --readiness. Prior receipts from other heads are historical until re-run.",
+  );
+}
+
+const invokedDirectly =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (invokedDirectly) {
+  const readiness = process.argv.includes("--readiness");
+  const json = process.argv.includes("--json");
+  const files = process.argv.includes("--files")
+    ? process.argv.slice(process.argv.indexOf("--files") + 1)
+    : gitChangedFiles();
+  const stages = planCadence(files, { readiness });
+
+  if (json) {
+    console.log(JSON.stringify({ files, stages }, null, 2));
+  } else {
+    printPlan(stages);
+  }
+}

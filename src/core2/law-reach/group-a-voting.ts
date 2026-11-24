@@ -1,0 +1,986 @@
+/**
+ * Law reach, group A: election and office laws the voting and elections
+ * engines read. Each is a pure reading of the law in force today and the
+ * voter's or officeholder's own record:
+ *
+ * - `electionLawTurnoutCost`: what the town's election laws add to (or take
+ *   off) a voter's cost of turning out, in the voting engine's own units.
+ *   Photo ID adds a cost that grows as the voter's scheduled work falls
+ *   (people outside work less often carry a current ID); automatic
+ *   registration takes off the cost of registering; same-day registration
+ *   takes off more for the young, less with age; all-mail voting takes off
+ *   part of the work-time cost of getting to the polls.
+ * - `felonyDisenfranchisedShare`: the share of the counted adults who can't
+ *   vote for a felony conviction in the town's state, less those a restoration
+ *   law returns; `barredFromVoting` for a named person.
+ * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
+ */
+import { placeStateKey } from "../place-map";
+import { lawInForce, yesLevels } from "../modules/laws";
+const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
+import {
+  PHOTO_ID,
+  AUTO_REGISTRATION,
+  SAME_DAY,
+  ALL_MAIL,
+  RESTORE_VOTE,
+  REDISTRICTING,
+  TERM_LIMITS,
+  LOBBYING_BAN,
+} from "./voting-keys";
+export {
+  PHOTO_ID,
+  AUTO_REGISTRATION,
+  SAME_DAY,
+  ALL_MAIL,
+  RESTORE_VOTE,
+  REDISTRICTING,
+  TERM_LIMITS,
+  LOBBYING_BAN,
+} from "./voting-keys";
+import type { CoreAPI, CoreState, PersonState, Source } from "../types";
+import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
+import { electionsParameter } from "../elections-calendar";
+import { campaignParameter } from "../campaign-data";
+import { incarceratedMayVote } from "../justice-law";
+import { corePlaceByKey, coreStateName } from "../place-lookup";
+import { lazyValue, readJsonData } from "../reference/lazy-data";
+import {
+  OFFICES_MODULE_ID,
+  executiveTermLimit,
+  termLimitReachedBy,
+  type TermRow,
+} from "../modules/offices";
+import { ELECTIONS_MODULE_ID } from "../modules/elections";
+import {
+  convictionsOf,
+  inCustody,
+  sentenceUnfinished,
+} from "../modules/justice";
+import type { PolicyHandler } from "./host";
+import { lawApplied, lawNoLongerApplies } from "./applied";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  registerMonthlyProgram,
+  type GovernmentRow,
+} from "../modules/budgets";
+import { chargeLine } from "../budgets-treasury";
+import {
+  electorateRoll,
+  registeredAtPollsShare,
+  type RollVoter,
+} from "../modules/voting";
+import { onReachCalendar } from "./reach-workers";
+import {
+  ageOn,
+  applyRecords,
+  ensureReachA,
+  mechanicRow,
+  putMechanic,
+  REACH_A_MODULE_ID,
+  reachParameter,
+  selectorGroup,
+  tomorrow,
+} from "./group-a-records";
+
+const ELECTION_KEYS = [PHOTO_ID, AUTO_REGISTRATION, SAME_DAY, ALL_MAIL];
+
+/**
+ * Which laws are in force today, each read from the laws table the first
+ * time an engine asks about it, so the read is the asking engine's (cached
+ * for the day; cleared when one changes).
+ */
+interface LawsToday {
+  readonly date: string;
+  readonly keys: Map<string, boolean>;
+  election?: Set<string>;
+  contests?: Map<string, string | null>;
+}
+const cache = new WeakMap<object, LawsToday>();
+function today(api: CoreAPI): LawsToday {
+  const hit = cache.get(api.state);
+  if (hit && hit.date === api.state.date) return hit;
+  const fresh: LawsToday = {
+    date: api.state.date,
+    keys: new Map<string, boolean>(),
+  };
+  cache.set(api.state, fresh);
+  return fresh;
+}
+function inForce(api: CoreAPI, key: string): boolean {
+  // A world without the laws engine has no laws in force.
+  if (!api.state.modules.has("core2-laws-v1")) return false;
+  const hit = today(api);
+  let yes = hit.keys.get(key);
+  if (yes === undefined) {
+    yes = yesLevels(api, key).length > 0;
+    hit.keys.set(key, yes);
+  }
+  return yes;
+}
+/** The election laws that change a voter's cost of turning out, in force today. */
+function electionLaws(api: CoreAPI): ReadonlySet<string> {
+  const hit = today(api);
+  hit.election ??= new Set(ELECTION_KEYS.filter((key) => inForce(api, key)));
+  return hit.election;
+}
+
+/**
+ * An election law changes: the registration roll is brought up to it the
+ * same day (who is registered or must show an ID, now), and a repeal ends
+ * the engine's rows (host.ts). The term-limit and lobbying laws are applied
+ * where a filing or a lobbyist is chosen.
+ */
+export const votingLaw: PolicyHandler = (api, change) => {
+  cache.delete(api.state);
+  if (!ELECTION_KEYS.includes(change.key)) {
+    applyRecords(api, change.key, change.lawId, change.inForce);
+    return;
+  }
+  if (!change.inForce || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  applyElectionLaws(
+    api,
+    change.opening ? "opening" : "registration",
+    electorateRoll(api),
+    null,
+    { only: [change.key] },
+  );
+};
+
+/**
+ * What the election laws in force add to one voter's turnout cost (negative
+ * where they lower it). For the voting engine's `turnout()`.
+ */
+export function electionLawTurnoutCost(
+  api: CoreAPI,
+  voter: Readonly<
+    Pick<PersonState, "id" | "traits"> & { readonly birthDate?: string }
+  >,
+  weeklyWorkMinutes: number,
+  /**
+   * The town's own voters, whose registrations are records (`electorate-
+   * registration.ts`): automatic and same-day registration reach them
+   * through those records, so their flat parts are left out here and no law
+   * moves turnout twice. Places counted from afar keep the flat parts.
+   */
+  registrationIsRecord = false,
+): number {
+  const laws = electionLaws(api);
+  if (!laws.size) return 0;
+  const parts = electionLawParts(api, laws, voter, weeklyWorkMinutes);
+  return registrationIsRecord
+    ? parts.photoId + parts.allMail
+    : parts.photoId + parts.automatic + parts.sameDay + parts.allMail;
+}
+
+/** Whether the state registers a person when their address changes or they turn 18. */
+export function automaticRegistrationInForce(api: CoreAPI): boolean {
+  return electionLaws(api).has(AUTO_REGISTRATION);
+}
+
+/** Whether the state registers a person at the polls on election day. */
+export function sameDayRegistrationInForce(api: CoreAPI): boolean {
+  return electionLaws(api).has(SAME_DAY);
+}
+
+/** Each election law's signed turnout cost for one voter (zero where not in force). */
+function electionLawParts(
+  api: CoreAPI,
+  laws: ReadonlySet<string>,
+  voter: Readonly<
+    Pick<PersonState, "id" | "traits"> & { readonly birthDate?: string }
+  >,
+  weeklyWorkMinutes: number,
+) {
+  const workShare = Math.min(
+    1,
+    Math.max(
+      0,
+      weeklyWorkMinutes / campaignParameter("turnoutWorkWeekMinutes"),
+    ),
+  );
+  const parts = { photoId: 0, automatic: 0, sameDay: 0, allMail: 0 };
+  if (laws.has(PHOTO_ID))
+    parts.photoId =
+      reachParameter("photoIdBaseCost") +
+      reachParameter("photoIdNoWorkCost") * (1 - workShare);
+  if (laws.has(AUTO_REGISTRATION))
+    parts.automatic = -reachParameter("automaticRegistrationRelief");
+  if (laws.has(SAME_DAY)) {
+    const birthDate =
+      voter.birthDate ?? api.state.people.get(voter.id)?.birthDate;
+    const years = birthDate
+      ? ageOn(birthDate, api.state.date) - reachParameter("votingAge")
+      : 0;
+    parts.sameDay = -(
+      reachParameter("sameDayRegistrationRelief") * sameDayWeight(years)
+    );
+  }
+  if (laws.has(ALL_MAIL))
+    parts.allMail = -(reachParameter("mailVotingWorkRelief") * workShare);
+  return parts;
+}
+
+/** How much of the same-day registration gain a voter this many years past 18 has (1 at 18, 0 past the span). */
+function sameDayWeight(yearsPast18: number): number {
+  return Math.max(
+    0,
+    1 -
+      Math.max(0, yearsPast18) /
+        reachParameter("sameDayRegistrationAgeSpanYears"),
+  );
+}
+
+// --- the laws applied to the roll, and what they cost -------------------------
+
+const ELECTION_ENGINE = "core2-voting-v1";
+/** The budget line the cost of running elections is paid from. */
+const ELECTION_LINE = "administration";
+/** Levels in the order the government that runs the town's elections is looked for. */
+const ADMINISTRATOR_LEVELS = ["county", "city", "state"] as const;
+
+/**
+ * When the roll is brought up to the election laws: the day one changes, an
+ * election day, or the opening, when the laws already in force are applied
+ * to the roll at no cost (those registrations and IDs predate the game).
+ */
+type Moment = "registration" | "vote" | "opening";
+
+interface LawSpec {
+  readonly key: string;
+  readonly what: string;
+  /** The cost parameter, paid at `paidAt` (the other moment only records). */
+  readonly cost: string;
+  readonly paidAt: Moment;
+  /** How much of the unit cost one voter incurs, 0 to 1 (a sliding scale). */
+  readonly share: (
+    api: CoreAPI,
+    voter: RollVoter,
+    laws: ReadonlySet<string>,
+    pollDate: string,
+  ) => number;
+}
+
+const SPECS: readonly LawSpec[] = [
+  {
+    key: PHOTO_ID,
+    what: "photo-id-required",
+    cost: "photoIdIssueCostMinor",
+    paidAt: "registration",
+    // The ID the state issues free to a voter without one: the likelier the
+    // less they work, the same sliding scale as the cost of turning out.
+    share: (api, v, laws) => {
+      const parts = electionLawParts(api, laws, v, v.weeklyMinutes);
+      const top =
+        reachParameter("photoIdBaseCost") + reachParameter("photoIdNoWorkCost");
+      return top > 0 ? parts.photoId / top : 0;
+    },
+  },
+  {
+    key: AUTO_REGISTRATION,
+    what: "registered-automatically",
+    cost: "automaticRegistrationCostMinor",
+    paidAt: "registration",
+    share: () => 1,
+  },
+  {
+    key: SAME_DAY,
+    what: "registers-at-polls",
+    cost: "sameDayRegistrationCostMinor",
+    paidAt: "vote",
+    // The share of them the day's record says registered at the polls.
+    share: (api, v, _laws, pollDate) =>
+      registeredAtPollsShare(api, v.id, pollDate),
+  },
+  {
+    key: ALL_MAIL,
+    what: "mailed-ballot",
+    cost: "mailBallotCostMinor",
+    paidAt: "vote",
+    share: () => 1,
+  },
+];
+
+/** The government that runs the town's elections: the lowest-level county, city or state treasury in the game. */
+function administrator(api: CoreAPI) {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const govs = governments(api);
+  for (const level of ADMINISTRATOR_LEVELS) {
+    const gov = govs.find((g) => g.level === level);
+    if (gov) return gov;
+  }
+  return null;
+}
+
+const OWED_KIND = "election-cost-owed";
+
+/**
+ * Pay what the election costs out of the administering treasury's line. A
+ * treasury short of cash pays what it holds; the rest is owed and paid as
+ * cash arrives, day by day, until it is paid, even after a repeal.
+ */
+function payElectionCost(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  spec: LawSpec,
+  amountMinor: number,
+  contestId: string | null,
+  lawId: string,
+): number {
+  const paid = settleElection(
+    api,
+    gov,
+    spec.key,
+    spec.what,
+    spec.cost,
+    amountMinor,
+    `${contestId ?? api.state.date}`,
+  );
+  const owed = Math.floor(amountMinor - paid);
+  if (owed >= 1) {
+    ensureReachA(api);
+    const id = `${OWED_KIND}:${spec.key}:${gov.id}`;
+    const held = mechanicRow(api, id);
+    putMechanic(api, {
+      id,
+      key: spec.key,
+      active: true,
+      since: held?.active ? held.since : api.state.date,
+      facts: {
+        owedMinor: Math.floor(Number(held?.facts.owedMinor ?? 0)) + owed,
+        what: spec.what,
+        cost: spec.cost,
+        governmentId: gov.id,
+        lawId,
+      },
+    });
+    scheduleOwed(api, id);
+  }
+  return paid;
+}
+
+function scheduleOwed(api: CoreAPI, id: string): void {
+  const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+  const date = tomorrow(api.state.date);
+  const key = `${OWED_KIND}:${id}:${date}`;
+  if (!calendar.get(key))
+    calendar.schedule({
+      key,
+      date,
+      kind: OWED_KIND,
+      source: {
+        tag: "ESTIMATED",
+        citation: "Election costs owed by a treasury short of cash",
+        asOf: api.state.date,
+        estimatedFrom: "data/laws/reach-group-a-parameters.json",
+      },
+      sourceRecordIds: [id],
+    });
+}
+
+function settleElection(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  key: string,
+  what: string,
+  cost: string,
+  amountMinor: number,
+  day: string,
+): number {
+  return chargeLine(api, gov, {
+    id: `election-admin:${key}:${gov.id}:${day}`,
+    line: ELECTION_LINE,
+    amountMinor,
+    reasonKey: `election-administration:${what}`,
+    source: {
+      tag: "ESTIMATED",
+      citation: `Election administration cost of ${key} (data/laws/reach-group-a-parameters.json ${cost})`,
+      asOf: api.state.date,
+      estimatedFrom: `data/laws/reach-group-a-parameters.json ${cost}`,
+    },
+  });
+}
+
+onReachCalendar(OWED_KIND, (api, work) => {
+  const id = work.sourceRecordIds[0]!;
+  const row = mechanicRow(api, id);
+  if (!row?.active) return;
+  const key = row.key;
+  const gov = governments(api).find((g) => g.id === row.facts.governmentId);
+  // A repeal stops new charges, not a cost already incurred: the debt is paid
+  // whether or not the law is still in force.
+  if (!gov) {
+    putMechanic(api, { ...row, active: false });
+    return;
+  }
+  const owed = Number(row.facts.owedMinor);
+  const paid = settleElection(
+    api,
+    gov,
+    key,
+    String(row.facts.what),
+    String(row.facts.cost),
+    owed,
+    `owed:${api.state.date}`,
+  );
+  // After a repeal the payment settles the old cost; the law's ended rows stay ended.
+  if (paid > 0 && inForce(api, key))
+    lawApplied(api, {
+      key,
+      lawId: String(row.facts.lawId),
+      targetId: gov.id,
+      target: "government",
+      engine: ELECTION_ENGINE,
+      what: "election-cost-paid",
+      amountMinor: paid,
+    });
+  const left = owed - paid;
+  putMechanic(api, {
+    ...row,
+    active: left >= 1,
+    facts: { ...row.facts, owedMinor: left },
+  });
+  if (left >= 1) scheduleOwed(api, id);
+});
+
+/**
+ * Who each election law has already been paid for today, by law and moment:
+ * a voter (or the people a counted group stands for) on the rolls of several
+ * contests that share one ballot is served once that day, and a second change
+ * to the same law on one day processes no one twice.
+ */
+const charged = new WeakMap<
+  object,
+  { date: string; served: Map<string, Map<string, number>> }
+>();
+
+/**
+ * Apply the election laws in force to the roll, at registration (the day a
+ * law changes) or at the vote (an election day): each voter, named or
+ * counted, gets a row naming the law and what it did to them (a counted group
+ * stands for its people), and the government that runs the election pays its
+ * cost out of its administration line (ID issuance and registration
+ * processing when the roll is brought up to the law; ballots mailed and
+ * registrations taken at the polls on election day). `only` limits it to
+ * laws that just changed.
+ */
+export function applyElectionLaws(
+  api: CoreAPI,
+  moment: Moment,
+  roll: readonly RollVoter[],
+  contestId: string | null,
+  {
+    only,
+    pollDate = api.state.date,
+  }: {
+    readonly only?: readonly string[];
+    readonly pollDate?: string;
+  } = {},
+): void {
+  const laws = electionLaws(api);
+  if (!laws.size || !roll.length) return;
+  const gov = administrator(api);
+  for (const spec of SPECS) {
+    if (!laws.has(spec.key) || (only && !only.includes(spec.key))) continue;
+    const lawId = yesLevels(api, spec.key)[0]?.lawId;
+    if (!lawId) continue;
+    // Each voter is paid for once a day per law and moment: the contests on
+    // one ballot share its mailing and its registrations at the polls, and a
+    // second change to the same law on one day processes no one again.
+    let today = charged.get(api.state);
+    if (!today || today.date !== api.state.date) {
+      today = { date: api.state.date, served: new Map() };
+      charged.set(api.state, today);
+    }
+    const servedKey = `${spec.key}:${moment}`;
+    const served = today.served.get(servedKey) ?? new Map<string, number>();
+    today.served.set(servedKey, served);
+    // A national unit cost per voter served, the same in every place.
+    // stopgapId: SG-GOV-REACH-A-election-cost-estimates
+    if (spec.paidAt === moment)
+      api.stopgap("SG-GOV-REACH-A-election-cost-estimates");
+    const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
+    const planned = roll.map((v) => {
+      if (!unit) return 0;
+      const peopleServed = v.count * spec.share(api, v, laws, pollDate);
+      const before = served.get(v.id) ?? 0;
+      if (peopleServed <= before) return 0;
+      // A ward counted later can add registrations to the same ballot.
+      served.set(v.id, peopleServed);
+      return unit * (peopleServed - before);
+    });
+    const plannedTotal = planned.reduce((a, b) => a + b, 0);
+    // The treasury pays what it holds and owes the rest (payElectionCost), so
+    // each voter's row carries what the law cost to serve them, funded or owed.
+    if (gov && plannedTotal >= 1)
+      payElectionCost(api, gov, spec, plannedTotal, contestId, lawId);
+    roll.forEach((v, i) => {
+      lawApplied(api, {
+        key: spec.key,
+        lawId,
+        targetId: v.id,
+        target: v.target,
+        engine: ELECTION_ENGINE,
+        what: spec.what,
+        count: Math.max(1, Math.round(v.count)),
+        amountMinor: planned[i]!,
+      });
+    });
+  }
+}
+
+/**
+ * The share of the counted adults who can't vote for a felony conviction:
+ * the town's state's own share (The Sentencing Project, Locked Out 2024,
+ * `data/elections/felony-disenfranchisement.json`), less the part a
+ * restoration law in force returns to the rolls (those who have finished
+ * their sentences). D.C. and the territories, which the report leaves out,
+ * take the national share until conviction records exist
+ * (SG-GOV-REACH-A-convictions).
+ */
+export function felonyDisenfranchisedShare(api: CoreAPI): number {
+  const stateKey = placeStateKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  );
+  const shares = felonyData.states as Record<string, number>;
+  const own = stateKey ? shares[stateKey] : undefined;
+  if (own === undefined) {
+    // stopgapId: SG-GOV-REACH-A-convictions
+    api.stopgap("SG-GOV-REACH-A-convictions");
+  }
+  const base = own ?? felonyData.nationalShare;
+  return inForce(api, RESTORE_VOTE)
+    ? base * (1 - electionsParameter("restoredFractionOfDisenfranchised"))
+    : base;
+}
+
+const CORRECTIONAL_BY_STATE = lazyValue(() => {
+  const adults = new Map<string, number>();
+  const rows = readJsonData(
+    new URL(
+      "../../../data/research/group-quarters/census-2020-group-quarters.json",
+      import.meta.url,
+    ),
+  ) as { rows: readonly (readonly [string, string, number, number])[] };
+  for (const row of rows.rows)
+    adults.set(
+      row[0].slice(0, 2),
+      (adults.get(row[0].slice(0, 2)) ?? 0) + row[3],
+    );
+  const voting = readJsonData(
+    new URL(
+      "../../../data/source/census-voting-registration/corpus.json",
+      import.meta.url,
+    ),
+  ) as readonly {
+    dimension: string;
+    geographyName: string;
+    metrics: Record<string, { value?: { value?: number } }>;
+  }[];
+  const population = new Map<string, number>();
+  for (const row of voting)
+    if (row.dimension === "total")
+      population.set(
+        row.geographyName,
+        row.metrics.adultPopulation?.value?.value ?? 0,
+      );
+  return { adults, population };
+});
+
+/**
+ * The part of the state's barred share that is people held in its prisons:
+ * the state's adult correctional residents (Census 2020, table P5, summed
+ * over the state's localities) over its adults (CPS 2024). The counted
+ * electorate leaves those rooms out where the state bars them, so the
+ * barred share applied to everyone else is the rest, and no one is barred
+ * twice. Zero where the state lets people vote from prison, or the state
+ * has no row. Estimated: the localities leave out prisons outside any
+ * place.
+ */
+export function prisonPartOfBarredShare(api: CoreAPI): number {
+  const placeKey = String(api.state.placeMetadata.placeKey ?? "");
+  const stateKey = placeStateKey(placeKey);
+  if (!stateKey || incarceratedMayVote(api, stateKey).may) return 0;
+  const fips = corePlaceByKey(placeKey)?.sourceGeoid?.slice(0, 2);
+  const name = coreStateName(stateKey.slice(3));
+  if (!fips || !name) return 0;
+  const { adults, population } = CORRECTIONAL_BY_STATE();
+  const people = population.get(name.toUpperCase()) ?? 0;
+  if (people <= 0) return 0;
+  return Math.min(
+    felonyDisenfranchisedShare(api),
+    (adults.get(fips) ?? 0) / people,
+  );
+}
+
+/** Whether the state bars the people held in its prisons from voting. */
+export function prisonersBarredHere(api: CoreAPI): boolean {
+  const stateKey = placeStateKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  );
+  return !incarceratedMayVote(api, stateKey ?? "").may;
+}
+
+/**
+ * Whether a named person's own record bars them from voting. Maine,
+ * Vermont, the District of Columbia and Puerto Rico let people vote from
+ * prison (`incarceratedMayVote`) and never bar anyone. Elsewhere a person
+ * serving a prison term is barred, and after it a felony conviction on the
+ * justice record bars them until the sentence is served where the state's law
+ * in force restores the vote (`RESTORE_VOTE`), and for good where it does
+ * not. Counted adults carry the state's share of the same rule
+ * (`felonyDisenfranchisedShare`). The justice engine's cases are all
+ * felony-grade, so any conviction on record counts.
+ */
+export function barredFromVoting(api: CoreAPI, personId: string): boolean {
+  const stateKey = placeStateKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  );
+  if (incarceratedMayVote(api, stateKey ?? "").may) return false;
+  if (inCustody(api, personId)) return true;
+  if (!convictionsOf(api, personId).length) return false;
+  return !inForce(api, RESTORE_VOTE) || sentenceUnfinished(api, personId);
+}
+
+function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byPerson", [personId]) as unknown as TermRow[];
+}
+
+const yearsBetween = (from: string, to: string) =>
+  (Date.parse(to) - Date.parse(from)) /
+  (reachParameter("daysPerYear") * 86_400_000);
+
+/**
+ * Whether a term limit in force bars this person from another term in a
+ * legislative office: their years in it have reached the limit. For the
+ * elections engine's filing check.
+ */
+export function termLimitReached(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): boolean {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as
+    { kind?: string; level?: string; jurisdiction?: string } | undefined;
+  if (office?.level === "state" && office.kind === "governor")
+    return governorLimitReached(api, personId, officeId);
+  // Another statewide executive (lieutenant governor, attorney general...)
+  // keeps the limit its state's constitution gives, from the office research.
+  if (office?.level === "state" && office.jurisdiction && office.kind) {
+    const limit = executiveTermLimit(office.jurisdiction, office.kind);
+    if (limit.kind !== "none")
+      return termLimitReachedBy(limit, governorTerms(api, personId, officeId));
+  }
+  if (!inForce(api, TERM_LIMITS)) return false;
+  const legislative = selectorGroup("legislators").some((k) =>
+    (office?.kind ?? "").startsWith(k),
+  );
+  if (!legislative) return false;
+  const date = api.state.date;
+  const years = termsOf(api, personId)
+    .filter((t) => t.officeId === officeId && t.startDate <= date)
+    .reduce((sum, t) => {
+      const end = t.endDate && t.endDate < date ? t.endDate : date;
+      return sum + yearsBetween(t.startDate, end);
+    }, 0);
+  return years >= reachParameter("termLimitYears");
+}
+
+/**
+ * The governor's limit on terms: the state's `executive-term-limit` law in
+ * force (0 for none), against the terms the person has held or holds in the
+ * office. A law that raises, lowers or repeals the limit changes who may file
+ * the day it takes effect.
+ */
+function governorLimit(
+  api: CoreAPI,
+  officeId: string,
+): { terms: number; lawId: string | null } {
+  // A world without the laws engine has no law in force (as `inForce` reads it).
+  if (!api.state.modules.has("core2-laws-v1")) return { terms: 0, lawId: null };
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { jurisdiction?: string } | undefined;
+  const level = lawInForce(api, EXECUTIVE_TERM_LIMIT).levels.find(
+    (l) => l.level === "state" && l.jurisdiction === office?.jurisdiction,
+  );
+  return {
+    terms: level?.row?.value ?? 0,
+    lawId: level?.row?.id ?? null,
+  };
+}
+
+function governorTerms(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): number {
+  const date = api.state.date;
+  return termsOf(api, personId).filter(
+    (t) => t.officeId === officeId && t.startDate <= date,
+  ).length;
+}
+
+function governorLimitReached(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): boolean {
+  const { terms } = governorLimit(api, officeId);
+  return terms > 0 && governorTerms(api, personId, officeId) >= terms;
+}
+
+/**
+ * A person files for a legislative office under a term limit in force: the
+ * elections engine counted their years against it, and the limit kept them
+ * off the ballot or let them on. Called where the filing is decided, never
+ * where a screen previews eligibility.
+ */
+export function recordTermLimitFiling(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): void {
+  const governor = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { kind?: string; level?: string } | undefined;
+  if (governor?.level === "state" && governor.kind === "governor") {
+    const { terms, lawId: governorLaw } = governorLimit(api, officeId);
+    if (!governorLaw || terms <= 0) return;
+    lawApplied(api, {
+      key: EXECUTIVE_TERM_LIMIT,
+      lawId: governorLaw,
+      targetId: personId,
+      target: "person",
+      engine: "core2-elections-v1",
+      what: governorLimitReached(api, personId, officeId)
+        ? "kept-off-ballot"
+        : "term-count-checked",
+    });
+    return;
+  }
+  if (!inForce(api, TERM_LIMITS)) return;
+  const lawId = yesLevels(api, TERM_LIMITS)[0]?.lawId;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { kind?: string } | undefined;
+  const legislative = selectorGroup("legislators").some((k) =>
+    (office?.kind ?? "").startsWith(k),
+  );
+  if (!lawId || !legislative) return;
+  lawApplied(api, {
+    key: TERM_LIMITS,
+    lawId,
+    targetId: personId,
+    target: "person",
+    engine: "core2-elections-v1",
+    what: termLimitReached(api, personId, officeId)
+      ? "kept-off-ballot"
+      : "term-count-checked",
+  });
+}
+
+/**
+ * The date until which a former officeholder may not lobby, under a ban in
+ * force (null when none applies). For the interest-groups engine's choice
+ * of a lobbyist.
+ */
+export function lobbyingBarredUntil(
+  api: CoreAPI,
+  personId: string,
+): string | null {
+  const laws = yesLevels(api, LOBBYING_BAN);
+  if (!laws.length) return null;
+  const terms = termsOf(api, personId);
+  const ended = terms
+    // Opening history explicitly records re-election. Live seating instead
+    // ends the old term as "term ended", so read its continuing service.
+    .filter(
+      (t) =>
+        t.status === "ended" &&
+        t.endDate &&
+        t.endDate <= api.state.date &&
+        t.endedBy !== "re-elected" &&
+        !terms.some(
+          (next) =>
+            next.id !== t.id &&
+            next.officeId === t.officeId &&
+            next.startDate <= t.endDate! &&
+            (next.endDate === null || next.endDate > t.endDate!),
+        ),
+    )
+    .map((t) => t.endDate!)
+    .sort()
+    .pop();
+  if (!ended) {
+    lawNoLongerApplies(api, LOBBYING_BAN, personId);
+    return null;
+  }
+  const bans = laws.map((law) => {
+    const provisions = law.row.terms?.lawTerms;
+    const period = Array.isArray(provisions)
+      ? provisions.find(
+          (term) =>
+            term.questionKey === LOBBYING_BAN &&
+            term.key === "period" &&
+            term.unit === "years" &&
+            typeof term.value === "number" &&
+            Number.isFinite(term.value) &&
+            term.value >= 0,
+        )?.value
+      : undefined;
+    // stopgapId: SG-LAWS-lobbying-period-unspecified
+    if (period === undefined)
+      api.stopgap("SG-LAWS-lobbying-period-unspecified");
+    const years = period ?? reachParameter("lobbyingCoolingOffYears");
+    const until = new Date(Date.parse(`${ended}T00:00:00Z`));
+    // The researched six-month provision is half a year, not zero years.
+    const day = until.getUTCDate();
+    until.setUTCDate(1);
+    until.setUTCMonth(
+      until.getUTCMonth() + years * reachParameter("monthsPerYear"),
+    );
+    const lastDay = new Date(
+      Date.UTC(until.getUTCFullYear(), until.getUTCMonth() + 1, 0),
+    ).getUTCDate();
+    until.setUTCDate(Math.min(day, lastDay));
+    return { lawId: law.lawId, date: until.toISOString().slice(0, 10) };
+  });
+  const { date, lawId } = bans.sort((a, b) => b.date.localeCompare(a.date))[0]!;
+  const barred = date > (api.state as CoreState).date;
+  if (lawId) {
+    if (barred)
+      lawApplied(api, {
+        key: LOBBYING_BAN,
+        lawId,
+        targetId: personId,
+        target: "person",
+        engine: "core2-interest-groups-v1",
+        what: "barred-from-lobbying",
+      });
+    else lawNoLongerApplies(api, LOBBYING_BAN, personId);
+  }
+  return barred ? date : null;
+}
+
+/**
+ * A revolving-door law in force lowers what a legislative seat is worth to
+ * someone who does not hold it: on leaving it they could not lobby for a time
+ * (Fisman, Leder-Luis, O'Donnell and Vannutelli 2025 find about 18% fewer new
+ * candidates enter where one passes). For the candidacy chooser: the law row
+ * that applies to this contest's office, or null. Cached for the day.
+ */
+export function revolvingDoorFor(
+  api: CoreAPI,
+  contestId: string,
+): string | null {
+  const hit = today(api);
+  const key = `revolving-door|${contestId}`;
+  if (hit.contests?.has(key)) return hit.contests.get(key)!;
+  hit.contests ??= new Map();
+  let lawId: string | null = null;
+  if (
+    inForce(api, LOBBYING_BAN) &&
+    api.state.modules.has(ELECTIONS_MODULE_ID) &&
+    api.state.modules.has(OFFICES_MODULE_ID)
+  ) {
+    const contest = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .get(contestId) as { officeId?: string } | undefined;
+    const office = contest?.officeId
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(contest.officeId) as { kind?: string } | undefined)
+      : undefined;
+    const legislative = selectorGroup("legislators").some((k) =>
+      (office?.kind ?? "").startsWith(k),
+    );
+    if (legislative) lawId = yesLevels(api, LOBBYING_BAN)[0]?.lawId ?? null;
+  }
+  hit.contests.set(key, lawId);
+  return lawId;
+}
+
+/**
+ * A month of the state's independent redistricting commission, paid at the
+ * treasury's monthly close while the state's law is in force: the
+ * commissioners' pay and the commission's work, out of the state's
+ * administration line to those it pays outside the town (Mich. Const. art.
+ * IV, sec. 6(5): appropriated each year the commission operates). The state
+ * government is the law's reach. Paid by the budgets engine's monthly close.
+ */
+function payRedistrictingCommission(api: CoreAPI, source: Source): void {
+  if (!api.state.modules.has("core2-laws-v1")) return;
+  const law = yesLevels(api, REDISTRICTING).find((l) => l.level === "state");
+  if (!law) return;
+  const gov = governments(api).find((g) => g.level === "state");
+  if (!gov) return;
+  const amountMinor = Math.round(
+    (reachParameter("redistrictingCommissionYearPerResidentMinor") *
+      gov.residents) /
+      reachParameter("monthsPerYear"),
+  );
+  const paid = chargeLine(api, gov, {
+    id: `redistricting-commission:${REDISTRICTING}:${gov.id}:${api.state.date}`,
+    line: ELECTION_LINE,
+    amountMinor,
+    reasonKey: "redistricting-commission",
+    source,
+  });
+  lawApplied(api, {
+    key: REDISTRICTING,
+    lawId: law.lawId,
+    targetId: gov.id,
+    target: "government",
+    engine: BUDGETS_MODULE_ID,
+    what: "redistricting-commission-funded",
+    amountMinor: -paid,
+  });
+}
+
+/**
+ * Registers the commission's monthly payment with the budgets engine. Called
+ * from `registerGroupA` (the law reach's init), never at module load: the
+ * budgets module's registry may not be built yet when this file is imported.
+ */
+export function registerVotingMonthlyProgram(): void {
+  registerMonthlyProgram(payRedistrictingCommission);
+}
+
+/**
+ * The town's ward lines were drawn (the districts engine's only line-drawing
+ * step): where independent redistricting is law, a commission draws them to
+ * equal population, and the government whose wards they are is the law's
+ * reach.
+ */
+export function recordRedistricting(api: CoreAPI, wards: number): void {
+  const lawId = yesLevels(api, REDISTRICTING)[0]?.lawId;
+  const gov = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((g) => g.level === "city")
+    : undefined;
+  if (!lawId || !gov) return;
+  // stopgapId: SG-GOV-REACH-A-redistricting
+  api.stopgap("SG-GOV-REACH-A-redistricting");
+  lawApplied(api, {
+    key: REDISTRICTING,
+    lawId,
+    targetId: gov.id,
+    target: "government",
+    engine: ELECTION_ENGINE,
+    what: "ward-lines-drawn-by-commission",
+    count: wards,
+  });
+}

@@ -1,0 +1,10 @@
+{
+  "version": "territory-labor-v1",
+  "source": {
+    "tag": "ESTIMATED",
+    "asOf": "2026-10-12",
+    "citation": "CTO stand-in research (data/research/stand-in-figures-2026-10-12.json): Guam Dept. of Labor (3.4%, Mar 2026); VI Dept. of Labor (3.2-3.8%, 2024-2025); 2020 Island Areas Census, American Samoa (13.2%, April 2020); CNMI Dept. of Commerce labor force survey (10.5%, Q4 2017).",
+    "estimatedFrom": "The latest published rate for each island area, held flat until each area's own series is in the data; confidence low."
+  },
+  "unemploymentPct": { "60": 13.2, "66": 3.4, "69": 10.5, "78": 3.5 }
+}

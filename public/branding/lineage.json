@@ -1,0 +1,12 @@
+{
+  "source": "docs/codex/ui-logo-packet/02_logo/emblem-final.png",
+  "sourceSha256": "8412c930a1c984ceb27657960aad332563e262f77d88277b4c07ba52bf9ba059",
+  "derivation": "Original emblem for title; icon copies fit proportionally inside transparent square canvases, Lanczos downsampling only. Ballot and artwork unchanged. PNG, ICO and ICNS encoded with Pillow 11.3.0.",
+  "files": {
+    "public/branding/emblem-final.png": "8412c930a1c984ceb27657960aad332563e262f77d88277b4c07ba52bf9ba059",
+    "public/branding/favicon.png": "bb4ad9867e3f580e1c27f7426431f765c78aaa7754e47c52b0dff9024544b174",
+    "desktop/build/icon.png": "1b213222b6cfc20d35e253982129cf4b4f19e58c167689451f2cbeb42b46aed8",
+    "desktop/build/icon.ico": "9c47044abc5c41a827cafa3ade19a67449016d8fcb2df9451ed4393fe8b7bc2b",
+    "desktop/build/icon.icns": "f4b8bba95903ab0a12a78d262cab128c2d1efe134bc82c9d8205227b5bb1c1bb"
+  }
+}

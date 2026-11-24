@@ -1,0 +1,758 @@
+{
+  "schema": 1,
+  "note": "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
+  "anchors": [
+    {
+      "anchor": "MunicipalWorkspace-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — observed {fact.asOf}",
+      "occurrence": 0,
+      "textRevision": "8326e7b676bf"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "(not a governing parent).",
+      "occurrence": 0,
+      "textRevision": "2c41c1e61580"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0003",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". A place identifier is not a government-unit or county identifier.",
+      "occurrence": 0,
+      "textRevision": "ebca7a37dd37"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0004",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Completed effort: ",
+      "occurrence": 0,
+      "textRevision": "d535595f25f2"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0005",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". County area:",
+      "occurrence": 0,
+      "textRevision": "59b06e8e4e13"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0006",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Full-time equivalent: unknown.",
+      "occurrence": 0,
+      "textRevision": "3eeba0dad9f3"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0007",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Legacy government ID:",
+      "occurrence": 0,
+      "textRevision": "09d1c65beccd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0008",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "; fiscal year ending ",
+      "occurrence": 0,
+      "textRevision": "bcabd9457fa8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0009",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A session of this type is already on your calendar.",
+      "occurrence": 0,
+      "textRevision": "e5e69ab40461"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0011",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Add public session to this world",
+      "occurrence": 0,
+      "textRevision": "c6dfbba9bb4d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0012",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Agenda: no published agenda has been attached to this session. Recorded measures appear below.",
+      "occurrence": 0,
+      "textRevision": "73f77b4156a7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0013",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "All recorded facts and evidence",
+      "occurrence": 0,
+      "textRevision": "4d3979fdbaf8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0014",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Attend public meeting",
+      "occurrence": 0,
+      "textRevision": "bb68a10822c2"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0015",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Attendance history",
+      "occurrence": 0,
+      "textRevision": "a0c1ba495dec"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0016",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Census Government Units Survey",
+      "occurrence": 0,
+      "textRevision": "44b78d7ba97d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0017",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Census place: ",
+      "occurrence": 0,
+      "textRevision": "60271c821ae0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0018",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Cited public records and meeting material",
+      "occurrence": 0,
+      "textRevision": "45eb3b2b384a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0019",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "County-equivalent representation:",
+      "occurrence": 0,
+      "textRevision": "78efa224c8bd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0020",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Dated meeting reference — not operative law",
+      "occurrence": 0,
+      "textRevision": "effd78403e0f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0021",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Government identity and geography",
+      "occurrence": 0,
+      "textRevision": "5fe9853bb586"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0022",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Historical finance and employment",
+      "occurrence": 0,
+      "textRevision": "5b8808d85c8a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0023",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Inventory observation:",
+      "occurrence": 0,
+      "textRevision": "ecb84da5a635"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0024",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Library inspection. This does not change your residence or grant a role.",
+      "occurrence": 0,
+      "textRevision": "4287166e11e8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0025",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Linked to your saved home place.",
+      "occurrence": 0,
+      "textRevision": "033e3a80e686"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0026",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Measures and history",
+      "occurrence": 0,
+      "textRevision": "d18ad65e3f35"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0027",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Meeting notes: ",
+      "occurrence": 0,
+      "textRevision": "398ae82a08fa"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0031",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No employment observation is available for this exact government ID in the accepted corpus.",
+      "occurrence": 0,
+      "textRevision": "fe448e55f2c7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0032",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero.",
+      "occurrence": 0,
+      "textRevision": "8c89bb05651e"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0033",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No municipal measure has been recorded.",
+      "occurrence": 0,
+      "textRevision": "18d96eceb734"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0035",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No value established",
+      "occurrence": 0,
+      "textRevision": "55917c9902c0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0036",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No verified Census government-unit link is available.",
+      "occurrence": 0,
+      "textRevision": "a60f3cd2cbcd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0038",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Not established",
+      "occurrence": 0,
+      "textRevision": "aed2f00918a3"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0039",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Prepare meeting notes",
+      "occurrence": 0,
+      "textRevision": "b686b9f52660"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0040",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Professional manager",
+      "occurrence": 0,
+      "textRevision": "4d0613a0665f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0041",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public attendance grants no office powers. Meeting preparation requires a current role in this government.",
+      "occurrence": 0,
+      "textRevision": "b55862771950"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0042",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public meetings",
+      "occurrence": 0,
+      "textRevision": "ed16e85f37fe"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0043",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public session added to your calendar.",
+      "occurrence": 0,
+      "textRevision": "6b952bde5c14"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0044",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public session type",
+      "occurrence": 0,
+      "textRevision": "0f73e8e53d10"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0046",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher PID: ",
+      "occurrence": 0,
+      "textRevision": "af18d5409fd9"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0047",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observation",
+      "occurrence": 0,
+      "textRevision": "cbb492c27bde"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0048",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observation",
+      "occurrence": 1,
+      "textRevision": "cbb492c27bde"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0049",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Research report — not operative law",
+      "occurrence": 0,
+      "textRevision": "943c5faaa33d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0050",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Retrieved law",
+      "occurrence": 0,
+      "textRevision": "7ad05eac507c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0051",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Seat pattern",
+      "occurrence": 0,
+      "textRevision": "05520530ade0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0052",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world.",
+      "occurrence": 0,
+      "textRevision": "fff0f629c5b6"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0053",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "These observations do not establish current cash, staffing, or legal powers.",
+      "occurrence": 0,
+      "textRevision": "63f76bef99fa"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0054",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Work on meeting notes ·",
+      "occurrence": 0,
+      "textRevision": "e69d3de0d075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0055",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "full-time employees,",
+      "occurrence": 0,
+      "textRevision": "58b2d7518124"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0056",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "part-time employees; observed ",
+      "occurrence": 0,
+      "textRevision": "a56300e7ca19"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0062",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " ({state.completedEffortMinutes}/{item.effort?.requiredMinutes??0} minutes)",
+      "occurrence": 0,
+      "textRevision": "cdca0bf4c235"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0063",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — not represented in this save",
+      "occurrence": 0,
+      "textRevision": "0dfa192540cf"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0064",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Known people",
+      "occurrence": 0,
+      "textRevision": "9604f2b8d524"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0065",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Local government",
+      "occurrence": 0,
+      "textRevision": "95710bbf0f02"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0066",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 0,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0068",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No public meeting attendance is recorded for this government.",
+      "occurrence": 0,
+      "textRevision": "6d362e69fc90"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0069",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Pending work",
+      "occurrence": 0,
+      "textRevision": "f18b96b68dbd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0070",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen.",
+      "occurrence": 0,
+      "textRevision": "351a6b46e08d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0071",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Source review",
+      "occurrence": 0,
+      "textRevision": "9de096fb3a0f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0072",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "You live in ",
+      "occurrence": 0,
+      "textRevision": "adac08386791"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0073",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your standing here",
+      "occurrence": 0,
+      "textRevision": "95f6140cbf90"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0074",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No public meeting is on the calendar yet.",
+      "occurrence": 0,
+      "textRevision": "b53251c54192"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0075",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Nobody who holds office here is known to you yet.",
+      "occurrence": 0,
+      "textRevision": "097b8558b91e"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0076",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered.",
+      "occurrence": 0,
+      "textRevision": "c0be6b526b22"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0077",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions.",
+      "occurrence": 0,
+      "textRevision": "3f3fc41ff402"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0078",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your town's own government is not in this build yet, so there is nothing to attend or work on here. The governments the game does support are listed above; reading them changes nothing about where you live.",
+      "occurrence": 0,
+      "textRevision": "498fe40e24f1"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0079",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ", {preview.presentNotVoting} present not voting",
+      "occurrence": 0,
+      "textRevision": "47e016cec72d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0080",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A councilor",
+      "occurrence": 0,
+      "textRevision": "a45f380b343c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0081",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Present, not voting",
+      "occurrence": 0,
+      "textRevision": "68445d6c5cec"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0082",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date the rules read do not establish",
+      "occurrence": 0,
+      "textRevision": "cfe86edde628"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0083",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{person.givenName} {person.familyName}",
+      "occurrence": 0,
+      "textRevision": "cace9870daf8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0084",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — {target.refusal}",
+      "occurrence": 0,
+      "textRevision": "364ede1aea28"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0085",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A petition to recall {target.name} is now circulating.",
+      "occurrence": 0,
+      "textRevision": "6bd1015e2f7d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0086",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No seated official here is known to you.",
+      "occurrence": 0,
+      "textRevision": "6f196db01f51"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0087",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Start a recall petition",
+      "occurrence": 0,
+      "textRevision": "8b83ccfb6f97"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0088",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Approved without {governing.executiveName}'s signature. ",
+      "occurrence": 0,
+      "textRevision": "da7c8ae7b075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0089",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Reenacted over the return. ",
+      "occurrence": 0,
+      "textRevision": "8a9881eae087"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0090",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Signed by {governing.executiveName}. ",
+      "occurrence": 0,
+      "textRevision": "41e94ced3325"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0091",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "The council did not pass it.",
+      "occurrence": 0,
+      "textRevision": "85eb7238edb0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0092",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 0,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0093",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 1,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0094",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
+      "occurrence": 0,
+      "textRevision": "a3018b3eac3a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0095",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Answered present",
+      "occurrence": 0,
+      "textRevision": "29784ba69830"
+    },
+    {
+      "anchor": "act-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "act",
+      "text": "No change recorded.",
+      "occurrence": 0,
+      "textRevision": "69492574847a"
+    },
+    {
+      "anchor": "act-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "act",
+      "text": "Recorded in your calendar and history.",
+      "occurrence": 0,
+      "textRevision": "c1dcfd69ba3d"
+    },
+    {
+      "anchor": "directory-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Inspect a government",
+      "occurrence": 0,
+      "textRevision": "0fd3a93aa83f"
+    },
+    {
+      "anchor": "directory-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "My home government",
+      "occurrence": 0,
+      "textRevision": "902955604322"
+    },
+    {
+      "anchor": "directory-0003",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Name or state",
+      "occurrence": 0,
+      "textRevision": "012a130c6f2e"
+    },
+    {
+      "anchor": "directory-0004",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "No supported government matches that search.",
+      "occurrence": 0,
+      "textRevision": "9a78a34afcdd"
+    },
+    {
+      "anchor": "directory-0005",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Search other supported governments",
+      "occurrence": 0,
+      "textRevision": "77334b43988c"
+    },
+    {
+      "anchor": "exportLife-0001",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "exportLife",
+      "text": "Saved life downloaded. Keep the file; the original save is still here.",
+      "occurrence": 0,
+      "textRevision": "49688ba636bc"
+    },
+    {
+      "anchor": "exportLife-0002",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "exportLife",
+      "text": "That life could not be exported.",
+      "occurrence": 0,
+      "textRevision": "a62a663eb413"
+    },
+    {
+      "anchor": "onFile-0001",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "Imported as a new save of the same life. The file and your other games were not changed.",
+      "occurrence": 0,
+      "textRevision": "5d9297ed5e3e"
+    },
+    {
+      "anchor": "onFile-0002",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "That file could not be imported. Existing saves are unchanged.",
+      "occurrence": 0,
+      "textRevision": "013d69984b17"
+    },
+    {
+      "anchor": "onFile-0003",
+      "sourcePath": "src/player/SaveTransferControls.tsx",
+      "symbol": "onFile",
+      "text": "That file is larger than a saved life is allowed to be.",
+      "occurrence": 0,
+      "textRevision": "627a61aeeb21"
+    }
+  ]
+}

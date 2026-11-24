@@ -1,0 +1,57 @@
+{
+  "control": {
+    "detail": "Nothing a player does chooses a generated person's name.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "duplication": {
+    "kind": "data",
+    "playerVisible": true,
+    "producers": [
+      {
+        "at": "main at 7e011a42",
+        "path": "src/simulation/character-history.ts",
+        "reachDetail": "Carried from the names lane (#399): 29 of 72 generated people on an ordinary Lexington start across 24 saves carried a name from the opposite pool. The route is the adult start's summarized childhood, lines 2254, 2267 and 2278 at this head.",
+        "reachedByPlay": "reaches"
+      },
+      {
+        "at": "main at 7e011a42",
+        "path": "src/presentation/production-world.ts",
+        "reachDetail": "The seated world's gendered draw. The names lane measured 237 of 516 members of Congress wrong through other routes; which routes use the gendered draw was not walked by this lane.",
+        "reachedByPlay": "not-walked"
+      }
+    ],
+    "visibilityDetail": "A person's name contradicts the pronouns the game uses for them."
+  },
+  "entryId": "a-generated-persons-name",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "dual-systems count",
+  "measurements": [
+    {
+      "at": "main at 7e011a42",
+      "found": "drawCanonicalName with no gender at lines 2254, 2267, 2278; identity drawn on its own fork.",
+      "what": "character-history.ts at the three context-person draws"
+    },
+    {
+      "at": "reported on PR #399 against main 4965f63c",
+      "found": "29 of 72 and 237 of 516 wrong; 0 and 0 on #399's head, which unexports the loose draw.",
+      "what": "The names lane's measurement, #399"
+    }
+  ],
+  "notes": [
+    "Owned by the names lane. #399 fixes it and was open, not merged, when this was recorded."
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "A player meets the result on the second day of an adult life: 'your dad', named Maria.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T20:40:00.000Z",
+  "surface": {
+    "detail": "Names appear everywhere a person does.",
+    "present": true
+  },
+  "system": {
+    "detail": "Two draws. drawCanonicalNameForGender in src/simulation/people.ts draws from the pool matching a gender. drawCanonicalName draws from any pool, and src/simulation/character-history.ts uses it for the parent, peer and teacher an adult start introduces, on a stream separate from their gender.",
+    "present": true
+  },
+  "title": "A generated person's name"
+}

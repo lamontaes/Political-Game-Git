@@ -1,0 +1,13 @@
+{
+  "schema": "core2-paired-v1",
+  "passed": false,
+  "error": "Error: Core not available at base 360217261436f78eae6d201b3753b6d9be279e08; no benchmark was run",
+  "baseRevision": "360217261436f78eae6d201b3753b6d9be279e08",
+  "headRevision": "eac603381af19fb019f7725e2cb2b2ea2f5ffa03",
+  "seed": "4ff38e0d0a9d61fcefed5c8b2ed8d1ca2adb29617cb8662df92927667da46327",
+  "placeKey": "0664252",
+  "profiles": {},
+  "elapsedMilliseconds": 1897.853208,
+  "driverRevision": "eac603381af19fb019f7725e2cb2b2ea2f5ffa03",
+  "rawReceiptSha256": "657cd8a70a23b6d2f548aa5c2d088dfadff51918dae46fdcb33ab3bea4a7bb7f"
+}

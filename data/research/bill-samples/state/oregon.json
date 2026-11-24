@@ -1,0 +1,187 @@
+[
+  {
+    "id": "or-2025-sb916-striker-ui",
+    "jurisdiction": "Oregon",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 916",
+    "law_citation": null,
+    "short_title": "Unemployment benefits for striking workers",
+    "enacted_date": "2025-06-24",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://olis.oregonlegislature.gov/liz/2025R1/Measures/Overview/SB916",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Unions and collective bargaining / unemployment benefits",
+    "secondary_menus": ["05"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Public and private workers on strike may receive unemployment benefits."
+      },
+      {
+        "kind": "cap",
+        "description": "Benefit duration capped.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "weeks",
+            "text": "10 weeks"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "Starts January 1.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-01 date",
+            "text": "2026-01-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["unemployment trust fund", "employers and unions"],
+    "daily_life": "A striking nurse can draw unemployment checks for up to ten weeks.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "or-2025-sb951-corporate-medicine",
+    "jurisdiction": "Oregon",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 951",
+    "law_citation": "Oregon Laws 2025, chapter 295",
+    "short_title": "Limits on corporate control of medical practices",
+    "enacted_date": "2025-06",
+    "enactment_path": "signed; emergency clause",
+    "effective_dates": [],
+    "official_text_url": "https://olis.oregonlegislature.gov/liz/2025R1/Measures/Overview/SB951",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Hospitals and clinics",
+    "secondary_menus": ["08"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Restricts management-service organizations and their people from owning or controlling a contracted professional medical entity."
+      },
+      {
+        "kind": "prohibition",
+        "description": "Voids specified noncompetition, nondisclosure and nondisparagement agreements involving medical professionals, subject to statutory exceptions."
+      }
+    ],
+    "touches": ["private equity", "physician groups"],
+    "daily_life": "Medical professionals receive limits on outside control of practices and certain restrictive agreements.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Official Oregon SB 951 enrolled summary identifies Chapter 295 and both provisions. The prior claim about a particular patient’s treatment decision exceeded what the source proves."
+  },
+  {
+    "id": "or-2025-hb3991-transportation",
+    "jurisdiction": "Oregon",
+    "level": "state",
+    "session": "2025 First Special Session",
+    "bill_number": "HB 3991",
+    "law_citation": null,
+    "short_title": "Transportation funding (fuel tax, fees, payroll tax)",
+    "enacted_date": "2025-11-07",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "parts 2025-12-31",
+      "other parts suspended pending a referendum vote"
+    ],
+    "official_text_url": "https://olis.oregonlegislature.gov/liz/2025S1/Measures/Overview/HB3991",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - funding",
+    "secondary_menus": ["04"],
+    "instrument": "tax",
+    "secondary_instruments": ["fee"],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Gasoline tax raised.",
+        "numbers": [
+          {
+            "value": 40,
+            "unit": "cents per gallon old",
+            "text": "40 cents per gallon old"
+          },
+          {
+            "value": 46,
+            "unit": "cents per gallon new",
+            "text": "46 cents per gallon new"
+          }
+        ]
+      },
+      {
+        "kind": "fee",
+        "description": "Vehicle registration fees raised.",
+        "numbers": [
+          {
+            "value": 42,
+            "unit": "USD increase",
+            "text": "42 USD increase"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Transit payroll tax increased (inferred rate).",
+        "inferred": true
+      },
+      {
+        "kind": "fee",
+        "description": "Mandatory per-mile charge for electric and hybrid vehicles."
+      },
+      {
+        "kind": "revenue-distribution",
+        "description": "Split among state, counties and cities.",
+        "numbers": [
+          {
+            "value": 50,
+            "unit": "percent ODOT",
+            "text": "50 percent ODOT"
+          },
+          {
+            "value": 30,
+            "unit": "percent counties",
+            "text": "30 percent counties"
+          },
+          {
+            "value": 20,
+            "unit": "percent cities",
+            "text": "20 percent cities"
+          }
+        ]
+      },
+      {
+        "kind": "referendum",
+        "description": "Citizens petitioned to refer the law to voters, delaying parts of it."
+      }
+    ],
+    "touches": ["ODOT", "county road departments", "EV owners"],
+    "daily_life": "Filling the tank and renewing registration cost more.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Special session after the regular session failed to pass a package."
+  }
+]

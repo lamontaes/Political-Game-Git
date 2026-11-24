@@ -1,0 +1,587 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "uscode-title5-section2102",
+      "bytes": {
+        "length": 155952,
+        "sha256": "b8c26d4a76baaea9dd3a40e596f1fb51276a262eaa28962717b90aa7fe45040b"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-2102.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 155952,
+        "retrievedAt": "2026-09-06T23:06:44.135Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section2102&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section2103",
+      "bytes": {
+        "length": 149729,
+        "sha256": "c3282aff61dfef6cff098b484cbb3bc6c48c38cf077a78651f78897be334ee40"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-2103.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 149729,
+        "retrievedAt": "2026-09-06T23:06:49.407Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section2103&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section3304",
+      "bytes": {
+        "length": 210484,
+        "sha256": "244d982091b141f991148b858683a9f445aa0cefc0757a4bc8443aa2a96d4644"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-3304.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 210484,
+        "retrievedAt": "2026-09-06T23:06:56.806Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section3304&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section7513",
+      "bytes": {
+        "length": 150772,
+        "sha256": "08527db9be8d2d137a92f40f49fbfb4db726a8128faa9c507b99d3d3304dd962"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-7513.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150772,
+        "retrievedAt": "2026-09-06T23:07:05.348Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section7513&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section7102",
+      "bytes": {
+        "length": 151223,
+        "sha256": "b6fa57115156b83e983fa3ef72e321839357fa44bb790097db46faae5485de61"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-7102.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 151223,
+        "retrievedAt": "2026-09-06T23:07:20.426Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section7102&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section7106",
+      "bytes": {
+        "length": 150931,
+        "sha256": "b9c77eda23b486d05972f1328d34fd6a9b834e3b7b58ac698fd9c2f860d8c6da"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-7106.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150931,
+        "retrievedAt": "2026-09-06T23:07:30.252Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section7106&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section7119",
+      "bytes": {
+        "length": 158809,
+        "sha256": "5fa24b1ee07bea3d5dc8d9c02b570702caa441c62c164367af46ce4f67463f67"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-7119.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 158809,
+        "retrievedAt": "2026-09-06T23:07:41.723Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section7119&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "uscode-title5-section7311",
+      "bytes": {
+        "length": 155266,
+        "sha256": "02ad33707e2229b3558ede366ba3e74b3bb359e1af7441e4c5070f506d700499"
+      },
+      "localPath": "data/source/civil-service-labor/raw/uscode-5-7311.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "U.S. Code preliminary edition retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 155266,
+        "retrievedAt": "2026-09-06T23:08:02.079Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title5-section7311&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ak-civil-service-statutes",
+      "bytes": {
+        "length": 48093,
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f"
+      },
+      "localPath": "data/source/civil-service-labor/raw/ak-title39-ch25.html",
+      "mediaType": "text/html",
+      "provider": "Alaska Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 48093,
+        "retrievedAt": "2026-09-06T23:08:09.477Z",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Alaska Statutes, Title 39, Chapter 25",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 39484,
+              "sha256": "a1accb6656d89a6070394d8010306f78745ce0ba8e58c85fe7e4076913ab2179"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 39.25.110. Exempt service.",
+                "endsWith": "Sec. 39.25.180. Status of present employees. [Repealed, � 78 ch 59 SLA 1982; � 20 ch 112 SLA 1982.]"
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ak-public-employment-relations-statutes",
+      "bytes": {
+        "length": 36426,
+        "sha256": "158789e5e2315237f2ef1151caf5ed25040b51fc76c1e3129290cb63ce9c061b"
+      },
+      "localPath": "data/source/civil-service-labor/raw/ak-title23-ch40.html",
+      "mediaType": "text/html",
+      "provider": "Alaska Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=23.40.070&secEnd=23.40.260",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 36426,
+        "retrievedAt": "2026-09-06T23:08:09.685Z",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=23.40.070&secEnd=23.40.260"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Alaska State Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Alaska Statutes, Title 23, Chapter 40",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 29949,
+              "sha256": "7453edd91b512154435c8f7494537b881c68aa4c32beb4f3110cbf113d714303"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 23.40.070. Declaration of policy.",
+                "endsWith": "Sec. 23.40.260. Short title. AS 23.40.070 � 23.40.260 may be cited as the Public Employment Relations Act."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-civil-service-statutes",
+      "bytes": {
+        "length": 454335,
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542"
+      },
+      "localPath": "data/source/civil-service-labor/raw/mn-chapter43a.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/statutes/cite/43A/full",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 454335,
+        "retrievedAt": "2026-09-06T23:08:10.049Z",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Minnesota Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Minnesota Statutes, Chapter 43A",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 157086,
+              "sha256": "44dbae9a4121d7e489bae334f2ad80287a5d54d0352f0af8fc124576a9e1650f"
+            },
+            "regions": [
+              {
+                "beginsWith": "43A.07 CLASSIFIED SERVICE. § Subdivision 1. Classification plan.",
+                "endsWith": "43A.34 RETIREMENT."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-public-employment-labor-relations-statutes",
+      "bytes": {
+        "length": 299243,
+        "sha256": "b2236aba710d4ddfe374a19bdbc5f93ccb9a92f1ab5fa6f49a3be3afdf25addd"
+      },
+      "localPath": "data/source/civil-service-labor/raw/mn-chapter179a.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/statutes/cite/179A/full",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 299243,
+        "retrievedAt": "2026-09-06T23:08:10.255Z",
+        "url": "https://www.revisor.mn.gov/statutes/cite/179A/full"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Minnesota Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Minnesota Statutes, Chapter 179A",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 94635,
+              "sha256": "867a0a678314e2b73e7cc439ef3a038b621b87e6e49879d18a5f1ffd8a9dc6c5"
+            },
+            "regions": [
+              {
+                "beginsWith": "179A.06 EMPLOYEE RIGHTS AND OBLIGATIONS. § Subdivision 1. Expressing views.",
+                "endsWith": "179A.20 CONTRACTS."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-classified-service-statutes",
+      "bytes": {
+        "length": 31547,
+        "sha256": "519c7539f84356aab9cb322d19fed430e1e80a62010857e71fe27b8e58cbaaa5"
+      },
+      "localPath": "data/source/civil-service-labor/raw/ne-81-1316.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=81-1316",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 31547,
+        "retrievedAt": "2026-09-06T23:08:10.735Z",
+        "url": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=81-1316"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Nebraska Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nebraska Revised Statute 81-1316",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 4969,
+              "sha256": "7ab5412182a1456e9d727056a88915bb43f82c95a4ece9927b4d3d2c997ece6a"
+            },
+            "regions": [
+              {
+                "beginsWith": "81-1316. State Personnel System; exemptions.",
+                "endsWith": "A state employee's career protections or coverage by personnel rules and regulations shall not be revoked by redesignation of the employee's position as a noncovered position without the prior written agreement of such employee."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-bargaining-scope-statutes",
+      "bytes": {
+        "length": 41804,
+        "sha256": "02b242860b6c9d0e8fa628486e2a43bdb7c41123c94d118dad44afff117fb2a5"
+      },
+      "localPath": "data/source/civil-service-labor/raw/ne-48-816.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=48-816",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 41804,
+        "retrievedAt": "2026-09-06T23:08:10.807Z",
+        "url": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=48-816"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Nebraska Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nebraska Revised Statute 48-816",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 10820,
+              "sha256": "70bb0ff29c6e90f56ea47ca51c7aa42da98c128b8a5c3ba4c199678c07c36711"
+            },
+            "regions": [
+              {
+                "beginsWith": "48-816. Preliminary proceedings; commission; powers; duties; collective bargaining; posttrial conference.",
+                "endsWith": "The purpose of such posttrial conference shall be to allow the commission to hear from the parties on those portions of the recommended decision and order which is not based upon or which mischaracterizes evidence in the record and to allow the commission to correct any such errors after having heard the matter in a conference setting in which all parties are represented."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-impasse-statutes",
+      "bytes": {
+        "length": 50973,
+        "sha256": "874487b2d2383f5c07721f16ceacde08594701aa8aa28418e7b7222e16b1f587"
+      },
+      "localPath": "data/source/civil-service-labor/raw/ne-48-818.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=48-818",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "retrieved for corpus as of 2026-09-06"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 50973,
+        "retrievedAt": "2026-09-06T23:08:10.909Z",
+        "url": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=48-818"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Nebraska Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nebraska Revised Statute 48-818",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 18093,
+              "sha256": "b642ae4b73f01ae126ba49b39c047fafded3ad786e9a8e38b06e755ca78a0b96"
+            },
+            "regions": [
+              {
+                "beginsWith": "48-818. Commission; findings; order; powers; duties; orders authorized; modification.",
+                "endsWith": "The commission shall provide an offset to the public employer when a lump-sum payment is due because benefits were paid in excess of the prevalent as determined under subdivision (2)(d) of this section or when benefits were paid below the prevalent as so determined but wages were above prevalent."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "civil-service-labor"
+}

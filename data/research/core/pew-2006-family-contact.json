@@ -1,0 +1,114 @@
+{
+  "id": "pew-2006-family-contact",
+  "publisher": "Pew Research Center",
+  "vintage": "Survey October 5 to November 6, 2005; report released February 21, 2006",
+  "table": "Living Closer to Parents Means More Contact (p. 20); Most Families Not So Spread Out (p. 4); More Frequent Contact with Parents Who Live Out-of-Town (p. 4)",
+  "title": "As Family Forms Change, Bonds Remain Strong: Families Drawn Together By Communication Revolution",
+  "universe": "U.S. adults with at least one living parent (1,875 respondents); proximity to an adult child for parents with a financially independent child 18 and over (1,304)",
+  "geography": "United States",
+  "sourceUrl": "https://www.pewresearch.org/wp-content/uploads/sites/3/2010/10/FamilyBonds.pdf",
+  "retrievedOn": "2026-10-23",
+  "limits": "Contact means seeing or talking to a parent, so calls count with visits; the table compares a parent in the respondent's house, in the same town, or out of town, not counties or travel times. Out of town covers every distance from the next town to across the country. No contact figures are given by travel time; the proximity table gives only where parents live. A travel-time decay study was looked for: the INED (France) contact-by-travel-time paper named in a search was not reachable (ined.fr connect_rejected through the proxy), and no U.S. table of contact by travel time was found. The frequency codes used to turn the contact distribution into contacts a year (daily 365, weekly or more 52, monthly or more 12, several times a year 4, once a year 1, less often 0) are this file's conversion, not Pew's.",
+  "contactByWhereParentLives": {
+    "quote": "Frequency of seeing or talking to parents ... Every Day 42 98 56 22; Once a week or more 44 2 39 56; Once a month or more 10 0 4 15; Several times a year 2 0 * 4; Once a year 1 0 * 1; Less often than that 1 0 1 2 ... Number of respondents 1,875 224 501 1,144",
+    "columns": ["allAdults", "inHouse", "inTown", "outOfTown"],
+    "respondents": {
+      "allAdults": 1875,
+      "inHouse": 224,
+      "inTown": 501,
+      "outOfTown": 1144
+    },
+    "percent": {
+      "everyDay": {
+        "allAdults": 42,
+        "inHouse": 98,
+        "inTown": 56,
+        "outOfTown": 22
+      },
+      "onceAWeekOrMore": {
+        "allAdults": 44,
+        "inHouse": 2,
+        "inTown": 39,
+        "outOfTown": 56
+      },
+      "onceAMonthOrMore": {
+        "allAdults": 10,
+        "inHouse": 0,
+        "inTown": 4,
+        "outOfTown": 15
+      },
+      "severalTimesAYear": {
+        "allAdults": 2,
+        "inHouse": 0,
+        "inTown": 0,
+        "outOfTown": 4
+      },
+      "onceAYear": {
+        "allAdults": 1,
+        "inHouse": 0,
+        "inTown": 0,
+        "outOfTown": 1
+      },
+      "lessOften": {
+        "allAdults": 1,
+        "inHouse": 0,
+        "inTown": 1,
+        "outOfTown": 2
+      }
+    },
+    "lessThanHalfPercentReadAsZero": "Cells printed * (less than 0.5 percent) are read as 0."
+  },
+  "contactsPerYearCodes": {
+    "everyDay": 365,
+    "onceAWeekOrMore": 52,
+    "onceAMonthOrMore": 12,
+    "severalTimesAYear": 4,
+    "onceAYear": 1,
+    "lessOften": 0
+  },
+  "dailyContactTrend": {
+    "quote": "In same town 49 56 +7ns; Out of town 8 22 +14^",
+    "inTown": {
+      "1989": 49,
+      "2005": 56
+    },
+    "outOfTown": {
+      "1989": 8,
+      "2005": 22
+    },
+    "note": "1989 figures are Gallup, May 1989, as printed in the Pew report."
+  },
+  "proximityToParent": {
+    "quote": "In your household 14 14; In your city or town 27 30; Less than an hour away 24 28; Less than 4 hour's drive 12 11; Farther 23 17",
+    "columns": ["parent", "adultChild"],
+    "percent": {
+      "inHousehold": {
+        "parent": 14,
+        "adultChild": 14
+      },
+      "inCityOrTown": {
+        "parent": 27,
+        "adultChild": 30
+      },
+      "lessThanAnHourAway": {
+        "parent": 24,
+        "adultChild": 28
+      },
+      "lessThanFourHoursDrive": {
+        "parent": 12,
+        "adultChild": 11
+      },
+      "farther": {
+        "parent": 23,
+        "adultChild": 17
+      }
+    }
+  },
+  "derived": {
+    "farKinContactShare": {
+      "dailyRatio": "outOfTown everyDay / inTown everyDay = 22 / 56 = 0.39 (the parameter's value)",
+      "meanContactsRatio": "contacts a year out of town / in town, by the codes above = 111.4 / 225.2 = 0.49 (the spread's high end)",
+      "checkedBy": "scripts/research/core-parameters-check.ts"
+    }
+  }
+}

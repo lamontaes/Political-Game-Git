@@ -1,0 +1,840 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font:
+          14px -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #fff;
+        color: #000;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <title>Who's Talking: Three Ways</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Andada+Pro:ital,wght@0,500;1,500&family=Cinzel:wght@700;800&family=Fira+Sans:wght@500;600&display=swap"
+    />
+    <style>
+      /* Layout: three 1440x900 game screens stacked, each scaled as one unit; the game's own scene card, strip and busts. */
+      :root {
+        color-scheme: dark;
+        --page: #0f0e0d;
+        --glass-top: rgba(42, 42, 44, 0.72);
+        --glass-bottom: rgba(22, 22, 24, 0.82);
+        --brass: #9c8350;
+        --iron: #1c1a18;
+        --gold: #d6bd84;
+        --brass-hi: #f3dba7;
+        --text: #f2ede4;
+        --text-strong: #f6f1e8;
+        --muted: #c4bbab;
+        --cream: #f2e6c9;
+        --key: linear-gradient(#34343a, #1d1d20);
+        --key-hover: linear-gradient(#3e3e44, #26262a);
+        --lit: linear-gradient(#b8975a, #7d5f33);
+        --name: "Cinzel", "Trajan Pro", Georgia, serif;
+        --speech: "Andada Pro", Georgia, serif;
+        --ui: "Fira Sans", "Helvetica Neue", Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--page);
+        color: var(--text);
+        font: 500 15px/1.4 var(--ui);
+      }
+      .page {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding-block: 32px 56px;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        display: grid;
+        gap: 44px;
+      }
+      h1 {
+        margin: 0;
+        font: 700 clamp(24px, 3vw, 34px)/1.15 var(--name);
+        letter-spacing: 0.05em;
+        color: var(--cream);
+        text-wrap: balance;
+      }
+      .option {
+        display: grid;
+        gap: 14px;
+        min-width: 0;
+      }
+      .option-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .letter {
+        margin: 0;
+        font: 800 44px/1 var(--name);
+        color: var(--brass-hi);
+        letter-spacing: 0.04em;
+      }
+
+      /* Buttons: the game's dark glass keys. A picked one is lit brass. */
+      .key {
+        font: 500 15px/1.2 var(--ui);
+        color: var(--text-strong);
+        min-height: 34px;
+        padding: 6px 16px;
+        background: var(--key);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 2px;
+        box-shadow:
+          0 2px 0 rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        cursor: pointer;
+        transition:
+          background 0.14s ease,
+          box-shadow 0.14s ease,
+          border-color 0.14s ease;
+      }
+      .key:hover {
+        background: var(--key-hover);
+        border-color: rgba(214, 189, 132, 0.55);
+        box-shadow:
+          0 2px 0 rgba(0, 0, 0, 0.7),
+          0 0 12px rgba(214, 189, 132, 0.25);
+      }
+      .key:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
+      .pick {
+        min-width: 150px;
+      }
+      .pick[aria-pressed="true"] {
+        background: var(--lit);
+        border-color: var(--gold);
+        color: #1c160c;
+        font-weight: 600;
+        box-shadow:
+          0 2px 0 rgba(0, 0, 0, 0.7),
+          0 0 16px rgba(236, 200, 128, 0.35),
+          inset 0 1px 0 rgba(255, 240, 199, 0.45);
+      }
+      .pick:disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+
+      /* ---- One game screen: a 1440x900 stage, every size in --u ---- */
+      .screen {
+        container-type: inline-size;
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1440 / 900;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        box-shadow:
+          0 0 0 1px rgba(156, 131, 80, 0.35),
+          0 18px 40px rgba(0, 0, 0, 0.55);
+      }
+      .stage {
+        --u: calc(100cqw / 1440);
+        position: absolute;
+        inset: 0;
+        background: #1b1612 url("art/oval-address-night.jpg") center / cover
+          no-repeat;
+        font: 500 calc(15 * var(--u)) / 1.4 var(--ui);
+      }
+
+      /* A bust: the game's stacked pieces, flattened. Placed by the bank's head box so
+   every head is the size asked; it ends in a soft fade, never a hard cut. */
+      .bust {
+        --pad: 8;
+        --cut: 1;
+        --side: 12%;
+        --fade: 58%;
+        position: relative;
+        flex: none;
+        width: calc(var(--fw) * var(--u));
+        height: calc(
+          (
+              var(--pad) + var(--cut) * (1 - var(--headTop)) * var(--hw) /
+                var(--headW)
+            ) *
+            var(--u)
+        );
+        -webkit-mask-image:
+          linear-gradient(to bottom, #000 var(--fade), transparent 98%),
+          linear-gradient(
+            to right,
+            transparent,
+            #000 var(--side),
+            #000 calc(100% - var(--side)),
+            transparent
+          );
+        -webkit-mask-composite: source-in;
+        mask-image:
+          linear-gradient(to bottom, #000 var(--fade), transparent 98%),
+          linear-gradient(
+            to right,
+            transparent,
+            #000 var(--side),
+            #000 calc(100% - var(--side)),
+            transparent
+          );
+        mask-composite: intersect;
+      }
+      .bust img {
+        position: absolute;
+        display: block;
+        max-width: none;
+        width: calc(var(--hw) / var(--headW) * var(--u));
+        height: auto;
+        left: calc(
+          (var(--fw) / 2 - var(--headMid) * var(--hw) / var(--headW)) * var(--u)
+        );
+        top: calc(
+          (var(--pad) - var(--headTop) * var(--hw) / var(--headW)) * var(--u)
+        );
+        filter: drop-shadow(
+          0 calc(4 * var(--u)) calc(10 * var(--u)) rgba(0, 0, 0, 0.45)
+        );
+        user-select: none;
+      }
+      /* The bank's head boxes (art/busts/v1/manifest.json), as shares of the canvas. */
+      .farrell {
+        --headW: 0.3373;
+        --headMid: 0.4896;
+        --headTop: 0.0662;
+      }
+      .solomon {
+        --headW: 0.3477;
+        --headMid: 0.4992;
+        --headTop: 0.0789;
+      }
+      /* Sizes: small (someone present and quiet), and the speaker's sizes per option. */
+      .bust.small {
+        --hw: 40;
+        --fw: 112;
+        --pad: 8;
+        --cut: 0.8;
+        --fade: 72%;
+      }
+
+      /* The strip: soft glass only as wide as the people on it, ends fading into the room. */
+      .strip {
+        position: absolute;
+        display: flex;
+        align-items: flex-end;
+        gap: calc(14 * var(--u));
+        padding: 0 calc(46 * var(--u));
+      }
+      .strip::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: calc(58 * var(--u));
+        background: linear-gradient(
+          rgba(40, 37, 33, 0.84),
+          rgba(24, 22, 20, 0.9)
+        );
+        box-shadow: 0 calc(-8 * var(--u)) calc(18 * var(--u))
+          rgba(0, 0, 0, 0.25);
+        -webkit-mask-image: linear-gradient(
+          90deg,
+          transparent,
+          #000 22%,
+          #000 78%,
+          transparent
+        );
+        mask-image: linear-gradient(
+          90deg,
+          transparent,
+          #000 22%,
+          #000 78%,
+          transparent
+        );
+      }
+      .strip::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: calc(58 * var(--u));
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 18%,
+          rgba(236, 200, 128, 0.5) 40%,
+          rgba(236, 200, 128, 0.5) 60%,
+          transparent 82%
+        );
+      }
+      .person {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .person figcaption {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: calc(-6 * var(--u));
+        padding-bottom: calc(8 * var(--u));
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+        white-space: nowrap;
+      }
+      .person .nm {
+        font: 600 calc(15 * var(--u)) / 1.25 var(--ui);
+        color: var(--brass-hi);
+      }
+      .person .rl {
+        font: 500 calc(14 * var(--u)) / 1.25 var(--ui);
+        color: var(--muted);
+      }
+      .person.speaker .nm {
+        font-size: calc(16 * var(--u));
+      }
+
+      /* The scene card: the game's dark glass panel with its brass edge and small corners. */
+      .card {
+        position: absolute;
+        bottom: calc(28 * var(--u));
+        background: linear-gradient(var(--glass-top), var(--glass-bottom));
+        -webkit-backdrop-filter: blur(6px) saturate(0.65);
+        backdrop-filter: blur(6px) saturate(0.65);
+        border: calc(2.5 * var(--u)) solid var(--brass);
+        border-radius: 2px;
+        box-shadow:
+          0 0 0 1px var(--iron),
+          inset 0 0 0 1px var(--iron),
+          0 calc(4 * var(--u)) 0 rgba(0, 0, 0, 0.58),
+          0 calc(12 * var(--u)) calc(24 * var(--u)) rgba(0, 0, 0, 0.58);
+        color: var(--text);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+      }
+      .card .corners,
+      .card .corners::after {
+        position: absolute;
+        inset: calc(-3 * var(--u));
+        pointer-events: none;
+        background-repeat: no-repeat;
+        background-size: calc(28 * var(--u)) calc(28 * var(--u));
+      }
+      .card .corners {
+        z-index: 2;
+        background-image: url("ui/corner-tl.svg"), url("ui/corner-tr.svg");
+        background-position:
+          left top,
+          right top;
+      }
+      .card .corners::after {
+        content: "";
+        inset: 0;
+        background-image: url("ui/corner-bl.svg"), url("ui/corner-br.svg");
+        background-position:
+          left bottom,
+          right bottom;
+      }
+      .text {
+        padding: calc(20 * var(--u)) calc(30 * var(--u)) calc(20 * var(--u));
+        min-width: 0;
+      }
+      .who {
+        margin: 0;
+        font: 800 calc(21 * var(--u)) / 1.15 var(--name);
+        letter-spacing: 0.05em;
+        color: var(--text-strong);
+      }
+      .line {
+        margin: calc(10 * var(--u)) 0 calc(16 * var(--u));
+        font: 500 calc(19 * var(--u)) / 1.42 var(--speech);
+        color: var(--text-strong);
+      }
+      .narr {
+        font-style: italic;
+        margin-top: 0;
+      }
+      .acts {
+        display: flex;
+        gap: calc(12 * var(--u));
+      }
+      .stage .key {
+        font-size: calc(15 * var(--u));
+        min-height: calc(34 * var(--u));
+        padding: calc(6 * var(--u)) calc(16 * var(--u));
+        border-radius: 2px;
+      }
+      .stage .key.next {
+        min-width: calc(120 * var(--u));
+      }
+
+      /* Two beats: the President speaking, then a narration line with nobody speaking. */
+      .stage[data-beat="speech"] .on-narration,
+      .stage[data-beat="narration"] .on-speech {
+        display: none;
+      }
+      .stage.moved .on-speech,
+      .stage.moved .on-narration {
+        animation: come 0.24s ease-out;
+      }
+      @keyframes come {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .stage.moved .on-speech,
+        .stage.moved .on-narration {
+          animation: none;
+        }
+      }
+
+      /* ---- A: the speaker's bust on the card; the rest in the strip on its top edge ---- */
+      .opt-a .card {
+        left: calc(290 * var(--u));
+        width: calc(860 * var(--u));
+        display: flex;
+        align-items: stretch;
+      }
+      .opt-a .seat {
+        flex: none;
+        align-self: flex-end;
+        padding-left: calc(10 * var(--u));
+      }
+      .opt-a .seat .bust {
+        --hw: 86;
+        --fw: 220;
+        --pad: 22;
+        --cut: 0.74;
+        --side: 10%;
+      }
+      .opt-a .text {
+        flex: 1;
+        padding-left: calc(8 * var(--u));
+      }
+      .opt-a[data-beat="narration"] .text {
+        padding-left: calc(30 * var(--u));
+      }
+      .opt-a .strip,
+      .opt-b .strip {
+        bottom: calc(100% + 2.5 * var(--u));
+        right: calc(36 * var(--u));
+      }
+
+      /* ---- B: the speaker as a big bust beside the card; the rest small ---- */
+      .opt-b .big {
+        position: absolute;
+        left: calc(96 * var(--u));
+        bottom: 0;
+      }
+      .opt-b .big .bust {
+        --hw: 172;
+        --fw: 520;
+        --pad: 34;
+        --cut: 1;
+        --side: 6%;
+        --fade: 82%;
+      }
+      .opt-b .card {
+        left: calc(600 * var(--u));
+        width: calc(720 * var(--u));
+      }
+
+      /* ---- C: the speaker alone over the card; the rest small in the top corner ---- */
+      .opt-c .card {
+        left: calc(320 * var(--u));
+        width: calc(800 * var(--u));
+      }
+      .opt-c .lead {
+        bottom: calc(100% + 2.5 * var(--u));
+        left: calc(20 * var(--u));
+      }
+      .opt-c .lead .bust {
+        --hw: 100;
+        --fw: 260;
+        --pad: 14;
+        --cut: 0.74;
+        --fade: 80%;
+      }
+      .opt-c .corner {
+        top: calc(26 * var(--u));
+        right: calc(26 * var(--u));
+      }
+
+      @media (max-width: 560px) {
+        .letter {
+          font-size: 34px;
+        }
+        .pick {
+          min-width: 0;
+        }
+      }
+    </style>
+
+    <main class="page">
+      <h1>Who's Talking: Three Ways</h1>
+
+      <section class="option" id="opt-A" aria-labelledby="lbl-A">
+        <div class="option-head">
+          <h2 class="letter" id="lbl-A">A</h2>
+          <button
+            type="button"
+            class="key pick"
+            id="pick-A"
+            data-choice="A"
+            aria-pressed="false"
+          >
+            Pick this one
+          </button>
+        </div>
+        <div class="screen">
+          <div class="stage opt-a" data-beat="speech">
+            <div class="card">
+              <span class="corners" aria-hidden="true"></span>
+              <div class="strip">
+                <figure class="person on-narration">
+                  <div class="bust small farrell">
+                    <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+                  </div>
+                  <figcaption>
+                    <span class="nm">Keith Farrell</span
+                    ><span class="rl">President</span>
+                  </figcaption>
+                </figure>
+                <figure class="person">
+                  <div class="bust small solomon">
+                    <img src="art/sandra-solomon.webp" alt="Sandra Solomon" />
+                  </div>
+                  <figcaption>
+                    <span class="nm">Sandra Solomon</span
+                    ><span class="rl">Vice President</span>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="seat on-speech">
+                <div class="bust farrell">
+                  <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+                </div>
+              </div>
+              <div class="text">
+                <div class="on-speech">
+                  <h3 class="who">President Keith Farrell</h3>
+                  <p class="line">
+                    Good evening. A few hours ago I took the oath of office.
+                    Tonight I'll tell you the first thing I'm asking Congress to
+                    do, and why I think it matters to your family.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button
+                    ><button type="button" class="key skip">Skip scene</button>
+                  </div>
+                </div>
+                <div class="on-narration">
+                  <p class="line narr">
+                    The address ends, and the camera pulls back from the desk.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="option" id="opt-B" aria-labelledby="lbl-B">
+        <div class="option-head">
+          <h2 class="letter" id="lbl-B">B</h2>
+          <button
+            type="button"
+            class="key pick"
+            id="pick-B"
+            data-choice="B"
+            aria-pressed="false"
+          >
+            Pick this one
+          </button>
+        </div>
+        <div class="screen">
+          <div class="stage opt-b" data-beat="speech">
+            <div class="big on-speech">
+              <div class="bust farrell">
+                <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+              </div>
+            </div>
+            <div class="card">
+              <span class="corners" aria-hidden="true"></span>
+              <div class="strip">
+                <figure class="person on-narration">
+                  <div class="bust small farrell">
+                    <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+                  </div>
+                  <figcaption>
+                    <span class="nm">Keith Farrell</span
+                    ><span class="rl">President</span>
+                  </figcaption>
+                </figure>
+                <figure class="person">
+                  <div class="bust small solomon">
+                    <img src="art/sandra-solomon.webp" alt="Sandra Solomon" />
+                  </div>
+                  <figcaption>
+                    <span class="nm">Sandra Solomon</span
+                    ><span class="rl">Vice President</span>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="text">
+                <div class="on-speech">
+                  <h3 class="who">President Keith Farrell</h3>
+                  <p class="line">
+                    Good evening. A few hours ago I took the oath of office.
+                    Tonight I'll tell you the first thing I'm asking Congress to
+                    do, and why I think it matters to your family.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button
+                    ><button type="button" class="key skip">Skip scene</button>
+                  </div>
+                </div>
+                <div class="on-narration">
+                  <p class="line narr">
+                    The address ends, and the camera pulls back from the desk.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="option" id="opt-C" aria-labelledby="lbl-C">
+        <div class="option-head">
+          <h2 class="letter" id="lbl-C">C</h2>
+          <button
+            type="button"
+            class="key pick"
+            id="pick-C"
+            data-choice="C"
+            aria-pressed="false"
+          >
+            Pick this one
+          </button>
+        </div>
+        <div class="screen">
+          <div class="stage opt-c" data-beat="speech">
+            <div class="strip corner">
+              <figure class="person on-narration">
+                <div class="bust small farrell">
+                  <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+                </div>
+                <figcaption>
+                  <span class="nm">Keith Farrell</span
+                  ><span class="rl">President</span>
+                </figcaption>
+              </figure>
+              <figure class="person">
+                <div class="bust small solomon">
+                  <img src="art/sandra-solomon.webp" alt="Sandra Solomon" />
+                </div>
+                <figcaption>
+                  <span class="nm">Sandra Solomon</span
+                  ><span class="rl">Vice President</span>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="card">
+              <span class="corners" aria-hidden="true"></span>
+              <div class="strip lead on-speech">
+                <figure class="person speaker">
+                  <div class="bust farrell">
+                    <img src="art/keith-farrell.webp" alt="Keith Farrell" />
+                  </div>
+                  <figcaption>
+                    <span class="nm">Keith Farrell</span
+                    ><span class="rl">President</span>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="text">
+                <div class="on-speech">
+                  <h3 class="who">President Keith Farrell</h3>
+                  <p class="line">
+                    Good evening. A few hours ago I took the oath of office.
+                    Tonight I'll tell you the first thing I'm asking Congress to
+                    do, and why I think it matters to your family.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button
+                    ><button type="button" class="key skip">Skip scene</button>
+                  </div>
+                </div>
+                <div class="on-narration">
+                  <p class="line narr">
+                    The address ends, and the camera pulls back from the desk.
+                  </p>
+                  <div class="acts">
+                    <button type="button" class="key next">Continue</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Continue and Skip scene move each screen between its two beats.
+      document.querySelectorAll(".stage").forEach((stage) => {
+        stage.addEventListener("click", (event) => {
+          const button = event.target.closest(".next, .skip");
+          if (!button) return;
+          const toNarration =
+            button.classList.contains("skip") ||
+            stage.dataset.beat === "speech";
+          stage.classList.add("moved");
+          stage.dataset.beat = toNarration ? "narration" : "speech";
+          const focus = stage.querySelector(
+            toNarration ? ".on-narration .next" : ".on-speech .next",
+          );
+          if (focus && button.matches(":focus-visible")) focus.focus();
+        });
+      });
+
+      // His pick is saved in the page's store: speaker-choice/pick, field "choice" (A, B or C).
+      (function () {
+        const picks = Array.from(document.querySelectorAll(".pick"));
+        let saved = null;
+        let shown = null;
+        let saving = false;
+        let pending = null;
+        let ref = null;
+
+        function show(choice) {
+          shown = choice;
+          picks.forEach((button) => {
+            const on = button.dataset.choice === choice;
+            button.setAttribute("aria-pressed", on ? "true" : "false");
+            button.textContent = on ? "Picked" : "Pick this one";
+          });
+        }
+
+        picks.forEach((button) => {
+          button.addEventListener("click", async () => {
+            const choice = button.dataset.choice;
+            if (saving || choice === shown) return;
+            show(choice);
+            if (!ref) {
+              pending = choice;
+              return;
+            }
+            save(choice);
+          });
+        });
+
+        async function save(choice) {
+          saving = true;
+          try {
+            await ref.set({
+              choice: choice,
+              pickedAt: new Date().toISOString(),
+            });
+            saved = choice;
+          } catch (error) {
+            show(saved);
+            if (error && error.code === "invalid_argument")
+              picks.forEach((b) => (b.disabled = true));
+          } finally {
+            saving = false;
+          }
+        }
+
+        async function connect() {
+          const claude = window.claude;
+          if (!claude || typeof claude.use !== "function") return;
+          let db = null;
+          try {
+            db = await claude.use("db");
+          } catch (e) {
+            db = null;
+          }
+          if (!db) return;
+          try {
+            const user = await claude.use("user");
+            if (user && typeof user.can === "function") {
+              const canWrite = await user.can("data.write");
+              if (canWrite === false) picks.forEach((b) => (b.disabled = true));
+            }
+          } catch (e) {
+            /* not told: keep the buttons */
+          }
+          ref = db.doc("speaker-choice/pick");
+          ref.onSnapshot(
+            (snap) => {
+              const data = snap.exists ? snap.data() : null;
+              const choice =
+                data && ["A", "B", "C"].includes(data.choice)
+                  ? data.choice
+                  : null;
+              saved = choice;
+              if (!saving && !pending) show(choice);
+            },
+            () => {
+              /* keep what is shown */
+            },
+          );
+          if (pending) {
+            const choice = pending;
+            pending = null;
+            if (!picks[0].disabled) save(choice);
+          }
+        }
+        connect();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "scope": "Bounded authored surrounding-region and neighborhood illustrations; no uniform county biome, exact home, industry, geography boundary update, or image reuse license.",
+  "totalBytes": 694519,
+  "artifacts": [
+    {
+      "localPath": "docs/reference/regional-opening/raw/ks-flint-hills.html",
+      "requestedUrl": "https://www.kgs.ku.edu/Physio/flinthil.html",
+      "effectiveUrl": "https://www.kgs.ku.edu/Physio/flinthil.html",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:15:28.088539+00:00",
+      "bytes": 2151,
+      "sha256": "2c91496c14260ccb4794fbbb7e66141dbe70789d7c4b0596750bb660f503de4e",
+      "role": "supporting-regional-presentation-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/ne-cherry-county.html",
+      "requestedUrl": "https://cherrycountyne.gov/about-our-county/",
+      "effectiveUrl": "https://cherrycountyne.gov/about-our-county/",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:15:29.704782+00:00",
+      "bytes": 525737,
+      "sha256": "245e0a0bdd7bb943c8100799a2181c42532b4e4ebe2b742b447d1ef7e81d00b6",
+      "role": "supporting-regional-presentation-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/ca-sonoma-vegetation-metadata.html",
+      "requestedUrl": "https://socogis.sonomacounty.ca.gov/map/rest/services/OWTSPublic/Sonoma_Veg_Map_Vegetation_and_Habitat/MapServer",
+      "effectiveUrl": "https://socogis.sonomacounty.ca.gov/map/rest/services/OWTSPublic/Sonoma_Veg_Map_Vegetation_and_Habitat/MapServer",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:15:30.407686+00:00",
+      "bytes": 19677,
+      "sha256": "dcbfa8ee23b39ab1eaafb8e130aeb813b0bdddcb1b2a071c9ad661cc6a94d31b",
+      "role": "supporting-regional-presentation-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/ca-escondido-historic-district.html",
+      "requestedUrl": "https://www.escondido.gov/382/Old-Escondido-Historic-District",
+      "effectiveUrl": "https://www.escondido.gov/382/Old-Escondido-Historic-District",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:15:31.349360+00:00",
+      "bytes": 94428,
+      "sha256": "a95a3f26213cba0518ea26e794eff71d10c37d90d01977c5e54e97fbe7b6728d",
+      "role": "supporting-regional-presentation-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/ca-pasadena-bungalow-heaven.html",
+      "requestedUrl": "https://www.parks.ca.gov/ListedResources/Detail/N2405",
+      "effectiveUrl": "https://www.parks.ca.gov/ListedResources/Detail/N2405",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:15:32.083060+00:00",
+      "bytes": 52526,
+      "sha256": "c857d2c0484c23e5b853c656735f2a31383212df890a1bbb39344d1e11139a29",
+      "role": "supporting-regional-presentation-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    }
+  ]
+}

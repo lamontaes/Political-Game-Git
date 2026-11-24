@@ -1,0 +1,32 @@
+{
+  "about": "How a damaged home and the disaster that hit it are said in talk (the scene of a household talking over the repairs, src/english/disaster-words.ts). homes: the kind of home the housing engine records, as people say it. disasters: FEMA's incident type, as people say what happened; a type with no row here (an outbreak, an attack) is not said, and the talk goes on without it.",
+  "homes": {
+    "mobile-home": "mobile home",
+    "farmhouse": "farmhouse",
+    "house": "house",
+    "rowhouse": "row house",
+    "apartment": "apartment"
+  },
+  "disasters": {
+    "Coastal Storm": "the storm",
+    "Dam/Levee Break": "the flood",
+    "Drought": "the drought",
+    "Earthquake": "the earthquake",
+    "Fire": "the fire",
+    "Flood": "the flood",
+    "Freezing": "the freeze",
+    "Hurricane": "the hurricane",
+    "Mud/Landslide": "the landslide",
+    "Severe Ice Storm": "the ice storm",
+    "Severe Storm": "the storm",
+    "Snowstorm": "the snowstorm",
+    "Straight-Line Winds": "the winds",
+    "Tornado": "the tornado",
+    "Tropical Depression": "the storm",
+    "Tropical Storm": "the storm",
+    "Tsunami": "the tsunami",
+    "Typhoon": "the typhoon",
+    "Volcanic Eruption": "the eruption",
+    "Winter Storm": "the winter storm"
+  }
+}

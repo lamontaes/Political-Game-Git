@@ -1,0 +1,7 @@
+PLEDGE TURNOUT seed 7f00b2b291d4f5b6fbf0f7e48b5ee7f458dfba81256a9a0258ecf560a0256416: 2351095: no race two residents could file for; 4972170: 9 of 12 holding a yes voted (share 0.80), 9 of 25 others (0.42); 4419180: no race two residents could file for; territory:AS:fagaitua: no race two residents could file for; 5078025: 9 of 23 holding a yes voted (share 0.49), 3 of 15 others (0.11); 1379864: 7 
+     × in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have 108062ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/core2/door-pledge.test.ts > a door yes holds for the one household the door reached > in a town whose counted records each stand for several households, the pledged household votes on its word and the rest as they would have
+Error: seed 7f00b2b291d4f5b6fbf0f7e48b5ee7f458dfba81256a9a0258ecf560a0256416: no drawn town had a weighted counted record that a door reached and that votes in the race
+    681|     throw new Error(
+      Tests  1 failed | 2 passed (3)

@@ -1,0 +1,209 @@
+[
+  {
+    "id": "ut-2025-hb267-public-unions",
+    "jurisdiction": "Utah",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "HB 267",
+    "law_citation": null,
+    "short_title": "Public sector labor union amendments (collective bargaining ban)",
+    "enacted_date": "2025-02-14",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://le.utah.gov/~2025/bills/static/HB0267.html",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Unions and collective bargaining",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Public employers may not recognize unions as bargaining agents."
+      },
+      {
+        "kind": "referendum",
+        "description": "Opponents gathered signatures for a referendum, suspending the law."
+      },
+      {
+        "kind": "repeal",
+        "description": "Later repealed by the legislature in a special session (reported, date inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["teachers", "police and fire unions"],
+    "daily_life": "Public workers could no longer bargain collectively until the law was suspended and repealed.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Useful lifecycle example: enact, referendum petition, repeal."
+  },
+  {
+    "id": "ut-2025-hb81-fluoride",
+    "jurisdiction": "Utah",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "HB 81",
+    "law_citation": null,
+    "short_title": "Fluoride amendments (ban on community water fluoridation)",
+    "enacted_date": "2025-03-27",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-05-07"],
+    "official_text_url": "https://le.utah.gov/~2025/bills/static/HB0081.html",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public health",
+    "secondary_menus": ["01"],
+    "instrument": "prohibition",
+    "secondary_instruments": ["preemption"],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Public water systems may not add fluoride."
+      },
+      {
+        "kind": "preemption",
+        "description": "Overrides local and county decisions and prior local votes."
+      },
+      {
+        "kind": "benefit",
+        "description": "Pharmacists may prescribe fluoride supplements (reported, inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Standard effective date.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-05-07 date",
+            "text": "2025-05-07 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["water utilities", "dentists"],
+    "daily_life": "Tap water no longer has fluoride added.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ut-2025-hb106-income-tax",
+    "jurisdiction": "Utah",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "HB 106",
+    "law_citation": null,
+    "short_title": "Income tax revisions",
+    "enacted_date": "2025-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://le.utah.gov/~2025/bills/static/HB0106.html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Flat income tax rate cut.",
+        "numbers": [
+          {
+            "value": 4.55,
+            "unit": "percent old",
+            "text": "4.55 percent old"
+          },
+          {
+            "value": 4.5,
+            "unit": "percent new",
+            "text": "4.5 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Annual taxpayer savings.",
+        "numbers": [
+          {
+            "value": 97000000,
+            "unit": "USD per year",
+            "text": "97000000 USD per year"
+          }
+        ]
+      }
+    ],
+    "touches": ["education fund (income tax earmark)"],
+    "daily_life": "A small cut in state income tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ut-2025-sb142-app-store",
+    "jurisdiction": "Utah",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "SB 142",
+    "law_citation": null,
+    "short_title": "App Store Accountability Act",
+    "enacted_date": "2025-03-26",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-05-07 (law)",
+      "2026-05-06 (duties on app stores and developers)"
+    ],
+    "official_text_url": "https://le.utah.gov/~2025/bills/static/SB0142.html",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Data protection / online platforms",
+    "secondary_menus": ["12"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "App stores must verify each user's age category when an account is created."
+      },
+      {
+        "kind": "duty",
+        "description": "Minors' accounts must link to a parent account; parental consent needed for downloads and purchases."
+      },
+      {
+        "kind": "phase-in",
+        "description": "Law effective in 2025; operational duties a year later.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-05-06 date",
+            "text": "2026-05-06 date"
+          }
+        ]
+      },
+      {
+        "kind": "private-right-of-action",
+        "description": "Parents may sue for violations (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["Apple and Google app stores", "app developers"],
+    "daily_life": "A 13-year-old needs a parent's approval to download an app.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

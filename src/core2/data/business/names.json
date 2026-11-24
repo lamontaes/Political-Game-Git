@@ -1,0 +1,141 @@
+{
+  "source": {
+    "tag": "ESTIMATED",
+    "citation": "Name styles for each kind of employer: a local family's, the town's or the county's name with the words Americans use on that kind of door (owner, Oct 14: no 'general store', no real brands). A business with locations elsewhere carries its first location's name, so chains grow from local names.",
+    "estimatedFrom": "business-names"
+  },
+  "kinds": {
+    "farm": [
+      "{family} Family Farm",
+      "{family} Farms",
+      "{family} Brothers Farm"
+    ],
+    "quarry": [
+      "{family} Stone and Gravel",
+      "{county} Aggregates",
+      "{family} Sand and Gravel"
+    ],
+    "utility": [
+      "{county} Electric and Water",
+      "{county} Rural Electric Cooperative"
+    ],
+    "construction": [
+      "{family} Construction",
+      "{family} Builders",
+      "{county} Contracting",
+      "{family} Roofing and Remodeling"
+    ],
+    "manufacturing": [
+      "{family} Manufacturing",
+      "{county} Machine Works",
+      "{family} Tool and Die",
+      "{family} Fabrication"
+    ],
+    "wholesale": [
+      "{family} Supply Company",
+      "{county} Farm Supply",
+      "{county} Feed and Grain",
+      "{family} Distributing"
+    ],
+    "retail": [
+      "{family}'s Market",
+      "{family} Foods",
+      "{town} Market",
+      "{family} Mart"
+    ],
+    "trucking": ["{family} Trucking", "{county} Freight", "{family} Transport"],
+    "information": [
+      "{county} Telephone Cooperative",
+      "{county} Communications"
+    ],
+    "bank": [
+      "{family} Community Bank",
+      "{family} Bank",
+      "{county} Savings Bank",
+      "{family} Savings and Loan"
+    ],
+    "insurance": [
+      "{family} Insurance Agency",
+      "{family} Insurance",
+      "{county} Insurance Services"
+    ],
+    "realty": [
+      "{family} Realty",
+      "{family} Real Estate",
+      "{county} Land and Homes"
+    ],
+    "professional": [
+      "{family} and Associates",
+      "{county} Professional Services",
+      "{family} Professional Group"
+    ],
+    "regional-office": ["{county} Business Services"],
+    "building-services": [
+      "{family} Building Services",
+      "{family} Cleaning",
+      "{county} Cleaning Services"
+    ],
+    "private-school": ["{family} Academy", "{county} Christian School"],
+    "hospital": [
+      "{family} Medical Center",
+      "{county} Memorial Hospital",
+      "{family} Memorial Hospital"
+    ],
+    "clinic": [
+      "{family} Family Clinic",
+      "{family} Family Medicine",
+      "{county} Medical Clinic",
+      "{county} Health Center",
+      "{family} Family Care Clinic"
+    ],
+    "care-home": [
+      "{family} Care Home",
+      "{family} Manor",
+      "{county} Care Center",
+      "{family} Residential Care"
+    ],
+    "recreation": [
+      "{family} Fitness and Recreation",
+      "{family}'s Bowling Lanes",
+      "{family} Fitness",
+      "{county} Fitness Center"
+    ],
+    "restaurant": [
+      "{family}'s Kitchen",
+      "{county} Diner",
+      "{family}'s Cafe",
+      "{county} Kitchen"
+    ],
+    "inn": [
+      "{family} Inn",
+      "The {family} House",
+      "{county} Inn",
+      "{county} Motor Inn",
+      "{family} Motel"
+    ],
+    "repair": [
+      "{family} Auto Service",
+      "{county} Garage",
+      "{family} Tire and Auto"
+    ],
+    "personal-care": [
+      "{family}'s Salon and Barbershop",
+      "{county} Barber Shop",
+      "{family}'s Beauty Salon"
+    ],
+    "congregation": ["{town} Community Church"],
+    "organizing": ["{town} Neighbors United"],
+    "union": ["{town} Area Workers Union Local"],
+    "party-office": ["{town} Party Office"],
+    "campaign-staff": ["{town} Campaign Works"],
+    "public-school": ["{town} Public Schools"],
+    "city-hall": ["{town} City Hall"],
+    "county-clerk": ["{county} Clerk's Office"],
+    "police": ["{town} Police Department"],
+    "fire": ["{town} Fire Department"],
+    "public-works": ["{town} Public Works Department"],
+    "public-health": ["{town} Health Department"],
+    "state-office": ["{state} State Offices in {town}"],
+    "post-office": ["{town} Post Office"]
+  }
+}

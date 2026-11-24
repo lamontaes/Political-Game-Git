@@ -1,0 +1,436 @@
+{
+  "items": {
+    "sf.salesPrice": {
+      "value": 420300,
+      "unit": "USD per new single-family home sold (median)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, Characteristics of New Housing (SOC)",
+        "table": "2024 Highlights: median and average sales price of new single-family houses sold",
+        "url": "https://www.census.gov/construction/chars/highlights.html"
+      },
+      "spread": {
+        "low": 420300,
+        "high": 514500,
+        "basis": "median ($420,300) to mean ($514,500) of the same 2024 Census series"
+      },
+      "notes": "NAHB 2024 Construction Cost Survey average is higher ($665,298) because its builder sample skews larger/pricier; use Census for price, NAHB for shares."
+    },
+    "sf.constructionCostShare": {
+      "value": 0.644,
+      "unit": "share of sales price",
+      "year": 2024,
+      "source": {
+        "publisher": "NAHB",
+        "table": "Cost of Constructing a Home 2024 (Construction Cost Survey)",
+        "url": "https://eyeonhousing.org/2025/01/cost-of-constructing-a-home-in-2024/"
+      },
+      "spread": {
+        "low": 0.608,
+        "high": 0.644,
+        "basis": "2022 survey (60.8%) to 2024 survey (64.4%, series record)"
+      },
+      "notes": "Average construction cost $428,215 of $665,298 average price. Builder profit 11.0% (10.1% in 2022). NAHB sample is not designed to be nationally representative."
+    },
+    "sf.lotShare": {
+      "value": 0.137,
+      "unit": "share of sales price (finished lot incl. financing)",
+      "year": 2024,
+      "source": {
+        "publisher": "NAHB",
+        "table": "Cost of Constructing a Home 2024",
+        "url": "https://eyeonhousing.org/2025/01/cost-of-constructing-a-home-in-2024/"
+      },
+      "spread": {
+        "low": 0.137,
+        "high": 0.178,
+        "basis": "2024 (series low) to 2022 survey (17.8%)"
+      },
+      "notes": "Average finished lot $91,057."
+    },
+    "sf.squareFeet": {
+      "value": 2210,
+      "unit": "square feet (median, new single-family sold)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, Characteristics of New Housing",
+        "table": "2024 Highlights",
+        "url": "https://www.census.gov/construction/chars/highlights.html"
+      },
+      "spread": {
+        "low": 2146,
+        "high": 2404,
+        "basis": "median completed (2,146, Census) to average sold (2,404, LendingTree tabulation of the Census file; secondary)"
+      },
+      "notes": "1,019,000 single-family completions in 2024."
+    },
+    "sf.monthsToComplete": {
+      "value": 6.3,
+      "unit": "months, start to completion, single-family built for sale (average)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau / HUD, Survey of Construction",
+        "table": "Average Length of Time from Start to Completion (avg_starttocomp_cust.xlsx), annual",
+        "url": "https://www.census.gov/construction/nrc/data/time.html"
+      },
+      "spread": {
+        "low": 5.7,
+        "high": 9.3,
+        "basis": "2024 by Census region: South 5.7, Midwest 6.7, West 7.1, Northeast 9.3"
+      },
+      "notes": "All 1-unit 7.7; contractor-built 10.6; owner-built 13.7 (2024). 2025: built for sale 6.1. Permit-to-start adds about 1-1.5 months (NAHB)."
+    },
+    "mf.monthsToComplete": {
+      "value": 19.4,
+      "unit": "months, start to completion, buildings with 20+ units (average)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau / HUD, Survey of Construction",
+        "table": "Average Length of Time from Start to Completion (avg_starttocomp_cust.xlsx), annual",
+        "url": "https://www.census.gov/construction/nrc/data/time.html"
+      },
+      "spread": {
+        "low": 16.5,
+        "high": 23.1,
+        "basis": "2024: 5-9 units 16.5, 10-19 units 17.0, 20+ units 19.4 nationally; 20+ by region 17.5 (Midwest) to 23.1 (Northeast)"
+      },
+      "notes": "Census does not publish a single 5+ figure after 1998 nor a built-for-sale split for multifamily; all 2+ unit buildings 16.9 (2024). 2025: 20+ units 19.1."
+    },
+    "mf.hardCostPerUnit": {
+      "value": 161470,
+      "unit": "USD per unit, construction value on permit, 5+ unit buildings",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, Building Permits Survey",
+        "table": "Annual state file st2024a.txt (U.S. row: 441,621 units, $71.31 billion valuation)",
+        "url": "https://www2.census.gov/econ/bps/State/st2024a.txt"
+      },
+      "spread": {
+        "low": 128195,
+        "high": 211636,
+        "basis": "10th-90th percentile of state values (states with >1,000 units); extremes Nebraska $83.7k, Hawaii $342.9k"
+      },
+      "notes": "Permit valuation is construction cost only (no land, no soft costs) and tends to understate. Same file gives $309,716 per 1-unit house."
+    },
+    "mf.costPerUnit": {
+      "value": 250000,
+      "unit": "USD per apartment unit, total development cost (hard + soft + land)",
+      "year": 2024,
+      "source": {
+        "publisher": "Center for American Progress (secondary) cross-checked with Census BPS",
+        "table": "Housing Affordability Methodology (Feb 2026): 2024 average investment per unit $250k-$275k",
+        "url": "https://www.americanprogress.org/wp-content/uploads/sites/2/2026/02/Updated-FINAL_PDF-2026.02.13-HousingAffordabilityMethodology.pdf"
+      },
+      "spread": {
+        "low": 240000,
+        "high": 275000,
+        "basis": "Census hard value $161,470 / hard share 0.62-0.67 (Terner Center) = $241k-$260k; CAP estimate $250k-$275k"
+      },
+      "notes": "No primary national hard+soft+land series found (NMHC/NAHB publish none). High-cost regions far above: Terner Center East Bay 100-unit prototype $573,569/unit (2021); CA subsidized sample about $516k/unit. Treat as ESTIMATED."
+    },
+    "mf.landShare": {
+      "value": 0.11,
+      "unit": "share of total development cost",
+      "year": 2021,
+      "source": {
+        "publisher": "Terner Center for Housing Innovation, UC Berkeley",
+        "table": "Development math presentation to CSAC, 4/22/2021 (prototype: land $65,488 of $573,569 per unit)",
+        "url": "https://www.counties.org:443/sites/main/files/file-attachments/terner_center_-_development_math_-_csac_-_4.22.21.pdf"
+      },
+      "spread": {
+        "low": 0.096,
+        "high": 0.114,
+        "basis": "subsidized-project sample (acquisition $49,528 of $516,263, secondary Substack analysis) to Terner prototype"
+      },
+      "notes": "Only two sources found, both California; hard costs 63-67% and soft costs about 22-28% of total. Land share varies strongly with place; set per place in data."
+    },
+    "mf.capRate": {
+      "value": 0.049,
+      "unit": "going-in cap rate, core multifamily",
+      "year": 2024,
+      "source": {
+        "publisher": "CBRE",
+        "table": "Multifamily Underwriting Survey Q4 2024 (18 markets)",
+        "url": "https://www.cbre.com/insights/briefs/multifamily-underwriting-assumptions-mostly-unchanged-in-q4"
+      },
+      "spread": {
+        "low": 0.049,
+        "high": 0.055,
+        "basis": "core 4.90%, prime 4.97-5.00% (Q1-Q2 2024), value-add 5.24%; CBRE-EA forecast peak 5.5%"
+      },
+      "notes": "CBRE H2 2024 U.S. Cap Rate Survey says multifamily cap rates fell slightly but its level tables were not readable. Class B/C and small-market rates are higher; not found in primary form."
+    },
+    "zoning.singleFamilyOnlyShare": {
+      "value": 0.75,
+      "unit": "share of residential-only land where only a detached single-family home is allowed",
+      "year": 2019,
+      "source": {
+        "publisher": "The New York Times (Badger and Bui, June 18, 2019) using UrbanFootprint data",
+        "table": "Cities Start to Question an American Ideal: A House With a Yard on Every Lot",
+        "url": "https://www.nytimes.com/interactive/2019/06/18/upshot/cities-across-america-question-single-family-housing.html"
+      },
+      "spread": {
+        "low": 0.15,
+        "high": 0.94,
+        "basis": "city range in the NYT sample: New York 15%, Washington 36%, Los Angeles 75%, San Jose 94%"
+      },
+      "notes": "National Zoning Atlas reports about 81% of residentially zoned land in its covered jurisdictions is single-family-only (secondary citation, Vital City); multifamily allowed by right on about 12% (New America). The NYT URL was not loaded (paywall); the figures come from secondary summaries (UrbanFootprint, Planetizen)."
+    },
+    "zoning.minLotSqft": {
+      "value": 43560,
+      "unit": "square feet (land-area-weighted typical minimum lot, 1 acre)",
+      "year": 2024,
+      "source": {
+        "publisher": "National Zoning Atlas",
+        "table": "Minimum Lot Sizes findings",
+        "url": "https://www.zoningatlas.org/lots"
+      },
+      "spread": {
+        "low": 8177,
+        "high": 80000,
+        "basis": "median actual lot of new single-family detached homes 8,177 sq ft (NAHB/Census SOC) to Connecticut, where 76% of SF land requires >=80,000 sq ft"
+      },
+      "notes": "About 90% of single-family land has a minimum; over half requires 1 acre or more; about 3% allows lots under 10,000 sq ft. Large-lot share by state 26% (NC) to 89% (VT). Land-weighted figures are dominated by exurban land; in-town lots are typically far smaller. No national parcel-weighted median minimum found."
+    },
+    "zoning.upzoningPermitEffect": {
+      "value": 0.5,
+      "unit": "proportional increase in dwelling permits vs counterfactual after broad upzoning",
+      "year": 2023,
+      "source": {
+        "publisher": "Greenaway-McGrevy and Phillips, Journal of Urban Economics 136 (2023) 103555",
+        "table": "The impact of upzoning on housing construction in Auckland (about 22,000 extra consents 2016-2021, per Auckland Council summary)",
+        "url": "https://ourauckland.aucklandcouncil.govt.nz/media-centre/2024/march/auckland-upzoning-sparks-more-homes-and-improved-affordability/"
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.5,
+        "basis": "critique by Murray and Helm (curved trend: about 4,500 extra, roughly 10%) to the paper's estimate (about 50%)"
+      },
+      "notes": "Auckland upzoned about 3/4 of residential land. Minneapolis 2040 (triplexes): 2-4 unit permits +45% (avg 57/yr 2020-22 vs 2017-19, Bipartisan Policy Center), small in absolute terms; Minneapolis Fed (Oct 2026) counts only 47 projects using the change 2020-25. Effect of a lot-level duplex/triplex allowance alone is small; broad upzoning is larger."
+    },
+    "supply.rentEffectPerBuilding": {
+      "value": -0.06,
+      "unit": "proportional change in rents of nearby units (within about 250 m) after a large new market-rate building",
+      "year": 2023,
+      "source": {
+        "publisher": "Asquith, Mast and Reed, Review of Economics and Statistics 105(2): 359-375",
+        "table": "Local Effects of Large New Apartment Buildings in Low-Income Areas",
+        "url": "https://ideas.repec.org/a/tpr/restat/v105y2023i2p359-375.html"
+      },
+      "spread": {
+        "low": -0.07,
+        "high": -0.05,
+        "basis": "working-paper range 5-7%; published abstract about 6%"
+      },
+      "notes": "Buildings of 50+ units in low-income areas of 11 U.S. cities, measured 3-4 years after completion relative to units slightly farther away or near later-built sites; also raises in-migration from low-income areas."
+    },
+    "vacancy.naturalRate": {
+      "value": 0.07,
+      "unit": "natural (rent-stable) rental vacancy rate",
+      "year": 1988,
+      "source": {
+        "publisher": "Gabriel and Nothaft, Real Estate Economics 16(4): 419-429",
+        "table": "Rental Housing Markets and the Natural Vacancy Rate (16 cities, 1981-85)",
+        "url": "https://ideas.repec.org/a/bla/reesec/v16y1988i4p419-429.html"
+      },
+      "spread": {
+        "low": 0.04,
+        "high": 0.12,
+        "basis": "4-10% across cities (exogenous spec), 7-12% (endogenous spec), as summarized in Hendershott, MacGregor and Tse (ERES 2001)"
+      },
+      "notes": "Housing Solutions Lab (NYU Furman) gives about 7-8% as a general rule. Gabriel and Nothaft (JUE 2001) later find a low, narrow range across metros."
+    },
+    "vacancy.rentElasticity": {
+      "value": null,
+      "unit": "percentage-point change in real rent growth per percentage point of vacancy above the natural rate",
+      "year": null,
+      "source": {
+        "publisher": "not found in a primary source",
+        "table": "model form: %dR = lambda (v* - v_t-1), Hendershott, MacGregor and Tse (Real Estate Economics 30(2), 2002)",
+        "url": "https://eres.scix.net/pdfs/eres2001_178.content.pdf"
+      },
+      "spread": {
+        "low": null,
+        "high": null,
+        "basis": "none found"
+      },
+      "notes": "I could not retrieve a U.S. apartment estimate of the adjustment factor lambda from a readable primary source (the papers that have it are paywalled; NMHC's 2024 note shows only a cross-market correlation). Make it a TUNABLE parameter fitted to Census HVS vacancy vs CPI rent; do not cite a number for it."
+    },
+    "vacancy.rental": {
+      "value": 0.0675,
+      "unit": "rental vacancy rate, U.S.",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, CPS/Housing Vacancy Survey",
+        "table": "Historical Table 1, Quarterly Rental Vacancy Rates (mean of 2024 Q1-Q4: 6.6, 6.6, 6.9, 6.9)",
+        "url": "https://www.census.gov/housing/hvs/data/histtab1.xlsx"
+      },
+      "spread": {
+        "low": 0.042,
+        "high": 0.087,
+        "basis": "2024 quarterly regional range: Northeast 4.2% (Q4) to South 8.7% (Q4)"
+      },
+      "notes": "Principal cities 6.9-7.2%; outside MSAs 6.2-6.5%. 2025 Q1 7.1%."
+    },
+    "vacancy.homeowner": {
+      "value": 0.0095,
+      "unit": "homeowner vacancy rate, U.S.",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, CPS/Housing Vacancy Survey",
+        "table": "Historical Table 2, Quarterly Homeowner Vacancy Rates (mean of 2024 Q1-Q4: 0.8, 0.9, 1.0, 1.1)",
+        "url": "https://www.census.gov/housing/hvs/data/histtab2.xlsx"
+      },
+      "spread": {
+        "low": 0.006,
+        "high": 0.015,
+        "basis": "2024 quarterly range across regions and city types: Midwest 0.6% to principal cities 1.5%"
+      },
+      "notes": ""
+    },
+    "permits.perThousandResidents": {
+      "value": 4.35,
+      "unit": "new housing units authorized per 1,000 residents per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, Building Permits Survey; Vintage 2024 population estimates",
+        "table": "st2024a.txt (1,478,000 units) / NST-EST2024 (340.1 million)",
+        "url": "https://www2.census.gov/econ/bps/State/st2024a.txt"
+      },
+      "spread": {
+        "low": 1.14,
+        "high": 8.81,
+        "basis": "2024 state range: Puerto Rico 1.14, Alaska 1.39, Rhode Island 1.58, Illinois 1.60 ... Arizona 7.86, South Carolina 8.59, North Carolina 8.62, Idaho 8.81; median state 3.62"
+      },
+      "notes": "2023: 1,514,000 units, 4.50 per 1,000 (range Puerto Rico 1.04 to Idaho 9.09). 2024 units: 981,911 one-unit, 34,568 two-unit, 19,900 three-four, 441,621 five-plus. Island Areas other than PR are not in the state file."
+    },
+    "inclusionary.setAsideShare": {
+      "value": 0.12,
+      "unit": "minimum share of units in a new development required to be affordable",
+      "year": 2016,
+      "source": {
+        "publisher": "Lincoln Institute of Land Policy (Thaden and Wang, Working Paper WP17ET1)",
+        "table": "Inclusionary Housing in the United States: Prevalence, Impact, and Practices, Table 13 / Figure 8",
+        "url": "https://www.lincolninst.edu/publications/working-papers/inclusionary-housing-in-united-states/"
+      },
+      "spread": {
+        "low": 0.05,
+        "high": 0.2,
+        "basis": "of 153 programs with a % minimum: 60 at 1-10%, 80 at 11-20%, 13 at 21%+; median falls in the 11-15% bin"
+      },
+      "notes": "35% of programs vary the share by project; 90% allow on-site units; about 90% require affordability for 30+ years."
+    },
+    "inclusionary.amiShare": {
+      "value": 0.8,
+      "unit": "maximum household income as share of area median income",
+      "year": 2016,
+      "source": {
+        "publisher": "Lincoln Institute of Land Policy (Thaden and Wang 2017)",
+        "table": "Income Served by On-site Affordable Units",
+        "url": "https://www.lincolninst.edu/publications/working-papers/inclusionary-housing-in-united-states/"
+      },
+      "spread": {
+        "low": 0.5,
+        "high": 1.5,
+        "basis": "rental programs with one maximum: 50-60% AMI (22), 61-80% (47, most common), 81-100% (9), 101-150% (16); 42% use multiple tiers; ownership up to 160%"
+      },
+      "notes": "80% AMI is also HUD's 'low-income' limit."
+    },
+    "inclusionary.rentShareOfIncome": {
+      "value": 0.3,
+      "unit": "share of household income for affordable rent (incl. utilities)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Department of Housing and Urban Development",
+        "table": "PD&R Edge, 'Rental Burdens: Rethinking Affordability Measures' (Sept 2014): cost-burdened above 30% of income, severe above 50%; 30% set federally by the Brooke Amendment (1969, raised to 30% in 1981)",
+        "url": "https://www.huduser.gov/portal/pdredge/pdr_edge_featd_article_092214.html"
+      },
+      "spread": {
+        "low": 0.3,
+        "high": 0.3,
+        "basis": "fixed policy rule; LIHTC applies 30% to the income limit for an imputed household size"
+      },
+      "notes": "Rule, not an estimate. HUD defines 30-50% as cost-burdened and 50%+ as severely cost-burdened. URL found by search (the page is HUD PD&R Edge, Sept 2014); the exact path was not loaded, so check it before citing."
+    },
+    "inclusionary.productionEffect": {
+      "value": null,
+      "unit": "change in market-rate housing production",
+      "year": 2011,
+      "source": {
+        "publisher": "Schuetz, Meltzer and Been, Urban Studies 48(2): 297-329",
+        "table": "Silver Bullet or Trojan Horse? The Effects of Inclusionary Zoning on Local Housing Markets in the United States",
+        "url": "https://ideas.repec.org/a/sae/urbstu/v48y2011i2p297-329.html"
+      },
+      "spread": {
+        "low": null,
+        "high": null,
+        "basis": "no single coefficient retrievable"
+      },
+      "notes": "Findings are directional: no significant effect on price or production in the San Francisco area; in suburban Boston, IZ is associated with higher prices and lower production during regional price booms; affordable output modest and grows with years in force. Wang and Balachandran (Housing Studies 2023): 258 of 1,019 programs reported about 110,000 units in total. Make it a TUNABLE cost added to the builder's pro forma (set-aside share x rent gap) rather than a fixed production cut."
+    },
+    "electric.costChangeDollars": {
+      "value": -7850,
+      "unit": "USD change in construction cost, all-electric vs mixed-fuel new single-family home (negative = cheaper)",
+      "year": 2022,
+      "source": {
+        "publisher": "New Buildings Institute (with NRDC)",
+        "table": "Cost Study of the Building Decarbonization Code (single-family, NY cost data, climate zone 5A)",
+        "url": "https://newbuildings.org/resource/cost-study-of-the-building-decarbonization-code/"
+      },
+      "spread": {
+        "low": -8200,
+        "high": 0,
+        "basis": "NBI $7,500-$8,200 cheaper; California 2019 low-rise residential cost-effectiveness study $6,171 cheaper (via City of Santa Rosa FAQ, secondary); E3 notes homes without air conditioning do not get the one-heat-pump-for-two-appliances saving (towards 0)"
+      },
+      "notes": "Savings come mostly from avoided gas service line and piping (NRDC cites about $6,000 average builder-paid gas connection in California). RMI 2022 (9 cities) finds all-electric cheaper to build in all 9 but its figures are only in charts. 'Electric-ready' mixed-fuel homes cost +$1,000-$1,800 (NBI)."
+    },
+    "electric.costChangePct": {
+      "value": -0.018,
+      "unit": "proportional change in construction cost",
+      "year": 2022,
+      "source": {
+        "publisher": "Derived: NBI dollar savings / NAHB 2024 average construction cost",
+        "table": "-$7,850 / $428,215",
+        "url": "https://newbuildings.org/resource/cost-study-of-the-building-decarbonization-code/"
+      },
+      "spread": {
+        "low": -0.019,
+        "high": 0.0,
+        "basis": "-$8,200/$428,215 to no saving (homes without AC)"
+      },
+      "notes": "No source states a percent directly; this is my arithmetic. Mark as ESTIMATED."
+    },
+    "farmland.valuePerAcre": {
+      "value": 4170,
+      "unit": "USD per acre, farm real estate (land and buildings), U.S. average",
+      "year": 2024,
+      "source": {
+        "publisher": "USDA National Agricultural Statistics Service",
+        "table": "Land Values 2024 Summary (August 2024)",
+        "url": "https://nass.usda.gov/Publications/Todays_Reports/reports/land0824.pdf"
+      },
+      "spread": {
+        "low": 1280,
+        "high": 17330,
+        "basis": "2024 state cropland values: Montana $1,280 to California $17,330"
+      },
+      "notes": "Cropland $5,570/acre (+4.7%), pasture $1,830/acre, cropland cash rent $160/acre. Regions: Pacific cropland $9,520, Mountain $2,700. The state table in the same PDF gives every state."
+    },
+    "farmland.developmentShare": {
+      "value": 0.62,
+      "unit": "share of all new development that occurred on agricultural land",
+      "year": 2012,
+      "source": {
+        "publisher": "American Farmland Trust",
+        "table": "Farms Under Threat: The State of America's Farmland (2018), period 1992-2012",
+        "url": "https://fieldadvisor.org/wp-content/uploads/2018/05/FarmsUnderThreatExecSum.pdf"
+      },
+      "spread": {
+        "low": 0.62,
+        "high": 0.62,
+        "basis": "single national point estimate; no published range. (Of farmland lost, 59% went to urban expansion and 41% to low-density 1-20 acre residential.)"
+      },
+      "notes": "31 million acres lost 1992-2012, 11 million of it the best land. AFT 2022 projection (Farms Under Threat 2040): 18.4 million acres converted 2016-2040 on trend, 6.2 million to urban and 12.2 million to low-density residential; 24 million under faster sprawl."
+    }
+  }
+}

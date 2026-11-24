@@ -1,0 +1,173 @@
+{
+  "id": "death-taxes-2026",
+  "about": "Estate and inheritance taxes in force: the federal estate tax and the twelve states and D.C. with an estate tax, the five states with an inheritance tax. An estate tax is on the estate above its exemption, at a rate that rises from the low rate to the top rate across the taxable amount (slideOver, dollars above the exemption). An inheritance tax is on each heir's share above the exemption for their relation to the decedent, at that relation's rate; relations not listed fall in 'others'. Dollars, not cents.",
+  "retrieved": "2026-10-14",
+  "source": "Tax Foundation, 'Estate and Inheritance Taxes by State, 2026' (rates and exemptions as of October 1, 2026), https://taxfoundation.org/data/all/state/estate-inheritance-taxes/",
+  "slideOverNote": "Where a state's schedule runs from a low to a high rate, the top rate is reached at $10,040,000 of taxable estate, the top bracket of the former federal state death tax credit table (26 U.S.C. 2011(b), before 2005) that Illinois, Maryland, Massachusetts, Rhode Island and others still follow. Applied to every graduated state schedule as an estimate.",
+  "federal": [
+    {
+      "effectiveDate": "2025-01-01",
+      "exemption": 13990000,
+      "minRate": 40,
+      "maxRate": 40,
+      "slideOver": 0,
+      "estimate": false,
+      "source": "IRS Rev. Proc. 2024-40, section 3.41 (2025 basic exclusion amount $13,990,000); 26 U.S.C. 2001(c) and 2010: with the unified credit, every dollar above the exclusion is taxed at the 40 percent top rate."
+    },
+    {
+      "effectiveDate": "2026-01-01",
+      "exemption": 15000000,
+      "minRate": 40,
+      "maxRate": 40,
+      "slideOver": 0,
+      "estimate": false,
+      "source": "Public Law 119-21 (2025), section 70106: basic exclusion amount $15,000,000 from 2026, indexed for inflation after; Tax Foundation 2026 table."
+    }
+  ],
+  "estate": {
+    "US-CT": { "exemption": 15000000, "minRate": 12, "maxRate": 12 },
+    "US-DC": { "exemption": 4988400, "minRate": 11.2, "maxRate": 16 },
+    "US-HI": { "exemption": 5490000, "minRate": 10, "maxRate": 20 },
+    "US-IL": { "exemption": 4000000, "minRate": 0.8, "maxRate": 16 },
+    "US-ME": { "exemption": 7160000, "minRate": 8, "maxRate": 12 },
+    "US-MD": { "exemption": 5000000, "minRate": 0.8, "maxRate": 16 },
+    "US-MA": { "exemption": 2000000, "minRate": 0.8, "maxRate": 16 },
+    "US-MN": { "exemption": 3000000, "minRate": 13, "maxRate": 16 },
+    "US-NY": { "exemption": 7350000, "minRate": 3.06, "maxRate": 16 },
+    "US-OR": { "exemption": 1000000, "minRate": 10, "maxRate": 16 },
+    "US-RI": { "exemption": 1838056, "minRate": 0.8, "maxRate": 16 },
+    "US-VT": { "exemption": 5000000, "minRate": 16, "maxRate": 16 },
+    "US-WA": { "exemption": 3000000, "minRate": 10, "maxRate": 20 }
+  },
+  "estateFrom": "2025-01-01",
+  "estateEstimateNote": "The 2026 table's exemptions and rates are applied from the game's opening in 2025; indexed exemptions (Connecticut, New York, Rhode Island, D.C., Maine) were a few percent lower in 2025.",
+  "inheritance": {
+    "US-KY": {
+      "classes": {
+        "partner": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "child": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "parent": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "sibling": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "grandchild": { "exemption": 0, "minRate": 0, "maxRate": 0 }
+      },
+      "others": {
+        "exemption": 500,
+        "minRate": 6,
+        "maxRate": 16,
+        "slideOver": 200000
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Ky. Rev. Stat. 140.060",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28979",
+        "quote": "all transfers to cities, and towns or public institutions in this state for public purposes shall be exempt from the tax imposed by this chapter.",
+        "reading": "The statute names cities, towns and public institutions in this state for public purposes, not the Commonwealth itself; the Commonwealth taking an estate by escheat is read as a public institution (ESTIMATED reading; no ruling found).",
+        "retrieved": "2026-10-24"
+      },
+      "source": "Ky. Rev. Stat. 140.070 and 140.080: Class A (spouse, parent, child, grandchild, brother, sister) exempt; Class C 6 to 16 percent above $500, the top rate over $200,000."
+    },
+    "US-MD": {
+      "classes": {
+        "partner": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "child": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "parent": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "sibling": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "grandparent": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "grandchild": { "exemption": 0, "minRate": 0, "maxRate": 0 }
+      },
+      "others": {
+        "exemption": 1000,
+        "minRate": 10,
+        "maxRate": 10,
+        "slideOver": 0
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Md. Code, Tax-General 7-203(i)",
+        "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=7-203&enactments=false",
+        "quote": "The inheritance tax does not apply to the receipt of property that passes from a decedent to the State, a county, or a municipal corporation of the State.",
+        "retrieved": "2026-10-24"
+      },
+      "source": "Md. Code, Tax-General 7-203: spouse, children, parents, grandparents, grandchildren and siblings exempt; others 10 percent."
+    },
+    "US-NE": {
+      "classes": {
+        "partner": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "child": { "exemption": 100000, "minRate": 1, "maxRate": 1 },
+        "parent": { "exemption": 100000, "minRate": 1, "maxRate": 1 },
+        "sibling": { "exemption": 100000, "minRate": 1, "maxRate": 1 },
+        "grandparent": { "exemption": 100000, "minRate": 1, "maxRate": 1 },
+        "grandchild": { "exemption": 100000, "minRate": 1, "maxRate": 1 }
+      },
+      "others": {
+        "exemption": 25000,
+        "minRate": 15,
+        "maxRate": 15,
+        "slideOver": 0
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Neb. Rev. Stat. 77-2007.03",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2007.03",
+        "quote": "Property transferred to either (1) the United States, or any of its departments, instrumentalities, or agencies, or (2) this state, or any governmental subdivision, department, agency, or instrumentality thereof, any municipal corporation or body politic created by or under the laws of Nebraska, or any agency, institution, foundation, or fund administered or operated by any of the same shall be exempt from any inheritance tax imposed by sections 77-2001 to 77-2006, and any amendments thereto.",
+        "retrieved": "2026-10-24"
+      },
+      "source": "Neb. Rev. Stat. 77-2004 to 77-2006 as amended by LB 310 (2022): spouse exempt; immediate relatives 1 percent above $100,000; others 15 percent above $25,000 (remote relatives, 11 percent above $40,000, are not a relation the game records)."
+    },
+    "US-NJ": {
+      "classes": {
+        "partner": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "child": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "parent": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "grandparent": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "grandchild": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "sibling": {
+          "exemption": 25000,
+          "minRate": 11,
+          "maxRate": 16,
+          "slideOver": 1675000
+        }
+      },
+      "others": {
+        "exemption": 500,
+        "minRate": 15,
+        "maxRate": 16,
+        "slideOver": 700000
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "N.J.S.A. 54:34-4(a)",
+        "url": "https://pub.njleg.gov/Bills/2024/S1000/556_I1.HTM",
+        "quote": "The following transfers of property shall be exempt from taxation: a. Property passing to or for the use of the State of New Jersey, or to or for the use of a municipal corporation within the State or other political subdivision thereof, for exclusively public purposes.",
+        "note": "Quoted from the NJ Legislature's bill S556 (2024), which prints this section as existing law. It names the State itself; the condition is exclusively public purposes, which the State taking an estate by escheat to its treasury meets.",
+        "retrieved": "2026-10-24"
+      },
+      "source": "N.J.S.A. 54:34-2: Class A (spouse, parents, grandparents, children, grandchildren) exempt; Class C (siblings) 11 percent above $25,000 rising to 16 percent above $1,700,000; Class D 15 percent, 16 percent above $700,000."
+    },
+    "US-PA": {
+      "classes": {
+        "partner": { "exemption": 0, "minRate": 0, "maxRate": 0 },
+        "child": { "exemption": 0, "minRate": 4.5, "maxRate": 4.5 },
+        "parent": { "exemption": 0, "minRate": 4.5, "maxRate": 4.5 },
+        "grandparent": { "exemption": 0, "minRate": 4.5, "maxRate": 4.5 },
+        "grandchild": { "exemption": 0, "minRate": 4.5, "maxRate": 4.5 },
+        "sibling": { "exemption": 0, "minRate": 12, "maxRate": 12 }
+      },
+      "others": {
+        "exemption": 0,
+        "minRate": 15,
+        "maxRate": 15,
+        "slideOver": 0
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "72 P.S. 9111(b)",
+        "url": "https://codes.findlaw.com/pa/title-72-ps-taxation-and-fiscal-affairs/pa-st-sect-72-9111/",
+        "quote": "Transfers of property to or for the use of any of the following are exempt from inheritance tax: (1) The United States of America. (2) The Commonwealth of Pennsylvania. (3) A political subdivision of the Commonwealth of Pennsylvania.",
+        "note": "Section 9111(l) also exempts property awarded to the Commonwealth as statutory heir by escheat, otherwise than as custodian for a known distributee. The Department of Revenue's inheritance tax page says the 15 percent rate applies 'except charitable organizations, exempt institutions and government entities exempt from tax'.",
+        "retrieved": "2026-10-24"
+      },
+      "source": "72 P.S. 9116: spouse 0 percent; lineal heirs 4.5 percent; siblings 12 percent; others 15 percent (a parent inheriting from a child 21 or younger pays 0, not modeled)."
+    }
+  }
+}

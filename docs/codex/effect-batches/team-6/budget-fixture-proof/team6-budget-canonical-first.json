@@ -1,0 +1,374 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 4,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 29,
+  "numPassedTests": 9,
+  "numFailedTests": 20,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790852599587,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets every state, D.C. and territory keeps a budget for a full year, none left unknown",
+          "status": "failed",
+          "title": "every state, D.C. and territory keeps a budget for a full year, none left unknown",
+          "duration": 19.855301999999938,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:215:37\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated",
+          "status": "failed",
+          "title": "American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated",
+          "duration": 4.194400000000314,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:237:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1",
+          "status": "failed",
+          "title": "Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1",
+          "duration": 2.956210000000283,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:257:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state opens exactly at its read figures in every world; a city's estimated share is the average without a draw",
+          "status": "passed",
+          "title": "a state opens exactly at its read figures in every world; a city's estimated share is the average without a draw",
+          "duration": 175.30392100000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown",
+          "status": "failed",
+          "title": "D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown",
+          "duration": 2.2639559999988705,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:295:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself",
+          "status": "passed",
+          "title": "Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself",
+          "duration": 49.12340800000129,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed",
+          "status": "failed",
+          "title": "under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed",
+          "duration": 6.181117000000086,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:344:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance",
+          "status": "failed",
+          "title": "a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance",
+          "duration": 2.553072999999131,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:396:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks",
+          "status": "failed",
+          "title": "without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks",
+          "duration": 5.612670000000435,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:447:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a small government that pays its whole contribution records no underpayment from monthly rounding",
+          "status": "failed",
+          "title": "a small government that pays its whole contribution records no underpayment from monthly rounding",
+          "duration": 3.9517129999985627,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:496:19\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension opens at its own plans' funded ratio, or the median where none is reported",
+          "status": "passed",
+          "title": "each government's pension opens at its own plans' funded ratio, or the median where none is reported",
+          "duration": 12.847287000000506,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state NASBO reports no rainy-day balance for opens at the median share of the states it does",
+          "status": "failed",
+          "title": "a state NASBO reports no rainy-day balance for opens at the median share of the states it does",
+          "duration": 4.704218999999284,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:543:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension costs and pays out what its own plans report, or the median where they do not",
+          "status": "failed",
+          "title": "each government's pension costs and pays out what its own plans report, or the median where they do not",
+          "duration": 25.546739999999772,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:599:32\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension share starts from its own reported payment, or the median where none is reported, and holds",
+          "status": "passed",
+          "title": "each government's pension share starts from its own reported payment, or the median where none is reported, and holds",
+          "duration": 127.75897099999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption",
+          "status": "failed",
+          "title": "a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption",
+          "duration": 2.3337919999994483,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:641:18\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else",
+          "status": "failed",
+          "title": "income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else",
+          "duration": 1.7618080000011105,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:709:19\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's",
+          "status": "passed",
+          "title": "each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's",
+          "duration": 6.621692000000621,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations",
+          "status": "passed",
+          "title": "a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations",
+          "duration": 10.430128999998487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a place with no government in a county area with none is served by its town, its consolidated government or its state",
+          "status": "passed",
+          "title": "a place with no government in a county area with none is served by its town, its consolidated government or its state",
+          "duration": 12.474534000000858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's",
+          "status": "passed",
+          "title": "each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's",
+          "duration": 0.73742300000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets the balance above the reserve target is carried into the next budget and spent across the year, once",
+          "status": "failed",
+          "title": "the balance above the reserve target is carried into the next budget and spent across the year, once",
+          "duration": 4.128849999999147,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:872:19\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month",
+          "status": "failed",
+          "title": "a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month",
+          "duration": 11.349436999998943,
+          "failureMessages": [
+            "TypeError: Cannot read properties of undefined (reading 'revenue')\n    at januaryAid (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:957:19)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:958:12\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once",
+          "status": "failed",
+          "title": "a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once",
+          "duration": 2.0026619999989634,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:996:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again",
+          "status": "failed",
+          "title": "a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again",
+          "duration": 1.8218589999996766,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:1039:19\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect",
+          "status": "failed",
+          "title": "a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect",
+          "duration": 1.8131859999994049,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:1108:19\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a governor decides from their principles whether money a law saved the state goes to the reserve or to programs",
+          "status": "failed",
+          "title": "a governor decides from their principles whether money a law saved the state goes to the reserve or to programs",
+          "duration": 1.7605170000006183,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:1170:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets maps an appropriation's program to its budget line",
+          "status": "passed",
+          "title": "maps an appropriation's program to its budget line",
+          "duration": 0.46015499999884923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "a government with no recorded debt opens at the measured national rate, marked estimated (A71)"
+          ],
+          "fullName": "a government with no recorded debt opens at the measured national rate, marked estimated (A71) reads the default rates from Census and notes where each government's rate came from",
+          "status": "failed",
+          "title": "reads the default rates from Census and notes where each government's rate came from",
+          "duration": 2.111786999999822,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:1304:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "a government's opening pension liability is measured, not 1.2 times its spending (A23)"
+          ],
+          "fullName": "a government's opening pension liability is measured, not 1.2 times its spending (A23) opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated",
+          "status": "failed",
+          "title": "opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated",
+          "duration": 1.9111040000007051,
+          "failureMessages": [
+            "Error: A world must begin with at least one jurisdiction.\n    at Module.createWorld (/workspace/Political-Game-Git/src/simulation/world.ts:505:11)\n    at worldAt (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:104:16)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:1326:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790852611707,
+      "endTime": 1790852612212.9111,
+      "status": "failed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts"
+    }
+  ]
+}

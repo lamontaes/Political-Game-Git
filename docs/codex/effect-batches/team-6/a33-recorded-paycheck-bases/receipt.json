@@ -1,0 +1,483 @@
+{
+  "sourceHead": "b89a7e6f8631c268eb2e4404676f0d8d1a550674",
+  "base": "e9ba6a0aab1abdea95938247a342acc43a7e5f0f",
+  "changedTest": "src/simulation/paycheck-tax-bases.test.ts",
+  "tests": {
+    "passed": 8,
+    "failed": 0,
+    "totalSeconds": 39.52,
+    "testSeconds": 17.31,
+    "maxWorkers": 1,
+    "stockCaseLimitMs": 30000
+  },
+  "scopedTypes": {
+    "roots": 3,
+    "files": 1235,
+    "diagnostics": 0
+  },
+  "historicalFailure": {
+    "tests": "1 PASS / 7 FAIL: missing required work-role location and timeDemand fixture fields",
+    "types": "TS2739 same incomplete work-role fixture; repaired fields, assertions unchanged"
+  },
+  "audit": {
+    "main": "2/5 partly",
+    "branch": "2/5 partly",
+    "flipped": [],
+    "limit": "Current main criterion inspects town-pay for inline recordTaxBase/assessment dispatch; the actual delegated adapter is not counted. No audit rules modified."
+  },
+  "proof": {
+    "seed": "fiscal-starting-terms-new-game:natural-pay",
+    "place": "1757693",
+    "state": "US-IL",
+    "bases": [
+      {
+        "id": "tax-base_4b9ba3d05ccdf03d",
+        "sourceId": "statutory-tax-liability_d261144e143171cf",
+        "payer": {
+          "kind": "person",
+          "personId": "person_fb8b9df6b8359eec"
+        },
+        "wages": {
+          "minorUnits": 360080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_82d33b33dbf21e9c",
+        "sourceId": "statutory-tax-liability_190909b129e57e9c",
+        "payer": {
+          "kind": "person",
+          "personId": "person_fb8b9df6b8359eec"
+        },
+        "wages": {
+          "minorUnits": 360080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_f16cd2439f5a4a20",
+        "sourceId": "statutory-tax-liability_1a35dafaf169ec7a",
+        "payer": {
+          "kind": "person",
+          "personId": "person_cfdd7d596075e3b3"
+        },
+        "wages": {
+          "minorUnits": 343760,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_207e6b2d2548b513",
+        "sourceId": "statutory-tax-liability_0d0fcc6a02c407a9",
+        "payer": {
+          "kind": "person",
+          "personId": "person_cfdd7d596075e3b3"
+        },
+        "wages": {
+          "minorUnits": 343760,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_c0f719c55e798ca9",
+        "sourceId": "statutory-tax-liability_75b888e53c4a6be3",
+        "payer": {
+          "kind": "person",
+          "personId": "person_822214c7996b187b"
+        },
+        "wages": {
+          "minorUnits": 208160,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_837f9957750847ce",
+        "sourceId": "statutory-tax-liability_fd453a75c64b00d0",
+        "payer": {
+          "kind": "person",
+          "personId": "person_822214c7996b187b"
+        },
+        "wages": {
+          "minorUnits": 208160,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_c222bbc739f054f3",
+        "sourceId": "statutory-tax-liability_cf1032466f747d31",
+        "payer": {
+          "kind": "person",
+          "personId": "person_822213c7996b16c8"
+        },
+        "wages": {
+          "minorUnits": 208160,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_22aaa72996a86380",
+        "sourceId": "statutory-tax-liability_10c9d29a4fb4280e",
+        "payer": {
+          "kind": "person",
+          "personId": "person_822213c7996b16c8"
+        },
+        "wages": {
+          "minorUnits": 208160,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-09"
+      },
+      {
+        "id": "tax-base_5a405822057ab286",
+        "sourceId": "statutory-tax-liability_647ea9095a34248b",
+        "payer": {
+          "kind": "person",
+          "personId": "person_ab50b890cdc93055"
+        },
+        "wages": {
+          "minorUnits": 360080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_cc684d7d46f833b7",
+        "sourceId": "statutory-tax-liability_a436e89ec1a0edd8",
+        "payer": {
+          "kind": "person",
+          "personId": "person_ab50b890cdc93055"
+        },
+        "wages": {
+          "minorUnits": 360080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_005121af3d13d9ad",
+        "sourceId": "statutory-tax-liability_079bf83b29634279",
+        "payer": {
+          "kind": "person",
+          "personId": "person_8b1b51951f20477c"
+        },
+        "wages": {
+          "minorUnits": 198880,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_1b5784c69dc1fbfb",
+        "sourceId": "statutory-tax-liability_b2f4c32e68873c16",
+        "payer": {
+          "kind": "person",
+          "personId": "person_8b1b51951f20477c"
+        },
+        "wages": {
+          "minorUnits": 198880,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_3afc93fee1613ed8",
+        "sourceId": "statutory-tax-liability_ec904a4fd5232d42",
+        "payer": {
+          "kind": "person",
+          "personId": "person_3b43515c1d0d9ce3"
+        },
+        "wages": {
+          "minorUnits": 75200,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_54776abda4af9981",
+        "sourceId": "statutory-tax-liability_0d5f56868d40eaf1",
+        "payer": {
+          "kind": "person",
+          "personId": "person_3b43515c1d0d9ce3"
+        },
+        "wages": {
+          "minorUnits": 75200,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_beb45568f6a45938",
+        "sourceId": "statutory-tax-liability_232de325ee6e67c9",
+        "payer": {
+          "kind": "person",
+          "personId": "person_405a0b3b7c9c9f84"
+        },
+        "wages": {
+          "minorUnits": 175080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_c5df2e905e1e90eb",
+        "sourceId": "statutory-tax-liability_11f18dcd50d53f66",
+        "payer": {
+          "kind": "person",
+          "personId": "person_405a0b3b7c9c9f84"
+        },
+        "wages": {
+          "minorUnits": 175080,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_7ef3ffe6501ac88f",
+        "sourceId": "statutory-tax-liability_a1b7a3cd1c7cf018",
+        "payer": {
+          "kind": "person",
+          "personId": "person_da0dcd4b1bd92f28"
+        },
+        "wages": {
+          "minorUnits": 60000,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_021146b54cd20109",
+        "sourceId": "statutory-tax-liability_78a3f72985ff359f",
+        "payer": {
+          "kind": "person",
+          "personId": "person_da0dcd4b1bd92f28"
+        },
+        "wages": {
+          "minorUnits": 60000,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_f7d689d4809fe063",
+        "sourceId": "statutory-tax-liability_c4b2a6a4efed25d3",
+        "payer": {
+          "kind": "person",
+          "personId": "person_eb6285504f22c863"
+        },
+        "wages": {
+          "minorUnits": 112640,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      },
+      {
+        "id": "tax-base_83cb4932e096bc05",
+        "sourceId": "statutory-tax-liability_945ae88d7384dbc0",
+        "payer": {
+          "kind": "person",
+          "personId": "person_eb6285504f22c863"
+        },
+        "wages": {
+          "minorUnits": 112640,
+          "currency": "USD"
+        },
+        "occurredAt": "2026-01-16"
+      }
+    ],
+    "actualPayments": [
+      {
+        "id": "statutory-tax-payment_6686499c0e3d437d",
+        "liabilityId": "statutory-tax-liability_d261144e143171cf",
+        "transferId": "resource-transfer-outcome_0f4893cce972b7ac",
+        "amount": {
+          "minorUnits": 26440,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_ce5451be199810d2",
+        "liabilityId": "statutory-tax-liability_190909b129e57e9c",
+        "transferId": "resource-transfer-outcome_d8229c1a473b9290",
+        "amount": {
+          "minorUnits": 12904,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_fe98b3c0c2165f34",
+        "liabilityId": "statutory-tax-liability_1a35dafaf169ec7a",
+        "transferId": "resource-transfer-outcome_ca121e597d839ebb",
+        "amount": {
+          "minorUnits": 24482,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_802d7f121eaa0c9b",
+        "liabilityId": "statutory-tax-liability_0d0fcc6a02c407a9",
+        "transferId": "resource-transfer-outcome_5709ad2ef40590b7",
+        "amount": {
+          "minorUnits": 12097,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_70b698dfd114d5e5",
+        "liabilityId": "statutory-tax-liability_75b888e53c4a6be3",
+        "transferId": "resource-transfer-outcome_2151ba24febf201c",
+        "amount": {
+          "minorUnits": 8431,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_b3b59dc6f1c661fa",
+        "liabilityId": "statutory-tax-liability_fd453a75c64b00d0",
+        "transferId": "resource-transfer-outcome_57b9a0b09e8b30a0",
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_5e4b465227ae19d7",
+        "liabilityId": "statutory-tax-liability_cf1032466f747d31",
+        "transferId": "resource-transfer-outcome_2ed69232cd0bcd9a",
+        "amount": {
+          "minorUnits": 8431,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_71216ced32b6fa24",
+        "liabilityId": "statutory-tax-liability_10c9d29a4fb4280e",
+        "transferId": "resource-transfer-outcome_71a41d0519dff5f6",
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_150ea0e8554cb7bd",
+        "liabilityId": "statutory-tax-liability_647ea9095a34248b",
+        "transferId": "resource-transfer-outcome_75e604abcb543300",
+        "amount": {
+          "minorUnits": 31479,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_2507f0edff7a7b12",
+        "liabilityId": "statutory-tax-liability_a436e89ec1a0edd8",
+        "transferId": "resource-transfer-outcome_f1b3210d2ed5e00c",
+        "amount": {
+          "minorUnits": 15364,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_66cf318b3837045f",
+        "liabilityId": "statutory-tax-liability_079bf83b29634279",
+        "transferId": "resource-transfer-outcome_0260357042458dfa",
+        "amount": {
+          "minorUnits": 7503,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_5da97feddc97b46c",
+        "liabilityId": "statutory-tax-liability_b2f4c32e68873c16",
+        "transferId": "resource-transfer-outcome_70fc2c31a1eb19d6",
+        "amount": {
+          "minorUnits": 4925,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_42cd689f69229ed0",
+        "liabilityId": "statutory-tax-liability_ec904a4fd5232d42",
+        "transferId": "resource-transfer-outcome_d5d0a2b575b4b433",
+        "amount": {
+          "minorUnits": 1328,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_d22bdcae9c92e7b7",
+        "liabilityId": "statutory-tax-liability_0d5f56868d40eaf1",
+        "transferId": "resource-transfer-outcome_21c0a0f27812412f",
+        "amount": {
+          "minorUnits": 1263,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_67019b7412dff0ab",
+        "liabilityId": "statutory-tax-liability_232de325ee6e67c9",
+        "transferId": "resource-transfer-outcome_b40b0c14f1e26f46",
+        "amount": {
+          "minorUnits": 12625,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_a197191440e7ff88",
+        "liabilityId": "statutory-tax-liability_11f18dcd50d53f66",
+        "transferId": "resource-transfer-outcome_271b64d13aec177a",
+        "amount": {
+          "minorUnits": 6207,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_0da96fb42e817bb9",
+        "liabilityId": "statutory-tax-liability_78a3f72985ff359f",
+        "transferId": "resource-transfer-outcome_a85c4396dca8c929",
+        "amount": {
+          "minorUnits": 510,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_ebf841cbfc271c25",
+        "liabilityId": "statutory-tax-liability_c4b2a6a4efed25d3",
+        "transferId": "resource-transfer-outcome_c91d5b582b1479fc",
+        "amount": {
+          "minorUnits": 5132,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_9b0323db6549053a",
+        "liabilityId": "statutory-tax-liability_945ae88d7384dbc0",
+        "transferId": "resource-transfer-outcome_8e9181dc90478f80",
+        "amount": {
+          "minorUnits": 3116,
+          "currency": "USD"
+        }
+      }
+    ]
+  },
+  "actualPaidTotalMinor": 193005,
+  "notRun": [
+    "full suite",
+    "browser",
+    "unrelated tests",
+    "official Claude gate"
+  ],
+  "scope": "Only saved wage-income liability occurrences; no FICA-as-income label, invented event/base, second assessment, collection or repricing.",
+  "canonicalTypecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "unresolvedImports": 0,
+    "testFilesOutsideCanonicalProjects": 779
+  },
+  "cleanMainCompositionTree": "5c6dd801d4326bfe483b3d4f5f788cffed59b427"
+}

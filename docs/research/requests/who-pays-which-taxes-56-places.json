@@ -1,0 +1,47 @@
+{
+  "filedAt": "2026-09-23T01:00:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P0",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread, from lamontae's message of 2026-09-22 8:53 p.m. Eastern",
+  "notes": [
+    "Answer as one set covering 56 places: the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, plus federal taxes.",
+    "Rules only, never observations. Mark anything not found as UNKNOWN rather than borrowing another place's rule."
+  ],
+  "readFirst": {
+    "saidAt": "2026-09-23T00:53:27.000Z",
+    "saidBy": "lamontae",
+    "words": "EVERY BILL NEEDS TO HAVE AN IMPACT. refer to chatgpt.same with 2. 3 obviously everyone should. 4 fix and refer"
+  },
+  "questionId": "who-pays-which-taxes-56-places",
+  "title": "Who pays which taxes, at what rate, in every state and territory",
+  "question": "For federal taxes and for each of the 56 places and its counties and cities as a rule: which taxes are levied on people and on businesses (individual income, payroll, sales and use, property, corporate income or gross receipts, excise, local income or wage), who owes each, the base and the rate or brackets in force for the latest tax year, standard exemptions or deductions that change who pays nothing, how and when each is collected (withholding each pay period, at the register, a yearly bill, quarterly estimates), and which government receives it. Cite each and mark anything not found as UNKNOWN.",
+  "usableAnswer": "One row per tax per level per place: payer (person or business, and which), base, rate or brackets with the tax year, exemption thresholds, collection method and frequency, receiving government, citation and evidence status.",
+  "whyItMatters": "Today only the player ever pays a tax, and only after declaring their own income; no other person or business is ever assessed. lamontae said on 2026-09-22 that everyone should pay. The engine can collect from every household and business now, but every rate and base it would use has to come from this answer rather than be invented.",
+  "relatedQuestionIds": [
+    "local-income-tax-authority-56-places",
+    "which-local-governments-can-tax-income",
+    "what-each-level-of-government-may-legislate"
+  ],
+  "sourcesChecked": [
+    {
+      "source": "src/fiscal-authority/tax-powers.generated.json at main",
+      "whatItDidNotSettle": "It holds one jurisdiction, Alaska, and records a power to tax, not who pays or at what rate."
+    },
+    {
+      "source": "src/simulation/tax-policy.ts at main",
+      "whatItDidNotSettle": "Collection works, but the only tax base in play is the player's own declared income."
+    }
+  ],
+  "answer": {
+    "summary": "One nationwide set: a federal layer plus all 50 states, D.C. and the five inhabited territories, each marked YES (an official source establishes the tax), NO (an official statement of absence) or UNKNOWN. The federal layer gives TY2026 individual brackets (10 to 37 percent, single thresholds $12,400 to $640,600, standard deduction $16,100 single, $32,200 joint), Social Security 6.2 percent each side to $184,500, Medicare 1.45 percent each side with 0.9 percent additional withholding over $200,000, FUTA 6 percent on the first $7,000 less a credit of up to 5.4 percent, and a 21 percent corporate rate. Each place gets its headline individual income and general sales rates where verified (for example Iowa 3.8 percent flat and 6 percent sales, Michigan 4.25 percent and 6 percent). Rules for use: a state rate is not a local combined rate; tax year, filing year, fiscal year and effective date are separate; withholding is not final liability; territories need their own sources plus IRS Publication 570. Owner decisions (September 22): assess every person and business under the taxes that apply to them, where a lawful amount may be $0; liability and payment are separate records; unpaid balances persist, and any notice, plan, penalty or enforcement follows that place's actual law. No one is charged a tax just for existing.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-taxes-nationwide-56-jurisdictions-and-federal-2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/OWNER-DECISION-tax-assessment-and-payment-2026-09-22.md"
+    ],
+    "answeredBy": "ChatGPT (several research passes, seven priority gaps and one Vermont claim corrected against official sources)",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "This is coverage, not a rate table. Still UNKNOWN nearly everywhere: property bills, excise bases and rates, unemployment insurance rates and wage bases, exemptions and credits, collection dates, which government receives the money, local rates, and most territorial rates. Before a tax is charged in a place, that place's rule must be verified and tested through a real pay period, purchase, parcel bill or business filing in a saved game."
+  }
+}

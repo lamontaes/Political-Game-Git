@@ -1,0 +1,54 @@
+{
+  "id": "pew-2024-2025-news-habits",
+  "publisher": "Pew Research Center (Pew-Knight Initiative)",
+  "vintage": "2022 to December 2025 (American Trends Panel)",
+  "table": "Local News Fact Sheet, 'Getting news from family, friends, and neighbors'; 'How closely do Americans follow local news?'",
+  "title": "Local News Fact Sheet (survey of U.S. adults conducted Dec. 8-14, 2025) and Americans' Changing Relationship With Local News, chapter 1 (May 7, 2024)",
+  "universe": "U.S. adults",
+  "geography": "United States",
+  "sourceUrl": "https://www.pewresearch.org/journalism/fact-sheet/local-news/",
+  "retrievedOn": "2026-10-23",
+  "limits": "National only, no figure by state or town. A habit question (how often a person gets local news from other residents), not a count of stories passed per conversation, so it checks the share of adults word of mouth reaches in a played year and cannot set how many stories pass at one contact.",
+  "fromOtherResidents": {
+    "question": "% of U.S. adults who say they __ get local news and information from other local residents such as friends, family and neighbors",
+    "quote": "About three-quarters of Americans (72%) say they often or sometimes get news from other local residents, up slightly from the 66% who said the same in 2018.",
+    "methodQuote": "A 2024 Pew Research Center study found that people who get news from other local residents most commonly do so by word of mouth.",
+    "years": [
+      {
+        "year": 2025,
+        "often": 0.14,
+        "sometimes": 0.58,
+        "hardlyEver": 0.21,
+        "never": 0.07
+      },
+      {
+        "year": 2024,
+        "often": 0.18,
+        "sometimes": 0.55,
+        "hardlyEver": 0.2,
+        "never": 0.06
+      },
+      {
+        "year": 2018,
+        "often": 0.17,
+        "sometimes": 0.49,
+        "hardlyEver": 0.24,
+        "never": 0.09
+      }
+    ],
+    "band": {
+      "measure": "Share of adults who get local news from other residents at all (often, sometimes or hardly ever), the share a played year's word of mouth should reach at least once",
+      "low": 0.91,
+      "high": 0.94,
+      "unit": "share of adults",
+      "basis": "One minus the never share across the three survey years (2018 9%, 2025 7%, 2024 6%)."
+    }
+  },
+  "followMostOfTheTime": {
+    "sourceUrl": "https://www.pewresearch.org/journalism/2024/05/07/attention-to-local-news/",
+    "quote": "And the share who say they follow the news all or most of the time (whether it is local, national or some other kind of news) dropped from 51% in 2016 to 38% in 2022.",
+    "share2022": 0.38,
+    "share2016": 0.51,
+    "use": "Places the news engine's reference reader (engagement 1, follows public affairs most of the time) inside the daily news readers of data/research/news/apnorc-2014-news-frequency.json."
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "scene": "coffee-shop",
+  "size": [
+    1672,
+    940
+  ],
+  "backdrop": "coffee-shop__midday.jpg",
+  "backdrops": [
+    "coffee-shop__morning.jpg",
+    "coffee-shop__rain.jpg"
+  ],
+  "spots": [
+    {
+      "id": "coffee-shop-0",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 289,
+        "x": 1039.5,
+        "width": 60
+      },
+      "box": [
+        978,
+        289,
+        1101,
+        801
+      ],
+      "feet": 800
+    },
+    {
+      "id": "coffee-shop-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 305,
+        "x": 640.0,
+        "width": 49
+      },
+      "box": [
+        590,
+        305,
+        690,
+        720
+      ],
+      "feet": 719
+    },
+    {
+      "id": "coffee-shop-2",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 320,
+        "x": 860.0,
+        "width": 39
+      },
+      "box": [
+        820,
+        320,
+        900,
+        650
+      ],
+      "feet": 649
+    }
+  ]
+}

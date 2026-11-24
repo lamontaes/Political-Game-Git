@@ -1,0 +1,34 @@
+issues 187 with a law question 80 without 107
+Budget and taxes (7): Capital budget; Appropriations; Excise taxes; Fees and charges; Debt and bonds; Revenue sharing; Procurement and fiscal controls
+Government operations and elections (5): Ethics and disclosure; Open meetings and records; Civil service; Agency organization; Public contracting
+Education (4): School safety; Special education; Higher education governance; Career and technical education
+Health and human services (5): Health insurance access; Hospitals and providers; Public health; Child and family services; Aging and disability services
+Justice and public safety (5): Prosecution and defense; Prisons; Jails; Victim services; Emergency response
+Housing and land use (5): Zoning; Building codes; Homelessness; Redevelopment; Neighborhood planning
+Transportation, infrastructure and utilities (6): Rail; Airports and ports; Water and sewer; Stormwater; Utility regulation; Public facilities
+Business, commerce and economic development (6): Business permits; Business regulation; Consumer protection; Insurance regulation; Tourism; Downtown and industrial development
+Labor and workforce (5): Unemployment insurance; Workers' compensation; Workplace standards; Public employment; Workforce training
+Environment, energy and climate (6): Air quality; Water quality; Contaminated sites; Conservation; Disaster mitigation; Environmental permitting
+Agriculture and natural resources (5): Forestry; Fisheries and wildlife; Food safety; Agricultural markets; Rural development
+Civil, family and community policy (5): Family law; Children and youth; Arts and culture; Veterans; Community institutions
+Technology, privacy and cybersecurity (3): Cybersecurity; Telecommunications; Digital government
+Federal budget, borrowing and fiscal operations (2): Federal appropriations; Federal grants and funding conditions
+Federal taxation and revenue (2): Federal business taxation; Federal payroll, excise and estate taxes
+Monetary policy and the financial system (2): Monetary policy stance; Banking supervision and financial stability
+Defense, intelligence and military personnel (2): Military operations and war powers; Veterans' federal benefits and services
+Foreign affairs and international commitments (2): Diplomacy, recognition and international institutions; Arms control, alliances and security commitments
+Foreign trade and cross-border finance (2): Trade agreements and trade adjustment; Export controls and cross-border investment
+Immigration, citizenship and border administration (2): Citizenship and naturalization; Asylum, refugees and immigration processing
+Federal health coverage, research and standards (2): Medicaid federal requirements and financing; Public health, health research and medical-product regulation
+Retirement security and income assistance (2): Disability-related income security; Federal income and nutrition assistance
+Federal education assistance and research (2): Federal school assistance and access; Education research and national information
+Labor, enterprise and market conduct (2): Competition and market practices; Small-business and industrial support
+Federal housing and community investment (2): Mortgage finance and housing credit; Community development funding
+Transportation and water infrastructure (2): Aviation, maritime transport and national networks; Federal water-resource projects
+Energy, environment and natural resources (2): Energy systems and federal standards; Federal lands and conservation
+Agriculture, food and rural development (2): Food systems and standards; Rural development assistance
+Emergency management and domestic resilience (2): Disaster assistance to people; Disaster mitigation and preparedness
+Federal justice, rights and constitutional institutions (2): Federal civil-rights protections and remedies; Constitutional powers and institutional disputes
+Federal administration, Congress and public accountability (2): Federal agencies, civil service and contracting; Congressional procedure and oversight
+Science, space and communications (2): Federal research and space programs; Communications networks and spectrum
+Tribal relations, territories and public culture (2): Federal tribal relations and obligations; Federal cultural institutions and support

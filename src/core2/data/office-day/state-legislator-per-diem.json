@@ -1,0 +1,480 @@
+{
+  "id": "state-legislator-per-diem",
+  "asOf": "2025 (NCSL 2025 page and 2025 Oklahoma comparison for AK, AL, AR, AZ, CA, CO; NCSL 2023 table for the rest)",
+  "about": "Daily expense allowance each legislature pays its members during session, in cents; a place with no per diem is listed with basis none and zero.",
+  "sources": {
+    "ncsl2025": {
+      "url": "https://www.ncsl.org/about-state-legislatures/2025-legislator-compensation",
+      "title": "NCSL 2025 Legislator Compensation",
+      "retrieved": "2026-10-14"
+    },
+    "ncsl2023": {
+      "url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/State-Legislative-Compensation-Per-Diem-and-Mileage.pdf",
+      "title": "NCSL 2023 Legislative Compensation and Travel Expense Allowances",
+      "retrieved": "2026-10-14"
+    },
+    "okla2025": {
+      "url": "https://aem-prod.oklahoma.gov/content/dam/ok/en/omes/documents/lcb-omes-presentation-2025-10-21-UA.pdf",
+      "title": "Oklahoma 2025 legislative pay comparison with neighboring states",
+      "retrieved": "2026-10-14"
+    }
+  },
+  "places": {
+    "US-AK": {
+      "dailyMinor": 30700,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically on eligible days; taxable for some members.",
+      "source": "ncsl2025"
+    },
+    "US-AL": {
+      "dailyMinor": 10000,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Tiered by distance from home base: nothing under 6 hours away, $34 for 12+ hours with no overnight, $85 for one night, $100 a day for two or more nights; paid without receipts.",
+      "source": "ncsl2025"
+    },
+    "US-AR": {
+      "dailyMinor": 16600,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$166 a day for members living more than 50 miles from the Capitol, $59 for those within 50 miles.",
+      "source": "okla2025"
+    },
+    "US-AS": {
+      "dailyMinor": 15900,
+      "basis": "vouchered",
+      "tag": "ESTIMATED",
+      "spreadMinor": 500000,
+      "note": "Members get a per diem only with an approved travel authorization, at the federal rate, vouchered; salary is $25,000 a year.",
+      "source": "ncsl2023",
+      "estimatedFrom": "US federal (GSA) per diem order of magnitude for a single travel day, since the territory publishes no session-day figure"
+    },
+    "US-AZ": {
+      "dailyMinor": 26933,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Members outside Maricopa County get 100% of the federal per diem for Maricopa County for the first 120 days, half after; Maricopa County residents get $35. Set yearly.",
+      "source": "ncsl2025"
+    },
+    "US-CA": {
+      "dailyMinor": 23600,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically; tax exempt.",
+      "source": "ncsl2025"
+    },
+    "US-CO": {
+      "dailyMinor": 23700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$237 a day for members living more than 50 miles from the Capitol, $45 within 50 miles; vouchered; tied to the federal rate from 2025.",
+      "source": "okla2025"
+    },
+    "US-CT": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get a $40,000 annual salary and mileage.",
+      "source": "ncsl2023"
+    },
+    "US-DC": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Council members get no per diem; salary is $154,438 and out-of-town mileage is reimbursed.",
+      "source": "ncsl2023"
+    },
+    "US-DE": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get $49,202 a year and mileage.",
+      "source": "ncsl2023"
+    },
+    "US-FL": {
+      "dailyMinor": 15000,
+      "basis": "session-day",
+      "tag": "ESTIMATED",
+      "spreadMinor": 6000,
+      "note": "Rates are set by the Speaker and Senate President; amounts are not published. Salary is $18,000 a year.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Florida statute 112.061 in-state travel allowance range and the Tallahassee federal per diem; no published legislative rate"
+    },
+    "US-GA": {
+      "dailyMinor": 24700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically on eligible days.",
+      "source": "ncsl2023"
+    },
+    "US-GU": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "ESTIMATED",
+      "spreadMinor": 10000,
+      "note": "No published session per diem; senators receive a $54,080 annual salary (2019 data) and are paid travel allowances only on official off-island travel.",
+      "source": "ncsl2023",
+      "estimatedFrom": "NCSL lists no data for Guam; based on the territory paying an annual salary and travel-only allowances"
+    },
+    "US-HI": {
+      "dailyMinor": 22500,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Paid to members from outside Oahu only; tax exempt.",
+      "source": "ncsl2023"
+    },
+    "US-IA": {
+      "dailyMinor": 17500,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$175 a day, or $131.25 for members living in Polk County; paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-ID": {
+      "dailyMinor": 22100,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$221 a day for members more than 50 miles from the Capitol, $74 within 50 miles; tied to federal rates.",
+      "source": "ncsl2023"
+    },
+    "US-IL": {
+      "dailyMinor": 15700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-IN": {
+      "dailyMinor": 19600,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Vouchered daily rate tied to the federal rate; members may also claim it outside session.",
+      "source": "ncsl2023"
+    },
+    "US-KS": {
+      "dailyMinor": 15700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Paid automatically on session days, on top of a $86.66 daily salary.",
+      "source": "ncsl2023"
+    },
+    "US-KY": {
+      "dailyMinor": 20328,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$203.28 a day for members sworn in after 2023 ($188.22 before); paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-LA": {
+      "dailyMinor": 17500,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Changes with the federal rate each Oct 1.",
+      "source": "ncsl2023"
+    },
+    "US-MA": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get an annual expense allowance of $15,000 (within 50 miles) or $20,000 (beyond).",
+      "source": "ncsl2023"
+    },
+    "US-MD": {
+      "dailyMinor": 17100,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Lodging $108 plus meals $63 a day, reimbursed with receipts.",
+      "source": "ncsl2023"
+    },
+    "US-ME": {
+      "dailyMinor": 12000,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$70 a day lodging (or round-trip mileage instead) plus $50 meals, vouchered.",
+      "source": "ncsl2023"
+    },
+    "US-MI": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get a $10,800 yearly expense allowance, vouchered.",
+      "source": "ncsl2023"
+    },
+    "US-MN": {
+      "dailyMinor": 7600,
+      "basis": "session-day",
+      "tag": "ESTIMATED",
+      "spreadMinor": 1000,
+      "note": "House members get $66 a day and senators $86; the midpoint is used for a combined legislature.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Average of the $66 House and $86 Senate rates"
+    },
+    "US-MO": {
+      "dailyMinor": 12560,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-MP": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Members do not receive a per diem; salary is $32,000 a year (2023 NCSL).",
+      "source": "ncsl2023"
+    },
+    "US-MS": {
+      "dailyMinor": 15700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Tied to the federal rate; House members must be present at roll call.",
+      "source": "ncsl2023"
+    },
+    "US-MT": {
+      "dailyMinor": 17100,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Paid automatically on top of a $104.86 daily salary.",
+      "source": "ncsl2023"
+    },
+    "US-NC": {
+      "dailyMinor": 10400,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-ND": {
+      "dailyMinor": 20500,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$205 a day from July 2023 ($193 before).",
+      "source": "ncsl2023"
+    },
+    "US-NE": {
+      "dailyMinor": 15100,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$151 a day for members more than 50 miles from the Capitol, $55 within 50 miles; tied to federal rates.",
+      "source": "ncsl2023"
+    },
+    "US-NH": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; the annual salary is $100 and members can claim mileage.",
+      "source": "ncsl2023"
+    },
+    "US-NJ": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get $49,000 a year and no mileage.",
+      "source": "ncsl2023"
+    },
+    "US-NM": {
+      "dailyMinor": 5900,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Unsalaried legislature; vouchered daily allowance (2023 figure).",
+      "source": "ncsl2023"
+    },
+    "US-NV": {
+      "dailyMinor": 15500,
+      "basis": "session-day",
+      "tag": "ESTIMATED",
+      "spreadMinor": 5000,
+      "note": "Set by NRS 218A.630 at a federal-linked rate; the amount is not published in the NCSL table. Salary is $130 per session day.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Carson City federal (GSA) lodging plus meals, since the statute ties the allowance to the federal rate"
+    },
+    "US-NY": {
+      "dailyMinor": 19000,
+      "basis": "session-day",
+      "tag": "ESTIMATED",
+      "spreadMinor": 5000,
+      "note": "Members receive a per diem under Senate and Assembly guidelines; NCSL lists no amount.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Albany federal (GSA) per diem order of magnitude; no published legislative rate"
+    },
+    "US-OH": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get $69,876 a year and mileage if they live outside Franklin County.",
+      "source": "ncsl2023"
+    },
+    "US-OK": {
+      "dailyMinor": 16800,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Reimbursed with receipts.",
+      "source": "ncsl2023"
+    },
+    "US-OR": {
+      "dailyMinor": 15700,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Paid automatically on eligible days.",
+      "source": "ncsl2023"
+    },
+    "US-PA": {
+      "dailyMinor": 18100,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate.",
+      "source": "ncsl2023"
+    },
+    "US-PR": {
+      "dailyMinor": 10000,
+      "basis": "session-day",
+      "tag": "ESTIMATED",
+      "spreadMinor": 8000,
+      "note": "NCSL lists no data for Puerto Rico; legislators receive session allowances (dietas) set by law.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Order of magnitude of a Commonwealth legislative session-day allowance; no published figure found"
+    },
+    "US-RI": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "No per diem; members get $17,626.63 a year and mileage.",
+      "source": "ncsl2023"
+    },
+    "US-SC": {
+      "dailyMinor": 17600,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Vouchered; tax exempt for some members.",
+      "source": "ncsl2023"
+    },
+    "US-SD": {
+      "dailyMinor": 15700,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Paid to members who live more than 50 miles from the Capitol; tax exempt.",
+      "source": "ncsl2023"
+    },
+    "US-TN": {
+      "dailyMinor": 31300,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$313 a day for members living 50 or more miles from the Capitol, $79 within 50 miles.",
+      "source": "ncsl2023"
+    },
+    "US-TX": {
+      "dailyMinor": 22100,
+      "basis": "calendar-day-in-session",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-UT": {
+      "dailyMinor": 5400,
+      "basis": "vouchered",
+      "tag": "ESTIMATED",
+      "spreadMinor": 1000000,
+      "note": "Paid on receipts: breakfast up to $13, lunch $15, dinner $26, plus lodging and mileage; salary is $293.55 per legislative day.",
+      "source": "ncsl2023",
+      "estimatedFrom": "Meal caps only; lodging is reimbursed on top at actual cost"
+    },
+    "US-VA": {
+      "dailyMinor": 20900,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-VI": {
+      "dailyMinor": 0,
+      "basis": "none",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Members do not receive a per diem; salary is $85,000 a year.",
+      "source": "ncsl2023"
+    },
+    "US-VT": {
+      "dailyMinor": 20300,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Meals $69 a day plus lodging $134 a night, reimbursed with receipts.",
+      "source": "ncsl2023"
+    },
+    "US-WA": {
+      "dailyMinor": 19000,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Flat daily rate paid automatically.",
+      "source": "ncsl2023"
+    },
+    "US-WI": {
+      "dailyMinor": 15570,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "House overnight rate; $77.85 non-overnight. Senate is up to $140 a day (Dane County half).",
+      "source": "ncsl2023"
+    },
+    "US-WV": {
+      "dailyMinor": 17500,
+      "basis": "session-day",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "$175 a day for members who do not commute daily, $75 for those who do.",
+      "source": "ncsl2023"
+    },
+    "US-WY": {
+      "dailyMinor": 10900,
+      "basis": "vouchered",
+      "tag": "SOURCED",
+      "spreadMinor": 0,
+      "note": "Vouchered; paid on top of a $150 daily salary.",
+      "source": "ncsl2023"
+    }
+  }
+}

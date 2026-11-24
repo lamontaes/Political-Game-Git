@@ -1,0 +1,92 @@
+{
+  "id": "jpmci-cash-buffer-days-2016",
+  "publisher": "JPMorgan Chase Institute",
+  "vintage": "February to October 2015 account observations; published September 2016",
+  "table": "Figure 5 (distribution of cash buffer days, printed page 14, PDF page 16) and Figure 7 (quartiles by industry, printed page 16, PDF page 18)",
+  "title": "Cash Is King: Flows, Balances, and Buffer Days",
+  "universe": "597,000 small, core metropolitan operating businesses holding Chase Business Banking deposit accounts in 12 selected industries, employer and nonemployer",
+  "geography": "United States, businesses located in one of 367 metropolitan areas",
+  "sourceUrl": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+  "sourceSha256": "e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7",
+  "retrievedOn": "2026-10-23",
+  "limits": "Figure 5 is a drawn density outline with no printed scale on its vertical axis and no table behind it. The outline below is the figure's own vector path (seven cubic Bezier segments read from PDF page 16 with pdftocairo), in PDF points; days come from the printed axis ticks (0 at x 52.8848, 100 at x 554.3446) and density is the height above the baseline (y 687.296875). The three quartile regions the figure draws hold 26.5, 24.2 and 24.3 percent of the area under the outline between 0 and 62 days, close to the 25 percent each that the printed quartiles require, so the outline is read as the cohort's smoothed distribution, not as an exact one. The figure stops at 100 days; the share above 100 days is 25 percent less the share drawn between 62 and 100 days. One all-industries outline: the report draws no per-industry tail. Cash buffer days are average daily balance over average daily ALL cash outflows in the Chase sample, not payroll and accounting costs of a generated employer.",
+  "quotes": [
+    "The median small business holds 27 cash buffer days in reserve.",
+    "Moreover, 25 percent of small businesses hold fewer than 13 cash buffer days in reserve.",
+    "In contrast, 25 percent of small businesses hold over 62 cash buffer days in reserve.",
+    "Figure 5 illustrates the overall distribution of cash buffer days across our sample.",
+    "In most industries, the small business at the 75th percentile holds approximately twice as many cash buffer days than the median small business."
+  ],
+  "quartiles": {
+    "industry": "all-small-businesses",
+    "percentile25": 13,
+    "median": 27,
+    "percentile75": 62,
+    "unit": "cash buffer days",
+    "quote": "All Small Businesses 13 DAYS 27 DAYS 62 DAYS (Figure 7)"
+  },
+  "figure5": {
+    "pdfPage": 16,
+    "printedPage": 14,
+    "axis": {
+      "zeroDaysX": 52.8848,
+      "hundredDaysX": 554.3446,
+      "baselineY": 687.296875
+    },
+    "quartileMarkersX": {
+      "percentile25": 118.2416,
+      "median": 188.2216,
+      "percentile75": 363.67
+    },
+    "outline": [
+      [
+        [52.792969, 669.859375],
+        [61.859375, 662.46875],
+        [73.824219, 497.984375],
+        [77.085938, 452.609375]
+      ],
+      [
+        [77.085938, 452.609375],
+        [80.351562, 407.234375],
+        [89.050781, 404.757812],
+        [93.914062, 404.757812]
+      ],
+      [
+        [93.914062, 404.757812],
+        [98.710938, 404.757812],
+        [105.910156, 417.328125],
+        [118.296875, 446.617188]
+      ],
+      [
+        [118.296875, 446.617188],
+        [118.460938, 447.003906],
+        [118.621094, 447.382812],
+        [118.785156, 447.777344]
+      ],
+      [
+        [118.785156, 447.777344],
+        [132.960938, 481.421875],
+        [163.410156, 537.953125],
+        [189.128906, 566.417969]
+      ],
+      [
+        [189.128906, 566.417969],
+        [216.683594, 596.914062],
+        [280.863281, 631.128906],
+        [363.671875, 647.460938]
+      ],
+      [
+        [363.671875, 647.460938],
+        [446.476562, 663.789062],
+        [554.617188, 669.109375],
+        [554.617188, 669.109375]
+      ]
+    ]
+  },
+  "conversion": {
+    "parameter": "openingEmployerCashBufferTailSpan",
+    "reads": "src/core2/opening-capital.ts openingEmployerCashBufferAtQuantile: high = q75 + tailSpan * (q75 - median), with the quantile curve straight from q75 at rank 0.75 to high at rank 1, and low = max(0, q25 - tailSpan * (median - q25)).",
+    "method": "Integrate the outline over 0-13, 13-27, 27-62 and 62-100 days. With each drawn quartile region worth 25 percent of firms, the share between 62 and 100 days is m = 0.25 * area(62-100) / area per quartile. The engine's straight upper segment puts 0.25 * (100 - 62) / (high - 62) of firms there, so high - 62 = 9.5 / m and tailSpan = (high - 62) / (62 - 27). Value: the area per quartile is the mean of the three drawn regions. Spread: each drawn region taken alone as the 25 percent unit.",
+    "checkedBy": "scripts/research/opening-capital-tail-span.ts"
+  }
+}

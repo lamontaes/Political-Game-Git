@@ -1,0 +1,33 @@
+{
+  "control": {
+    "detail": "Nothing moves them, and the page says so in its own words: reading it does not change a budget, grant fiscal authority, or move time.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "entryId": "budgets",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "hardcoded-content audit",
+  "measurements": [
+    {
+      "at": "reported by the hardcoded-content audit lane on 2026-09-22; that report named no tree, so this reading is carried and not anchored here",
+      "found": "System and numbers present, no control, and the page states its own read-only nature to the player.",
+      "what": "The hardcoded-content audit lane's reading of the budget page and what it declares about itself"
+    }
+  ],
+  "notes": [
+    "Worth preserving rather than 'fixing' blind: a read-only screen that says it is read-only is honest. What is missing is the control, not a correction to the page."
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "A player can read a budget and cannot touch it. This is the wiring case — the model and the display both exist and nothing joins a player to them.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "A page showing them.",
+    "present": true
+  },
+  "system": {
+    "detail": "A model underneath, and real numbers.",
+    "present": true
+  },
+  "title": "Budgets"
+}

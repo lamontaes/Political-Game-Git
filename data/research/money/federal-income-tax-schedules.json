@@ -1,0 +1,117 @@
+{
+  "baselineTaxYear": 2026,
+  "records": [
+    {
+      "taxYear": 2026,
+      "schedules": {
+        "single": {
+          "standardDeductionMinor": 1610000,
+          "brackets": [
+            {
+              "overMinor": 0,
+              "rateBasisPoints": 1000
+            },
+            {
+              "overMinor": 1240000,
+              "rateBasisPoints": 1200
+            },
+            {
+              "overMinor": 5040000,
+              "rateBasisPoints": 2200
+            },
+            {
+              "overMinor": 10570000,
+              "rateBasisPoints": 2400
+            },
+            {
+              "overMinor": 20177500,
+              "rateBasisPoints": 3200
+            },
+            {
+              "overMinor": 25622500,
+              "rateBasisPoints": 3500
+            },
+            {
+              "overMinor": 64060000,
+              "rateBasisPoints": 3700
+            }
+          ],
+          "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
+        },
+        "married-filing-jointly": {
+          "standardDeductionMinor": 3220000,
+          "brackets": [
+            {
+              "overMinor": 0,
+              "rateBasisPoints": 1000
+            },
+            {
+              "overMinor": 2480000,
+              "rateBasisPoints": 1200
+            },
+            {
+              "overMinor": 10080000,
+              "rateBasisPoints": 2200
+            },
+            {
+              "overMinor": 21140000,
+              "rateBasisPoints": 2400
+            },
+            {
+              "overMinor": 40355000,
+              "rateBasisPoints": 3200
+            },
+            {
+              "overMinor": 51245000,
+              "rateBasisPoints": 3500
+            },
+            {
+              "overMinor": 76870000,
+              "rateBasisPoints": 3700
+            }
+          ],
+          "sourceUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
+        },
+        "head-of-household": {
+          "standardDeductionMinor": 2415000,
+          "brackets": [
+            {
+              "overMinor": 0,
+              "rateBasisPoints": 1000
+            },
+            {
+              "overMinor": 1770000,
+              "rateBasisPoints": 1200
+            },
+            {
+              "overMinor": 6745000,
+              "rateBasisPoints": 2200
+            },
+            {
+              "overMinor": 10570000,
+              "rateBasisPoints": 2400
+            },
+            {
+              "overMinor": 20175000,
+              "rateBasisPoints": 3200
+            },
+            {
+              "overMinor": 25620000,
+              "rateBasisPoints": 3500
+            },
+            {
+              "overMinor": 64060000,
+              "rateBasisPoints": 3700
+            }
+          ],
+          "sourceUrl": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf"
+        }
+      }
+    }
+  ],
+  "estimate": {
+    "estimatedFrom": "Internal Revenue Service, Revenue Procedure 2025-32: median of compiled federal income-tax schedules",
+    "sampleTaxYears": [2026],
+    "uncompiled": "Other tax years and their inflation adjustments are not compiled; a one-year numerical sample supplies the marked median estimate."
+  }
+}

@@ -1,0 +1,373 @@
+{
+  "meta": {
+    "title": "Measured effects of ban the box: hiring, statistical discrimination, public sector, recidivism",
+    "gatheredBy": "Legislation session research sub-agent",
+    "status": "PARTIAL: every figure is from a page fetched Nov 8, 2026; several papers' full texts returned 403, so their figures come from abstracts or from Kaestner and Wang's summary; Craigie and Kaestner and Wang disagree on the public-sector effect (about 30% versus about 60%); the share of public applications that ask, earnings effects and recidivism effect sizes were NOT FOUND."
+  },
+  "asOf": "2026-11",
+  "findings": [
+    {
+      "outcome": "Callback penalty of a felony record where employer still asks (no BTB)",
+      "estimate": "63% higher callback for applicants without record (5.2 pp over 8.2% baseline with record)",
+      "unit": "percent / percentage points",
+      "se_or_ci": "employers that ask about criminal records were 63% more likely to call back an applicant if he has no record",
+      "population": "significant (Table 2 col 4); SE not extracted",
+      "years": "~15,000 fictitious online applications to NJ and NYC employers (mostly large retail chains) with the box",
+      "paper": "2014-2016",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Race gap in callbacks at employers with the box, before BTB",
+      "estimate": "white 7% more callbacks than black (perfect-quad sample: gap 0.7 pp, 6.7%)",
+      "unit": "percent",
+      "se_or_ci": "Before BTB, white applicants to employers with the box received 7% more callbacks than similar black applicants",
+      "population": "not extracted",
+      "years": "same experiment, treated (box-asking) employers",
+      "paper": "pre-BTB 2015",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Race gap in callbacks at treated employers after BTB (statistical discrimination)",
+      "estimate": "gap rises to 45% (triple-difference 3.7 pp, 4.0 pp in perfect-quad sample); overall callback 11.7%",
+      "unit": "percent / percentage points",
+      "se_or_ci": "BTB increases this gap to 45%.",
+      "population": "triple-diff 0.0371, SE 0.0180 (Table 4 col 1), ** significant; perfect-quad 0.0399, SE 0.0200",
+      "years": "same experiment",
+      "paper": "post-BTB 2015-2016",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Callbacks for black applicants WITHOUT records at treated employers, pre vs post BTB",
+      "estimate": "12.7% to 11% (-1.7 pp, 13% decrease); white without records 13.8% to 15%",
+      "unit": "percent",
+      "se_or_ci": "Callback rates for black applicants without records decrease 12.7% to 11% (-1.7 pp or a 13% decrease)",
+      "population": "descriptive, not tested",
+      "years": "same experiment",
+      "paper": "2015-2016",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Callbacks for applicants WITH records at treated employers, pre vs post BTB",
+      "estimate": "black with record 8.4% to 11% (+2.6 pp, 31%); white with record 8.8% to 15% (+6.2 pp, 70%); untreated employers rose 1.3 pp",
+      "unit": "percent",
+      "se_or_ci": "for white applicants with records they increase from 8.8% to 15% (+6.2 pp or a 70% increase)",
+      "population": "descriptive",
+      "years": "same experiment",
+      "paper": "2015-2016",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Employment of young low-skilled black men after BTB (CPS, state/local BTB mostly public-employer)",
+      "estimate": "-3.4 pp (-5.1% of baseline)",
+      "unit": "percentage points",
+      "se_or_ci": "BTB policies decrease the probability of being employed by 3.4 percentage points (5.1%) for young, low-skilled black men",
+      "population": "p<0.05",
+      "years": "men 25-34 without college degree, Black, in MSAs treated by any BTB",
+      "paper": "CPS 2004-2014",
+      "url": "Doleac & Hansen, 'Does Ban the Box Help or Hurt Low-Skilled Workers?' NBER WP 22469 (July 2016; published J. Labor Economics 38(2), 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Employment of young low-skilled Hispanic men after BTB",
+      "estimate": "-2.3 pp (-2.9%)",
+      "unit": "percentage points",
+      "se_or_ci": "by 2.3 percentage points (2.9%) for young, low-skilled Hispanic men",
+      "population": "p<0.10 (marginal)",
+      "years": "Hispanic men 25-34 no college degree",
+      "paper": "CPS 2004-2014",
+      "url": "Doleac & Hansen, 'Does Ban the Box Help or Hurt Low-Skilled Workers?' NBER WP 22469 (July 2016; published J. Labor Economics 38(2), 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Employment of older (35-64) low-skilled black men after BTB",
+      "estimate": "+2.8 pp (+4.3%)",
+      "unit": "percentage points",
+      "se_or_ci": "BTB increases black male employment by a statistically significant 2.8 percentage points (4.3%).",
+      "population": "statistically significant",
+      "years": "Black men 35-64 without college degree",
+      "paper": "CPS 2004-2014",
+      "url": "Doleac & Hansen, 'Does Ban the Box Help or Hurt Low-Skilled Workers?' NBER WP 22469 (July 2016; published J. Labor Economics 38(2), 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Employment of low-skilled white men after BTB (benefit to whites, mechanism check)",
+      "estimate": "white men in group +3.9 pp (5.6%)",
+      "unit": "percentage points",
+      "se_or_ci": "On average, white men in this group are 3.9 percentage points (5.6%) more likely",
+      "population": "see paper",
+      "years": "young low-skilled white men",
+      "paper": "CPS 2004-2014",
+      "url": "Doleac & Hansen, 'Does Ban the Box Help or Hurt Low-Skilled Workers?' NBER WP 22469 (July 2016; published J. Labor Economics 38(2), 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Public-sector employment of people WITH convictions after BTB",
+      "estimate": "about +30% on average per the Smith abstract; the next row's review (Kaestner & Wang) reports +4 pp (about 60%). The two do not match, so use the range.",
+      "unit": "percentage points / percent",
+      "se_or_ci": "BTB policies raise the probability of public employment for those with convictions by about 30% on average.",
+      "population": "not extracted",
+      "years": "NLSY97 respondents with convictions, avg age 29",
+      "paper": "NLSY97 2005-2015",
+      "url": "https://scholarworks.smith.edu/eco_facpubs/68",
+      "quote": "https://scholarworks.smith.edu/eco_facpubs/68; https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Craigie quoted by Kaestner-Wang: public job probability for those with convictions",
+      "estimate": "+4 pp, 'about 60%'",
+      "unit": "percentage points",
+      "se_or_ci": "a BTB law increased the probability of holding a public sector job by four percentage points, or about 60%.",
+      "population": "not extracted",
+      "years": "young adults with conviction (avg age 29)",
+      "paper": "to 2015",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Statistical discrimination test in Craigie (triple-difference)",
+      "estimate": "no evidence of statistical discrimination against young low-skilled minority males",
+      "unit": "n/a",
+      "se_or_ci": "uncovers no evidence to support the hypothesis",
+      "population": "not extracted",
+      "years": "NLSY97",
+      "paper": "2005-2015",
+      "url": "Craigie 2020 (Smith College abstract)",
+      "quote": "https://scholarworks.smith.edu/eco_facpubs/68",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Employment in high-crime neighborhoods after BTB; public sector largest",
+      "estimate": "up to +4% employment of residents; 'particularly large in the public sector' and lower-wage jobs",
+      "unit": "percent",
+      "se_or_ci": "increased employment of residents in high-crime neighborhoods by up to 4 percent",
+      "population": "not extracted (abstract only fetched)",
+      "years": "residents of high-crime neighborhoods, nationwide local/state BTB",
+      "paper": "not in fetched abstract",
+      "url": "Shoag & Veuger, 'Ban-the-Box Measures Help High-Crime Neighborhoods', J. Law & Economics 64(1), 2021",
+      "quote": "https://chicagounbound.uchicago.edu/jle/vol64/iss1/4",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Massachusetts BTB (all employers) employment of people with arrest records",
+      "estimate": "-2 to -3 pp (-4 to -6%)",
+      "unit": "percentage points",
+      "se_or_ci": "associated with a two to three percentage point (four to six percent) decrease in employment among those with a criminal record",
+      "population": "not extracted; KW notes parallel-trends assumption questionable",
+      "years": "people with arrest record (convictions and non), Massachusetts",
+      "paper": "not in fetched text",
+      "url": "Jackson & Zhao (2017), as reported in Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Seattle 2013 BTB (all employers) effect on ex-offenders",
+      "estimate": "negligible / no significant employment effect; convictions themselves cut employment and earnings",
+      "unit": "n/a",
+      "se_or_ci": "had negligible impacts on ex-offenders' labor market outcomes",
+      "population": "not extracted",
+      "years": "incarcerated/paroled/supervised persons, Seattle (administrative data)",
+      "paper": "law 2013",
+      "url": "Rose, 'Does Banning the Box Help Ex-Offenders Get Jobs?', J. Labor Economics 2021 (abstract via Semantic Scholar API)",
+      "quote": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1086/708063?fields=title,abstract",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Re-estimate of Doleac-Hansen with ACS and corrected law coding",
+      "estimate": "no discrimination: employment effects near zero, precisely estimated",
+      "unit": "n/a",
+      "se_or_ci": "we find no evidence of BTB-related discrimination: employment effects are near zero, precisely estimated",
+      "population": "precisely estimated near zero (numbers not in fetched abstract)",
+      "years": "young Black/Hispanic men, ACS",
+      "paper": "not in fetched abstract",
+      "url": "Burton & Wasser, 'Revisiting the unintended consequences of Ban the Box', J. Public Economics 2025 (SSRN 4910518 abstract via Crossref API)",
+      "quote": "https://api.crossref.org/works/10.2139/ssrn.4910518",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Any BTB law, all employers, 2004-2019, young Black men",
+      "estimate": "-2 pp (-3%), not significant; 2004-2014 about -3 to -4 pp (p<0.10); 2014-2019 +2 pp (+3%)",
+      "unit": "percentage points",
+      "se_or_ci": "no systematic or statistically significant association with employment of low-educated men, both young and old",
+      "population": "insignificant overall",
+      "years": "low-educated men 25-34, CPS",
+      "paper": "2004-2019",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "State and local public-sector BTB laws, effect on young Black men's employment",
+      "estimate": "no statistically significant or economically meaningful effect",
+      "unit": "n/a",
+      "se_or_ci": "had no statistically significant or economically meaningful effect on this type of employment among young Black men",
+      "population": "insignificant",
+      "years": "Black men 25-34 low-educated",
+      "paper": "2004-2019",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Coverage of BTB by employer type",
+      "estimate": "by 2019 ~26% of low-educated men 25-34 covered by private-employer BTB; 45% by law covering all public-sector jobs",
+      "unit": "percent of workers",
+      "se_or_ci": "approximately 26% of low-educated men aged 25 to 34 are covered by a BTB law applicable to private employment and 45%",
+      "population": "n/a",
+      "years": "low-educated men 25-34",
+      "paper": "2019",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Public sector share of employment (scale of treated jobs)",
+      "estimate": "less than 5% of all employment (authors' statement)",
+      "unit": "percent",
+      "se_or_ci": "employment in the public sector is less than 5% all employment",
+      "population": "n/a",
+      "years": "US employment",
+      "paper": "2004-2014",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Recidivism: BTB at release and re-offending",
+      "estimate": "no overall reduction; higher recidivism for black ex-offenders released into BTB labor market, little/no effect for whites",
+      "unit": "n/a",
+      "se_or_ci": "associated with higher rates of recidivism for black ex-offenders, with little to no effect for white ex-offenders",
+      "population": "effect sizes not in fetched abstract",
+      "years": "released prisoners, administrative prison data",
+      "paper": "not in fetched abstract",
+      "url": "Sherrard, ''Ban the Box' Policies and Criminal Recidivism', SSRN 2020 (abstract via Semantic Scholar API)",
+      "quote": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.2139/ssrn.3515048?fields=title,abstract",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "BTB and crime (arrests)",
+      "estimate": "+10% in criminal incidents involving Hispanic male arrestees; no increase in property crime among African American men",
+      "unit": "percent",
+      "se_or_ci": "BTB laws are associated with a 10 percent increase in criminal incidents involving Hispanic male arrestees",
+      "population": "not extracted",
+      "years": "NIBRS agency-month data; NLSY97",
+      "paper": "state/local BTB laws, years not in fetched snippet",
+      "url": "Sabia, Mackay, Nguyen & Dave, 'Do Ban the Box Laws Increase Crime?' NBER WP 24381 (2018, rev. 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w24381/w24381.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Population affected: adults with a criminal record",
+      "estimate": "70 million adults (media estimate); 64% of unemployed men by age 35 have an arrest, 46% a conviction (Bushway et al. 2022)",
+      "unit": "persons / percent",
+      "se_or_ci": "A frequent estimate found in the media is that 70 million adults have a criminal record",
+      "population": "n/a",
+      "years": "US adults / unemployed men",
+      "paper": "as cited 2015, 2022",
+      "url": "Kaestner & Wang, 'Ban-the-Box Laws: Fair and Effective?' NBER WP 32273 (Mar 2024)",
+      "quote": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Population affected: felony conviction by race",
+      "estimate": "25% of US black population vs 6% of non-black population (Shannon et al. 2011, cited); arrest by 23: 49% of black men vs 38% of white men (Brame et al. 2014, cited)",
+      "unit": "percent",
+      "se_or_ci": "Shannon et al. (2011) estimate that 25% of the U.S. black population has a felony conviction, compared with only 6%",
+      "population": "n/a",
+      "years": "US",
+      "paper": "cited",
+      "url": "Agan & Starr, 'Ban the Box, Criminal Records, and Statistical Discrimination: A Field Experiment' (Aug 2016 working-paper version fetched; published QJE 133(1), 2018, doi 10.1093/qje/qjx028)",
+      "quote": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Reach of BTB policies",
+      "estimate": "37 states and over 150 cities and counties; 37 states apply to public-sector employment; over 267 million people (more than four-fifths) live in covered jurisdictions",
+      "unit": "jurisdictions / persons",
+      "se_or_ci": "over 267 million people in the United States—more than four-fifths of the U.S. population—live in a jurisdiction",
+      "population": "n/a",
+      "years": "US",
+      "paper": "as of Oct 2021",
+      "url": "Avery & Lu, NELP, 'Ban the Box: U.S. Cities, Counties, and States Adopt Fair Hiring Policies'",
+      "quote": "https://www.nelp.org/publication/ban-the-box-fair-chance-hiring-state-and-local-guide/",
+      "tag": "SOURCED"
+    },
+    {
+      "outcome": "Federal and state coverage as of 2015",
+      "estimate": "34 states and DC had BTB by Dec 2015; federal jobs banned the box late 2015",
+      "unit": "jurisdictions",
+      "se_or_ci": "similar policies exist in 34 states and the District of Columbia",
+      "population": "n/a",
+      "years": "US",
+      "paper": "Dec 2015",
+      "url": "Doleac & Hansen, 'Does Ban the Box Help or Hurt Low-Skilled Workers?' NBER WP 22469 (July 2016; published J. Labor Economics 38(2), 2020)",
+      "quote": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "tag": "SOURCED"
+    }
+  ],
+  "notFound": [
+    "Share of public-job applications that ask about criminal history: NOT FOUND in any fetched page",
+    "Earnings effects of BTB on people with records (Rose abstract says only 'negligible'; no figure)",
+    "Recidivism effect size (Sherrard): only abstract fetched, no coefficient",
+    "Jackson & Zhao (2017) primary page: not fetched; figures come from Kaestner & Wang's summary",
+    "Shoag & Veuger full text, Craigie full text, Rose full text, Agan-Starr QJE page (403 from publisher): only abstracts/secondary",
+    "Share of all US adults with a criminal record from a primary source (CEPR/Shannon pages 403/captcha); only cited figures in fetched papers",
+    "Agan-Starr value above is the Aug 2016 working paper, not the QJE final numbers"
+  ],
+  "sources": [
+    {
+      "url": "http://s3.amazonaws.com/fieldexperiments-papers2/papers/00539.pdf",
+      "what": "Agan & Starr 2016 working paper PDF (field experiment)"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w22469/w22469.pdf",
+      "what": "Doleac & Hansen NBER PDF"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w32273/w32273.pdf",
+      "what": "Kaestner & Wang NBER PDF (review of Craigie, Jackson-Zhao, Rose, Shoag-Veuger)"
+    },
+    {
+      "url": "https://www.nber.org/system/files/working_papers/w24381/w24381.pdf",
+      "what": "Sabia et al. NBER PDF"
+    },
+    {
+      "url": "https://scholarworks.smith.edu/eco_facpubs/68",
+      "what": "Craigie abstract page"
+    },
+    {
+      "url": "https://chicagounbound.uchicago.edu/jle/vol64/iss1/4",
+      "what": "Shoag & Veuger abstract page"
+    },
+    {
+      "url": "https://www.nelp.org/publication/ban-the-box-fair-chance-hiring-state-and-local-guide/",
+      "what": "NELP guide"
+    },
+    {
+      "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1086/708063?fields=title,abstract",
+      "what": "Rose abstract"
+    },
+    {
+      "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.2139/ssrn.3515048?fields=title,abstract",
+      "what": "Sherrard abstract"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.2139/ssrn.4910518",
+      "what": "Burton & Wasser abstract"
+    }
+  ]
+}

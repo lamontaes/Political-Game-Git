@@ -1,0 +1,21 @@
+{
+  "baseline": "16d1176f9cb09074e97a008613d47e1d133e00c8",
+  "candidate": "dfc80ac29f20f02999633897ac10af504c8d6888",
+  "items": 149,
+  "ruleItems": 72,
+  "baselineExit": 0,
+  "candidateExit": 0,
+  "statusIdsMoved": [],
+  "checksChanged": [
+    {
+      "id": "A125",
+      "statusBefore": "partly",
+      "statusAfter": "partly",
+      "checksBefore": 8,
+      "checksAfter": 11
+    }
+  ],
+  "candidateMillis": 110868,
+  "baselineMillis": 89674,
+  "qualification": "exact unchanged scan/rules using Git-object filesystem adapter; no runtime/effect/closure proof"
+}

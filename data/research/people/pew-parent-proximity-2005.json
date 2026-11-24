@@ -1,0 +1,17 @@
+{
+  "id": "pew-parent-proximity-2005",
+  "publisher": "Pew Research Center",
+  "vintage": "Telephone survey, Oct. 5 to Nov. 6, 2005",
+  "table": "Report summary (Feb. 21, 2006)",
+  "title": "Families Drawn Together By Communication Revolution",
+  "universe": "3,014 U.S. adults, nationally representative; the figure is among those with a living parent",
+  "geography": "United States",
+  "sourceUrl": "https://www.pewresearch.org/social-trends/2006/02/21/families-drawn-together-by-communication-revolution/",
+  "retrievedOn": "2026-10-24",
+  "limits": "Distance is self-reported as within an hour's drive, not a county. National only. The share of parents near an adult child quoted in earlier notes is not on this page and is not used.",
+  "nearParent": {
+    "percent": 65,
+    "quote": "Sixty-five percent of respondents in the Pew survey who have a living parent say they live within an hour’s drive of that parent."
+  },
+  "use": "SG-P15-kin-generation: the band the share of residents whose living parent lives in their county is reported against (scripts/research/people-year.ts); the builder item people-kin-placement-by-distance places relatives by it."
+}

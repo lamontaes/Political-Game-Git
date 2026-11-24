@@ -1,0 +1,629 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "purpose": "Research menu for candidate actions. This file is not a simulation rule pack.",
+  "evidencePolicy": {
+    "sourceFacts": "Sources establish that an activity is used in campaigns. They do not establish a universal action duration, price, contact rate, or electoral effect.",
+    "unknowns": "null minutes and dollars mean no defensible national value was found. They must not be read as zero.",
+    "jurisdiction": "NDI manuals describe general campaign practice, including outside the United States. Federal FEC rules apply only where indicated. State and local compliance must be checked before implementation.",
+    "gameplay": "Any later hours, cash costs, or effects are recommended gameplay calibration and require separate labeled data."
+  },
+  "sources": {
+    "ndi-voter-contact": {
+      "title": "Campaign Skills Trainer's Guide, Module 4: Voter Contact",
+      "publisher": "National Democratic Institute",
+      "url": "https://www.ndi.org/sites/default/files/sites/default/files/Module%204_Voter%20Contact_0.pdf",
+      "supports": "Door canvassing, voter surveys, calls, literature, community meetings, festivals, social media, press, ads, and targeted get-out-the-vote contacts."
+    },
+    "ndi-communications": {
+      "title": "Campaign Skills Trainer's Guide, Module 8: Building a Communications Strategy",
+      "publisher": "National Democratic Institute",
+      "url": "https://www.ndi.org/sites/default/files/Module%208_Building%20a%20Communications%20Strategy.pdf",
+      "supports": "Media events, press outreach, reporter interviews, and online communication."
+    },
+    "ndi-planning": {
+      "title": "Campaign Skills Trainer's Guide, Module 9: Campaign Planning",
+      "publisher": "National Democratic Institute",
+      "url": "https://www.ndi.org/sites/default/files/sites/default/files/Module%209_Campaign%20Planning_EN_0.pdf",
+      "supports": "Campaign schedules, volunteer recruitment, field roles, voter lists, and election-day deployment."
+    },
+    "ndi-resources": {
+      "title": "Campaign Skills Trainer's Guide, Module 10: Mobilizing Resources",
+      "publisher": "National Democratic Institute",
+      "url": "https://www.ndi.org/sites/default/files/Module%2010_Mobilizing%20Resources.pdf",
+      "supports": "Identifying donors, asking for contributions, recruiting volunteers and in-kind support."
+    },
+    "fec-in-kind": {
+      "title": "Making in-kind contributions to candidates",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/making-disbursements-pac/making-kind-contributions-candidates/",
+      "supports": "Fundraising events, consulting, printing, mailing lists, and advertising can create reportable in-kind contributions."
+    },
+    "fec-joint": {
+      "title": "Joint fundraising with other candidates and political committees",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/joint-fundraising-candidates-political-committees/",
+      "supports": "Joint fundraisers require agreements, allocation, contribution screening, and reporting for federal committees."
+    },
+    "fec-home": {
+      "title": "In-home event exemptions for candidates and parties",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/updates/in-home-event-exemptions-for-candidates-and-parties-2026/",
+      "supports": "Volunteer-hosted home events are a real campaign setting; federal treatment depends on current rules."
+    },
+    "lwv-forum": {
+      "title": "A Guide to Candidate Forums",
+      "publisher": "League of Women Voters of Virginia",
+      "url": "https://my.lwv.org/sites/default/files/lwv-va_toolkit_for_candidate_forums-final_january_2024.pdf",
+      "supports": "Structured, neutral candidate forums with audience questions and speaking turns."
+    },
+    "lwv-guide": {
+      "title": "VOTE411 voter guide",
+      "publisher": "League of Women Voters Education Fund",
+      "url": "https://www.vote411.org/",
+      "supports": "Candidate information and issue positions in voter guides."
+    },
+    "fec-spending": {
+      "title": "Making disbursements",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/making-disbursements/",
+      "supports": "Federal campaign spending categories include travel, staff, rent, advertising, fundraising, phones, and supplies."
+    }
+  },
+  "actions": [
+    {
+      "id": "map-target-precincts",
+      "category": "planning",
+      "name": "Choose precincts for the next canvass",
+      "who": ["candidate", "field lead"],
+      "where": "campaign office or kitchen table",
+      "for": "Put limited field hours where reachable voters live.",
+      "duration": {
+        "minutes": null,
+        "driver": "number of precincts and available voter records"
+      },
+      "cost": {
+        "usd": null,
+        "driver": "voter-list access or staff time, if any"
+      },
+      "sourceIds": ["ndi-planning", "ndi-voter-contact"]
+    },
+    {
+      "id": "listen-community-leader",
+      "category": "planning",
+      "name": "Meet a community leader to hear local priorities",
+      "who": ["candidate", "community leader"],
+      "where": "community office or public place",
+      "for": "Learn concerns and test whether the campaign's priorities fit the district.",
+      "duration": { "minutes": null, "driver": "meeting schedule" },
+      "cost": { "usd": null, "driver": "travel, if any" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "draft-policy-position",
+      "category": "planning",
+      "name": "Prepare a position on a local issue",
+      "who": ["candidate", "policy volunteer or adviser"],
+      "where": "campaign office",
+      "for": "Give voters a concrete choice on an issue.",
+      "duration": { "minutes": null, "driver": "research and review required" },
+      "cost": { "usd": null, "driver": "research or printing, if any" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "recruit-volunteers",
+      "category": "organizing",
+      "name": "Ask supporters to volunteer for field work",
+      "who": ["candidate", "supporters", "volunteer lead"],
+      "where": "campaign event or direct conversation",
+      "for": "Build enough people to contact voters.",
+      "duration": { "minutes": null, "driver": "number of asks" },
+      "cost": { "usd": null, "driver": "outreach materials, if any" },
+      "sourceIds": ["ndi-planning", "ndi-resources"]
+    },
+    {
+      "id": "train-canvassers",
+      "category": "organizing",
+      "name": "Train volunteers before a door shift",
+      "who": ["candidate", "field lead", "volunteers"],
+      "where": "campaign office or community room",
+      "for": "Practice the script, voter record, and safe route before contact.",
+      "duration": {
+        "minutes": null,
+        "driver": "training content and volunteer experience"
+      },
+      "cost": { "usd": null, "driver": "room and materials, if any" },
+      "sourceIds": ["ndi-voter-contact", "ndi-planning"]
+    },
+    {
+      "id": "assemble-door-packets",
+      "category": "organizing",
+      "name": "Prepare turf maps and canvass packets",
+      "who": ["field lead", "volunteers"],
+      "where": "campaign office",
+      "for": "Send canvassers to assigned voters with the right information.",
+      "duration": { "minutes": null, "driver": "number of routes" },
+      "cost": { "usd": null, "driver": "printing or digital tools" },
+      "sourceIds": ["ndi-planning", "ndi-voter-contact"]
+    },
+    {
+      "id": "survey-canvass",
+      "category": "field",
+      "name": "Ask voters at their doors what matters to them",
+      "who": ["candidate or volunteer", "voter"],
+      "where": "priority neighborhood",
+      "for": "Hear issues and identify support before a persuasion ask.",
+      "duration": {
+        "minutes": null,
+        "driver": "route, travel between doors, and contact rate"
+      },
+      "cost": { "usd": null, "driver": "travel and printed material, if used" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "persuasion-canvass",
+      "category": "field",
+      "name": "Knock doors with volunteers to discuss the race",
+      "who": ["candidate", "volunteers", "voters"],
+      "where": "target precinct",
+      "for": "Speak personally with persuadable voters and record responses.",
+      "duration": {
+        "minutes": null,
+        "driver": "doors assigned and contact rate"
+      },
+      "cost": { "usd": null, "driver": "travel and literature, if used" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "literature-drop",
+      "category": "field",
+      "name": "Deliver campaign literature on a mapped route",
+      "who": ["volunteers", "field lead"],
+      "where": "target precinct",
+      "for": "Put a message in households the campaign cannot speak to directly.",
+      "duration": {
+        "minutes": null,
+        "driver": "route size and walking distance"
+      },
+      "cost": { "usd": null, "driver": "design, printing, and distribution" },
+      "sourceIds": ["ndi-voter-contact", "fec-in-kind"]
+    },
+    {
+      "id": "persuasion-phonebank",
+      "category": "field",
+      "name": "Call undecided voters from a targeted list",
+      "who": ["candidate or volunteers", "voters"],
+      "where": "campaign office or remote call shift",
+      "for": "Learn positions and make a direct case to persuadable voters.",
+      "duration": {
+        "minutes": null,
+        "driver": "call list size and answer rate"
+      },
+      "cost": { "usd": null, "driver": "phone service or tools" },
+      "sourceIds": ["ndi-voter-contact", "fec-spending"]
+    },
+    {
+      "id": "supporter-email",
+      "category": "field",
+      "name": "Send an issue message to opted-in supporters",
+      "who": ["candidate", "communications lead", "supporters"],
+      "where": "campaign office",
+      "for": "Keep known supporters informed and invite a response.",
+      "duration": { "minutes": null, "driver": "drafting and review" },
+      "cost": { "usd": null, "driver": "email service, if any" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    },
+    {
+      "id": "community-meeting",
+      "category": "field",
+      "name": "Answer voters at a public community meeting",
+      "who": ["candidate", "residents", "organizer"],
+      "where": "community room",
+      "for": "Hear local questions and explain the candidate's position in person.",
+      "duration": { "minutes": null, "driver": "host's agenda" },
+      "cost": { "usd": null, "driver": "room or travel, if paid by campaign" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "house-meeting",
+      "category": "field",
+      "name": "Talk with neighbors at a supporter's home",
+      "who": ["candidate", "host", "neighbors"],
+      "where": "supporter's home",
+      "for": "Hold a small-group discussion that can build support.",
+      "duration": { "minutes": null, "driver": "host's invitation and agenda" },
+      "cost": {
+        "usd": null,
+        "driver": "food, invitations, and travel if supplied"
+      },
+      "sourceIds": ["ndi-voter-contact", "fec-home"]
+    },
+    {
+      "id": "festival-table",
+      "category": "field",
+      "name": "Staff a table at a local fair or festival",
+      "who": ["candidate", "volunteers", "visitors"],
+      "where": "fair or festival",
+      "for": "Meet residents who may not answer a door or call.",
+      "duration": { "minutes": null, "driver": "event hours and staffing" },
+      "cost": {
+        "usd": null,
+        "driver": "table fee, supplies, and travel if required"
+      },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "community-rally",
+      "category": "field",
+      "name": "Speak at a campaign rally",
+      "who": ["candidate", "supporters", "organizers"],
+      "where": "public event venue",
+      "for": "Gather supporters and draw attention to the campaign.",
+      "duration": { "minutes": null, "driver": "event program" },
+      "cost": { "usd": null, "driver": "venue, equipment, and travel" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    },
+    {
+      "id": "voter-registration-drive",
+      "category": "field",
+      "name": "Help residents register at a campaign drive",
+      "who": ["trained volunteers", "eligible residents", "candidate"],
+      "where": "public event or community space",
+      "for": "Help eligible residents enter the electorate.",
+      "duration": {
+        "minutes": null,
+        "driver": "event hours and number of registrants"
+      },
+      "cost": { "usd": null, "driver": "materials and venue, if any" },
+      "sourceIds": ["ndi-planning"],
+      "ruleGate": "Use the actual jurisdiction's registration and campaign rules."
+    },
+    {
+      "id": "identify-voting-obstacles",
+      "category": "field",
+      "name": "Ask supporters what could keep them from voting",
+      "who": ["candidate or volunteer", "supporter"],
+      "where": "door or phone conversation",
+      "for": "Learn practical barriers before election day.",
+      "duration": { "minutes": null, "driver": "number of conversations" },
+      "cost": { "usd": null, "driver": "contact method" },
+      "sourceIds": ["ndi-voter-contact"]
+    },
+    {
+      "id": "gotv-door",
+      "category": "election-day",
+      "name": "Visit identified supporters before polls close",
+      "who": ["candidate or volunteers", "supporters"],
+      "where": "supporter households",
+      "for": "Remind known supporters to vote and hear whether they need voting information.",
+      "duration": { "minutes": null, "driver": "route and polling hours" },
+      "cost": { "usd": null, "driver": "travel and literature, if used" },
+      "sourceIds": ["ndi-voter-contact", "ndi-planning"]
+    },
+    {
+      "id": "gotv-phone",
+      "category": "election-day",
+      "name": "Call identified supporters about voting",
+      "who": ["volunteers", "supporters"],
+      "where": "phonebank",
+      "for": "Remind supporters before polls close.",
+      "duration": { "minutes": null, "driver": "call list and answer rate" },
+      "cost": { "usd": null, "driver": "phone service or tools" },
+      "sourceIds": ["ndi-voter-contact", "ndi-planning"]
+    },
+    {
+      "id": "gotv-message",
+      "category": "election-day",
+      "name": "Send an election-day message to opted-in supporters",
+      "who": ["communications lead", "supporters"],
+      "where": "campaign office",
+      "for": "Provide timely voting information to known supporters.",
+      "duration": {
+        "minutes": null,
+        "driver": "message preparation and list size"
+      },
+      "cost": { "usd": null, "driver": "messaging service" },
+      "sourceIds": ["ndi-voter-contact", "ndi-planning"],
+      "ruleGate": "Check consent and applicable messaging law before use."
+    },
+    {
+      "id": "dispatch-field-volunteers",
+      "category": "election-day",
+      "name": "Assign volunteers to election-day routes",
+      "who": ["field lead", "volunteers"],
+      "where": "campaign office",
+      "for": "Cover planned supporter contacts without duplicating routes.",
+      "duration": {
+        "minutes": null,
+        "driver": "volunteer count and route map"
+      },
+      "cost": { "usd": null, "driver": "maps and field supplies" },
+      "sourceIds": ["ndi-planning"]
+    },
+    {
+      "id": "build-donor-list",
+      "category": "fundraising",
+      "name": "Build a list of possible lawful donors",
+      "who": ["candidate", "finance lead"],
+      "where": "campaign office",
+      "for": "Identify people to ask directly for financial support.",
+      "duration": {
+        "minutes": null,
+        "driver": "network size and compliance screening"
+      },
+      "cost": { "usd": null, "driver": "list or staff costs, if any" },
+      "sourceIds": ["ndi-resources", "fec-in-kind"]
+    },
+    {
+      "id": "donor-call",
+      "category": "fundraising",
+      "name": "Call a prospective donor and make a direct ask",
+      "who": ["candidate", "prospective donor"],
+      "where": "call room or private office",
+      "for": "Raise campaign funds through a personal request.",
+      "duration": { "minutes": null, "driver": "call length and answer rate" },
+      "cost": { "usd": null, "driver": "phone and staff support" },
+      "sourceIds": ["ndi-resources"]
+    },
+    {
+      "id": "donor-meeting",
+      "category": "fundraising",
+      "name": "Meet a prospective donor in person",
+      "who": ["candidate", "prospective donor"],
+      "where": "home, office, or public place",
+      "for": "Discuss priorities and ask for a lawful contribution.",
+      "duration": { "minutes": null, "driver": "meeting schedule and travel" },
+      "cost": { "usd": null, "driver": "travel or venue" },
+      "sourceIds": ["ndi-resources"]
+    },
+    {
+      "id": "home-fundraiser",
+      "category": "fundraising",
+      "name": "Speak at a supporter's home fundraiser",
+      "who": ["candidate", "host", "invited donors"],
+      "where": "supporter's home",
+      "for": "Raise funds while meeting supporters personally.",
+      "duration": { "minutes": null, "driver": "host's event schedule" },
+      "cost": {
+        "usd": null,
+        "driver": "food, invitations, venue, and travel; treatment varies by law"
+      },
+      "sourceIds": ["fec-home", "ndi-resources"],
+      "ruleGate": "Federal home-event exemption is specific; state and local rules may differ."
+    },
+    {
+      "id": "joint-fundraiser",
+      "category": "fundraising",
+      "name": "Join a fundraiser with another committee",
+      "who": ["candidate", "other committee", "finance staff", "donors"],
+      "where": "event venue",
+      "for": "Raise money jointly and share an audience.",
+      "duration": { "minutes": null, "driver": "event program and travel" },
+      "cost": {
+        "usd": null,
+        "driver": "event expenses allocated by applicable rules"
+      },
+      "sourceIds": ["fec-joint"],
+      "ruleGate": "Require a valid committee agreement, allocation, screening, and reporting before federal use."
+    },
+    {
+      "id": "ask-in-kind",
+      "category": "fundraising",
+      "name": "Ask for lawful in-kind help with campaign materials",
+      "who": ["candidate", "supporter or committee", "treasurer"],
+      "where": "meeting or call",
+      "for": "Obtain useful goods or services when permitted.",
+      "duration": { "minutes": null, "driver": "ask and compliance review" },
+      "cost": {
+        "usd": null,
+        "driver": "usual commercial value may count as a contribution"
+      },
+      "sourceIds": ["ndi-resources", "fec-in-kind"],
+      "ruleGate": "Check contributor eligibility, valuation, limits, and reporting."
+    },
+    {
+      "id": "online-fundraising-appeal",
+      "category": "fundraising",
+      "name": "Record a campaign appeal for online donors",
+      "who": ["candidate", "communications lead", "potential donors"],
+      "where": "campaign office or recording location",
+      "for": "Ask a wider audience to fund campaign work.",
+      "duration": {
+        "minutes": null,
+        "driver": "drafting, recording, and review"
+      },
+      "cost": { "usd": null, "driver": "production and platform fees, if any" },
+      "sourceIds": ["ndi-resources", "ndi-communications"]
+    },
+    {
+      "id": "announce-candidacy",
+      "category": "communications",
+      "name": "Announce the candidacy at a public event",
+      "who": ["candidate", "supporters", "press"],
+      "where": "public venue",
+      "for": "Tell voters why the candidate is running and invite scrutiny.",
+      "duration": {
+        "minutes": null,
+        "driver": "event program and press availability"
+      },
+      "cost": { "usd": null, "driver": "venue, travel, and production" },
+      "sourceIds": ["ndi-communications", "ndi-planning"]
+    },
+    {
+      "id": "send-press-release",
+      "category": "communications",
+      "name": "Send a press release about a concrete campaign development",
+      "who": ["candidate", "communications lead", "reporters"],
+      "where": "campaign office",
+      "for": "Give local media verifiable news about the campaign.",
+      "duration": { "minutes": null, "driver": "drafting and fact review" },
+      "cost": {
+        "usd": null,
+        "driver": "staff or distribution service, if used"
+      },
+      "sourceIds": ["ndi-communications", "ndi-voter-contact"]
+    },
+    {
+      "id": "reporter-interview",
+      "category": "communications",
+      "name": "Answer a local reporter's questions",
+      "who": ["candidate", "reporter"],
+      "where": "newsroom, phone, or campaign stop",
+      "for": "Explain the candidate's record and positions through earned media.",
+      "duration": {
+        "minutes": null,
+        "driver": "reporter's deadline and interview format"
+      },
+      "cost": { "usd": null, "driver": "travel, if any" },
+      "sourceIds": ["ndi-communications"]
+    },
+    {
+      "id": "media-event",
+      "category": "communications",
+      "name": "Hold a media event at a campaign milestone",
+      "who": ["candidate", "organizers", "reporters"],
+      "where": "public venue",
+      "for": "Make a substantive milestone visible to voters.",
+      "duration": {
+        "minutes": null,
+        "driver": "event program and press questions"
+      },
+      "cost": { "usd": null, "driver": "venue, equipment, and travel" },
+      "sourceIds": ["ndi-communications"]
+    },
+    {
+      "id": "social-media-update",
+      "category": "communications",
+      "name": "Post a campaign update and answer public replies",
+      "who": ["candidate", "communications lead", "voters"],
+      "where": "campaign account",
+      "for": "Reach voters online and take questions.",
+      "duration": {
+        "minutes": null,
+        "driver": "drafting, moderation, and response volume"
+      },
+      "cost": { "usd": null, "driver": "staff or platform expenses, if any" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    },
+    {
+      "id": "campaign-video",
+      "category": "communications",
+      "name": "Record a short video explaining an issue position",
+      "who": ["candidate", "production helper", "viewers"],
+      "where": "campaign location",
+      "for": "Show the candidate's words to voters who cannot attend an event.",
+      "duration": {
+        "minutes": null,
+        "driver": "script, recording, and editing"
+      },
+      "cost": { "usd": null, "driver": "production, if paid" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    },
+    {
+      "id": "campaign-website",
+      "category": "communications",
+      "name": "Update the campaign website with a position and event",
+      "who": ["communications lead", "candidate", "voters"],
+      "where": "campaign website",
+      "for": "Give voters a stable place to find positions and upcoming events.",
+      "duration": { "minutes": null, "driver": "content and review" },
+      "cost": { "usd": null, "driver": "hosting and design, if paid" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    },
+    {
+      "id": "print-mailer",
+      "category": "paid-outreach",
+      "name": "Approve a targeted printed mailer",
+      "who": ["candidate", "designer or printer", "voters"],
+      "where": "campaign office and postal route",
+      "for": "Send a campaign message to selected households.",
+      "duration": {
+        "minutes": null,
+        "driver": "design, proof, printing, and delivery"
+      },
+      "cost": { "usd": null, "driver": "printing and postage" },
+      "sourceIds": ["ndi-voter-contact", "fec-in-kind"]
+    },
+    {
+      "id": "newspaper-ad",
+      "category": "paid-outreach",
+      "name": "Approve an advertisement in a local newspaper",
+      "who": ["candidate", "communications lead", "publisher"],
+      "where": "local newspaper",
+      "for": "Reach readers through paid space.",
+      "duration": {
+        "minutes": null,
+        "driver": "copy approval and publisher deadline"
+      },
+      "cost": { "usd": null, "driver": "publisher rate and design" },
+      "sourceIds": ["ndi-voter-contact", "fec-spending"]
+    },
+    {
+      "id": "radio-ad",
+      "category": "paid-outreach",
+      "name": "Record and approve a radio advertisement",
+      "who": ["candidate", "producer", "radio station"],
+      "where": "studio and local airwaves",
+      "for": "Reach listeners through paid airtime.",
+      "duration": {
+        "minutes": null,
+        "driver": "script, recording, and station schedule"
+      },
+      "cost": { "usd": null, "driver": "production and airtime" },
+      "sourceIds": ["ndi-voter-contact", "fec-spending"]
+    },
+    {
+      "id": "television-ad",
+      "category": "paid-outreach",
+      "name": "Film and approve a television advertisement",
+      "who": ["candidate", "production team", "broadcaster"],
+      "where": "shoot location and television market",
+      "for": "Reach viewers through paid airtime.",
+      "duration": {
+        "minutes": null,
+        "driver": "production and broadcaster schedule"
+      },
+      "cost": { "usd": null, "driver": "production and airtime" },
+      "sourceIds": ["ndi-voter-contact", "fec-spending"]
+    },
+    {
+      "id": "candidate-forum",
+      "category": "public-accountability",
+      "name": "Answer questions at a neutral candidate forum",
+      "who": ["candidate", "moderator", "other candidates", "voters"],
+      "where": "forum venue",
+      "for": "Let voters compare candidates' positions directly.",
+      "duration": { "minutes": null, "driver": "organizer's program" },
+      "cost": { "usd": null, "driver": "travel and preparation, if any" },
+      "sourceIds": ["lwv-forum"]
+    },
+    {
+      "id": "voter-guide-questionnaire",
+      "category": "public-accountability",
+      "name": "Answer a voter-guide questionnaire",
+      "who": ["candidate", "voter-guide editor", "voters"],
+      "where": "campaign office",
+      "for": "Put positions in a format voters can compare.",
+      "duration": {
+        "minutes": null,
+        "driver": "question count and fact review"
+      },
+      "cost": { "usd": null, "driver": "staff time, if paid" },
+      "sourceIds": ["lwv-guide", "lwv-forum"]
+    },
+    {
+      "id": "publish-policy-statement",
+      "category": "public-accountability",
+      "name": "Publish a specific policy statement and take questions",
+      "who": ["candidate", "communications lead", "voters"],
+      "where": "public event or campaign site",
+      "for": "Commit to a public position voters can judge later.",
+      "duration": {
+        "minutes": null,
+        "driver": "research, drafting, and questions"
+      },
+      "cost": { "usd": null, "driver": "venue or distribution, if used" },
+      "sourceIds": ["ndi-voter-contact", "ndi-communications"]
+    }
+  ]
+}

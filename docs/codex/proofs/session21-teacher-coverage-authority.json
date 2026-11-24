@@ -1,0 +1,33 @@
+{
+  "seed": "recorded-teacher-floor",
+  "place": "Acorn, Arkansas",
+  "beforeCatalog": "synthetic-stage-3-v2",
+  "afterCatalog": "fixture:recorded-teacher-floor",
+  "swappedError": "Pay coverage must retain every applicable dated law and exception",
+  "finalFirstError": null,
+  "beforeDeterminations": [
+    {
+      "id": "work-pay-coverage_dcf23eee9fc5a036",
+      "workId": "work-relationship_06cf29866b889aaa",
+      "governingLaws": []
+    }
+  ],
+  "finalFirstDeterminations": [
+    {
+      "id": "work-pay-coverage_dcf23eee9fc5a036",
+      "workId": "work-relationship_06cf29866b889aaa",
+      "governingLaws": [
+        {
+          "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "governingLawKey": "starting-law:US-AR:us-policy-positions:labor-workforce.raise-minimum-wage",
+          "origin": "in-force-at-start"
+        },
+        {
+          "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "governingLawKey": "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "origin": "in-force-at-start"
+        }
+      ]
+    }
+  ]
+}

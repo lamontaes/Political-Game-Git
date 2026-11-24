@@ -1,0 +1,83 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "openfema-disaster-declarations-audit-slice",
+      "bytes": {
+        "length": 660149,
+        "sha256": "582f8ba14aa994f29b80e8fede328a01f6083030df3d6490ae229a1c52b1c306"
+      },
+      "localPath": "data/source/fema-disasters/raw/declarations-audit-slice.json",
+      "mediaType": "application/json",
+      "provider": "Federal Emergency Management Agency (OpenFEMA)",
+      "publisher": {
+        "documentationUrl": "https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2",
+        "releaseDate": null,
+        "schemaVersion": "OpenFEMA DisasterDeclarationsSummaries v2",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "api-query",
+        "requestIdentity": {
+          "apiVersion": "v2",
+          "parameters": {
+            "$filter": "disasterNumber in (1603,3591,4085,4332,4586,4673,4724,4765,4781,4827,4830,5480,5488)",
+            "$format": "json",
+            "$orderby": "id",
+            "$top": "10000",
+            "entity": "DisasterDeclarationsSummaries"
+          }
+        },
+        "responseBytes": 660149,
+        "retrievedAt": "2026-09-03T03:35:59.882Z",
+        "url": "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=disasterNumber%20in%20(1603%2C3591%2C4085%2C4332%2C4586%2C4673%2C4724%2C4765%2C4781%2C4827%2C4830%2C5480%2C5488)&$orderby=id&$top=10000&$format=json"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "U.S. Government Work (17 U.S.C. § 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "openfema-disaster-declarations-universe-count",
+      "bytes": {
+        "length": 402,
+        "sha256": "e547f9b44112dbb6e1522a27a2b4797b1f2c1ac00523387c6d5ca455aa8344dc"
+      },
+      "localPath": "data/source/fema-disasters/raw/universe-count.json",
+      "mediaType": "application/json",
+      "provider": "Federal Emergency Management Agency (OpenFEMA)",
+      "publisher": {
+        "documentationUrl": "https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2",
+        "releaseDate": null,
+        "schemaVersion": "OpenFEMA DisasterDeclarationsSummaries v2",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "api-query",
+        "requestIdentity": {
+          "apiVersion": "v2",
+          "parameters": {
+            "$format": "json",
+            "$inlinecount": "allpages",
+            "$select": "disasterNumber",
+            "$top": "1",
+            "entity": "DisasterDeclarationsSummaries"
+          }
+        },
+        "responseBytes": 402,
+        "retrievedAt": "2026-09-03T03:36:00.288Z",
+        "url": "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$inlinecount=allpages&$top=1&$select=disasterNumber&$format=json"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "U.S. Government Work (17 U.S.C. § 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "fema-disasters"
+}

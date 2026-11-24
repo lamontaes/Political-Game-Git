@@ -1,0 +1,32 @@
+{
+  "artifacts": [
+    {
+      "length": 142920,
+      "localPath": "data/source/book-of-the-states/raw/table-2023-3-9.html",
+      "mediaType": "text/html",
+      "sha256": "e092f125fe62a93e579d890091c84f5898f752fe66253cf98e31101736dc4a60",
+      "table": "Table 3.9: Legislative Compensation and Travel Expense Allowances During Regular Sessions, 2023",
+      "url": "https://bookofthestates.org/tables/2023-3-9/",
+      "vintage": "The Book of the States 2023, Council of State Governments (salaries as of January 1, 2022 for governors; 2023 for legislators)"
+    },
+    {
+      "length": 125946,
+      "localPath": "data/source/book-of-the-states/raw/table-2023-4-3.html",
+      "mediaType": "text/html",
+      "sha256": "f47a59176e85cad765af980b032b626e17edf741db7fa97476fb1abbf8682491",
+      "table": "Table 4.3: The Governors: Compensation, Staff, Travel and Residence",
+      "url": "https://bookofthestates.org/tables/2023-4-3/",
+      "vintage": "The Book of the States 2023, Council of State Governments (salaries as of January 1, 2022 for governors; 2023 for legislators)"
+    },
+    {
+      "length": 124276,
+      "localPath": "data/source/book-of-the-states/raw/table-2023-5-4.html",
+      "mediaType": "text/html",
+      "sha256": "a634003ef2565dd463b4920fae97b0b19caf3bcb8081c1cdca9a155d00ebc8e4",
+      "table": "Table 5.4: Compensation of Judges of Appellate Courts and General Trial Courts",
+      "url": "https://bookofthestates.org/tables/2023-5-4/",
+      "vintage": "The Book of the States 2023, Council of State Governments"
+    }
+  ],
+  "asOf": "2026-09-29"
+}

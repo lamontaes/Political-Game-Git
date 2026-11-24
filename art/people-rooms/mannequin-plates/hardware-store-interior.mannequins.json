@@ -1,0 +1,68 @@
+{
+  "scene": "hardware-store-interior",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "hardware-store-interior__midday.jpg",
+  "backdrops": [
+    "hardware-store-interior__morning.jpg",
+    "hardware-store-interior__rain.jpg"
+  ],
+  "spots": [
+    {
+      "id": "hardware-store-interior-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 269,
+        "x": 560.0,
+        "width": 74
+      },
+      "box": [
+        484,
+        269,
+        636,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "hardware-store-interior-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 301,
+        "x": 860.0,
+        "width": 51
+      },
+      "box": [
+        807,
+        301,
+        913,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "hardware-store-interior-2",
+      "pose": "gesture",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 297,
+        "x": 700.0,
+        "width": 54
+      },
+      "box": [
+        644,
+        297,
+        756,
+        760
+      ],
+      "feet": 759
+    }
+  ]
+}

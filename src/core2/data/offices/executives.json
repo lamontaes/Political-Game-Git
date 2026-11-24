@@ -1,0 +1,41 @@
+{
+  "about": "One row per kind of executive office the offices engine seats, read through `executiveRow` (src/core2/offices-executives.ts) instead of a list of office kinds typed in code (the mayor's and county executive's yearly address, a town government that seats anyone, the government bodies screen, the local address, a disaster's executives, who speaks when sworn in). `kind` is the office kind exactly. `level` uses bodies.json's words. `heads` is true for the chief of that level's executive branch. Where a state's research seats its chief executive under another title, the row follows the office kind, not the level the office sits at (the District of Columbia's mayor is kind `mayor` at level state, and reads as a mayor). The other statewide offices a state's research seats (attorney general, secretary of state, treasurer, auditor and the commissions and boards) and a county's own elected officers (`county-` plus the office, such as the sheriff or the clerk) have no row: each is elected on its own and heads no branch, and no reader of this file asks for one; a reader that needs them adds their rows here. Structure is law; each row cites it.",
+  "executives": [
+    {
+      "kind": "mayor",
+      "level": "city",
+      "heads": true,
+      "source": "Municipal charters and state municipal codes create the office of mayor as the city's chief executive where the city has one (e.g. the strong-mayor and council-manager forms of state municipal codes)."
+    },
+    {
+      "kind": "county-executive",
+      "level": "county",
+      "heads": true,
+      "source": "County home-rule charters create an elected county executive as the county's chief executive where the county has one; most counties have none and are run by their board."
+    },
+    {
+      "kind": "governor",
+      "level": "state",
+      "heads": true,
+      "source": "Each state constitution's executive article vests the state's executive power in a governor; the territories' organic acts do the same for theirs (e.g. 48 U.S.C. 1422 for Guam, 48 U.S.C. 1591 for the U.S. Virgin Islands)."
+    },
+    {
+      "kind": "lieutenant-governor",
+      "level": "state",
+      "heads": false,
+      "source": "State constitutions' executive articles create a lieutenant governor in most states, first in the line of succession to the governor; the office heads no branch."
+    },
+    {
+      "kind": "president",
+      "level": "federal",
+      "heads": true,
+      "source": "U.S. Const. art. II, sec. 1: the executive power is vested in a President of the United States."
+    },
+    {
+      "kind": "vice-president",
+      "level": "federal",
+      "heads": false,
+      "source": "U.S. Const. art. II, sec. 1; amend. XII and XXV: the Vice President succeeds the President and heads no branch."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+
+> political-life-rpg@0.4.0 zero-dice
+> node scripts/zero-dice-guard.mjs
+
+gone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0
+gone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses
+gone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects
+gone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,
+gone src/simulation/pressure/events.ts roll (Build 19): draw(next, ["international", matter, ordinal]) >=
+zero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.

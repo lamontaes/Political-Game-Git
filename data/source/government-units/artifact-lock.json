@@ -1,0 +1,39 @@
+{
+  "domain": "government-units",
+  "artifacts": [
+    {
+      "artifactId": "census-gov-units-2025-listing-zip",
+      "provider": "U.S. Census Bureau, Governments Division",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 10837128,
+        "retrievedAt": "2026-09-09T02:25:21Z",
+        "url": "https://www2.census.gov/programs-surveys/gus/datasets/2025/gov_units_2025.zip"
+      },
+      "bytes": {
+        "length": 10837128,
+        "sha256": "e8b17c3928fb95fa7355a1ce7795fc7de8874c64e9ac7cd9506d6a6515d953f8"
+      },
+      "mediaType": "application/zip",
+      "container": {
+        "memberLength": 10736081,
+        "memberPath": "Govt_Units_2025_Final.xlsx",
+        "memberSha256": "840e8b65e5e65325c0a42fb842ea81c0491eae3abd8a41953764044ee9e2a56e"
+      },
+      "publisher": {
+        "statedVintage": "2025; active inventory June 30, 2025; GMAF retrieved August 28, 2025",
+        "releaseDate": "2025-09-24",
+        "schemaVersion": "Govt_Units_2025_Final.xlsx (five publisher tabs)",
+        "documentationUrl": "https://www.census.gov/data/datasets/2025/econ/gus/public-use-files.html"
+      },
+      "rights": {
+        "status": "public-domain-us-government",
+        "declaredLicense": null,
+        "attributionRequired": false
+      },
+      "storage": "committed",
+      "localPath": "data/source/government-units/raw/gov_units_2025.zip"
+    }
+  ]
+}

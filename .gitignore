@@ -1,0 +1,63 @@
+# Matches the directory and a symlinked node_modules shared between worktrees.
+node_modules
+dist/
+coverage/
+.playwright/
+playwright-report/
+test-results/
+.DS_Store
+*.log
+# ChatGPT's answer folders keep every file byte for byte, logs included;
+# each folder's SHA256SUMS lists them and a test checks them.
+!docs/research/chatgpt-answers/**/*.log
+.env
+.env.*
+!.env.example
+.wrangler/
+
+content-export/
+.source-cache/
+
+# Blind prose-evaluation working data (never committed; holdout material stays in Drive)
+prose-eval-runs/
+
+# Local agent-run-receipt artifacts (scripts/agent-run-receipt.mjs): per-run
+# checkout-identity receipts and logs, never tracked historical evidence.
+.agent-receipts/
+
+# Storm Events publisher bytes: 243 MB of NCEI .gz files kept outside the
+# repository. artifact-lock.json pins every file by sha256; the compiler reads
+# them with --raw-dir.
+data/source/storm-events-2000-2024/raw/
+
+# Generated prose-corpus reports that regenerate byte-identically from source.
+# Committing them put 3.4 GB of near-duplicate revisions into Git history for
+# files `npm run corpus:prose` rebuilds on demand. The small human-readable
+# reports beside them stay tracked, and so does every baseline.
+docs/prose-inventory/coverage-candidates.json
+docs/prose-inventory/prose-inventory.json
+docs/prose-inventory/prose-inventory.csv
+docs/prose-inventory/review-packet.html
+# The coverage report, its counts and the README are generated too, and they
+# conflicted on essentially every base merge: they move when anybody adds a
+# file or a string under `src/`, so two branches collide by construction.
+# `npm run corpus:prose` measures them on demand.
+docs/prose-inventory/coverage-report.md
+docs/prose-inventory/README.md
+docs/prose-inventory/coverage-counts.json
+
+# The dehardwire census is generated the same way and conflicted the same way,
+# and unlike the coverage report it guarded nothing: the `--check` case
+# recomputes in memory and never opens the file, and the other case regenerates
+# it before reading it back. Both pass identically with it untracked.
+# `classification.json` beside it is written by a person and stays tracked.
+docs/dehardwire/census.json
+
+# Written by npm run audit:scan; regenerated on every run, so never committed.
+scripts/audit/scan-result.json
+.bench-local/
+__pycache__/
+
+# Helper agents work in their own git worktrees here; a nested worktree is
+# not part of this checkout and breaks the source digest every Vitest run takes.
+.claude/worktrees/

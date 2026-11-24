@@ -1,0 +1,66 @@
+{
+  "about": "Every line in src (outside tests, generated data and fixtures) marked PLACEHOLDER, BLANKET, unresearched or not researched, with the path it sits on and the research question that would settle it. A marker on the money or law path is a catalog row whose value is UNKNOWN until that question is answered. researchQuestionId null means no question is filed yet; researchQuestionFiled says whether docs/research/requests holds it. Files a plain search finds that are not game values are named, with a reason, in scripts/research/placeholder-scan.ts.",
+  "generatedBy": "scripts/research/placeholder-ledger.ts",
+  "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
+  "counts": {
+    "markers": 5,
+    "byKind": {
+      "placeholder": 4,
+      "blanket": 0,
+      "unresearched": 1
+    },
+    "byPath": {
+      "other": 5
+    },
+    "withoutQuestion": 1,
+    "questionNotFiled": 2,
+    "moneyOrLawQuestions": 0
+  },
+  "markers": [
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 227,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "chronic-condition-income-gradients",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 375,
+      "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "chronic-condition-income-gradients",
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 66,
+      "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "how-long-a-serious-illness-lasts-by-age",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 81,
+      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "causes-of-death-by-age",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/core2/personality-catalogue.ts",
+      "line": 114,
+      "text": "* PRIVATE CALIBRATION, NOT RESEARCHED. The research gave relative rules only:",
+      "kinds": ["unresearched"],
+      "path": "other",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+[
+  {
+    "id": "ar-2025-hb1150-pbm-pharmacy-ownership",
+    "jurisdiction": "Arkansas",
+    "level": "state",
+    "session": "95th General Assembly, 2025 Regular",
+    "bill_number": "HB 1150",
+    "law_citation": "Act 624 of 2025",
+    "short_title": "Ban on PBM ownership of pharmacies",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01 (inferred)"],
+    "official_text_url": "https://arkleg.state.ar.us/Bills/Detail?id=HB1150&ddBienniumSession=2025%2F2025R",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Medicines and medical products",
+    "secondary_menus": ["08"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Pharmacy benefit managers may not hold a retail pharmacy permit or own a pharmacy directly or indirectly."
+      },
+      {
+        "kind": "covered-population",
+        "description": "PBMs and their affiliated pharmacies operating in Arkansas."
+      },
+      {
+        "kind": "enforcement",
+        "description": "State Board of Pharmacy permit authority."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Delayed start to allow divestiture.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "national PBM chains",
+      "mail-order pharmacies",
+      "local pharmacies"
+    ],
+    "daily_life": "Your insurer's PBM cannot steer you to a pharmacy it owns.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "First-of-its-kind law; subject to litigation."
+  },
+  {
+    "id": "ar-2025-grocery-tax-repeal",
+    "jurisdiction": "Arkansas",
+    "level": "state",
+    "session": "95th General Assembly, 2025 Regular",
+    "bill_number": "HB 1685",
+    "law_citation": "Act 1008 of 2025",
+    "short_title": "Repeal of the state sales tax on groceries",
+    "enacted_date": "2025-04-22",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Sales and consumption taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Removes the remaining state sales tax on food ingredients.",
+        "numbers": [
+          {
+            "value": 0.125,
+            "unit": "percent removed",
+            "text": "0.125 percent removed"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Local sales taxes on groceries are unchanged."
+      },
+      {
+        "kind": "effective-date",
+        "description": "State tax exemption for food and food ingredients starts January 1, 2026.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-01 date",
+            "text": "2026-01-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "rulemaking",
+        "description": "Department of Finance and Administration writes implementing rules."
+      }
+    ],
+    "touches": [
+      "state general revenue",
+      "grocery retailers",
+      "municipal and county sales taxes"
+    ],
+    "daily_life": "Grocery receipts show a slightly smaller tax line.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ar-2025-act140-healthy-moms",
+    "jurisdiction": "Arkansas",
+    "level": "state",
+    "session": "95th General Assembly, 2025 Regular",
+    "bill_number": "SB 213",
+    "law_citation": "Act 140 of 2025",
+    "short_title": "Healthy Moms, Healthy Babies Act",
+    "enacted_date": "2025-02",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=140.pdf&ddBienniumSession=2025%2F2025R",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Reproductive health / public coverage",
+    "secondary_menus": ["05"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Presumptive Medicaid eligibility for pregnant women so prenatal care can start before the application is decided."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Pregnant women, with emphasis on counties that are maternal care deserts."
+      },
+      {
+        "kind": "benefit",
+        "description": "Medicaid payment for remote monitoring and doula-type services (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["Arkansas Medicaid", "rural clinics"],
+    "daily_life": "A pregnant woman can see a doctor right away while her Medicaid paperwork is processed.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

@@ -1,0 +1,267 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "government-finances-2024-individual-units",
+      "bytes": {
+        "length": 4267040,
+        "sha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a"
+      },
+      "container": {
+        "memberLength": 17386308,
+        "memberPath": "2024_Individual_Unit_Files/2024FinEstDAT_07152026modp.txt",
+        "memberSha256": "46525bd3dcff33e4fdd300d0cbb716318a55478536481e3954ce0b2261934b6d"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 4267040,
+        "retrievedAt": "2026-09-07T04:30:52.209Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-data",
+      "bytes": {
+        "length": 30124,
+        "sha256": "3f2fc567f3f860e45b2ceec9262357cf9d8d5873b069288b13375b1e989d21f4"
+      },
+      "derivation": {
+        "parentArtifactId": "government-finances-2024-individual-units",
+        "parentSha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a",
+        "selectionPredicate": "Member 2024_Individual_Unit_Files/2024FinEstDAT_07152026modp.txt: rows whose first 12 characters are among the first 25 lexicographically sorted nonzero identifiers in 2024_Individual_Unit_Files/Fin_PID_2024.txt. Preserve original bytes and line terminators."
+      },
+      "localPath": "data/source/government-finances/raw/data.txt",
+      "mediaType": "text/plain",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 30124,
+        "retrievedAt": "2026-09-07T04:30:52.209Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-identity",
+      "bytes": {
+        "length": 3700,
+        "sha256": "caaca638e09bb3bbf5a6d3d47c32fe531643c9a2a02c39fca2668a3225907e27"
+      },
+      "derivation": {
+        "parentArtifactId": "government-finances-2024-individual-units",
+        "parentSha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a",
+        "selectionPredicate": "Member 2024_Individual_Unit_Files/Fin_PID_2024.txt: rows whose first 12 characters are among the first 25 lexicographically sorted nonzero identifiers in 2024_Individual_Unit_Files/Fin_PID_2024.txt. Preserve original bytes and line terminators."
+      },
+      "localPath": "data/source/government-finances/raw/identity.txt",
+      "mediaType": "text/plain",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 3700,
+        "retrievedAt": "2026-09-07T04:30:52.209Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-codebook",
+      "bytes": {
+        "length": 508546,
+        "sha256": "2c7ab34a520a99a1ca0d6eb627607948f8d3410c95b771e11263cc0ec5d86fe6"
+      },
+      "derivation": {
+        "parentArtifactId": "government-finances-2024-individual-units",
+        "parentSha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a",
+        "selectionPredicate": "Complete unchanged ZIP member 2024_Individual_Unit_Files/2024 S&L Public Use Files Technical Documentation.pdf"
+      },
+      "localPath": "data/source/government-finances/raw/codebook.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 508546,
+        "retrievedAt": "2026-09-07T04:30:52.209Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-disclaimer",
+      "bytes": {
+        "length": 186182,
+        "sha256": "4e930a828e2c61ace0a55e20370e4cbc6472c8223ed72d4a8491e9a24e3a1914"
+      },
+      "derivation": {
+        "parentArtifactId": "government-finances-2024-individual-units",
+        "parentSha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a",
+        "selectionPredicate": "Complete unchanged ZIP member 2024_Individual_Unit_Files/2024 SandL Public Use Files Disclaimer.pdf"
+      },
+      "localPath": "data/source/government-finances/raw/disclaimer.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 186182,
+        "retrievedAt": "2026-09-07T04:30:52.209Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-pid-gid-crosswalk",
+      "bytes": {
+        "length": 2112016,
+        "sha256": "a29438ae699bb92c5f1c8f58a126d58fa73f280f4c51de8cfb7bfebe00fdc991"
+      },
+      "container": {
+        "memberLength": 15895008,
+        "memberPath": "PID_GID_Crosswalk.txt",
+        "memberSha256": "a88c75cf03d3f73dfd252b2a92b9d07c18b71e6a242fd565bdb813f29bf50a2f"
+      },
+      "localPath": "data/source/government-finances/raw/pid-gid-crosswalk.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/data/PID_to_GID_Crosswalk.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 2112016,
+        "retrievedAt": "2026-09-07T04:30:53.578Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/data/PID_to_GID_Crosswalk.zip"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-finance-local-methodology-2024",
+      "bytes": {
+        "length": 384434,
+        "sha256": "6a8d82a94335bf6d03130ba047f68df037a555761d9d82bde15ead86f9a9b6f9"
+      },
+      "localPath": "data/source/government-finances/raw/local-methodology.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 384434,
+        "retrievedAt": "2026-09-07T04:30:54.023Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/technical-documentation/methodology/2024/2024_methodology.pdf"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-finance-state-technical-2024",
+      "bytes": {
+        "length": 305866,
+        "sha256": "7817af29132782c6c2d8c4c18deb026c4d69f949a1269da6f1056b1daf3202c0"
+      },
+      "localPath": "data/source/government-finances/raw/state-technical.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": "2024 individual unit files",
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 305866,
+        "retrievedAt": "2026-09-07T04:30:55.068Z",
+        "url": "https://www2.census.gov/programs-surveys/state/technical-documentation/complete-technical-documentation/statetechdoc2024.pdf"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "U.S. Census Bureau federal statistical product (17 USC 105)",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "government-finances"
+}

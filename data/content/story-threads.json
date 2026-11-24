@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "note": "Developer data for the story director's threads (docs/design/story-director.md, part 2). Never shown to a player. A thread is one person's view of one other person; its importance is the standing tie plus the pair's moment salience, discounted by fading.",
+  "sources": {
+    "story-director-design": {
+      "citation": "Story director design, part 2, approved by the owner on October 8, 2026. Calibration, owner-adjustable.",
+      "status": "calibration"
+    }
+  },
+  "source": "story-director-design",
+  "ties": {
+    "parent": 0.5,
+    "child": 0.5,
+    "sibling": 0.35,
+    "grandparent": 0.2,
+    "grandchild": 0.2,
+    "sharedHome": 0.3
+  },
+  "fadingDiscount": 0.75
+}

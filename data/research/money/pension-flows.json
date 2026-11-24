@@ -1,0 +1,713 @@
+{
+  "id": "pension-flows",
+  "source": "Public Plans Database, NormCostAmount_ER and expense_TotBenefits over ActLiabilities_GASB (each plan's latest reported fiscal year)",
+  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,ActLiabilities_GASB,expense_TotBenefits,NormCostAmount_ER&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
+  "readOn": "2026-09-29",
+  "script": "scripts/research/export-pension-flows.py",
+  "median": {
+    "normalCostShare": 0.0083,
+    "benefitShare": 0.0559
+  },
+  "planCount": {
+    "normalCostShare": 109,
+    "benefitShare": 248
+  },
+  "coverage": 0.5,
+  "byState": {
+    "AK": {
+      "normalCostShare": 0.0063,
+      "benefitShare": 0.0662,
+      "fiscalYear": 2024
+    },
+    "AL": {
+      "benefitShare": 0.0598,
+      "fiscalYear": 2024
+    },
+    "AR": {
+      "benefitShare": 0.0532,
+      "fiscalYear": 2024
+    },
+    "AZ": {
+      "benefitShare": 0.0518,
+      "fiscalYear": 2024
+    },
+    "CA": {
+      "normalCostShare": 0.013,
+      "benefitShare": 0.049,
+      "fiscalYear": 2024
+    },
+    "CO": {
+      "benefitShare": 0.058,
+      "fiscalYear": 2024
+    },
+    "CT": {
+      "benefitShare": 0.0591,
+      "fiscalYear": 2024
+    },
+    "DE": {
+      "normalCostShare": 0.0129,
+      "benefitShare": 0.0572,
+      "fiscalYear": 2024
+    },
+    "FL": {
+      "benefitShare": 0.0521,
+      "fiscalYear": 2024
+    },
+    "GA": {
+      "benefitShare": 0.05,
+      "fiscalYear": 2024
+    },
+    "HI": {
+      "benefitShare": 0.0496,
+      "fiscalYear": 2024
+    },
+    "IA": {
+      "benefitShare": 0.0563,
+      "fiscalYear": 2024
+    },
+    "ID": {
+      "benefitShare": 0.0498,
+      "fiscalYear": 2024
+    },
+    "IL": {
+      "normalCostShare": 0.0092,
+      "benefitShare": 0.0551,
+      "fiscalYear": 2024
+    },
+    "IN": {
+      "benefitShare": 0.0519,
+      "fiscalYear": 2024
+    },
+    "KS": {
+      "normalCostShare": 0.0024,
+      "benefitShare": 0.0586,
+      "fiscalYear": 2024
+    },
+    "KY": {
+      "benefitShare": 0.0583,
+      "fiscalYear": 2024
+    },
+    "LA": {
+      "benefitShare": 0.0659,
+      "fiscalYear": 2024
+    },
+    "MA": {
+      "normalCostShare": 0.0073,
+      "benefitShare": 0.0595,
+      "fiscalYear": 2024
+    },
+    "MD": {
+      "benefitShare": 0.0515,
+      "fiscalYear": 2024
+    },
+    "ME": {
+      "benefitShare": 0.06,
+      "fiscalYear": 2024
+    },
+    "MI": {
+      "normalCostShare": 0.0074,
+      "benefitShare": 0.0619,
+      "fiscalYear": 2024
+    },
+    "MN": {
+      "benefitShare": 0.0566,
+      "fiscalYear": 2024
+    },
+    "MO": {
+      "benefitShare": 0.0561,
+      "fiscalYear": 2024
+    },
+    "MS": {
+      "benefitShare": 0.0565,
+      "fiscalYear": 2024
+    },
+    "MT": {
+      "benefitShare": 0.0584,
+      "fiscalYear": 2024
+    },
+    "NC": {
+      "benefitShare": 0.0538,
+      "fiscalYear": 2024
+    },
+    "ND": {
+      "normalCostShare": 0.0133,
+      "benefitShare": 0.0558,
+      "fiscalYear": 2024
+    },
+    "NE": {
+      "benefitShare": 0.0531,
+      "fiscalYear": 2024
+    },
+    "NH": {
+      "normalCostShare": 0.0227,
+      "benefitShare": 0.0562,
+      "fiscalYear": 2024
+    },
+    "NJ": {
+      "normalCostShare": 0.006,
+      "benefitShare": 0.0651,
+      "fiscalYear": 2024
+    },
+    "NM": {
+      "benefitShare": 0.0531,
+      "fiscalYear": 2024
+    },
+    "NV": {
+      "normalCostShare": 0.0046,
+      "benefitShare": 0.0451,
+      "fiscalYear": 2024
+    },
+    "NY": {
+      "benefitShare": 0.0572,
+      "fiscalYear": 2024
+    },
+    "OH": {
+      "benefitShare": 0.0619,
+      "fiscalYear": 2024
+    },
+    "OK": {
+      "benefitShare": 0.0582,
+      "fiscalYear": 2024
+    },
+    "OR": {
+      "benefitShare": 0.0555,
+      "fiscalYear": 2024
+    },
+    "PA": {
+      "benefitShare": 0.0659,
+      "fiscalYear": 2024
+    },
+    "RI": {
+      "benefitShare": 0.0645,
+      "fiscalYear": 2024
+    },
+    "SC": {
+      "benefitShare": 0.0544,
+      "fiscalYear": 2024
+    },
+    "SD": {
+      "benefitShare": 0.0493,
+      "fiscalYear": 2024
+    },
+    "TN": {
+      "benefitShare": 0.0478,
+      "fiscalYear": 2024
+    },
+    "TX": {
+      "benefitShare": 0.0533,
+      "fiscalYear": 2024
+    },
+    "UT": {
+      "benefitShare": 0.0472,
+      "fiscalYear": 2024
+    },
+    "VA": {
+      "benefitShare": 0.0496,
+      "fiscalYear": 2024
+    },
+    "VT": {
+      "normalCostShare": 0.0087,
+      "benefitShare": 0.051,
+      "fiscalYear": 2024
+    },
+    "WA": {
+      "benefitShare": 0.044,
+      "fiscalYear": 2024
+    },
+    "WI": {
+      "benefitShare": 0.0543,
+      "fiscalYear": 2024
+    },
+    "WV": {
+      "benefitShare": 0.068,
+      "fiscalYear": 2024
+    },
+    "WY": {
+      "benefitShare": 0.0575,
+      "fiscalYear": 2024
+    }
+  },
+  "byLocal": [
+    {
+      "state": "AK",
+      "kind": "city",
+      "name": "Anchorage",
+      "benefitShare": 0.0807,
+      "fiscalYear": 2023
+    },
+    {
+      "state": "AL",
+      "kind": "city",
+      "name": "Birmingham",
+      "normalCostShare": 0.0025,
+      "benefitShare": 0.0703,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Phoenix",
+      "benefitShare": 0.0537,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "AZ",
+      "kind": "city",
+      "name": "Tucson",
+      "benefitShare": 0.066,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "Los Angeles",
+      "normalCostShare": 0.0111,
+      "benefitShare": 0.0486,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Diego",
+      "benefitShare": 0.0484,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "city",
+      "name": "San Francisco",
+      "benefitShare": 0.0511,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Alameda County",
+      "normalCostShare": 0.0123,
+      "benefitShare": 0.0513,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Contra Costa County",
+      "normalCostShare": 0.014,
+      "benefitShare": 0.0487,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Kern County",
+      "normalCostShare": 0.012,
+      "benefitShare": 0.0513,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "LA County",
+      "benefitShare": 0.0472,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Orange County",
+      "normalCostShare": 0.0119,
+      "benefitShare": 0.0448,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "Sacramento County",
+      "normalCostShare": 0.0075,
+      "benefitShare": 0.0466,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Bernadino County",
+      "normalCostShare": 0.0132,
+      "benefitShare": 0.0467,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CA",
+      "kind": "county",
+      "name": "San Diego County",
+      "normalCostShare": 0.0111,
+      "benefitShare": 0.0443,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "city",
+      "name": "Denver",
+      "benefitShare": 0.0629,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CO",
+      "kind": "county",
+      "name": "Arapahoe County",
+      "benefitShare": 0.053,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "CT",
+      "kind": "city",
+      "name": "Hartford",
+      "normalCostShare": 0.005,
+      "benefitShare": 0.0722,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Police & Fire",
+      "benefitShare": 0.0296,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DC",
+      "kind": "city",
+      "name": "DC Teachers",
+      "benefitShare": 0.0319,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "DE",
+      "kind": "county",
+      "name": "New Castle County",
+      "normalCostShare": 0.0062,
+      "benefitShare": 0.0668,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Jacksonville",
+      "normalCostShare": 0.0105,
+      "benefitShare": 0.0492,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "FL",
+      "kind": "city",
+      "name": "Miami",
+      "normalCostShare": 0.0072,
+      "benefitShare": 0.0625,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "GA",
+      "kind": "city",
+      "name": "Atlanta",
+      "normalCostShare": 0.0061,
+      "benefitShare": 0.0593,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IA",
+      "kind": "city",
+      "name": "Des Moines",
+      "normalCostShare": 0.0008,
+      "benefitShare": 0.0664,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "city",
+      "name": "Chicago",
+      "normalCostShare": 0.0051,
+      "benefitShare": 0.056,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IL",
+      "kind": "county",
+      "name": "Cook County",
+      "normalCostShare": 0.0044,
+      "benefitShare": 0.0508,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "IN",
+      "kind": "county",
+      "name": "Marion County",
+      "normalCostShare": 0.0103,
+      "benefitShare": 0.0614,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KS",
+      "kind": "city",
+      "name": "Wichita",
+      "benefitShare": 0.0553,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "KY",
+      "kind": "city",
+      "name": "Lexington-Fayette County",
+      "benefitShare": 0.0624,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "Baton Rouge City-Parish",
+      "normalCostShare": 0.0052,
+      "benefitShare": 0.0602,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "LA",
+      "kind": "city",
+      "name": "New Orleans",
+      "normalCostShare": 0.0119,
+      "benefitShare": 0.0668,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MA",
+      "kind": "city",
+      "name": "Boston",
+      "normalCostShare": 0.0079,
+      "benefitShare": 0.0536,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "city",
+      "name": "Baltimore",
+      "normalCostShare": 0.0072,
+      "benefitShare": 0.0642,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MD",
+      "kind": "county",
+      "name": "Montgomery County",
+      "normalCostShare": 0.0142,
+      "benefitShare": 0.0618,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MI",
+      "kind": "city",
+      "name": "Detroit",
+      "benefitShare": 0.0821,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "Kansas City",
+      "benefitShare": 0.0555,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "MO",
+      "kind": "city",
+      "name": "St. Louis",
+      "benefitShare": 0.0656,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NC",
+      "kind": "city",
+      "name": "Charlotte",
+      "benefitShare": 0.0502,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "ND",
+      "kind": "city",
+      "name": "Bismarck",
+      "normalCostShare": 0.0106,
+      "benefitShare": 0.0373,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NE",
+      "kind": "city",
+      "name": "Omaha",
+      "benefitShare": 0.0573,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NH",
+      "kind": "city",
+      "name": "Manchester",
+      "normalCostShare": 0.1327,
+      "benefitShare": 0.0544,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NJ",
+      "kind": "city",
+      "name": "Jersey",
+      "normalCostShare": 0.0087,
+      "benefitShare": 0.0558,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "NY",
+      "kind": "city",
+      "name": "New York City",
+      "normalCostShare": 0.0198,
+      "benefitShare": 0.063,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OH",
+      "kind": "city",
+      "name": "Cincinnati",
+      "normalCostShare": 0.0034,
+      "benefitShare": 0.0733,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "OK",
+      "kind": "city",
+      "name": "Oklahoma City",
+      "normalCostShare": 0.0043,
+      "benefitShare": 0.0507,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "PA",
+      "kind": "city",
+      "name": "Philadelphia",
+      "normalCostShare": 0.0096,
+      "benefitShare": 0.0724,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "PA",
+      "kind": "city",
+      "name": "Pittsburgh",
+      "benefitShare": 0.0678,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "RI",
+      "kind": "city",
+      "name": "Providence",
+      "normalCostShare": 0.0067,
+      "benefitShare": 0.0598,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SC",
+      "kind": "city",
+      "name": "Greenville",
+      "normalCostShare": 0.0081,
+      "benefitShare": 0.0622,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "SD",
+      "kind": "city",
+      "name": "Sioux Falls",
+      "normalCostShare": 0.007,
+      "benefitShare": 0.0521,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "city",
+      "name": "Nashville-Davidson",
+      "normalCostShare": 0.0179,
+      "benefitShare": 0.0509,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TN",
+      "kind": "county",
+      "name": "Knox County",
+      "normalCostShare": 0.0043,
+      "benefitShare": 0.0564,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Austin",
+      "benefitShare": 0.0511,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Dallas",
+      "normalCostShare": 0.0022,
+      "benefitShare": 0.0604,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "TX",
+      "kind": "city",
+      "name": "Houston",
+      "benefitShare": 0.0556,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Arlington County",
+      "benefitShare": 0.0475,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VA",
+      "kind": "county",
+      "name": "Fairfax County",
+      "benefitShare": 0.0531,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "VT",
+      "kind": "city",
+      "name": "Burlington",
+      "normalCostShare": 0.0018,
+      "benefitShare": 0.0605,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WA",
+      "kind": "city",
+      "name": "Seattle",
+      "benefitShare": 0.0446,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "city",
+      "name": "Milwaukee",
+      "normalCostShare": 0.0086,
+      "benefitShare": 0.0607,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WI",
+      "kind": "county",
+      "name": "Milwaukee County",
+      "normalCostShare": 0.0056,
+      "benefitShare": 0.0827,
+      "fiscalYear": 2024
+    },
+    {
+      "state": "WV",
+      "kind": "city",
+      "name": "Charleston",
+      "normalCostShare": 0.0055,
+      "benefitShare": 0.0617,
+      "fiscalYear": 2024
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+# Our Civic Duty — desktop client (DESKTOP-CLIENT1)
+
+An installed Mac application and Windows installer that open the compiled
+game without Terminal, npm, a developer checkout, a Vite server, or an
+internet connection. The shell is deliberately thin: it owns application
+identity, a restricted packaged-content protocol, and the direct-update
+seam — and nothing else. The game is the unmodified `npm run build`
+output; there is no second UI, no second save system, and no game logic
+here.
+
+## Building
+
+From the repository root:
+
+```bash
+npm ci && npm run build          # compile the game (dist/client)
+cd desktop && npm ci             # desktop shell dependencies (separate lockfile)
+npm run dist:mac                 # Mac .app + DMG + ZIP (Apple Silicon)
+npm run dist:win                 # Windows x64 NSIS installer (cross-build on Mac)
+```
+
+The play page's `/api` and `/art` requests are answered by the play server's
+request handler (`src/bench/handler.ts`), which `scripts/stage.mjs` bundles
+with `scripts/build-play-api.mjs` into `staged/play-api/` (the bundle plus the
+art and data files it reads, copied by reading the code's own lookups). The
+shell runs it in a utility process (`play-api-host.mjs`) behind `app://game`:
+no network listener, nothing written outside the profile, developer routes
+off.
+
+Artifacts land in `desktop/release-artifacts/`. `npm run dist:mac-intel`
+cross-builds Intel Mac output (untested until launched on an Intel Mac).
+Rebuilding after newer accepted UI/game changes is exactly the same
+commands — the wrapper does not change.
+
+Packaging consumes `dist/client` only when that tree's compile-time
+provenance matches this checkout (source revision, dirty flag, and
+content hash). Stale `dist/client` cannot be relabelled with a newer
+HEAD. Pass `--rebuild` to `stage.mjs` to run `npm run build` and restage.
+`composition: accepted-main` is refused unless HEAD is `origin/main`.
+Nothing outside `dist/client` is packaged: no research archives, no repository metadata, no secrets.
+
+## Identity, storage, saves
+
+- App id `com.ourcivicduty.desktop`, product name `Our Civic Duty`. Both
+  fix the profile directory (`~/Library/Application Support/Our Civic Duty`
+  on Mac, `%APPDATA%\Our Civic Duty` on Windows) and must not change
+  casually — changing either abandons player saves.
+- The renderer origin is `app://game`, served by a restricted protocol
+  from packaged resources with path-traversal fails-closed, strict CSP,
+  and correct MIME types. A stable origin means stable IndexedDB, so the
+  existing `political-life-worlds` save repository, its schema versions,
+  migrations, generation/tombstone concurrency protocol, and its refusal
+  of unreadable/newer records all apply unchanged.
+- Saves survive reinstall and update because the profile lives outside
+  the installation directory. Uninstall does not delete saves.
+- Browser (Safari/Chrome) saves do NOT appear automatically in the
+  desktop app. Transfer is a versioned `.ocd-life.json` file from Saved
+  games → Export, then Import a saved life in the other origin. Import
+  always creates a **new slot**; it never overwrites. The World (person,
+  time, money, history, appearance) transfers. Pins, private journal, and
+  wardrobe preferences transfer through the same IndexedDB `interface`
+  store the UI shell uses. If that write cannot complete, the new slot is
+  rolled back. Candidate-preview exports are refused by production
+  imports; flipping the provenance label in the file is not admission.
+  The shell does not scrape browser profiles.
+- `OCD_USER_DATA_DIR` redirects the profile for isolated automated
+  tests only; it grants nothing else.
+
+## Version and build identity
+
+`scripts/stage.mjs` copies a provenance-checked `dist/client` and stamps
+`build-identity.json` from the canonical repository `package.json`
+version, the matching git revision, the client tree sha256, distribution,
+channel, profile, and composition. The About dialog shows it, and the
+window title shows the version and the short commit.
+The tracked `desktop/package.json` version is a fixed `0.0.0`
+placeholder that no build step ever rewrites: `scripts/package.mjs`
+injects the staged version into electron-builder through
+`extraMetadata`, so the packaged app version, artifact names, and the
+About/build identity all agree with the canonical root version and a
+clean tree stays clean before and after staging. The stage script never
+writes the canonical version; scratch continuity builds may use
+`--fixture-version 0.2.0-x.N` prerelease identifiers, which must extend
+the canonical version and exist only for throwaway artifacts.
+
+## Updates
+
+- The newest release the release workflow published onto `main` is packaged
+  every two hours, or on request, on macOS (Apple Silicon dmg + zip) and Windows (NSIS), launched and played
+  once, and published to this repository's GitHub Releases as `v<version>`
+  with the installers, the zip, `latest.yml` / `latest-mac.yml` and the
+  blockmaps (`.github/workflows/release-package.yml`, jobs `desktop_package` and
+  `desktop_publish`; the release is a draft until every file is uploaded).
+  Packaging itself never uploads: `scripts/package.mjs` passes
+  `--publish never`. `update-config.json` ships enabled with that feed
+  (provider github).
+- "Check for Updates…" is finite and user-controlled: check → ask →
+  download → ask again; nothing restarts on its own and unsaved play is
+  never discarded (install-on-restart only proceeds once every window
+  actually closed through the normal close flow; a window that stays open
+  turns it into install-on-your-own-next-quit). Choosing "Later" arms
+  install-on-your-own-next-quit — exactly what the dialog says. Malformed
+  metadata, a downgrade, and a failed or unverifiable download are refused
+  and surfaced, never retried or silently installed (`tests/updater.test.mjs`).
+- Windows: electron-updater's NSIS updater, which downloads only the changed
+  blocks against the installed version's blockmap.
+- Mac: the app is unsigned and Squirrel.Mac refuses unsigned installs, so
+  `mac-install.mjs` installs it: it downloads the release zip, checks its
+  sha512 against `latest-mac.yml`, unpacks it, ad-hoc signs the new bundle
+  and clears its quarantine, and when the player quits a small helper waits
+  for the app to exit, moves the new bundle into the old one's place (the old
+  one is put back if that fails) and opens it. It refuses, and says why, when
+  the app runs from the disk image or macOS's translocated copy (move it to
+  Applications first) or its folder cannot be written. The decisions are in
+  `mac-swap.mjs` and proved in `tests/mac-swap.test.mjs`.
+- Steam-output builds (`npm run dist:steam`, which stamps
+  `distribution: steam` and produces bare directories suitable for later
+  SteamPipe upload) **hard-disable** the direct updater regardless of
+  configuration — Steam owns delivery there. No AppID exists and no
+  Steam upload is implied. Channel policy: everything this tooling
+  produces is `channel: internal`; a stable channel is a later, separate
+  authorization, so internal candidates cannot silently migrate stable
+  saves.
+- Signing/notarization hooks exist in `electron-builder.yml`
+  (`identity`, `hardenedRuntime`, `notarize`, or `CSC_LINK`/
+  `CSC_KEY_PASSWORD`). Until credentials exist, Mac builds are unsigned
+  (Gatekeeper may require the ordinary one-time right-click → Open
+  confirmation). The Mac updater clears quarantine only on the bundle it
+  just verified and signed; never disable Gatekeeper or remove quarantine
+  broadly.
+
+### Tracked secret scan
+
+Run `npm run secrets:scan` before publishing. The scanner inspects tracked paths and file contents for credentials and signing material; findings report paths and categories without printing values. Build feeds and signing credentials are supplied through environment variables or GitHub Actions secrets, never committed files.
+
+## Security posture
+
+Renderer: `nodeIntegration` off; `contextIsolation`, `sandbox`,
+`webSecurity` on; no preload and no IPC surface at all; all permission
+requests denied; navigation restricted to `app://game`; `window.open`
+denied (https links open in the OS browser); CSP allows only the
+packaged origin. There is no filesystem or shell bridge, no remote-code
+hot reload. The only self-update is the Mac bundle swap above, of a
+sha512-verified release zip, when the player quits.
+
+## Proof
+
+- `tests/play-api-host-save.test.mjs` starts the play server's host as
+  the app does, plays a life two days, stops the host as quitting the app
+  does, starts a new one on the same save folder, and checks that the
+  title offers that life and loads it to the same player, day and card.
+  The app keeps its saves in `saves` under its user data folder
+  (`main.mjs`); the save itself is `src/core2/saves.ts`.
+- `scripts/smoke-test.mjs --app <exe> [--shell]` is the bounded per-OS
+  runtime proof (launch → new life → keep → relaunch → continue;
+  `--shell` adds resize, fullscreen on/off, minimize/restore, clean
+  quit). CI runs it on the actual macOS runner build and on Windows
+  against the client INSTALLED by the real NSIS installer.
+
+```bash
+node scripts/smoke-test.mjs --app <executable> --shell
+```
+
+CI packaging (`.github/workflows/desktop-package.yml`) is read-only:
+mac and Windows runner builds with per-OS runtime smoke, checksums,
+exact source identity, no publication and no secrets.

@@ -1,0 +1,512 @@
+{
+  "id": "census-sbps-cash-on-hand-2022",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "Small Business Pulse Survey Phase 8, week 72, collected April 11 to 17, 2022 (the last week the cash-on-hand question was asked)",
+  "table": "national_sector_11Apr22_17Apr22.xlsx, instrument 13",
+  "title": "Small Business Pulse Survey: How would you describe the current availability of cash on hand for this business?",
+  "universe": "Nonfarm, single-location employer businesses with 1 to 499 employees and receipts of $1,000 or more in the 50 states, the District of Columbia and Puerto Rico",
+  "geography": "United States, by 2-digit NAICS sector",
+  "sourceUrl": "https://portal.census.gov/pulse/data/downloads/72/national_sector_11Apr22_17Apr22.xlsx",
+  "sourceSha256": "86e639336ac1ee3ffb86b284e03669f43dd2a60b17ba3959fcca54cd1cff6770",
+  "questionnaireUrl": "https://portal.census.gov/pulse/data/downloads/small-business-pulse-survey-questionnaire_11_15_2021.pdf",
+  "questionnaireQuote": "Q12. How would you describe the current availability of cash on hand for this business, including any financial assistance or loans? Currently, cash on hand will cover: 1-7 days of business operations; 1-2 weeks of business operations; 3-4 weeks of business operations; 1-2 months of business operations; 3 or more months of business operations; No cash available for business operations; Don't know",
+  "retrievedOn": "2026-10-23",
+  "limits": "Experimental, nonprobability weekly panel. Self-reported months of operations covered, counting pandemic financial assistance and loans, in April 2022 after the Paycheck Protection Program, Economic Injury Disaster Loans and the Restaurant Revitalization Fund, so the upper buckets are inflated against a normal year (Accommodation and Food Services, the lowest-cash industry in the JPMorgan Chase Institute sample, reports 31.5 percent at 3 or more months here, above the 30.6 percent of all sectors). Buckets are coarse, 3 or more months is open-ended and there is no bucket between 2 and 3 months. Used only as an independent cross-check of the lower tail (no cash, 1 to 7 days) and of the direction of the upper tail; it sets no parameter value. Island areas other than Puerto Rico are outside the survey.",
+  "sectors": [
+    {
+      "naicsSector": "-",
+      "name": "All sectors",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 6.1,
+          "standardErrorPercent": 0.19,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 6.1%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 9.1,
+          "standardErrorPercent": 0.13,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 9.1%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 14.1,
+          "standardErrorPercent": 0.19,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 14.1%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 22.6,
+          "standardErrorPercent": 0.31,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 22.6%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 30.6,
+          "standardErrorPercent": 0.27,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 30.6%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 3.1,
+          "standardErrorPercent": 0.13,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 3.1%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 14.4,
+          "standardErrorPercent": 0.22,
+          "quote": "- | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 14.4%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "23",
+      "name": "Construction",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 7.3,
+          "standardErrorPercent": 0.5,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 7.3%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 11.0,
+          "standardErrorPercent": 0.93,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 11.0%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 14.8,
+          "standardErrorPercent": 0.9,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 14.8%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 19.4,
+          "standardErrorPercent": 1.25,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 19.4%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 27.5,
+          "standardErrorPercent": 1.69,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 27.5%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 4.3,
+          "standardErrorPercent": 0.5,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 4.3%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 15.7,
+          "standardErrorPercent": 0.72,
+          "quote": "23 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 15.7%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "42",
+      "name": "Wholesale Trade",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 6.0,
+          "standardErrorPercent": 0.55,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 6.0%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 9.2,
+          "standardErrorPercent": 0.57,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 9.2%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 12.9,
+          "standardErrorPercent": 0.81,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 12.9%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 22.3,
+          "standardErrorPercent": 1.05,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 22.3%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 31.5,
+          "standardErrorPercent": 1.3,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 31.5%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 3.1,
+          "standardErrorPercent": 0.31,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 3.1%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 15.1,
+          "standardErrorPercent": 1.1,
+          "quote": "42 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 15.1%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "44",
+      "name": "Retail Trade",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 7.9,
+          "standardErrorPercent": 0.73,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 7.9%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 10.1,
+          "standardErrorPercent": 0.86,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 10.1%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 14.9,
+          "standardErrorPercent": 1.02,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 14.9%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 20.7,
+          "standardErrorPercent": 0.79,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 20.7%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 26.7,
+          "standardErrorPercent": 1.13,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 26.7%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 2.5,
+          "standardErrorPercent": 0.61,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 2.5%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 17.2,
+          "standardErrorPercent": 0.86,
+          "quote": "44 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 17.2%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "53",
+      "name": "Real Estate and Rental and Leasing",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 2.9,
+          "standardErrorPercent": 0.77,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 2.9%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 4.5,
+          "standardErrorPercent": 0.92,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 4.5%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 9.8,
+          "standardErrorPercent": 1.38,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 9.8%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 24.7,
+          "standardErrorPercent": 1.38,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 24.7%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 36.9,
+          "standardErrorPercent": 2.43,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 36.9%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 3.4,
+          "standardErrorPercent": 0.77,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 3.4%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 17.9,
+          "standardErrorPercent": 1.21,
+          "quote": "53 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 17.9%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "54",
+      "name": "Professional, Scientific, and Technical Services",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 3.9,
+          "standardErrorPercent": 0.16,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 3.9%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 6.6,
+          "standardErrorPercent": 0.58,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 6.6%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 12.8,
+          "standardErrorPercent": 0.69,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 12.8%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 26.8,
+          "standardErrorPercent": 0.87,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 26.8%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 35.9,
+          "standardErrorPercent": 0.75,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 35.9%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 2.5,
+          "standardErrorPercent": 0.33,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 2.5%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 11.5,
+          "standardErrorPercent": 0.63,
+          "quote": "54 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 11.5%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "62",
+      "name": "Health Care and Social Assistance",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 6.1,
+          "standardErrorPercent": 0.62,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 6.1%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 9.9,
+          "standardErrorPercent": 0.83,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 9.9%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 18.6,
+          "standardErrorPercent": 0.86,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 18.6%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 27.4,
+          "standardErrorPercent": 1.27,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 27.4%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 25.1,
+          "standardErrorPercent": 0.81,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 25.1%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 1.6,
+          "standardErrorPercent": 0.28,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 1.6%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 11.3,
+          "standardErrorPercent": 0.68,
+          "quote": "62 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 11.3%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "72",
+      "name": "Accommodation and Food Services",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 6.8,
+          "standardErrorPercent": 1.06,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 6.8%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 9.7,
+          "standardErrorPercent": 0.6,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 9.7%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 13.5,
+          "standardErrorPercent": 0.98,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 13.5%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 18.7,
+          "standardErrorPercent": 1.09,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 18.7%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 31.5,
+          "standardErrorPercent": 1.44,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 31.5%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 4.3,
+          "standardErrorPercent": 0.91,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 4.3%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 15.4,
+          "standardErrorPercent": 1.04,
+          "quote": "72 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 15.4%"
+        }
+      ]
+    },
+    {
+      "naicsSector": "81",
+      "name": "Other Services (except Public Administration)",
+      "answers": [
+        {
+          "answerId": 1,
+          "answer": "1-7 days of business operations",
+          "percent": 10.1,
+          "standardErrorPercent": 0.95,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 1 | 1-7 days of business operations | 10.1%"
+        },
+        {
+          "answerId": 2,
+          "answer": "1-2 weeks of business operations",
+          "percent": 12.2,
+          "standardErrorPercent": 1.27,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 2 | 1-2 weeks of business operations | 12.2%"
+        },
+        {
+          "answerId": 3,
+          "answer": "3-4 weeks of business operations",
+          "percent": 17.0,
+          "standardErrorPercent": 1.61,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 3 | 3-4 weeks of business operations | 17.0%"
+        },
+        {
+          "answerId": 4,
+          "answer": "1-2 months of business operations",
+          "percent": 21.1,
+          "standardErrorPercent": 1.27,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 4 | 1-2 months of business operations | 21.1%"
+        },
+        {
+          "answerId": 5,
+          "answer": "3 or more months of business operations",
+          "percent": 21.3,
+          "standardErrorPercent": 0.88,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 5 | 3 or more months of business operations | 21.3%"
+        },
+        {
+          "answerId": 6,
+          "answer": "No cash available for business operations",
+          "percent": 3.7,
+          "standardErrorPercent": 0.77,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 6 | No cash available for business operations | 3.7%"
+        },
+        {
+          "answerId": 7,
+          "answer": "Don't know",
+          "percent": 14.7,
+          "standardErrorPercent": 1.78,
+          "quote": "81 | 13 | How would you describe the current availability of cash on hand for this business? | 7 | Don't know | 14.7%"
+        }
+      ]
+    }
+  ]
+}

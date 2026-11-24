@@ -1,0 +1,416 @@
+{
+  "source": "USPS state and possession abbreviations; IANA primary time-zone reference; US Constitution amendments XIV and XXIII; 8 USC 1401–1408; 48 USC 1711, 1731, 1751",
+  "places": {
+    "AL": {
+      "name": "Alabama",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "AK": {
+      "name": "Alaska",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Anchorage",
+      "utcOffsetMinutes": -540
+    },
+    "AZ": {
+      "name": "Arizona",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Phoenix",
+      "utcOffsetMinutes": -420
+    },
+    "AR": {
+      "name": "Arkansas",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "CA": {
+      "name": "California",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Los_Angeles",
+      "utcOffsetMinutes": -480
+    },
+    "CO": {
+      "name": "Colorado",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "CT": {
+      "name": "Connecticut",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "DE": {
+      "name": "Delaware",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "DC": {
+      "name": "District of Columbia",
+      "jurisdictionKind": "federal-district",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "FL": {
+      "name": "Florida",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "GA": {
+      "name": "Georgia",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "HI": {
+      "name": "Hawaii",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "Pacific/Honolulu",
+      "utcOffsetMinutes": -600
+    },
+    "ID": {
+      "name": "Idaho",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "IL": {
+      "name": "Illinois",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "IN": {
+      "name": "Indiana",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "IA": {
+      "name": "Iowa",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "KS": {
+      "name": "Kansas",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "KY": {
+      "name": "Kentucky",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "LA": {
+      "name": "Louisiana",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "ME": {
+      "name": "Maine",
+      "jurisdictionKind": "state",
+      "electorAllocation": "congressional-district",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "MD": {
+      "name": "Maryland",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "MI": {
+      "name": "Michigan",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "MN": {
+      "name": "Minnesota",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "MS": {
+      "name": "Mississippi",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "MO": {
+      "name": "Missouri",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "MT": {
+      "name": "Montana",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "NE": {
+      "name": "Nebraska",
+      "jurisdictionKind": "state",
+      "electorAllocation": "congressional-district",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "NV": {
+      "name": "Nevada",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Los_Angeles",
+      "utcOffsetMinutes": -480
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "NM": {
+      "name": "New Mexico",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "NY": {
+      "name": "New York",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "NC": {
+      "name": "North Carolina",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "ND": {
+      "name": "North Dakota",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "OH": {
+      "name": "Ohio",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "OR": {
+      "name": "Oregon",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Los_Angeles",
+      "utcOffsetMinutes": -480
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "SC": {
+      "name": "South Carolina",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "SD": {
+      "name": "South Dakota",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "TN": {
+      "name": "Tennessee",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "TX": {
+      "name": "Texas",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "UT": {
+      "name": "Utah",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "VT": {
+      "name": "Vermont",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "VA": {
+      "name": "Virginia",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "WA": {
+      "name": "Washington",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Los_Angeles",
+      "utcOffsetMinutes": -480
+    },
+    "WV": {
+      "name": "West Virginia",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "WY": {
+      "name": "Wyoming",
+      "jurisdictionKind": "state",
+      "electorAllocation": "winner-take-all",
+      "timeZone": "America/Denver",
+      "utcOffsetMinutes": -420
+    },
+    "PR": {
+      "name": "Puerto Rico",
+      "jurisdictionKind": "territory",
+      "electorAllocation": "none",
+      "timeZone": "America/Puerto_Rico",
+      "utcOffsetMinutes": -240
+    },
+    "GU": {
+      "name": "Guam",
+      "jurisdictionKind": "territory",
+      "electorAllocation": "none",
+      "timeZone": "Pacific/Guam",
+      "utcOffsetMinutes": 600
+    },
+    "VI": {
+      "name": "U.S. Virgin Islands",
+      "jurisdictionKind": "territory",
+      "electorAllocation": "none",
+      "timeZone": "America/St_Thomas",
+      "utcOffsetMinutes": -240
+    },
+    "AS": {
+      "name": "American Samoa",
+      "jurisdictionKind": "territory",
+      "electorAllocation": "none",
+      "timeZone": "Pacific/Pago_Pago",
+      "utcOffsetMinutes": -660
+    },
+    "MP": {
+      "name": "Northern Mariana Islands",
+      "jurisdictionKind": "territory",
+      "electorAllocation": "none",
+      "timeZone": "Pacific/Saipan",
+      "utcOffsetMinutes": 600
+    }
+  },
+  "nonvotingHouseMemberTitles": {
+    "PR": "Resident Commissioner",
+    "DC": "Delegate",
+    "GU": "Delegate",
+    "VI": "Delegate",
+    "AS": "Delegate",
+    "MP": "Delegate"
+  },
+  "territoryBirthStatus": {
+    "PR": "citizen",
+    "VI": "citizen",
+    "GU": "citizen",
+    "MP": "citizen",
+    "AS": "national"
+  },
+  "defaultClockZone": {
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  }
+}

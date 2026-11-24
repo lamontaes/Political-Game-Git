@@ -1,0 +1,130 @@
+{
+  "about": "Out-of-pocket medical bills (world-medical-spending-categories) and the medical debt they leave (health-medical-debt-record), as the coverage engine pays them on the 1st (src/core2/medical-bills.ts). A month of ordinary care is priced in each place from what its own hospitals and clinics pay their staff (medicalCareUnitHealthPayDays of a health worker's pay); each member's care follows their health record's care need, and the part of it their coverage leaves them to pay (MEPS). What a household cannot pay from what it holds, less what it keeps back for its home, is carried for the 120-day wait; then the provider weighs the household's income against the poverty guideline and sends the rest to collections as a medical-debt record on its books, times the outcome web's factor for finance.medical-debt-in-collections.",
+  "outcome": "finance.medical-debt-in-collections",
+  "personLevel": {
+    "about": "The law reach keeps the Medicaid coverage of the town's residents, full and counted, by person id (recordCoverage, read through coverageSpellsNow) and pays the adult nothing for it, so the expansion reaches a town household only through that record: a covered member's bill is priced at Medicaid's out-of-pocket share, and the place-level expansion row is left out of the household's web factor. Medicaid's own part of the member's care (the cost less that share) is paid to the seller by the state and federal treasuries, the federal share at the match in force (law-reach payMedicaidCare). A household in another place the world keeps, whose coverage the reach does not keep, meets the expansion through the place-level row alone.",
+    "placeTwin": "medicaid-expansion-to-medical-debt",
+    "placeTwinCarriedBy": "the town residents' own Medicaid coverage records (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, by person id, read through coverageSpellsNow), by which the bills price each covered member at Medicaid's 9.1 percent share of their care (plans and billMembers in src/core2/medical-bills.ts): the household's smaller bill leaves less unpaid past the wait, and the place-level row is left out of its collections share (collectionsShare; the bill record's ownRecordsFor names it), so the expansion reaches the household's medical debt once, through its own records",
+    "policy": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
+  },
+  "medicalSellerClassifications": [
+    "service:hospital",
+    "service:clinic",
+    "enterprise:hospital",
+    "enterprise:health-care",
+    "enterprise:health"
+  ],
+  "parameters": {
+    "medicalPatientShareEmployer": {
+      "value": 0.297,
+      "tag": "SOURCED",
+      "citation": "Machlin and Carper, Out-of-Pocket Health Care Expenses by Age and Insurance Coverage, 2011, MEPS Statistical Brief #441 (AHRQ, June 2014), Figure 6, https://meps.ahrq.gov/data_files/publications/st441/stat441.pdf: percentage of expenses paid out of pocket, people under 65 with any private coverage, \"29.7%\".",
+      "spread": {
+        "low": 0.234,
+        "high": 0.297,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same figure: Medicare and private 23.4% to any private 29.7%; an employer plan is the brief's private coverage."
+      }
+    },
+    "medicalPatientShareMedicaid": {
+      "value": 0.091,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6 and text: \"the average proportions paid out of pocket for people under age 65 with public coverage and for the elderly with Medicare and other public coverage were only 9.1 percent and 10.8 percent, respectively.\"",
+      "spread": {
+        "low": 0.091,
+        "high": 0.108,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same sentence: 9.1% public coverage under 65 to 10.8% Medicare and other public."
+      }
+    },
+    "medicalPatientShareMedicare": {
+      "value": 0.261,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6: percentage of expenses paid out of pocket, people 65 and older with Medicare only, \"26.1%\" (the coverage engine records no supplemental plan).",
+      "spread": {
+        "low": 0.108,
+        "high": 0.261,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "Same figure: Medicare and other public 10.8% to Medicare only 26.1%."
+      }
+    },
+    "medicalPatientShareUninsured": {
+      "value": 0.638,
+      "tag": "SOURCED",
+      "citation": "MEPS Statistical Brief #441, Figure 6 and text: uninsured people under 65 paid \"an average of nearly two-thirds of their health care expenses paid out of pocket\" (Figure 6: 63.8%). The rest of their care was paid by other sources (the brief: \"miscellaneous sources that are not classified as health insurance\"), so the bill a household receives is this share, not the full charge.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.8,
+        "unit": "share of the cost of care the patient pays",
+        "citation": "ESTIMATED around the brief's 63.8%: the brief gives no interval; the bound is the share of care that free care and charity programs leave to the patient."
+      }
+    },
+    "medicalCollectionsWaitDays": {
+      "value": 120,
+      "tag": "SOURCED",
+      "citation": "26 CFR 1.501(r)-6(c), https://www.ecfr.gov/current/title-26/part-1/section-1.501(r)-6: a hospital has not made reasonable efforts to find whether a patient qualifies for financial assistance \"unless it refrains from initiating the ECA(s) until 120 days after it provided the first post-discharge billing statement\"; extraordinary collection actions include \"Selling an individual's debt to another party\" and \"Reporting adverse information about the individual to consumer credit reporting agencies or credit bureaus.\" A bill still unpaid this many days after it was billed is placed for collection.",
+      "spread": {
+        "low": 120,
+        "high": 180,
+        "unit": "days from the bill to collection",
+        "citation": "The 501(r) floor of 120 days to the 180 days CFPB 2022 reports some state laws require (\"Prohibits debt collection before 180 days after the initial billing\", California A.B. 1020)."
+      }
+    },
+    "medicalSeriousIllnessCostRatio": {
+      "value": 9.66,
+      "tag": "ESTIMATED",
+      "citation": "Mitchell, Concentration of Healthcare Expenditures and Selected Characteristics of High Spenders, U.S. Civilian Noninstitutionalized Population, 2018, MEPS Statistical Brief #533 (AHRQ, January 2021), https://meps.ahrq.gov/data_files/publications/st533/stat533.shtml: \"The top 5 percent of the population accounted for 48.3 percent of total expenditures (100 minus 51.7 percent), with an annual mean expenditure of $58,609.\"",
+      "estimatedFrom": "A person whose serious illness is under way (the health record's care need of one) stands for the top 5 percent of spenders: 48.3 percent of spending over 5 percent of people is 9.66 times the average person's care. Care need between none and one moves a person along the scale in proportion, with no step.",
+      "spread": {
+        "low": 9.66,
+        "high": 21,
+        "unit": "times the average person's cost of care",
+        "citation": "Same brief: the top 5 percent (48.3 percent of spending, 9.66 times the average) to the top 1 percent (\"accounted for 21 percent of total healthcare expenditures\", 21 times)."
+      }
+    },
+    "medicalCareUnitHealthPayDays": {
+      "value": 1.4,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "citation": "BLS Consumer Expenditure Survey 2024, medical services (series CXUMEDSERVSLB0101M, $1,252 a consumer unit), over the share of care paid out of pocket (MEPS Statistical Brief #441, 28.2 percent): the care cost the fit reproduces.",
+      "estimatedFrom": "Fitted once, Nov 17, 2026, at four drawn places (draw purpose lives-coverage-fit, seeds a1 to d4, the February bills): the days of a health worker's pay one person's month of ordinary care takes, so that pay as the opening draws it gives the care cost the survey's bills gave. The four places' own ratios were 1.11, 1.32, 1.45 and 1.82; 1.4 is their middle. After the fit the price of care is the place's own health pay times this, and moves with it.",
+      "spread": {
+        "low": 1.1,
+        "high": 1.8,
+        "unit": "days of a health worker's pay for one person's month of ordinary care",
+        "citation": "The four places' own ratios."
+      }
+    },
+    "medicalCollectionsIncomeMidpoint": {
+      "value": 3,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "citation": "KFF, Hospital Charity Care: How It Works and Why It Matters (https://www.kff.org/health-costs/issue-brief/hospital-charity-care-how-it-works-and-why-it-matters/), fetched 2026-11-17: of nonprofit hospitals studied, about one in three \"required patients to have incomes at or below 200 percent of the FPL\" for free care, and about three-fifths \"limited eligibility to patients with incomes at or below 400 percent of the FPL\" for discounted care.",
+      "estimatedFrom": "Free care commonly ends near twice the poverty guideline and discounts near four times it; the midpoint between them, three times the guideline, is where half of an unpaid bill is written off and half sent to collections. A strength of the provider's weighing; it sets no town's share.",
+      "spread": {
+        "low": 2,
+        "high": 4,
+        "unit": "income over the poverty guideline at which half of an unpaid bill is sent to collections",
+        "citation": "The same brief's two common limits, 200 and 400 percent of the guideline."
+      }
+    },
+    "medicalCollectionsIncomeSlope": {
+      "value": 5,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "citation": "KFF, Hospital Charity Care: How It Works and Why It Matters (https://www.kff.org/health-costs/issue-brief/hospital-charity-care-how-it-works-and-why-it-matters/), fetched 2026-11-17 (the same two limits).",
+      "estimatedFrom": "With the midpoint at three times the guideline, a slope of 5 sends about 12 percent of an unpaid bill to collections at twice the guideline and about 81 percent at four times it: nearly free below the common free-care limit, nearly whole above the common discount limit, and a sliding scale between.",
+      "spread": {
+        "low": 3,
+        "high": 8,
+        "unit": "log-odds per natural log of income over the midpoint",
+        "citation": "At 3 the two limits give 23 and 70 percent; at 8 they give 4 and 91 percent."
+      }
+    }
+  },
+  "calibration": {
+    "about": "Checks the record's totals against research; nothing here decides one household's bill or debt.",
+    "cfpb2022": "CFPB, Medical Debt Burden in the United States (March 2022), https://files.consumerfinance.gov/f/documents/cfpb_medical-debt-burden-in-the-united-states_report_2022-03.pdf: \"CFPB research shows $88 billion in medical debt on consumer credit records as of June 2021.\" \"As of 2021, 58 percent of all third-party debt collection tradelines were for medical debt\". \"In one 2016 survey by the Kaiser Family Foundation, more than half (53 percent) of uninsured people said they had problems paying medical bills in the past year—substantially higher than the 19 percent of those with employer-sponsored plans or the 18 percent of those with Medicaid who said the same.\"",
+    "huEtAl2018": "Hu, Kaestner, Mazumder, Miller and Wong 2018, The Effect of the Affordable Care Act Medicaid Expansions on Financial Wellbeing, J Public Econ 163 (NBER w22170), https://www.nber.org/papers/w22170, abstract: the expansions \"significantly reduced the number of unpaid bills and the amount of debt sent to third-party collection agencies\", \"a reduction in collection balances of approximately $1,140\" for \"those who gain Medicaid coverage due to the ACA.\""
+  }
+}

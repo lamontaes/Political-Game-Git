@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "composite": false,
+    "noEmit": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "files": [],
+  "include": ["./**/*.ts", "./**/*.mts"],
+  "exclude": []
+}

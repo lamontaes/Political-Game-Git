@@ -1,0 +1,36 @@
+{
+  "answer": {
+    "summary": "what-opens-a-scandal-about-somebody-else: the weekly rival-complaint path already exists. Broaden eligible actors and distinct incidents, not one-per-player-campaign or a scandal quota. Separate allegation/evidence/finding. Unfounded or deceptive allegations need a real claimant's mistake/intent; do not fabricate the accused person's crime. Matter deduplication follows incident/claim, not campaign lifetime. Rate and disposition percentages remain unselected.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C04, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Rate and disposition percentages remain unselected.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:25:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "A partial answer is useful: one grounds rule and one rate would let the producer be built and measured against a ten-year save.",
+    "Worth challenging: whether allegations should be tied to a real recorded act at all. Tying them keeps the game honest about what it observed; untying them is how real politics works."
+  ],
+  "priority": "P1",
+  "question": "A scandal in this game is a matter opened about a named person, with allegations, a complaint, a procedure and a response. The machinery is general and complete; the only thing that ever opens one is the player personally spending campaign money. So: (1) what should make an allegation open about an officeholder or a candidate who is not the player — a specific kind of record the world already writes, or a rate, or both; (2) how often, in a plausible year, should a sitting legislator or governor face a formal allegation, and how should that vary by office and by state; (3) what proportion should end in a finding against the person, a dismissal, or nothing at all; (4) should a scandal that touches somebody the player knows or serves with behave differently from one three states away; and (5) what should make an allegation a story the press picks up rather than a filing nobody reads?",
+  "questionId": "what-opens-a-scandal-about-somebody-else",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/matters.ts and press/transitions.ts read in full",
+      "whatItDidNotSettle": "Establishes that the writers are reachable in ordinary play, through exactly one narrow player-triggered path, and that they are general over any subject person. Settles that this is a producer question and not a plumbing question. Says nothing about how often, to whom, or on what grounds."
+    },
+    {
+      "source": "An earlier reading by this lane that reported scandal as unreachable",
+      "whatItDidNotSettle": "That reading was wrong and is corrected here. It grepped the innermost writers and found no outside caller, missing that the chain is entered two functions up. The correction matters to the shape of the answer: the ask is to widen an existing producer, not to build one."
+    }
+  ],
+  "title": "What should open a scandal about somebody who is not the player",
+  "usableAnswer": "A rule expressed over records this world already writes: a campaign expenditure, a vote, an appointment, a family employment relationship, a disbursement. A plausible annual rate per office level, with a source for the rate. A disposition distribution. And a view on whether an allegation must be TRUE in the simulation — that is, tied to a real recorded act — or whether unfounded allegations should also occur, which is a product decision more than an empirical one.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. WHAT EXISTS: openMatter, recordAllegation, fileComplaint, procedureForSubject, respondToComplaint and a weekly press desk, all general over any person. THE ONE MISSING LINK: the only producer in play is produceRivalComplaints, which runs weekly but returns immediately unless the world is controlled by a person, that person has an active campaign, that campaign has an expenditure to an organization, a rival exists, and no matter or decision trace already exists for that campaign — at most one per campaign, always about the player. So no NPC in any save can ever be the subject of a scandal, and a player who never spends campaign money personally never sees one. THE SMALLEST HONEST CHANGE: a second producer on the same weekly handler that considers NPC officeholders against records the world already has. WHAT A PLAYER WOULD SEE: a legislator they serve with under investigation, in the newspaper, with a procedure running that resolves without them."
+}

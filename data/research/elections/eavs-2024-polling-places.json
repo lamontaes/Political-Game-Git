@@ -1,0 +1,1354 @@
+{
+  "id": "eavs-2024-polling-places",
+  "publisher": "U.S. Election Assistance Commission",
+  "vintage": "2024 general election (public release V2, February 2026)",
+  "table": "2024 EAVS for Public Release, nolabel CSV, V2: D1a total precincts; D2a total polling places in the 2024 general election; D3a election-day polling places, D3b not at an election office, D3c at an election office; D4a early-voting polling places",
+  "title": "Precincts, polling places and the kinds of buildings voters use, by place",
+  "universe": "Election jurisdictions reporting to the Election Administration and Voting Survey (counties, towns or territory-wide offices)",
+  "geography": "All 56 places (50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands), summed over each place's jurisdictions",
+  "sourceUrl": "https://www.eac.gov/sites/default/files/2026-02/2024_EAVS_for_Public_Release_nolabel_V2_csv.zip",
+  "codebookUrl": "https://www.eac.gov/sites/default/files/2025-06/2024_EAVS_Codebook.xlsx",
+  "retrievedOn": "2026-10-23",
+  "limits": "The EAVS counts polling places but does not ask what kind of building each is, so facility kinds come from Pennsylvania's measured list (CCAP, May 2026: religious 31 percent, government 19, schools and libraries 15, public safety 14, community and club 12, commercial and other 9; 72 percent of its polling places serve one precinct) and stand in for every other place, marked ESTIMATED. Negative EAVS codes (not applicable, data not available) are left out of the sums and counted in itemsNotReported, so a place whose jurisdictions skipped an item reads low or zero there (Washington and Oregon vote by mail and report few or no election-day polling places). Calibrates the town's precincts per polling place and the kinds of buildings it votes in; it never decides which building one precinct uses. A few jurisdictions report election-day polling places (D3a) that differ from the sum of those at and away from an election office (D3b, D3c); each is named in its place's electionDaySplitDiffers, as reported.",
+  "kindSources": [
+    {
+      "publisher": "County Commissioners Association of Pennsylvania",
+      "title": "Where Pennsylvanians Vote (County Data Brief, May 2026)",
+      "url": "https://www.pacounties.org/getmedia/bd4a443e-5299-4dc6-afa8-3a4b6dae69f0/When-PA-Vote.pdf",
+      "quote": "in April 2026, there are 6,572 polling places. The majority of these voting places (72 percent) serviced only one precinct or ward."
+    },
+    {
+      "publisher": "Maine Legislature, Working Group to Study Polling Places at Schools",
+      "title": "Report of the Working Group to Study Polling Places at Schools (2024)",
+      "url": "https://lldc.mainelegislature.org/Open/Rpts/kf4119_a2b4_2024.pdf",
+      "quote": "The working group identified 72 polling places located at schools in July 2020"
+    }
+  ],
+  "national": {
+    "precincts": 177708,
+    "pollingPlacesGeneral2024": 95815,
+    "electionDayPollingPlaces": 94936,
+    "earlyVotingSites": 30502
+  },
+  "places": {
+    "US-AK": {
+      "jurisdictionsReporting": 1,
+      "precincts": 402,
+      "pollingPlacesGeneral2024": 524,
+      "electionDayPollingPlaces": 412,
+      "electionDayNotAtElectionOffice": 407,
+      "electionDayAtElectionOffice": 5,
+      "earlyVotingSites": 100,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-AL": {
+      "jurisdictionsReporting": 67,
+      "precincts": 2283,
+      "pollingPlacesGeneral2024": 2010,
+      "electionDayPollingPlaces": 2010,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 0,
+      "itemsNotReported": {
+        "D3b": 67,
+        "D3c": 67,
+        "D4a": 67
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-AR": {
+      "jurisdictionsReporting": 75,
+      "precincts": 2910,
+      "pollingPlacesGeneral2024": 1030,
+      "electionDayPollingPlaces": 7200,
+      "electionDayNotAtElectionOffice": 850,
+      "electionDayAtElectionOffice": 30,
+      "earlyVotingSites": 17339,
+      "itemsNotReported": {
+        "D3a": 2,
+        "D3b": 4,
+        "D3c": 12,
+        "D4a": 2
+      },
+      "electionDaySplitDiffers": [
+        "Ashley County (D3a 9, D3b 7, D3c 0)",
+        "Boone County (D3a 13, D3b 13, D3c 1)",
+        "Prairie County (D3a 10, D3b 10, D3c 10)"
+      ],
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-AS": {
+      "jurisdictionsReporting": 1,
+      "precincts": 17,
+      "pollingPlacesGeneral2024": 41,
+      "electionDayPollingPlaces": 41,
+      "electionDayNotAtElectionOffice": 41,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 1,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-AZ": {
+      "jurisdictionsReporting": 15,
+      "precincts": 1735,
+      "pollingPlacesGeneral2024": 781,
+      "electionDayPollingPlaces": 730,
+      "electionDayNotAtElectionOffice": 729,
+      "electionDayAtElectionOffice": 1,
+      "earlyVotingSites": 241,
+      "itemsNotReported": {
+        "D3c": 2
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-CA": {
+      "jurisdictionsReporting": 58,
+      "precincts": 25127,
+      "pollingPlacesGeneral2024": 3818,
+      "electionDayPollingPlaces": 3777,
+      "electionDayNotAtElectionOffice": 3714,
+      "electionDayAtElectionOffice": 63,
+      "earlyVotingSites": 1807,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-CO": {
+      "jurisdictionsReporting": 64,
+      "precincts": 3243,
+      "pollingPlacesGeneral2024": 366,
+      "electionDayPollingPlaces": 366,
+      "electionDayNotAtElectionOffice": 309,
+      "electionDayAtElectionOffice": 57,
+      "earlyVotingSites": 325,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-CT": {
+      "jurisdictionsReporting": 169,
+      "precincts": 718,
+      "pollingPlacesGeneral2024": 739,
+      "electionDayPollingPlaces": 739,
+      "electionDayNotAtElectionOffice": 599,
+      "electionDayAtElectionOffice": 139,
+      "earlyVotingSites": 171,
+      "itemsNotReported": {},
+      "electionDaySplitDiffers": ["Middletown Town (D3a 11, D3b 9, D3c 1)"],
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-DC": {
+      "jurisdictionsReporting": 1,
+      "precincts": 144,
+      "pollingPlacesGeneral2024": 75,
+      "electionDayPollingPlaces": 75,
+      "electionDayNotAtElectionOffice": 75,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 25,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-DE": {
+      "jurisdictionsReporting": 3,
+      "precincts": 537,
+      "pollingPlacesGeneral2024": 282,
+      "electionDayPollingPlaces": 282,
+      "electionDayNotAtElectionOffice": 279,
+      "electionDayAtElectionOffice": 3,
+      "earlyVotingSites": 19,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-FL": {
+      "jurisdictionsReporting": 67,
+      "precincts": 5798,
+      "pollingPlacesGeneral2024": 4162,
+      "electionDayPollingPlaces": 4024,
+      "electionDayNotAtElectionOffice": 4004,
+      "electionDayAtElectionOffice": 23,
+      "earlyVotingSites": 467,
+      "itemsNotReported": {},
+      "electionDaySplitDiffers": ["Monroe County (D3a 25, D3b 25, D3c 3)"],
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-GA": {
+      "jurisdictionsReporting": 159,
+      "precincts": 2699,
+      "pollingPlacesGeneral2024": 2658,
+      "electionDayPollingPlaces": 2292,
+      "electionDayNotAtElectionOffice": 2285,
+      "electionDayAtElectionOffice": 7,
+      "earlyVotingSites": 366,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-GU": {
+      "jurisdictionsReporting": 1,
+      "precincts": 72,
+      "pollingPlacesGeneral2024": 22,
+      "electionDayPollingPlaces": 22,
+      "electionDayNotAtElectionOffice": 22,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 1,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-HI": {
+      "jurisdictionsReporting": 5,
+      "precincts": 248,
+      "pollingPlacesGeneral2024": 13,
+      "electionDayPollingPlaces": 0,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 13,
+      "itemsNotReported": {
+        "D1a": 1,
+        "D2a": 1,
+        "D3a": 5,
+        "D3b": 5,
+        "D3c": 5,
+        "D4a": 1
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-IA": {
+      "jurisdictionsReporting": 99,
+      "precincts": 1653,
+      "pollingPlacesGeneral2024": 1663,
+      "electionDayPollingPlaces": 1663,
+      "electionDayNotAtElectionOffice": 1663,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 99,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-ID": {
+      "jurisdictionsReporting": 44,
+      "precincts": 976,
+      "pollingPlacesGeneral2024": 856,
+      "electionDayPollingPlaces": 814,
+      "electionDayNotAtElectionOffice": 159,
+      "electionDayAtElectionOffice": 1,
+      "earlyVotingSites": 50,
+      "itemsNotReported": {
+        "D3b": 43,
+        "D3c": 43
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-IL": {
+      "jurisdictionsReporting": 108,
+      "precincts": 8498,
+      "pollingPlacesGeneral2024": 5213,
+      "electionDayPollingPlaces": 5040,
+      "electionDayNotAtElectionOffice": 4931,
+      "electionDayAtElectionOffice": 109,
+      "earlyVotingSites": 394,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-IN": {
+      "jurisdictionsReporting": 92,
+      "precincts": 4982,
+      "pollingPlacesGeneral2024": 1654,
+      "electionDayPollingPlaces": 1642,
+      "electionDayNotAtElectionOffice": 1626,
+      "electionDayAtElectionOffice": 16,
+      "earlyVotingSites": 304,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-KS": {
+      "jurisdictionsReporting": 105,
+      "precincts": 4141,
+      "pollingPlacesGeneral2024": 1177,
+      "electionDayPollingPlaces": 1042,
+      "electionDayNotAtElectionOffice": 1042,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 108,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-KY": {
+      "jurisdictionsReporting": 120,
+      "precincts": 3117,
+      "pollingPlacesGeneral2024": 1580,
+      "electionDayPollingPlaces": 1475,
+      "electionDayNotAtElectionOffice": 1450,
+      "electionDayAtElectionOffice": 25,
+      "earlyVotingSites": 252,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-LA": {
+      "jurisdictionsReporting": 64,
+      "precincts": 3805,
+      "pollingPlacesGeneral2024": 2032,
+      "electionDayPollingPlaces": 1955,
+      "electionDayNotAtElectionOffice": 1955,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 111,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MA": {
+      "jurisdictionsReporting": 351,
+      "precincts": 2389,
+      "pollingPlacesGeneral2024": 1634,
+      "electionDayPollingPlaces": 1222,
+      "electionDayNotAtElectionOffice": 1222,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 469,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MD": {
+      "jurisdictionsReporting": 24,
+      "precincts": 1991,
+      "pollingPlacesGeneral2024": 1991,
+      "electionDayPollingPlaces": 1458,
+      "electionDayNotAtElectionOffice": 1458,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 97,
+      "itemsNotReported": {
+        "D3c": 24
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-ME": {
+      "jurisdictionsReporting": 497,
+      "precincts": 533,
+      "pollingPlacesGeneral2024": 514,
+      "electionDayPollingPlaces": 514,
+      "electionDayNotAtElectionOffice": 219,
+      "electionDayAtElectionOffice": 295,
+      "earlyVotingSites": 483,
+      "itemsNotReported": {
+        "D1a": 8,
+        "D2a": 14,
+        "D3a": 14,
+        "D3b": 14,
+        "D3c": 14,
+        "D4a": 14
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MI": {
+      "jurisdictionsReporting": 83,
+      "precincts": 4340,
+      "pollingPlacesGeneral2024": 5169,
+      "electionDayPollingPlaces": 3135,
+      "electionDayNotAtElectionOffice": 3135,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 2034,
+      "itemsNotReported": {
+        "D3c": 83
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MN": {
+      "jurisdictionsReporting": 87,
+      "precincts": 4103,
+      "pollingPlacesGeneral2024": 2685,
+      "electionDayPollingPlaces": 2578,
+      "electionDayNotAtElectionOffice": 1751,
+      "electionDayAtElectionOffice": 827,
+      "earlyVotingSites": 247,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MO": {
+      "jurisdictionsReporting": 116,
+      "precincts": 3974,
+      "pollingPlacesGeneral2024": 2240,
+      "electionDayPollingPlaces": 2240,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 0,
+      "itemsNotReported": {
+        "D3b": 116,
+        "D3c": 116,
+        "D4a": 116
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MP": {
+      "jurisdictionsReporting": 1,
+      "precincts": 7,
+      "pollingPlacesGeneral2024": 13,
+      "electionDayPollingPlaces": 13,
+      "electionDayNotAtElectionOffice": 13,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 3,
+      "itemsNotReported": {
+        "D3c": 1
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MS": {
+      "jurisdictionsReporting": 82,
+      "precincts": 1746,
+      "pollingPlacesGeneral2024": 1746,
+      "electionDayPollingPlaces": 1746,
+      "electionDayNotAtElectionOffice": 1746,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 92,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-MT": {
+      "jurisdictionsReporting": 56,
+      "precincts": 727,
+      "pollingPlacesGeneral2024": 411,
+      "electionDayPollingPlaces": 390,
+      "electionDayNotAtElectionOffice": 334,
+      "electionDayAtElectionOffice": 56,
+      "earlyVotingSites": 77,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NC": {
+      "jurisdictionsReporting": 100,
+      "precincts": 2659,
+      "pollingPlacesGeneral2024": 3360,
+      "electionDayPollingPlaces": 2748,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 612,
+      "itemsNotReported": {
+        "D3b": 100,
+        "D3c": 100
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-ND": {
+      "jurisdictionsReporting": 53,
+      "precincts": 385,
+      "pollingPlacesGeneral2024": 172,
+      "electionDayPollingPlaces": 172,
+      "electionDayNotAtElectionOffice": 141,
+      "electionDayAtElectionOffice": 31,
+      "earlyVotingSites": 14,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NE": {
+      "jurisdictionsReporting": 93,
+      "precincts": 1326,
+      "pollingPlacesGeneral2024": 1083,
+      "electionDayPollingPlaces": 997,
+      "electionDayNotAtElectionOffice": 990,
+      "electionDayAtElectionOffice": 7,
+      "earlyVotingSites": 93,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NH": {
+      "jurisdictionsReporting": 320,
+      "precincts": 333,
+      "pollingPlacesGeneral2024": 307,
+      "electionDayPollingPlaces": 307,
+      "electionDayNotAtElectionOffice": 307,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 0,
+      "itemsNotReported": {
+        "D3c": 320,
+        "D4a": 320
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NJ": {
+      "jurisdictionsReporting": 21,
+      "precincts": 6402,
+      "pollingPlacesGeneral2024": 4620,
+      "electionDayPollingPlaces": 4518,
+      "electionDayNotAtElectionOffice": 4518,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 160,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NM": {
+      "jurisdictionsReporting": 33,
+      "precincts": 2169,
+      "pollingPlacesGeneral2024": 668,
+      "electionDayPollingPlaces": 548,
+      "electionDayNotAtElectionOffice": 520,
+      "electionDayAtElectionOffice": 28,
+      "earlyVotingSites": 142,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NV": {
+      "jurisdictionsReporting": 17,
+      "precincts": 1667,
+      "pollingPlacesGeneral2024": 288,
+      "electionDayPollingPlaces": 248,
+      "electionDayNotAtElectionOffice": 245,
+      "electionDayAtElectionOffice": 3,
+      "earlyVotingSites": 94,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-NY": {
+      "jurisdictionsReporting": 62,
+      "precincts": 13324,
+      "pollingPlacesGeneral2024": 5197,
+      "electionDayPollingPlaces": 4758,
+      "electionDayNotAtElectionOffice": 4743,
+      "electionDayAtElectionOffice": 15,
+      "earlyVotingSites": 439,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-OH": {
+      "jurisdictionsReporting": 88,
+      "precincts": 8868,
+      "pollingPlacesGeneral2024": 3267,
+      "electionDayPollingPlaces": 3231,
+      "electionDayNotAtElectionOffice": 3216,
+      "electionDayAtElectionOffice": 15,
+      "earlyVotingSites": 85,
+      "itemsNotReported": {
+        "D4a": 2
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-OK": {
+      "jurisdictionsReporting": 77,
+      "precincts": 1986,
+      "pollingPlacesGeneral2024": 2067,
+      "electionDayPollingPlaces": 1980,
+      "electionDayNotAtElectionOffice": 1980,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 87,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-OR": {
+      "jurisdictionsReporting": 36,
+      "precincts": 1304,
+      "pollingPlacesGeneral2024": 36,
+      "electionDayPollingPlaces": 36,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 36,
+      "earlyVotingSites": 0,
+      "itemsNotReported": {
+        "D4a": 36
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-PA": {
+      "jurisdictionsReporting": 67,
+      "precincts": 9153,
+      "pollingPlacesGeneral2024": 7752,
+      "electionDayPollingPlaces": 7752,
+      "electionDayNotAtElectionOffice": 7752,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 0,
+      "itemsNotReported": {
+        "D4a": 67
+      },
+      "facilityShares": {
+        "tag": "SOURCED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "counts": {
+          "religious": 2018,
+          "government": 1281,
+          "schoolOrLibrary": 968,
+          "publicSafety": 892,
+          "communityOrClub": 830,
+          "commercialOrOther": 590
+        },
+        "singlePrecinctPlacesPercent": 72,
+        "citation": "County Commissioners Association of Pennsylvania, Where Pennsylvanians Vote (County Data Brief, May 2026), from the Department of State's April 2026 polling-place list: 6,572 polling places"
+      }
+    },
+    "US-PR": {
+      "jurisdictionsReporting": 1,
+      "precincts": 114,
+      "pollingPlacesGeneral2024": 1337,
+      "electionDayPollingPlaces": 1241,
+      "electionDayNotAtElectionOffice": 1241,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 96,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-RI": {
+      "jurisdictionsReporting": 39,
+      "precincts": 453,
+      "pollingPlacesGeneral2024": 430,
+      "electionDayPollingPlaces": 430,
+      "electionDayNotAtElectionOffice": 393,
+      "electionDayAtElectionOffice": 37,
+      "earlyVotingSites": 39,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-SC": {
+      "jurisdictionsReporting": 46,
+      "precincts": 2308,
+      "pollingPlacesGeneral2024": 2088,
+      "electionDayPollingPlaces": 2005,
+      "electionDayNotAtElectionOffice": 2002,
+      "electionDayAtElectionOffice": 3,
+      "earlyVotingSites": 137,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-SD": {
+      "jurisdictionsReporting": 66,
+      "precincts": 710,
+      "pollingPlacesGeneral2024": 493,
+      "electionDayPollingPlaces": 490,
+      "electionDayNotAtElectionOffice": 417,
+      "electionDayAtElectionOffice": 27,
+      "earlyVotingSites": 12,
+      "itemsNotReported": {
+        "D3b": 6,
+        "D3c": 12,
+        "D4a": 57
+      },
+      "electionDaySplitDiffers": ["Pennington County (D3a 46, D3b 35, D3c 0)"],
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-TN": {
+      "jurisdictionsReporting": 95,
+      "precincts": 1996,
+      "pollingPlacesGeneral2024": 1889,
+      "electionDayPollingPlaces": 1759,
+      "electionDayNotAtElectionOffice": 1743,
+      "electionDayAtElectionOffice": 16,
+      "earlyVotingSites": 228,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-TX": {
+      "jurisdictionsReporting": 254,
+      "precincts": 9704,
+      "pollingPlacesGeneral2024": 6135,
+      "electionDayPollingPlaces": 5620,
+      "electionDayNotAtElectionOffice": 5178,
+      "electionDayAtElectionOffice": 98,
+      "earlyVotingSites": 1355,
+      "itemsNotReported": {
+        "D3b": 16,
+        "D3c": 16
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-UT": {
+      "jurisdictionsReporting": 29,
+      "precincts": 2979,
+      "pollingPlacesGeneral2024": 114,
+      "electionDayPollingPlaces": 103,
+      "electionDayNotAtElectionOffice": 86,
+      "electionDayAtElectionOffice": 17,
+      "earlyVotingSites": 44,
+      "itemsNotReported": {
+        "D3c": 1
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-VA": {
+      "jurisdictionsReporting": 133,
+      "precincts": 2865,
+      "pollingPlacesGeneral2024": 2673,
+      "electionDayPollingPlaces": 2472,
+      "electionDayNotAtElectionOffice": 2472,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 201,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-VI": {
+      "jurisdictionsReporting": 1,
+      "precincts": 22,
+      "pollingPlacesGeneral2024": 11,
+      "electionDayPollingPlaces": 11,
+      "electionDayNotAtElectionOffice": 11,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 3,
+      "itemsNotReported": {
+        "D3c": 1
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-VT": {
+      "jurisdictionsReporting": 247,
+      "precincts": 262,
+      "pollingPlacesGeneral2024": 262,
+      "electionDayPollingPlaces": 262,
+      "electionDayNotAtElectionOffice": 262,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 247,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-WA": {
+      "jurisdictionsReporting": 39,
+      "precincts": 8111,
+      "pollingPlacesGeneral2024": 67,
+      "electionDayPollingPlaces": 0,
+      "electionDayNotAtElectionOffice": 0,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 67,
+      "itemsNotReported": {
+        "D3a": 39,
+        "D3b": 39,
+        "D3c": 39
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-WI": {
+      "jurisdictionsReporting": 1851,
+      "precincts": 3603,
+      "pollingPlacesGeneral2024": 2696,
+      "electionDayPollingPlaces": 2696,
+      "electionDayNotAtElectionOffice": 2696,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 533,
+      "itemsNotReported": {
+        "D3c": 1851,
+        "D4a": 1383
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-WV": {
+      "jurisdictionsReporting": 55,
+      "precincts": 1652,
+      "pollingPlacesGeneral2024": 1486,
+      "electionDayPollingPlaces": 1437,
+      "electionDayNotAtElectionOffice": 1397,
+      "electionDayAtElectionOffice": 40,
+      "earlyVotingSites": 95,
+      "itemsNotReported": {
+        "D1a": 1
+      },
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    },
+    "US-WY": {
+      "jurisdictionsReporting": 23,
+      "precincts": 438,
+      "pollingPlacesGeneral2024": 218,
+      "electionDayPollingPlaces": 218,
+      "electionDayNotAtElectionOffice": 218,
+      "electionDayAtElectionOffice": 0,
+      "earlyVotingSites": 24,
+      "itemsNotReported": {},
+      "facilityShares": {
+        "tag": "ESTIMATED",
+        "percent": {
+          "religious": 31,
+          "government": 19,
+          "schoolOrLibrary": 15,
+          "publicSafety": 14,
+          "communityOrClub": 12,
+          "commercialOrOther": 9
+        },
+        "estimatedFrom": "Median of the measured places: only Pennsylvania's facility kinds are measured (CCAP, May 2026); the EAVS does not ask for them. Maine's school count (72 of its polling places in July 2020, against 514 election-day polling places in the 2024 EAVS, about 14 percent) agrees with Pennsylvania's 15 percent for schools and libraries."
+      }
+    }
+  }
+}

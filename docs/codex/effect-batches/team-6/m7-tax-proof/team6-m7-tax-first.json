@@ -1,0 +1,138 @@
+{
+  "numTotalTests": 18,
+  "numPassedTests": 3,
+  "numFailedTests": 15,
+  "success": false,
+  "tests": [
+    {
+      "file": "src/simulation/tax-policy.test.ts",
+      "assertions": [
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection keeps preview pure, distinguishes absent/zero and rounds exact cents half up",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection refuses unenacted policy and ordinary filing without the actual current seat",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection records enactment before effect and never treats passage or time as money",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:132:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection freezes one assessment, collects only on due date and conserves existing payer/public money through reload",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:142:36\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection records a terminal failure without fake public receipt or negative payer funds (null)",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:214:38\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection records a terminal failure without fake public receipt or negative payer funds (20)",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:214:38\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection records zero explicitly without minting a transfer",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:254:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection rejects save tampering with due date, assessment amount, scope and double occurrence",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:269:36\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection preserves older saves with absent optional tax histories",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection freezes an earlier occurrence across a genuinely enacted new rate version",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:327:43\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "SYSTEMS30-F sourced proposal to enacted policy to due collection keeps campaign cash separate and refuses using its classified account as the payer",
+          "status": "failed",
+          "failureMessages": [
+            "Error: The fixture must complete actual canonical enactment and tax policy recording.\n    at enactedTaxFixture (/workspace/Political-Game-Git/tests/fixtures/tax-policy-fixture.ts:108:11)\n    at /workspace/Political-Game-Git/src/simulation/tax-policy.test.ts:379:36\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/simulation/law-consequences/tax.test.ts",
+      "assertions": [
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection assesses the named payer once, then collects actual cash after Save/Continue",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:225:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'blocked' distinct from positive collection",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:278:17\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'zero' distinct from positive collection",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:278:17\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses absent authority, wrong questions, unrecorded activities and unrelated subjects",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:293:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection does not assess before the typed policy and governing law are operative",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:314:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection rejects forged amounts and source IDs, and leaves existing liabilities frozen",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:325:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses unsupported expression/rate inference instead of using a catalog yes as a rate",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected undefined to be defined\n    at fixture (/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:88:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:351:15\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)"
+          ]
+        }
+      ]
+    }
+  ]
+}

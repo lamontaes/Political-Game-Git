@@ -1,0 +1,308 @@
+/**
+ * Who takes a filing: the person at the counter of the office a contest files
+ * with. The records that name one are read, never invented: a town's clerk is
+ * the department head its council or mayor appointed (a payroll job on the
+ * town's treasury), a county's clerk is the person its county government's
+ * public record lists under a clerk title, and a place that elects a clerk,
+ * registrar or election administrator has that holder in its offices. A
+ * contest filed with a state or federal office has no counter in the town, so
+ * no one is named.
+ */
+import type { CoreAPI, CoreState } from "../types";
+import { townSeats } from "./offices";
+import { lawChain } from "./laws";
+import {
+  agencyHeadsIn,
+  appointmentsIn,
+  ELECTION_CHIEF_POST,
+  EXECUTIVE_MODULE_ID,
+  LOCAL_FILING_OFFICER_POST,
+  RULE_FILING_OFFICER_POST,
+} from "./executive";
+import { describesByRule } from "../filing-rule-office";
+import {
+  ELECTIONS_MODULE_ID,
+  filingOfficeFor,
+  filingRequirements,
+  type ContestRow,
+} from "./elections";
+
+/** Whether the data gives a contest's filing office as a rule, not a name. */
+function givenAsRule(api: CoreAPI, contest: ContestRow): boolean {
+  return describesByRule(
+    filingRequirements(lawChain(api).stateKey, contest.family).filedWith,
+  );
+}
+
+/** The elected offices whose holder is the clerk at a filing counter. */
+const CLERK_SEAT_KINDS: ReadonlySet<string> = new Set([
+  "county-clerk",
+  "municipal-clerk",
+  "registrar",
+  "election-administrator",
+]);
+/** The town department post that keeps the town's clerk. */
+export const TOWN_CLERK_POST = "city-clerk";
+/** A county government's staff row is a clerk's by its recorded title. */
+const CLERK_TITLE = /clerk/i;
+
+export interface FilingClerk {
+  readonly personId: string;
+  readonly title: string;
+  /**
+   * The agency they head, where the title is the agency's name and not a job (the head of a state's
+   * election agency): the narration says what they do from this fact, never the agency as a job.
+   */
+  readonly heads?: string;
+  /** How the records name them: an elected seat, a town appointment or county staff. */
+  readonly basis:
+    | "elected-seat"
+    | "town-appointment"
+    | "county-staff"
+    | "state-appointment"
+    | "drawn-officer";
+  /** The record that names them: the seat id, the appointment id or the staff job id. */
+  readonly recordId: string;
+}
+
+const filingOfficers = new WeakMap<
+  object,
+  { date: string; ids: ReadonlySet<string> }
+>();
+
+/**
+ * The people seated at a filing counter because no record names one (the
+ * election chief and the counter officers drawn from the world's seed). They
+ * take the filings of the races they staff, so they never stand in them: the
+ * pool of people who weigh running leaves them out.
+ */
+export function filingOfficerIds(api: CoreAPI): ReadonlySet<string> {
+  const held = filingOfficers.get(api.state);
+  if (held?.date === api.state.date) return held.ids;
+  const ids = new Set<string>();
+  if (api.state.modules.has(EXECUTIVE_MODULE_ID))
+    for (const row of api
+      .moduleState(EXECUTIVE_MODULE_ID)
+      .table("agencyHeads")
+      .rows() as unknown as { post: string; holderId: string }[])
+      if (
+        row.post === ELECTION_CHIEF_POST ||
+        row.post.startsWith(`${LOCAL_FILING_OFFICER_POST}:`) ||
+        row.post.startsWith(`${RULE_FILING_OFFICER_POST}:`)
+      )
+        ids.add(row.holderId);
+  filingOfficers.set(api.state, { date: api.state.date, ids });
+  return ids;
+}
+
+const living = (core: CoreState, personId: string | null | undefined) =>
+  !!personId && core.people.get(personId)?.alive === true;
+
+/** The office a state or federal contest files with, when the place's rules name the secretary of state. */
+const SECRETARY_OF_STATE_OFFICE = /secretary of state/i;
+const SECRETARY_OF_STATE_POST = "secretary-of-state";
+
+/**
+ * A state or federal contest files with the state's election office. Where
+ * that office is the secretary of state, the clerk is the person holding it
+ * (elected, or the governor's appointee); a board, commission or division has
+ * no one person to name.
+ */
+function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
+  const core = api.state as CoreState;
+  // An office the data gives as a rule is the person seated at the body the
+  // rule points to for this town, or at the office without a county where the
+  // game cannot know it.
+  if (givenAsRule(api, contest)) {
+    const body = filingOfficeFor(api, contest.id).filedWith;
+    const seated = agencyHeadsIn(api, lawChain(api).stateKey).find(
+      (row) =>
+        row.post.startsWith(`${RULE_FILING_OFFICER_POST}:`) &&
+        row.title === body &&
+        living(core, row.holderId),
+    );
+    // A person not yet seated falls back to the state's election chief.
+    return seated
+      ? {
+          personId: seated.holderId,
+          title: seated.title,
+          heads: seated.title,
+          basis: "state-appointment",
+          recordId: seated.id,
+        }
+      : stateElectionChief(api);
+  }
+  if (
+    !SECRETARY_OF_STATE_OFFICE.test(filingOfficeFor(api, contest.id).filedWith)
+  )
+    return stateElectionChief(api);
+  const seat = townSeats(api).find(
+    (row) =>
+      row.office.kind === SECRETARY_OF_STATE_POST &&
+      living(core, row.holder?.personId),
+  );
+  if (seat?.holder?.personId)
+    return {
+      personId: seat.holder.personId,
+      title: seat.office.title,
+      basis: "elected-seat",
+      recordId: seat.seat.id,
+    };
+  const appointment = api.state.modules.has(EXECUTIVE_MODULE_ID)
+    ? appointmentsIn(api, lawChain(api).stateKey).find(
+        (row) =>
+          row.post === SECRETARY_OF_STATE_POST && living(core, row.holderId),
+      )
+    : undefined;
+  return appointment
+    ? {
+        personId: appointment.holderId,
+        title: appointment.title,
+        basis: "state-appointment",
+        recordId: appointment.id,
+      }
+    : stateElectionChief(api);
+}
+
+/** The head of the state's election agency, where the filing data names an agency and not an elected secretary of state. */
+function stateElectionChief(api: CoreAPI): FilingClerk | null {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return null;
+  const chief = agencyHeadsIn(api, lawChain(api).stateKey).find(
+    (row) =>
+      row.post === ELECTION_CHIEF_POST &&
+      living(api.state as CoreState, row.holderId),
+  );
+  return chief
+    ? {
+        personId: chief.holderId,
+        title: chief.title,
+        heads: chief.title,
+        basis: "state-appointment",
+        recordId: chief.id,
+      }
+    : null;
+}
+
+/**
+ * The clerk who takes filings for one contest, or null where the records name
+ * no one (a state or federal filing, or a place whose records list no clerk).
+ */
+export function filingClerkFor(
+  api: CoreAPI,
+  contestId: string,
+): FilingClerk | null {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) return null;
+  if (contest.family !== "municipalOffice" && contest.family !== "countyOffice")
+    return stateClerkFor(api, contest);
+  // The town's filing office given as a rule (a county's general registrar) is
+  // the drawn officer seated for that body, not the town clerk the records name.
+  if (givenAsRule(api, contest)) {
+    const drawn = drawnLocalOfficer(api, contest.family);
+    // The body is a proper name, the agency they head.
+    return drawn ? { ...drawn, heads: drawn.title } : null;
+  }
+  return localClerkFor(api, contest.family);
+}
+
+/**
+ * The town's clerk (`municipalOffice`) or the county's (`countyOffice`), from
+ * the records that name one, or null where they name no one. The same clerk
+ * takes the place's filings and keeps its council's or board's papers.
+ */
+export function localClerkFor(
+  api: CoreAPI,
+  family: "municipalOffice" | "countyOffice",
+  /** Whether the officer drawn where the records name no one counts (the executive asks without it). */
+  options: { readonly drawn?: boolean } = {},
+): FilingClerk | null {
+  const core = api.state as CoreState;
+  const municipal = family === "municipalOffice";
+  const county = family === "countyOffice";
+
+  // A clerk the place elects.
+  for (const row of townSeats(api)) {
+    if (!CLERK_SEAT_KINDS.has(row.office.kind)) continue;
+    const kindIsMunicipal = row.office.kind === "municipal-clerk";
+    const kindIsCounty = row.office.kind === "county-clerk";
+    if ((kindIsMunicipal && !municipal) || (kindIsCounty && !county)) continue;
+    const holder = row.holder?.personId;
+    if (holder && living(core, holder))
+      return {
+        personId: holder,
+        title: row.office.title,
+        basis: "elected-seat",
+        recordId: row.seat.id,
+      };
+  }
+
+  if (municipal && api.state.modules.has(EXECUTIVE_MODULE_ID)) {
+    const appointment = appointmentsIn(api, lawChain(api).townPlaceId).find(
+      (row) => row.post === TOWN_CLERK_POST && living(core, row.holderId),
+    );
+    if (appointment)
+      return {
+        personId: appointment.holderId,
+        title: appointment.title,
+        basis: "town-appointment",
+        recordId: appointment.id,
+      };
+  }
+
+  if (county) {
+    // The county government's own record: the person listed under a clerk's
+    // title, in the county the town's residents live in.
+    const counties = new Set(
+      [...(core.peopleByPlace.get(lawChain(api).townPlaceId) ?? [])]
+        .map((id) => core.people.get(id)?.countyId)
+        .filter((id): id is NonNullable<typeof id> => !!id),
+    );
+    for (const placeId of [...counties].sort())
+      for (const orgId of [
+        ...(core.publicOrganizationsByPlace.get(placeId) ?? []),
+      ].sort()) {
+        const staff = core.publicOrganizations
+          .get(orgId)
+          ?.staff?.find(
+            (row) => CLERK_TITLE.test(row.title) && living(core, row.personId),
+          );
+        if (staff)
+          return {
+            personId: staff.personId,
+            title: staff.title,
+            basis: "county-staff",
+            recordId: staff.jobId,
+          };
+      }
+  }
+
+  // Where the records name no one, the officer the executive drew for the
+  // counter (seatLocalFilingOfficers, gov-filing-counter-clerk-at-county-board).
+  return options.drawn !== false ? drawnLocalOfficer(api, family) : null;
+}
+
+/** The officer drawn for a local filing counter the records name no one for, or null. */
+function drawnLocalOfficer(
+  api: CoreAPI,
+  family: "municipalOffice" | "countyOffice",
+): FilingClerk | null {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return null;
+  const core = api.state as CoreState;
+  const drawn = agencyHeadsIn(api, lawChain(api).townPlaceId).find(
+    (row) =>
+      row.post === `${LOCAL_FILING_OFFICER_POST}:${family}` &&
+      living(core, row.holderId),
+  );
+  return drawn
+    ? {
+        personId: drawn.holderId,
+        title: drawn.title,
+        basis: "drawn-officer",
+        recordId: drawn.id,
+      }
+    : null;
+}

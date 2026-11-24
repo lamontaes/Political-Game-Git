@@ -1,0 +1,311 @@
+name: Release package
+
+# WHEN THIS RUNS, AND HOW TO ASK FOR IT (owner, Oct 27, 2026)
+#
+# Builds, validates and PUBLISHES the newest main, then packages the Mac and
+# Windows desktop apps and publishes the GitHub release the installed app's
+# Check for Updates reads. It runs:
+#   - every two hours on a schedule (GitHub cron can lag; that is fine), and
+#   - on workflow_dispatch: Actions > "Release package" > Run workflow, or
+#     `gh workflow run release-package.yml --ref main`.
+# It is never started by a push to main, so merges cannot starve it, and one
+# concurrency group that never cancels means a merge, another schedule tick or
+# a second request cannot cancel or supersede a run already going. The per-push
+# Release run (release.yml) only validates; publishing happens here.
+#
+# Steps: (1) `candidate` (release-candidate.yml, publish true) builds and
+# validates the newest main and pushes the version commit, retrying when main
+# moved, and writes the `publish-record` artifact (version, candidateSha,
+# bundleSha256, sourceSha, published commit). A red candidate stops the run.
+# (2) `find_candidate` takes that candidate, or, when nothing new needed a
+# version commit, the newest earlier record not yet released. If its version
+# already has a GitHub release it exits cleanly and says so. (3) The apps are
+# packaged from exactly that published commit, never a newer main, played
+# once by the smoke test (unchanged) and published. See docs/release/README.md.
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One package at a time, and a running one is never canceled: a later tick or
+# request waits (GitHub keeps only the newest pending), and no push to main
+# starts this workflow at all.
+concurrency:
+  group: release-package
+  cancel-in-progress: false
+
+jobs:
+  candidate:
+    name: Build, validate and publish the newest main
+    # The called workflow's publish job writes the version commit to main and
+    # lists runs; its build and validation jobs stay read only.
+    permissions:
+      actions: read
+      contents: write
+    uses: ./.github/workflows/release-candidate.yml
+    # A called workflow sees no secrets unless its caller passes them; only
+    # this publishing caller passes the push token (the validate-only caller
+    # does not).
+    secrets:
+      RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}
+    with:
+      publish: true
+      # Not the push workflow's group, and not this workflow's own: a merge
+      # can never take this run's place in the queue.
+      concurrency_group: release-package-candidate
+
+  find_candidate:
+    name: Find the newest published candidate (read only)
+    needs: candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      package: ${{ steps.find.outputs.package }}
+      version: ${{ steps.find.outputs.version }}
+      published_sha: ${{ steps.find.outputs.published_sha }}
+      candidate_sha: ${{ steps.find.outputs.candidate_sha }}
+      bundle_sha256: ${{ steps.find.outputs.bundle_sha256 }}
+    steps:
+      - name: Read the publish ledger
+        id: find
+        env:
+          GH_TOKEN: ${{ github.token }}
+          THIS_PUBLISHED: ${{ needs.candidate.outputs.published }}
+          THIS_VERSION: ${{ needs.candidate.outputs.version }}
+          THIS_PUBLISHED_SHA: ${{ needs.candidate.outputs.published_sha }}
+          THIS_CANDIDATE_SHA: ${{ needs.candidate.outputs.candidate_sha }}
+          THIS_BUNDLE_SHA256: ${{ needs.candidate.outputs.bundle_sha256 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/records"
+          mkdir -p "$dir"
+          if [[ "$THIS_PUBLISHED" == "true" ]]; then
+            # Published a moment ago by this run: package exactly it.
+            echo "Packaging the candidate this run just published." >> "$GITHUB_STEP_SUMMARY"
+            jq -n --arg v "$THIS_VERSION" --arg p "$THIS_PUBLISHED_SHA" --arg c "$THIS_CANDIDATE_SHA" --arg b "$THIS_BUNDLE_SHA256" \
+              '{version:$v,publishedSha:$p,candidateSha:$c,bundleSha256:$b}' > "$dir/this.json"
+            printf '%s\t%s\n' "$THIS_VERSION" this >> "$dir/index"
+          else
+          # Nothing new needed a version commit: look for the newest earlier
+          # record that never got its release (a package that failed or lagged).
+          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/release-package.yml/runs?branch=main&status=completed&per_page=40" --jq '.workflow_runs[].id')"
+          for id in $runs; do
+            artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/artifacts?name=publish-record" --jq '.artifacts | map(select(.expired == false)) | .[0].id // empty')"
+            [[ -n "$artifact" ]] || continue
+            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact}/zip" > "$dir/$id.zip"
+            unzip -p "$dir/$id.zip" publish-record.json > "$dir/$id.json"
+            printf '%s\t%s\n' "$(jq -er '.version' "$dir/$id.json")" "$id" >> "$dir/index"
+          done
+          fi
+          if [[ ! -s "$dir/index" ]]; then
+            echo "package=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to package: no candidate was published by this run or recorded by an earlier one." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          # The newest published candidate is the highest published version.
+          newest="$(sort -V "$dir/index" | tail -n 1 | cut -f2)"
+          record="$dir/$newest.json"
+          version="$(jq -er '.version | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))' "$record")"
+          published_sha="$(jq -er '.publishedSha | select(test("^[0-9a-f]{40}$"))' "$record")"
+          candidate_sha="$(jq -er '.candidateSha | select(test("^[0-9a-f]{40}$"))' "$record")"
+          bundle_sha256="$(jq -er '.bundleSha256 | select(test("^[0-9a-f]{64}$"))' "$record")"
+          if gh release view "v${version}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "package=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing new: v${version}, the newest published candidate (run ${newest}), already has a GitHub release." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          {
+            echo "package=true"
+            echo "version=${version}"
+            echo "published_sha=${published_sha}"
+            echo "candidate_sha=${candidate_sha}"
+            echo "bundle_sha256=${bundle_sha256}"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "## Packaging the newest published candidate"
+            echo
+            echo "- version: \`${version}\` (Release run ${newest})"
+            echo "- published commit: \`${published_sha}\`"
+            echo "- candidateSha: \`${candidate_sha}\`"
+            echo "- bundleSha256: \`${bundle_sha256}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # The Mac and Windows apps are built from the published commit named by the
+  # ledger, launched and played once, and checked against their update feed.
+  desktop_package:
+    name: Package desktop release (read only)
+    needs: find_candidate
+    if: needs.find_candidate.outputs.package == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            command: "node scripts/package.mjs --mac --arm64"
+            name: mac-arm64
+          - os: windows-latest
+            command: "node scripts/package.mjs --win --x64"
+            name: win-x64
+            optional: true
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    # The owner plays on a Mac; Windows may stay red until early access.
+    continue-on-error: ${{ matrix.optional == true }}
+    permissions:
+      contents: read
+    env:
+      PUBLISHED_SHA: ${{ needs.find_candidate.outputs.published_sha }}
+      NEXT_VERSION: ${{ needs.find_candidate.outputs.version }}
+    steps:
+      - name: Check out the published release commit without write credentials
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.find_candidate.outputs.published_sha }}
+          persist-credentials: false
+
+      - name: Prove the checkout is the ledger's published commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(git rev-parse HEAD)" == "$PUBLISHED_SHA" ]]
+          [[ "$(jq -er '.version' package.json)" == "$NEXT_VERSION" ]]
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install game dependencies
+        run: npm ci
+
+      - name: Build the game
+        env:
+          # The full word pack takes typecheck beyond 4 GB; this is the same
+          # measured allowance as candidate validation.
+          NODE_OPTIONS: --max-old-space-size=5120
+          PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
+        run: npm run build
+
+      - name: Install desktop shell dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: desktop
+
+      - name: Stage the compiled game and its play server
+        shell: bash
+        working-directory: desktop
+        run: |
+          set -euo pipefail
+          node scripts/stage.mjs
+          [[ "$(jq -er '.version' staged/build-identity.json)" == "$NEXT_VERSION" ]]
+          [[ "$(jq -er '.revision' staged/build-identity.json)" == "$PUBLISHED_SHA" ]]
+
+      - name: Package (unsigned, never uploads)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: ${{ matrix.command }}
+        working-directory: desktop
+
+      - name: Install and play the packaged app (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: desktop
+        run: |
+          $setup = Get-ChildItem "release-artifacts" -Filter "*Setup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "No NSIS installer found" }
+          $dest = Join-Path $env:RUNNER_TEMP "ocd-install"
+          $proc = Start-Process -FilePath $setup.FullName -ArgumentList "/S","/D=$dest" -PassThru -Wait
+          if ($proc.ExitCode -ne 0) { throw "Installer exited $($proc.ExitCode)" }
+          node scripts/smoke-test.mjs --app (Join-Path $dest "Our Civic Duty.exe")
+
+      - name: Play the packaged app (macOS)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        run: node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
+
+      - name: Keep only the files a release carries
+        shell: bash
+        working-directory: desktop/release-artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p ../release-upload
+          shopt -s nullglob
+          files=(*.dmg *.zip *.exe *.blockmap latest*.yml)
+          (( ${#files[@]} > 0 ))
+          ls latest*.yml
+          mv "${files[@]}" ../release-upload/
+          ls -la ../release-upload
+
+      # The installed app's Check for updates reads the feed: it must name
+      # this release's version and the installer beside it, at its real size
+      # and sha512. A wrong feed stops here, before anything is uploaded.
+      - name: Check the update feed against the files beside it
+        shell: bash
+        working-directory: desktop
+        run: node scripts/check-release-feed.mjs release-upload "$NEXT_VERSION"
+
+      - name: Hand the files to the publisher
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-release-${{ matrix.name }}
+          path: desktop/release-upload/*
+          if-no-files-found: error
+          retention-days: 14
+
+  desktop_publish:
+    name: Publish desktop release (minimal write authority)
+    needs:
+      - find_candidate
+      - desktop_package
+    if: >-
+      needs.find_candidate.outputs.package == 'true' &&
+      needs.desktop_package.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      # No checkout and no repository scripts: the write token sees only the
+      # packaged files.
+      - name: Download the packaged files
+        uses: actions/download-artifact@v7
+        with:
+          pattern: desktop-release-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/desktop-release
+
+      - name: Create the release, upload every file, then make it visible
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED_SHA: ${{ needs.find_candidate.outputs.published_sha }}
+          NEXT_VERSION: ${{ needs.find_candidate.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/desktop-release"
+          ls -la
+          # Windows may be missing until early access (owner,
+          # Oct 14: the Windows row stays allowed-to-fail); the Mac files may not.
+          # A feed reaches here only after its package job checked it against
+          # its installer (check-release-feed.mjs), so the Mac feed's presence
+          # means the Mac update was checked.
+          [[ -f latest-mac.yml ]]
+          tag="v${NEXT_VERSION}"
+          # A draft first, so the updater never sees a half-uploaded release.
+          if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$tag" --repo "$GITHUB_REPOSITORY" \
+              --target "$PUBLISHED_SHA" --title "$tag" --draft \
+              --notes "Built from ${PUBLISHED_SHA}."
+          fi
+          gh release upload "$tag" --repo "$GITHUB_REPOSITORY" --clobber -- *
+          gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --latest
+          echo "Published desktop release $tag from $PUBLISHED_SHA." >> "$GITHUB_STEP_SUMMARY"

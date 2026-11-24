@@ -1,0 +1,24 @@
+{
+  "artifacts": [
+    {
+      "derivation": "Cut from the 52 state files (50 states, DC, Puerto Rico) of henrydavidge/redistricting-data-2020 at commit 934594da837d4705aae9d99d60c66ca23954e85f, which republishes each state's 2020 Census redistricting data (P.L. 94-171) as one csv.gz. Kept: every place row (SUMLEV 160, GEOCOMP 0), columns GEOID (as the 7-digit place GEOID in fips), NAME (commas removed), P0020002 (Hispanic or Latino) as eth_hispanic, P0020005 (white alone, not Hispanic) as eth_white_nh, P0020006 (Black alone, not Hispanic) as eth_black_nh, P0020008 (Asian alone, not Hispanic) as eth_asian_nh and P0020003 (not Hispanic or Latino) as eth_non_hisp. No value changed; rows sorted by GEOID. Checked: Hispanic plus not Hispanic equals the total for every place, and North Carolina's 776 places match, count for count, the McClatchy southeast newsroom's published place file. The Census Bureau's own hosts are blocked in the build containers, which is why a republished copy is the source. Counts are everyone who lives in the place. Guam, the Virgin Islands, American Samoa and the Northern Marianas are not in the republished set.",
+      "length": 1399065,
+      "localPath": "data/source/place-race-origin/raw/places_2020_rc_eth.csv",
+      "mediaType": "text/csv",
+      "sha256": "600c58efe28186eb761b7b1988d38007d802931cf9b53f01ec77b1fbccba6e8d",
+      "table": "P2 Hispanic or Latino, and not Hispanic or Latino by race, place level, 50 states, DC and Puerto Rico",
+      "url": "https://github.com/henrydavidge/redistricting-data-2020/tree/934594da837d4705aae9d99d60c66ca23954e85f",
+      "vintage": "2020 Census redistricting data (P.L. 94-171)",
+      "publisher": "henrydavidge/redistricting-data-2020 (republished U.S. Census Bureau counts)",
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": null,
+        "status": "public-census-counts-republished"
+      },
+      "retrievedAt": "2026-11-14",
+      "commit": "934594da837d4705aae9d99d60c66ca23954e85f",
+      "underlyingFile": "U.S. Census Bureau 2020 Census redistricting data summary file (P.L. 94-171), a U.S. government work in the public domain; the republishing repository declares no license of its own."
+    }
+  ],
+  "asOf": "2026-11-14"
+}

@@ -1,0 +1,18 @@
+{
+  "Drug": { "bop": ["drug"], "ussc": ["drug-trafficking"] },
+  "Weapons": { "bop": ["weapons-explosives-arson"], "ussc": ["firearms"] },
+  "Immigration": { "bop": ["immigration"], "ussc": ["immigration"] },
+  "SexOffenses": {
+    "bop": ["sex-offenses"],
+    "ussc": ["child-pornography", "sexual-abuse", "obscenity-other-sex"]
+  },
+  "Fraud": {
+    "bop": [
+      "extortion-fraud-bribery",
+      "burglary-larceny-property",
+      "banking-insurance-counterfeit-embezzlement"
+    ],
+    "ussc": ["fraud-theft-embezzlement", "money-laundering"]
+  },
+  "Robbery": { "bop": ["robbery"], "ussc": ["robbery"] }
+}

@@ -1,0 +1,30 @@
+{
+  "answer": {
+    "answeredAt": "2026-09-22T20:15:00.000Z",
+    "answeredBy": "ChatGPT",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-depth2/DEPTH2-ANSWERS.md (A15)",
+      "docs/research/chatgpt-answers/2026-09-22-depth2/clock-and-tax/local-income-tax-routing.json",
+      "docs/research/chatgpt-answers/2026-09-22-depth2/clock-and-tax/CLOCK-AND-TAX-RECEIVING.md"
+    ],
+    "stillOpen": "Examples only (Ohio municipalities, Philadelphia), not national coverage. Eleven research-data checks passed; the twelve acceptance cases are authored, not executed; no production clock or tax test is claimed.",
+    "summary": "## A15 — Municipal income-tax discovery and settlement\n\nCurrent state-only topic routing is too narrow: Ohio 718.04 provides a direct municipal-authority example, subject to chapter/local limits. Philadelphia's Wage/Earnings treatment supplies a concrete anti-double-collection and operative-date test. Receive `clock-and-tax/local-income-tax-routing.json` without rewriting existing issue/proposition IDs or granting all local governments taxing authority. Read the full scope and twelve authored, not executed, acceptance cases. Eleven research-data checks pass; no production clock/tax test is claimed.\n\nFrom the reply document (20:12Z): current source d10dd525 defines fiscal.income-tax as state-only, while Ohio 718.04 expressly authorizes municipal income taxation within its chapter limits. Widen subject discovery where actual municipal authority permits; do not grant all cities and counties generic power. Retain tax instrument jurisdiction, liable base, credits, period, collector and receiving treasury. Withholding is not a second tax. Philadelphia's Wage/Earnings collection is one liability, not two taxes, and its rate vintages show why download date cannot select a later operative rate."
+  },
+  "filedAt": "2026-09-22T20:12:00.000Z",
+  "impact": "shapes-design",
+  "lane": "legislation",
+  "priority": "P2",
+  "question": "The game routes income tax as a state-only subject (fiscal.income-tax). Which American local governments actually have income-tax authority (for example Ohio municipalities under Ohio Revised Code 718), under what limits, and how is it collected and credited so a person is not taxed twice for one liability?",
+  "questionId": "which-local-governments-can-tax-income",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, recording ChatGPT's unsolicited A15",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT reply document ANSWER BATCH 3 (20:12Z), reading main d10dd525",
+      "whatItDidNotSettle": "ChatGPT raised this unasked; this record exists to hold its answer. Coverage beyond the Ohio and Philadelphia examples is not claimed."
+    }
+  ],
+  "title": "Which local governments can tax income, and how it is collected",
+  "usableAnswer": "Per state, whether localities may levy an income tax, the statute, the limits, the collector and the crediting rule.",
+  "whyItMatters": "Recorded so ChatGPT's unsolicited A15 answer has a home in the queue: it shows the state-only routing is wrong for real places, and the policy and economy owners need to find it."
+}

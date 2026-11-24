@@ -1,0 +1,107 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-gazetteer-2025-119cds-zip",
+      "bytes": {
+        "length": 16030,
+        "sha256": "5128d74acfee9c858eef72c98fbaf13a2dc5b7ea5f8bcc763522087dafabedcb"
+      },
+      "container": {
+        "memberLength": 35139,
+        "memberPath": "2025_Gaz_119CDs_national.txt",
+        "memberSha256": "c805b7d47c4110fff3ef111cf990eb0575cf1a23af384d5a9880cec7b19d51d4"
+      },
+      "localPath": "data/source/political-districts/raw/2025_Gaz_119CDs_national.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+        "releaseDate": null,
+        "schemaVersion": "2025 Gazetteer 119th Congressional Districts national file layout",
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 16030,
+        "retrievedAt": "2026-09-03T03:19:43.750Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_119CDs_national.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-gazetteer-2025-sldl-zip",
+      "bytes": {
+        "length": 167260,
+        "sha256": "80e1889ce84d483a82193d0fa4d983dbbe85d1fa211088bf878aeec7ffb3401f"
+      },
+      "container": {
+        "memberLength": 491844,
+        "memberPath": "2025_Gaz_sldl_national.txt",
+        "memberSha256": "0f9fb60e5fe6238b35a4cb7830acce09051de9aa2534a99ad640cd0b7d643715"
+      },
+      "localPath": "data/source/political-districts/raw/2025_Gaz_sldl_national.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+        "releaseDate": null,
+        "schemaVersion": "2025 Gazetteer state legislative districts (lower) national file layout",
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 167260,
+        "retrievedAt": "2026-09-03T03:19:43.934Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_sldl_national.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-gazetteer-2025-sldu-zip",
+      "bytes": {
+        "length": 69682,
+        "sha256": "f4500955ded8c3415c8c24c4aa9aa5beb3034f2998c081ac3ed38f27456eca08"
+      },
+      "container": {
+        "memberLength": 203218,
+        "memberPath": "2025_Gaz_sldu_national.txt",
+        "memberSha256": "a84b69e77cc0dea28fd0fbb93154c16efd2b0648ffbd57b2d410bec85ef5e18b"
+      },
+      "localPath": "data/source/political-districts/raw/2025_Gaz_sldu_national.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+        "releaseDate": null,
+        "schemaVersion": "2025 Gazetteer state legislative districts (upper) national file layout",
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 69682,
+        "retrievedAt": "2026-09-03T03:19:44.076Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_sldu_national.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "political-districts"
+}

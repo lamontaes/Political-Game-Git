@@ -1,0 +1,227 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records the duty without mistaking workers for fulfillment 235ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > writes nothing twice 102ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records coverage as unknown where the Act turns on a size the world does not hold 78ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > stands with no body under it when the Act reaches only bodies that act first 71ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > counts the bodies on record it names 53ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > leaves the count unknown where the test turns on a size no record holds 54ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > names households it applies to without inventing how many there are 50ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > says whom it covers in the words the law was passed with 51ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > reaches local governments only when the law was passed to 49ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that says who it applies to > reads a purpose section as the Act's reason, not as a part nothing acts on 49ms
+ ✓ src/presentation/enacted-duties.test.ts > a law's money sections > turns a family's own appropriating section into money the state can spend 54ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law's money sections > keeps a pilot's money available for the pilot's own term 50ms
+ ✓ src/presentation/enacted-duties.test.ts > a law's money sections > reads an authorization as a ceiling that provides no money 52ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_b1734d8ac5697f10","matterId":"event_5323c224599bc63c","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_d3e03d69ac1e3c3e","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ × src/presentation/enacted-duties.test.ts > a law's money sections > counts what a later law appropriates against the ceiling 89ms
+   → expected undefined to be defined
+ ✓ src/presentation/enacted-duties.test.ts > a law's money sections > reads a yearly salary cap as a cap 49ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_b1734d8ac5697f10","matterId":"event_5323c224599bc63c","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_d3e03d69ac1e3c3e","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > stops new spending under a repealed program once the repeal takes effect 63ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > lets a later extension supersede an earlier end date 81ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_b1734d8ac5697f10","matterId":"event_5323c224599bc63c","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_d3e03d69ac1e3c3e","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > does not bring a repealed program back with a later extension 76ms
+ ✓ src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > leaves the same program in another jurisdiction untouched 45ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_b1734d8ac5697f10","matterId":"event_5323c224599bc63c","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_d3e03d69ac1e3c3e","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-duties.test.ts > a law that ends, extends or repeals a program > says which law ended a program a bill set up 233ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > covers all 50 states, D.C. and the five territories 0ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AL reaches its own towns and no other place's 52ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AK reaches its own towns and no other place's 9ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AS reaches its own towns and no other place's 10ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AZ reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-AR reaches its own towns and no other place's 37ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CA reaches its own towns and no other place's 50ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CO reaches its own towns and no other place's 14ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-CT reaches its own towns and no other place's 6ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-DE reaches its own towns and no other place's 2ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-DC reaches its own towns and no other place's 17ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-FL reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-GA reaches its own towns and no other place's 14ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-GU reaches its own towns and no other place's 4ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-HI reaches its own towns and no other place's 6ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ID reaches its own towns and no other place's 31ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IL reaches its own towns and no other place's 43ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IN reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-IA reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-KS reaches its own towns and no other place's 46ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-KY reaches its own towns and no other place's 20ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-LA reaches its own towns and no other place's 49ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ME reaches its own towns and no other place's 11ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MD reaches its own towns and no other place's 12ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MA reaches its own towns and no other place's 18ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MI reaches its own towns and no other place's 32ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MN reaches its own towns and no other place's 27ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MS reaches its own towns and no other place's 27ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MO reaches its own towns and no other place's 26ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MT reaches its own towns and no other place's 15ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NE reaches its own towns and no other place's 10ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NV reaches its own towns and no other place's 5ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NH reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NJ reaches its own towns and no other place's 19ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NM reaches its own towns and no other place's 28ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NY reaches its own towns and no other place's 41ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-NC reaches its own towns and no other place's 21ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-ND reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-MP reaches its own towns and no other place's 23ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OH reaches its own towns and no other place's 38ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OK reaches its own towns and no other place's 24ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-OR reaches its own towns and no other place's 34ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-PA reaches its own towns and no other place's 33ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-PR reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-RI reaches its own towns and no other place's 8ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-SC reaches its own towns and no other place's 16ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-SD reaches its own towns and no other place's 15ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-TN reaches its own towns and no other place's 47ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-TX reaches its own towns and no other place's 67ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VI reaches its own towns and no other place's 5ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-UT reaches its own towns and no other place's 9ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VT reaches its own towns and no other place's 17ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-VA reaches its own towns and no other place's 24ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WA reaches its own towns and no other place's 18ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WV reaches its own towns and no other place's 22ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WI reaches its own towns and no other place's 18ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > US-WY reaches its own towns and no other place's 13ms
+ ✓ src/presentation/enacted-duties.test.ts > the reach of a state law's duty > reaches every place for a federal law 594ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > turns a passed Nebraska appropriation into money the state can spend 181ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses the selected availability clause's saved date and reports no omitted duty 81ms
+   → expected '2028-01-13' to be '2028-01-05' // Object.is equality
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > honors a supplemental appropriation's shorter lapse section 63ms
+   → expected '2027-01-13' to be '2027-01-05' // Object.is equality
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > classifies a passed Charlottesville council ordinance as local under its state jurisdiction 90ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > funds every part of a multi-part bill, a transit part included 61ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses Nebraska's saved effective date and transit profile without creating cash 69ms
+   → Missing future-transition handler for due item future-due-item_4d1cd30715b00969: legislature:institution-step
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-alaska-2026","scenario":"alaska","measureId":"legislative-measure_d90bb90556bca047","matterId":"event_3e7205592dda7041","governor":"Frances Zamora","governorId":"person_774fcebd6c645cb1","decisionEventId":"event_4765cf2785df870b","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ × src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > does not invent a state transit start date when the enactment has none 66ms
+   → expected [ { kind: 'appropriation', …(13) } ] to have a length of +0 but got 1
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > writes each effect once, however many routes apply it 59ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > says plainly which parts of a passed Alaska law the world cannot act on yet 65ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reports the exact missing-authority result for a typed but unapplied amount 61ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > reads a law's effects without spending a day or writing a fact 61ms
+A80 actual governor fixture {"seed":"legislative-core-nebraska-2026","scenario":"nebraska","measureId":"legislative-measure_adfcb2081a111735","matterId":"event_89e5f58602d983f3","governor":"Cameron Wilkerson","governorId":"person_741ee32107d7d0be","decisionEventId":"event_c7fcf95c347acff5","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+A80 actual governor fixture {"seed":"legislative-core-alaska-2026","scenario":"alaska","measureId":"legislative-measure_d90bb90556bca047","matterId":"event_3e7205592dda7041","governor":"Frances Zamora","governorId":"person_774fcebd6c645cb1","decisionEventId":"event_4765cf2785df870b","choice":"bill:sign","phase":"awaiting-enactment","controlledChoice":true}
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > tells the player on the bill's page what the law changed 112ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > shows nothing on the page of a bill that is not law 18ms
+ ✓ src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > has nothing to say about a bill that is not law 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/enacted-duties.test.ts > a law's money sections > counts what a later law appropriates against the ceiling
+AssertionError: expected undefined to be defined
+ ❯ src/presentation/enacted-duties.test.ts:632:22
+    630|         row.sourceMeasureId === second.measureId,
+    631|     );
+    632|     expect(provided).toBeDefined();
+       |                      ^
+    633|     const line = enactedLawEffects(second.world, first.measureId)!.lin…
+    634|       (row) => row.kind === "authorization",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses the selected availability clause's saved date and reports no omitted duty
+AssertionError: expected '2028-01-13' to be '2028-01-05' // Object.is equality
+
+Expected: "2028-01-05"
+Received: "2028-01-13"
+
+ ❯ src/presentation/enacted-law-effects.test.ts:403:39
+    401|       (lineage) => lineage.measureId === measureId,
+    402|     )!.compiledAt;
+    403|     expect(recorded.availableThrough).toBe(addYears(filedAt, 2));
+       |                                       ^
+    404|     const effects = enactedLawEffects(world, measureId)!;
+    405|     expect(effects.lines.some((line) => line.kind === "not-modeled")).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > honors a supplemental appropriation's shorter lapse section
+AssertionError: expected '2027-01-13' to be '2027-01-05' // Object.is equality
+
+Expected: "2027-01-05"
+Received: "2027-01-13"
+
+ ❯ src/presentation/enacted-law-effects.test.ts:426:39
+    424|       (lineage) => lineage.measureId === measureId,
+    425|     )!.compiledAt;
+    426|     expect(recorded.availableThrough).toBe(addYears(filedAt, 1));
+       |                                       ^
+    427|     expect(
+    428|       enactedLawEffects(world, measureId)!.lines.some(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > uses Nebraska's saved effective date and transit profile without creating cash
+Error: Missing future-transition handler for due item future-due-item_4d1cd30715b00969: legislature:institution-step
+ ❯ resolveFutureDueItemsThrough src/simulation/future-transitions.ts:557:13
+    555|   for (const item of initiallyDue) {
+    556|     if (!handlerFor(registry, item.transitionKey)) {
+    557|       throw new Error(
+       |             ^
+    558|         `Missing future-transition handler for due item ${item.id}: ${…
+    559|       );
+ ❯ advanceWorldUnchecked src/simulation/world.ts:1415:24
+ ❯ src/simulation/world.ts:1401:11
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:585:12
+ ❯ advanceWithWorldIntegrityAtEnd src/simulation/world.ts:601:18
+ ❯ advanceWorld src/simulation/world.ts:1400:10
+ ❯ src/presentation/enacted-law-effects.test.ts:568:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/presentation/enacted-law-effects.test.ts > a law the player passes changes what it governs > does not invent a state transit start date when the enactment has none
+AssertionError: expected [ { kind: 'appropriation', …(13) } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/presentation/enacted-law-effects.test.ts:603:46
+    601|       )!.effectiveAt,
+    602|     ).toBeNull();
+    603|     expect(appropriations(world, measureId)).toHaveLength(0);
+       |                                              ^
+    604|   });
+    605|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 87 passed (92)
+   Start at  16:55:39
+   Duration  27.61s (transform 14.97s, setup 22ms, import 22.85s, tests 4.46s, environment 1ms)
+

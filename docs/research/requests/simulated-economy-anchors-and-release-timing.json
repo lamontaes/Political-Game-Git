@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P2",
+  "question": "What starting values and month-to-month persistence should the game's simulated national economy use (unemployment, inflation, growth, the policy rate, and the probability of a normal year versus a downturn or a shock), and on what real calendar are unemployment, CPI and GDP figures released?",
+  "questionId": "simulated-economy-anchors-and-release-timing",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/macro-economy/ at main 9f42ba19",
+      "whatItDidNotSettle": "Values are labeled provisional; release day is unmarked."
+    },
+    {
+      "source": "docs/research/requests/economic-figure-availability-date.json",
+      "whatItDidNotSettle": "Covers real published county and state figures, not the simulated national series."
+    }
+  ],
+  "title": "The simulated economy's starting values, its month-to-month rules, and when its figures are published",
+  "usableAnswer": "Long-run ranges for the anchors and persistence from published series (FRED is fine), the historical frequency of recessions as a basis for regime weights, and the standard release schedule for the three figures.",
+  "whyItMatters": "The macro-conditions panel and the budget workspace show a simulated economy built from invented anchors. At main 9f42ba19: src/simulation/macro-economy/policy.ts:12-63 holds regime weights 0.7/0.25/0.05, a 2% growth anchor, persistence 0.85 and 0.95, and shock sizes labeled 'director-authored-provisional' and 'CHANGE-authored placeholders' with no question id. src/simulation/macro-economy/producer.ts:66 publishes all three headline figures on the first of the following month, when BLS and BEA each release on their own lag (jobs report first Friday; CPI mid-month; GDP advance estimate about a month after quarter end). The policy-effect answer (policy-effect-model-state-and-local) confirmed these 'placeholders are not confirmed' but supplied no values."
+}

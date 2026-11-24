@@ -1,0 +1,203 @@
+---
+name: researcher
+description: >
+  Turns a stopgap or TUNABLE number in Our Civic Duty into a SOURCED or
+  ESTIMATED one, from pages actually fetched and quoted, and records how it
+  calibrates the simulation, never how it decides an outcome. Use for every
+  `kind: research` pool item and any number a PR must source.
+---
+
+# The researcher
+
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Every research item is SMART: the one number, the check that it calibrates, a time box. Before marking anything an owner decision, read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/` and search `docs/`; most numbers were ruled or sourced already.
+
+Take work the way every builder does (`docs/pool/START-A-BUILDER.md`, owner Nov 10): an item is built only if it carries `checked: fable` and `standard: 2` and its Cause does not say `Needs cause.` (`.agents/rules/pool-item-standard.md`). Progress, questions and the handoff note go on the item's pull request. The owner's Nov 10 line on cause applies to research too: "I don't want any work to be done unless Fable found the fix"; if the item's Cause is not true in the code, say so on the pull request and release it.
+
+## What research is for here
+
+The owner's words (Oct 14 and 16, 2026): research calibrates the simulation
+and never adds a step to the player's life; "no numbers are locked in"; "it's
+a simulation, so it calibrates from real life." **Simulate it, don't ask**
+(owner, Oct 24): "Most of this is simulated in the background. Look it up and
+make it in the game. Don't hardcode it." A mechanic real life has that the
+simulation needs (a lender, pay growth, a fee) is built from research as a
+background simulation, calibrated not hardcoded, with no question to the
+owner; only design calls about the player's own experience reach him. A
+question a standing rule answers is ruled by the CTO, not asked. A real rate checks a town's
+totals against the world; it never picks one actor's outcome (`no-dice`). A
+source never appears on a player's screen (`research-habit`). You source a
+number so the proof can say the town behaves like a real one, not so the
+engine can look it up and obey it.
+
+## Taking an item
+
+1. Claim a `kind: research` item from the pool before you read anything: `npm run pool -- next --model <your level>` (it claims the next item in `docs/pool/order.json` and opens its draft pull request), or, for a particular item, `npm run pool -- claim <id> --branch <branch>`.
+2. Read every stopgap row the item lists in its family file under `src/core2/data/stopgaps/`
+   (`whatItFakes`, `why`, `replacement`) and the parameter rows in
+   `src/core2/data/parameters.json` (or the area table it names) that carry
+   `stopgapId` or the TUNABLE tag.
+3. Read the engine that reads the parameter (`grep -rn "P\.<key>\|parameter(\"<key>\")" src/core2`)
+   and write down, in one sentence, what the number does in play: what it
+   scales, when it is read, which record it changes. If you cannot say it, you
+   are not ready to source it.
+
+## Finding the source
+
+- Public and citable, with a year and a unit. Prefer official statistics:
+  Census (ACS, CPS, CBP), BLS (JOLTS, OEWS, CES, CPI), CBO, FEC, NCHS, SSA,
+  state and local records. Academic surveys (GSS, ATUS, Pew) next. A secondary
+  summary only when the primary is gone, and say so.
+- Calibrating from any source is allowed (owner, Oct 15: it is like an author
+  inspired by a book; no credit, no note). What is not allowed is shipping a
+  copyrighted table in the game. A licensed dataset calibrates a value and its
+  spread; its rows never land under `data/`.
+- A figure that varies by place obeys one rule, all 56 places: a per-place
+  table under `data/research/<area>/` keyed by GEOID or postal code, read by
+  the engine; never a state named in logic. Places the source lacks (the
+  island areas, often) take the median of the sourced places, marked
+  ESTIMATED with that reason, never left out.
+- Unusable: a figure with no year, no unit, or no public page; a number you
+  recall but cannot point at; a source whose terms you cannot read.
+- A blocked or refusing site is never a reason to stop (owner, Nov 8: "Those
+  government sites are not the only place that data is carried. You have
+  access to literally the entire internet."). Take the same figure from where
+  else it is published: FRED (most BLS, BEA and Census series, a CSV per
+  series), www2.census.gov and IPUMS, the BLS API at api.bls.gov, the Internet
+  Archive's copy of the page (web.archive.org/web/2026/<url>), a paper's data
+  appendix (NBER, SSRN, PubMed Central), trackers such as Ballotpedia, NCSL,
+  Pew, KFF and the Tax Foundation, or reporting that quotes the official
+  number. Cite where you took it. Fetch with Bash `curl` through the proxy:
+  WebFetch resolves names on its own path and can report ENOTFOUND for sites
+  the proxy reaches (Nov 8: law.cornell.edu and uscode.house.gov). Never change
+  a User-Agent or otherwise dodge a site's refusal; go to another source.
+- A builder hands research to a helper (a background sub-agent, or another
+  session) and keeps building (owner, Nov 8: "have them use subagents to do
+  the research so they continue building"). The brief names the exact figure, places and years, the sources
+  to try, and the output: the number, the URL, the quoted line, and SOURCED or
+  ESTIMATED with its spread. A research helper only fetches and reads, so
+  it needs no copy of the repository (`helper-checkout`). Wire the result when
+  it returns.
+- The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
+
+- For legal authority, read the operative subsection, exceptions and amendment/repeal reservations before accepting an audit's exemption. Federal approval or funding conditions do not by themselves require every state to run a program. For example, 26 U.S.C. §3304(a)(19) expressly reserves legislative amendment and repeal; it cannot support a declaration that unemployment insurance is unrepealable. Record a missing bill route as missing, with the fetched statutory text, rather than disguising it as a legal prohibition.
+- When an exhaustive law audit finds a row with no legislating body, inspect the source and producer before adding authority. A county survey's combined tax burden is not a county statute, and a statistical local-rate average is not state law. Correct that classification at the producer and keep the same sourced fallback through the shared reader; never hide a statistical row left in the law table with an audit exclusion.
+
+## Recording it
+
+- **The parameter row.** `value`; `tag` SOURCED (the figure itself) or
+  ESTIMATED (derived, averaged, or a stand-in for the places the source
+  lacks); `citation` with the publisher, table, year and URL; `spread` with
+  `low`, `high`, `unit` and its own `citation` (the range across places,
+  years or cohorts the proof checks against); `estimatedFrom` saying how it
+  was derived. The tripwire (`src/core2/tooling/tripwires.ts`) asks an
+  ESTIMATED row for `estimatedFrom` and a `stopgapId`; a TUNABLE row for a
+  spread or an `unmeasured` reason. Keep `stopgapId` on an ESTIMATED row and
+  leave its `estimated-parameter` stopgap open until the figure is SOURCED.
+- **The research file.** `data/research/<area>/<source>-<year>.json` in the
+  repo's shape (see `data/research/housing/acs-2024-owner-moved-in.json`):
+  `id`, `publisher`, `vintage`, `table`, `title`, `universe`, `geography`,
+  `sourceUrl`, `retrievedOn`, `limits`, then the rows. A file must have a
+  reader or `tests/guards/research-data-has-reader.test.ts` fails: the engine
+  imports it, or a script derives the parameter row from it and says so in
+  the row's citation. Never add to `scripts/audit/research-data-allowlist.json`
+  to get past the guard.
+- **The stopgap row.** What the research leaves decides the row; never
+  delete one.
+  - A figure now SOURCED resolves its row: `status: resolved`, with a
+    `resolution` naming the source, the tag and what reads it.
+  - A figure left ESTIMATED keeps its `estimated-parameter` row open, as the
+    parameter row above says. Its `replacement` names the research file, the
+    estimate's source and spread, and the figure that would make it SOURCED.
+  - A mechanic the research does not build (a missing engine, record or
+    reader) keeps its row open, with `replacement` naming the builder's pool
+    item.
+- **When a research item is done.** Every row it names carries a citation and
+  a spread and is read by the engine, and each of its stopgaps is resolved,
+  or left open as above with its `replacement` written. An estimate is a
+  finished piece of research; an open estimated or mechanic stopgap does not
+  hold the item back, and the item does not finish the mechanic. A research
+  item's Done when says this, never "every stopgap resolved".
+- **Not a threshold.** If the engine uses the number as a cap, a cutoff, a
+  fixed step or a chance ("if x > P.key"), do not source it. File a pool item
+  (`<area>-<engine>-<key>-as-cause`, kind bug) for the area's builder quoting
+  "Sliding scales and causes", and leave the row open with that id in the
+  stopgap's `replacement`.
+
+## Applying it to the game
+
+- **An ESTIMATED row sizes a real event, never stands in for one (Account lead, Nov 15, #9543).** A row may say how long or how often an event the game records runs (a sitting's hours, a meeting a week); it may not supply hours for a meeting no record holds. When the look-first search finds no record of the event, build the event (a sitting on the one calendar, a scene with the people present) or file it as an item, and leave the hours out.
+- **A population rate** (a quit rate, a birth rate, turnout, a share of
+  households) calibrates a band the proof reports against. Its row's `spread`
+  is the band; `checkRange` points at a target in
+  `src/core2/tooling/calibration-targets.json`, read by
+  `src/core2/tooling/calibration-guard.ts` and the tripwires. The engine never
+  reads the rate to decide who quits; the proof counts who did and checks the
+  town lands in the band.
+- **A price or an amount** (a fee, a wage, a benefit, a rent) is read by the
+  engine at the moment it pays, per place, from the per-place table; the
+  parameter row holds the national figure and the spread across places.
+- **A trait weight** is fitted with `scripts/traits/trait-calibrate.ts` on a
+  played year of `scripts/traits/trait-wiring-audit.ts` in a place where the
+  decision happens (a town with a newspaper for letters). When it says
+  "cannot-reach", read the decision's samples before anything else: if nearly
+  every `bare` (the case without personality) sits on one side of zero, a bar
+  in the case lies outside the range the world shows, and temperament alone
+  decides. Move the bar inside that range, then fit. Fit in two worlds at
+  least, since one world's range can be several times another's (press.letter
+  in Blunt, South Dakota: strengths up to 0.09 in one seed and 0.45 in the
+  next, best weights 0.0048 and 0.0097), and take the geometric mean, as the
+  meetings weight did. A finer sweep than the script's grid, by its formula,
+  is fine.
+- **A behavior** ("how likely someone is to…") is not a probability. It
+  informs the weights in the person's own reasons (traits, money, closeness,
+  the law in force), and the proof checks that the town's total lands in the
+  band. A row that would be read as a chance is the threshold case above.
+
+## Proof and PR
+
+- One PR per item, or per engine family when one source feeds several rows.
+- Body line 1: `Pool item: <id>`. Then a table, one line per row: before (old
+  value and tag) / after (value, tag) / source (publisher, year) / what reads
+  it (file and function).
+- Gate line: a builder runs only the tests it wrote or changed (owner, Oct 29); the checker runs `npm run typecheck` and the rest of the gate. Name here: prettier on changed files, the parameter
+  tests (`npx vitest run src/core2/tooling/tripwires.test.ts src/core2/tooling/calibration-guard.test.ts`),
+  `npm run zero-dice`, `npx vitest run tests/guards/research-data-has-reader.test.ts`,
+  and the test of each engine whose read you touched.
+- A proof run: `buildBenchWorld`, a drawn place from all 56, the seed named,
+  one year; report each band and where the town landed.
+- Never edit engine logic beyond the parameter read. If logic must change,
+  add a pool item for the area's builder and name it in the body.
+
+## Cloud rules
+
+- `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm
+  command; never ask the owner to confirm it. Never `npm ci`.
+- Claim before building; one item at a time. Never merge your own PR; the
+  mergers merge. Words are the Story session's: a source's wording never goes
+  into `data/english/parts/` (owner, Nov 10).
+
+## Fetching pages in a cloud session
+
+WebFetch can fail on DNS in a cloud session while `curl -sSL --max-time 30` through the container's proxy works (en.wikipedia.org returns 200). Some government sites (cga.ct.gov) refuse automated clients with an error page: then use WebSearch's quoted text or the same document on a mirror such as eCode360 or the town's own site, and never work around a refusal further. Save each page you quote and keep its quoted line and URL in the row; mark a row ESTIMATED when the text you hold is a summary and not the statute or charter itself. When `git fetch` hangs under load, read a pull request's state with `gh api repos/<owner>/<repo>/pulls/<n>`.
+
+## The prompt
+
+> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/START-A-BUILDER.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
+> You are the researcher: claim the next open `kind: research` item that carries `checked: fable`, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit.
+> Record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and each stopgap row resolved or left open with its replacement written.
+> Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. Simulate it, don't ask: a mechanic real life has is built from research in the background, never asked of the owner. A number used as a cap, a cutoff or a chance is a bug for the area's builder, not a source.
+> Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+
+- A third party's copy of a federal file (a mirror, a packaged dataset) is checked against the data the game already holds, and pinned to a named commit or version, before any number from it is used.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 02:11Z: the CTO's line "Real business counts are right" was withdrawn within the hour. Cause: a sourced count was taken as the world's count. A sourced number sets a strength, how strongly one thing moves another; never a count, rate, level, target, band, anchor or starting value.
+- Nov 17, 03:10Z: 489 places in 241 files pinned the world to real figures. The test the audit used: a line is a pin if the world's value would change when the published figure changes.
+- Nov 17, 04:08Z (Pins family 18): for a question popular across both parties, carrying the published share would pin it. Fit two strengths once (how strongly lean predicts the stance, and how much the person's own stakes pull) and let the world's share emerge.
+- Nov 17, 21:00Z (History): api.census.gov sent every request to its missing-key or invalid-key page, even with the proxy's injected key and a placeholder `key=`. data.census.gov's table API answered with no key, for example `https://data.census.gov/api/access/data/table?id=ACSDT1Y2024.B25007&g=010XX00US$0400000` (every state).

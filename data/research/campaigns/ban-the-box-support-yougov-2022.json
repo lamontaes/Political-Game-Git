@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "title": "Public support for barring employers from asking about criminal-conviction history before a job offer (ban the box), by group",
+    "source": "YouGov Daily Question, survey conducted September 16, 2022, 7,275 U.S. adults",
+    "url": "https://today.yougov.com/topics/politics/survey-results/daily/2022/09/16/0d1e1/3",
+    "wording": "Would you support or oppose prohibiting employers from asking about an applicant's criminal-conviction history before making a job offer?",
+    "tag": "SOURCED",
+    "fetched": "2026-11-08",
+    "note": "Group figures are the crossbreaks embedded in the fetched page; group sample sizes are not on the page. Support is strongly plus somewhat support, oppose is somewhat plus strongly oppose; the rest answered not sure. This is a poll of all employers, not specifically of state government as an employer; no ban-the-box poll for public employers was found."
+  },
+  "allAdults": {
+    "stronglySupport": 22,
+    "somewhatSupport": 25,
+    "somewhatOppose": 18,
+    "stronglyOppose": 17,
+    "notSure": 18,
+    "supportPct": 47,
+    "opposePct": 35
+  },
+  "groups": {
+    "region": {
+      "Northeast": {
+        "supportPct": 47,
+        "opposePct": 36,
+        "notSurePct": 18
+      },
+      "Midwest": {
+        "supportPct": 46,
+        "opposePct": 36,
+        "notSurePct": 18
+      },
+      "South": {
+        "supportPct": 46,
+        "opposePct": 36,
+        "notSurePct": 19
+      },
+      "West": {
+        "supportPct": 48,
+        "opposePct": 36,
+        "notSurePct": 16
+      }
+    },
+    "gender": {
+      "Male": {
+        "supportPct": 48,
+        "opposePct": 36,
+        "notSurePct": 16
+      },
+      "Female": {
+        "supportPct": 46,
+        "opposePct": 35,
+        "notSurePct": 19
+      }
+    },
+    "politics": {
+      "Dem": {
+        "supportPct": 56,
+        "opposePct": 28,
+        "notSurePct": 15
+      },
+      "Rep": {
+        "supportPct": 43,
+        "opposePct": 44,
+        "notSurePct": 13
+      },
+      "Ind": {
+        "supportPct": 42,
+        "opposePct": 39,
+        "notSurePct": 19
+      },
+      "Other": {
+        "supportPct": 42,
+        "opposePct": 45,
+        "notSurePct": 13
+      },
+      "Not sure": {
+        "supportPct": 36,
+        "opposePct": 23,
+        "notSurePct": 41
+      }
+    },
+    "age": {
+      "18-29": {
+        "supportPct": 50,
+        "opposePct": 29,
+        "notSurePct": 20
+      },
+      "30-44": {
+        "supportPct": 50,
+        "opposePct": 30,
+        "notSurePct": 19
+      },
+      "45-64": {
+        "supportPct": 42,
+        "opposePct": 41,
+        "notSurePct": 17
+      },
+      "65+": {
+        "supportPct": 45,
+        "opposePct": 42,
+        "notSurePct": 13
+      }
+    },
+    "race": {
+      "White": {
+        "supportPct": 45,
+        "opposePct": 40,
+        "notSurePct": 14
+      },
+      "Black": {
+        "supportPct": 52,
+        "opposePct": 27,
+        "notSurePct": 22
+      },
+      "Hispanic": {
+        "supportPct": 47,
+        "opposePct": 29,
+        "notSurePct": 23
+      },
+      "Other": {
+        "supportPct": 42,
+        "opposePct": 36,
+        "notSurePct": 22
+      }
+    }
+  }
+}

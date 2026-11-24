@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/2",
+  "rule": "pronoun-fits-the-person",
+  "rubric": "A line uses the pronoun the person goes by or avoids it (\"like they've done a hundred times\" for one man reads wrong).",
+  "judged": 1,
+  "no": {},
+  "yesHash": "0z8inr9yklx"
+}

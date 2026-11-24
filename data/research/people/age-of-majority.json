@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-08",
+  "note": "The age at which a parent's or guardian's authority over a child ends where the person lives. Ages are as the source table lists them; the source's separate child-support ages are not the age of majority and are not recorded here. A place the table does not list carries estimatedFrom.",
+  "source": {
+    "citation": "DoD 7000.14-R, Financial Management Regulation, Volume 7B, Appendix H, \"Age of Majority by State and United States' Possessions\" (May 2024)",
+    "url": "https://comptroller.war.gov/Portals/45/documents/fmr/current/07b/07b_appendix_h.pdf"
+  },
+  "places": {
+    "AL": {
+      "age": 19
+    },
+    "AK": {
+      "age": 18
+    },
+    "AZ": {
+      "age": 18
+    },
+    "AR": {
+      "age": 18
+    },
+    "CA": {
+      "age": 18
+    },
+    "CO": {
+      "age": 18
+    },
+    "CT": {
+      "age": 18
+    },
+    "DE": {
+      "age": 18
+    },
+    "DC": {
+      "age": 18
+    },
+    "FL": {
+      "age": 18
+    },
+    "GA": {
+      "age": 18
+    },
+    "HI": {
+      "age": 18
+    },
+    "ID": {
+      "age": 18
+    },
+    "IL": {
+      "age": 18
+    },
+    "IN": {
+      "age": 18
+    },
+    "IA": {
+      "age": 18
+    },
+    "KS": {
+      "age": 18
+    },
+    "KY": {
+      "age": 18
+    },
+    "LA": {
+      "age": 18
+    },
+    "ME": {
+      "age": 18
+    },
+    "MD": {
+      "age": 18
+    },
+    "MA": {
+      "age": 18
+    },
+    "MI": {
+      "age": 18
+    },
+    "MN": {
+      "age": 18
+    },
+    "MS": {
+      "age": 21
+    },
+    "MO": {
+      "age": 18
+    },
+    "MT": {
+      "age": 18
+    },
+    "NE": {
+      "age": 19
+    },
+    "NV": {
+      "age": 18
+    },
+    "NH": {
+      "age": 18
+    },
+    "NJ": {
+      "age": 18
+    },
+    "NM": {
+      "age": 18
+    },
+    "NY": {
+      "age": 18
+    },
+    "NC": {
+      "age": 18
+    },
+    "ND": {
+      "age": 18
+    },
+    "OH": {
+      "age": 18
+    },
+    "OK": {
+      "age": 18
+    },
+    "OR": {
+      "age": 18
+    },
+    "PA": {
+      "age": 18
+    },
+    "RI": {
+      "age": 18
+    },
+    "SC": {
+      "age": 18
+    },
+    "SD": {
+      "age": 18
+    },
+    "TN": {
+      "age": 18
+    },
+    "TX": {
+      "age": 18
+    },
+    "UT": {
+      "age": 18
+    },
+    "VT": {
+      "age": 18
+    },
+    "VA": {
+      "age": 18
+    },
+    "WA": {
+      "age": 18
+    },
+    "WV": {
+      "age": 18
+    },
+    "WI": {
+      "age": 18
+    },
+    "WY": {
+      "age": 18
+    },
+    "PR": {
+      "age": 21
+    },
+    "GU": {
+      "age": 18
+    },
+    "VI": {
+      "age": 18
+    },
+    "AS": {
+      "age": 18,
+      "estimatedFrom": "Most common age of majority among the 54 states, federal district and possessions the source table lists (18 in 50 of them); the table does not list this territory."
+    },
+    "MP": {
+      "age": 18,
+      "estimatedFrom": "Most common age of majority among the 54 states, federal district and possessions the source table lists (18 in 50 of them); the table does not list this territory."
+    }
+  }
+}

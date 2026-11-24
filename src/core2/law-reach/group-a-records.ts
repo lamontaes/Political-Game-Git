@@ -1,0 +1,712 @@
+/**
+ * Law reach, group A: the module that holds what each policy reaches, and
+ * the record half of every policy. On the day a policy becomes law for the
+ * town, every named person, organization and officeholder its selector
+ * matches (from their own records: age, work, household, employer, seat)
+ * gets a legal reach record; counted groups get one row
+ * with their count. A repeal ends every open row the same day.
+ */
+import { ageInYears } from "../kernel/dates";
+import reach from "../data/laws/reach-group-a.json" with { type: "json" };
+import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
+import { registerModule } from "../state";
+import { parameter } from "../parameters";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  OrganizationInput,
+  PersonState,
+} from "../types";
+import type { ModuleRow } from "../module-data";
+import type { CashJournalSourceSlot } from "../journal-state";
+import { reachOf } from "../counted-reach";
+import { isNoncitizen } from "../citizenship";
+import { citizenShareOf } from "../electorate-places";
+import {
+  firearmOwnershipRate,
+  householdOwnsFirearm,
+} from "../firearm-ownership";
+import { lawChain, yesLevels } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
+import { countedJobHeads } from "../residents-economy";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../modules/offices";
+
+export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
+export const PREMIUM_KIND = "law-reach-a:leave-premium";
+
+export type ReachTarget =
+  | "people"
+  | "organizations"
+  | "staff"
+  | "counted"
+  | "estimated"
+  | "officeholders"
+  /** Chosen by the policy's mechanic (assisted households, hires, funded positions). */
+  | "mechanic";
+
+export interface ReachSpec {
+  readonly id: string;
+  readonly target: ReachTarget;
+  readonly select?: {
+    readonly ageFrom?: string;
+    readonly ageBelow?: string;
+    readonly employed?: boolean;
+    readonly gender?: string;
+    readonly withChildBelow?: string;
+    /** Only people who are not citizens (see `isNoncitizen`). */
+    readonly noncitizen?: boolean;
+    /** Only households that keep a firearm (a drawn fact, `firearm-ownership.ts`). */
+    readonly firearmHousehold?: boolean;
+    readonly group?: string;
+    readonly employing?: boolean;
+  };
+  readonly share?: string;
+  readonly kind:
+    | "eligibility"
+    | "right"
+    | "compliance"
+    | "price"
+    | "rule"
+    | "service"
+    | "job";
+  readonly what: string;
+  readonly enforcer: string;
+  readonly penalty: string;
+}
+
+export interface PolicySpec {
+  readonly source: string;
+  readonly mechanic: string;
+  /** Governments whose permission creates these particular record effects. */
+  readonly effectLevels?: readonly string[];
+  readonly stopgapId?: string;
+  readonly reaches: readonly ReachSpec[];
+}
+
+/** One effect on one named person, organization, seat or counted group. */
+export interface ReachRow {
+  readonly id: string;
+  readonly key: string;
+  readonly spec: string;
+  readonly lawId: string;
+  readonly target: ReachTarget;
+  readonly targetId: string;
+  readonly kind: ReachSpec["kind"];
+  readonly what: string;
+  readonly enforcer: string;
+  readonly penalty: string;
+  /** People in a counted or estimated group. */
+  readonly count: number | null;
+  readonly since: string;
+  readonly endedOn: string | null;
+}
+
+/** What a mechanic did and must undo on repeal (a prior wage, a budget delta). */
+export interface MechanicRow {
+  readonly id: string;
+  readonly key: string;
+  readonly active: boolean;
+  readonly since: string;
+  readonly facts: Readonly<Record<string, string | number>>;
+}
+
+const data = reach as unknown as {
+  selectors: Record<string, readonly string[]>;
+  extraSelectors: Record<string, readonly string[]>;
+  staffing: Record<string, { employers: string; levels: readonly string[] }>;
+  policies: Record<string, PolicySpec>;
+};
+export const POLICIES = data.policies;
+export const STAFFING = data.staffing;
+const params = (
+  parameters as unknown as {
+    parameters: Record<string, { value: number }>;
+  }
+).parameters;
+
+/**
+ * A number from the group A parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
+export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
+  const row = params[key];
+  if (!row) throw new Error(`No law-reach parameter: ${key}`);
+  return row.value;
+}
+
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
+export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
+  return data.selectors[name] ?? data.extraSelectors[name] ?? [];
+}
+
+// --- the module --------------------------------------------------------------
+
+import {
+  onReachCalendar,
+  runReachCalendar,
+  runReachPayroll,
+} from "./reach-workers";
+
+interface PremiumRecord {
+  readonly id: string;
+  readonly date: string;
+  readonly reason: string;
+  readonly postings: readonly {
+    id: string;
+    accountId: string;
+    deltaMinor: number;
+  }[];
+}
+
+const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+function premiumSlot(
+  api: CoreAPI,
+  id: string,
+): CashJournalSourceSlot | undefined {
+  const map = slots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
+  slots.set(api.state, map);
+  if (map.has(id)) return map.get(id);
+  const row = reachTable(api, "premiums").get(id) as unknown as
+    PremiumRecord | undefined;
+  if (!row) return undefined;
+  const resolved = {
+    kind: PREMIUM_KIND,
+    id: row.id,
+    date: row.date,
+    source: { tag: "SOURCED", citation: row.reason, asOf: row.date },
+    expectedPostings: row.postings.map((p) => ({ ...p })),
+    requiredRelatedRefs: [],
+    relatedRecords: [],
+  };
+  const slot = {
+    resolved,
+    marker: resolved,
+    retainFull: false,
+    metadata: [],
+  } as unknown as CashJournalSourceSlot;
+  map.set(id, slot);
+  return slot;
+}
+
+export const REACH_A_MODULE: CoreModule = {
+  id: REACH_A_MODULE_ID,
+  state: {
+    schemaVersion: 1,
+    tables: {
+      reach: {
+        indexes: {
+          byKey: { fields: ["key", "endedOn"] },
+          byTarget: { fields: ["targetId"] },
+        },
+      },
+      mechanics: { indexes: { byKey: { fields: ["key"] } } },
+      premiums: { indexes: { byPerson: { fields: ["personId"] } } },
+      staffing: {},
+    },
+  },
+  journalSourceProviders: {
+    [PREMIUM_KIND]: (api, reference) => premiumSlot(api, reference.id),
+  },
+  onCalendarWork: (api, work) => runReachCalendar(api, work),
+  onWorkPayroll: (api, receipt) => {
+    runReachPayroll(api, receipt);
+  },
+};
+
+/** Register the module the first time a group-A policy changes in a world. */
+export function ensureReachA(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  if (!core.modules.has(REACH_A_MODULE_ID))
+    registerModule(core, REACH_A_MODULE);
+}
+
+export function reachTable(api: CoreAPI, name: string) {
+  return api.moduleState(REACH_A_MODULE_ID).table(name);
+}
+
+export function mechanicRow(api: CoreAPI, id: string): MechanicRow | null {
+  if (!api.state.modules.has(REACH_A_MODULE_ID)) return null;
+  return (
+    (reachTable(api, "mechanics").get(id) as unknown as
+      MechanicRow | undefined) ?? null
+  );
+}
+export function putMechanic(api: CoreAPI, row: MechanicRow): void {
+  reachTable(api, "mechanics").put(row as unknown as ModuleRow);
+}
+
+// --- reading the law and the town's records -----------------------------------
+
+const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
+export { ageOn };
+
+export const tomorrow = (date: string) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+
+export function townPeople(api: CoreAPI): readonly PersonState[] {
+  const town = lawChain(api).townPlaceId;
+  return [...api.state.people.values()].filter(
+    (p) => p.alive && p.placeId === town,
+  );
+}
+
+function classified(org: OrganizationInput, prefixes: readonly string[]) {
+  const c = org.classification ?? "";
+  return prefixes.some((prefix) => c.startsWith(prefix));
+}
+
+/** Current jobs at an organization, by commitment (start date, person). */
+export function currentStaff(
+  api: CoreAPI,
+  organizationId: string,
+): readonly { jobId: string; personId: string; startsAt: string }[] {
+  const state = api.state as CoreState;
+  const out: { jobId: string; personId: string; startsAt: string }[] = [];
+  const seen = new Set<string>();
+  for (const c of state.work.commitments.values()) {
+    if (c.organizationId !== organizationId || seen.has(c.jobId)) continue;
+    if (c.endsAt !== undefined && c.endsAt <= state.date) continue;
+    const job = state.jobs.get(c.jobId);
+    if (!job || job.endsAt !== undefined) continue;
+    seen.add(c.jobId);
+    out.push({ jobId: c.jobId, personId: c.personId, startsAt: c.startsAt });
+  }
+  return out.sort(
+    (a, b) =>
+      a.startsAt.localeCompare(b.startsAt) || a.jobId.localeCompare(b.jobId),
+  );
+}
+
+/** The town's organizations whose classification starts with one of the group's prefixes. */
+export function townOrganizations(
+  api: CoreAPI,
+  group: string,
+  employing = false,
+): readonly OrganizationInput[] {
+  const prefixes = selectorGroup(group);
+  const town = new Set([
+    lawChain(api).townPlaceId,
+    ...(api.state as CoreState).visiblePlaceIds,
+  ]);
+  const state = api.state as CoreState;
+  return [...state.organizations.values()]
+    .filter((o) => town.has(o.placeId) && classified(o, prefixes))
+    .filter(
+      (o) =>
+        !employing ||
+        (state.finance.jobsByOrganization.get(o.id)?.size ?? 0) > 0 ||
+        currentStaff(api, o.id).length > 0,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** The share of the town's adults who are citizens: its ACS count, blended with its state's. */
+function townCitizenShare(api: CoreAPI): number {
+  return citizenShareOf(
+    api.state.placeMetadata.placeKey as string | undefined,
+    lawChain(api).stateKey.slice(3),
+    api.state.seed,
+  );
+}
+
+function personMatches(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  select: NonNullable<ReachSpec["select"]>,
+): boolean {
+  const date = api.state.date;
+  const age = ageOn(person.birthDate, date);
+  if (select.ageFrom && age < reachParameter(select.ageFrom)) return false;
+  if (select.ageBelow && age >= reachParameter(select.ageBelow)) return false;
+  if (select.employed && !person.jobId) return false;
+  if (select.gender && person.looks?.gender !== select.gender) return false;
+  if (
+    select.noncitizen &&
+    !isNoncitizen(api.state.seed, person.id, townCitizenShare(api))
+  )
+    return false;
+  if (select.withChildBelow) {
+    const below = reachParameter(select.withChildBelow);
+    const household = api.state.households.get(person.householdId);
+    const hasChild = (household?.memberIds ?? []).some((id) => {
+      const member = api.state.people.get(id);
+      return member?.alive === true && ageOn(member.birthDate, date) < below;
+    });
+    if (!hasChild) return false;
+  }
+  if (
+    select.firearmHousehold &&
+    !householdOwnsFirearm(api, person.householdId, lawChain(api).stateKey)
+  )
+    return false;
+  return true;
+}
+
+/** Adults in the town, named and counted: the base an estimated share applies to. */
+export function townAdults(api: CoreAPI): number {
+  const adult = reachParameter("votingAge");
+  const date = api.state.date;
+  const named = townPeople(api).filter(
+    (p) => ageOn(p.birthDate, date) >= adult,
+  ).length;
+  const counted = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ageFrom: adult,
+  }).counted.people;
+  return named + Math.round(counted);
+}
+
+/** The town's counted members a selector reaches (`reachOf`, counted tier), rounded. */
+function countedReach(
+  api: CoreAPI,
+  select: NonNullable<ReachSpec["select"]>,
+): number {
+  const p = (key: string | undefined) =>
+    key === undefined ? undefined : reachParameter(key);
+  const reach = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ...(select.ageFrom ? { ageFrom: p(select.ageFrom)! } : {}),
+    ...(select.ageBelow ? { ageBelow: p(select.ageBelow)! } : {}),
+    ...(select.employed ? { employed: true } : {}),
+    ...(select.gender ? { gender: select.gender } : {}),
+    ...(select.noncitizen
+      ? { noncitizen: { citizenShare: townCitizenShare(api) } }
+      : {}),
+    ...(select.withChildBelow
+      ? { withChildBelow: p(select.withChildBelow)! }
+      : {}),
+  });
+  // Counted households keep a firearm at their state's rate, as a group.
+  const share = select.firearmHousehold
+    ? firearmOwnershipRate(lawChain(api).stateKey)
+    : 1;
+  return Math.round(reach.counted.people * share);
+}
+
+export interface Target {
+  readonly id: string;
+  readonly personId: string | null;
+  readonly count: number | null;
+}
+
+/** The jobs the counted jobs at these employers stand for. */
+function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
+  const core = api.state as CoreState;
+  let people = 0;
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (
+      job.endsAt === undefined &&
+      !core.jobs.has(job.id) &&
+      employers.has(job.organizationId)
+    )
+      people += countedJobHeads(core, job);
+  return people;
+}
+
+export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
+  const select = spec.select ?? {};
+  switch (spec.target) {
+    case "people": {
+      // One rule, both tiers: each full person matched one by one, and the
+      // counted groups' members matched by the same rule, as one count.
+      const named = townPeople(api)
+        .filter((p) => personMatches(api, p, select))
+        .map((p): Target => ({ id: p.id, personId: p.id, count: null }));
+      const counted = countedReach(api, select);
+      return counted
+        ? [
+            ...named,
+            { id: `counted:${spec.id}`, personId: null, count: counted },
+          ]
+        : named;
+    }
+    case "organizations":
+      return townOrganizations(api, select.group ?? "", select.employing).map(
+        (o) => ({ id: o.id, personId: null, count: null }),
+      );
+    case "staff": {
+      const out: Target[] = [];
+      const orgs = townOrganizations(api, select.group ?? "");
+      for (const org of orgs)
+        for (const s of currentStaff(api, org.id))
+          if (api.state.people.has(s.personId))
+            out.push({ id: s.personId, personId: s.personId, count: null });
+      // One rule, both tiers: the counted staff of the same employers, as
+      // one count (each counted job stands for the people its household does).
+      const counted = countedStaff(api, new Set(orgs.map((o) => o.id)));
+      return counted
+        ? [...out, { id: `counted:${spec.id}`, personId: null, count: counted }]
+        : out;
+    }
+    case "counted": {
+      const count = countedReach(api, select);
+      return count ? [{ id: `counted:${spec.id}`, personId: null, count }] : [];
+    }
+    case "estimated": {
+      const count = Math.round(
+        townAdults(api) * reachParameter(spec.share ?? ""),
+      );
+      return count
+        ? [{ id: `estimated:${spec.id}`, personId: null, count }]
+        : [];
+    }
+    case "mechanic":
+      return [];
+    case "officeholders": {
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      const kinds = select.group ? selectorGroup(select.group) : null;
+      const out: Target[] = [];
+      for (const term of offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]) {
+        if (!term.personId || !api.state.people.has(term.personId)) continue;
+        const office = offices.table("offices").get(term.officeId) as
+          { kind?: string; level?: string; jurisdiction?: string } | undefined;
+        // The town's law reaches its own offices (its state's and the
+        // federal ones included), never another place's (a holder filled in
+        // when the player met them included).
+        if (isOutsideOffice(api, office)) continue;
+        if (kinds && !kinds.some((k) => (office?.kind ?? "").startsWith(k)))
+          continue;
+        out.push({ id: term.personId, personId: term.personId, count: null });
+      }
+      return out;
+    }
+  }
+}
+
+/** Every open reach row for a policy. */
+export function openReach(api: CoreAPI, key: string): readonly ReachRow[] {
+  if (!api.state.modules.has(REACH_A_MODULE_ID)) return [];
+  return reachTable(api, "reach").query("byKey", [
+    key,
+    null,
+  ]) as unknown as ReachRow[];
+}
+
+/** Every group-A effect on one person or organization, current and ended. */
+export function reachOn(api: CoreAPI, targetId: string): readonly ReachRow[] {
+  if (!api.state.modules.has(REACH_A_MODULE_ID)) return [];
+  return reachTable(api, "reach").query("byTarget", [
+    targetId,
+  ]) as unknown as ReachRow[];
+}
+
+/**
+ * Put a policy's record effects on everyone it reaches (in force) or end
+ * them (repealed). These records are not delivered notices and create no
+ * knowledge; news, conversations and notices own that. Idempotent: a second level saying yes adds no rows.
+ */
+export function applyRecords(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  inForce: boolean,
+): void {
+  const policy = POLICIES[key];
+  if (!policy) return;
+  ensureReachA(api);
+  if (policy.stopgapId) api.stopgap(policy.stopgapId);
+  const table = reachTable(api, "reach");
+  const date = api.state.date;
+  const open = openReach(api, key);
+  if (!inForce) {
+    for (const row of open) {
+      table.put({ ...row, endedOn: date } as unknown as ModuleRow);
+    }
+    return;
+  }
+  for (const spec of policy.reaches) {
+    writeRows(api, key, lawId, spec, targetsOf(api, spec));
+    scheduleAgeChecks(api, key, lawId, spec);
+  }
+}
+
+/** The calendar kind that re-reads a person's age-gated rows on the day their age or their home's youngest child's age crosses a gate. */
+const REACH_AGE_KIND = "reach-age-check";
+
+/** The day a person turns `years`, a February 29 birthday falling on March 1 in a common year. */
+function birthdayAt(birthDate: string, years: number): string {
+  const year = Number(birthDate.slice(0, 4)) + years;
+  const rest = birthDate.slice(4);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return rest === "-02-29" && !leap
+    ? `${year}-03-01`
+    : `${String(year).padStart(4, "0")}${rest}`;
+}
+
+/**
+ * Age-gated rows open and end on a cause, not a scan: the birthday that
+ * crosses a gate (turning the age a law starts at or stops at), and the
+ * birthday on which the youngest child of a home outgrows a "child in the
+ * home" gate. When a row is written (a law takes effect), the next such day
+ * for each full person the gate could change is put on the module's
+ * calendar; on that day the person's rows are read again and the next day
+ * is booked. A birth or a move into a home with a child is not yet a cause
+ * read here.
+ */
+function scheduleAgeChecks(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  spec: ReachSpec,
+): void {
+  const select = spec.select;
+  if (
+    spec.target !== "people" ||
+    !select ||
+    !(select.ageFrom || select.ageBelow || select.withChildBelow)
+  )
+    return;
+  for (const person of townPeople(api))
+    scheduleNextAgeCheck(api, key, lawId, spec, person.id);
+}
+
+function scheduleNextAgeCheck(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  spec: ReachSpec,
+  personId: string,
+): void {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  const select = spec.select;
+  if (!person?.alive || !select) return;
+  const today = core.date;
+  const days: string[] = [];
+  const age = ageOn(person.birthDate, today);
+  for (const gate of [select.ageFrom, select.ageBelow])
+    if (gate) {
+      const at = reachParameter(gate);
+      if (age < at) days.push(birthdayAt(person.birthDate, at));
+    }
+  if (select.withChildBelow) {
+    const below = reachParameter(select.withChildBelow);
+    for (const id of core.households.get(person.householdId)?.memberIds ?? []) {
+      const member = core.people.get(id);
+      if (member?.alive && ageOn(member.birthDate, today) < below)
+        days.push(birthdayAt(member.birthDate, below));
+    }
+  }
+  const next = days.filter((day) => day > today).sort()[0];
+  if (!next) return;
+  const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+  const id = `${REACH_AGE_KIND}:${key}:${spec.id}:${personId}:${next}`;
+  if (calendar.get(id)) return;
+  calendar.schedule({
+    key: id,
+    date: next,
+    kind: REACH_AGE_KIND,
+    source: {
+      tag: "SOURCED",
+      citation: `A birthday that crosses the age gate of ${key} (law ${lawId}).`,
+      asOf: today,
+    },
+    sourceRecordIds: [key, spec.id, personId, lawId],
+  });
+}
+
+onReachCalendar(REACH_AGE_KIND, (api, work) => {
+  const [key, specId, personId, lawId] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+    string,
+  ];
+  const spec = POLICIES[key]?.reaches.find((row) => row.id === specId);
+  const person = api.state.people.get(personId);
+  if (!spec?.select || !person?.alive) return;
+  // The law decides whether rows may exist, independently of the rows held.
+  if (!yesLevels(api, key).length) return;
+  const table = reachTable(api, "reach");
+  const held = openReach(api, key).find(
+    (row) => row.spec === spec.id && row.targetId === personId,
+  );
+  const matches = personMatches(api, person, spec.select);
+  if (matches && !held)
+    writeRows(api, key, lawId, spec, [{ id: personId, personId, count: null }]);
+  else if (!matches && held)
+    table.put({ ...held, endedOn: api.state.date } as unknown as ModuleRow);
+  scheduleNextAgeCheck(api, key, lawId, spec, personId);
+});
+
+/** The spec a mechanic writes its own rows with. */
+export function specOf(key: string, specId: string): ReachSpec {
+  const spec = POLICIES[key]?.reaches.find((r) => r.id === specId);
+  if (!spec) throw new Error(`No reach spec ${specId} for ${key}`);
+  return spec;
+}
+
+/** Put one spec's rows on targets that don't hold it yet. */
+export function writeRows(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  spec: ReachSpec,
+  targets: readonly Target[],
+): void {
+  ensureReachA(api);
+  const table = reachTable(api, "reach");
+  const date = api.state.date;
+  const holding = new Map(
+    openReach(api, key)
+      .filter((r) => r.spec === spec.id)
+      .map((r) => [r.targetId, r]),
+  );
+  for (const target of targets) {
+    const held = holding.get(target.id);
+    // A group's count follows its records; a person or organization's row
+    // stands, cited to the law row now applying it.
+    if (
+      held &&
+      (held.count === target.count || target.count === null) &&
+      held.lawId === lawId
+    )
+      continue;
+    const row: ReachRow = {
+      id: held?.id ?? `reach:${lawId}:${spec.id}:${target.id}:${date}`,
+      key,
+      spec: spec.id,
+      lawId,
+      target: spec.target,
+      targetId: target.id,
+      kind: spec.kind,
+      what: spec.what,
+      enforcer: spec.enforcer,
+      penalty: spec.penalty,
+      count: target.count,
+      since: held?.since ?? date,
+      endedOn: null,
+    };
+    table.put(row as unknown as ModuleRow);
+    holding.set(target.id, row);
+  }
+}
+
+/** End one spec's open rows on targets not in the keep set. */
+export function endRows(
+  api: CoreAPI,
+  key: string,
+  specId: string,
+  keep: ReadonlySet<string>,
+): void {
+  const table = reachTable(api, "reach");
+  for (const row of openReach(api, key)) {
+    if (row.spec !== specId || keep.has(row.targetId)) continue;
+    table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
+  }
+}

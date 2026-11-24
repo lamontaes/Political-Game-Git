@@ -1,0 +1,490 @@
+{
+  "macroMonthsPerYear": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "Calendar months per year."
+  },
+  "macroHundred": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Percent scale."
+  },
+  "macroHalf": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "One half, for medians and midpoints."
+  },
+  "macroQuartersPerYear": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "Calendar quarters per year."
+  },
+  "macroMonthsPerQuarter": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "Calendar months per quarter."
+  },
+  "macroHistoryFirstYear": {
+    "value": 2021,
+    "tag": "SOURCED",
+    "citation": "M1-history (owner, Oct 10): the years from the latest full-data year, 2021, to the start date are the coarse run."
+  },
+  "macroHistoryMonths": {
+    "value": 13,
+    "tag": "SOURCED",
+    "citation": "The opening month plus the twelve before it, so every first-year 12-month change has its real base."
+  },
+  "macroNaturalUnemploymentPct": {
+    "value": 4.5,
+    "tag": "TUNABLE",
+    "citation": "CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, 5.84 percent (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json), bounds it from above.",
+    "spread": {
+      "low": 4.0,
+      "high": 5.84,
+      "unit": "percent",
+      "citation": "CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, 5.84 percent (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json), bounds it from above."
+    }
+  },
+  "macroInflationAnchorPct": {
+    "value": 2.451,
+    "tag": "SOURCED",
+    "citation": "Mean 12-month CPI-U inflation 1990-2019 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 2.0,
+      "high": 2.9,
+      "unit": "percent",
+      "citation": "Mean 12-month CPI-U inflation 1990-2019 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroOkunOutputPerUnemploymentPoint": {
+    "value": 1.152,
+    "tag": "SOURCED",
+    "citation": "Same Okun regression: 4.61 annualized points per quarterly point, so 1.15 percent of output per point of unemployment, SE 0.16 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 0.83,
+      "high": 1.47,
+      "unit": "percent of output per point",
+      "citation": "Same Okun regression: 4.61 annualized points per quarterly point, so 1.15 percent of output per point of unemployment, SE 0.16 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroTreasuryIntercept": {
+    "value": 0.0345,
+    "tag": "SOURCED",
+    "citation": "OLS of the 10-year Treasury yield on its previous month and the effective funds rate, 1990-2019, SE 0.034 (H.15 RIFLGFCY10_N.M).",
+    "spread": {
+      "low": -0.033,
+      "high": 0.102,
+      "unit": "percent",
+      "citation": "OLS of the 10-year Treasury yield on its previous month and the effective funds rate, 1990-2019, SE 0.034 (H.15 RIFLGFCY10_N.M)."
+    }
+  },
+  "macroTreasuryPersistence": {
+    "value": 0.9832,
+    "tag": "SOURCED",
+    "citation": "Same Treasury regression, own-lag coefficient, SE 0.011.",
+    "spread": {
+      "low": 0.96,
+      "high": 1.0,
+      "unit": "monthly coefficient",
+      "citation": "Same Treasury regression, own-lag coefficient, SE 0.011."
+    }
+  },
+  "macroTreasuryPerPolicy": {
+    "value": 0.0086,
+    "tag": "SOURCED",
+    "citation": "Same Treasury regression, policy-rate coefficient, SE 0.009.",
+    "spread": {
+      "low": -0.01,
+      "high": 0.027,
+      "unit": "points per point",
+      "citation": "Same Treasury regression, policy-rate coefficient, SE 0.009."
+    }
+  },
+  "macroMortgageIntercept": {
+    "value": 0.1092,
+    "tag": "SOURCED",
+    "citation": "OLS of the FHFA MIRS 30-year fixed contract rate on its previous month and the effective funds rate, 1990-2019, SE 0.042. This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+    "spread": {
+      "low": 0.025,
+      "high": 0.193,
+      "unit": "percent",
+      "citation": "OLS of the FHFA MIRS 30-year fixed contract rate on its previous month and the effective funds rate, 1990-2019, SE 0.042. This product uses FHFA data but is neither endorsed nor certified by FHFA."
+    }
+  },
+  "macroMortgagePersistence": {
+    "value": 0.9728,
+    "tag": "SOURCED",
+    "citation": "Same mortgage regression, own-lag coefficient, SE 0.009.",
+    "spread": {
+      "low": 0.955,
+      "high": 0.991,
+      "unit": "monthly coefficient",
+      "citation": "Same mortgage regression, own-lag coefficient, SE 0.009."
+    }
+  },
+  "macroMortgagePerPolicy": {
+    "value": 0.0166,
+    "tag": "SOURCED",
+    "citation": "Same mortgage regression, policy-rate coefficient, SE 0.007. The unconditional 12-month pass-through is 1.00 (HAC SE 0.39).",
+    "spread": {
+      "low": 0.003,
+      "high": 0.03,
+      "unit": "points per point",
+      "citation": "Same mortgage regression, policy-rate coefficient, SE 0.007. The unconditional 12-month pass-through is 1.00 (HAC SE 0.39)."
+    }
+  },
+  "macroMortgageSpreadOverTreasuryPct": {
+    "value": 2.22,
+    "tag": "SOURCED",
+    "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json)."
+  },
+  "macroPrimeSpreadPct": {
+    "value": 3.08,
+    "tag": "SOURCED",
+    "citation": "H.15 bank prime loan rate (RIFSPBLP_N.M) less the effective federal funds rate (RIFSPFF_N.M), monthly 1995-2026: mean 3.08, range 2.85 to 3.61.",
+    "spread": {
+      "low": 2.85,
+      "high": 3.61,
+      "unit": "percentage points",
+      "citation": "H.15 bank prime loan rate (RIFSPBLP_N.M) less the effective federal funds rate (RIFSPFF_N.M), monthly 1995-2026: mean 3.08, range 2.85 to 3.61."
+    }
+  },
+  "macroInflationGoalPct": {
+    "value": 2.0,
+    "tag": "SOURCED",
+    "citation": "FOMC Statement on Longer-Run Goals and Monetary Policy Strategy (2% PCE inflation), https://www.federalreserve.gov/monetarypolicy/files/fomc_longerrungoals.pdf"
+  },
+  "macroCpiOverPceWedgePct": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "CPI-U has run above PCE inflation; BEA NIPA table 2.8.7 and BLS CPI-U, 1990-2019 averages differ by about 0.3 to 0.6 points.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.6,
+      "unit": "percentage points",
+      "citation": "CPI-U has run above PCE inflation; BEA NIPA table 2.8.7 and BLS CPI-U, 1990-2019 averages differ by about 0.3 to 0.6 points."
+    }
+  },
+  "macroPolicyLowerBoundPct": {
+    "value": 0.125,
+    "tag": "SOURCED",
+    "citation": "The lowest target range the FOMC has set is 0 to 0.25 percent (December 2008, March 2020); its midpoint."
+  },
+  "macroPolicyStepPct": {
+    "value": 0.25,
+    "tag": "SOURCED",
+    "citation": "FOMC target ranges move in multiples of 25 basis points."
+  },
+  "macroNeutralRealRatePct": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York.",
+    "spread": {
+      "low": -0.5,
+      "high": 1.5,
+      "unit": "percent",
+      "citation": "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York."
+    }
+  },
+  "macroTaylorInflationResponse": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "Taylor (1993), Discretion versus policy rules in practice, Carnegie-Rochester 39."
+  },
+  "macroTaylorGapResponse": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "Taylor (1993): 0.5 on the output gap; the balanced-approach rule uses 1.0 (Federal Reserve Monetary Policy Report, policy rules box)."
+  },
+  "macroLeanGapShift": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hawks weight jobs less and doves more, spanning Taylor (1993) and the balanced-approach rule.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "share of the gap response",
+      "citation": "Hawks weight jobs less and doves more, spanning Taylor (1993) and the balanced-approach rule."
+    }
+  },
+  "macroLeanInflationShift": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hawks weight inflation more; Malmendier, Nagel and Yan (2021), The making of hawks and doves, JME 117.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "share of the inflation response",
+      "citation": "Hawks weight inflation more; Malmendier, Nagel and Yan (2021), The making of hawks and doves, JME 117."
+    }
+  },
+  "macroExperienceWeightShape": {
+    "value": 3.0,
+    "tag": "TUNABLE",
+    "citation": "Learning-from-experience weights on lifetime inflation, Malmendier and Nagel (2016), QJE 131; Malmendier, Nagel and Yan (2021).",
+    "spread": {
+      "low": 1.0,
+      "high": 4.0,
+      "unit": "weighting exponent",
+      "citation": "Learning-from-experience weights on lifetime inflation, Malmendier and Nagel (2016), QJE 131; Malmendier, Nagel and Yan (2021)."
+    }
+  },
+  "macroExperienceLeanScale": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "A member's lean is their lived inflation's distance from the board's mean, in the board's own standard deviations (Malmendier, Nagel and Yan 2021 find votes move with that relative experience).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "standard deviations of the board's experienced inflation",
+      "citation": "A member's lean is their lived inflation's distance from the board's mean, in the board's own standard deviations (Malmendier, Nagel and Yan 2021 find votes move with that relative experience)."
+    }
+  },
+  "macroSmoothingBase": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE).",
+    "spread": {
+      "low": 0.15,
+      "high": 0.5,
+      "unit": "share of the gap closed per meeting",
+      "citation": "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE)."
+    }
+  },
+  "macroRatePullWeight": {
+    "value": 4.0,
+    "tag": "TUNABLE",
+    "citation": "Policy pulls outweigh one trait's pull on commit or delay in the shared chooser.",
+    "spread": {
+      "low": 1.0,
+      "high": 8.0,
+      "unit": "score per pull",
+      "citation": "Policy pulls outweigh one trait's pull on commit or delay in the shared chooser."
+    }
+  },
+  "macroGovernorTermYears": {
+    "value": 14,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 241: Board governors serve fourteen-year terms."
+  },
+  "macroPresidentTermYears": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 341: Reserve Bank presidents serve five-year terms."
+  },
+  "macroGovernorMinimumAge": {
+    "value": 45,
+    "tag": "TUNABLE",
+    "citation": "Ages of governors at appointment, Federal Reserve Board history of members.",
+    "spread": {
+      "low": 40,
+      "high": 55,
+      "unit": "years",
+      "citation": "Ages of governors at appointment, Federal Reserve Board history of members."
+    }
+  },
+  "macroGovernorAgeSpan": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Ages of governors at appointment span about 40 to 70.",
+    "spread": {
+      "low": 10,
+      "high": 25,
+      "unit": "years",
+      "citation": "Ages of governors at appointment span about 40 to 70."
+    }
+  },
+  "macroBoardVoters": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 263: seven governors, the New York president and four rotating presidents vote."
+  },
+  "macroTraitScaleBoard": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "The recorded trait scale (traitScale)."
+  },
+  "macroBoardCandidates": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many people an appointer weighs for a seat; a short list.",
+    "spread": {
+      "low": 2,
+      "high": 6,
+      "unit": "candidates",
+      "citation": "How many people an appointer weighs for a seat; a short list."
+    }
+  },
+  "macroPresidentRetirementAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve System policy: a Reserve Bank president retires at 65 (a president first appointed after 55 may serve up to ten years)."
+  },
+  "macroFederalOutlayResponseBand": {
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "National output's response within a year to a change in federal outlays worth one point of national output: about 1.2 for government purchases (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5)) and 0.4 to 2.5 by type of outlay (CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015). A calibration band, read by the federal-dollar report (scripts/world-proofs/federal-dollar-year.ts) against the response the played world's own dollars produce; no line of logic moves a number with it.",
+    "estimatedFrom": "Monacelli, Perotti and Trigari 2010; CBO 2015 ranges by outlay type",
+    "spread": {
+      "low": 0.4,
+      "high": 2.5,
+      "unit": "points of national output per point of national output of outlay change",
+      "citation": "CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015: 0.4 to 2.5 by type of outlay; government purchases about 1.2 at one year (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5))."
+    }
+  },
+  "macroNominalOutputDollars": {
+    "value": 29184900000000,
+    "tag": "SOURCED",
+    "citation": "U.S. gross domestic product, 2024, current dollars: $29,184.9 billion (BEA, National Income and Product Accounts, Table 1.1.5, annual 2024). The scale a change in federal outlays is measured against."
+  },
+  "macroTownGrowthMinMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The fewest months of the town's paid income compared with the same months a year earlier before the national step hears the town's growth; a quarter averages out the count of paydays in a month.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
+    }
+  },
+  "macroWorldUnemploymentSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's unemployment rate sits from the published series: about the median size of a year's move in the rate (BLS LNS14000000; the 12-month change band is -1.3 to +2.6 points).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.3,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldInflationSpreadPoints": {
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 12-month inflation sits from the published series (BLS CUSR0000SA0; the 12-month change band is 0.3% to 5.7%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.6,
+      "high": 2.0,
+      "unit": "percentage points of 12-month CPI change",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldJobsGrowthSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's payroll-job growth runs from the published series (BLS CES0000000001; the 12-month change band is -3.6% to +3.4%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.5,
+      "unit": "percentage points of annual payroll growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldWageGrowthSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's hourly-earnings growth runs from the published series (BLS CES0500000003; 12-month growth 2006-2026 ranged about 1.5% to 8%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.5,
+      "unit": "percentage points of annual hourly-earnings growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldOutputGrowthSpreadPoints": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's real output growth runs from the published series (BEA NIPA A191RX; the annualized quarterly growth band is -1.7% to +6.7%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "percentage points of annual real output growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldPolicyRateSpreadPoints": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's policy rate sits from the published effective rate (Fed H.15): three of the board's quarter-point steps, about a year of normal moves.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.25,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldLongRateSpreadPoints": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 10-year Treasury and 30-year mortgage rates sit from the published series (Fed H.15, FHFA MIRS); the 10-year's 12-month change has a median size of about 0.6 points since 1990.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.3,
+      "high": 1.0,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldLevelSpreadShare": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price, payroll, earnings and output levels sit from the published levels at the opening month, besides their growth: about one to two years of trend growth in each.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.015,
+      "high": 0.05,
+      "unit": "share of the published level",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldUnemploymentLowestPct": {
+    "value": 2.5,
+    "tag": "SOURCED",
+    "citation": "The lowest published monthly U.S. unemployment rate, 2.5% (May and June 1953; BLS LNS14000000): no world's offset takes the rate below it."
+  },
+  "macroNaturalHysteresisMonths": {
+    "value": 120,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "How fast the normal unemployment rate follows the rate people have lived at. Qualitative sources: Blanchard and Summers (1986), 'Hysteresis and the European Unemployment Problem', and Ball (2009), 'The Next Generation of Hysteresis', both find the normal rate following actual unemployment after long slumps, with no published speed. Money's fit of the quarterly change in CBO's natural rate (FRED NROU) on the lagged gap to UNRATE (1960-2019, 1970-95, 1979-89, 1990-2019, 2008-19; one- and eight-quarter lags) gives a slightly negative coefficient everywhere (-0.003 to -0.006 a quarter, standard error about 0.0006): CBO's series follows structure, not lived unemployment, so its central estimate is no drift. The value is an estimate between those poles. The normal rate is a state of the economy, not a resting point: at the opening it starts at macroNaturalUnemploymentPct and moves with experience.",
+    "estimatedFrom": "Qualitative hysteresis literature and the NROU fit above; the speed itself is not published.",
+    "spread": {
+      "low": 60,
+      "high": 1200,
+      "unit": "months",
+      "citation": "60 months is a fast follower; 1200 months (a century) is the no-drift end that CBO's series implies. Replaced by a composition-driven natural rate (pool item economy-natural-rate-from-composition)."
+    }
+  },
+  "macroInflationExpectationMonths": {
+    "value": 36,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "How fast expected inflation follows the inflation people have lived through (adaptive expectations; the University of Michigan Surveys of Consumers' one-year-ahead expectations followed realized inflation with a lag of a few years, 1978-2019). Expected inflation is a state, not an anchor: at the opening it starts at macroInflationAnchorPct, the 1990-2019 mean, and moves with experience.",
+    "spread": {
+      "low": 12,
+      "high": 72,
+      "unit": "months",
+      "citation": "Checked against the 1990-2026 inflation bands in the macro tests."
+    }
+  },
+  "macroNeutralRateMonths": {
+    "value": 120,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "How fast the neutral real rate follows the real long-term rate lived with. Holston, Laubach and Williams (2017, 'Measuring the Natural Rate of Interest', Journal of International Economics) and the New York Fed's updates estimate it falling from about 3 percent around 2000 to about 0.5 percent by 2020, following the real long-term yield with a lag of years; no source publishes a speed. The neutral rate is a state of the economy, not a resting point: at the opening it starts at macroNeutralRealRatePct and moves with experience.",
+    "estimatedFrom": "The direction and size of the published series; the speed itself is not published.",
+    "spread": {
+      "low": 60,
+      "high": 240,
+      "unit": "months",
+      "citation": "Checked against the 1990-2026 12-month bands and recession statistics (scripts/money/band-exits.ts, macro-cycle.ts)."
+    }
+  }
+}

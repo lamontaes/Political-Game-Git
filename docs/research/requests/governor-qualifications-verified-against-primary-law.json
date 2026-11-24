@@ -1,0 +1,42 @@
+{
+  "filedAt": "2026-09-22T23:50:00.000Z",
+  "impact": "blocks-work",
+  "lane": "a corrupt life in power",
+  "notes": [
+    "Where lamontae's intent is needed rather than a fact, write it as a short numbered question he can answer in a word, with your recommendation marked; do not decide it for him.",
+    "He also said a term limit should bar someone only where the law explicitly says so; include each jurisdiction's term-limit text with the citation."
+  ],
+  "priority": "P0",
+  "question": "Your governor-qualifications table checked 10 jurisdictions against primary text (Alaska, California, Florida, New Hampshire, New York, Texas, Vermont, Virginia, the D.C. mayor, Puerto Rico); the other 42 states rest on CSG's Book of the States 2023, marked secondary and unverified, with other bars and test dates UNKNOWN. For the other 42 states and for Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, answered as one set: verify each qualification for governor (or the territory's executive) against the current constitution or statute: minimum age, residency and its length, citizenship or nationality, elector or registration requirement, felony or other bars, term-limit or succession bars, and the date each is tested (filing, election or taking office). Cite each provision and keep UNKNOWN where the text is silent, saying whether silence means no requirement.",
+  "questionId": "governor-qualifications-verified-against-primary-law",
+  "readFirst": {
+    "saidAt": "2026-09-22T23:44:56.000Z",
+    "saidBy": "lamontae",
+    "words": "Oh, wow, only 10 of the 52? Yeah, go ahead and get the rest. Of the 42 and I'm not sure why it says 42 it should be all of the territories"
+  },
+  "relatedQuestionIds": [
+    "governor-qualifications-in-every-state",
+    "counting-governor-terms-toward-a-limit",
+    "inhabited-territories-government-and-statehood"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22 7:44 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's governor-qualifications answer (docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-GOVERNOR-QUALIFICATIONS--52-JURISDICTIONS--2026-09-22.md)",
+      "whatItDidNotSettle": "Only 10 jurisdictions verified against primary text; the four other territories were not covered."
+    }
+  ],
+  "title": "Check every governor qualification against the jurisdiction's own law",
+  "usableAnswer": "A 46-row table (42 states and four territories) in the same shape as the governor-qualifications answer, every field marked verified primary with its citation, or UNKNOWN with the text searched. Corrections to any of the ten already checked are welcome.",
+  "whyItMatters": "ChatGPT said the table is 'not ready to operate as a legal eligibility gate nationwide', so filing for governor in 42 states still checks nothing real. lamontae asked on 2026-09-22 for the rest to be checked, including the territories.",
+  "answer": {
+    "summary": "ChatGPT's 56-row table (50 states, D.C., Puerto Rico, American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands) gives every row at least one qualification checked against an official constitution, statute, court or election authority, with its link and the legal date it is tested on (filing, election or taking office, per row). UNKNOWN means not established, never eligible or ineligible. Rule-changing differences from the 2023 CSG survey: Kansas sets age 25 and qualified elector; Kentucky requires six years of state citizenship and residence (not two); Michigan four years as a registered elector; Maryland five years' residence and registered voter; Louisiana tests at qualification and establishes no standalone five-year residence; West Virginia tests age at the start of the term; California's five-year residence clause is unenforceable per its Secretary of State; South Carolina's religious test is judicially invalid and must not become a requirement. The owner's chosen display is a brief rule on each race listing with detail on request, and a rejection names the requirement and its date in election-office language.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-governor-and-alaska-0024/GOVERNOR-QUALIFICATIONS-56-PRIMARY-CHECK-2026-09-22.md"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-23T00:08:35.000Z",
+    "stillOpen": "Every row still has at least one UNKNOWN or incomplete current-law field (other bars, elector timing, test dates). Kansas's elector filing-deadline grammar needs legal confirmation before a hard gate; California's current enforcement of its residence clause must be checked. ChatGPT: close the source and test-date gaps that matter to the candidate-facing rule before those fields become hard eligibility gates."
+  }
+}

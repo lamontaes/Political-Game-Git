@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "team": 6,
+  "total": 14,
+  "status": "effect-list-only-not-wiring",
+  "source": {
+    "publishedResearchHead": "c5c864c5a8219b02b73681654f91b921a18a3a9e",
+    "path": "docs/codex/handbacks/team-6-law-traces.md",
+    "scopeRule": "Only current Team6 fourteen laws. Parks belongs Team5; cannabis belongs Team4."
+  },
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "effects": [
+        "Budget allocation shifts from highway work to transit.",
+        "Transit operator funding can change capacity and scheduled service.",
+        "Changed service can change trips and work access; these require separate records.",
+        "Highway resources and maintenance trade-offs may change."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "effects": [
+        "Covered riders cease paying the specified fare.",
+        "Operator fare revenue falls; replacement funding or service changes require a government budget record.",
+        "Demand and trips can change subject to coverage and capacity.",
+        "A rider's payment and trip must reach their saved record."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "effects": [
+        "Appropriation authorizes spending.",
+        "Executive commitment selects operating or maintenance installments.",
+        "Completed transfers pay the recorded recipient.",
+        "Operating payments produce authored paid hours; maintenance produces counted capacity outturns after delivery.",
+        "Actual service availability, use and rider decisions require separate evidence.",
+        "Knowledge and noticing require saved person or press records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "effects": [
+        "Rate, taxable miles, exemptions and credit rules determine driver liability.",
+        "Fuel-tax replacement changes government collections and road funding.",
+        "Metering and administration impose compliance costs and privacy consequences.",
+        "Vehicle and travel choices require a person's actual records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "effects": [
+        "Legal authority and capital or operating funding enable public service.",
+        "Coverage, enrollment, price and eligibility determine access.",
+        "Household payments and business or employment consequences require readers.",
+        "Management and compliance costs reach the appropriate public budget."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "effects": [
+        "Project prioritization changes repair versus expansion spending.",
+        "Procurement and maintenance determine road condition and available capacity.",
+        "Road condition may change driver vehicle costs and travel conditions.",
+        "Budget trade-offs and household effects require saved records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "effects": [
+        "Covered generators or utilities must meet the specified clean-generation rule.",
+        "Compliance changes investment, generation mix and enforcement.",
+        "Costs can change utility prices and household bills.",
+        "Emissions and particulate exposure can change; health effects require separate exposure and person readers."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "effects": [
+        "Covered emissions create liability at the specified rate.",
+        "Payments create government revenue and business or household burdens.",
+        "Prices and incentives can change fuel use and emissions.",
+        "Particulate exposure and health require downstream records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "effects": [
+        "The rule constrains covered new connections or permits subject to actual authority and preemption.",
+        "Building equipment and conversion choices incur costs.",
+        "Utility demand, prices and household energy bills can change.",
+        "Indoor exposure and health must distinguish installation from observed exposure."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "effects": [
+        "Permits and land-use rules constrain covered development.",
+        "Development supply and prices can change.",
+        "Exposure to flooding and later losses can change.",
+        "Damage, displacement and household costs require actual event and person records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "effects": [
+        "Covered container purchases incur the statutory deposit.",
+        "Eligible returns generate refunds; dealers and producers incur handling and compliance obligations.",
+        "Unredeemed deposits follow jurisdiction-specific ownership rules.",
+        "Collection and recycling can change; litter and prices require distinct map links."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "effects": [
+        "Actual water-rights and agency authority determine permit, metering and withdrawal limits.",
+        "Pumping and monitoring change under those limits.",
+        "Irrigation, crops and land use may change.",
+        "Farmer costs, enforcement and water conditions require saved records."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "effects": [
+        "Acquisition or easements incur public costs and constrain development rights.",
+        "Protected land and conversion can change.",
+        "Landowners and farm operations face actual contract terms and opportunity costs.",
+        "Repeal does not automatically extinguish a permanent easement."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "effects": [
+        "Actual ownership and legal access govern entry, closures and permitted activities.",
+        "Permits, fees and management costs change for covered visitors and agencies.",
+        "Visits and nearby business spending require actual use and transaction readers.",
+        "Federal ownership remains Team1's legal-source connection; jurisdiction cannot be inferred from nearby acreage."
+      ],
+      "proof": "Each effect needs its own reader/records; this list is not evidence that it fires.",
+      "sizing": "Use exact existing evidence/range or request missing figure; no coefficient is invented here."
+    }
+  ],
+  "completion": {
+    "lawsAllFiveParts": 0,
+    "linksAdded": 0,
+    "linksActivated": 0
+  },
+  "sharedFileOwnership": {
+    "links": "Coordinator",
+    "catalogParameters": "Coordinator",
+    "auditAdapters": "Team2"
+  },
+  "blockers": [
+    "Local exec server unavailable; uncommitted writer and tests remain outside this evidence-only commit.",
+    "Four national payment cases need saved purpose and consequence records before producer diagnosis."
+  ]
+}

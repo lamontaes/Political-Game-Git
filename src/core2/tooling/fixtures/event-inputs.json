@@ -1,0 +1,16 @@
+{
+  "schema": "p8-developer-event-input-fixtures/v1",
+  "classification": "developer-only synthetic test stimuli; never imported by production/core code",
+  "provenance": {
+    "kind": "TEST_FIXTURE",
+    "citation": "Authored counterfactual input for deterministic emotion/effect tests; not an empirical or clinical coefficient.",
+    "scope": "Explicit event inputs supplied by tests only. Production event appraisal reads the event input value or defaults to zero.",
+    "notCalibrationEvidence": true
+  },
+  "events": {
+    "affectStimulus": {
+      "moodImpulse": -0.5,
+      "stressImpulse": 0.5
+    }
+  }
+}

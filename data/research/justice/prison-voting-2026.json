@@ -1,0 +1,233 @@
+{
+  "id": "prison-voting-2026",
+  "asOf": "2026-10-15",
+  "about": "Whether a person serving a felony prison sentence may vote, by place. Maine, Vermont and the District of Columbia never take the vote for a conviction. Puerto Rico places no voting restriction on a conviction. In the other 48 states and in Guam, American Samoa, the Northern Mariana Islands and the U.S. Virgin Islands a person serving a felony prison sentence may not vote while serving. Whether the vote returns on release, after parole or after probation varies and is not modeled.",
+  "source": "National Conference of State Legislatures, Felon Voting Rights (https://www.ncsl.org/research/elections-and-campaigns/felon-voting-rights.aspx), read Oct. 15, 2026: the District of Columbia, Maine and Vermont never remove the vote. Puerto Rico: reported by the Campaign Legal Center as having no conviction-based restriction (read through a secondary report, not the Center's own page). Territories: Vote.gov, Voting after a felony conviction (https://vote.gov/guide-to-voting/after-felony-conviction), and U.S. Vote Foundation pages for each territory. The check against each statute was not made.",
+  "places": {
+    "US-AK": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-AL": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-AR": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-AS": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-AZ": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-CA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-CO": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-CT": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-DC": {
+      "incarceratedMayVote": true,
+      "tag": "SOURCED"
+    },
+    "US-DE": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-FL": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-GA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-GU": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-HI": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-IA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-ID": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-IL": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-IN": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-KS": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-KY": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-LA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MD": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-ME": {
+      "incarceratedMayVote": true,
+      "tag": "SOURCED"
+    },
+    "US-MI": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MN": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MO": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MP": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MS": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-MT": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NC": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-ND": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NE": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NH": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NJ": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NM": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NV": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-NY": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-OH": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-OK": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-OR": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-PA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-PR": {
+      "incarceratedMayVote": true,
+      "tag": "ESTIMATED",
+      "basis": "Reported by a secondary source (the Campaign Legal Center, as relayed in a search result); the territory's statute was not read."
+    },
+    "US-RI": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-SC": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-SD": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-TN": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-TX": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-UT": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-VA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-VI": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-VT": {
+      "incarceratedMayVote": true,
+      "tag": "SOURCED"
+    },
+    "US-WA": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-WI": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-WV": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    },
+    "US-WY": {
+      "incarceratedMayVote": false,
+      "tag": "SOURCED"
+    }
+  }
+}

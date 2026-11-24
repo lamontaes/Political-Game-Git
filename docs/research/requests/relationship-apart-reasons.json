@@ -1,0 +1,58 @@
+{
+  "filedAt": "2026-10-01T23:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "notes": [
+    "Under A142 a gap between two people with a recorded reason is not neglect: days one of them spent in jail (on a sentence or held before trial), the time since one of them moved to a different place, the weeks after a death in either family, and the first weeks at a new school past grade school or at a new job do not count toward the bond fading. The reasons are read in src/simulation/relationship-absence.ts (readRelationshipAbsence, apartReasons).",
+    "Three spans have no end in the record, so they are PLACEHOLDER constants in APART_REASON_SPANS: 90 days after a death in the family, 60 days after starting a new school, and 60 days after starting a new job.",
+    "Explained days count for nothing toward fading. That is a design choice, not a measurement: a move in particular does wear on a friendship, which the research may show should count at some share rather than none.",
+    "Not represented because nothing records them yet: illness or a hospital stay, travel, an agreed break."
+  ],
+  "priority": "P2",
+  "question": "When two people lose touch for a known reason (one moves away, is jailed, is grieving a death in the family, or starts a new school or job), how long does that reason account for the silence, and how much does a friendship or family tie still weaken over that time compared with an unexplained gap?",
+  "questionId": "relationship-apart-reasons",
+  "relatedQuestionIds": [
+    "relationship-absence-thresholds",
+    "relationship-fading-with-absence"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5 (A142)",
+  "sourcesChecked": [
+    {
+      "source": "Roberts and Dunbar, Communication in social networks: Effects of kinship, network size, and emotional closeness, Personal Relationships, 2011",
+      "whatItDidNotSettle": "Follows young adults after a move to university and finds emotional closeness to friends declining with less contact while kin hold up better; it does not give how long a move, a death or a new job excuses silence, or a rate per reason."
+    },
+    {
+      "source": "DEPTH2 A03 (relationship-fading-with-absence)",
+      "whatItDidNotSettle": "Says a known reason changes how a gap is read but sets no spans or weights."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
+    }
+  ],
+  "title": "How long a known reason for being apart excuses the silence",
+  "usableAnswer": "For each reason (move, jail, bereavement, new school, new job): a typical span over which the silence is read as explained, and the share of ordinary fading that still happens over it, by kind of tie (friend, kin), so APART_REASON_SPANS and the zero weight can become measured values.",
+  "whyItMatters": "Without it every silence reads as neglect, so a friend in prison or a grieving neighbor would lose their ties exactly as a friend who simply stopped calling, and the player could not tell the two apart.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "Known separation changes opportunities and interpretation of silence; it is not evidence for a universal explanation-expiry timer. Distinguish continued remote contact from geographic co-presence and preserve actual kin/shared history.",
+      "estimate": "Use weekly contact benchmark only to check totals; no measured grief/incarceration/new-job excuse duration or tie decay coefficient established.",
+      "gaps": "No reason-specific probability-sample duration table licensed and extracted; preserve as explicit tuning gap rather than inventing months."
+    }
+  }
+}

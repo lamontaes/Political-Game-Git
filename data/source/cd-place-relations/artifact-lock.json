@@ -1,0 +1,35 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-rel-2020-cd119-place20-national",
+      "bytes": {
+        "length": 5192619,
+        "sha256": "84b82f512a43b0593b2c25c703cd0dc4ff10982abd9142956d326376bd846367"
+      },
+      "localPath": "data/source/cd-place-relations/raw/tab20_cd11920_place20_natl.txt",
+      "mediaType": "text/plain; charset=utf-8",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html",
+        "releaseDate": null,
+        "schemaVersion": "119th Congressional District to 2020 Place national relationship file layout",
+        "statedVintage": "119th-CD / 2020-place"
+      },
+      "retrieval": {
+        "deliveryNote": "Delivered by Codex from census.gov, 2026-09-23, and committed at 525b1c98. No command in this repository fetched it (census.gov was unreachable from the sandbox). retrievedAt is that commit's instant, not a measured download instant; httpStatus records the delivered, complete file. The bytes match the map-geometry lock's cached census-rel-2020-cd119-place20-national digest. 119th Congress / 2020 places baseline, not permanent truth.",
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 5192619,
+        "retrievedAt": "2026-09-23T08:44:34.000Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_cd11920_place20_natl.txt"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "cd-place-relations"
+}

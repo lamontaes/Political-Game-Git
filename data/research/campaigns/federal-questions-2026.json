@@ -1,0 +1,2003 @@
+{
+  "id": "federal-questions-2026",
+  "about": "Research for gov-congress-passes-policy-laws (plan unit C2, docs/reports/world-governing-plan-2026-10-29.md): for each federal-level question, the law in force, the latest Senate floor vote on it, what in the town reads it, and whether a Congress drawn from real party shares can honestly clear 60 Senate votes on it. Nothing reads this file yet; unit C3 wires the chosen questions. The ranked candidates are in docs/research/evidence/federal-questions-2026-10-29.md.",
+  "fetched": "2026-10-29 to 2026-10-30",
+  "method": "Three finders researched nine questions each from fetched pages, and a separate verifier refetched every roll call, statute quote and code line; its corrections are applied here. The writer then refetched every roll call cited: Senate votes from Voteview's roll-call API (senate.gov refused fetches with 403) and House votes from the Clerk's XML. Code lines were read on main at the commit this file was added on.",
+  "fields": {
+    "question": "The question key.",
+    "currentLaw": "The law in force, quoted word for word from the page at currentLawUrl, with any gap between it and the game's starting law.",
+    "latestFloorVote": "The latest Senate floor vote that set or answers the question's law, since 60 votes are a Senate test; the latest House vote where the Senate never voted; null where neither chamber voted. yeas and nays count members only; parties gives [yeas, nays] by party (R, D, I); a Vice President's tie-break is in tieBreak. verified is true where the verifier confirmed the counts and the writer refetched them.",
+    "otherVotes": "The other chamber's vote, the votes that show or deny 60 Senate votes, and committee votes where no floor vote exists, in the same shape.",
+    "reader": "file:line where an engine reads this question's law today, or null.",
+    "readerReads": "What that reader reads: key (the question itself), series (the law series the question would change; the key itself is read nowhere), budget-line (a federal budget line), or outcome-web (a lagged or price-level read that writes no lawApplied row).",
+    "reachesNamedResident": "Whether a law on this question would, through that reader today, leave a lawApplied row on a named town resident that reachedBy lists: the C3 done-when's test.",
+    "cheapestReader": "The cheapest change that would give the question a real reader in the town, or 'Already built'.",
+    "sixtyVotes": "Whether the move Congress would make on this question has a floor record of 60 Senate votes that today's party shares would repeat.",
+    "why": "The reason for sixtyVotes, from the votes above."
+  },
+  "questions": [
+    {
+      "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "currentLaw": "Already law. 42 U.S.C. 1396a(xx), added by P.L. 119-21 sec. 71119 (signed July 4, 2025): states must require it \"beginning not later than the first day of the first quarter\" \"that begins after December 31, 2026\", and the first way to comply is \"The individual works not less than 80 hours.\" The research starting-law row (data/research/laws/starting-law-2026/health-human-services.json) answers US yes, operative 2027-01-01, but the town never gets it: the writer at src/core2/modules/laws.ts:191-207 uses a US answer for a question outside the us-federal-positions: prefix only where the state gives no yes or no, and all 56 places answer this one (52 no, 4 yes). That writer also dates every starting row 2024-07-01 (ANSWERS_AS_OF), not the research's operativeAt.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/42/1396a",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Enacted the requirement (sec. 71119). No Senate roll call isolates sec. 71119."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Enacted the requirement."
+        }
+      ],
+      "reader": "src/core2/law-reach/group-b.ts:290",
+      "readerReads": "key",
+      "readerNote": "medicaidCovered (group-b.ts:282-322) reads yesLevels(api, MEDICAID_WORK). The 'medicaid-coverage' mechanic calls it when the treasury pays the expansion (group-b.ts:540-545), every month through registerMonthlyProgram (:874), and group-b.ts:607-609 re-runs the Medicaid payment. Each named adult whose coverage the requirement ends gets lawNoLongerApplies and recordApplied 'medicaid-coverage-ended'. It reaches people only where the state expanded Medicaid. Stopgap SG-GOV-REACH-B-medicaid-coverage is open (itemized medical bills).",
+      "reachesNamedResident": true,
+      "cheapestReader": "Already built. What is missing is the federal yes in the town's chain: a US row dated 2027-01-01.",
+      "sixtyVotes": false,
+      "why": "Enacted by reconciliation at a bare majority (Senate 50-50 with the Vice President; House 218-214), with every Democrat voting no. With the US answer yes, Congress's only move is a repeal, and no Senate vote shows 60 for one. Sanders Amdt. 4290 to H.R. 7148 (failed 49-51 on Jan 30, 2026) repealed secs. 71107 and 71120 and ICE money, not sec. 71119, so it is not a vote on this requirement. Congress needs its own consensus share here (about one half, from these votes): with the state-share yesShare of 0.078, memberSupportAt (src/core2/officials-roster.ts:305-311) adds about -0.096 against yes for every member, which would draw a bipartisan repeal Congress never had."
+    },
+    {
+      "question": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "currentLaw": "The top rate is 37 percent and permanent: P.L. 119-21 \"permanently extends the individual tax rates Trump signed into law in 2017\" (Wikipedia, One Big Beautiful Bill Act). IRS: \"For tax year 2026, the top tax rate remains 37% for individual single taxpayers with incomes greater than $640,600\" \"($768,700 for married couples filing jointly)\". The repo's federal income-tax row in src/core2/data/laws/starting-law.json carries these brackets.",
+      "currentLawUrl": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), Collins Amdt. 2812, \"To amend the Internal Revenue Code of 1986 to apply a 39.6 percent individual income tax rate\"",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "Motion to waive section 302(f) of the Budget Act (record vote 355)",
+        "yeas": 22,
+        "nays": 78,
+        "parties": {
+          "R": [18, 35],
+          "D": [3, 42],
+          "I": [1, 1]
+        },
+        "result": "rejected",
+        "what": "A 39.6 percent top rate.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190355",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), Amdt. 2696 (enhanced premium credits and a higher rate on income over $10,000,000)",
+          "chamber": "Senate",
+          "date": "2025-06-30",
+          "motion": "Motion to waive section 302(e) of the Budget Act",
+          "yeas": 47,
+          "nays": 53,
+          "parties": {
+            "R": [0, 53],
+            "D": [45, 0],
+            "I": [2, 0]
+          },
+          "result": "rejected",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190339",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "Senate",
+          "date": "2025-07-01",
+          "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+          "yeas": 50,
+          "nays": 50,
+          "parties": {
+            "R": [50, 3],
+            "D": [0, 45],
+            "I": [0, 2]
+          },
+          "result": "passed",
+          "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+          "verified": true,
+          "what": "Made the 37 percent rate permanent."
+        },
+        {
+          "bill": "H.R. 8 (112th), American Taxpayer Relief Act",
+          "chamber": "Senate",
+          "date": "2013-01-01",
+          "motion": "On passage",
+          "yeas": 89,
+          "nays": 8,
+          "parties": {
+            "R": [40, 5],
+            "D": [48, 3],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "what": "Restored 39.6 percent above $400,000 single and $450,000 joint, as every rate was about to expire.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1120486",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 8 (112th), American Taxpayer Relief Act",
+          "chamber": "House",
+          "date": "2013-01-01",
+          "motion": "On motion to concur in the Senate amendments (roll 659 of 2012)",
+          "yeas": 257,
+          "nays": 167,
+          "parties": {
+            "R": [85, 151],
+            "D": [172, 16]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2012/roll659.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/tax-withholding.ts:111",
+      "readerReads": "series",
+      "readerNote": "The key itself is read nowhere (no law-reach handler, stance row or starting-law-2026 row; it appears only in question-powers.json, question-names.json and the outcome-web link top-income-tax-rate-to-poverty, which is 'about-zero'). The federal 'income-tax' series it would change is read on every payday: withholdingFor (tax-withholding.ts:111) from src/core2/modules/budgets.ts:1618, and the counted payday at src/core2/counted-money.ts:432. A higher top bracket starts at $640,600 single, so it would reach about nobody in a town.",
+      "reachesNamedResident": false,
+      "cheapestReader": "A law-reach handler for the key shaped like holdFederalWage (src/core2/question-wages.ts:168-186, calling setLevelWage :42-77) that writes a federal 'income-tax' row with a higher top bracket; withholding reads it on the next payday. Honest reach in a town is about nobody: the bracket starts at $640,600 single.",
+      "sixtyVotes": false,
+      "why": "The one bipartisan raise (89-8 in 2013) happened only because the 2001 and 2003 rates were expiring. The rates are now permanent, so no lapse forces a deal. The newest direct votes fell far short: 22-78 for 39.6 percent (July 1, 2025) and 47-53 for a higher rate on incomes over $10 million (June 30, 2025). Rate changes move by reconciliation at 51 votes, which the game's cloture row (src/core2/modules/legislature.ts:4269-4276) does not model."
+    },
+    {
+      "question": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "currentLaw": "FY2026 foreign aid is in the National Security, Department of State, and Related Programs Appropriations Act, 2026, inside H.R. 7148, the Consolidated Appropriations Act, 2026 (P.L. 119-75, Feb 3, 2026). It \"provides a total discretionary allocation of $50.014 billion,\" \"a nearly $9.3 billion cut (16%) below the Fiscal Year 2025 enacted level\" (Rep. Diaz-Balart's release, Feb 4, 2026). Earlier, the Rescissions Act of 2025 (H.R. 4, P.L. 119-28) rescinded foreign-aid budget authority.",
+      "currentLawUrl": "https://mariodiazbalart.house.gov/media-center/press-releases/president-trump-signs-chairman-diaz-balarts-fy26-national-security",
+      "latestFloorVote": {
+        "bill": "H.R. 7148 (119th), Consolidated Appropriations Act, 2026",
+        "chamber": "Senate",
+        "date": "2026-01-30",
+        "motion": "On passage (record vote 20), \"having achieved 60 votes in the affirmative\" (govinfo BILLSTATUS)",
+        "yeas": 71,
+        "nays": 29,
+        "parties": {
+          "R": [48, 5],
+          "D": [22, 23],
+          "I": [1, 1]
+        },
+        "result": "passed",
+        "what": "Cut foreign aid 16 percent below FY2025. The same day the Senate tabled S.Amdt. 4286 (end the U.S. African Development Foundation) 58-42 and rejected S.Amdt. 4272 (end refugee and entrant assistance) 32-67.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190679",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 7148 (119th)",
+          "chamber": "House",
+          "date": "2026-01-22",
+          "motion": "On passage (roll 45)",
+          "yeas": 341,
+          "nays": 88,
+          "parties": {
+            "R": [192, 24],
+            "D": [149, 64]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll045.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 7148 (119th)",
+          "chamber": "House",
+          "date": "2026-02-03",
+          "motion": "On motion to concur in the Senate amendments (roll 53)",
+          "yeas": 217,
+          "nays": 214,
+          "parties": {
+            "R": [196, 21],
+            "D": [21, 193]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll053.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 4 (119th), Rescissions Act of 2025",
+          "chamber": "Senate",
+          "date": "2025-07-17",
+          "motion": "On passage (record vote 411); Impoundment Control Act, simple majority",
+          "yeas": 51,
+          "nays": 48,
+          "parties": {
+            "R": [51, 2],
+            "D": [0, 44],
+            "I": [0, 2]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190411",
+          "verified": true
+        },
+        {
+          "bill": "H.Res. 590 (119th), rule for the Senate amendment to H.R. 4",
+          "chamber": "House",
+          "date": "2025-07-18",
+          "motion": "On agreeing to the resolution (roll 203); the House agreed to the Senate amendment under it, with no separate roll call",
+          "yeas": 216,
+          "nays": 213,
+          "parties": {
+            "R": [216, 2],
+            "D": [0, 211]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll203.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 815 (118th), national security supplemental (P.L. 118-50)",
+          "chamber": "Senate",
+          "date": "2024-04-23",
+          "motion": "On the cloture motion (record vote 152)",
+          "yeas": 80,
+          "nays": 19,
+          "parties": {
+            "R": [31, 17],
+            "D": [47, 1],
+            "I": [2, 1]
+          },
+          "result": "agreed",
+          "what": "The last increase, packaged with military aid for Ukraine, Israel and Taiwan.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180504",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 815 (118th)",
+          "chamber": "Senate",
+          "date": "2024-04-23",
+          "motion": "On the motion to concur in the House amendment (record vote 154)",
+          "yeas": 79,
+          "nays": 18,
+          "parties": {
+            "R": [31, 15],
+            "D": [46, 2],
+            "I": [2, 1]
+          },
+          "result": "agreed",
+          "note": "The verifier's note gave D 47-2; Voteview's roll call reads D 46-2, which sums to 79.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180506",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The key has no handler, stance row or starting row. The federal budget line it would move exists: internationalAffairs (src/core2/data/legislature/budget-line-axes.json:69), paid 80 percent to grantees and 20 percent to workers (src/core2/data/budgets/spending-payees.json:113), weighted by the state's stake (src/core2/budget-stakes.ts:28-43; stake 0 for the five territories). The national in-state total is $11.1 billion (data/research/federal/federal-spending-by-state-fy2024.json).",
+      "reachesNamedResident": false,
+      "cheapestReader": "Map the question onto 'budget-line:internationalAffairs' so the treasury's line payments (payeeShares, src/core2/budgets-treasury.ts:121) pay the in-state grantees and workers. That is the budget engine's own line, so a policy law would be a second writer of it, and the reach is tiny.",
+      "sixtyVotes": true,
+      "why": "An increase cleared cloture 80-19 in April 2024 with 31 Republicans, which clears 60 in today's 53-47 Senate at the same rates. But that increase rode with military aid, and every enacted measure in this Congress cut aid (the 51-48 rescission and the 71-29 FY2026 bill), while deeper cuts were refused. It qualifies on the votes and fails on the reader."
+    },
+    {
+      "question": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "currentLaw": "Already law. 42 U.S.C. 1320f(a): \"The Secretary shall establish a Drug Price Negotiation Program\", \"as added Pub. L. 117–169, title I, § 11001(a)\" (the Inflation Reduction Act). P.L. 119-21 sec. 71203 narrowed it, substituting \"one or more rare diseases or conditions\" for \"only one rare disease or condition\" in the orphan-drug exclusion, for years \"beginning on or after January 1, 2028\" (42 U.S.C. 1320f-1 notes). The game has no starting-law-2026 row for this key, so the engine treats the program as not in force at the opening.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/42/1320f",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), Sanders Amdt. 2435, \"To cut the price of prescription drugs under Medicare in half and expand Medicare to cover dental, vision, and hearing\"",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On the amendment (record vote 362)",
+        "yeas": 47,
+        "nays": 53,
+        "parties": {
+          "R": [0, 53],
+          "D": [45, 0],
+          "I": [2, 0]
+        },
+        "result": "rejected",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190362",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "Senate",
+          "date": "2025-07-01",
+          "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+          "yeas": 50,
+          "nays": 50,
+          "parties": {
+            "R": [50, 3],
+            "D": [0, 45],
+            "I": [0, 2]
+          },
+          "result": "passed",
+          "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+          "verified": true,
+          "what": "Narrowed the program (sec. 71203)."
+        },
+        {
+          "bill": "H.R. 5376 (117th), Inflation Reduction Act",
+          "chamber": "Senate",
+          "date": "2022-08-07",
+          "motion": "On passage; reconciliation",
+          "yeas": 50,
+          "nays": 50,
+          "parties": {
+            "R": [0, 50],
+            "D": [48, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "tieBreak": "Vice President, yea",
+          "what": "Created the program.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1170853",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 5376 (117th), Inflation Reduction Act",
+          "chamber": "House",
+          "date": "2022-08-12",
+          "motion": "On motion to concur in the Senate amendment (roll 420)",
+          "yeas": 220,
+          "nays": 207,
+          "parties": {
+            "R": [0, 207],
+            "D": [220, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2022/roll420.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 5376 (117th), Amdt. 5194 (insulin)",
+          "chamber": "Senate",
+          "date": "2022-08-07",
+          "motion": "Motion to waive all applicable budgetary discipline",
+          "yeas": 57,
+          "nays": 43,
+          "parties": {
+            "R": [7, 43],
+            "D": [48, 0],
+            "I": [2, 0]
+          },
+          "result": "rejected",
+          "what": "The closest bipartisan vote on drug costs.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1170842",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "No law-reach handler. The outcome-web link drug-negotiation-to-out-of-pocket moves health.drug-out-of-pocket only in the web's ledger (src/core2/data/outcome-web/unwired.json:281, reason at :283: the engine doesn't read the factor); SG-EW-HEALTH-condition-record is open. Medicare holders pay nothing and buy no drugs (src/core2/modules/coverage.ts:280-286, premiumMonthlyMinor 0).",
+      "reachesNamedResident": false,
+      "cheapestReader": "A monthly Medicare out-of-pocket drug charge in the coverage engine beside payCountedPremiums (src/core2/modules/coverage.ts:423), scaled by the web's health.drug-out-of-pocket factor: a new payment flow, not a cheap wire. It also needs a US yes starting row first, or Congress could 'enact' a law already in force.",
+      "sixtyVotes": false,
+      "why": "Both the enactment and the narrowing passed by reconciliation on party lines, the latest drug-price vote was party-line (47-53), and the nearest bipartisan drug-cost vote stopped at 57. There is no reader."
+    },
+    {
+      "question": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "currentLaw": "29 U.S.C. 206(a)(1)(C): \"$7.25 an hour, beginning 24 months after that 60th day;\", from \"Pub. L. 110–28, § 8102(a)\". The Department of Labor's chart: Jul 24, 2009, \"$7.25 for all covered, nonexempt workers\". This matches the starting-law row (US answer no, floor 725 cents).",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/29/206",
+      "latestFloorVote": {
+        "bill": "H.Con.Res. 14 (119th), Sanders Amdt. 2126, \"To make sure the Senate can increase the Federal minimum wage to $17 an hour by a simple majority vote\"",
+        "chamber": "Senate",
+        "date": "2025-04-05",
+        "motion": "On the amendment (Senate roll 184)",
+        "yeas": 47,
+        "nays": 52,
+        "parties": {
+          "R": [1, 52],
+          "D": [44, 0],
+          "I": [2, 0]
+        },
+        "result": "rejected",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190184",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1319 (117th), Sanders Amdt. 972",
+          "chamber": "Senate",
+          "date": "2021-03-05",
+          "motion": "Motion to waive all applicable budgetary discipline (60 needed); not a cloture vote",
+          "yeas": 42,
+          "nays": 58,
+          "parties": {
+            "R": [0, 50],
+            "D": [41, 7],
+            "I": [1, 1]
+          },
+          "result": "rejected",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1170074",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/law-reach/group-a.ts:58",
+      "readerReads": "key",
+      "readerNote": "Mechanic 'federal-minimum-wage' (reach-group-a.json:53-55), registered at group-a.ts:58. federalMinimumWage (group-a-wages.ts:27-30) calls holdFederalWage (src/core2/question-wages.ts:168-186), whose setLevelWage (:42-77) enacts a federal 'minimum-wage' row at 1700 cents (reach-group-a-parameters.json:45, SOURCED from S. 2488 of the 118th Congress). src/core2/modules/laws.ts:810 calls raiseToFloor when the row takes effect, and src/core2/wage-floor.ts:50-55 raises each named commitment and counted job under the floor. It reaches named workers wherever the state floor is below $17.",
+      "reachesNamedResident": true,
+      "cheapestReader": "Already built: the best town reader of all 27 questions.",
+      "sixtyVotes": false,
+      "why": "The two latest Senate votes drew one and zero Republicans, and the most yeas recorded is 47. The 2025 amendment itself sought a simple-majority path because 60 was out of reach. A Congress drawn from real party shares cannot honestly clear cloture on it."
+    },
+    {
+      "question": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "currentLaw": "Clean Air Act sec. 111 (42 U.S.C. 7411). \"On September 14, 2026, EPA repealed most of its 2024 rules\"; \"The Final Rule was published in the Federal Register on September 17, 2026\" (91 Fed. Reg. 58,954), effective November 16, 2026. \"Emission guidelines for existing coal-fired steam generating units are repealed in their entirety\", while the \"efficiency-based Phase I standards for new and reconstructed stationary combustion turbines\" stay in force. A supplemental proposal would end all power-sector greenhouse-gas standards (Davis Polk). No starting-law-2026 row exists for this key.",
+      "currentLawUrl": "https://www.davispolk.com/insights/client-update/epa-repeals-power-plant-greenhouse-gas-rule-and-proposes-eliminating-all",
+      "latestFloorVote": {
+        "bill": "S.J.Res. 53 (116th), disapproving the repeal of the Clean Power Plan",
+        "chamber": "Senate",
+        "date": "2019-10-17",
+        "motion": "On the joint resolution (roll 324)",
+        "yeas": 41,
+        "nays": 53,
+        "parties": {
+          "R": [1, 50],
+          "D": [39, 3],
+          "I": [1, 0]
+        },
+        "result": "rejected",
+        "what": "To restore carbon limits. No floor vote on the 2024 rule or the 2026 repeal was found.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1160324",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "S.J.Res. 24 (114th), disapproving the Clean Power Plan",
+          "chamber": "Senate",
+          "date": "2015-11-17",
+          "motion": "On the joint resolution (roll 306); later vetoed",
+          "yeas": 52,
+          "nays": 46,
+          "parties": {
+            "R": [49, 3],
+            "D": [3, 41],
+            "I": [0, 2]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1140306",
+          "verified": true
+        },
+        {
+          "bill": "S.J.Res. 23 (114th), disapproving the new-plant standards",
+          "chamber": "Senate",
+          "date": "2015-11-17",
+          "motion": "On the joint resolution (roll 307)",
+          "yeas": 52,
+          "nays": 46,
+          "parties": {
+            "R": [49, 3],
+            "D": [3, 41],
+            "I": [0, 2]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1140307",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/modules/outcome-web.ts:425-436",
+      "readerReads": "outcome-web",
+      "readerNote": "The outcome web reads the law in force (causeAt -> lawValue) and moves env.emissions (lag 24 months; the price engine reads it only on a fuel 'share' rule a carbon-price law creates, src/core2/modules/place-prices.ts:1171-1179) and env.particulates (lag 72 months; particles-to-infant-deaths, read by deathWebFactor, src/core2/health-web.ts:35). Nothing reaches a named person inside one played year.",
+      "reachesNamedResident": false,
+      "cheapestReader": "An electricity 'share' price rule in readPriceLaws (src/core2/modules/place-prices.ts:943-1091; PRICE_LAWS :924-937), like clean-electricity-standard's, sized from the rule's compliance cost.",
+      "sixtyVotes": false,
+      "why": "Neither direction has reached 60: 41 to restore limits in 2019 and 52 to block them in 2015, each with three or fewer crossovers. Federal policy is moving away (the September 2026 repeal), and the town's readers lag 24 to 72 months."
+    },
+    {
+      "question": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "currentLaw": "21 U.S.C. 841(b)(1)(A): \"a term of imprisonment which may not be less than 10 years or more than life\"; after a prior serious drug felony, \"not less than 15 years\", which the First Step Act (P.L. 115-391 sec. 401(a)(2)) put in place of \"a term of imprisonment which may not be less than 20 years\". The HALT Fentanyl Act (\"Pub. L. 119–26, § 6(a)(1), inserted 'or a fentanyl-related substance'\") extended the minimums.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/21/841",
+      "latestFloorVote": {
+        "bill": "S. 331 (119th), HALT Fentanyl Act (P.L. 119-26)",
+        "chamber": "Senate",
+        "date": "2025-03-14",
+        "motion": "On passage (record vote 127)",
+        "yeas": 84,
+        "nays": 16,
+        "parties": {
+          "R": [53, 0],
+          "D": [30, 15],
+          "I": [1, 1]
+        },
+        "result": "passed",
+        "what": "Went the other way: extended the minimums to fentanyl-related substances.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190127",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "S. 331 (119th), HALT Fentanyl Act",
+          "chamber": "House",
+          "date": "2025-06-12",
+          "motion": "On passage (roll 166)",
+          "yeas": 321,
+          "nays": 104,
+          "parties": {
+            "R": [217, 1],
+            "D": [104, 103]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll166.xml",
+          "verified": true
+        },
+        {
+          "bill": "S. 756 (115th), First Step Act",
+          "chamber": "Senate",
+          "date": "2018-12-17",
+          "motion": "On the cloture motion (record vote 267)",
+          "yeas": 82,
+          "nays": 12,
+          "parties": {
+            "R": [33, 12],
+            "D": [47, 0],
+            "I": [2, 0]
+          },
+          "result": "agreed",
+          "what": "The last reduction.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1150592",
+          "verified": true
+        },
+        {
+          "bill": "S. 756 (115th), First Step Act",
+          "chamber": "Senate",
+          "date": "2018-12-18",
+          "motion": "On the motion to concur in the House amendment with an amendment (record vote 271)",
+          "yeas": 87,
+          "nays": 12,
+          "parties": {
+            "R": [38, 12],
+            "D": [47, 0],
+            "I": [2, 0]
+          },
+          "result": "agreed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1150596",
+          "verified": true
+        },
+        {
+          "bill": "S. 756 (115th), First Step Act",
+          "chamber": "House",
+          "date": "2018-12-20",
+          "motion": "On motion to suspend the rules and concur (roll 448)",
+          "yeas": 358,
+          "nays": 36,
+          "parties": {
+            "R": [182, 36],
+            "D": [176, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2018/roll448.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "Stopgap SG-WEB-crime-justice-links-unread (open): no engine sentences or holds federal prisoners, since every case is tried in the state's courts. The link federal-mandatory-minimums-to-crime is 'about-zero' and mandatory-minimum-cut-to-federal-prisoners is 'outcome-not-produced'. convict (src/core2/modules/justice.ts:890) sentences bribery cases only.",
+      "reachesNamedResident": false,
+      "cheapestReader": "A federal sentencing row read where a named defendant's custody months are set, which needs a federal drug-prosecution path that does not exist. Not cheap.",
+      "sixtyVotes": true,
+      "why": "A reduction cleared cloture 82-12 in 2018 with 33 Republicans, which clears 60 in today's Senate at those rates. But this Congress's own vote (84-16 in 2025) extended the minimums, and no engine sentences anyone federally. It qualifies on the votes and fails on the reader."
+    },
+    {
+      "question": "us-federal-positions:territories-culture.statehood-for-dc",
+      "currentLaw": "U.S. Const. art. I, sec. 8, cl. 17: Congress shall \"exercise exclusive legislation in all cases whatsoever, over such District (not exceeding ten miles square)\" \"as may, by cession of particular states, and the acceptance of Congress, become the seat of the government\" \"of the United States\". D.C. is not a state.",
+      "currentLawUrl": "https://www.law.cornell.edu/constitution/articlei",
+      "latestFloorVote": {
+        "bill": "H.R. 51 (117th), Washington, D.C. Admission Act",
+        "chamber": "House",
+        "date": "2021-04-22",
+        "motion": "On passage (roll 132)",
+        "yeas": 216,
+        "nays": 208,
+        "parties": {
+          "R": [0, 208],
+          "D": [216, 0]
+        },
+        "result": "passed",
+        "what": "The Senate never voted: S. 51 had one hearing in Homeland Security and Governmental Affairs (June 22, 2021) and no recorded vote.",
+        "url": "https://clerk.house.gov/evs/2021/roll132.xml",
+        "verified": true
+      },
+      "otherVotes": [],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The key appears only in question-powers.json and question-names.json.",
+      "reachesNamedResident": false,
+      "cheapestReader": "None cheap. The only conceivable reader is the offices engine seating two senators and a voting House member for D.C., which touches one of 56 places and is not a law-reach policy.",
+      "sixtyVotes": false,
+      "why": "The only floor vote was strictly party-line, the Senate never voted, and nothing reads it."
+    },
+    {
+      "question": "us-tax-terms:federal.excise-tax-terms",
+      "currentLaw": "26 U.S.C. 4081(a)(2)(A): \"in the case of gasoline other than aviation gasoline, 18.3 cents per gallon\"; \"in the case of diesel fuel or kerosene, 24.3 cents per gallon\". The 0.1-cent leaking-underground-storage-tank rate under (a)(2)(B) makes the gasoline rate charged 18.4 cents, the figure the repo's own fuel research uses (household-prices-2026.json, \"federal 18.4\"). Under (d)(1) the rates \"shall be 4.3 cents per gallon after September 30, 2028\" (P.L. 117-58 div. H sec. 80102 moved that date from Sept 30, 2022), and the 0.1-cent rate also ends then (d)(3). The aviation ticket tax ends under sec. 4261(k)(1)(A)(ii), \"ending on September 30, 2028\" (P.L. 118-63 sec. 1302(b)(1)). P.L. 119-21 \"establishes a 1% excise tax on certain electronic transfers of funds from the United States to a foreign country\" from Jan 1, 2026 (Wikipedia, One Big Beautiful Bill Act).",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/26/4081",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Created the 1 percent remittance excise. Party-line reconciliation."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 3935 (118th), FAA Reauthorization Act of 2024",
+          "chamber": "Senate",
+          "date": "2024-05-09",
+          "motion": "On passage (record vote 162), \"having achieved 60 votes in the affirmative\" (govinfo BILLSTATUS)",
+          "yeas": 88,
+          "nays": 4,
+          "parties": {
+            "R": [44, 0],
+            "D": [42, 4],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "what": "Extended the aviation excise taxes to Sept 30, 2028.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180514",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3935 (118th), FAA Reauthorization Act of 2024",
+          "chamber": "House",
+          "date": "2024-05-15",
+          "motion": "On motion to suspend the rules and concur in the Senate amendment (roll 200)",
+          "yeas": 387,
+          "nays": 26,
+          "parties": {
+            "R": [192, 19],
+            "D": [195, 7]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2024/roll200.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3684 (117th), Infrastructure Investment and Jobs Act",
+          "chamber": "Senate",
+          "date": "2021-08-10",
+          "motion": "On passage (record vote 314)",
+          "yeas": 69,
+          "nays": 30,
+          "parties": {
+            "R": [19, 30],
+            "D": [48, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "what": "Extended the highway fuel excise to Sept 30, 2028, about 13 months before the old Sept 30, 2022 lapse.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1170314",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3684 (117th), Infrastructure Investment and Jobs Act",
+          "chamber": "House",
+          "date": "2021-11-05",
+          "motion": "On motion to concur in the Senate amendment (roll 369)",
+          "yeas": 228,
+          "nays": 206,
+          "parties": {
+            "R": [13, 200],
+            "D": [215, 6]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2021/roll369.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The key appears only in data/research/powers-catalog/question-powers.json (levels: federal). src/core2/data/laws/starting-law.json has no US excise row (its US series are minimum-wage, social-security-tax, medicare-tax, federal-unemployment-tax, corporate-income-tax, estate-tax, income-tax and public-pay-floor). The fuel tax is a constant, fuelTaxCentsPerGallon 51.7 (federal plus state, EIA Jan 2026) at src/core2/data/prices/goods.json:26, read only for the mileage-fee refund at src/core2/modules/place-prices.ts:432.",
+      "reachesNamedResident": false,
+      "cheapestReader": "A PRICE_LAWS entry (src/core2/modules/place-prices.ts:924-937) and a sync(...) call in readPriceLaws (:943-1091) for the federal motor-fuel excise, charged per gallon on each household's fuel at monthly settlement and paid to the federal government: a dollar on the journal for every household that buys fuel, named and counted. One catch for the C3 test: the price engine records a price law's reach on the household (src/core2/modules/place-prices.ts:1321, recordApplied :763-796), and reachedBy keeps only person ids (src/core2/law-reach/host.ts:350), so the rule must record the paying person or reachedBy must read households. It needs a US starting row of 18.4 cents a gallon of gasoline that lapses to 4.3 cents after Sept 30, 2028. The prefix us-tax-terms: is not FEDERAL_QUESTION_PREFIX (src/core2/modules/laws.ts:236), so C1's question list must include it.",
+      "sixtyVotes": true,
+      "why": "Extending expiring federal excise terms cleared 60 twice in five years: 69-30 with 19 Republicans (2021) and 88-4 (2024), each inside a larger authorization bill. Raising a rate has no bipartisan vote; the new remittance excise passed by reconciliation. The law supplies a dated cause with no dice: the fuel rates fall to 4.3 cents after Sept 30, 2028. Because the key is generic, C3 must define yes as extending the expiring sec. 4081 rates, and because an extension keeps a price unchanged, the proof must compare the town's fuel charge by record id against a twin where the rate lapsed. A played year opened on 2026-10-12 ends about 11.5 months before the lapse; the 2021 extension passed the Senate about 13 months before its lapse, so a stance that reads time-to-lapse can bring the bill up inside a year only near its end."
+    },
+    {
+      "question": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "currentLaw": "7 U.S.C. 2015(o) as amended by P.L. 119-21 sec. 10102: SNAP is limited to \"not less than 3 months (consecutive or otherwise)\" in \"the preceding 36-month period\" unless the adult works \"20 hours or more per week, averaged monthly\", and the parent exemption now reaches only \"a dependent child under 14 years of age\". Cornell's notes: \"Pub. L. 119–21, § 10102(a), added par. (3)\". US answer yes, operative 2025-11-01. The repo's starting-law-2026 row (health-human-services.json lines 631 and 633) cites sec. 10101; the statute's notes name sec. 10102.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/7/2015",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Tightened the time limit (sec. 10102)."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Tightened the time limit."
+        },
+        {
+          "bill": "H.R. 3746 (118th), Fiscal Responsibility Act of 2023",
+          "chamber": "Senate",
+          "date": "2023-06-01",
+          "motion": "On passage (record vote 146)",
+          "yeas": 63,
+          "nays": 36,
+          "parties": {
+            "R": [17, 31],
+            "D": [44, 4],
+            "I": [2, 1]
+          },
+          "result": "passed",
+          "what": "Inside the debt-limit deal; sec. 311 temporarily raised the age limit and added exemptions (F) to (H), so the change was mixed.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180146",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3746 (118th), Fiscal Responsibility Act of 2023",
+          "chamber": "House",
+          "date": "2023-05-31",
+          "motion": "On passage (roll 243)",
+          "yeas": 314,
+          "nays": 117,
+          "parties": {
+            "R": [149, 71],
+            "D": [165, 46]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2023/roll243.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/law-reach/group-b.ts:239-266",
+      "readerReads": "key",
+      "readerNote": "assistanceTimeLimit reads yesLevels(api, ASSISTANCE_WORK); mechanic 'assistance-time-limit' (reach-group-b.json), called at group-b.ts:745 and :796. The SNAP benefit (src/core2/law-reach/group-b-food-aid.ts:157) calls timeLimitedNow (src/core2/law-reach/group-b-money.ts:530-551), which stops each named head after 3 months in 36 and writes a lawApplied row through appliedToReached and recordApplied (group-b-money.ts:465-492); reachedBy lists them (src/core2/law-reach/host.ts:346-351). Counted heads get one 'group' row, which reachedBy drops. The 'assistance-time-limit' case at group-b.ts:504-513 returns before finish(), so no REACH_B people rows are written.",
+      "reachesNamedResident": true,
+      "cheapestReader": "Already built.",
+      "sixtyVotes": false,
+      "why": "The US answer is already yes, so Congress's only move is a repeal, and the latest votes were party-line under reconciliation with no Republican against. The 2023 change cleared 63-36 only inside a must-pass debt-limit package, and it was temporary and mixed. Congress cannot file this key today: src/core2/modules/world-legislating.ts:469 files only PLATFORM_QUESTIONS, and this key is not one. Like the Medicaid requirement, it needs Congress's own consensus share (about one half) or Congress would repeal it by a margin it never had."
+    },
+    {
+      "question": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "currentLaw": "No general federal ceiling. Military Lending Act, 10 U.S.C. 987(b): a creditor \"may not impose an annual percentage rate of interest greater than 36 percent\" \"with respect to the consumer credit extended to a covered member or a dependent of a covered member\" (Pub. L. 109-364 sec. 670(a)). Federal credit unions, 12 U.S.C. 1757(5)(A)(vi): \"the rate of interest may not exceed 15 per centum per annum on the unpaid balance inclusive of all finance charges, except that the Board may establish—\" a higher temporary ceiling. The game has no US starting row for this key.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/10/987",
+      "latestFloorVote": {
+        "bill": "H.R. 627 (111th), Credit CARD Act, Sanders Amdt. 1062, \"To establish a national consumer credit usury rate\" (a 15 percent cap)",
+        "chamber": "Senate",
+        "date": "2009-05-13",
+        "motion": "Motion to waive the Budget Act (roll 191)",
+        "yeas": 33,
+        "nays": 60,
+        "parties": {
+          "R": [1, 38],
+          "D": [31, 22],
+          "I": [1, 0]
+        },
+        "result": "rejected",
+        "what": "Democracy Now: \"But Sanders' proposal drew just thirty-three votes, with a bipartisan group of sixty senators voting against.\" No floor vote since; the 2025 Sanders-Hawley 10 percent card cap never reached the floor.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1110191",
+        "verified": true
+      },
+      "otherVotes": [],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The outcome-web link federal-loan-cap-to-high-cost-loans feeds finance.high-cost-loans, which no engine reads (src/core2/modules/prices-web-gaps.ts:11 registers SG-EFFECT-WEB-prices-high-cost-loans).",
+      "reachesNamedResident": false,
+      "cheapestReader": "The credit engine already reads the state question us-policy-positions:business-commerce.cap-consumer-loan-rates (src/core2/modules/credit.ts:1176 constant, :1197 read, ceiling :1228-1234, lawApplied :1236-1246, payment :1092-1110); reading the federal key at the same sites needs no new mechanic. Two catches: lawApplied targets a household, which reachedBy drops (src/core2/law-reach/host.ts:350), and the ceiling (consumerLoanRateCap 0.36 in reach-group-a-parameters.json) does not bind a bank loan near 13 percent; a 10 percent cap would.",
+      "sixtyVotes": false,
+      "why": "The only Senate floor vote on a national consumer rate cap failed 33-60, with 38 of 39 voting Republicans and 22 Democrats against. No floor vote has followed."
+    },
+    {
+      "question": "us-federal-positions:trade.raise-tariffs",
+      "currentLaw": "Tariffs rest on Section 232 (19 U.S.C. 1862) and Section 301 (19 U.S.C. 2411(c)(1): the Trade Representative \"is authorized to—\" \"impose duties or other import restrictions on the goods of\" a foreign country). On February 20, 2026 the Supreme Court held 6-3 in Learning Resources, Inc. v. Trump that IEEPA confers no tariff power; the Section 232 tariffs \"are still in effect and must continue to be paid\", and the decision \"does not apply to Section 301 tariffs\" (internationaltradeinsights.com). The Section 122 surcharge that followed lapsed (\"With no further action by Congress, it has expired as of July 24.\"), and \"Effective July 24, USTR is imposing new Section 301 tariffs on 60 economies\" at 10 or 12.5 percent (UHY, July 2026). No act of Congress set these rates. The game has no US starting row for this key.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/19/2411",
+      "latestFloorVote": {
+        "bill": "H.R. 5334 (119th), Russia sanctions act (Lindsey O. Graham)",
+        "chamber": "Senate",
+        "date": "2026-08-07",
+        "motion": "On passage (Senate vote 224)",
+        "yeas": 86,
+        "nays": 11,
+        "parties": {
+          "R": [49, 1],
+          "D": [36, 9],
+          "I": [1, 1]
+        },
+        "result": "passed",
+        "what": "Duties on countries that buy Russian crude oil or natural gas: targeted sanction tariffs, not a general raise. Found by the verifier; the finder's record missed it.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190883",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 5334 (119th), Paul Amdt. 6715, \"To strike the provision relating to duties on countries that purchase Russian-origin crude oil or natural gas\"",
+          "chamber": "Senate",
+          "date": "2026-08-07",
+          "motion": "On the amendment (Senate vote 223)",
+          "yeas": 32,
+          "nays": 64,
+          "parties": {
+            "R": [2, 48],
+            "D": [29, 15],
+            "I": [1, 1]
+          },
+          "result": "rejected",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190882",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 5334 (119th)",
+          "chamber": "House",
+          "date": "2026-09-16",
+          "motion": "On motion to concur in the Senate amendments (roll 308)",
+          "yeas": 262,
+          "nays": 159,
+          "parties": {
+            "R": [203, 7],
+            "D": [58, 152],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll308.xml",
+          "verified": true
+        },
+        {
+          "bill": "S.J.Res. 88 (119th), terminating the national emergency declared to impose global tariffs",
+          "chamber": "Senate",
+          "date": "2025-10-30",
+          "motion": "On the joint resolution (roll 600); privileged, majority only",
+          "yeas": 51,
+          "nays": 47,
+          "parties": {
+            "R": [4, 47],
+            "D": [45, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190600",
+          "verified": true
+        },
+        {
+          "bill": "S.J.Res. 77 (119th), terminating an emergency behind tariffs (Canada)",
+          "chamber": "Senate",
+          "date": "2025-10-29",
+          "motion": "On the joint resolution (roll 598)",
+          "yeas": 50,
+          "nays": 46,
+          "parties": {
+            "R": [4, 46],
+            "D": [44, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190598",
+          "verified": true
+        },
+        {
+          "bill": "S.J.Res. 81 (119th), terminating an emergency behind tariffs (Brazil)",
+          "chamber": "Senate",
+          "date": "2025-10-28",
+          "motion": "On the joint resolution (roll 594)",
+          "yeas": 52,
+          "nays": 48,
+          "parties": {
+            "R": [5, 48],
+            "D": [45, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190594",
+          "verified": true
+        },
+        {
+          "bill": "H.J.Res. 72 (119th), ending the February 1, 2025 emergency",
+          "chamber": "House",
+          "date": "2026-02-11",
+          "motion": "On passage (roll 65)",
+          "yeas": 219,
+          "nays": 211,
+          "parties": {
+            "R": [6, 210],
+            "D": [213, 1]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll065.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/finance-state.ts:1432",
+      "readerReads": "outcome-web",
+      "readerNote": "The link tariffs-to-prices (law -> household.prices) is wired: the web reads the law monthly (src/core2/modules/outcome-web.ts:427-435 causeAt, :201-230 lawValue), and at each business's price review the price moves by the change in webFactorFor(api, place, 'household.prices') (finance-state.ts:1432, applied at :1463). It writes no lawApplied row, so reachedBy names nobody; the key is in no reach file and has no stance row.",
+      "reachesNamedResident": false,
+      "cheapestReader": "Built as a price read through the outcome web; no cheap law-reach reader that names a person was identified.",
+      "sixtyVotes": false,
+      "why": "No floor vote on a general tariff raise; the termination votes ran D 45-0 to end and R 47-4 to keep, and they needed only a majority. Targeted sanction tariffs did clear 86-11 in August 2026, but that is a narrow sanctions bill, not the general price rise this key's reader models."
+    },
+    {
+      "question": "us-federal-positions:social-insurance.raise-retirement-age",
+      "currentLaw": "42 U.S.C. 416(l)(1)(E): retirement age means \"67 years of age\" \"with respect to an individual who attains early retirement age after December 31, 2021\" (Pub. L. 98-21 sec. 201(a), Apr. 20, 1983, 97 Stat. 107). In the game this law is the series social-security-full-retirement-age (data/laws/social-security-ages.json), not this key.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/42/416",
+      "latestFloorVote": {
+        "bill": "H.R. 1900 (98th), Social Security Amendments of 1983",
+        "chamber": "Senate",
+        "date": "1983-03-24",
+        "motion": "To agree to the conference report (roll 54)",
+        "yeas": 58,
+        "nays": 14,
+        "parties": {
+          "R": [32, 8],
+          "D": [26, 6]
+        },
+        "result": "agreed",
+        "url": "https://voteview.com/api/download?rollcall_id=RS0980054",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1900 (98th)",
+          "chamber": "Senate",
+          "date": "1983-03-23",
+          "motion": "On passage (roll 53)",
+          "yeas": 88,
+          "nays": 9,
+          "parties": {
+            "R": [47, 6],
+            "D": [41, 3]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS0980053",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 1900 (98th), Pickle amendment, \"THE PICKLE AMENDMENT GRADUALLY RAISES THE NORMAL SOCIAL SECURITY RETIREMENT AGE FROM 65 TO 67\"",
+          "chamber": "House",
+          "date": "1983-03-09",
+          "motion": "On the amendment",
+          "yeas": 228,
+          "nays": 202,
+          "parties": {
+            "R": [152, 14],
+            "D": [76, 188]
+          },
+          "result": "agreed",
+          "url": "https://voteview.com/rollcall/RH0980020",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/jobs-web.ts:262-306",
+      "readerReads": "outcome-web",
+      "readerNote": "The link retirement-age-to-older-work (-> labor.older-employment) is read by bandShift (jobs-web.ts:262-306), then participationShift (:350-358) into job decisions (src/core2/modules/jobs.ts:1759, 2075, 2976, 3131). bandShift picks its age band from the parameters jobsEarliestRetirementAge and jobsFullRetirementAge, not the law in force, so a raised age does not move the band. It writes no lawApplied row. A second link, retirement-age-to-poverty, waits on retirement-claims.ts reading the law row.",
+      "reachesNamedResident": false,
+      "cheapestReader": "The claim engine already reads the full retirement age from the law in force at each claim (src/core2/modules/retirement-claims.ts:91-97 -> socialSecurityAges, src/core2/modules/laws.ts:379-392). bill-catalog.json and series-powers.json have no row for that series; a federal law-amount provision would let an act reach a named person at their claim, but the world's filer files only policy-question provisions.",
+      "sixtyVotes": false,
+      "why": "No floor vote in 43 years. The 1983 votes cleared the Senate easily inside a solvency package but split House Democrats 76-188; there is no modern record of support to draw a Congress from."
+    },
+    {
+      "question": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "currentLaw": "Housing Choice Vouchers, 42 U.S.C. 1437f(o)(1)(A): \"The Secretary may provide assistance to public housing agencies for tenant-based assistance\" (discretionary, with no guarantee to every eligible family). H.R. 6644 became law without the President's signature: \"The 10 days elapsed on July 11, and ROAD automatically became law\" (NLIHC). NLIHC names only provisions that help voucher households \"get into homes more quickly\", and no new vouchers or entitlement.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/42/1437f",
+      "latestFloorVote": {
+        "bill": "H.R. 6644 (119th), Housing for the 21st Century Act (NLIHC: 21st Century ROAD to Housing Act)",
+        "chamber": "Senate",
+        "date": "2026-06-22",
+        "motion": "On the motion to concur in the House amendment with an amendment (Senate vote 182)",
+        "yeas": 85,
+        "nays": 5,
+        "parties": {
+          "R": [42, 5],
+          "D": [41, 0],
+          "I": [2, 0]
+        },
+        "result": "agreed",
+        "what": "The latest vote touching the voucher program; it changes how vouchers are used, not who is entitled to one.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190841",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 6644 (119th)",
+          "chamber": "Senate",
+          "date": "2026-03-11",
+          "motion": "On the cloture motion (Senate vote 52)",
+          "yeas": 82,
+          "nays": 11,
+          "parties": {
+            "R": [39, 10],
+            "D": [41, 1],
+            "I": [2, 0]
+          },
+          "result": "agreed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190711",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 6644 (119th)",
+          "chamber": "Senate",
+          "date": "2026-03-12",
+          "motion": "On passage (Senate vote 53)",
+          "yeas": 89,
+          "nays": 10,
+          "parties": {
+            "R": [43, 9],
+            "D": [44, 1],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190712",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 6644 (119th)",
+          "chamber": "House",
+          "date": "2026-06-23",
+          "motion": "On motion to suspend the rules and concur (roll 224)",
+          "yeas": 358,
+          "nays": 32,
+          "parties": {
+            "R": [166, 32],
+            "D": [191, 0],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll224.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 5376 (117th), Build Back Better Act",
+          "chamber": "House",
+          "date": "2021-11-19",
+          "motion": "On passage (roll 385)",
+          "yeas": 220,
+          "nays": 213,
+          "parties": {
+            "R": [0, 212],
+            "D": [220, 1]
+          },
+          "result": "passed",
+          "what": "Carried $24 billion for vouchers (NAHMA); the Senate never voted.",
+          "url": "https://clerk.house.gov/evs/2021/roll385.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/housing-homeless.ts:404-407",
+      "readerReads": "outcome-web",
+      "readerNote": "The link housing-vouchers-to-homelessness multiplies the income multiple a homeless household must meet to lease by the web's factor. It writes no lawApplied row. The other two links (graduation, crime) are size-not-set.",
+      "reachesNamedResident": false,
+      "cheapestReader": "payRentAssistance (src/core2/housing-assistance.ts:39-133) already pays named renting households the average voucher from any government's housing line above its base, with lawApplied at :121-130. bill-catalog.json's budget:housing has levels state and city only (the player's menu); adding federal would let a federal voucher expansion pay renters. The target is a household id, which reachedBy drops (src/core2/law-reach/host.ts:350).",
+      "sixtyVotes": false,
+      "why": "Universal vouchers never had a floor vote. The one bill that added vouchers at scale passed the House on a party line and died without a Senate vote. The 2026 housing law cleared 60 easily, but it creates no entitlement."
+    },
+    {
+      "question": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "currentLaw": "Price Loss Coverage reference prices, 7 U.S.C. 9011(19)(A): \"For corn, $4.10 per bushel.\" \"For soybeans, $10.00 per bushel.\" Raised by P.L. 119-21: \"Pub. L. 119–21, § 10301(b), added par. (19) and struck out former par. (19)\" (Cornell). The game has no US starting row for this key.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/7/9011",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Raised the reference prices (sec. 10301)."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Raised the reference prices."
+        },
+        {
+          "bill": "H.R. 7567 (119th), Farm, Food, and National Security Act",
+          "chamber": "House",
+          "date": "2026-04-30",
+          "motion": "On passage (roll 154)",
+          "yeas": 224,
+          "nays": 200,
+          "parties": {
+            "R": [209, 3],
+            "D": [14, 197],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "what": "Carries the higher support forward; the Senate has not voted on it.",
+          "url": "https://clerk.house.gov/evs/2026/roll154.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "No law-reach handler, outcome-web link or stance row. Farms exist as businesses (kindId 'farm'); the only farm-specific law their books read is the groundwater withdrawal cap (src/core2/modules/business.ts:1188-1241).",
+      "reachesNamedResident": false,
+      "cheapestReader": "A federal commodity payment on each farm business's books in that part of business.ts, which a cut would lower: a new mechanic and a registered stopgap.",
+      "sixtyVotes": false,
+      "why": "The 2025 law raised farm support on a party line and the House's 2026 farm bill (14 Democrats yes) carried it forward. No chamber has voted on a cut."
+    },
+    {
+      "question": "us-federal-positions:government.ban-congressional-stock-trading",
+      "currentLaw": "No ban; only the STOCK Act's reporting rule, 5 U.S.C. 13105(l): a member reports a covered transaction \"Not later than 30 days after receiving notification\" \"but in no case later than 45 days after such transaction\". The game has no US starting row for this key.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/5/13105",
+      "latestFloorVote": {
+        "bill": "H.R. 7008 (119th), Stop Insider Trading Act",
+        "chamber": "Senate",
+        "date": "2026-09-30",
+        "motion": "Cloture on the motion to proceed (Senate vote 253)",
+        "yeas": 53,
+        "nays": 47,
+        "parties": {
+          "R": [53, 0],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "rejected",
+        "what": "Barred members, spouses and dependent children from buying new stocks, required planned sales to be disclosed one to two weeks ahead, and carried photo-ID language (Roll Call).",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190912",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 7008 (119th), Stop Insider Trading Act",
+          "chamber": "House",
+          "date": "2026-07-22",
+          "motion": "On passage (roll 280)",
+          "yeas": 232,
+          "nays": 198,
+          "parties": {
+            "R": [218, 0],
+            "D": [13, 198],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll280.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The only link, congress-stock-ban-to-member-returns, is size-not-set and waits on government.member-market-returns, which no engine keeps.",
+      "reachesNamedResident": false,
+      "cheapestReader": "None cheap: it needs a holdings record on members' own money and a trade decision that reads the law, and it would reach members of Congress, not the town.",
+      "sixtyVotes": false,
+      "why": "It reached both floors in 2026, and Senate cloture failed 53-47 on a straight party line; Democrats opposed this version and its voter-ID rider. A cleaner ban might draw both parties, but no floor vote shows it, and nothing in the town reads it."
+    },
+    {
+      "question": "us-tax-terms:federal.income-tax-terms",
+      "currentLaw": "26 U.S.C. 1(j) rates apply \"In the case of a taxable year beginning after December 31, 2017\"; P.L. 119-21 sec. 70101(a)(1) made them permanent (it \"struck out ', and before January 1, 2026'\"). The top married-filing-jointly bracket is \"$161,379, plus 37% of the excess over $600,000\" (Cornell).",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/26/1",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Made the 2017 rates permanent."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Made the 2017 rates permanent."
+        },
+        {
+          "bill": "H.R. 7024 (118th), Tax Relief for American Families and Workers Act",
+          "chamber": "Senate",
+          "date": "2024-08-01",
+          "motion": "Cloture on the motion to proceed (Senate vote 230)",
+          "yeas": 48,
+          "nays": 44,
+          "parties": {
+            "R": [3, 41],
+            "D": [43, 1],
+            "I": [2, 2]
+          },
+          "result": "rejected",
+          "what": "The last bipartisan income-tax bill.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180582",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 7024 (118th)",
+          "chamber": "House",
+          "date": "2024-01-31",
+          "motion": "On motion to suspend the rules and pass (roll 30)",
+          "yeas": 357,
+          "nays": 70,
+          "parties": {
+            "R": [169, 47],
+            "D": [188, 23]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2024/roll030.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 8 (112th), American Taxpayer Relief Act",
+          "chamber": "Senate",
+          "date": "2013-01-01",
+          "motion": "On passage",
+          "yeas": 89,
+          "nays": 8,
+          "parties": {
+            "R": [40, 5],
+            "D": [48, 3],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "what": "The last Senate vote above 60 that set rates.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1120486",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 1 (115th), Tax Cuts and Jobs Act",
+          "chamber": "House",
+          "date": "2017-12-20",
+          "motion": "On motion to concur in the Senate amendment (roll 699)",
+          "yeas": 224,
+          "nays": 201,
+          "parties": {
+            "R": [224, 12],
+            "D": [0, 189]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2017/roll699.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/tax-withholding.ts:111-165",
+      "readerReads": "series",
+      "readerNote": "The key itself is read nowhere (only question-powers.json). The federal 'income-tax' series is read on every payday (src/core2/modules/budgets.ts:1614-1621; counted workers at src/core2/counted-money.ts:455), with lawApplied on the named worker, key 'income-tax' (src/core2/tax-applied.ts:61-81, called at budgets.ts:1702-1707). Where the worker also pays state income tax, the federal row's target is '<person>|federal' (tax-applied.ts:67-70), which reachedBy's people filter drops (src/core2/law-reach/host.ts:349-351).",
+      "reachesNamedResident": true,
+      "cheapestReader": "Already read for the series. bill-catalog.json's law:income-tax provision lists the city level only, which gates only the player's menu (src/bench/legislature.ts:443); the world's Congress files only policy-question provisions (src/core2/modules/world-legislating.ts:469-498), so it would still need a law-amount filing path.",
+      "sixtyVotes": false,
+      "why": "Every change to income-tax rates since 2013 passed by reconciliation at a bare majority, and the last bipartisan income-tax bill died on cloture 48-44 in 2024. The honest path is reconciliation at 51, which the game's 60-vote cloture row does not model."
+    },
+    {
+      "question": "us-tax-terms:federal.payroll-tax-terms",
+      "currentLaw": "26 U.S.C. 3101(a): \"a tax equal to 6.2 percent\" of wages (Social Security); 3101(b)(1): \"a tax equal to 1.45 percent of the\" wages (Medicare); 3101(b)(2): \"a tax equal to 0.9 percent of\" wages over \"$200,000\" for single filers. The last rate change, per Cornell's note: for 2011 and 2012, \"the rate of tax under 26 U.S.C. 3101(a) to be 4.2 percent, see section 601 of Pub. L. 111–312\". The game's starting row is federal social-security-tax 6.2 percent with a $184,500 wage base (src/core2/data/laws/starting-law.json).",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/26/3101",
+      "latestFloorVote": {
+        "bill": "H.R. 748 (116th), CARES Act",
+        "chamber": "Senate",
+        "date": "2020-03-25",
+        "motion": "On passage (Senate roll 80)",
+        "yeas": 96,
+        "nays": 0,
+        "parties": {
+          "R": [49, 0],
+          "D": [45, 0],
+          "I": [2, 0]
+        },
+        "result": "passed",
+        "what": "Sec. 2302 let employers defer depositing their share of Social Security tax for 2020: a crisis deferral, not a rate cut.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1160508",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 3630 (112th)",
+          "chamber": "Senate",
+          "date": "2012-02-17",
+          "motion": "On the conference report (Senate roll 22)",
+          "yeas": 60,
+          "nays": 36,
+          "parties": {
+            "R": [14, 30],
+            "D": [46, 5],
+            "I": [0, 1]
+          },
+          "result": "agreed",
+          "what": "Extended the payroll-tax cut (Voteview: 'EXTEND SS PAYROLL TAX CUT AND OTHER TAX CUTS').",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1120257",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3630 (112th)",
+          "chamber": "House",
+          "date": "2012-02-17",
+          "motion": "On agreeing to the conference report (roll 72)",
+          "yeas": 293,
+          "nays": 132,
+          "parties": {
+            "R": [146, 91],
+            "D": [147, 41]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2012/roll072.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3630 (112th), S.Amdt. 1465 (Reid-McConnell)",
+          "chamber": "Senate",
+          "date": "2011-12-17",
+          "motion": "On the amendment (Senate roll 232)",
+          "yeas": 89,
+          "nays": 10,
+          "parties": {
+            "R": [39, 7],
+            "D": [50, 2],
+            "I": [0, 1]
+          },
+          "result": "agreed",
+          "what": "Two-month extension of the cut.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1120232",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 4853 (111th) (P.L. 111-312)",
+          "chamber": "Senate",
+          "date": "2010-12-15",
+          "motion": "On the motion to concur in the House amendment with an amendment (Senate roll 276)",
+          "yeas": 81,
+          "nays": 19,
+          "parties": {
+            "R": [37, 5],
+            "D": [44, 13],
+            "I": [0, 1]
+          },
+          "result": "agreed",
+          "what": "Set the 4.2 percent employee rate (sec. 601 of P.L. 111-312).",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1110673",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 4853 (111th)",
+          "chamber": "Senate",
+          "date": "2010-12-13",
+          "motion": "On the cloture motion (Senate roll 272)",
+          "yeas": 83,
+          "nays": 15,
+          "parties": {
+            "R": [37, 5],
+            "D": [46, 9],
+            "I": [0, 1]
+          },
+          "result": "agreed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1110669",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 4853 (111th)",
+          "chamber": "House",
+          "date": "2010-12-17",
+          "motion": "On motion to concur in the Senate amendment (roll 647)",
+          "yeas": 277,
+          "nays": 148,
+          "parties": {
+            "R": [138, 36],
+            "D": [139, 112]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2010/roll647.xml",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/tax-withholding.ts:167-208",
+      "readerReads": "series",
+      "readerNote": "Each paycheck reads the federal social-security-tax and medicare-tax rows (src/core2/modules/budgets.ts:1614-1621) and records lawApplied on the named worker, target 'person' (budgets.ts:1739-1751; PAYROLL_TAX_SERIES at :75-77); reachedBy lists them (src/core2/law-reach/host.ts:346-351). The employer's share reads the same rows (src/core2/modules/employer-taxes.ts:534-536 and 602-610, lawApplied at 721), and counted workers are covered (src/core2/counted-money.ts:425-455, lawApplied 471-480 and 491). The key itself is read nowhere and has no stance row.",
+      "reachesNamedResident": true,
+      "cheapestReader": "Already read for the series. What is missing is filing: bill-catalog.json's law:social-security-tax is a federal law-amount provision (raise or lower) on the player's menu only, and the world's Congress files only policy-question provisions on PLATFORM_QUESTIONS (src/core2/modules/world-legislating.ts:469-498). C3 needs a law-amount filing path for Congress, or this key in the axes table wired to the series, plus a stance that reads the national economy's downturn record (the macro module's months table, unemploymentPct and outputGapPct, src/core2/modules/macro.ts:320-341).",
+      "sixtyVotes": true,
+      "why": "Yes for a temporary cut in a downturn; a raise has had no floor vote. Rate cuts cleared 60 three times with both parties (81-19 in 2010, 89-10 in December 2011, 60-36 in February 2012), plus the 96-0 crisis deferral in 2020, each as recession or crisis relief inside a larger package. The evidence is 6 to 16 years old, and the stance must depend on the downturn record or Congress would cut the tax every year. A played year with no downturn should see no cut."
+    },
+    {
+      "question": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "currentLaw": "31 U.S.C. 3101(b) as raised by P.L. 119-21 sec. 72001: \"The limitation under section 3101(b) of title 31, United States Code, as most recently increased by section 401(b) of Public Law 118-5 (31 U.S.C. 3101 note), is increased by $5,000,000,000,000.\" The last rise paired with spending limits was the Fiscal Responsibility Act, P.L. 118-5: sec. 401 (in DIVISION D--INCREASE IN DEBT LIMIT) says \"Section 3101(b) of title 31, United States Code, shall not apply for the period beginning on the date of the enactment of this Act and ending on January 1, 2025\", beside DIVISION A--LIMIT FEDERAL SPENDING, TITLE I--DISCRETIONARY SPENDING LIMITS FOR DISCRETIONARY CATEGORY.",
+      "currentLawUrl": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Raised the limit by $5 trillion with no spending limits."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Raised the limit."
+        },
+        {
+          "bill": "H.R. 3746 (118th), Fiscal Responsibility Act of 2023",
+          "chamber": "Senate",
+          "date": "2023-06-01",
+          "motion": "On passage (record vote 146; three fifths required)",
+          "yeas": 63,
+          "nays": 36,
+          "parties": {
+            "R": [17, 31],
+            "D": [44, 4],
+            "I": [2, 1]
+          },
+          "result": "passed",
+          "what": "Suspended the limit and set spending limits.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180146",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3746 (118th)",
+          "chamber": "House",
+          "date": "2023-05-31",
+          "motion": "On passage (roll 243)",
+          "yeas": 314,
+          "nays": 117,
+          "parties": {
+            "R": [149, 71],
+            "D": [165, 46]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2023/roll243.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "debtLimit 41100000000000 in data/research/money/federal-budget-fy2025.json is read by no .ts file, and borrowFederal (src/core2/budgets-treasury.ts:911-948) borrows whatever the Treasury lacks with no limit. The key appears only in question-powers.json and question-names.json.",
+      "reachesNamedResident": false,
+      "cheapestReader": "borrowFederal checks a US law row for the limit, and the federal budget's adoption cuts lines by the 'pay for' amount. Either one moves money only between the Treasury and outside debt-holder groups (src/core2/data/budgets/federal-debt.json); neither reaches a named town resident.",
+      "sixtyVotes": true,
+      "why": "The 2023 pairing of a suspension with spending limits cleared 63-36 with 44 Democrats and 17 Republicans. The latest rise was party-line reconciliation, which the engine has no path for (src/core2/modules/legislature.ts has no reconciliation path; the same 60-vote test gates the federal budget's adoption at :923-929). It qualifies on the votes and fails on the reader."
+    },
+    {
+      "question": "us-federal-positions:defense.grow-defense-spending",
+      "currentLaw": "National Defense Authorization Act for Fiscal Year 2026, P.L. 119-60 (S. 1071), signed Dec 18, 2025. CRS IN12641: \"The enacted version of the legislation ( P.L. 119-60 ), a House amendment to S. 1071 , authorized $8.0 billion more than requested\"; its Table 1 (Grand Total, 050 National Defense) reads $883.7 billion for FY2025 enacted, $914.3 billion for the Senate-passed S. 2296 and $890.6 billion for FY2026 enacted. For FY2027, \"the House passed its version of a $1.15 trillion fiscal 2027 defense authorization bill on a 216-to-212 vote\" and \"Senate Democrats have blocked it from moving to the floor over opposition to the war with Iran\" (Breaking Defense, July 22, 2026).",
+      "currentLawUrl": "https://www.everycrsreport.com/files/2026-01-20_IN12641_bccc2353c8967abcda8a7ab5c31e69b5c30226f8.html",
+      "latestFloorVote": {
+        "bill": "S. 4784 (119th), FY2027 National Defense Authorization Act",
+        "chamber": "Senate",
+        "date": "2026-07-14",
+        "motion": "Cloture on the motion to proceed (Senate vote 195)",
+        "yeas": 50,
+        "nays": 46,
+        "parties": {
+          "R": [50, 1],
+          "D": [0, 43],
+          "I": [0, 2]
+        },
+        "result": "rejected",
+        "what": "The $1.15 trillion bill, blocked on party lines.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190854",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 8800 (119th), FY2027 National Defense Authorization Act",
+          "chamber": "House",
+          "date": "2026-07-22",
+          "motion": "On passage (roll 278)",
+          "yeas": 216,
+          "nays": 212,
+          "parties": {
+            "R": [209, 7],
+            "D": [6, 205],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll278.xml",
+          "verified": true
+        },
+        {
+          "bill": "S. 1071 (119th), FY2026 National Defense Authorization Act (P.L. 119-60)",
+          "chamber": "Senate",
+          "date": "2025-12-15",
+          "motion": "On the cloture motion (Senate vote 647)",
+          "yeas": 76,
+          "nays": 20,
+          "parties": {
+            "R": [48, 3],
+            "D": [27, 16],
+            "I": [1, 1]
+          },
+          "result": "agreed",
+          "what": "$890.6 billion against $883.7 billion the year before.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190647",
+          "verified": true
+        },
+        {
+          "bill": "S. 1071 (119th)",
+          "chamber": "Senate",
+          "date": "2025-12-17",
+          "motion": "On the motion to concur in the House amendment (Senate vote 648)",
+          "yeas": 77,
+          "nays": 20,
+          "parties": {
+            "R": [49, 2],
+            "D": [27, 17],
+            "I": [1, 1]
+          },
+          "result": "agreed",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190648",
+          "verified": true
+        },
+        {
+          "bill": "S. 1071 (119th)",
+          "chamber": "House",
+          "date": "2025-12-10",
+          "motion": "On passage of the House amendment (roll 320)",
+          "yeas": 312,
+          "nays": 112,
+          "parties": {
+            "R": [197, 18],
+            "D": [115, 94]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll320.xml",
+          "verified": true
+        },
+        {
+          "bill": "S. 2296 (119th), the Senate's FY2026 bill",
+          "chamber": "Senate",
+          "date": "2025-10-09",
+          "motion": "On passage (Senate vote 570)",
+          "yeas": 77,
+          "nays": 20,
+          "parties": {
+            "R": [50, 1],
+            "D": [26, 18],
+            "I": [1, 1]
+          },
+          "result": "passed",
+          "what": "$914.3 billion, $32.1 billion above the request.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1190570",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/gov-measures.ts:387",
+      "readerReads": "budget-line",
+      "readerNote": "defenseBoostPct (gov-measures.ts:368-392) reads the federal budget's nationalDefense line above its base. The outcome-web reader 'defense-boost-pct' (src/core2/modules/outcome-web.ts:281-284) turns it into the state's extra contracts, only for the housing town and its state; the link defense-contracts-to-earnings moves labor.median-earnings, which payLevel (src/core2/modules/jobs.ts:1809-1823) applies when it prices an opening or raises a named worker. Congress already decides the line every year through the budget engine, with a stance row (src/core2/data/legislature/budget-line-axes.json:84-88, axis 0.66, GSS 2024; read at src/core2/campaign-views.ts:290-301). The question key itself is read nowhere, and the read writes no lawApplied row, so reachedBy names nobody.",
+      "reachesNamedResident": false,
+      "cheapestReader": "None needed for the line. A 'grow-defense-spending' law row would be a second writer of the nationalDefense line, a duplicate under one engine per mechanic. The honest route is Congress's budget raising the line.",
+      "sixtyVotes": true,
+      "why": "Growth cleared the Senate with both parties twice in late 2025 (77-20 for S. 2296; cloture 76-20 on the final FY2026 bill). The latest vote, on the $1.15 trillion FY2027 bill, failed cloture 50-46 on party lines. The read belongs to the budget line Congress already adopts, so this counts as a policy law only if the CTO accepts a budget line in its place."
+    },
+    {
+      "question": "us-federal-positions:immigration.admit-more-immigrants",
+      "currentLaw": "8 U.S.C. 1151(c)(1)(A): \"The worldwide level of family-sponsored immigrants under this subsection for a fiscal year is, subject to subparagraph (B), equal to— (i) 480,000, minus ...\"; 1151(d)(1): \"The worldwide level of employment-based immigrants under this subsection for a fiscal year is equal to— (A) 140,000, plus (B) the number computed under paragraph (2).\" The last bill to raise them was the February 2024 Senate border deal: \"for the first time since 1990, the bill would allocate additional immigrant visas\" ... \"The increases would amount to a 13 percent increase for employment-based visas\" \"and a 7 percent increase for family-based visas for the next five years.\" (American Immigration Council)",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/8/1151",
+      "latestFloorVote": {
+        "bill": "H.R. 815 (118th), Emergency National Security Supplemental with the border deal",
+        "chamber": "Senate",
+        "date": "2024-02-07",
+        "motion": "On the cloture motion (Senate vote 39)",
+        "yeas": 49,
+        "nays": 50,
+        "parties": {
+          "R": [4, 44],
+          "D": [43, 5],
+          "I": [2, 1]
+        },
+        "result": "rejected",
+        "what": "The last floor vote that would have admitted more immigrants. A scan of every 119th-Congress roll call through September 2026 found no vote to raise admissions.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1180391",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "S. 4361 (118th), border-only bill",
+          "chamber": "Senate",
+          "date": "2024-05-23",
+          "motion": "On the cloture motion (Senate vote 182)",
+          "yeas": 43,
+          "nays": 50,
+          "parties": {
+            "R": [1, 44],
+            "D": [41, 4],
+            "I": [1, 2]
+          },
+          "result": "rejected",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180534",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "src/core2/outcome-web-labor-waiting.test.ts:181-191 asserts that no starting row, handler or reader names the question or its dial 'immigration-admission'. data/research/outcome-web/links.json:3978-3995 (more-immigration-to-workforce): \"No engine reads the law either ... the population and regional models have no inflow from abroad, so nobody arrives because of it.\"",
+      "reachesNamedResident": false,
+      "cheapestReader": "Nothing cheap: it needs an inflow from abroad in the population and regional models, a new mechanic.",
+      "sixtyVotes": false,
+      "why": "The only recent floor vote that would have admitted more immigrants failed cloture 49-50 with 4 Republicans yes. There is no reader and no stance row."
+    },
+    {
+      "question": "us-federal-positions:education.forgive-student-loans",
+      "currentLaw": "20 U.S.C. 1087e(m)(1) (Public Service Loan Forgiveness): \"The Secretary shall cancel the balance of interest and principal due, in accordance with paragraph (2), on any eligible Federal Direct Loan not in default for a borrower who— (A) has made 120 monthly payments on the eligible Federal Direct Loan after October 1, 2007\". P.L. 119-21 sec. 82001 (LOAN REPAYMENT) moves borrowers to \"(A) The Repayment Assistance Plan under section 455(q) of the Higher Education Act of 1965\", and sec. 82004 amends Public Service Loan Forgiveness.",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/20/1087e",
+      "latestFloorVote": {
+        "bill": "S.J.Res. 196 (119th), disapproving the Education Department's loan rule",
+        "chamber": "Senate",
+        "date": "2026-06-24",
+        "motion": "On the motion to proceed (Senate vote 190)",
+        "yeas": 45,
+        "nays": 52,
+        "parties": {
+          "R": [0, 52],
+          "D": [43, 0],
+          "I": [2, 0]
+        },
+        "result": "rejected",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190849",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.J.Res. 45 (118th), overturning the 2022 broad cancellation",
+          "chamber": "Senate",
+          "date": "2023-06-01",
+          "motion": "On the joint resolution (Senate vote 135)",
+          "yeas": 52,
+          "nays": 46,
+          "parties": {
+            "R": [49, 0],
+            "D": [2, 44],
+            "I": [1, 2]
+          },
+          "result": "passed",
+          "what": "A vote against forgiveness; the House's veto override failed 221-206 on June 21, 2023.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180135",
+          "verified": true
+        },
+        {
+          "bill": "H.J.Res. 45 (118th)",
+          "chamber": "House",
+          "date": "2023-05-24",
+          "motion": "On passage (roll 234)",
+          "yeas": 218,
+          "nays": 203,
+          "parties": {
+            "R": [216, 0],
+            "D": [2, 203]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2023/roll234.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "src/core2 keeps no student-loan record. The link student-loan-forgiveness-to-poverty (data/research/outcome-web/links.json:5359-5378) is about zero; the link to finance.past-due-debt (from at links.json:3973) is size-not-set under SG-EFFECT-WEB-prices-past-due-debt.",
+      "reachesNamedResident": false,
+      "cheapestReader": "A student-debt balance and monthly payment in household finance, which credit and household budgets would read: a new record.",
+      "sixtyVotes": false,
+      "why": "Every floor vote since 2023 split on party lines; the latest failed 45-52 with no Republican yes. Nothing in the town holds a student loan."
+    },
+    {
+      "question": "us-federal-positions:transport-water.expand-passenger-rail",
+      "currentLaw": "49 U.S.C. 24911(b): \"The Secretary of Transportation shall develop and implement a program for issuing grants to applicants , on a competitive basis, to fund capital projects that reduce the state of good repair backlog, improve performance, or expand or establish new intercity passenger rail service\", funded by the IIJA (P.L. 117-58). Mass Transit Magazine (Sept 4, 2026): \"The CR, H.R. 6500, Continuing Appropriations and Extensions Act, 2027, extend federal surface transportation programs and authorities, including those for public transit and passenger rail, that were set to expire Sept. 30.\" \"No advance appropriations are included in the CR, resulting in a 20% cut to transit funding and an 81% cut to passenger rail funding\".",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/49/24911",
+      "latestFloorVote": {
+        "bill": "H.R. 6500 (119th), Continuing Appropriations and Extensions Act, 2027",
+        "chamber": "Senate",
+        "date": "2026-08-08",
+        "motion": "On passage (Senate vote 228)",
+        "yeas": 90,
+        "nays": 6,
+        "parties": {
+          "R": [47, 2],
+          "D": [42, 3],
+          "I": [1, 1]
+        },
+        "result": "passed",
+        "what": "Extended the programs to Dec 11, 2026 while cutting passenger rail funding 81 percent. One Republican voted present.",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190887",
+        "verified": true
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 6500 (119th) (the House's AGOA Extension Act vehicle)",
+          "chamber": "House",
+          "date": "2026-09-01",
+          "motion": "On motion to suspend the rules and concur in the Senate amendments (roll 286)",
+          "yeas": 370,
+          "nays": 48,
+          "parties": {
+            "R": [193, 19],
+            "D": [176, 29],
+            "I": [1, 0]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2026/roll286.xml",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3684 (117th), Infrastructure Investment and Jobs Act",
+          "chamber": "Senate",
+          "date": "2021-08-10",
+          "motion": "On passage (record vote 314)",
+          "yeas": 69,
+          "nays": 30,
+          "parties": {
+            "R": [19, 30],
+            "D": [48, 0],
+            "I": [2, 0]
+          },
+          "result": "passed",
+          "what": "The last expansion, inside a $1.2 trillion package.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1170314",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 3684 (117th)",
+          "chamber": "House",
+          "date": "2021-11-05",
+          "motion": "On motion to concur in the Senate amendment (roll 369)",
+          "yeas": 228,
+          "nays": 206,
+          "parties": {
+            "R": [13, 200],
+            "D": [215, 6]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2021/roll369.xml",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "No code reads data/content/legislation-families/federal-rail.json. The link federal-rail-expansion-to-riders (data/research/outcome-web/links.json:6147) starts from federal.rail-expansion-pct, which no reader produces (coverage.json:538), and its outcome is unread (SG-WEB-unread-rail-intercity-ridership); its anchor cites the deleted src/simulation/federal-passenger-rail.ts. The transit mechanics at src/core2/law-reach/group-b.ts:367-396 are keyed to state and local questions.",
+      "reachesNamedResident": false,
+      "cheapestReader": "None that reaches a named person. Mapping it to the federal transportation budget line (spending-payees.json:127-131) would again be the budget engine's line.",
+      "sixtyVotes": false,
+      "why": "The only cross-party expansion above 60 was the 2021 IIJA (69-30) inside a $1.2 trillion package. The latest vote extended programs while cutting rail 81 percent, and the 2026 reauthorization has not reached the floor."
+    },
+    {
+      "question": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "currentLaw": "Stafford Act. 42 U.S.C. 5172(b)(1): \"Except as provided in paragraph (2), the Federal share of assistance under this section shall be not less than 75 percent of the eligible cost of repair, restoration, reconstruction, or replacement carried out under this section.\" 42 U.S.C. 5170b(b): \"The Federal share of assistance under this section shall be not less than 75 percent of the eligible cost of such assistance.\"",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/42/5172",
+      "latestFloorVote": null,
+      "otherVotes": [
+        {
+          "bill": "H.R. 4669 (119th), FEMA Act of 2025",
+          "chamber": "House Transportation and Infrastructure Committee",
+          "date": "2025-09-03",
+          "motion": "To order the bill reported (CRS R48856: \"voted 57 to 3 to order the bill reported\")",
+          "yeas": 57,
+          "nays": 3,
+          "parties": null,
+          "result": "agreed",
+          "what": "A committee vote, not a floor vote; \"Companion legislation has not currently been introduced in the Senate.\" The CRS report does not describe a change to the 75 percent share.",
+          "url": "https://www.everycrsreport.com/files/2026-01-29_R48856_a2c3bee4d75e416bb16e86060199d02d96dea316.html",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "Nothing reads the key. declare() (src/core2/modules/disasters.ts:237-269) pays FEMA Public Assistance's recorded federal obligation from the Treasury to the county's and town's governments on the declaration date (:268-269). Its payHouseholds (:307-336) pays housing assistance into the counted residents' account, which is not the sec. 5172 or 5170b share.",
+      "reachesNamedResident": false,
+      "cheapestReader": "Scale declare()'s payment by the federal share in force over 75 percent. It reaches government books, not a named person, and only in a year with a recorded declaration (src/core2/data/disasters/declarations.json, latest 2026-10-09).",
+      "sixtyVotes": false,
+      "why": "Nothing that shifts disaster costs to states has reached either floor, and the one reform bill has only a committee vote and no Senate companion."
+    },
+    {
+      "question": "us-federal-positions:science-communications.national-data-privacy",
+      "currentLaw": "No comprehensive federal statute, only sector laws, for example COPPA, 15 U.S.C. 6502(a)(1): \"It is unlawful for an operator of a website or online service directed to children, or any operator that has actual knowledge that it is collecting personal information from a child, to collect personal information from a child in a manner that ...\". Biometric Update (Dec 23, 2025): \"For more than a decade, Congress has promised a national privacy statute and repeatedly fallen short\".",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/15/6502",
+      "latestFloorVote": null,
+      "otherVotes": [
+        {
+          "bill": "H.R. 8152 (117th), American Data Privacy and Protection Act",
+          "chamber": "House Energy and Commerce Committee",
+          "date": "2022-07-20",
+          "motion": "To report the bill (\"voted to pass H.R. 8152, the American Data Privacy and Protection Act (ADPPA) by a vote of 53-2\")",
+          "yeas": 53,
+          "nays": 2,
+          "parties": null,
+          "result": "agreed",
+          "what": "A committee vote with no party breakdown on the page. The 2024 successor's markup was canceled (CyberScoop, June 27, 2024: \"A House panel abruptly canceled its plans Thursday to take action on a sweeping federal privacy bill\" ...).",
+          "url": "https://energycommerce.house.gov/posts/bipartisan-ec-leaders-hail-committee-passage-of-the-american-data-privacy-and-protection-act",
+          "verified": true
+        }
+      ],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "The business duty reads only the state key: DATA_PRIVACY_QUESTION (src/core2/modules/business.ts:1269-1270), BUSINESS_DUTIES (:1283-1296) and readBusinessDuty's lawInForce (:1319), adding the cost only for a governing yes (:1342-1343). The state key's reach row is records-only (reach-group-a.json:601-617).",
+      "reachesNamedResident": false,
+      "cheapestReader": "One more BUSINESS_DUTIES entry with the federal key and businessDataPrivacyShareOfCosts: each employing town business pays a monthly compliance cost, recorded as the law applied through lawOfCost (business.ts:1371-1394). It reaches named organizations, and a person only through their books.",
+      "sixtyVotes": false,
+      "why": "No comprehensive privacy bill has reached either floor: the 53-2 committee vote in 2022 stalled and the 2024 markup was canceled. There is no floor record to set a consensus share and no evidence of 60."
+    },
+    {
+      "question": "us-tax-terms:federal.sales-tax-terms",
+      "currentLaw": "No federal sales tax. The pending H.R. 25 (119th) is titled \"To promote freedom, fairness, and economic opportunity by repealing the income tax and other taxes, abolishing the Internal Revenue Service, and enacting a national sales tax to be administered primarily by the States.\" It was introduced on January 3, 2025 and \"referred to the Committee on Ways and Means\". src/core2/data/legislature/series-powers.json:12-14 gives sales-tax the state and local levels only (\"No federal sales tax\").",
+      "currentLawUrl": "https://www.govinfo.gov/content/pkg/BILLS-119hr25ih/html/BILLS-119hr25ih.htm",
+      "latestFloorVote": null,
+      "otherVotes": [],
+      "reader": null,
+      "readerReads": null,
+      "readerNote": "syncSalesTax (src/core2/modules/budgets.ts:848-880) reads lawInForce(api, 'sales-tax') at :852 and skips the federal level at :865. The key itself is read nowhere.",
+      "reachesNamedResident": false,
+      "cheapestReader": "Drop that skip and pay the Treasury's share in syncSalesTax, but there is no federal law to read.",
+      "sixtyVotes": false,
+      "why": "No federal sales tax exists, and the one bill to create one has had no committee or floor vote."
+    },
+    {
+      "question": "us-tax-terms:federal.corporate-tax-terms",
+      "currentLaw": "26 U.S.C. 11(b): \"The amount of the tax imposed by subsection (a) shall be 21 percent of taxable income.\" P.L. 119-21 changed the terms, not the rate: \"SEC. 70301. FULL EXPENSING FOR CERTAIN BUSINESS PROPERTY. (a) Made Permanent.\" and \"SEC. 70302. FULL EXPENSING OF DOMESTIC RESEARCH AND EXPERIMENTAL EXPENDITURES\".",
+      "currentLawUrl": "https://www.law.cornell.edu/uscode/text/26/11",
+      "latestFloorVote": {
+        "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+        "chamber": "Senate",
+        "date": "2025-07-01",
+        "motion": "On passage (record vote 372); budget reconciliation, so no cloture",
+        "yeas": 50,
+        "nays": 50,
+        "parties": {
+          "R": [50, 3],
+          "D": [0, 45],
+          "I": [0, 2]
+        },
+        "result": "passed",
+        "tieBreak": "Vice President, yea (51-50 in the Senate's record)",
+        "url": "https://voteview.com/api/download?rollcall_id=RS1190372",
+        "verified": true,
+        "what": "Made full expensing permanent."
+      },
+      "otherVotes": [
+        {
+          "bill": "H.R. 1 (119th), One Big Beautiful Bill Act (P.L. 119-21)",
+          "chamber": "House",
+          "date": "2025-07-03",
+          "motion": "On motion to concur in the Senate amendment (roll 190)",
+          "yeas": 218,
+          "nays": 214,
+          "parties": {
+            "R": [218, 2],
+            "D": [0, 212]
+          },
+          "result": "passed",
+          "url": "https://clerk.house.gov/evs/2025/roll190.xml",
+          "verified": true,
+          "what": "Made full expensing permanent."
+        },
+        {
+          "bill": "H.R. 7024 (118th), Tax Relief for American Families and Workers Act",
+          "chamber": "Senate",
+          "date": "2024-08-01",
+          "motion": "Cloture on the motion to proceed (Senate vote 230)",
+          "yeas": 48,
+          "nays": 44,
+          "parties": {
+            "R": [3, 41],
+            "D": [43, 1],
+            "I": [2, 2]
+          },
+          "result": "rejected",
+          "what": "The last bipartisan try at business tax terms.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1180582",
+          "verified": true
+        },
+        {
+          "bill": "H.R. 1 (115th), Tax Cuts and Jobs Act",
+          "chamber": "Senate",
+          "date": "2017-12-20",
+          "motion": "On the motion to recede and concur with a further amendment (Senate roll 323)",
+          "yeas": 51,
+          "nays": 48,
+          "parties": {
+            "R": [51, 0],
+            "D": [0, 46],
+            "I": [0, 2]
+          },
+          "result": "agreed",
+          "what": "Set the 21 percent rate, by reconciliation with no tie-break.",
+          "url": "https://voteview.com/api/download?rollcall_id=RS1150323",
+          "verified": true
+        }
+      ],
+      "reader": "src/core2/modules/employer-taxes.ts:183",
+      "readerReads": "series",
+      "readerNote": "payProfitTaxes (employer-taxes.ts:179-345) reads lawInForce(api, 'corporate-income-tax'), including the federal row at 21 (src/core2/data/laws/starting-law.json:65-73), on each organization-owned business's quarterly profit, and records the law as applied to that organization. bill-catalog.json:312-319 already lets the federal level raise or lower law:corporate-income-tax (the player's menu). The outcome-web 'state-corporate-rate' readers (src/core2/modules/outcome-web.ts:287-293 and :306) read the state level only. The key itself is read nowhere.",
+      "reachesNamedResident": false,
+      "cheapestReader": "Point the question at the existing series, or drop the duplicate key. It reaches named organizations, not a named resident.",
+      "sixtyVotes": false,
+      "why": "Corporate tax terms moved only by party-line reconciliation (2017 at 51-48; 2022 and 2025 at 50-50 with the Vice President). The one bipartisan attempt failed Senate cloture 48-44 with three Republicans."
+    }
+  ],
+  "planCorrections": [
+    "The plan's C2 row says the minimum wage \"failed cloture 42-58 in 2021\": it was a motion to waive the Budget Act (60 needed), not cloture (Voteview RS1170074).",
+    "The plan's C2 row says the stock-trading ban never reached the floor: it passed the House 232-198 on July 22, 2026 and failed Senate cloture 53-47 on Sept 30, 2026. Data privacy indeed never reached a floor.",
+    "The verifier's party split for H.R. 815 record vote 154 (April 23, 2024) gave Democrats 47-2; Voteview's roll call reads 46-2, which sums to the 79 yeas."
+  ],
+  "foundAlongTheWay": [
+    "data/research/laws/starting-law-2026/health-human-services.json lines 631 and 633 cite P.L. 119-21 sec. 10101 for the SNAP work requirement; the statute's notes name sec. 10102.",
+    "The federal yes on the Medicaid work requirement never reaches the town's chain (src/core2/modules/laws.ts:191-207 writes a US answer for a state-level question only where the state gives none), and that writer ignores the research's operativeAt (2027-01-01).",
+    "us-federal-positions:health.medicare-drug-price-negotiation has no US starting row, so the engine treats a law in force since 2022 as absent; C1 needs a US yes row (42 U.S.C. 1320f) before the key is admitted.",
+    "The us-tax-terms: prefix is not FEDERAL_QUESTION_PREFIX (src/core2/modules/laws.ts:236); a US-only starting row lands at the federal level only because no state answers it, and C1's question-list filter must include the prefix.",
+    "The world's Congress files only policy-question provisions on PLATFORM_QUESTIONS (src/core2/modules/world-legislating.ts:469-498), never a law-amount provision, so a law series (payroll tax, income tax) cannot be filed by Congress today."
+  ]
+}

@@ -1,0 +1,1433 @@
+{
+  "schemaVersion": "research-veto-inputs/1",
+  "checkedOn": "2026-09-21",
+  "notAPlayableCoverageClaim": true,
+  "sources": {
+    "ncsl": {
+      "url": "https://www.ncsl.org/center-for-legislative-strengthening/veto-overrides-and-supermajorities",
+      "publicationDate": "2025-01-07",
+      "kind": "legislative-research-summary",
+      "coverage": "all 50 states and DC; discovery baseline, not full constitutional validation"
+    },
+    "AK": {
+      "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "locator": "Article II sections 12-18; Article III sections 25-27",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "VA": {
+      "url": "https://law.lis.virginia.gov/constitution/article5/section6/",
+      "locator": "Article V section 6(b)-(d)",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "IL": {
+      "url": "https://www.ilga.gov/commission/lrb/con4.htm",
+      "locator": "Article IV section 9(c)-(d)",
+      "kind": "official-text-indexed-excerpt",
+      "limit": "The official indexed text was readable; direct page retrieval failed. No fresh full-page verification claimed."
+    },
+    "MD": {
+      "url": "https://msa.maryland.gov/msa/mdmanual/43const/html/02art2.html",
+      "locator": "Article II section 17(a)-(g)",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "NC": {
+      "url": "https://www.ncleg.gov/Laws/Constitution/Article2",
+      "locator": "Article II sections 11 and 22",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "NE": {
+      "url": "https://nebraskalegislature.gov/laws/articles.php?article=IV-15",
+      "locator": "Article IV section 15",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "TN": {
+      "url": "https://wapp.capitol.tn.gov/apps/Information/About/BillToLaw",
+      "locator": "General Bills: Signed by Governor; membership explained in Third Consideration",
+      "kind": "official-legislature-procedure-guide",
+      "limit": "Official guidance confirms ordinary and appropriation override; direct constitutional text was not retrieved."
+    },
+    "WV": {
+      "url": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+      "locator": "Article VII sections 8-10,14-15; Article VI section 51(11)",
+      "kind": "official-constitutional-text-scoped-read"
+    },
+    "DC": {
+      "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "locator": "section 1-204.04(e)-(f)",
+      "kind": "official-code-text-scoped-read"
+    }
+  },
+  "sourceInterpretation": "Summary values are discovery inputs; scoped primary rules are separate. No summary silently becomes verified law. Game-profile approvals and runtime admission are separate. Fractions do not specify quorum, vacancy cardinality or political support.",
+  "numericDefaultPolicy": null,
+  "rows": [
+    {
+      "key": "AL",
+      "name": "Alabama",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "Art. V sec.125",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "AK",
+      "name": "Alaska",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "membership",
+        "locator": "Art. II sec.16",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "joint-legislature",
+        "actions": [
+          {
+            "operation": "override-whole-bill",
+            "when": "ordinary-nonrevenue-nonappropriation-bill",
+            "allOf": [
+              {
+                "numerator": 2,
+                "denominator": 3,
+                "basis": "legislature-membership",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          },
+          {
+            "operation": "override-whole-or-item-veto-or-reduction",
+            "when": "revenue-bill-or-appropriation-bill-or-item",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 4,
+                "basis": "legislature-membership",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          }
+        ],
+        "presentmentClock": [
+          {
+            "state": "legislature-in-session",
+            "count": 15,
+            "excludes": ["Sunday"],
+            "noAction": "becomes-law"
+          },
+          {
+            "state": "legislature-not-in-session",
+            "count": 20,
+            "excludes": ["Sunday"],
+            "noAction": "becomes-law"
+          }
+        ],
+        "compositionConstraints": [
+          "single-subject-except-appropriation-or-codifying-revising-rearranging",
+          "appropriation-bills-confined-to-appropriations"
+        ],
+        "remaining": [
+          "joint-session quorum and member-vacancy semantics",
+          "post-adjournment reconsideration first-versus-second-session rules",
+          "effective-date provisions and current rule version"
+        ],
+        "sourceId": "AK"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "joint-session quorum and member-vacancy semantics",
+        "post-adjournment reconsideration first-versus-second-session rules",
+        "effective-date provisions and current rule version"
+      ]
+    },
+    {
+      "key": "AZ",
+      "name": "Arizona",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. V sec.7",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "AR",
+      "name": "Arkansas",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "Art. VI sec.15",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "CA",
+      "name": "California",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "membership",
+        "locator": "Art. IV sec.10",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "CO",
+      "name": "Colorado",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.11",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "CT",
+      "name": "Connecticut",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "members",
+        "locator": "Art. IV sec.15",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "DC",
+      "name": "District of Columbia",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present-and-voting",
+        "locator": "sec.1-206.02",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "single-council",
+        "actions": [
+          {
+            "operation": "override-act-or-budget-item-or-provision",
+            "allOf": [
+              {
+                "numerator": 2,
+                "denominator": 3,
+                "basis": "members-present-and-voting",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          }
+        ],
+        "reconsiderationClock": [
+          {
+            "state": "ordinary-non-control-year",
+            "count": 30,
+            "basis": "calendar-days",
+            "startsAt": "timely-return-of-disapproval"
+          }
+        ],
+        "effectiveLawRequires": "separate-section1-206.02(c)-applicability-and-review",
+        "remaining": [
+          "ordinary-return ten-day wording vs no-action sentence and recess exception",
+          "control-year special five-day budget clocks",
+          "applicable congressional-review procedure and council quorum"
+        ],
+        "sourceId": "DC"
+      },
+      "researchStatus": "official-code-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "ordinary-return ten-day wording vs no-action sentence and recess exception",
+        "control-year special five-day budget clocks",
+        "applicable congressional-review procedure and council quorum"
+      ],
+      "locatorCorrection": "Actual override rule is sec1-204.04(e)-(f), not the cross-referenced sec1-206.02(c)."
+    },
+    {
+      "key": "DE",
+      "name": "Delaware",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "elected",
+        "locator": "Art. III sec.18",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "FL",
+      "name": "Florida",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "each-chamber",
+        "locator": "Art. III sec.8",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "GA",
+      "name": "Georgia",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "members",
+        "locator": "Art. III sec.5 para.13",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "HI",
+      "name": "Hawaii",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "entitled",
+        "locator": "Art. III sec.17",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "ID",
+      "name": "Idaho",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. IV sec.10",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "IL",
+      "name": "Illinois",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.9",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-whole-or-item-veto",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 5,
+                "basis": "members-elected",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          },
+          {
+            "operation": "restore-reduced-appropriation-item",
+            "allOf": [
+              {
+                "numerator": 1,
+                "denominator": 2,
+                "basis": "members-elected",
+                "rounding": "strictly-greater-than-fraction"
+              }
+            ]
+          }
+        ],
+        "reconsiderationClock": [
+          {
+            "state": "origin-house",
+            "count": 15,
+            "basis": "calendar-days",
+            "startsAt": "veto-message-journal-entry"
+          },
+          {
+            "state": "second-house",
+            "count": 15,
+            "basis": "calendar-days",
+            "startsAt": "delivery"
+          }
+        ],
+        "failedRestoration": "item-becomes-law-at-reduced-amount",
+        "remaining": [
+          "direct full official page retrieval",
+          "governor presentment and amendatory-veto routes",
+          "quorum and elected-member denominator"
+        ],
+        "sourceId": "IL"
+      },
+      "researchStatus": "official-text-indexed-excerpt",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "direct full official page retrieval",
+        "governor presentment and amendatory-veto routes",
+        "quorum and elected-member denominator"
+      ]
+    },
+    {
+      "key": "IN",
+      "name": "Indiana",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "Art. V sec.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "IA",
+      "name": "Iowa",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "members",
+        "locator": "Art. III sec.16",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "KS",
+      "name": "Kansas",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected-or-appointed",
+        "locator": "Art. II sec.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "KY",
+      "name": "Kentucky",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "sec.88",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "LA",
+      "name": "Louisiana",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. III sec.18",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "ME",
+      "name": "Maine",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "chamber",
+        "locator": "Art. IV part3 sec.2",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "MD",
+      "name": "Maryland",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "elected",
+        "locator": "Art. II sec.17",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-ordinary-whole-veto-or-nonbudget-appropriation-item-veto",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 5,
+                "basis": "members-elected",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          },
+          {
+            "operation": "override-budget-executive-item-veto",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 5,
+                "basis": "source-membership-for-each-house",
+                "rounding": "at-least-fraction"
+              }
+            ],
+            "scope": "only-executive-department-items-increased-or-added-by-legislature"
+          }
+        ],
+        "budgetVeto": {
+          "scope": "executive-department-items-added-or-increased-by-legislature",
+          "unchangedOtherItems": "not-vetoable-under-this-budget-power",
+          "increasedItemVetoNotOverridden": "restore-governor-proposed-amount-not-zero",
+          "newItemVetoNotOverridden": "void",
+          "successfulOverride": "restore-legislature-passed-amount",
+          "writesCash": false
+        },
+        "remaining": [
+          "section17(g) elected/member phrasing and exact denominator mapping",
+          "complete budget/nonbudget presentment clocks and sessions",
+          "admitted original governor proposal and legislature revision identities"
+        ],
+        "sourceId": "MD"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "section17(g) elected/member phrasing and exact denominator mapping",
+        "complete budget/nonbudget presentment clocks and sessions",
+        "admitted original governor proposal and legislature revision identities"
+      ]
+    },
+    {
+      "key": "MA",
+      "name": "Massachusetts",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Part II ch.1 sec.1 art.2",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "MI",
+      "name": "Michigan",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.33",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ],
+      "comparativeQualifier": "Vacancy sensitivity must be checked against full current elected-and-serving wording; no direct official text obtained in this pass."
+    },
+    {
+      "key": "MN",
+      "name": "Minnesota",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "chamber",
+        "locator": "Art. IV sec.23",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ],
+      "comparativeQualifier": "NCSL separately says elected members for line-item veto; no universal denominator inferred."
+    },
+    {
+      "key": "MS",
+      "name": "Mississippi",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "chamber",
+        "locator": "Art. IV sec.72",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "MO",
+      "name": "Missouri",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. III sec.32",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "MT",
+      "name": "Montana",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. VI sec.10",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NE",
+      "name": "Nebraska",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.15",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "single-chamber",
+        "actions": [
+          {
+            "operation": "override-whole-or-item-veto-or-reduction",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 5,
+                "basis": "members-elected",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          }
+        ],
+        "presentmentClock": [
+          {
+            "state": "ordinary-session",
+            "count": 5,
+            "excludes": ["Sunday"],
+            "noAction": "becomes-law"
+          }
+        ],
+        "remaining": [
+          "adjournment-specific five-day return branch",
+          "membership/vacancy and quorum binding",
+          "effective date and ordinary route proof"
+        ],
+        "sourceId": "NE"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "adjournment-specific five-day return branch",
+        "membership/vacancy and quorum binding",
+        "effective date and ordinary route proof"
+      ]
+    },
+    {
+      "key": "NV",
+      "name": "Nevada",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.35",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NH",
+      "name": "New Hampshire",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "each-house",
+        "locator": "Part II art.44",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NJ",
+      "name": "New Jersey",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "all-members",
+        "locator": "Art. V sec.1 para.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NM",
+      "name": "New Mexico",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present-and-voting",
+        "locator": "Art. IV sec.22",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NY",
+      "name": "New York",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.7",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "NC",
+      "name": "North Carolina",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "present-and-voting",
+        "locator": "Art. II sec.22",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-veto",
+            "allOf": [
+              {
+                "numerator": 3,
+                "denominator": 5,
+                "basis": "members-present-and-voting",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          }
+        ],
+        "quorum": "majority-of-all-members-actually-present; Art.II sec.11",
+        "compositionConstraints": [
+          "sec22(5) appointment/redistricting exceptions require no other matter",
+          "sec22(6) local exemption requires fewer-than15-counties AND no enumerated exception",
+          "state-treasury-appropriation-removes-local-veto-exemption",
+          "cumulative-effect and general-law classification exceptions also apply"
+        ],
+        "presentmentClock": [
+          {
+            "state": "ordinary-session",
+            "count": 10,
+            "excludes": [],
+            "noAction": "becomes-law"
+          }
+        ],
+        "remaining": [
+          "joint/sine-die adjournment and reconvening rules",
+          "classification of entire composite not only first component",
+          "prior local-act cumulative coverage during same two-year term"
+        ],
+        "sourceId": "NC"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "joint/sine-die adjournment and reconvening rules",
+        "classification of entire composite not only first component",
+        "prior local-act cumulative coverage during same two-year term"
+      ]
+    },
+    {
+      "key": "ND",
+      "name": "North Dakota",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. V sec.9",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "OH",
+      "name": "Ohio",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "elected",
+        "locator": "Art. II sec.16",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "OK",
+      "name": "Oklahoma",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. VI sec.11",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "OR",
+      "name": "Oregon",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. V sec.15b",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "PA",
+      "name": "Pennsylvania",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.15",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "RI",
+      "name": "Rhode Island",
+      "reportedOrdinaryThreshold": {
+        "numerator": 3,
+        "denominator": 5,
+        "basisToken": "present-and-voting",
+        "locator": "Art. IX sec.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "SC",
+      "name": "South Carolina",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "chamber",
+        "locator": "Art. IV sec.21",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "SD",
+      "name": "South Dakota",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "all-members",
+        "locator": "Art. IV sec.4",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "TN",
+      "name": "Tennessee",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "Art. III sec.18",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-whole-veto-or-restore-disapproved-or-reduced-appropriation",
+            "allOf": [
+              {
+                "numerator": 1,
+                "denominator": 2,
+                "basis": "membership-entitled-under-constitution",
+                "rounding": "strictly-greater-than-fraction"
+              }
+            ]
+          }
+        ],
+        "presentmentClock": [
+          {
+            "state": "ordinary-presentment",
+            "count": 10,
+            "excludes": ["Sunday"],
+            "noAction": "becomes-law"
+          }
+        ],
+        "remaining": [
+          "direct constitutional text retrieval",
+          "quorum and current session-specific workflow",
+          "office and measure binding"
+        ],
+        "sourceId": "TN"
+      },
+      "researchStatus": "official-legislature-procedure-guide",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "direct constitutional text retrieval",
+        "quorum and current session-specific workflow",
+        "office and measure binding"
+      ]
+    },
+    {
+      "key": "TX",
+      "name": "Texas",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. IV sec.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "UT",
+      "name": "Utah",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. VII sec.8",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "VT",
+      "name": "Vermont",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Chapter II sec.11",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "VA",
+      "name": "Virginia",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present-with-elected-majority-floor",
+        "locator": "Art. V sec.6",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-whole-or-item-veto",
+            "allOf": [
+              {
+                "numerator": 2,
+                "denominator": 3,
+                "basis": "members-present",
+                "rounding": "at-least-fraction"
+              },
+              {
+                "numerator": 1,
+                "denominator": 2,
+                "basis": "members-elected",
+                "rounding": "strictly-greater-than-fraction"
+              }
+            ]
+          },
+          {
+            "operation": "accept-entire-specific-severable-governor-recommendation",
+            "allOf": [
+              {
+                "numerator": 1,
+                "denominator": 2,
+                "basis": "members-present",
+                "rounding": "strictly-greater-than-fraction"
+              }
+            ]
+          }
+        ],
+        "presentmentClock": [
+          {
+            "state": "ordinary-session",
+            "count": 7,
+            "excludes": [],
+            "noAction": "becomes-law"
+          }
+        ],
+        "remaining": [
+          "near-adjournment/reconvened-session branches of section6(c)",
+          "partial amendment acceptance and re-enrollment",
+          "quorum and elected-member semantics"
+        ],
+        "sourceId": "VA"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "near-adjournment/reconvened-session branches of section6(c)",
+        "partial amendment acceptance and re-enrollment",
+        "quorum and elected-member semantics"
+      ]
+    },
+    {
+      "key": "WA",
+      "name": "Washington",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. III sec.12",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "WV",
+      "name": "West Virginia",
+      "reportedOrdinaryThreshold": {
+        "numerator": 1,
+        "denominator": 2,
+        "basisToken": "elected",
+        "locator": "Art. VII sec.14",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": true
+      },
+      "primaryProcedure": {
+        "bodyMode": "each-chamber-separately",
+        "actions": [
+          {
+            "operation": "override-ordinary-nonappropriation-bill",
+            "allOf": [
+              {
+                "numerator": 1,
+                "denominator": 2,
+                "basis": "members-elected",
+                "rounding": "strictly-greater-than-fraction"
+              }
+            ]
+          },
+          {
+            "operation": "override-budget-or-supplementary-appropriation-or-item-or-reduction",
+            "allOf": [
+              {
+                "numerator": 2,
+                "denominator": 3,
+                "basis": "members-elected",
+                "rounding": "at-least-fraction"
+              }
+            ]
+          }
+        ],
+        "compositionConstraints": [
+          "supplementary-appropriation-bill-single-work-object-or-purpose",
+          "provide-revenue-unless-budget-shows-sufficient-revenue-available"
+        ],
+        "remaining": [
+          "separate ordinary versus appropriation adjournment clocks",
+          "quorum and exact elected denominator",
+          "fund/period/revenue validation from existing public accounts"
+        ],
+        "sourceId": "WV"
+      },
+      "researchStatus": "official-constitutional-text-scoped-read",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "separate ordinary versus appropriation adjournment clocks",
+        "quorum and exact elected denominator",
+        "fund/period/revenue validation from existing public accounts"
+      ]
+    },
+    {
+      "key": "WI",
+      "name": "Wisconsin",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "present",
+        "locator": "Art. V sec.10",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    },
+    {
+      "key": "WY",
+      "name": "Wyoming",
+      "reportedOrdinaryThreshold": {
+        "numerator": 2,
+        "denominator": 3,
+        "basisToken": "elected",
+        "locator": "Art. IV sec.8",
+        "sourceId": "ncsl",
+        "strictMajorityInterpretationRequired": false
+      },
+      "primaryProcedure": null,
+      "researchStatus": "comparative-summary-only",
+      "runtimeAdmitted": false,
+      "remaining": [
+        "quorum and exact membership/vacancy denominator",
+        "full presentment/reconsideration/session clock",
+        "current operative applicability and office/measure binding"
+      ]
+    }
+  ]
+}

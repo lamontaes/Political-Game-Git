@@ -1,0 +1,30 @@
+{
+  "id": "money-bail-2026",
+  "version": "money-bail-2026-v1",
+  "asOf": "2026-09-29",
+  "about": "What money bail costs a defendant where the law in force sets it. Read by src/simulation/justice/pretrial.ts. bail2009Dollars is the median bail set for felony defendants in the 75 largest counties in 2009 by the most serious charge; vandalism reads the 'other property' row and a campaign's money spent on oneself reads the 'fraud' row; any other offense reads 'default', the all-offenses median. The court's bail is that amount in 2025 dollars by the CPI-U annual averages. toGoHome is what a defendant must pay to go home on that bail, as a share of it: ESTIMATED FROM AVERAGE, the one rule read so far, until research reads each place's deposit rule or regulated bond premium. Nothing here is shown to a player.",
+  "bail2009Dollars": {
+    "crime:robbery": 50000,
+    "crime:assault": 15000,
+    "crime:burglary": 15000,
+    "crime:vandalism": 5000,
+    "campaign-funds-personal-use": 5000,
+    "default": 10000
+  },
+  "bailSource": "Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009 - Statistical Tables, NCJ 243777, table 16",
+  "cpiU": {
+    "2009": 214.537,
+    "2025": 321.943,
+    "source": "Bureau of Labor Statistics, CPI-U annual average, series CUUR0000SA0"
+  },
+  "toGoHome": {
+    "shareOfBail": 0.1,
+    "basis": "ESTIMATED FROM AVERAGE",
+    "sources": [
+      "725 ILCS 5/110-7(a), before 2023: a deposit of 'a sum of money equal to 10% of the bail'",
+      "Florida Department of Financial Services, Bail Bonds Overview: the premium for a state bail bond is 10 percent of the bail",
+      "NCJ 243777, figure 12: about four in five money releases in 2009 went through a commercial surety bond"
+    ],
+    "toRead": "Each place's deposit rule or regulated bond premium, and the places that ban commercial bail."
+  }
+}

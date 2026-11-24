@@ -1,0 +1,307 @@
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
+import { healthReport } from "./modules/health";
+import { currentCloseness } from "./closeness";
+import { renewalParameter } from "./births-parameters";
+import { scoreOffers, decisionFromScores } from "./choice";
+import { decisionKinds } from "./trait-decision-table";
+import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { webFactorFor } from "./outcome-web-reach";
+import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
+
+export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
+/** The housing engine's module id (read by name: it does not import this one). */
+const HOUSING_MODULE = "housing";
+export interface BirthCouple {
+  id: string;
+  motherId: string;
+  otherParentId: string;
+  startedAt: string;
+  childIds: readonly string[];
+}
+
+const HUD_DOLLAR = 100;
+
+/** The place's HUD record: area median income and fair market rents (fixed tables, read once). */
+const hudRows = new Map<string, ReturnType<typeof hudRentRowFor>>();
+function placeHousing(placeId: string, seed: string) {
+  const key = `${seed}|${placeId}`;
+  if (!hudRows.has(key))
+    hudRows.set(key, hudRentRowFor(placeId as EntityId, seed));
+  return hudRows.get(key)!;
+}
+
+/** The health module's live conditions index, looked up once per world. */
+const conditionIndexes = new WeakMap<
+  object,
+  ReadonlyMap<string, readonly string[]>
+>();
+
+/** A restored health runtime may supply a different conditions map. */
+export function forgetBirthConditions(core: object): void {
+  conditionIndexes.delete(core);
+}
+
+function conditionsOf(api: CoreAPI, personId: string): number {
+  let index = conditionIndexes.get(api.state);
+  if (!index) {
+    const report = healthReport(api.state);
+    index = report.conditionsByPerson;
+    if (report.initialized) conditionIndexes.set(api.state, index);
+  }
+  return index.get(personId)?.length ?? 0;
+}
+
+/** When the couple got together: their partner fact, else an estimate from their records. */
+export function partnershipStart(
+  api: CoreAPI,
+  couple: BirthCouple,
+  births: readonly string[],
+): string {
+  if (couple.startedAt < api.state.startedAt) return couple.startedAt;
+  const p = (key: string) => renewalParameter(api, key);
+  const mother = api.state.people.get(couple.motherId)!;
+  // SG-PW8-partnership-start: no partner fact was recorded, so the start is
+  // estimated: one spacing interval before their first child, else the age
+  // women first live with a partner (NSFG), never the opening day.
+  api.stopgap("SG-PW8-partnership-start");
+  const estimate = births.length
+    ? addDays(
+        makeIsoDate(births[0]!),
+        -Math.round(p("renewalTimingPeakYears") * p("daysPerMeanYear")),
+      )
+    : addDays(
+        makeIsoDate(mother.birthDate),
+        Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
+      );
+  return estimate < couple.startedAt ? estimate : couple.startedAt;
+}
+
+/** Whether the household rents or owns its dwelling, from the housing record (absent where none is kept). */
+function tenureOf(
+  api: CoreAPI,
+  householdId: string,
+): "rent" | "own" | undefined {
+  if (!api.state.modules.has(HOUSING_MODULE)) return undefined;
+  const tenure = (
+    api
+      .moduleState(HOUSING_MODULE)
+      .table("dwellings")
+      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined
+  )?.tenure;
+  return tenure === "rent" || tenure === "own" ? tenure : undefined;
+}
+
+/**
+ * What each partner weighs, from the couple's records. Natality data is
+ * deliberately absent here: real rates only check the town's totals. Every
+ * term is a sliding scale with a floor and a ceiling: no cliff at $0 or at
+ * any age.
+ */
+export function birthCircumstances(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  couple: BirthCouple,
+  asOf = api.state.date,
+) {
+  const p = (key: string) => renewalParameter(api, key);
+  const mother = api.state.people.get(couple.motherId)!;
+  const partner = api.state.people.get(couple.otherParentId)!;
+  const age = ageOnDate(mother.birthDate, asOf);
+  const births = couple.childIds
+    .flatMap((id) => {
+      const person = api.state.people.get(id);
+      return person && person.birthDate <= asOf ? [person.birthDate] : [];
+    })
+    .sort();
+  const since = Math.max(
+    p("zero"),
+    daysBetweenText(
+      births.at(-p("one")) ?? partnershipStart(api, couple, births),
+      asOf,
+    ) /
+      p("daysPerMeanYear") /
+      p("renewalTimingPeakYears"),
+  );
+  const household = api.state.households.get(mother.householdId)!;
+  const members = household.memberIds
+    .map((id) => api.state.people.get(id)!)
+    .filter((person) => person.alive);
+  const wage = (person: Readonly<PersonState>) =>
+    person.jobId
+      ? (api.state.jobs.get(person.jobId)?.wageDailyMinor ?? p("zero"))
+      : p("zero");
+  const income = members.reduce((sum, person) => sum + wage(person), p("zero"));
+  const annual = income * p("daysPerMeanYear");
+  const costs = members.reduce(
+    (sum, person) => sum + person.livingCostDailyMinor,
+    p("zero"),
+  );
+  const cash = members.reduce(
+    (sum, person) => sum + person.liquidMinor,
+    p("zero"),
+  );
+  const hud = placeHousing(mother.placeId, api.state.seed);
+  // HUD's very-low limit is half the area median family income.
+  const median =
+    hud?.veryLow4 != null
+      ? hud.veryLow4 * HUD_DOLLAR * p("renewalMedianPerVeryLowLimit")
+      : p("renewalMedianAnnualIncomeMinor");
+  const ratio = annual / median;
+  // One more bedroom, a year, at the place's fair market rents.
+  const size = members.length;
+  const room = hud
+    ? Math.max(
+        p("zero"),
+        (hud.rents[bedroomsForHousehold(size + p("one"))]! -
+          hud.rents[bedroomsForHousehold(Math.max(size, p("one")))]!) *
+          HUD_DOLLAR *
+          p("monthsPerYear"),
+      )
+    : p("zero");
+  const employed = [mother, partner].filter(
+    (person) => wage(person) > p("zero"),
+  ).length;
+  const relationship = [
+    ...(api.state.relationshipsByPerson.get(actor.id) ?? []),
+  ]
+    .map((id) => api.state.relationships.get(id))
+    .find(
+      (row) =>
+        row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
+    );
+  const conditions = conditionsOf(api, mother.id);
+  const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
+  return {
+    age:
+      p("renewalAgeWeight") *
+      (p("two") * Math.exp(-distance * distance) - p("one")),
+    children:
+      p("renewalChildWeight") *
+      (p("renewalNoChildPull") - p("renewalPerChildPull") * births.length),
+    timing:
+      p("renewalTimingWeight") *
+      (p("two") * since * Math.exp(p("one") - since) - p("one")),
+    // A recent birth: the mother's recovery pulls against another pregnancy,
+    // fading smoothly over about two years.
+    recovery: births.length
+      ? -p("renewalRecoveryWeight") *
+        Math.exp(
+          -daysBetweenText(births.at(-p("one"))!, asOf) /
+            p("renewalRecoveryDays"),
+        )
+      : p("zero"),
+    income:
+      (p("renewalIncomeWeight") * (ratio - p("one"))) / (ratio + p("one")),
+    work: p("renewalJobWeight") * (employed - p("one")),
+    room: (-p("renewalRoomWeight") * room) / (annual + room + p("one")),
+    housing: (-p("renewalHousingWeight") * costs) / (income + costs + p("one")),
+    // Centered on a cushion equal to the buffer days of costs: a couple with
+    // none weighs against, a couple with more weighs for, never always for.
+    savings:
+      p("renewalHousingWeight") *
+      ((p("two") * cash) / (cash + costs * p("moneyBufferDays") + p("one")) -
+        p("one")),
+    health:
+      -p("renewalHealthWeight") *
+        Math.max(p("zero"), actor.affect.stress - actor.affect.mood) -
+      (p("renewalConditionWeight") * conditions) / (conditions + p("one")),
+    closeness:
+      p("renewalClosenessWeight") *
+      (p("two") *
+        (relationship
+          ? currentCloseness(api.state, relationship)
+          : p("renewalUnknownCloseness")) -
+        p("one")),
+    // The place's own conditions (unemployment, home prices, the law on
+    // abortion) have moved its birth rate; a couple weighs the factor that
+    // lands on the mother's own age and home, the one a counted woman of that
+    // age and home is scaled by (one model, two tiers).
+    // stopgapId: SG-FAMILY-birth-bonus-not-paid (no bill pays a household a bonus on a birth, so no plan weighs one)
+    web: api.state.modules.has(OUTCOME_WEB_MODULE_ID)
+      ? p("renewalWebWeight") *
+        (webFactorFor(api, mother.placeId, "births.rate", {
+          age,
+          sex: "female",
+          tenure: tenureOf(api, mother.householdId),
+        }) -
+          p("one"))
+      : p("zero"),
+    // Centered on a couple who share a home, the only couples the review
+    // reads: sharing adds nothing to every plan, living apart weighs against.
+    partnership:
+      mother.householdId === partner.householdId
+        ? p("zero")
+        : -p("renewalWaitPull"),
+  };
+}
+
+function action(id: string, raising: boolean): ActionDefinition {
+  return {
+    id,
+    actKinds: decisionKinds("renewal.plan-child", id),
+    goalKinds: [],
+    need: "company",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "partnership",
+    effect: "birth-plan",
+    reasonBindings: [
+      {
+        id: "circumstances",
+        provider: "renewal-circumstances",
+        weightParameter: "one",
+        arguments: { raising: String(raising) },
+        stopgapId: BIRTHS_STOPGAP,
+      },
+    ],
+  };
+}
+export const PLAN_CHILD = action("renewal-plan-child", true);
+export const WAIT_CHILD = action("renewal-wait", false);
+
+export function chooseBirthPlan(
+  api: CoreAPI,
+  personId: string,
+  couple: BirthCouple,
+  asOf = api.state.date,
+) {
+  const offers: ActOffer[] = [WAIT_CHILD, PLAN_CHILD].map((definition) => ({
+    definition: {
+      ...definition,
+      reasonBindings: definition.reasonBindings!.map((binding) => ({
+        ...binding,
+        arguments: { ...binding.arguments, asOf },
+      })),
+    },
+    targetId: couple.id,
+    availableHours: api.parameter("hoursPerDay"),
+  }));
+  const scored = scoreOffers(api.state, personId, offers, {
+    needValues: { company: api.parameter("zero") },
+  });
+  const decision = decisionFromScores(api.state, personId, scored);
+  // Persist both alternatives and their component circumstances for every partner, including quiet NPCs.
+  return {
+    selected: decision.selected!.definition.id,
+    reasonKey: decision.reasonKey,
+    scores: scored.map((row) => ({
+      actionId: row.offer.definition.id,
+      score: row.score,
+      reasons: row.reasons,
+    })),
+    circumstances: birthCircumstances(
+      api,
+      api.state.people.get(personId)!,
+      couple,
+      asOf,
+    ),
+  };
+}

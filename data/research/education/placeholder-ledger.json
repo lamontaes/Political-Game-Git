@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "key": "compulsory-school-ages-territory-fallback",
+      "sourceFile": "data/research/education/compulsory-school-ages-2020.json",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"],
+      "gap": "NCES State Education Practices Table 1.2 covers the 50 states and District of Columbia, not the five territories.",
+      "estimate": "Use the tied modal age interval among the 51 reported jurisdictions, with median endpoints to choose 6–18.",
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    }
+  ]
+}

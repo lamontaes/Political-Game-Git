@@ -1,0 +1,40 @@
+# Media-owner practice evidence still does not support annual event rates
+
+Official and empirical sources document some shared-content products and regional operating structures. They do not establish a general rule for which sibling outlet runs a story, what credit or delay it uses, how coverage beats or mastheads change after consolidation, or how often a given owner type restructures. Public records also identify different kinds of owners and control interests depending on the medium and legal entity. No evidence supports a purchase-price band by outlet size or annual event probabilities by owner type.
+
+## Existing owner direction and earlier evidence
+
+The owner has decided that editors and staff can resist an owner directive, with consequences. This is a product decision, not a frequency estimate. The [existing media-owner source intake](https://drive.google.com/file/d/1FZzxbAEfP0sTi6JvOcLo64NxxAAdVoe_/view) already documents ownership categories, broad market-share denominators, a 2024 Medill home-page audit, and examples of centrally supplied content. The sources below narrow the still-open practice questions. They do not turn an observed instance into an industry-wide rule.
+
+## Shared stories and local coverage
+
+- Northwestern Medill’s [2024 State of Local News report](https://localnewsinitiative.northwestern.edu/projects/state-of-local-news/2024/report/) describes a review of 500 sites held by the five largest newspaper chains. More than one-third of displayed home-page stories, on average, originated outside the local newsroom. The source category includes adjacent metro papers, aggregators, and wires. It does not isolate sibling-outlet stories or report story credit, publication lag, local-origin decisions, or reuse rates by owner.
+- USA TODAY Co.’s [January 2025 Reuters content-bundle announcement](https://www.usatodayco.com/pr/gannett-and-reuters-launch-bundle-content-offering/) describes ready-to-publish local, regional, state, national, and international content from Reuters and more than 200 USA TODAY Network publications. It is evidence of a shared feed offer and its broad subject range, not which customer or sister newsroom selected a particular item, when it published it, or how it credited the original reporter.
+- USA TODAY Co.’s [TODAY Californian launch](https://www.usatodayco.com/pr/usa-today-network-launches-today-californian/) says a daily state newsletter draws from eight California daily publications and has statewide and local-to-national coverage. This is a specific cross-publication product; the announcement does not say local titles or beats were merged.
+
+**Still unknown:** the selection rule among sibling outlets; attribution and links on each published copy; time from original to reuse; and the share of each outlet’s output that is shared. Local reporting can coexist with a group product, but the sources do not establish a guaranteed amount of local coverage for every outlet.
+
+## Consolidation and coverage boundaries
+
+Scripps’ [September 9, 2026 regional-structure announcement](https://scripps.com/press-releases/scripps-announces-new-regional-leadership-structure-for-local-media/) places its television markets into 11 management regions, usually two to four markets each. It says each market will retain a local news operation led by a station news director, while 27 local-market and sales leadership roles are eliminated. This documents regional supervision alongside a stated local newsroom; it does not specify which beats are reassigned, each newsroom’s geographic coverage, whether production desks are actually combined, or whether a masthead or station name changes.
+
+**Still unknown:** rules for when a regional desk replaces local beats; which towns or counties it covers; when a brand remains, is merged, or closes; and how coverage changes after the transition. The Scripps announcement is one company’s stated plan, not a cross-owner policy or measured outcome.
+
+## Who public records identify as an owner
+
+- For broadcast licensees, the [FCC’s Form 323/323-E ownership report guidance](https://docs.fcc.gov/public/attachments/DA-23-35A1.pdf) calls for attributable interest holders and identifies categories such as general partners, LLC members/owners/stockholders, creditors, and investors. This is a broadcast-license disclosure framework; it is not a single registry for newspapers, digital outlets, and all parent-company interests.
+- For SEC-reporting companies, [SEC beneficial-ownership filings](https://www.sec.gov/edgar/browse/?CIK=0000098222) include Schedule 13D/13G reports for persons or groups that cross the applicable more-than-5% reporting threshold for a covered class of equity. This does not identify every small investor or establish the owner of every private publisher.
+- The IRS’s [2025 Form 990 instructions](https://www.irs.gov/instructions/i990) require listing current officers, directors, trustees, and certain key or highly compensated employees. These are governance and management roles, not proof that each person owns the outlet. The IRS explains that exempt organizations generally do not publicly disclose contributor names and addresses from Schedule B ([public-disclosure rules](https://www.irs.gov/charities-non-profits/public-disclosure-and-availability-of-exempt-organizations-returns-and-applications)).
+- Individual ownership of a local news company is possible in practice: Sinclair’s [2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1971213/000197121326000019/a2025sbgiannualreportars.pdf) identifies David Smith as majority shareholder of The Baltimore Sun and separately describes service, sales, news-resource, and content-sharing agreements between the Sun and Sinclair. That record distinguishes a named individual shareholder from the separate broadcast company; it does not reveal all Sun ownership terms or a purchase price.
+
+**Implementation boundary:** represent the documented legal owner or licensee as an entity, then attach people only when a source establishes ownership, attributable control, or a governance role. Preserve the role label. Do not infer ownership from being a publisher, CEO, director, trustee, investor, creditor, or service provider alone. Public identification varies by entity and regulatory filing; a complete human-level owner tree is **UNKNOWN** for many private outlets.
+
+## Purchase prices and event frequencies
+
+A [2017 New Media filing with the SEC](https://www.sec.gov/Archives/edgar/data/1579684/000119312517255936/d395496dex991.htm) announced a $120 million purchase of 79 Morris publications and related digital assets across six states, including eleven daily newspapers. The company said the deal price was within a 3.5-to-4.5-times seller adjusted-EBITDA range. This is a bundled portfolio transaction, not a price for one small, medium, or large outlet. Sinclair’s 2025 filing names the individual majority shareholder of The Baltimore Sun but does not disclose a purchase amount. These records establish that deals and individual ownership exist; they do not support a per-outlet price schedule.
+
+Annual probabilities for purchases, sales, newsroom mergers, closures, layoffs, story sharing, or owner review are **UNKNOWN by owner type**. Medill’s annual paper-change and disappearance counts lack the exposure denominator and owner-type action history needed for per-owner-year rates. Company announcements and SEC filings are selected transactions, not a representative event-frequency series. Do not convert transaction counts, staffing changes, or one firm’s operating plan into generic probabilities.
+
+## Source limit
+
+The sources support examples of coordination, filing-specific ownership identity, and selected transaction terms. They do not settle a universal behavior profile for private-equity or hedge-fund chains, family newspaper chains, broadcast groups, nonprofit trusts, or independent publishers. Exact annual frequencies, crediting conventions, newsroom-merger rules, coverage boundaries, and prices by outlet size remain **UNKNOWN** pending a defined denominator and comparable records.

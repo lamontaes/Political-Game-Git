@@ -1,0 +1,160 @@
+{
+  "register": "news",
+  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, federal oral histories), with record words as slots.",
+  "slots": {
+    "subject": "The business or office that closed, from the event record.",
+    "name": "A person, by name, from the records.",
+    "place": "A place, from the place records.",
+    "year": "A year from the event's date.",
+    "date": "A date from the event record, as people say it.",
+    "number": "A count from the event record.",
+    "age": "An age, computed from the birth record.",
+    "pronoun": "His, her or their, from the person's record.",
+    "pronoun_sub": "He, she or they, from the person's record.",
+    "office": "The office, from the contest record.",
+    "wage": "An hourly wage, from the law record.",
+    "opponent": "The other candidate, from the contest record.",
+    "percent": "A vote share, from the results record.",
+    "count": "A vote count such as 5 to 2, from the vote record.",
+    "measure": "The measure, as its record names it.",
+    "action": "What the body voted to do, from the measure record.",
+    "money": "A dollar amount, from the budget record.",
+    "purpose": "What the money is for, from the budget record."
+  },
+  "maxWords": 14,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "organization-closed",
+      "subject": "news",
+      "role": "organization.closed",
+      "choice": "lede",
+      "candidates": [
+        "{subject} closed its doors.",
+        "{subject} closed its doors in {year}.",
+        "{subject} has closed.",
+        "{subject} closed on {date}.",
+        "{subject} will close.",
+        "{subject} announced it would close.",
+        "{subject} is closing.",
+        "{subject} shut down in {year}.",
+        "{subject} closed in {year}.",
+        "{subject} went out of business.",
+        "{subject} laid off {number} workers.",
+        "{subject} laid off {number} employees."
+      ]
+    },
+    {
+      "move": "life-death",
+      "subject": "news",
+      "role": "life.death",
+      "choice": "lede",
+      "candidates": [
+        "{name} died on {date}.",
+        "{name} passed away on {date}.",
+        "{name} died {date}.",
+        "{name} of {place} died on {date}.",
+        "{name} was {age} years old.",
+        "{name} was {age}.",
+        "{name} died at the age of {age}.",
+        "{name} passed away at the age of {age}.",
+        "{name} died at age {age}.",
+        "{name} is survived by {pronoun} wife.",
+        "{name} is survived by {pronoun} husband.",
+        "{name} is survived by {pronoun} children."
+      ]
+    },
+    {
+      "move": "candidate-filed",
+      "subject": "news",
+      "role": "candidate-filed",
+      "choice": "lede",
+      "candidates": [
+        "{name} filed to run for {office}.",
+        "{name} is running for {office}.",
+        "{name} announced {pronoun} candidacy for {office}.",
+        "{name} announced that {pronoun_sub} would run for {office}.",
+        "{name} is a candidate for {office}.",
+        "{name} filed for {office}.",
+        "{name} will run for {office}."
+      ]
+    },
+    {
+      "move": "law-took-effect",
+      "subject": "news",
+      "role": "law-took-effect",
+      "choice": "lede",
+      "candidates": [
+        "The new law took effect on {date}.",
+        "The law took effect on {date}.",
+        "The law took effect in {year}.",
+        "The law went into effect on {date}.",
+        "The law goes into effect on {date}.",
+        "The new law took effect.",
+        "The law took effect.",
+        "The minimum wage rose to {wage} an hour.",
+        "The minimum wage went up to {wage} an hour.",
+        "The minimum wage is now {wage} an hour.",
+        "The minimum wage increased to {wage} an hour."
+      ]
+    },
+    {
+      "move": "election-result",
+      "subject": "news",
+      "role": "election-result",
+      "choice": "lede",
+      "candidates": [
+        "{name} won the election.",
+        "{name} was elected {office}.",
+        "{name} was elected to {office}.",
+        "{name} defeated {opponent}.",
+        "{name} won with {percent} percent of the vote.",
+        "{name} won reelection.",
+        "{name} was reelected.",
+        "{name} lost the election.",
+        "{name} lost to {opponent}.",
+        "{name} conceded.",
+        "{name} conceded the race."
+      ]
+    },
+    {
+      "move": "council-vote",
+      "subject": "news",
+      "role": "council-vote",
+      "choice": "lede",
+      "candidates": [
+        "The city council voted {count} to approve {measure}.",
+        "The council voted {count} to approve {measure}.",
+        "The council approved {measure}.",
+        "The city council approved {measure}.",
+        "The council voted to {action}.",
+        "The city council voted to {action}.",
+        "The board voted unanimously to {action}.",
+        "The council voted unanimously to {action}.",
+        "The board approved {measure}.",
+        "The board voted {count} to {action}.",
+        "The council rejected {measure}.",
+        "The measure passed.",
+        "The measure failed.",
+        "The ordinance passed.",
+        "The motion passed.",
+        "The vote was {count}."
+      ]
+    },
+    {
+      "move": "budget",
+      "subject": "news",
+      "role": "budget",
+      "choice": "lede",
+      "candidates": [
+        "The budget includes {money} for {purpose}.",
+        "The city's budget is {money}.",
+        "The budget was approved.",
+        "The council approved the budget.",
+        "Property taxes will go up.",
+        "Taxes will go up.",
+        "Taxes went up."
+      ]
+    }
+  ]
+}

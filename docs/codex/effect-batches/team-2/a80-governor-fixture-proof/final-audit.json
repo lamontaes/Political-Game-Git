@@ -1,0 +1,24 @@
+{
+  "verifiedFrom": "docs/codex/audit-verified-2026-10-01.json",
+  "rules": "scripts/audit/rules.json",
+  "counts": {
+    "verified": {
+      "partly": 1
+    },
+    "scanned": {
+      "unknown": 1
+    }
+  },
+  "items": [
+    {
+      "id": "A80",
+      "short": "Presidents, mayors and town councils should…",
+      "verified": "partly",
+      "scanned": "unknown",
+      "drift": [],
+      "covers": null,
+      "passed": 0,
+      "checks": []
+    }
+  ]
+}

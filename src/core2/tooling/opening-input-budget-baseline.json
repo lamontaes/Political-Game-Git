@@ -1,0 +1,11 @@
+{
+  "beforePreparationSeconds": 75.346773022,
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-10",
+    "citation": "Actual cloud opening-input audit before repair, SHA-256 cd5110fb4fcf5a97846d1803ead39bd5c6ec2c2c59cfed0d95c73bb6c2dec655. Measured buildOpeningEconomy(original) plus final deepFreeze(built.input): 75.346773022 seconds. One startup observation; no simulated days."
+  },
+  "beforeReceiptRef": "src/core2/receipts/prototype-v9-opening-census-before-20261010.json",
+  "phaseDefinition": "Comparable opening input build plus final freeze: timer starts immediately after dynamic import and before buildOpeningEconomy(original), ends at final frozenAt, before census/export/world. Broad preparation includes output checks, original input freeze and dynamic import and is reported separately.",
+  "status": "MEASURED_OPENING_BASELINE_SINGLE_OBSERVATION_NOT_ANNUAL_RATE"
+}

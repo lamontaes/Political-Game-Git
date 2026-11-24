@@ -1,0 +1,17 @@
+Scope: CTO06:17 #1341 sourced taxing-power rows; first six of49 non-Alaska states.
+Base: 7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5
+Six additional rows: US-FL,US-HI,US-MA,US-MN,US-NV,US-OR. Existing US-AK unchanged.
+Remaining non-Alaska states:43; no missing row is permission or sourced-none.
+Source packet: batch-01-proposed.json; pinned official constitutional artifacts in existing immutable state-legislature raw bank. Capture date2026-09-06, not researched2026-10-02amendment completeness.
+Legal conditions retained as evidence strings; no new constitutional-condition enforcement.
+Changed test: src/fiscal-authority/tax-powers.test.ts
+Command: OCD_STORAGE_OVERRIDE='cloud container; CTO ruling Oct 2 4:37' npm run storage -- run test -- npx --no-install vitest run src/fiscal-authority/tax-powers.test.ts
+Initial sandbox execution: startup refusal spawnSync git EPERM; no test result.
+Authorized retry: exit0;3/3PASS;14.40s total/104ms bodies, stock limits.
+Source integrity: exact rawSHA, retrieval bytes/URL/date, canonical normalized literalquotes, excerptSHA, projection/packet equality.
+Reader proof: existing taxPowerEvidenceFor→resolveStateFundedServiceCapability for all50statekeys;7evidencedstates admitted for tax/account routes,43 missing states explicitly refused. No actual enactment/account/cash/service proof.
+Scoped types: one changed TSroot,1000 imported files,0diagnostics,exit0.
+Changed-file ESLint/Prettier/whitespace:PASS.
+AUDIT:A13 pinnedmain5/6→branch5/6;no flips. Source foundation prerequisite only; sharedpay-kind rule remains unchanged.
+Pinned-main initial scan Git subprocessEPERM; authorized read-only Git-object-loader retry exit0.
+No fullsuite/LOAD/browser checks. CTO sourceapproval and officialClaude gate pending.

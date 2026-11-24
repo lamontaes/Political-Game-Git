@@ -1,0 +1,39 @@
+{
+  "cacheDirectory": ".source-cache/map-geometry/genz2025",
+  "notes": "U.S. Census Bureau 2025 cartographic boundary shapefiles. Raw archives stay in the ignored source cache; only compiled, simplified packs are committed. 119th Congressional Districts are the districts in effect for the 2024 election cycle; state legislative districts carry the LSY year stated in each record.",
+  "provider": "U.S. Census Bureau, Geography Division",
+  "documentationUrl": "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
+  "congressionalReferenceUrl": "https://www.census.gov/programs-surveys/decennial-census/about/rdo/congressional-districts.119th_Congress.html",
+  "retrievedAt": "2026-09-17T02:50:00Z",
+  "rights": {
+    "status": "public-domain-us-government",
+    "attributionRequired": false,
+    "declaredLicense": null,
+    "attribution": "Source: U.S. Census Bureau, 2025 Cartographic Boundary Files."
+  },
+  "vintage": "census-cb-2025",
+  "artifacts": [
+    { "artifactId": "cb-2025-state-5m", "file": "cb_2025_us_state_5m.zip", "bytes": 1120533, "sha256": "8a45692bc532dbd38938a1924f445850cef2682ea67d750d7fd2f19cfe836903" },
+    { "artifactId": "cb-2025-cd119-5m", "file": "cb_2025_us_cd119_5m.zip", "bytes": 2095960, "sha256": "d7db5212f82246e2cad46fa938418240adb56d4d4b879f8b273ef727e463d735" },
+    { "artifactId": "cb-2025-state-500k", "file": "cb_2025_us_state_500k.zip", "bytes": 3245373, "sha256": "9cbfe171dad1555e11770c981d8f4db9e687a65c86f5bdae684eeb487e2e9b80" },
+    { "artifactId": "cb-2025-cd119-500k", "file": "cb_2025_us_cd119_500k.zip", "bytes": 7067743, "sha256": "8e804518d333d67e24e25c61767c6a7c78fd0a0852179e8cc19c36fd66011010" },
+    { "artifactId": "cb-2025-county-500k", "file": "cb_2025_us_county_500k.zip", "bytes": 11758981, "sha256": "aa976c00b181939755d0da757f4c7c2dc0103c3b3b4530fb2a91c2bb62fc777c" },
+    { "artifactId": "cb-2025-sldu-500k", "file": "cb_2025_us_sldu_500k.zip", "bytes": 11816982, "sha256": "2b7289ed2dd55ec792953cadf5b8df127f59f3ca3120b3c1125e49592f2b7297" },
+    { "artifactId": "cb-2025-sldl-500k", "file": "cb_2025_us_sldl_500k.zip", "bytes": 16841413, "sha256": "dbb3bb68d7a9aa7f4e5737a5eaed03c283b9896bb889628c5449ca43de751c5a" },
+    { "artifactId": "cb-2025-county-within-cd119-500k", "file": "cb_2025_us_county_within_cd119_500k.zip", "bytes": 13044871, "sha256": "5a904c6511ec7e279622702e2cb555f9a94db706e7f375fee699444610d04365" },
+    { "artifactId": "cb-2025-place-500k", "file": "cb_2025_us_place_500k.zip", "bytes": 23057021, "sha256": "ce0e4019ecd4123d03d53aaa936eed0459b82e3e14b89a3dcd4d5e8b3308627d" }
+  ],
+  "urlBase": "https://www2.census.gov/geo/tiger/GENZ2025/shp/",
+  "relationshipArtifacts": [
+    {
+      "artifactId": "census-rel-2020-cd119-place20-national",
+      "file": "tab20_cd11920_place20_natl.txt",
+      "cacheDirectory": ".source-cache/map-geometry/rel2020",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_cd11920_place20_natl.txt",
+      "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.2020.html",
+      "schemaVersion": "119th Congressional District to 2020 Place national relationship file layout",
+      "bytes": 5192619,
+      "sha256": "84b82f512a43b0593b2c25c703cd0dc4ff10982abd9142956d326376bd846367"
+    }
+  ]
+}

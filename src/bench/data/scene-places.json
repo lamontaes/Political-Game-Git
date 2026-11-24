@@ -1,0 +1,665 @@
+{
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted. dwellingPlaces gives each kind of dwelling its pictures by room (living, kitchen, bedroom) and by the household's standing among the town's homes of that kind (low, middle, high third by value for owners and rent for renters); homeRoomByHour says which room a person at home is in by the hour, and teenBedroom is the room for a person 13 to 19. officialResidences replaces the dwelling for a person serving in one of its offices (core2-offices-v1 terms).",
+  "actions": {
+    "work-shift": ["@workplace"],
+    "attend-scheduled-work-date-segment": ["@workplace"],
+    "rest": ["@home"],
+    "contact-known-person": ["@home"],
+    "care-for-relative": ["@home"],
+    "join-association": ["@target", "community-room"],
+    "organize-meeting": ["@target", "public-meeting-room"],
+    "approach-office": ["@target", "clerk-counter"],
+    "look-up-local-institution": ["public-library"],
+    "share-cause": ["@home"],
+    "found-cause-group": ["community-room"],
+    "join-cause-group": ["@target", "community-room"],
+    "donate-to-cause": ["@home"],
+    "volunteer-for-cause": ["@target", "community-room"],
+    "confront-grudge-target": ["main-street"],
+    "seek-standing": ["city-hall-hallway"]
+  },
+  "organizationKinds": {
+    "service:municipal-government": "city-hall",
+    "service:county-government": "county-clerk",
+    "sector:local-government-office": "city-hall",
+    "sector:state-government-office": "regional-office",
+    "sector:federal-government-office": "regional-office",
+    "community:organizing-nonprofit": "organizing",
+    "membership:labor-union": "union",
+    "enterprise:political-consulting": "campaign-staff",
+    "enterprise:transportation": "trucking",
+    "enterprise:professional-services": "professional",
+    "enterprise:telecommunications": "information",
+    "enterprise:lodging": "inn",
+    "enterprise:real-estate": "realty",
+    "enterprise:personal-services": "personal-care"
+  },
+  "placesWithoutKind": {
+    "about": "Pictures for an organization classification that has no business kind of its own; where a classification has several, each organization gets one from its own id, and the first painted pictures are the choices.",
+    "service:fire": ["fire-station"],
+    "service:police": ["police-station", "police-station-lobby"],
+    "service:corrections": ["prison-cellblock"],
+    "service:jail": [
+      "county-jail-booking",
+      "county-jail-visiting",
+      "jail-visiting-room"
+    ],
+    "enterprise:agriculture": ["farm-yard", "farm-field"],
+    "service:public-health": ["county-health-department", "hospital-lobby"],
+    "service:clinic": ["doctor-exam-room", "clinic-exam-room"],
+    "service:hospital": [
+      "hospital-lobby",
+      "hospital-emergency-waiting",
+      "hospital-hallway"
+    ],
+    "service:nursing-home": ["nursing-home-commons"],
+    "sector:state-government-office": [
+      "dmv-office",
+      "unemployment-office",
+      "workforce-center",
+      "benefits-office"
+    ],
+    "sector:federal-government-office": [
+      "post-office",
+      "veterans-office",
+      "benefits-office"
+    ],
+    "service:municipal-government": ["mayor-office"],
+    "service:county-government": [
+      "county-admin-lobby",
+      "county-clerk-office-urban"
+    ],
+    "enterprise:utility": [
+      "power-plant",
+      "water-treatment",
+      "solar-farm",
+      "wind-farm"
+    ],
+    "enterprise:banking": ["bank-lobby"],
+    "enterprise:food-service": [
+      "diner",
+      "diner-counter",
+      "coffee-shop",
+      "tavern"
+    ],
+    "enterprise:retail": [
+      "store",
+      "general-store",
+      "hardware-store-interior",
+      "grocery-store",
+      "gas-station"
+    ],
+    "membership:political-party": ["campaign-office-storefront"],
+    "membership:labor-union": ["union-hall"]
+  },
+  "variantByHour": [
+    {
+      "fromHour": 0,
+      "variant": "night"
+    },
+    {
+      "fromHour": 6,
+      "variant": "morning"
+    },
+    {
+      "fromHour": 11,
+      "variant": "midday"
+    },
+    {
+      "fromHour": 19,
+      "variant": "night"
+    }
+  ],
+  "filingOffices": [
+    {
+      "match": "registrar|election",
+      "places": [
+        "county-elections-office",
+        "big-city-elections-office",
+        "registrar-of-voters-worn",
+        "election-office",
+        "clerk-counter"
+      ]
+    },
+    {
+      "match": "county",
+      "places": [
+        "county-clerk-office-urban",
+        "clerk-counter",
+        "county-clerk-office-rural"
+      ]
+    },
+    {
+      "match": "secretary of state",
+      "places": ["clerk-back-office", "clerk-counter"]
+    },
+    {
+      "match": "",
+      "places": ["clerk-counter"]
+    }
+  ],
+  "sceneSettings": {
+    "home": ["@home"],
+    "other-home": ["@home"],
+    "workplace": ["@org", "office"],
+    "school": ["high-school-hallway", "classroom"],
+    "public": ["main-street", "park"],
+    "venue": ["community-room", "union-hall"],
+    "phone": ["@home"],
+    "letter": ["@home"],
+    "chamber": ["public-meeting-room", "council-chamber"],
+    "office": ["@office", "city-hall-hallway", "office"],
+    "seat": ["@seatroom", "@office", "community-room", "union-hall"]
+  },
+  "bodyPlaces": {
+    "about": "Where each kind of elected body meets, by the office kind on its records; the first painted picture in a list is used. A legislature with no upper chamber meets in the one-house chamber. A council or county board picks its list from bodyPlacesBySize first.",
+    "council": ["council-chamber"],
+    "township-board": ["public-meeting-room"],
+    "county-board": ["county-commission", "council-chamber"],
+    "school-board": ["school-board-room"],
+    "legislature-upper": ["state-legislative-chamber-bicameral"],
+    "legislature-lower": [
+      "state-house-chamber",
+      "state-legislative-chamber-bicameral"
+    ],
+    "legislature-unicameral": ["state-legislative-chamber-unicameral"],
+    "us-senate": ["us-senate-floor"],
+    "us-house": ["us-house-floor"],
+    "default": ["public-meeting-room"]
+  },
+  "bodyPlacesBySize": {
+    "about": "A council's room by its number of seats (a small-town council of a handful of members around a table, a big city's in a large chamber), a county board's by the town's reference population (a rural county's commission room). Seat and population bounds are TUNABLE picture choices, checked by eye against the paintings, not model values; each row applies below its bound.",
+    "council": [
+      {
+        "underSeats": 8,
+        "places": ["council-chamber-small", "council-chamber"]
+      },
+      {
+        "underSeats": 13,
+        "places": ["council-chamber"]
+      },
+      {
+        "underSeats": 1000,
+        "places": ["council-chamber-large", "council-chamber"]
+      }
+    ],
+    "county-board": [
+      {
+        "underPopulation": 10000,
+        "places": ["county-commission-rural", "county-commission"]
+      },
+      {
+        "underPopulation": 1000000000,
+        "places": ["county-commission", "council-chamber"]
+      }
+    ]
+  },
+  "speechPlaces": [
+    "rally-courthouse-square",
+    "rally-downtown-plaza",
+    "rally-county-fairground",
+    "school-gym-town-hall",
+    "rally-union-hall-parking-lot",
+    "rally-stage",
+    "rally-airport-hangar",
+    "city-hall-steps-event",
+    "lodge-hall",
+    "church-supper-hall",
+    "rally-town-square",
+    "rally-high-school-gym",
+    "courthouse-steps",
+    "courthouse-square"
+  ],
+  "doorKnockingPlaces": {
+    "house": "door-knocking-suburban",
+    "rowhouse": "door-knocking-urban",
+    "apartment": "door-knocking-urban",
+    "mobile-home": "door-knocking-rural",
+    "farmhouse": "door-knocking-rural"
+  },
+  "doorKnockingOwn": {
+    "about": "The door picture wanted for a kind of dwelling that today shares another kind's: tried first, skipped until painted (a wanted picture; see wantedPictures). The shared picture in doorKnockingPlaces stands in meanwhile.",
+    "apartment": ["door-knocking-apartment"],
+    "rowhouse": ["door-knocking-rowhouse"],
+    "mobile-home": ["door-knocking-mobile-home"],
+    "farmhouse": ["door-knocking-farmhouse"]
+  },
+  "trailPlaces": {
+    "about": "Where each act on the campaign trail happens before anyone is met, read by the act's scene and by its tile on the trail, so the tile shows the place the act opens in (owner, Oct 20: campaign acts are scenes you go to). Names are tried in order and the first painted wins: a wanted picture first, a painted stand-in after it. Every act has a picture of its own (CTO, Nov 24, #10377: four tiles shared the campaign office). The doors, the speech and the forum read doorKnockingPlaces, speechPlaces and sceneSettings.venue.",
+    "calls": ["phone-bank-room"],
+    "event": ["lodge-hall"],
+    "interview": ["newsroom"],
+    "volunteer": ["campaign-volunteer-table", "campaign-office-storefront"],
+    "endorsement": ["endorsement-meeting", "coffee-shop"],
+    "ad": ["local-newspaper-office"],
+    "mail": ["campaign-mail-table", "post-office"],
+    "poll": ["phone-survey-room", "office"],
+    "circulators": ["petition-table-outside-store", "strip-mall-parking-lot"],
+    "debate": ["tv-studio"]
+  },
+  "dwellingPlaces": {
+    "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
+    "house": {
+      "living": {
+        "low": ["suburban-house", "house-suburban-living"],
+        "middle": ["suburban-house", "house-suburban-living"],
+        "high": ["large-house", "house-suburban-living"]
+      },
+      "kitchen": ["home-kitchen"],
+      "bedroom": ["house-bedroom", "bedroom-plain"]
+    },
+    "rowhouse": {
+      "living": {
+        "low": ["rowhouse"],
+        "middle": ["rowhouse"],
+        "high": ["rowhouse"]
+      },
+      "kitchen": ["home-kitchen"],
+      "bedroom": ["bedroom-plain", "house-bedroom"]
+    },
+    "apartment": {
+      "living": {
+        "low": [
+          "apartment-rundown-living",
+          "apartment-public-housing",
+          "apartment-basement-studio"
+        ],
+        "middle": [
+          "apartment-starter-living",
+          "small-apartment",
+          "apartment-older-walkup",
+          "apartment-student-shared"
+        ],
+        "high": ["apartment-nice-living", "apartment-suburban-garden"]
+      },
+      "kitchen": ["apartment-kitchen"],
+      "bedroom": ["bedroom-plain"]
+    },
+    "mobile-home": {
+      "living": {
+        "low": ["mobile-home", "trailer-home-living"],
+        "middle": ["mobile-home", "trailer-home-living"],
+        "high": ["mobile-home", "trailer-home-living"]
+      },
+      "kitchen": ["trailer-home-living", "mobile-home"],
+      "bedroom": ["bedroom-plain"]
+    },
+    "farmhouse": {
+      "living": {
+        "low": ["rural-farmhouse"],
+        "middle": ["rural-farmhouse"],
+        "high": ["rural-farmhouse"]
+      },
+      "kitchen": ["house-rural-kitchen", "rural-farmhouse"],
+      "bedroom": ["house-bedroom", "bedroom-plain"]
+    }
+  },
+  "regionalHouses": {
+    "about": "House styles by state (USPS code), added to every third of the house living rooms there.",
+    "house-new-england-colonial": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "house-gulf-coast-raised": ["LA", "MS", "AL", "FL", "TX"],
+    "house-southwest-adobe": ["AZ", "NM"],
+    "house-northwest-craftsman": ["WA", "OR"]
+  },
+  "homeRoomByHour": [
+    {
+      "fromHour": 0,
+      "room": "bedroom"
+    },
+    {
+      "fromHour": 6,
+      "room": "kitchen"
+    },
+    {
+      "fromHour": 9,
+      "room": "living"
+    },
+    {
+      "fromHour": 17,
+      "room": "kitchen"
+    },
+    {
+      "fromHour": 20,
+      "room": "living"
+    },
+    {
+      "fromHour": 23,
+      "room": "bedroom"
+    }
+  ],
+  "teenBedroom": {
+    "fromAge": 13,
+    "underAge": 20,
+    "places": ["bedroom-teen"]
+  },
+  "officialResidences": {
+    "about": "Where a person serving in one of these offices lives (core2-offices-v1 terms), by room, in place of their dwelling. Names before the stand-ins are pictures still to be painted (the residence's own rooms): the first painted picture in a list is used.",
+    "president": {
+      "living": ["white-house-residence-living", "white-house-exterior"],
+      "kitchen": ["white-house-residence-dining", "white-house-exterior"],
+      "bedroom": ["white-house-residence-bedroom", "large-house"]
+    },
+    "governor": {
+      "living": ["governor-residence-living", "governor-residence-exterior"],
+      "kitchen": ["governor-residence-dining", "governor-residence-exterior"],
+      "bedroom": ["governor-residence-bedroom", "large-house"]
+    }
+  },
+  "officeWorkplaces": {
+    "about": "Where a person serving in a full-time office works (core2-offices-v1 office kind), in place of their job's workplace; the first painted picture in a list is used. Part-time bodies (councils, county boards) keep their members' own jobs.",
+    "president": ["oval-office-standard"],
+    "vice-president": ["white-house-exterior"],
+    "governor": ["governor-office"],
+    "mayor": ["mayor-office"],
+    "us-senate": ["congressional-office", "us-capitol-exterior"],
+    "us-house": ["congressional-office", "us-capitol-exterior"],
+    "us-house-delegate": ["congressional-office", "us-capitol-exterior"],
+    "legislature-upper": ["capitol-hallway", "committee-hearing-room"],
+    "legislature-lower": ["capitol-hallway", "committee-hearing-room"],
+    "county-executive": ["county-admin-lobby", "@courthouse"],
+    "county-sheriff": [
+      "county-sheriff-front-desk",
+      "sheriff-office-lobby",
+      "police-station"
+    ],
+    "county-prosecutor": ["district-attorney-office", "@courthouse"],
+    "county-clerk": ["county-clerk-office-urban", "county-clerk-office-rural"],
+    "county-treasurer": [
+      "county-treasurer-office",
+      "treasurer-counter",
+      "clerk-counter"
+    ],
+    "county-assessor": [
+      "county-recorder-office",
+      "county-office-cramped",
+      "county-admin-lobby",
+      "clerk-counter"
+    ],
+    "county-coroner": [
+      "county-health-department",
+      "county-admin-lobby",
+      "hospital-hallway"
+    ]
+  },
+  "situationPlaces": {
+    "swearing-in:venue": [
+      "council-chamber",
+      "council-chamber-small",
+      "city-hall-steps-event"
+    ],
+    "funeral:venue": [
+      "funeral-home-viewing-room",
+      "church-sanctuary",
+      "cemetery-graveside"
+    ],
+    "celebration:venue": ["hotel-ballroom", "church-supper-hall"],
+    "first-meeting:public": ["coffee-shop", "main-street"],
+    "first-meeting:venue": ["coffee-shop", "tavern"],
+    "date:public": ["park", "coffee-shop"],
+    "date:venue": ["tavern", "coffee-shop"],
+    "proposal:public": ["park"],
+    "proposal:venue": ["tavern"],
+    "becoming-friends:public": ["coffee-shop", "park"],
+    "care:other-home": ["@home"],
+    "return:home": ["doorstep-entrance", "@home"],
+    "arrival:home": ["doorstep-entrance", "@home"],
+    "gathering-missing:home": ["home-kitchen", "@home"],
+    "argument:home": ["home-kitchen", "@home"],
+    "breakup:home": ["home-kitchen", "@home"],
+    "swearing-in:seat": [
+      "council-chamber",
+      "council-chamber-small",
+      "city-hall-steps-event"
+    ],
+    "door-ask:other-home": ["@door", "doorstep-entrance"],
+    "door-signature:other-home": ["@door", "doorstep-entrance"],
+    "filing:venue": ["clerk-counter"],
+    "address:seat": ["@seatroom", "@office", "council-chamber"],
+    "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
+    "floor-debate:venue": ["public-meeting-room"],
+    "emergency-briefing:office": ["governor-office"],
+    "emergency-briefing:venue": ["governor-office"],
+    "bill-sign-on:office": ["@office"],
+    "bill-sign-on:chamber": ["@seatroom", "@office"],
+    "bill-sign-on:phone": ["@office"],
+    "hold-chair-sought:office": ["@office"],
+    "hold-chair-sought:chamber": ["@seatroom", "@office"],
+    "hold-chair-sought:phone": ["@office"],
+    "move-in:home": ["@home"],
+    "hearing-witness:seat": ["@seatroom", "@office"],
+    "hearing-witness:venue": ["public-meeting-room"],
+    "party-welcome:venue": ["campaign-office-storefront"],
+    "party-welcome:public": ["campaign-office-storefront"],
+    "study-formed:seat": ["@seatroom", "@office"],
+    "study-formed:venue": ["public-meeting-room"],
+    "study-reported:seat": ["@seatroom", "@office"],
+    "study-reported:venue": ["public-meeting-room"]
+  },
+  "schoolPlacesByAge": [
+    {
+      "underAge": 11,
+      "places": ["elementary-classroom", "school-hallway", "classroom"]
+    },
+    {
+      "underAge": 14,
+      "places": ["school-hallway", "school-cafeteria", "classroom"]
+    },
+    {
+      "underAge": 19,
+      "places": ["high-school-hallway", "high-school-cafeteria", "classroom"]
+    },
+    {
+      "underAge": 200,
+      "places": [
+        "university-lecture-hall",
+        "student-union-lounge",
+        "college-quad"
+      ]
+    }
+  ],
+  "electionNight": {
+    "ran": "election-night-venue",
+    "voted": "polling-place"
+  },
+  "courthouseByState": {
+    "about": "'@courthouse' in any list is the county courthouse in the style its state's courthouses are usually built in (USPS codes); a state in no row gets the classical one. Styles follow the regional courthouse traditions: New England town greens, Midwestern Romanesque Revival, Southwestern adobe and mission, the sparse Plains and Mountain West, and postwar modern on the Pacific and in the territories.",
+    "county-courthouse-new-england": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "county-courthouse-romanesque": [
+      "PA",
+      "OH",
+      "IN",
+      "IL",
+      "MI",
+      "WI",
+      "MN",
+      "IA",
+      "MO",
+      "KS",
+      "NE"
+    ],
+    "county-courthouse-southwest": ["AZ", "NM", "NV", "TX"],
+    "county-courthouse-rural": ["ND", "SD", "MT", "WY", "ID"],
+    "county-courthouse-modern": [
+      "CA",
+      "WA",
+      "OR",
+      "HI",
+      "AK",
+      "GU",
+      "AS",
+      "MP",
+      "VI",
+      "PR"
+    ],
+    "default": ["county-courthouse-classical", "county-courthouse"]
+  },
+  "pictureFamilies": {
+    "about": "Pictures of one kind of place: a scene that names any of them is drawn from the whole family, chosen for the town (and for the business or situation) by its own key, so the same place looks the same every time and two towns differ (owner, Oct 27: 'why is this the only storefront scene used?'). Where the town's choice has no painting for the hour's light (night, morning), the next member in the town's order that has one is used. Families are picture choices checked by eye against the paintings, TUNABLE.",
+    "families": [
+      [
+        "main-street",
+        "downtown-sidewalk",
+        "sidewalk-main-street",
+        "sidewalk-downtown",
+        "courthouse-square"
+      ],
+      ["sidewalk-suburban", "bus-stop"],
+      [
+        "store",
+        "general-store",
+        "grocery-store",
+        "hardware-store-interior",
+        "gas-station-store"
+      ],
+      ["coffee-shop", "diner", "diner-counter"],
+      ["tavern", "steakhouse-private-room"],
+      ["park", "community-garden", "playground"],
+      [
+        "community-room",
+        "lodge-hall",
+        "church-supper-hall",
+        "union-hall-interior"
+      ],
+      ["strip-mall-parking-lot", "farmers-market"]
+    ]
+  },
+  "roomCondition": {
+    "about": "How kept a home's rooms look (src/bench/scene.ts roomCondition). A household in the town's top third of homes of its kind (by value or rent) with at most this many people keeps its rooms as painted; a renter in the cheapest third gets the rundown room; every other home is lived-in. TUNABLE (spread 1 to 3 people), read from the housing records until a dwelling carries its own condition. stopgapId: SG-PLAY-room-condition-rule",
+    "tidyAtMostMembers": 2
+  },
+  "regionalVariants": {
+    "about": "A place's regional rebuild (art/backdrops <place>__region-<name>.jpg: the same street, square or house in the region's own character, same camera, so spots carry over), chosen in the states listed (USPS codes). ESTIMATED from the Census Bureau's regions and divisions (https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf): New England is its division; the Mountain West is the Mountain division without Arizona and New Mexico, which are the Southwest; the Plains are the Great Plains states of the West North Central division (Iowa, Minnesota and Missouri left out) plus Oklahoma; the Deep South is the common five (Alabama, Georgia, Louisiana, Mississippi, South Carolina); the Pacific islands are the territories the art session painted for (Guam, American Samoa, Northern Mariana Islands).",
+    "region-new-england": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "region-mountain-west": ["CO", "ID", "MT", "NV", "UT", "WY"],
+    "region-southwest": ["AZ", "NM"],
+    "region-plains": ["KS", "NE", "ND", "SD", "OK"],
+    "region-deep-south": ["AL", "GA", "LA", "MS", "SC"],
+    "region-alaska": ["AK"],
+    "region-puerto-rico": ["PR"],
+    "region-pacific-islands": ["GU", "AS", "MP"]
+  },
+  "paintedScreens": {
+    "about": "Where a room picture paints a television set's glass, as [left, top, width, height] in percent of the picture (measured by eye on every light and condition of the picture, which share one camera). A broadcast heard in that room shows the speaker on the glass (drawTv). A picture with no row here paints no set; every dwelling's living room was checked (the mobile home paints a flat-screen set too), the kitchens, bedrooms, regional houses and residences were not (stopgap SG-BENCH-painted-tv-rooms-checked).",
+    "apartment-rundown-living": [69.2, 47, 4.8, 8.6],
+    "apartment-starter-living": [65.4, 42, 5.3, 16.5],
+    "mobile-home": [45.6, 34.2, 9.5, 9.8]
+  },
+  "wantedPictures": {
+    "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
+    "inaugural-stand": "The inaugural stand on the Capitol's west front on Inauguration Day: the platform with its podium, flags and bunting, the Chief Justice, the Speaker and the Vice President standing by, the crowd on the Mall below, at noon (an inauguration is at noon) and at night.",
+    "oval-office-south-lawn": "The Oval Office seen through its lit windows from the South Lawn at dusk, the President a figure at the window, for the inaugural address's first part (WANTED cto-28).",
+    "oval-office-resolute": "The Resolute desk as a television address: the President seated facing the camera, flags and the window behind (WANTED cto-33).",
+    "campaign-volunteer-table": "Volunteers signing up at a folding table in a storefront campaign office: clipboards, sign-up sheets and a stack of yard signs, by day.",
+    "endorsement-meeting": "A candidate and one person they know talking across a small table about an endorsement, in a quiet corner of a coffee shop or a back room, by day.",
+    "phone-survey-room": "A small phone-survey room: a few people at desks with headsets reading questions from screens, tally sheets beside them, by day.",
+    "campaign-mail-table": "A long table in a campaign office stacked with mailers, envelopes, address labels and mail trays ready for the post office, by day.",
+    "petition-table-outside-store": "Paid circulators with clipboards at a folding table outside a grocery or hardware store, asking shoppers to sign a candidate's petition, by day.",
+    "us-house-floor-in-session": "The House floor during the President's address: the members in their rows facing the rostrum, the Speaker and the Vice President behind it, the gallery above, by day and at night.",
+    "white-house-residence-living": "The President's living room in the White House residence, by day and at night.",
+    "white-house-residence-dining": "The residence's family dining room and kitchen.",
+    "white-house-residence-bedroom": "The residence's bedroom.",
+    "governor-residence-living": "A governor's residence living room.",
+    "governor-residence-dining": "A governor's residence dining room and kitchen.",
+    "governor-residence-bedroom": "A governor's residence bedroom.",
+    "door-knocking-apartment": "A door in an apartment building's corridor or a stairwell landing, a doormat and a peephole, in daylight.",
+    "door-knocking-rowhouse": "A rowhouse front stoop with a few steps and a storm door, neighbors' stoops either side.",
+    "door-knocking-mobile-home": "A mobile home's front steps and small deck, a skirted base and a gravel or dirt drive.",
+    "door-knocking-farmhouse": "A farmhouse's front or side porch with a screen door, a yard and a barn or field behind.",
+    "door-knocking-notice-taped": "An apartment door with a paper notice taped to it.",
+    "door-knocking-ramp-pill-box": "A front door with a ramp or a railing, and a pharmacy bag by the door."
+  },
+  "genericPlaces": {
+    "about": "Pictures any kind of scene may fall back to. A scene with no row of its own whose setting resolves to one of these is listed as a stand-in in docs/art/SCENE-PICTURES.md.",
+    "places": [
+      "community-room",
+      "main-street",
+      "city-hall-hallway",
+      "office",
+      "union-hall",
+      "public-meeting-room",
+      "park"
+    ]
+  },
+  "unmappedToday": [
+    "accusation",
+    "action-confront",
+    "address",
+    "advice",
+    "apology",
+    "appointment",
+    "argument",
+    "becoming-friends",
+    "betrayal",
+    "bill-carry",
+    "bill-held-chair",
+    "bribe-offer",
+    "bribe-pressed",
+    "budget-cut",
+    "care",
+    "cause-invite",
+    "celebration",
+    "constituent-stop",
+    "debate-invite",
+    "debate-sitting",
+    "desk-visit",
+    "diploma-home",
+    "donor-ask",
+    "family-absence",
+    "family-filing",
+    "family-loss",
+    "first-day",
+    "first-meeting",
+    "home-damaged",
+    "interview-invite",
+    "interview-sitting",
+    "job-offer",
+    "last-day",
+    "layoff",
+    "letter",
+    "lobby-remembers",
+    "manager-offer",
+    "moving-goodbye",
+    "new-baby",
+    "news-arrives",
+    "no-diploma-home",
+    "notice-home",
+    "office-doubt",
+    "office-hours",
+    "party-recruit",
+    "petition-short",
+    "polling-place",
+    "press-interview",
+    "prison-visit",
+    "proposal",
+    "race-lost",
+    "race-won",
+    "rally-opponent",
+    "rally-word",
+    "reach-out",
+    "recall",
+    "reconciliation",
+    "rescue",
+    "rival-word",
+    "scandal",
+    "section-bargain",
+    "speech-afterward",
+    "town-hall-question",
+    "endorsement-ask",
+    "volunteer-offer",
+    "vote-asked",
+    "vote-confirmed",
+    "vote-sought",
+    "warning"
+  ],
+  "wantedScenes": {
+    "ask-signature.rent-notice:other-home": "The door scene wants a door with a paper notice taped to it (door-knocking-notice-taped). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.rent-notice:other-home\" when its id exists.",
+    "ask-support.rent-notice:other-home": "The door scene wants a door with a paper notice taped to it (door-knocking-notice-taped). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.rent-notice:other-home\" when its id exists.",
+    "ask-signature.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.sick:other-home\" when its id exists.",
+    "ask-support.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.sick:other-home\" when its id exists.",
+    "ask-signature.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.caring:other-home\" when its id exists.",
+    "ask-support.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.caring:other-home\" when its id exists.",
+    "serve-sought:office": "The player's own office, two chairs at a desk, for asking someone to run with them (serve-sought). Until painted it plays on the office setting's default.",
+    "serve-sought:other-home": "The asked person's living room or front porch, a sit-down between two people (serve-sought). Until painted it uses the person's dwelling.",
+    "serve-sought:home": "The player's kitchen table with a guest across it (serve-sought). Until painted it uses the player's home."
+  }
+}

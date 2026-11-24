@@ -1,0 +1,52 @@
+{
+  "source": "54792686e4d10798a33c5c91badd98e860ea528d",
+  "phases": [
+    {
+      "label": "adult-life-opening",
+      "durationMs": 3329.4075190000003
+    },
+    {
+      "label": "deserialize-world",
+      "durationMs": 1493.5749209999994
+    },
+    {
+      "label": "serialize-world",
+      "durationMs": 735.2109719999971
+    },
+    {
+      "label": "actual-council-opening",
+      "durationMs": 582.6488959999988
+    },
+    {
+      "label": "actual-mayor-opening",
+      "durationMs": 479.7745329999998
+    },
+    {
+      "label": "executive-deadline-handler",
+      "durationMs": 397.91479999999865
+    },
+    {
+      "label": "record-council-readings",
+      "durationMs": 197.6953429999994
+    },
+    {
+      "label": "authored-held-principles",
+      "durationMs": 192.22281999999905
+    },
+    {
+      "label": "expected-executive-evaluation",
+      "durationMs": 2.8320480000002135
+    },
+    {
+      "label": "question-authority",
+      "durationMs": 0.6580510000021604
+    }
+  ],
+  "worlds": [
+    {
+      "state": "US-GU",
+      "seed": "setup-v3:7068837d2aacc4cb:{\"v\":3,\"seed\":\"G6-mayor-parity:US-GU\",\"placeKey\":\"territory:GU:agana-heights\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "checksum": "9eb958a007d96c0e10e0797899d0dda2cb6fe202ee14a4bfbce6e6bbad685bdd"
+    }
+  ]
+}

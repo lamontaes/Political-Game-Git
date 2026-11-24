@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/2",
+  "rule": "escalation-can-be-answered-in-kind",
+  "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
+  "judged": 0,
+  "no": {},
+  "yesHash": "0wvjl67o803"
+}

@@ -1,0 +1,523 @@
+{
+  "housingRentIncomeElasticity": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011).",
+    "spread": {
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "rent per income",
+      "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011)."
+    }
+  },
+  "housingIncomeOffsetShare": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Households with little income still pay rent near the low end (HUD Fair Market Rent is the 40th percentile).",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "share of median income",
+      "citation": "Households with little income still pay rent near the low end (HUD Fair Market Rent is the 40th percentile)."
+    }
+  },
+  "housingReviewDay": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "Rent is due on the 1st; the review runs after the most common five-day grace period."
+  },
+  "housingMortgageTermYears": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "The 30-year fixed-rate loan is the benchmark U.S. home mortgage: FHFA MIRS table 26 reports it as its 30-year fixed contract series."
+  },
+  "housingFirstTimeBuyerMedianAge": {
+    "value": 40,
+    "tag": "SOURCED",
+    "citation": "NAR 2025 Profile of Home Buyers and Sellers: the median first-time buyer is 40 (data/research/housing/nar-2025-down-payments.json)."
+  },
+  "housingMortgageCountyMinOwners": {
+    "value": 1000,
+    "tag": "TUNABLE",
+    "role": "opening",
+    "citation": "A county with fewer owner households than this reads its state's ACS row for the move-in and mortgage shares: the published county estimates carry wide margins at small counts (data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, limits). Checked against the state row's share of owners with a loan, which the county shares must stay near in a county this size."
+  },
+  "housingOwnerMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "A householder signs for a home as an adult; 18 is the age of majority in most states."
+  },
+  "housingBankMortgageShareOfLoans": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Loans secured by one-to-four family homes are about a quarter to a third of community banks' loans (FDIC Community Banking Study 2020 and Quarterly Banking Profile).",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "share of loans",
+      "citation": "Loans secured by one-to-four family homes are about a quarter to a third of community banks' loans (FDIC Community Banking Study 2020 and Quarterly Banking Profile)."
+    }
+  },
+  "housingBuyBaseline": {
+    "value": -0.6,
+    "tag": "TUNABLE",
+    "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025).",
+    "spread": {
+      "low": -3,
+      "high": 0,
+      "unit": "score",
+      "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025)."
+    }
+  },
+  "housingBuyCostWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Owning that costs more each month than renting pulls against buying, by the gap as a share of income.",
+    "spread": {
+      "low": 1,
+      "high": 8,
+      "unit": "score per share of income",
+      "citation": "Owning that costs more each month than renting pulls against buying, by the gap as a share of income."
+    }
+  },
+  "housingBuyDownWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "score per share of the down payment the household is short",
+      "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers)."
+    }
+  },
+  "housingCounselPlanShareOfPay": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of monthly pay",
+      "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears."
+    }
+  },
+  "housingCounselPlanMaxMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "months",
+      "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain."
+    }
+  },
+  "housingCounselCostPerCaseMinor": {
+    "value": 426000,
+    "tag": "SOURCED",
+    "citation": "NYC Dept. of Social Services, Office of Civil Justice, FY25 Annual Report (Dec 2025): tenant legal services $217.3M over 51,000 households served ($4,260) to 22,700 fully represented ($9,570)."
+  },
+  "housingSupplyElasticity": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Saiz (2010, QJE): metro housing supply elasticities from about 0.6 (constrained coasts) to over 3, near 1.75 on average.",
+    "spread": {
+      "low": 0.6,
+      "high": 3,
+      "unit": "starts per unit of value over cost",
+      "citation": "Saiz (2010, QJE): metro housing supply elasticities from about 0.6 (constrained coasts) to over 3, near 1.75 on average."
+    }
+  },
+  "housingLandStartsElasticity": {
+    "value": 0.29,
+    "tag": "TUNABLE",
+    "citation": "Auckland's upzoning of about three quarters of residential land raised permits about 50% (Greenaway-McGrevy and Phillips 2023), ln 1.5 / ln 4; critics' 10% gives the low end.",
+    "spread": {
+      "low": 0.07,
+      "high": 0.4,
+      "unit": "starts per share of land where building is allowed",
+      "citation": "Auckland's upzoning of about three quarters of residential land raised permits about 50% (Greenaway-McGrevy and Phillips 2023), ln 1.5 / ln 4; critics' 10% gives the low end."
+    }
+  },
+  "housingUnitsPerBuilding": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "Census Building Permits Survey 2024: units per permitted building in 5+ unit structures run about 20 to 30 by state.",
+    "spread": {
+      "low": 10,
+      "high": 50,
+      "unit": "units per apartment building",
+      "citation": "Census Building Permits Survey 2024: units per permitted building in 5+ unit structures run about 20 to 30 by state."
+    }
+  },
+  "housingMaterialsShareOfCost": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "NAHB Construction Cost Survey 2024: materials and trades bought by the builder are about half of a new home's construction cost.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "share of construction cost",
+      "citation": "NAHB Construction Cost Survey 2024: materials and trades bought by the builder are about half of a new home's construction cost."
+    }
+  },
+  "housingRentVacancyElasticity": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.4,
+      "unit": "rent change per share change in vacancy",
+      "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023)."
+    }
+  },
+  "housingRentSavingImpulseScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How hard a rent renewal held below the market rent lands on a tenant's mood, per share of the market rent it saved (a 5% saving lands as a mood impulse of 0.05). Checked against the same scale as a benefit change (benefitChangeImpulseScale) and the life-event impulses the drives engine reads.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "mood impulse per share of market rent saved",
+      "citation": "Same scale as benefitChangeImpulseScale: 0.5 to 2."
+    }
+  },
+  "housingNewHomeSupplyMonths": {
+    "value": 9,
+    "tag": "TUNABLE",
+    "citation": "Census New Residential Sales, 2024: new single-family homes for sale ran about 8 to 9 months' supply at the current sales rate.",
+    "spread": {
+      "low": 4,
+      "high": 12,
+      "unit": "months of starts",
+      "citation": "Census New Residential Sales, 2024: new single-family homes for sale ran about 8 to 9 months' supply at the current sales rate."
+    }
+  },
+  "housingNoticeBaseline": {
+    "value": -4,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
+    "spread": {
+      "low": -5,
+      "high": -3,
+      "unit": "logit of a month's pull to serve notice",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
+    }
+  },
+  "housingNoticeArrearsWeight": {
+    "value": 2.25,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
+    "spread": {
+      "low": 1.5,
+      "high": 3,
+      "unit": "per month of rent owed",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
+    }
+  },
+  "housingNoticeLateWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
+    "spread": {
+      "low": 0,
+      "high": 1,
+      "unit": "per month since rent first went unpaid",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
+    }
+  },
+  "housingEvictionFilingRate": {
+    "value": 7.8,
+    "tag": "SOURCED",
+    "citation": "Eviction filings per 100 renter households a year: Eviction Lab state and national eviction estimates, 2018 (Gromis et al., PNAS 2022), national row 3,656,428 filings over 46,902,048 renting households, 7.80 (data/research/housing/eviction-filings-2026.json, national). The check a played year's filings are read against (src/core2/group-quarters.test.ts); it decides no household's case.",
+    "spread": {
+      "low": 0.65,
+      "high": 23.32,
+      "unit": "filings per 100 renter households a year",
+      "citation": "The lowest and highest of the states' and D.C.'s 2018 rates in the same file, Maryland left out (spread.withoutMaryland): South Dakota 0.65 and South Carolina 23.32. Maryland's 69.58 is left out because its filing is itself the notice and a tenant who pays stays, so its landlords file month after month (Eviction Lab supplementary information section 5.3); the game does not model that law, so it is no standard for a place the game plays (CTO ruling, OWNER-DECISIONS Nov 2 01:30)."
+    }
+  },
+  "housingHostMaxPeople": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The most people a relative's home takes in before it is crowded: a household of six or more is past one person per room in a typical five- or six-room home (American Housing Survey crowding standard, more than one person per room); checked against the spread 5 to 8.",
+    "spread": {
+      "low": 5,
+      "high": 8,
+      "unit": "people in the host's home",
+      "citation": "American Housing Survey crowding standard (more than one person per room); typical homes of five to six rooms."
+    }
+  },
+  "housingRehouseIncomeMultiple": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Landlords commonly ask for monthly income of about three times the rent before they lease (the 30 percent rent-burden standard, HUD); spread 2.5 to 3.",
+    "estimatedFrom": "rent-screening practice",
+    "spread": {
+      "low": 2.5,
+      "high": 3,
+      "unit": "monthly income per month of rent",
+      "citation": "HUD's 30 percent rent-burden standard; landlord screening at two and a half to three times the rent."
+    }
+  },
+  "housingForeclosureSaleShare": {
+    "value": 0.73,
+    "tag": "ESTIMATED",
+    "citation": "A forced sale brings about 27 percent less than the home's value (Campbell, Giglio and Pathak 2011, American Economic Review 101(5), foreclosure discount in Massachusetts sales 1987-2009).",
+    "estimatedFrom": "one state's sales; national spread 20 to 30 percent",
+    "spread": {
+      "low": 0.7,
+      "high": 0.8,
+      "unit": "share of the home's value",
+      "citation": "Campbell, Giglio and Pathak 2011; Clauretie and Daneshvary 2009 (about 8 percent after controls)."
+    }
+  },
+  "housingMoveRentFriction": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Moving disruption expressed as a share of the proposed monthly rent, weighed against savings. No fee is charged.",
+    "spread": {
+      "low": 0,
+      "high": 0.2,
+      "unit": "share of proposed rent",
+      "citation": "Sensitivity range; behavioral tuning, not a measured fee."
+    }
+  },
+  "housingBuyChildWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at three or more children at home",
+      "citation": "Households with children are likelier first-time buyers (NAR 2025 Profile of Home Buyers and Sellers: about a third of first-time buyers have children under 18 at home); a sliding pull by the number of children, to three."
+    }
+  },
+  "housingBuyAgeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score at the prime buying ages",
+      "citation": "First-time buyers are young adults: NAR 2025 puts their median age at 40 (record high); the pull rises through the late twenties and fades after the early sixties."
+    }
+  },
+  "housingBuyAgeRiseCenter": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age).",
+    "spread": {
+      "low": 26,
+      "high": 34,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way up: renters' transitions to owning climb through the late twenties and early thirties (Census CPS/ASEC homeownership by age)."
+    }
+  },
+  "housingBuyAgeFadeCenter": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025).",
+    "spread": {
+      "low": 52,
+      "high": 68,
+      "unit": "years",
+      "citation": "Where the age pull is half its height on the way down: few households first buy past their late fifties (NAR 2025)."
+    }
+  },
+  "housingBuyAgeScale": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How quickly the age pull rises and fades around its two centers.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "years",
+      "citation": "How quickly the age pull rises and fades around its two centers."
+    }
+  },
+  "housingBuyTenureWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five.",
+    "spread": {
+      "low": 0,
+      "high": 1,
+      "unit": "score at five or more years in the lease",
+      "citation": "The longer a household has rented in place, the likelier it is to settle; a sliding pull by years in the lease, to five."
+    }
+  },
+  "housingBuyTenureYears": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "Years in the lease at which the tenure pull is full.",
+    "spread": {
+      "low": 3,
+      "high": 8,
+      "unit": "years",
+      "citation": "Years in the lease at which the tenure pull is full."
+    }
+  },
+  "housingBuySavingsWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one.",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "score per log of cash over the down payment",
+      "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one."
+    }
+  },
+  "housingTenureShrinkHomes": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "A small place's ACS owner share is a sample reading (many tiny places read exactly 100% owned); it is pulled toward its county's share as if the county supplied this many homes (empirical-Bayes shrinkage of a binomial share).",
+    "spread": {
+      "low": 10,
+      "high": 100,
+      "unit": "homes",
+      "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
+    }
+  },
+  "housingWorldRentValueSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's county median rent and owner home value sit from the published ACS 2020-2024 medians: about the ACS five-year county margin of error plus a year of change (county median gross rent and home value margins run 2% to 10%; FHFA state prices moved 3% to 8% a year in 2022-2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published median",
+      "citation": "ACS B25064 and B25077 county margins of error; FHFA all-transactions index."
+    }
+  },
+  "housingWorldOwnerShareSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town owner-occupied share moves from the published ACS share, relative to its nearer bound: about the ACS five-year place margin of error on tenure (2 to 8 points in small places).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B25003 place margins of error."
+    }
+  },
+  "housingWorldHudRentSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's HUD fair market rent and income limit in an area sit from the published FY2025 value: HUD sets FMRs at the 40th percentile of recent movers and revises them by 2% to 8% a year; the ACS margin of error on the underlying gross rent runs 2% to 10%.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the published rent or limit",
+      "citation": "HUD FMR documentation, FY2023 to FY2025 year-over-year change by area."
+    }
+  },
+  "housingWorldShelterBedsSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's year-round shelter beds per 10,000 people sit from the HUD Housing Inventory Count 2025 rate for the state: state bed counts changed by 3% to 15% between the 2024 and 2025 counts.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published rate",
+      "citation": "HUD Housing Inventory Count, year-round beds by state, 2024 versus 2025."
+    }
+  },
+  "housingWorldPermitSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's building permits per thousand people sit from the published state rate: state permit counts move 5% to 20% from one year to the next outside a downturn (Census Building Permits Survey annual state totals).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published rate",
+      "citation": "Census Building Permits Survey, annual state totals by structure type, year-over-year change."
+    }
+  },
+  "housingPriceRateResponse": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Glaeser, Gottlieb and Gyourko, 'Can Cheap Credit Explain the Housing Boom?' (NBER w16230, 2010): a one-point fall in the real rate raised prices about 7 to 8 percent, against about 11 to 12 percent for the loan a fixed payment carries near a 5 percent rate, so prices pass on about 0.6 of the change in that loan.",
+    "estimatedFrom": "How much of the change in the loan a fixed monthly payment carries at the 30-year rate reaches the price level (ln F = ln pay + this x ln A(rate)). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates): the free fit with momentum lands at 0.60.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "elasticity of price to the loan a payment carries",
+      "citation": "Glaeser, Gottlieb and Gyourko (2010), Table 3 and the user-cost range they report."
+    }
+  },
+  "housingPriceMomentum": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Capozza, Hendershott, Mack and Mayer, 'Determinants of Real House Price Dynamics' (NBER w9262, 2002): the serial correlation of yearly real house price changes across 62 metro areas, 1979-1995, averages about 0.6.",
+    "estimatedFrom": "The share of last year's change in the level that carries into this year (buyers expect it to go on). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates): the free fit lands at 0.65.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.75,
+      "unit": "share of last year's change",
+      "citation": "Capozza et al. (2002): serial correlation by metro size and growth, about 0.3 to 0.75."
+    }
+  },
+  "housingPriceReversionPerYear": {
+    "value": 0.17,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Capozza, Hendershott, Mack and Mayer (NBER w9262, 2002): prices close about 17 percent a year of the gap to what fundamentals support, on average across metro areas.",
+    "estimatedFrom": "The share of the gap between the level and what pay and rates support that closes in a year (a twelfth each month). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the gap per year",
+      "citation": "Capozza et al. (2002): mean reversion by metro size and growth."
+    }
+  },
+  "housingPricePressureResponse": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Housing engine: the largest monthly move the month's buyers against homes offered can make (one percent), reached smoothly through tanh.",
+    "estimatedFrom": "Checked so the yearly change in a drawn town's level sits inside the spread of FHFA state yearly changes (about -10 to +20 percent a year, 1990-2024) over 30 unattended years (the PR's table).",
+    "spread": {
+      "low": 0.005,
+      "high": 0.02,
+      "unit": "log change per month"
+    }
+  },
+  "housingPricePressureScale": {
+    "value": 0.005,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Housing engine: the imbalance of buyers over homes offered, as a share of the homes owned in a month, at which the pressure term reaches about three quarters of its largest move. About 0.4 percent of owned homes sell in a month (NAR existing-home sales over the owner-occupied stock, about 5 percent a year), so a month whose buyers or homes offered run one turnover ahead moves the level most.",
+    "estimatedFrom": "Checked with housingPricePressureResponse in the same table.",
+    "spread": {
+      "low": 0.0025,
+      "high": 0.01,
+      "unit": "share of owned homes per month"
+    }
+  },
+  "rentalVacantMonths": {
+    "value": 2.8,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "How many months a rental unit sits empty between one tenant's lease and the next: the median vacancy duration of units vacant for rent was 2.8 months in 2024 (Census, Housing Vacancy Survey, annual medians, https://www.census.gov/housing/hvs/files/annual24/medians_24.csv, row 'Median vacancy duration (in months, vacant for rent units)', column median2024, retrieved Nov 17, 2026). Day one's vacant rentals are the leases a town's renters signed in its last year times this over 12 (housing-past.ts openingVacancy); it sets only how long a turnover keeps a unit empty, and each town's vacancy follows its own renters' moves.",
+    "estimatedFrom": "A median over units vacant on the survey date stands in for the mean empty spell between leases; the two differ by how spells are spread.",
+    "spread": {
+      "low": 2.3,
+      "high": 3.3,
+      "unit": "months",
+      "citation": "The same series, 2004 to 2024: lowest 2.3 (2017), highest 3.3 (2010 and 2011)."
+    }
+  }
+}

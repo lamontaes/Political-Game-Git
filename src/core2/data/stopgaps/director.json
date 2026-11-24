@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SG-DIRECTOR-shared-relative-kin-address",
+    "kind": "missing-engine",
+    "file": "src/director/conversation.ts",
+    "line": 892,
+    "whatItFakes": "Conversations omit introducing or asking after relatives shared by the speaker and listener instead of naming their shared relation naturally.",
+    "why": "The English banks have no shared-parent kin address yet; first names and possessive parent phrases give the wrong relation in these conversations.",
+    "addedBy": "merger0",
+    "addedAt": "2026-10-26",
+    "replacement": "Resolved: a relative two people share is asked after as they call them, by the kin address in src/director/data/journal-rows.json (Dad, Mom, Grandma, Grandpa) or a shared sibling's first name, through the conversation bank's family lines (pool item words-family-talk-kin-address).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-DIRECTOR-law-ended-in-play-proved-on-staged-date",
+    "kind": "assumed-data",
+    "file": "src/director/purpose-scene.ts",
+    "line": 300,
+    "whatItFakes": "The scene talk for a law that ended during play (\"the old rule on ... ended on ...\") is proved only on a staged end date: no played world has ended a law in play, because every ended row in a drawn world ended before the game began.",
+    "why": "No engine ends a law during play yet except a repeal the dev tester stages, so the wording has never been seen from a real repeal.",
+    "addedBy": "Builder T53",
+    "addedAt": "2026-11-14",
+    "replacement": "Play a repeal through the dev tester's repeal route (scripts/dev-tests/law-run.ts) and replay the scene from the real ended row; then remove the staged end date from src/director/law-reaches-tell.test.ts.",
+    "status": "open"
+  }
+]

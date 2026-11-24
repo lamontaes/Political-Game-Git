@@ -1,0 +1,11 @@
+{
+  "about": "How people say a public contract award, by the spending line that pays for it (read by src/english/contract-words.ts): the word before 'contract' ('the road contract'). One word for each line a government buys work on (src/core2/data/budgets/treasury-spending.json, providers.lines). A line with no word here is said by its budget name.",
+  "work": {
+    "highways": "road",
+    "housing": "housing",
+    "parks": "parks",
+    "administration": "supply",
+    "schools": "school",
+    "healthAndHospitals": "hospital"
+  }
+}

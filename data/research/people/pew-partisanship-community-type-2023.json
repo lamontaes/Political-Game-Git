@@ -1,0 +1,32 @@
+{
+  "id": "pew-partisanship-community-type-2023",
+  "publisher": "Pew Research Center",
+  "vintage": "2023 surveys (Party Identification Detailed Tables, 1994-2023)",
+  "table": "Chapter 7, Partisanship in rural, suburban and urban communities",
+  "title": "Changing Partisan Coalitions in a Politically Divided Nation (April 9, 2024)",
+  "universe": "Registered voters; party identification including leaners",
+  "geography": "United States, by county type (urban, suburban, rural)",
+  "sourceUrl": "https://www.pewresearch.org/politics/2024/04/09/partisanship-in-rural-suburban-and-urban-communities/",
+  "retrievedOn": "2026-10-24",
+  "limits": "Party identification, not the views engine's -2 to +2 self-placement; a builder converts it. The rural shares are given only as the Republican edge in the text read here.",
+  "communityType": [
+    {
+      "id": "urban",
+      "democraticPercent": 60,
+      "republicanPercent": 37,
+      "quote": "60% identify with or lean to the Democratic Party, while 37% identify as or lean Republican."
+    },
+    {
+      "id": "suburban",
+      "democraticPercent": 47,
+      "republicanPercent": 50,
+      "quote": "Half of voters in suburban counties currently align with the Republican Party, while 47% associate with the Democratic Party"
+    },
+    {
+      "id": "rural",
+      "republicanEdgePoints": 25,
+      "quote": "the Republican Party now holds a 25-point edge over the Democratic Party."
+    }
+  ],
+  "use": "SG-P15-views-first-version: the place-type term the opening views will read (builder item people-views-opening-place-type-and-values); the year run reports the town's opening left and right shares beside it."
+}

@@ -1,0 +1,58 @@
+{
+  "town": "Tallulah Falls, Georgia",
+  "placeKey": "1375328",
+  "replay": "e998a30ab889846b",
+  "worldSeed": "bd43fa43e8fb47a30ca1c6964d388718e870a8aab1a953aad9518c54945bbf65",
+  "through": "2029-01-19",
+  "personId": "person_f86bf26e7ff0436c",
+  "name": "Ivy Wagner",
+  "alive": true,
+  "stance": {
+    "id": "person_f86bf26e7ff0436c:us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "personId": "person_f86bf26e7ff0436c",
+    "topic": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "desiredChange": "repeal",
+    "strength": 0.0033669245384882218,
+    "causes": [
+      {
+        "eventId": "news.read:printed:outlet:television:3:jurisdiction_d64751af1aaa8892:interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0:2026-11-11",
+        "date": "2026-11-11",
+        "change": 0.0033669245384882218,
+        "speakerId": "person:press:outlet:television:3:jurisdiction_d64751af1aaa8892:reporter:0",
+        "learnedFrom": "news:printed:outlet:television:3:jurisdiction_d64751af1aaa8892:interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0",
+        "count": 1,
+        "total": 0.0033669245384882218
+      }
+    ],
+    "heard": {
+      "person:press:outlet:television:3:jurisdiction_d64751af1aaa8892:reporter:0": 1
+    }
+  },
+  "sourceStory": {
+    "id": "printed:outlet:television:3:jurisdiction_d64751af1aaa8892:interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0",
+    "kind": "press.printed",
+    "outletId": "organization:press:television:3:jurisdiction_d64751af1aaa8892",
+    "date": "2026-11-02",
+    "placeId": "jurisdiction_d64751af1aaa8892",
+    "topic": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "desiredChange": "repeal",
+    "framing": 0.17898155537306995,
+    "moodImpulse": 0.2947453888432675,
+    "facts": {
+      "sourceRecordId": "interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0",
+      "printed:organization:press:television:3:jurisdiction_d64751af1aaa8892:story": "printed:outlet:television:3:jurisdiction_d64751af1aaa8892:interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0",
+      "views:speaker": "person:press:outlet:television:3:jurisdiction_d64751af1aaa8892:reporter:0",
+      "interview:interview:outlet:television:3:jurisdiction_d64751af1aaa8892:filing:contest:seat:US-GA:lieutenant-governor:2026-11-03:official:term:seat:US-GA:lieutenant-governor:2025-01-20:2026-11-02:0:candidate": "official:term:seat:US-GA:lieutenant-governor:2025-01-20"
+    }
+  },
+  "concern": 0.004772215883932804,
+  "interviewWith": {
+    "personId": "person_fc72dd03055b9fa9",
+    "name": "Micah Davis"
+  },
+  "questions": [
+    "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    "us-policy-positions:government-operations.same-day-voter-registration",
+    "us-policy-positions:fiscal.graduated-income-tax"
+  ]
+}

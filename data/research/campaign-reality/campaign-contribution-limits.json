@@ -1,0 +1,11 @@
+{
+  "version": "campaign-contribution-limits-estimated-v1",
+  "currency": "USD",
+  "jurisdictions": {},
+  "fallback": {
+    "amountMinorUnits": 150000,
+    "estimated": true,
+    "basis": "Estimated fallback used only where no accepted jurisdiction pack has a numeric individual limit. It is nonzero and intentionally replaceable by jurisdiction data.",
+    "source": "docs/research/92M-campaign-finance-ethics-lobbying.json (jurisdiction limit descriptions require numeric compilation); fallback estimate for similar-state limits."
+  }
+}

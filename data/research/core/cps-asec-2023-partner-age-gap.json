@@ -1,0 +1,284 @@
+{
+  "id": "cps-asec-2023-partner-age-gap",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "Current Population Survey 2023 Annual Social and Economic Supplement, public use file",
+  "table": "pppub23.csv (person records): A_AGE, A_SEX, A_SPOUSE, PECOHAB, MARSUPWT",
+  "title": "Age difference of partners living together, by couple type",
+  "universe": "Married and cohabiting partners in the same household, civilian noninstitutionalized population",
+  "geography": "United States",
+  "sourceUrl": "https://www2.census.gov/programs-surveys/cps/datasets/2023/march/asecpub23csv.zip",
+  "pageUrl": "https://www.census.gov/data/datasets/time-series/demo/cps/cps-asec.2023.html",
+  "checkTableUrl": "https://www.census.gov/data/tables/2023/demo/families/cps-2023.html",
+  "retrievedOn": "2026-10-23",
+  "sourceSha256": "d2e000250782adfbdd7f29c82b66d866591a30f0d330496698ec19f9c784ce11",
+  "quote": "The data page lists \"CSV Data File (includes Replicate Weights)\" as asecpub23csv.zip. Counted from the man's record with MARSUPWT, the opposite-sex married rows reproduce Table FG3 (husband 20 or more years older 566 thousand, wife 20 or more years older 180 thousand, total 63,877 thousand).",
+  "limits": "The public file top-codes age (80 stands for 80 to 84 and 85 for 85 and over), which shortens some gaps among the oldest couples; couples with a partner aged 80 or over hold 3.69 million of the 63.9 million married couples. Same-sex gaps are older minus younger. A national figure; no state or place detail. Shapes the ages of partners who exist at the opening (seeded generation of who exists), never a choice.",
+  "couples": {
+    "married-os": {
+      "gap": "husband minus wife",
+      "samplePairs": 28972,
+      "weightedThousands": 63877,
+      "bands": [
+        {
+          "low": 20,
+          "high": null,
+          "thousands": 566
+        },
+        {
+          "low": 15,
+          "high": 19,
+          "thousands": 834
+        },
+        {
+          "low": 10,
+          "high": 14,
+          "thousands": 2927
+        },
+        {
+          "low": 6,
+          "high": 9,
+          "thousands": 7138
+        },
+        {
+          "low": 4,
+          "high": 5,
+          "thousands": 7793
+        },
+        {
+          "low": 2,
+          "high": 3,
+          "thousands": 12792
+        },
+        {
+          "low": -1,
+          "high": 1,
+          "thousands": 22645
+        },
+        {
+          "low": -3,
+          "high": -2,
+          "thousands": 4477
+        },
+        {
+          "low": -5,
+          "high": -4,
+          "thousands": 2135
+        },
+        {
+          "low": -9,
+          "high": -6,
+          "thousands": 1576
+        },
+        {
+          "low": -14,
+          "high": -10,
+          "thousands": 604
+        },
+        {
+          "low": -19,
+          "high": -15,
+          "thousands": 211
+        },
+        {
+          "low": null,
+          "high": -20,
+          "thousands": 180
+        }
+      ],
+      "openRowTails": {
+        "olderManOrHusband": {
+          "thousands": 566,
+          "meanGapYears": 26.41,
+          "medianGapYears": 23,
+          "widthMatchingMean": 13.82
+        },
+        "olderWomanOrWife": {
+          "thousands": 180,
+          "meanGapYears": 30.27,
+          "medianGapYears": 26,
+          "widthMatchingMean": 21.55
+        },
+        "pooled": {
+          "thousands": 746,
+          "meanGapYears": 27.34,
+          "widthMatchingMean": 15.69
+        }
+      }
+    },
+    "married-ss": {
+      "gap": "older minus younger",
+      "samplePairs": 346,
+      "weightedThousands": 757,
+      "bands": [
+        {
+          "low": 0,
+          "high": 1,
+          "thousands": 199
+        },
+        {
+          "low": 2,
+          "high": 3,
+          "thousands": 167
+        },
+        {
+          "low": 4,
+          "high": 5,
+          "thousands": 142
+        },
+        {
+          "low": 6,
+          "high": 9,
+          "thousands": 127
+        },
+        {
+          "low": 10,
+          "high": 14,
+          "thousands": 60
+        },
+        {
+          "low": 15,
+          "high": 19,
+          "thousands": 34
+        },
+        {
+          "low": 20,
+          "high": null,
+          "thousands": 27
+        }
+      ]
+    },
+    "cohab-os": {
+      "gap": "man minus woman",
+      "samplePairs": 3935,
+      "weightedThousands": 9331,
+      "bands": [
+        {
+          "low": 20,
+          "high": null,
+          "thousands": 239
+        },
+        {
+          "low": 15,
+          "high": 19,
+          "thousands": 201
+        },
+        {
+          "low": 10,
+          "high": 14,
+          "thousands": 493
+        },
+        {
+          "low": 6,
+          "high": 9,
+          "thousands": 1038
+        },
+        {
+          "low": 4,
+          "high": 5,
+          "thousands": 957
+        },
+        {
+          "low": 2,
+          "high": 3,
+          "thousands": 1596
+        },
+        {
+          "low": -1,
+          "high": 1,
+          "thousands": 3038
+        },
+        {
+          "low": -3,
+          "high": -2,
+          "thousands": 689
+        },
+        {
+          "low": -5,
+          "high": -4,
+          "thousands": 333
+        },
+        {
+          "low": -9,
+          "high": -6,
+          "thousands": 394
+        },
+        {
+          "low": -14,
+          "high": -10,
+          "thousands": 203
+        },
+        {
+          "low": -19,
+          "high": -15,
+          "thousands": 55
+        },
+        {
+          "low": null,
+          "high": -20,
+          "thousands": 95
+        }
+      ],
+      "openRowTails": {
+        "olderManOrHusband": {
+          "thousands": 239,
+          "meanGapYears": 28.17,
+          "medianGapYears": 25,
+          "widthMatchingMean": 17.34
+        },
+        "olderWomanOrWife": {
+          "thousands": 95,
+          "meanGapYears": 30.74,
+          "medianGapYears": 29,
+          "widthMatchingMean": 22.48
+        },
+        "pooled": {
+          "thousands": 334,
+          "meanGapYears": 28.9,
+          "widthMatchingMean": 18.8
+        }
+      }
+    },
+    "cohab-ss": {
+      "gap": "older minus younger",
+      "samplePairs": 221,
+      "weightedThousands": 524,
+      "bands": [
+        {
+          "low": 0,
+          "high": 1,
+          "thousands": 149
+        },
+        {
+          "low": 2,
+          "high": 3,
+          "thousands": 97
+        },
+        {
+          "low": 4,
+          "high": 5,
+          "thousands": 59
+        },
+        {
+          "low": 6,
+          "high": 9,
+          "thousands": 105
+        },
+        {
+          "low": 10,
+          "high": 14,
+          "thousands": 38
+        },
+        {
+          "low": 15,
+          "high": 19,
+          "thousands": 22
+        },
+        {
+          "low": 20,
+          "high": null,
+          "thousands": 53
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+# Immutable publisher captures.
+#
+# `data/source/*/raw/` holds bytes exactly as a publisher served them, pinned by
+# SHA-256 in that domain's artifact lock. The whitespace inside them is the
+# publisher's, not this repository's: state legislature sites indent their
+# markup with tabs and leave trailing spaces on thousands of lines, and an
+# independent audit's `git diff --check` failed on precisely that.
+#
+# There is no correct fix on the repository's side. Stripping the whitespace
+# would change bytes the lock pins and break every rights determination and
+# transcription resting on them, and re-acquiring would not help because the
+# publisher would serve the same thing again. So whitespace checking is turned
+# off for captured bytes and stays on everywhere else — authored source, docs
+# and generated JSON are all still checked, which is the point of the check.
+data/source/*/raw/** -whitespace

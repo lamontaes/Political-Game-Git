@@ -1,0 +1,285 @@
+/**
+ * How the outcome web reaches the world: the factor an engine multiplies its
+ * own person, household or organization rate by, for one subject in one
+ * place. births-counted.ts is the pattern: the engine that owns an outcome
+ * keeps deciding it from its own records, times the web's factor for it.
+ *
+ * A link acts through each subject's own circumstances. A link's `varies`
+ * rows (data/research/outcome-web/links.json) give, from the cited research,
+ * how much harder the cause lands on one band (an income fifth, an age, a
+ * household kind, tenure, work, sex, region) than on another. The weights are
+ * scaled so the national population's average is the researched size: a
+ * place whose people sit mostly in a harder-hit band moves more, and a
+ * subject outside the bands a link names gets the average.
+ */
+import type { CensusRegion } from "./reference/census-regions";
+import type { HeadWork, HouseholdKind } from "./counted-groups";
+import type { WebMonth } from "./modules/outcome-web";
+import {
+  moderatorScale,
+  OUTCOME_WEB_MODULE_ID,
+  scaleOf,
+  WEB_LINKS,
+  WIRED_INTO,
+  type Varies,
+  type VariesBand,
+} from "./outcome-web-model";
+import type { CoreAPI, CoreState } from "./types";
+
+/** What an engine knows about the one it is deciding for; anything left out reads as the average. */
+export interface Subject {
+  /** The national household-income fifth, 0 to 4 (`incomeBandOf`). */
+  readonly incomeFifth?: number;
+  readonly age?: number;
+  readonly sex?: "female" | "male";
+  readonly householdKind?: HouseholdKind;
+  readonly tenure?: "rent" | "own";
+  readonly work?: HeadWork;
+  readonly region?: CensusRegion;
+}
+
+const inBand = (band: VariesBand, value: string | number) =>
+  band.is !== undefined
+    ? band.is === value
+    : typeof value === "number" &&
+      value >= (band.min ?? -Infinity) &&
+      value < (band.max ?? Infinity);
+
+/** A moderator's weights scaled so the national average is one. */
+function scaled(varies: Varies): readonly VariesBand[] {
+  const mean = varies.bands.reduce((n, b) => n + b.share * b.weight, 0);
+  const shares = varies.bands.reduce((n, b) => n + b.share, 0);
+  // The bands' own mean, over the shares they cover.
+  const norm = mean / shares;
+  return varies.bands.map((band) => ({ ...band, weight: band.weight / norm }));
+}
+
+const SCALED = new Map<
+  string,
+  readonly (Varies & { scaledBands: readonly VariesBand[] })[]
+>(
+  WEB_LINKS.filter((link) => link.varies?.length).map((link) => [
+    link.key,
+    link.varies!.map((v) => ({ ...v, scaledBands: scaled(v) })),
+  ]),
+);
+
+/** How hard a link lands on this subject against the national average (1 where it is not known). */
+export function subjectWeight(linkKey: string, subject?: Subject): number {
+  const rows = SCALED.get(linkKey);
+  if (!rows || !subject) return 1;
+  let weight = 1;
+  for (const row of rows) {
+    const value = subject[row.by];
+    if (value === undefined) continue;
+    const band = row.scaledBands.find((b) => inBand(b, value));
+    if (band) weight *= band.weight;
+  }
+  return weight;
+}
+
+/** The scaled national average of a link's weights (one, when the data is right). */
+export function nationalMeanWeight(linkKey: string): number {
+  const rows = SCALED.get(linkKey);
+  if (!rows) return 1;
+  return rows.reduce((product, row) => {
+    const covered = row.scaledBands.reduce((n, b) => n + b.share, 0);
+    return (
+      product *
+      (row.scaledBands.reduce((n, b) => n + b.share * b.weight, 0) / covered)
+    );
+  }, 1);
+}
+
+/**
+ * What a read of the web needs of the world: its state and its modules'
+ * tables. A full `CoreAPI` is one; so is the bare state a counted tier's
+ * decision runs on (`restingStress` builds it from the state alone).
+ */
+export type WebHost = Pick<CoreAPI, "state" | "moduleState">;
+
+/**
+ * The web's answers kept for the day, one store for every reader (the latest
+ * month, a cause mix, a death factor). The stamp is the date and the web
+ * module's writes so far, so a month the web writes after the first read is
+ * seen by the next read the same day, never a stale answer.
+ */
+const DAY_CACHES = new WeakMap<
+  object,
+  { stamp: string; named: Map<string, Map<string, unknown>> }
+>();
+
+export function webDayCache<T>(api: WebHost, name: string): Map<string, T> {
+  const core = api.state as CoreState;
+  const writes = core.modules.has(OUTCOME_WEB_MODULE_ID)
+    ? api.moduleState(OUTCOME_WEB_MODULE_ID).writes
+    : 0;
+  const stamp = `${core.date}|${writes}`;
+  let cache = DAY_CACHES.get(core);
+  if (!cache || cache.stamp !== stamp) {
+    cache = { stamp, named: new Map() };
+    DAY_CACHES.set(core, cache);
+  }
+  let rows = cache.named.get(name);
+  if (!rows) cache.named.set(name, (rows = new Map()));
+  return rows as Map<string, T>;
+}
+
+function latestRow(api: WebHost, placeId: string): WebMonth | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
+  const rows = webDayCache<WebMonth | null>(api, "latest");
+  if (rows.has(placeId)) return rows.get(placeId)!;
+  let latest: WebMonth | null = null;
+  for (const row of api
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .query("byPlace", [placeId]) as unknown as readonly WebMonth[])
+    if (!latest || row.month > latest.month) latest = row;
+  rows.set(placeId, latest);
+  return latest;
+}
+
+/** One link's part in a subject's factor: its place effect and how hard it lands on them. */
+export interface WebPart {
+  readonly link: string;
+  readonly effect: number;
+  readonly weight: number;
+}
+
+export interface WebReach {
+  /** The multiplier on the engine's own rate (1 where nothing moves it). */
+  readonly factor: number;
+  /** For a level outcome, the sum of its links' scaled additions in the measure's own unit (zero otherwise). */
+  readonly added: number;
+  /** The web month row the factor stands on, or null. */
+  readonly recordId: string | null;
+  readonly parts: readonly WebPart[];
+}
+
+const NONE: WebReach = { factor: 1, added: 0, recordId: null, parts: [] };
+
+/**
+ * The web's factor on an outcome for one subject in a place this month: the
+ * product of each running link's effect, scaled by how hard it lands on the
+ * subject (for a level outcome, its base plus the scaled additions, over its
+ * base). Without a subject, the place's average.
+ */
+export function webReach(
+  api: WebHost,
+  placeId: string,
+  measure: string,
+  subject?: Subject,
+  /**
+   * Links the caller reads from the subject's own records instead (the
+   * person-level twin of a place-level row), left out so one cause moves the
+   * subject once. A cause's measure in the set (a law's "law:" key) is left
+   * out as a moderator too: a link it moderates is read as if it did not,
+   * since its own records carry what it does.
+   */
+  except?: ReadonlySet<string>,
+): WebReach {
+  const row = latestRow(api, placeId);
+  return row ? reachOnRow(row, measure, subject, except) : NONE;
+}
+
+/**
+ * The web's reach on an outcome in a place as one month's row stood (a price
+ * a business set at a review and carried since reads the month it was set
+ * in), with the day that row was written; null where the web kept no row for
+ * that month.
+ */
+export function webReachInMonth(
+  api: WebHost,
+  placeId: string,
+  month: string,
+  measure: string,
+): { readonly reach: WebReach; readonly date: string } | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
+  const row = api
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .get(`web:${placeId}:${month}`) as unknown as WebMonth | undefined;
+  return row ? { reach: reachOnRow(row, measure), date: row.date } : null;
+}
+
+function reachOnRow(
+  row: WebMonth,
+  measure: string,
+  subject?: Subject,
+  except?: ReadonlySet<string>,
+): WebReach {
+  const links = WIRED_INTO.get(measure);
+  if (!links) return NONE;
+  const level = scaleOf(measure) === "level";
+  const base = row.bases[measure];
+  let product = 1,
+    added = 0;
+  const parts: WebPart[] = [];
+  for (const link of links) {
+    if (except?.has(link.key)) continue;
+    let effect = row.effects[link.key];
+    if (effect === undefined || effect === 0) continue;
+    // The Medicaid expansion halves how far unemployment leaves people
+    // uninsured; where the caller leaves the expansion out (an employer plan,
+    // which Medicaid coverage is not), the link is read without that halving.
+    const moderator = link.moderator;
+    if (
+      moderator &&
+      moderator.mode !== "only-when" &&
+      except?.has(moderator.measure)
+    ) {
+      const scale = moderatorScale(
+        moderator,
+        row.values[moderator.measure] ?? 0,
+      );
+      if (scale > 0) effect /= scale;
+    }
+    const weight = subjectWeight(link.key, subject);
+    parts.push({ link: link.key, effect, weight });
+    if (level) added += effect * weight;
+    else product *= 1 + effect * weight;
+  }
+  if (!parts.length) return { ...NONE, recordId: row.id };
+  const factor = level ? (base ? (base + added) / base : 1) : product;
+  return {
+    factor: Math.max(0, factor),
+    added: level ? added : 0,
+    recordId: row.id,
+    parts,
+  };
+}
+
+/**
+ * A level outcome's value for one subject in a place this month: its base
+ * plus its running links' scaled additions, in the measure's own unit, and
+ * the web month row it stands on. Null where the web keeps no month for the
+ * place. An engine whose own rate is the outcome itself (the share of
+ * containers returned) reads this, where one that multiplies a rate reads
+ * `webFactorFor`.
+ */
+export function webLevel(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+  subject?: Subject,
+): { level: number; recordId: string } | null {
+  const row = latestRow(api, placeId);
+  const base = row?.bases[measure];
+  if (!row || base === undefined) return null;
+  return {
+    level: base + webReach(api, placeId, measure, subject).added,
+    recordId: row.id,
+  };
+}
+
+/** The factor alone, for a rate that needs nothing else. */
+export function webFactorFor(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+  subject?: Subject,
+): number {
+  return webReach(api, placeId, measure, subject).factor;
+}

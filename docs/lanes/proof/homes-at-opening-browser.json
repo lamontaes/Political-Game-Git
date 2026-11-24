@@ -1,0 +1,68 @@
+[
+  {
+    "replay": "6e32d4b3c4eb3d6e",
+    "newlifeURL": "http://localhost:3000/api/newlife?seed=6e32d4b3c4eb3d6e&date=2025-01-20&placeKey=4811464&person=%7B%22givenName%22%3A%22Cedric%22%2C%22familyName%22%3A%22Rivas%22%2C%22gender%22%3A%22male%22%2C%22birthYear%22%3A1955%2C%22birthMonth%22%3A10%2C%22birthDay%22%3A18%2C%22recipe%22%3A%7B%22person%22%3A%22man-slim%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22suitcharcoal%22%2C%22colors%22%3A%7B%22top%22%3A%22heather+gray%22%2C%22trousers%22%3A%22denim%22%2C%22shoes%22%3A%22black%22%7D%7D%7D",
+    "place": "Burnet, Texas",
+    "life": {
+      "personId": "person_58d69233fe3b4bb0",
+      "name": "Cedric Rivas",
+      "age": 69,
+      "portrait": true,
+      "face": {
+        "url": "/api/portrait?id=person_58d69233fe3b4bb0",
+        "head": [33, 312, 92],
+        "width": 481,
+        "height": 742
+      },
+      "placeName": "Burnet, Texas",
+      "date": "2025-01-20",
+      "minuteOfDay": 1230
+    },
+    "dwelling": {
+      "id": "dwelling:household_361c7bf46b331051",
+      "householdId": "household_361c7bf46b331051",
+      "tenure": "own",
+      "kind": "mobile-home",
+      "valueMinor": 37623510,
+      "loanHolderId": "",
+      "since": "2025-01-20",
+      "basis": "opening"
+    },
+    "room": "trailer-home-living",
+    "backdrop": "/art/backdrops/trailer-home-living__night.jpg",
+    "errors": []
+  },
+  {
+    "replay": "f271d755166490b7",
+    "newlifeURL": "http://localhost:3000/api/newlife?seed=f271d755166490b7&date=2025-01-20&placeKey=4848858&person=%7B%22givenName%22%3A%22Haris%22%2C%22familyName%22%3A%22Reynolds%22%2C%22gender%22%3A%22male%22%2C%22birthYear%22%3A1954%2C%22birthMonth%22%3A9%2C%22birthDay%22%3A17%2C%22recipe%22%3A%7B%22person%22%3A%22man-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22suitcharcoal%3Ahis+own%22%2C%22colors%22%3A%7B%22top%22%3A%22red%22%2C%22trousers%22%3A%22charcoal%22%2C%22shoes%22%3A%22navy%22%7D%7D%7D",
+    "place": "Mobile City, Texas",
+    "life": {
+      "personId": "person_0cd3af440c1e4317",
+      "name": "Haris Reynolds",
+      "age": 70,
+      "portrait": true,
+      "face": {
+        "url": "/api/portrait?id=person_0cd3af440c1e4317",
+        "head": [35, 250, 100],
+        "width": 422,
+        "height": 750
+      },
+      "placeName": "Mobile City, Texas",
+      "date": "2025-01-20",
+      "minuteOfDay": 1230
+    },
+    "dwelling": {
+      "id": "dwelling:household_cd363268c1bf71c0",
+      "householdId": "household_cd363268c1bf71c0",
+      "tenure": "own",
+      "kind": "house",
+      "valueMinor": 53443243,
+      "loanHolderId": "organization:bank:jurisdiction_d1de972e0cc340f0",
+      "since": "2025-01-20",
+      "basis": "opening"
+    },
+    "room": "house-suburban-living",
+    "backdrop": "/art/backdrops/house-suburban-living__night.jpg",
+    "errors": []
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "scene": "tavern",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "tavern__midday.jpg",
+  "backdrops": [
+    "tavern__morning.jpg",
+    "tavern__rain.jpg",
+    "tavern__night.jpg"
+  ],
+  "spots": [
+    {
+      "id": "tavern-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 269,
+        "x": 840.0,
+        "width": 74
+      },
+      "box": [
+        764,
+        269,
+        916,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "tavern-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 301,
+        "x": 800.0,
+        "width": 51
+      },
+      "box": [
+        747,
+        301,
+        853,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "tavern-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 322,
+        "x": 780.0,
+        "width": 37
+      },
+      "box": [
+        742,
+        322,
+        818,
+        640
+      ],
+      "feet": 639
+    }
+  ]
+}

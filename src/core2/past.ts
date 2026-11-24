@@ -1,0 +1,87 @@
+/**
+ * The world has a past (owner, Oct 14, 2026). Opened once the government
+ * modules have seated the day-one officeholders and loaded the law in force,
+ * and before the story director starts: the prior elections and the winners'
+ * promises, the prior term's votes, every law's history, the year's business closures, the news
+ * archive and what the public knows about its figures, in that order, since
+ * each reads the one before.
+ */
+import type { CoreState } from "./types";
+import { coreAPI } from "./state";
+import { buildLawHistories, buildPriorTerms } from "./past-laws";
+import { buildPriorElections } from "./past-elections";
+import { buildPastClosures } from "./past-business";
+import { buildNewsArchive } from "./past-news";
+import { buildPublicFigures } from "./past-public";
+import { pastTown } from "./past-bodies";
+import { openPastModule, pastTable, putPast } from "./past-module";
+
+// The one history and what two people share, for readers outside the family
+// (the history's own readers are re-exported from past-module.ts).
+export * from "./past-module";
+// The working life's shared quarterly pulls, for the review of lives elsewhere.
+export {
+  findPerQuarter,
+  layoffPerQuarter,
+  PAST_WORK_SPELL,
+  quitPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "./past-work";
+// Who served in the military, and the share of a place's adults who did, for the veterans line.
+export { serviceOf, veteranShare } from "./past-work";
+// A school or employer's name, the organization's own record or the elsewhere kind, for the person card.
+export { organizationName } from "./places-elsewhere";
+export {
+  attendedSchool,
+  sharedHistory,
+  type AttendedRow,
+} from "./shared-history";
+
+export interface PastSummary {
+  readonly elections: number;
+  readonly bills: number;
+  readonly laws: number;
+  readonly votes: number;
+  readonly closures: number;
+  readonly stories: number;
+  readonly figures: number;
+}
+
+export function openThePast(core: CoreState, seed: string): PastSummary {
+  openPastModule(core);
+  const api = coreAPI(core);
+  const done = pastTable(api, "loaded").get("opening") as unknown as
+    PastSummary | undefined;
+  if (done) return done;
+  const town = pastTown(api, seed);
+  const elections = buildPriorElections(api, town);
+  const terms = buildPriorTerms(api, town, elections);
+  const laws = buildLawHistories(api, town);
+  const closures = buildPastClosures(api, town);
+  const stories = buildNewsArchive(api, town, {
+    elections,
+    closures,
+    histories: laws.histories,
+    bills: terms.bills,
+  });
+  const figures = buildPublicFigures(api, town, {
+    elections,
+    histories: laws.histories,
+  });
+  const summary: PastSummary = {
+    elections: elections.length,
+    bills: terms.bills.length,
+    laws: laws.histories.length,
+    votes: terms.votes + laws.votes,
+    closures: closures.length,
+    stories: stories.length,
+    figures: figures.length,
+  };
+  putPast(api, "loaded", { id: "opening", ...summary });
+  return summary;
+}
+
+// The past family's face for readers outside it (tests/guards/families.json).
+export { heldSinceRecord } from "./past-work";
+export { schoolsAttended } from "./past-school";

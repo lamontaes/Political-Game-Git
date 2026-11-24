@@ -1,0 +1,54 @@
+name: Audit scan
+
+# On every pull request, names the audit items its changed files move
+# (`npm run audit:scan -- --changed-range`), compares them with any audit IDs
+# the title claims, and posts both as the check's summary. It is a report,
+# not a gate: it fails only when the scan itself errors.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-scan:
+    name: audit scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          # The scan diffs the pull request head against its base, so both
+          # commits and their merge base must be in the clone.
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Name the audit items this pull request moves
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run --silent audit:scan -- \
+            --changed-range "${BASE_SHA}...${HEAD_SHA}" \
+            --claimed "${PR_TITLE}" \
+            --markdown > audit-scan-summary.md
+          cat audit-scan-summary.md >> "$GITHUB_STEP_SUMMARY"
+          cat audit-scan-summary.md

@@ -1,0 +1,24 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "sheeo-shef-fy25",
+      "localPath": "data/source/higher-education-finance/SHEEO_SHEF_FY25_Report_Data.xlsx",
+      "provider": "State Higher Education Executive Officers Association (SHEEO)",
+      "bytes": {
+        "length": 737137,
+        "sha256": "3a48fd92b392999800016b378b4016b9dfff13c5d268d0004ec4b219f8d74860"
+      },
+      "retrieval": {
+        "url": "https://shef.sheeo.org/wp-content/uploads/2026/04/SHEEO_SHEF_FY25_Report_Data.xlsx",
+        "retrievedAt": "2026-09-29"
+      },
+      "rights": {
+        "attributionRequired": null,
+        "declaredLicense": null,
+        "status": "to-check",
+        "reason": "SHEEO is a private nonprofit and its data-download terms are not recorded. Read them before release. The replacement data source is left to research."
+      },
+      "storage": "committed"
+    }
+  ]
+}

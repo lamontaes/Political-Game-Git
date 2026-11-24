@@ -1,0 +1,26 @@
+{
+  "asOf": "2026-09-05",
+  "canonicalSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+  "compiler": {
+    "name": "judicial-office-selection",
+    "version": "2.0.0"
+  },
+  "corpusId": "judicial-office-selection",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every highest-court, intermediate-appellate, and general-trial office-family slot reported by 92L across the United States federal judiciary and all fifty states, plus its separately reported split-apex and chancery families: 156 slots, 148 active offices, and eight explicit non-applicable intermediate-court slots, as of 2026-09-05."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "92l-national-judicial-selection-tenure-completion",
+      "sha256": "de494b4f778fd47710649a9014718c52247504d90619d67d24a158c12128bf24"
+    }
+  ],
+  "parser": {
+    "name": "92l-markdown-and-companion-transcription",
+    "version": "1.0.0"
+  },
+  "recordCount": 156
+}

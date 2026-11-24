@@ -1,0 +1,49 @@
+{
+  "id": "minimum-wage-regions",
+  "about": "Counties in each state minimum-wage region, for states whose minimum wage varies by region. A tier with an empty county list is the rest of the state. Keyed by the tier names in data/research/money/minimum-wage-dated-matrix-2026.json.",
+  "retrieved": "2026-10-12",
+  "regions": {
+    "US-NY": {
+      "new-york-city": ["36005", "36047", "36061", "36081", "36085"],
+      "long-island-and-westchester": ["36059", "36103", "36119"],
+      "remainder-of-state": []
+    },
+    "US-OR": {
+      "portland-metro": ["41005", "41051", "41067"],
+      "nonurban": [
+        "41001",
+        "41011",
+        "41013",
+        "41015",
+        "41019",
+        "41021",
+        "41023",
+        "41025",
+        "41031",
+        "41035",
+        "41037",
+        "41045",
+        "41049",
+        "41055",
+        "41059",
+        "41061",
+        "41063",
+        "41069"
+      ],
+      "standard": []
+    }
+  },
+  "sources": {
+    "US-NY": {
+      "url": "https://dol.ny.gov/minimum-wage-0",
+      "cite": "N.Y. Labor Law § 652(1): New York City (the five boroughs); Nassau, Suffolk and Westchester counties; remainder of state.",
+      "estimate": false
+    },
+    "US-OR": {
+      "url": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+      "cite": "ORS 653.025: the Portland metro rate applies within the urban growth boundary of the metropolitan service district (parts of Clackamas, Multnomah and Washington counties); the nonurban rate applies in the 18 counties the statute names; the standard rate everywhere else.",
+      "estimate": true,
+      "estimateNote": "The Portland metro boundary is the urban growth boundary, not whole counties; a place in Clackamas, Multnomah or Washington county outside it pays the standard rate. Whole counties are used until the boundary is mapped to places."
+    }
+  }
+}

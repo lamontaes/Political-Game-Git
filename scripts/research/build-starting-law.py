@@ -1,0 +1,704 @@
+"""Build the laws module's starting-law table from the sourced research files.
+
+Every row the laws module loads at the opening comes from here: one row per
+jurisdiction, series, tier and dated phase, each with its source, retrieval
+date and estimate flag. Jurisdiction keys: "US" (federal), "US-XX" (state,
+district or territory), "county:<5-digit FIPS>", "place:<7-digit GEOID>".
+
+Inputs (all under data/research):
+  money/minimum-wage-dated-matrix-2026.json     federal and state minimum wages
+  money/federal-income-tax-schedules.json       IRS 2026 schedules
+  money/state-income-tax-2026.json              state single-filer schedules
+  money/state-corporate-income-tax-2026.json    state corporate income tax rates and brackets
+  money/death-taxes-2026.json                   estate and inheritance taxes
+  laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
+  laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/open-meetings-and-records-2026.json      public notice before a regular meeting, by state (ESTIMATED draft)
+  laws/irs-2025-federal-tax.json, laws/taxfoundation-2025-*.json,
+  laws/fns-2025-snap-maximums.json, laws/hhs-2025-fmap.json,
+  laws/dol-2025-ui-weekly-bounds.json           the phases in force on the start date
+                                                (January 20, 2025), before the 2026 rows
+
+Run: python3 scripts/research/build-starting-law.py
+"""
+
+import json
+import pathlib
+import re
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+RESEARCH = ROOT / "data/research"
+LOCAL = RESEARCH / "laws/local-starting-law"
+OUT = ROOT / "src/core2/data/laws/starting-law.json"
+RETRIEVED = "2026-10-12"
+FOREVER = None
+
+# Minimum-wage tiers that are the general rate for an ordinary employer, in
+# the order a place's general rate is chosen. Region tiers name their counties
+# in data/research/laws/local-starting-law/minimum-wage-regions.json.
+GENERAL_TIERS = [
+    "statewide",
+    "most-employers",
+    "all-employers",
+    "above-small-employer-threshold",
+    "four-or-more-employees",
+    "four-or-more-employees-adults",
+    "two-or-more-employees",
+    "six-or-more-employees-per-location",
+    "flsa-covered",
+    "miscellaneous",
+]
+
+
+def load(path):
+    return json.loads(path.read_text())
+
+
+def optional(name):
+    path = LOCAL / name
+    return load(path) if path.exists() else None
+
+
+def row(jurisdiction, level, series, value, effective, end, source, estimate,
+        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED, calibration=False):
+    out = {
+        "jurisdiction": jurisdiction,
+        "level": level,
+        "series": series,
+        "tier": tier,
+        "value": value,
+        "effectiveDate": effective,
+        "endDate": end,
+        "source": source,
+        "retrieved": retrieved,
+        "estimate": bool(estimate),
+    }
+    if calibration:
+        out["calibration"] = True
+    if unit:
+        out["unit"] = unit
+    if terms is not None:
+        out["terms"] = terms
+    if note:
+        out["note"] = note
+    return out
+
+
+def dated(rows):
+    """Close each tier's phases: a phase ends when the next one starts, and the
+    latest phase carries forward with no end.
+
+    A later row with the same amount is a re-reading of the law already in
+    force (a page read on a later date), not a new phase, so it is dropped.
+    """
+    by = {}
+    for item in rows:
+        by.setdefault((item["jurisdiction"], item["series"], item["tier"], item["level"]), []).append(item)
+    rereadings = set()
+    for phases in by.values():
+        phases.sort(key=lambda r: r["effectiveDate"])
+        kept = phases[:1]
+        for item in phases[1:]:
+            if item["value"] == kept[-1]["value"] and item.get("terms", {}).get("counties") == kept[-1].get("terms", {}).get("counties") and item["series"] == "minimum-wage":
+                rereadings.add(id(item))
+            else:
+                kept.append(item)
+        phases[:] = kept
+        for current, following in zip(phases, phases[1:]):
+            if current["endDate"] is None or current["endDate"] > following["effectiveDate"]:
+                current["endDate"] = following["effectiveDate"]
+        # A published figure's last day is the end of the period the source
+        # covers, not the end of the law: the latest phase stays in force
+        # until a law changes it (an income tax schedule does not lapse on
+        # January 1 because next year's schedule is not out yet).
+        phases[-1]["endDate"] = FOREVER
+    return [item for item in rows if id(item) not in rereadings]
+
+
+def minimum_wages(rows):
+    matrix = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")
+    regions = optional("minimum-wage-regions.json") or {"regions": {}}
+    federal = matrix["federalFloor"]
+    rows.append(row("US", "federal", "minimum-wage", federal["value"], federal["operativeAt"],
+                    FOREVER, federal["source"], False, unit="minor/hour"))
+    for state, place in matrix["places"].items():
+        # The national floor's own rows are skipped below, so their tier is
+        # never the place's general one. A place with one tier left (Georgia's
+        # six or more employees not under federal law) has it as its general.
+        tiers = {r["tier"] for r in place["rows"]
+                 if not (r["level"] == "federal" and r["tierKind"] == "federal-floor")}
+        general = next((t for t in GENERAL_TIERS if t in tiers), None)
+        if general is None and len(tiers) == 1:
+            general = next(iter(tiers))
+        for item in place["rows"]:
+            if item["level"] == "federal" and item["tierKind"] == "federal-floor":
+                continue  # the national floor row above covers it
+            tier = item["tier"]
+            if tier == general:
+                tier = "general"
+            level = "federal" if item["level"] == "federal" else "state"
+            terms = {"tierKind": item["tierKind"], "basis": item.get("operativeBasis")}
+            counties = regions["regions"].get(state, {}).get(item["tier"])
+            if counties is not None:
+                terms["counties"] = counties
+            rows.append(row(state, level, "minimum-wage", item["value"], item["operativeAt"],
+                            FOREVER, item["source"], item.get("estimated", False), tier=tier,
+                            unit="minor/hour", terms=terms, note=item.get("note")))
+    local = optional("local-minimum-wage.json")
+    for item in (local or {}).get("rows", []):
+        key = ("county:" if item["kind"] == "county" else "place:") + item["censusGeoid"]
+        level = "county" if item["kind"] == "county" else "city"
+        rows.append(row(key, level, "minimum-wage", round(item["rate"] * 100), item["effectiveDate"],
+                        item.get("endDateExclusive"), item["source"], item.get("estimate", False),
+                        unit="minor/hour", note=item.get("jurisdictionName"),
+                        terms={"coversUnincorporatedOnly": bool(item.get("coversUnincorporatedOnly", False)),
+                               **{k: item[k] for k in ("smallEmployerRate", "midEmployerRate", "microEmployerRate") if item.get(k) is not None}},
+                        retrieved=item.get("retrievedDate", RETRIEVED)))
+
+
+def payroll_taxes(rows):
+    """Federal payroll taxes on wages, from the statute and SSA's 2026 wage base."""
+    rows.append(row("US", "federal", "social-security-tax", 6.2, "2026-01-01", "2027-01-01",
+                    "26 U.S.C. 3101(a); 2026 contribution and benefit base $184,500 (SSA, 2026 COLA fact sheet; also stated by the Oregon and Washington paid-leave programs, data/research/money/state-paid-leave-premiums-2026.json)",
+                    False, unit="percent-of-wages", terms={"wageBase": 184500, **wage_base_indexing()}))
+    rows.append(row("US", "federal", "medicare-tax", 1.45, "2013-01-01", FOREVER,
+                    "26 U.S.C. 3101(b)(1); additional 0.9% on wages over $200,000 for a single filer, 26 U.S.C. 3101(b)(2)",
+                    False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
+
+
+def campaign_finance(rows):
+    """The federal limit on an individual's gift to a candidate, from the campaign finance research."""
+    finance = load(RESEARCH / "campaigns/campaign-finance-2026.json")["federal"]["individualToCandidate"]
+    rows.append(row("US", "federal", "federal-campaign-contribution-limit", finance["usd"], "2025-01-01", FOREVER,
+                    f"52 U.S.C. 30116(a)(1)(A); {finance['source']} {finance['sourceUrl']}",
+                    finance["estimate"], unit="USD/election",
+                    terms={"basis": finance["basis"], "cycle": finance["cycle"]},
+                    retrieved=finance["retrievedDate"]))
+    # Each state's limit on a gift to a candidate, by office, where the research gives a number
+    # ("unlimited" and "set by locality" have no amount to hold and keep the research's own answer).
+    limits = load(RESEARCH / "campaigns/campaign-finance-2026.json")["limits"]
+    for state, offices in sorted(limits.items()):
+        for office, series in STATE_CONTRIBUTION_SERIES.items():
+            item = offices.get(office)
+            if not isinstance(item, dict) or not isinstance(item.get("usd"), (int, float)):
+                continue
+            rows.append(row(state, "state", series, item["usd"], "2025-01-01", FOREVER,
+                            "; ".join(x for x in (item.get("source"), item.get("sourceUrl"), offices.get("statute")) if x),
+                            bool(item.get("estimate", False)), unit="USD/election",
+                            terms={"basis": item.get("basis", offices.get("basis", "n/a"))},
+                            retrieved="2026-10-12"))
+
+
+STATE_CONTRIBUTION_SERIES = {
+    "governor": "state-contribution-limit-governor",
+    "stateSenate": "state-contribution-limit-state-senate",
+    "stateHouse": "state-contribution-limit-state-house",
+    "local": "state-contribution-limit-local",
+}
+
+
+def governor_term_limits(rows):
+    """Each state's governor term limit, in terms (0 for none), from the state office research."""
+    places = load(RESEARCH / "offices/state-offices.json")["places"]
+    for state, place in sorted(places.items()):
+        for executive in place.get("executives", []):
+            if executive["key"] != "governor":
+                continue
+            limit = executive.get("termLimit") or {}
+            kind = limit.get("kind")
+            terms = limit.get("terms") if kind in ("consecutive", "lifetime") else 0
+            rows.append(row(state, "state", "executive-term-limit", terms or 0, "2026-01-01", FOREVER,
+                            executive.get("citation") or "State constitution", False, unit="terms",
+                            terms={"kind": kind or "none"}, note=limit.get("notes"), retrieved="2026-11-08"))
+
+
+def child_care(rows):
+    """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
+    data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
+    for state, item in sorted(data["rows"].items()):
+        rows.append(row(state, "state", "child-care-income-limit", item["monthlyDollarsFamilyOf3"],
+                        "2025-01-01", FOREVER, item["source"], bool(item["estimate"]),
+                        unit="USD/month", terms={"pctSMI": item["pctSMI"], "familySize": 3},
+                        note=item.get("note"), retrieved="2026-11-08"))
+
+
+def energy_assistance(rows):
+    """Each state's home energy assistance income limit, as a percent of the poverty line (the statute's ceiling until each state's own is read)."""
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        rows.append(row(state, "state", "energy-assistance-income-limit", 150, "2026-01-01", FOREVER,
+                        "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+                        True, unit="percent-of-poverty-line",
+                        terms={"floorPct": 110, "ceilingPct": 150},
+                        note="ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up.",
+                        retrieved="2026-11-08"))
+
+
+# stopgapId: SG-LAWS-records-response-unread (the same file's recordsDays are not loaded: no records request to read them)
+def meeting_notice(rows):
+    """Each place's minimum public notice before a regular meeting of a local body, in hours (data/research/laws/open-meetings-and-records-2026.json)."""
+    data = load(RESEARCH / "laws/open-meetings-and-records-2026.json")
+    for state, item in sorted(data["rows"].items()):
+        estimated = item.get("noticeHours") is None or item["tag"] == "ESTIMATED"
+        terms = {"cite": item["statute"]} if item.get("statute") else {}
+        rows.append(row(state, "state", "meeting-notice-hours", item["noticeHoursUsed"], "2000-01-01", FOREVER,
+                        item.get("source") or "open-meetings-and-records-2026.json", estimated, unit="hours",
+                        terms=terms or None,
+                        note=item.get("noticeHoursEstimate") or item.get("noticeNote"),
+                        retrieved="2026-11-09"))
+
+
+def ssi(rows):
+    """The federal SSI benefit rate for an eligible individual, a month."""
+    data = load(RESEARCH / "laws/ssi-2026.json")
+    rate = data["federalBenefitRate"]
+    rows.append(row("US", "federal", "ssi-federal-benefit-rate", rate["individualDollars"], rate["effectiveDate"], FOREVER,
+                    data["sources"][0]["url"], False, unit="USD/month",
+                    terms={"coupleDollars": rate["coupleDollars"], "colaPercent": rate["colaPercent"]},
+                    retrieved=data["retrieved"]))
+
+
+def business_taxes(rows):
+    """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/business-taxes-2026.json")
+    futa = taxes["federalUnemploymentTax"]
+    rows.append(row("US", "federal", "federal-unemployment-tax", futa["value"], futa["effectiveDate"],
+                    FOREVER, futa["source"], False, unit="percent-of-wages",
+                    terms={k: futa[k] for k in ("wageBase", "grossRate", "stateCredit", "notCovered")},
+                    retrieved=taxes["retrieved"]))
+    corporate = taxes["corporateIncomeTax"]
+    rows.append(row("US", "federal", "corporate-income-tax", corporate["value"], corporate["effectiveDate"],
+                    FOREVER, corporate["source"], False, unit="percent-flat", retrieved=taxes["retrieved"]))
+    suta = taxes["stateUnemploymentTax"]
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        if state in futa["notCovered"]:
+            continue
+        rows.append(row(state, "state", "state-unemployment-tax", suta["value"], suta["effectiveDate"],
+                        FOREVER, suta["source"], suta["estimate"], unit="percent-of-wages",
+                        terms={"wageBase": suta["wageBase"]}, retrieved=taxes["retrieved"]))
+
+
+STATE_DEATH_TAX_SLIDE = 10040000
+
+
+def death_taxes(rows):
+    """Estate and inheritance taxes (data/research/money/death-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/death-taxes-2026.json")
+    for phase in taxes["federal"]:
+        rows.append(row("US", "federal", "estate-tax", phase["maxRate"], phase["effectiveDate"], FOREVER,
+                        phase["source"], phase["estimate"], unit="percent-top-rate",
+                        terms={k: phase[k] for k in ("exemption", "minRate", "slideOver")},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["estate"].items()):
+        slide = STATE_DEATH_TAX_SLIDE if law["minRate"] < law["maxRate"] else 0
+        rows.append(row(state, "state", "estate-tax", law["maxRate"], taxes["estateFrom"], FOREVER,
+                        f"{taxes['source']}. {taxes['estateEstimateNote']}"
+                        + (f" {taxes['slideOverNote']}" if slide else ""),
+                        True, unit="percent-top-rate",
+                        terms={"exemption": law["exemption"], "minRate": law["minRate"], "slideOver": slide},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["inheritance"].items()):
+        top = max([c["maxRate"] for c in law["classes"].values()] + [law["others"]["maxRate"]])
+        rows.append(row(state, "state", "inheritance-tax", top, taxes["estateFrom"], FOREVER,
+                        f"{law['source']} Exemptions and rates: {taxes['source']}.",
+                        True, unit="percent-top-rate",
+                        terms={"classes": law["classes"], "others": law["others"],
+                               "governmentHeir": law["governmentHeir"]},
+                        retrieved=taxes["retrieved"]))
+
+
+def local_wage_authority(rows):
+    questions = load(RESEARCH / "laws/starting-law-2026/labor-workforce.json")["questions"]
+    question = questions["us-policy-positions:labor-workforce.local-minimum-wage-authority"]
+    for state, answer in question["answers"].items():
+        rows.append(row(state, "state", "local-minimum-wage-authority",
+                        1 if answer["answer"] == "yes" else 0, answer.get("operativeAt", "2000-01-01"),
+                        FOREVER, answer.get("source") or question["source"], "estimated" in answer,
+                        terms={"preempts": bool(answer.get("preempts", False)),
+                               "answer": answer["answer"], "cite": answer.get("cite")}))
+
+
+def indexing():
+    """Which amounts the law moves with prices or wages (data/research/money/tax-indexing-2026.json)."""
+    return load(RESEARCH / "money/tax-indexing-2026.json")
+
+
+def wage_base_indexing(dollar_year=None):
+    found = indexing()
+    rule = found["federal"]["socialSecurityTax"]
+    return {"indexed": {"dollarYear": dollar_year or found["dollarYear"], "wageBase": rule["wageBase"],
+                        "source": rule["source"]}}
+
+
+def income_tax_indexing(state, dollar_year):
+    """terms.indexed for an income tax row: what moves with prices, from its dollar year."""
+    found = indexing()
+    if state == "US":
+        rule = found["federal"]["incomeTax"]
+        return {"indexed": {"dollarYear": dollar_year, "brackets": rule["brackets"],
+                            "standardDeduction": rule["standardDeduction"], "source": rule["source"]}}
+    states = found["states"]
+    moves = {}
+    if state in states["bracketsIndexed"]:
+        moves["brackets"] = "prices"
+    if state in states["standardDeductionIndexed"]:
+        moves["standardDeduction"] = "prices"
+    if not moves:
+        return {}
+    return {"indexed": {"dollarYear": dollar_year, **moves, "source": states["source"]["url"]}}
+
+
+def income_taxes(rows):
+    federal = load(RESEARCH / "money/federal-income-tax-schedules.json")
+    for record in federal["records"]:
+        schedules = {}
+        source = None
+        for filing, schedule in record["schedules"].items():
+            source = schedule.get("sourceUrl", source)
+            schedules[filing] = {
+                "standardDeduction": schedule["standardDeductionMinor"] / 100,
+                "brackets": [{"over": b["overMinor"] / 100, "rate": b["rateBasisPoints"] / 100}
+                             for b in schedule["brackets"]],
+            }
+        rows.append(row("US", "federal", "income-tax", schedules["single"]["brackets"][-1]["rate"],
+                        f"{record['taxYear']}-01-01", f"{record['taxYear'] + 1}-01-01", source, False,
+                        unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules,
+                                                        **income_tax_indexing("US", record["taxYear"])}))
+    states = load(RESEARCH / "money/state-income-tax-2026.json")
+    married = (optional("state-income-tax-married-2026.json") or {}).get("places", {})
+    for state, place in states["places"].items():
+        brackets = [{"over": b["overSingle"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        schedules = {"single": {"standardDeduction": place.get("standardDeductionSingle"), "brackets": brackets}}
+        m = married.get(state)
+        if m:
+            # Law in force on the start date: the January 1 table, even where a
+            # later 2026 act changed the year back to January 1.
+            table = m.get("taxFoundationTableRow") or {}
+            joint = table.get("brackets") or m["brackets"]
+            deduction = table.get("standardDeductionMarriedJoint") or m.get("standardDeductionMarriedJoint")
+            schedules["married-filing-jointly"] = {
+                "standardDeduction": deduction.get("amount") if isinstance(deduction, dict) else deduction,
+                "personalExemption": (m.get("personalExemptionMarriedJoint") or {}).get("amount"),
+                "brackets": [{"over": b["overMarriedJoint"], "rate": b["ratePercent"]} for b in joint],
+                "source": m["source"]["url"] if isinstance(m.get("source"), dict) else m.get("source"),
+                "estimate": m.get("estimate", False),
+            }
+            if table:
+                schedules["laterIn2026"] = {"note": " ".join(m.get("notes", [])), "brackets": m["brackets"]}
+        top = brackets[-1]["rate"] if brackets else 0
+        rows.append(row(state, "state", "income-tax", top, "2026-01-01", "2027-01-01",
+                        states["source"]["url"], False, unit="percent-top-rate",
+                        terms={"system": place["wageIncomeTax"], "schedules": schedules,
+                               **income_tax_indexing(state, indexing()["dollarYear"])}))
+    territories = (optional("territory-income-tax-2026.json") or {}).get("places", {})
+    for state, place in territories.items():
+        brackets = [{"over": b["overSingle"], "rate": b["ratePercent"]} for b in place.get("bracketsSingle") or []]
+        source = place["source"]["url"] if isinstance(place["source"], dict) else place["source"]
+        rows.append(row(state, "state", "income-tax", brackets[-1]["rate"] if brackets else None, "2026-01-01",
+                        "2027-01-01", source, place.get("estimate", False), unit="percent-top-rate",
+                        terms={"system": place.get("system"), "mirrorsFederal": place.get("mirrorsFederal"),
+                               "replacesFederal": True,
+                               "schedules": {"single": {"standardDeduction": place.get("standardDeduction"),
+                                                        "brackets": brackets}},
+                               "otherTaxes": place.get("otherTaxes")},
+                        note="Residents pay the territory's income tax in place of the federal income tax on local income."))
+    # State corporate income tax (the federal row is above). A place with no
+    # corporate income tax gets no row: the reader treats a missing row as no tax.
+    corporate_states = load(RESEARCH / "money/state-corporate-income-tax-2026.json")
+    corporate_source = corporate_states["source"]["url"]
+    for state, place in corporate_states["places"].items():
+        if place["corporateIncomeTax"] == "none":
+            continue
+        brackets = [{"over": b["overIncome"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        flat = place["corporateIncomeTax"] == "flat"
+        terms = {"system": place["corporateIncomeTax"], "brackets": brackets}
+        if place.get("rateAppliesToEntireNetIncome"):
+            terms["rateAppliesToEntireNetIncome"] = True
+        rows.append(row(state, "state", "corporate-income-tax", brackets[-1]["rate"], "2026-01-01", FOREVER,
+                        corporate_source, False, unit="percent-flat" if flat else "percent-top-rate",
+                        terms=terms, note=place.get("note"), retrieved=corporate_states["source"]["retrieved"]))
+    territory_corporate = (optional("territory-corporate-income-tax-2026.json") or {}).get("places", {})
+    for state, place in territory_corporate.items():
+        source = place["source"]
+        terms = {"system": place["system"], "mirrorsFederal": place["mirrorsFederal"], "replacesFederal": True}
+        for key in ("normalRatePercent", "surtax"):
+            if key in place:
+                terms[key] = place[key]
+        rows.append(row(state, "state", "corporate-income-tax", place["ratePercent"], "2026-01-01", FOREVER,
+                        f"{source['title']} ({source['url']})", place.get("estimate", False),
+                        unit="percent-top-rate" if "surtax" in place or place["system"].startswith("own") else "percent-flat",
+                        terms=terms,
+                        note=place.get("estimatedFrom") or "A corporation pays the territory's tax in place of the federal corporate income tax."))
+    local = optional("local-income-tax.json")
+    for item in (local or {}).get("states", []):
+        rows.append(row(item["stateKey"], "state", "local-income-tax-authority", 1 if item["allowed"] else 0,
+                        "2026-01-01", FOREVER, item["source"], item.get("estimate", False),
+                        terms={k: item.get(k) for k in ("kind", "typicalRate", "rateMin", "rateMax")}))
+    for item in (local or {}).get("jurisdictions", []):
+        geoid = item.get("censusGeoid")
+        if not geoid:
+            continue  # a special district spanning counties: needs its own boundary (not yet mapped)
+        key = ("county:" if len(geoid) == 5 else "place:") + geoid
+        rows.append(row(key, "county" if len(geoid) == 5 else "city", "income-tax", item["residentRate"],
+                        item.get("effectiveDate", "2026-01-01"), item.get("endDateExclusive"), item["source"],
+                        item.get("estimate", False), unit="percent-flat",
+                        terms={"nonresidentRate": item.get("nonresidentRate"), "base": item.get("base"),
+                               "kind": item.get("kind")},
+                        note=item.get("jurisdictionName"), retrieved=item.get("retrievedDate", RETRIEVED)))
+
+
+def sales_taxes(rows):
+    sales = optional("sales-tax.json")
+    for state, place in (sales or {}).get("places", {}).items():
+        source = place.get("stateRateSource") or place.get("source") or place.get("combinedAvgSource")
+        estimate = place.get("estimate", False) or not place.get("stateRateOfficialChecked", True) and "taxfoundation" not in (source or "")
+        rows.append(row(state, "state", "sales-tax", place["stateRate"], "2026-01-01", FOREVER,
+                        source, estimate, unit="percent", terms={"kind": place.get("kind")},
+                        note=place.get("note")))
+        if place.get("localAllowed") and place.get("avgLocalRate") is not None:
+            rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2026-01-01",
+                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent", calibration=True,
+                            terms={"spreadLow": place.get("localRateMin"), "spreadHigh": place.get("localRateMax"),
+                                   "appliesAs": "the state's average local rate: this place's own rate is not sampled"}))
+        for sample in place.get("samples", []):
+            if not sample.get("censusPlaceGeoid") or sample.get("combinedRate") is None:
+                continue
+            local = round(sample["combinedRate"] - place["stateRate"], 4)
+            rows.append(row("place:" + sample["censusPlaceGeoid"], "city", "sales-tax", local, "2026-01-01",
+                            FOREVER, sample["source"], sample.get("estimate", False), unit="percent",
+                            terms={"combinedRate": sample["combinedRate"], "includes": "every local level together"},
+                            note=sample.get("placeName"), retrieved=sample.get("retrievedDate", RETRIEVED)))
+        for change in place.get("rateChanges2026", []):
+            if change.get("newStateRate") is None:
+                continue
+            rows.append(row(state, "state", "sales-tax", change["newStateRate"], change["effective"], FOREVER,
+                            change.get("source", source), change.get("estimate", False), unit="percent",
+                            terms={"kind": place.get("kind")}, note=change.get("what")))
+
+
+def benefits(rows):
+    snap = load(LOCAL / "snap-maximums.json")
+    for state, items in snap["places"].items():
+        for item in items:
+            sizes = item["maximumByHouseholdSize"]
+            rows.append(row(state, "federal", "snap-maximum", sizes["1"], item["effectiveDate"],
+                            item["endDateExclusive"], item["source"], item.get("estimate", False),
+                            tier=item["area"] if item["area"].startswith("rural") else "general",
+                            note="Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped." if state == "US-AK" and item["area"] == "urban" else None,
+                            unit="USD/month", terms={"area": item["area"], "byHouseholdSize": sizes,
+                                                     "additionalPerson": item.get("additionalPersonAboveEight")},
+                            retrieved=item.get("retrievalDate", RETRIEVED)))
+    ui = load(LOCAL / "unemployment-weekly-bounds.json")
+    for state, items in ui["places"].items():
+        for item in items:
+            rows.append(row(state, "state", "unemployment-weekly-maximum", item["maximumPublished"][0],
+                            item["effectiveDate"], FOREVER, item["source"], item.get("estimate", False),
+                            unit="USD/week", terms={"minimum": item["minimumPublished"],
+                                                    "maximum": item["maximumPublished"],
+                                                    "rangeBasis": item.get("rangeBasis")},
+                            retrieved=item.get("retrievalDate", RETRIEVED)))
+    medicaid = load(LOCAL / "medicaid-match.json")
+    for state, items in medicaid["places"].items():
+        for item in items:
+            rows.append(row(state, "federal", "medicaid-match", item["value"], item["effectiveDate"],
+                            item["endDateExclusive"], item["source"], item.get("estimate", False),
+                            unit="percent", retrieved=item.get("retrievalDate", RETRIEVED)))
+    programs = optional("unemployment-insurance.json")
+    for state, place in (programs or {}).get("places", {}).items():
+        source = place.get("source")
+        source = source[0] if isinstance(source, list) and source else source
+        if not place.get("hasProgram"):
+            rows.append(row(state, "state", "unemployment-insurance", 0, "2000-01-01", FOREVER,
+                            source or "U.S. Department of Labor: no regular unemployment insurance program",
+                            place.get("estimate", False), terms={"hasProgram": False, "note": place.get("text")}))
+            continue
+        formula = place.get("weeklyBenefitFormula") or {}
+        weeks = place.get("maxWeeks") or {}
+        rows.append(row(state, "state", "unemployment-insurance", 1, "2026-01-01", FOREVER, source,
+                        place.get("estimate", False), unit="program",
+                        terms={"hasProgram": True,
+                               "baseEarnings": place.get("baseEarnings"),
+                               "weeklyBenefitFraction": formula.get("fraction"),
+                               "weeklyBenefitAppliesTo": formula.get("fractionAppliesTo"),
+                               "weeklyBenefitBasisQuarters": basis_quarters(formula.get("fractionAppliesTo")),
+                               "weeklyBenefitText": formula.get("text"),
+                               "waitingWeek": (place.get("waitingWeek") or {}).get("required"),
+                               "maxWeeks": weeks.get("value2026") or weeks.get("maximum"),
+                               "maxWeeksRule": weeks.get("rule"),
+                               "workSearchContactsPerWeek": (place.get("searchRequirement") or {}).get("contactsPerWeek")}))
+    extra = optional("benefit-gaps.json")
+    for item in (extra or {}).get("rows", []):
+        rows.append(item)
+
+
+def public_pay_floor(rows):
+    """The public pay floor law, from the statutes: no law sets one salary floor for every
+    public job at a level and the levels under it, so it starts at none (0) everywhere; the
+    minimum wage (its own series) is the floor every public employer pays."""
+    rows.append(row("US", "federal", "public-pay-floor", 0, "1985-02-19", FOREVER,
+                    "29 U.S.C. 203(e)(2) and (x) (https://www.law.cornell.edu/uscode/text/29/203): the Fair Labor Standards Act's minimum wage covers 'any individual employed by a State, political subdivision of a State, or an interstate governmental agency' and 'any individual employed by the Government of the United States'; Garcia v. San Antonio Metropolitan Transit Authority, 469 U.S. 528 (February 19, 1985) (https://www.law.cornell.edu/supremecourt/text/469/528), upheld 'affording SAMTA employees the protections of the wage and hour provisions of the FLSA'; 5 U.S.C. 5332(a)(1) (https://www.law.cornell.edu/uscode/text/5/5332): 'Each employee to whom this subchapter applies is entitled to basic pay in accordance with the General Schedule', a schedule for federal staff only.",
+                    False, unit="dollars/year",
+                    note="No law sets one salary floor for every public job at a level and the levels under it; 0 means none.",
+                    retrieved="2026-10-24"))
+
+
+LAWS = RESEARCH / "laws"
+
+
+def start_phases(rows):
+    """The phases in force on January 20, 2025, the game's start, for each series
+    a national table covers: federal income tax and the Social Security wage
+    base (IRS), state income and sales taxes (Tax Foundation, January 1, 2025),
+    SNAP maximums and the Medicaid match (FY2025) and unemployment weekly
+    bounds (DOL, January 2025). The 2026 rows above follow them. Checked
+    against starting-law.json by scripts/research/check-start-law-2025.ts.
+    """
+    federal = load(LAWS / "irs-2025-federal-tax.json")
+    tax = federal["incomeTax"]
+    schedules = {filing: {"standardDeduction": s["standardDeductionMinor"] / 100,
+                          "brackets": [{"over": b["overMinor"] / 100, "rate": b["rateBasisPoints"] / 100}
+                                       for b in s["brackets"]]}
+                 for filing, s in tax["schedules"].items()}
+    rows.append(row("US", "federal", "income-tax", schedules["single"]["brackets"][-1]["rate"],
+                    f"{tax['taxYear']}-01-01", f"{tax['taxYear'] + 1}-01-01", federal["sourceUrl"], False,
+                    unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules,
+                                                    **income_tax_indexing("US", tax["taxYear"])},
+                    retrieved=federal["retrievedOn"]))
+    ss = federal["socialSecurity"]
+    rows.append(row("US", "federal", "social-security-tax", ss["ratePercent"], "2025-01-01", "2026-01-01",
+                    f"26 U.S.C. 3101(a); 2025 social security wage base ${ss['wageBase']:,} ({ss['source']})",
+                    False, unit="percent-of-wages",
+                    terms={"wageBase": ss["wageBase"], **wage_base_indexing(2025)},
+                    retrieved=federal["retrievedOn"]))
+    income = load(LAWS / "taxfoundation-2025-state-income-tax.json")
+    for state, place in income["places"].items():
+        single = [{"over": b["overSingle"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        joint = [{"over": b["overMarriedJoint"], "rate": b["ratePercent"]} for b in place["bracketsMarriedJoint"]]
+        schedules = {"single": {"standardDeduction": place["standardDeductionSingle"], "brackets": single}}
+        if joint:
+            schedules["married-filing-jointly"] = {"standardDeduction": place["standardDeductionMarriedJoint"],
+                                                   "brackets": joint}
+        rows.append(row(state, "state", "income-tax", single[-1]["rate"] if single else 0, "2025-01-01",
+                        "2026-01-01", income["sourceUrl"], False, unit="percent-top-rate",
+                        terms={"system": place["wageIncomeTax"], "schedules": schedules,
+                               **income_tax_indexing(state, 2025)},
+                        note=place.get("note"), retrieved=income["retrievedOn"]))
+    sales = load(LAWS / "taxfoundation-2025-sales-tax.json")
+    later = optional("sales-tax.json")["places"]
+    for state, place in sales["places"].items():
+        kind = later.get(state, {}).get("kind")
+        rows.append(row(state, "state", "sales-tax", place["stateRate"], "2025-01-01", FOREVER,
+                        sales["sourceUrl"], False, unit="percent", terms={"kind": kind},
+                        retrieved=sales["retrievedOn"]))
+        if later.get(state, {}).get("localAllowed") and later[state].get("avgLocalRate") is not None:
+            rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2025-01-01",
+                            FOREVER, sales["sourceUrl"], True, unit="percent", calibration=True,
+                            terms={"spreadLow": later[state].get("localRateMin"), "spreadHigh": place["maxLocalRate"],
+                                   "appliesAs": "the state's average local rate: this place's own rate is not sampled"},
+                            retrieved=sales["retrievedOn"]))
+    snap = load(LAWS / "fns-2025-snap-maximums.json")
+    for state, items in snap["places"].items():
+        for item in items:
+            sizes = item["maximumByHouseholdSize"]
+            rows.append(row(state, "federal", "snap-maximum", sizes["1"], item["effectiveDate"],
+                            item["endDateExclusive"], snap["sourceUrl"], False,
+                            tier=item["area"] if item["area"].startswith("rural") else "general",
+                            note="Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped." if state == "US-AK" and item["area"] == "urban" else None,
+                            unit="USD/month", terms={"area": item["area"], "byHouseholdSize": sizes,
+                                                     "additionalPerson": item["additionalPersonAboveEight"]},
+                            retrieved=snap["retrievedOn"]))
+    fmap = load(LAWS / "hhs-2025-fmap.json")
+    for state, place in fmap["places"].items():
+        source = fmap["sourceUrl"] + (f" ; {place['adjustment']['source']}" if "adjustment" in place else "")
+        rows.append(row(state, "federal", "medicaid-match", place["value"], "2024-10-01", "2025-10-01",
+                        source, False, unit="percent", retrieved=fmap["retrievedOn"]))
+    ui = load(LAWS / "dol-2025-ui-weekly-bounds.json")
+    for state, place in ui["places"].items():
+        rows.append(row(state, "state", "unemployment-weekly-maximum", place["maximumPublished"][0],
+                        "2025-01-01", FOREVER, ui["sourceUrl"], False, unit="USD/week",
+                        terms={"minimum": place["minimumPublished"], "maximum": place["maximumPublished"],
+                               "rangeBasis": place["rangeBasis"]},
+                        retrieved=ui["retrievedOn"]))
+
+
+def basis_quarters(text):
+    """How many quarters of wages a weekly benefit fraction applies to, from the row's own words.
+
+    0 means a weekly wage already (an average weekly wage or high quarter / 13),
+    1 the high quarter, 2 the two highest quarters, 4 the base period's year;
+    None when the row's words name none of them (the claim then falls to the
+    program's median weekly share).
+    """
+    t = (text or "").lower()
+    if re.search(r"aww|average weekly wage|hqw/13", t):
+        return 0
+    if re.search(r"2 highest|2 consecutive|last 2|sum of 2", t):
+        return 2
+    if re.search(r"high.quarter", t):
+        return 1
+    if re.search(r"base.period|annual", t):
+        return 4
+    return None
+
+
+def property_taxes():
+    data = load(LOCAL / "property-tax-effective.json")
+    states = {k: {"rate": v["rate"], "spreadLow": v["spreadLow"], "spreadHigh": v["spreadHigh"]}
+              for k, v in data["states"].items()}
+    for item in (optional("territory-property-tax.json") or {}).get("rows", []):
+        states[item["stateKey"]] = {"rate": item["rate"], "spreadLow": item.get("spreadLow", item["rate"]),
+                                    "spreadHigh": item.get("spreadHigh", item["rate"]),
+                                    "source": item["source"], "basis": item.get("basis")}
+    return {
+        "series": "property-tax",
+        "unit": "percent of home value per year",
+        "source": data["sources"],
+        "method": data["method"],
+        "retrieved": data["retrieved"],
+        "estimate": True,
+        "states": states,
+        "counties": data["counties"],
+    }
+
+
+def main():
+    rows = []
+    minimum_wages(rows)
+    local_wage_authority(rows)
+    payroll_taxes(rows)
+    business_taxes(rows)
+    ssi(rows)
+    meeting_notice(rows)
+    energy_assistance(rows)
+    governor_term_limits(rows)
+    campaign_finance(rows)
+    child_care(rows)
+    death_taxes(rows)
+    income_taxes(rows)
+    sales_taxes(rows)
+    benefits(rows)
+    public_pay_floor(rows)
+    start_phases(rows)
+    rows = dated(rows)
+    by_jurisdiction = {}
+    calibrations = {}
+    for item in rows:
+        key = item.pop("jurisdiction")
+        target = calibrations if item.pop("calibration", False) else by_jurisdiction
+        target.setdefault(key, []).append(item)
+    document = {
+        "id": "starting-law-in-force-2026",
+        "about": "Law in force at every level for each place, from the sourced research files. Built by scripts/research/build-starting-law.py; edit the research, not this file.",
+        "built": RETRIEVED,
+        "jurisdictions": dict(sorted(by_jurisdiction.items())),
+        "calibrations": dict(sorted(calibrations.items())),
+        "propertyTax": property_taxes(),
+    }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(document, separators=(",", ":")) + "\n")
+    print(len(rows), "rows in", len(by_jurisdiction), "jurisdictions")
+
+
+if __name__ == "__main__":
+    main()

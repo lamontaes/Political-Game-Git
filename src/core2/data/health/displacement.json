@@ -1,0 +1,56 @@
+{
+  "about": "The extra death hazard of a worker displaced from a long job, by years since the displacement (job-loss-to-death-risk, src/core2/health-own.ts). Each point is the sum of the paper's long-run coefficient (16 or more years after displacement) and its added coefficient for that span of years, read as a proportional increase in the annual death hazard the way the paper reads them (its abstract: 50-100% in the year after, 10-15% twenty years on). Between the points the excess is linear, so nothing is a cliff; before the first it holds the first point, and after the last it holds the long-run figure.",
+  "link": "job-loss-to-death-risk",
+  "points": [
+    {
+      "yearsSince": 1,
+      "excess": 0.847,
+      "span": "1 year after the displacement year",
+      "sum": "0.131 + 0.716"
+    },
+    {
+      "yearsSince": 2.5,
+      "excess": 0.69,
+      "span": "2-3 years after",
+      "sum": "0.131 + 0.559"
+    },
+    {
+      "yearsSince": 4.5,
+      "excess": 0.329,
+      "span": "4-5 years after",
+      "sum": "0.131 + 0.198"
+    },
+    {
+      "yearsSince": 8,
+      "excess": 0.188,
+      "span": "6-10 years after",
+      "sum": "0.131 + 0.057"
+    },
+    {
+      "yearsSince": 13,
+      "excess": 0.065,
+      "span": "11-15 years after",
+      "sum": "0.131 - 0.066"
+    },
+    {
+      "yearsSince": 18,
+      "excess": 0.131,
+      "span": "16 or more years after",
+      "sum": "0.131"
+    }
+  ],
+  "pointsSource": {
+    "tag": "SOURCED",
+    "citation": "Sullivan and von Wachter (2009), Job Displacement and Mortality: An Analysis Using Administrative Data, Quarterly Journal of Economics 124(3):1265-1306, Table 4 column 1 (workers born 1930-1959 with at least 6 years of tenure in 1979; dependent variable the log odds of death).",
+    "quote": "Displacement Effect at 16+ Years After Displacement 0.131; Added Effect for 1 Year After Displacement Year 0.716; Added Effect for 2-3 Years After 0.559; Added Effect for 4-5 Years After 0.198; Added Effect for 6-10 Years After 0.057; Added Effect for 11-15 Years After -0.066. Abstract: \"mortality rates in the year after displacement are 50-100% higher than would otherwise have been expected. The effect on mortality hazards declines sharply over time, but even 20 years after displacement, we estimate a 10-15% increase in annual death hazards.\" Text: \"for a displaced worker 2-3 years after layoff, the effect of displacement on mortality would be 0.131+0.559=0.69.\"",
+    "asOf": "2026-10-28"
+  },
+  "tenure": {
+    "fullEffectYears": 6,
+    "source": {
+      "tag": "ESTIMATED",
+      "citation": "The paper's main sample is male workers with the same principal employer 1974-79 and at least 6 years of tenure in 1979, replicated at 3 years (Table 4 columns 4-6, results larger or similar).",
+      "estimatedFrom": "The excess scales with tenure up to the paper's 6 years and holds past it, so nobody is cut off at a threshold; shorter jobs are not estimated by the paper, so a job of three years gets half the excess (TUNABLE against the 3-year replication, which found it similar once age was controlled)."
+    }
+  }
+}

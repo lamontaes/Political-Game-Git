@@ -1,0 +1,220 @@
+{
+  "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+  "variant": {
+    "variantKey": "local-fix-it-first-v1",
+    "propositionKeys": [
+      "us-policy-positions:transportation-infrastructure.fix-it-first"
+    ],
+    "npcEligibility": [
+      {
+        "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+        "answer": "yes",
+        "governmentLevel": "municipality",
+        "authorityKind": "game-profile",
+        "authorityKey": null,
+        "operativeEffectKind": "public-program-appropriation",
+        "effectProvisionKey": "amount-provided",
+        "effectParameterKey": "appropriation"
+      },
+      {
+        "propositionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
+        "answer": "yes",
+        "governmentLevel": "county",
+        "authorityKind": "game-profile",
+        "authorityKey": null,
+        "operativeEffectKind": "public-program-appropriation",
+        "effectProvisionKey": "amount-provided",
+        "effectParameterKey": "appropriation"
+      }
+    ],
+    "npcServiceProfile": {
+      "profileId": "local-fix-it-first-capacity",
+      "profileIdScope": "local-government",
+      "serviceLabel": "modeled local road-maintenance service",
+      "unitLabel": "road-maintenance unit",
+      "unitsTotal": 1,
+      "unitsOperational": 0,
+      "monthlyOperatingNeedMinorUnits": 500000,
+      "restorationCostPerUnitMinorUnits": 10000000,
+      "maintenanceLeadDays": 60,
+      "basisNote": "Fictional {governmentLevel} road-maintenance capacity for the exact admitted local game profile. The generic unit is not a named road or measured repair; its costs are authored assumptions, not a local budget or expenditure."
+    },
+    "label": "Local maintenance before expansion",
+    "instrument": "appropriation",
+    "synopsis": "Set aside a bounded amount for maintaining existing public roads before new construction in this local game profile.",
+    "shortTitle": "Local Maintenance Appropriation",
+    "subjectClass": "appropriation",
+    "authorizesAppropriation": true,
+    "declaredLimits": [
+      "This is a game-profile spending authority, not a statement of real local law or treasury capacity.",
+      "The recorded amount is authority only; it does not create cash, select a project, hire a worker or complete a repair.",
+      "The priority applies only to this appropriation and does not change other local or state law."
+    ],
+    "defaults": {
+      "appropriation": {
+        "kind": "money",
+        "minorUnits": 25000000,
+        "currency": "USD"
+      },
+      "availability-term": {
+        "kind": "duration-years",
+        "years": 2
+      },
+      "reporting-duty": {
+        "kind": "enumerated",
+        "value": "annual-statement"
+      }
+    },
+    "parameters": [
+      {
+        "key": "appropriation",
+        "dimension": "funding-cap",
+        "kind": "money",
+        "label": "Amount provided",
+        "minMinorUnits": 100000,
+        "maxMinorUnits": 100000000000,
+        "currency": "USD",
+        "evidence": {
+          "kind": "authored-parameter",
+          "note": "Fictional local maintenance appropriation terms for play. The amount, availability period, program and reporting duty are game-profile choices; they are not a real government's budget, charter or delivered repair."
+        }
+      },
+      {
+        "key": "availability-term",
+        "dimension": "timing",
+        "kind": "duration-years",
+        "label": "Available for",
+        "minYears": 1,
+        "maxYears": 4,
+        "evidence": {
+          "kind": "authored-parameter",
+          "note": "Fictional local maintenance appropriation terms for play. The amount, availability period, program and reporting duty are game-profile choices; they are not a real government's budget, charter or delivered repair."
+        }
+      },
+      {
+        "key": "reporting-duty",
+        "dimension": "oversight",
+        "kind": "enumerated",
+        "label": "Report interval",
+        "options": [
+          {
+            "value": "annual-statement",
+            "label": "Annual statement",
+            "clausePhrase": "an annual statement"
+          },
+          {
+            "value": "quarterly-statement",
+            "label": "Quarterly statement",
+            "clausePhrase": "a quarterly statement"
+          }
+        ],
+        "evidence": {
+          "kind": "authored-parameter",
+          "note": "Fictional local maintenance appropriation terms for play. The amount, availability period, program and reporting duty are game-profile choices; they are not a real government's budget, charter or delivered repair."
+        }
+      }
+    ],
+    "clauses": [
+      {
+        "provisionKey": "authority-named",
+        "dimension": "authority-reference",
+        "heading": "Local program funded",
+        "parameterKey": null,
+        "rendering": {
+          "text": "Under {{authority:citationLabel}}, the local public-works game-profile appropriation is for {{authority:programLabel}}. It establishes no separate service or project entitlement.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the local public-works maintenance program"
+          },
+          "fiscalExposureLabel": null
+        },
+        "requiredAuthority": {
+          "message": "The local maintenance authority is missing."
+        }
+      },
+      {
+        "provisionKey": "amount-provided",
+        "dimension": "funding-cap",
+        "heading": "Amount provided",
+        "parameterKey": "appropriation",
+        "rendering": {
+          "text": "The local government may make up to {{money:appropriation}} available from modeled local public receipts for its public-works maintenance program. This section creates no cash or tax revenue and does not record an obligation or outlay.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the local public-works maintenance program"
+          },
+          "fiscalExposureLabel": "Amount provided"
+        },
+        "moneyParameter": {
+          "key": "appropriation",
+          "message": "The local maintenance amount is missing."
+        },
+        "positiveAmountEffect": {
+          "kind": "public-program-appropriation"
+        }
+      },
+      {
+        "provisionKey": "maintenance-priority",
+        "dimension": "oversight",
+        "heading": "Existing roads before new construction",
+        "parameterKey": null,
+        "rendering": {
+          "text": "Amounts made available by this Act may be committed to maintaining existing local public roads before they are committed to new road construction. No project is selected or represented as completed by this section.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the local public-works maintenance program"
+          },
+          "fiscalExposureLabel": null
+        }
+      },
+      {
+        "provisionKey": "availability-term",
+        "dimension": "timing",
+        "heading": "Period of availability",
+        "parameterKey": "availability-term",
+        "rendering": {
+          "text": "The amount provided by this Act remains available for {{duration:availability-term}} years after its effective date; an unused balance creates no continuing cash claim.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the local public-works maintenance program"
+          },
+          "fiscalExposureLabel": null
+        },
+        "durationParameter": {
+          "key": "availability-term",
+          "message": "The local maintenance availability term is missing."
+        }
+      },
+      {
+        "provisionKey": "reporting-duty",
+        "dimension": "oversight",
+        "heading": "Public accounting",
+        "parameterKey": "reporting-duty",
+        "rendering": {
+          "text": "The local government shall publish {{choice:reporting-duty}} of amounts obligated, expended and remaining unobligated under this game-profile appropriation.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "the local public-works maintenance program"
+          },
+          "fiscalExposureLabel": null
+        }
+      }
+    ],
+    "amendmentInvitation": {
+      "provisionKey": "maintenance-priority",
+      "sectionNumber": 3,
+      "heading": "Maintenance schedule",
+      "beneficiaryLabel": "people using existing local public roads",
+      "placeLabel": "the local government's jurisdiction",
+      "statedGround": "A published maintenance schedule would make this appropriation's stated priority easier to inspect.",
+      "segmentKey": "local-public-works.maintenance-schedule",
+      "requestedMinorUnits": 0,
+      "cappedMinorUnits": 0,
+      "evidence": {
+        "kind": "authored-parameter",
+        "note": "Fictional local maintenance appropriation terms for play. The amount, availability period, program and reporting duty are game-profile choices; they are not a real government's budget, charter or delivered repair."
+      },
+      "text": "The local government shall publish a dated list of maintenance work selected under this appropriation."
+    }
+  }
+}

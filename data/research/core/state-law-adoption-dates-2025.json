@@ -1,0 +1,496 @@
+{
+  "id": "state-law-adoption-dates-2025",
+  "publisher": "Wikipedia (secondary), summarizing the Kaiser Family Foundation's Medicaid expansion tracker and the National Right to Work Committee's state timeline",
+  "vintage": "Pages read October 23, 2026; dates as of day one, January 20, 2025",
+  "table": "'Medicaid expansion' implementation table; 'Right-to-work law' list of states",
+  "title": "When two state policy answers in force at the opening were adopted: the Affordable Care Act Medicaid expansion and right-to-work laws",
+  "universe": "The 50 states, D.C. and the five territories; adopted means the law (or expansion) took effect, by the date or year the source gives",
+  "geography": "56 places by postal code",
+  "sourceUrl": "https://en.wikipedia.org/wiki/Medicaid_expansion",
+  "otherUrls": ["https://en.wikipedia.org/wiki/Right-to-work_law"],
+  "primaryUrlsTried": [
+    "https://www.kff.org/medicaid/issue-brief/status-of-state-medicaid-expansion-decisions/ (read: '41 states (including DC) have adopted the Medicaid expansion'; the state dates are in images, not text)",
+    "https://nrtw.org/right-to-work-states/ (read: 26 states and Guam, no years; links a timeline)",
+    "https://nrtwc.org/facts/state-right-to-work-timeline-2016/ (bot check page, no content)"
+  ],
+  "retrievedOn": "2026-10-23",
+  "limits": "Secondary source because the primary pages give the dates only as images or behind a bot check. Right-to-work years are the first adoption the list names (a later constitutional amendment or revision is not counted), and a year without a month is read as January 1. Two policy families out of the starting-law questions, chosen because both have per-state dates on a public page: one recent wave (2014 to 2023) and one old one (1944 to 2017); the other questions' adoption dates are not read here. Day one is the game start, 2025-01-20.",
+  "dayOne": "2025-01-20",
+  "policies": {
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "sourceQuote": "Alaska September 1, 2015 | Arizona January 1, 2014 | ... | North Carolina December 1, 2023 | ... | South Dakota July 1, 2023 | ... | West Virginia January 1, 2014",
+      "kffQuote": "To date, 41 states (including DC) have adopted the Medicaid expansion and 10 states have not adopted the expansion.",
+      "places": {
+        "US-AK": {
+          "inForce": true,
+          "implemented": "2015-09-01"
+        },
+        "US-AL": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-AR": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-AS": {
+          "inForce": null,
+          "implemented": null,
+          "note": "Territories' Medicaid programs run under capped federal funding outside the Affordable Care Act expansion the source lists; no expansion date applies."
+        },
+        "US-AZ": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-CA": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-CO": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-CT": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-DC": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-DE": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-FL": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-GA": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-GU": {
+          "inForce": null,
+          "implemented": null,
+          "note": "Territories' Medicaid programs run under capped federal funding outside the Affordable Care Act expansion the source lists; no expansion date applies."
+        },
+        "US-HI": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-IA": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-ID": {
+          "inForce": true,
+          "implemented": "2020-01-01"
+        },
+        "US-IL": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-IN": {
+          "inForce": true,
+          "implemented": "2015-02-01"
+        },
+        "US-KS": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-KY": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-LA": {
+          "inForce": true,
+          "implemented": "2016-07-01"
+        },
+        "US-MA": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-MD": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-ME": {
+          "inForce": true,
+          "implemented": "2019-01-10"
+        },
+        "US-MI": {
+          "inForce": true,
+          "implemented": "2014-04-01"
+        },
+        "US-MN": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-MO": {
+          "inForce": true,
+          "implemented": "2021-10-01"
+        },
+        "US-MP": {
+          "inForce": null,
+          "implemented": null,
+          "note": "Territories' Medicaid programs run under capped federal funding outside the Affordable Care Act expansion the source lists; no expansion date applies."
+        },
+        "US-MS": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-MT": {
+          "inForce": true,
+          "implemented": "2016-01-01"
+        },
+        "US-NC": {
+          "inForce": true,
+          "implemented": "2023-12-01"
+        },
+        "US-ND": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-NE": {
+          "inForce": true,
+          "implemented": "2020-10-01"
+        },
+        "US-NH": {
+          "inForce": true,
+          "implemented": "2014-08-15"
+        },
+        "US-NJ": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-NM": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-NV": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-NY": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-OH": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-OK": {
+          "inForce": true,
+          "implemented": "2021-07-01"
+        },
+        "US-OR": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-PA": {
+          "inForce": true,
+          "implemented": "2015-01-01"
+        },
+        "US-PR": {
+          "inForce": null,
+          "implemented": null,
+          "note": "Territories' Medicaid programs run under capped federal funding outside the Affordable Care Act expansion the source lists; no expansion date applies."
+        },
+        "US-RI": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-SC": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-SD": {
+          "inForce": true,
+          "implemented": "2023-07-01"
+        },
+        "US-TN": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-TX": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-UT": {
+          "inForce": true,
+          "implemented": "2020-01-01"
+        },
+        "US-VA": {
+          "inForce": true,
+          "implemented": "2019-01-01"
+        },
+        "US-VI": {
+          "inForce": null,
+          "implemented": null,
+          "note": "Territories' Medicaid programs run under capped federal funding outside the Affordable Care Act expansion the source lists; no expansion date applies."
+        },
+        "US-VT": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-WA": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-WI": {
+          "inForce": false,
+          "implemented": null
+        },
+        "US-WV": {
+          "inForce": true,
+          "implemented": "2014-01-01"
+        },
+        "US-WY": {
+          "inForce": false,
+          "implemented": null
+        }
+      }
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "sourceQuote": "As of May 2024, the following 26 states have right-to-work laws: Alabama (adopted 1953, Constitution 2016) ... Florida (Constitution, adopted 1944, revised 1968) ... Kentucky (adopted 2017) ... Wyoming (adopted 1963)",
+      "places": {
+        "US-AK": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-AL": {
+          "inForce": true,
+          "adoptedYear": 1953
+        },
+        "US-AR": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-AS": {
+          "inForce": null,
+          "adoptedYear": null,
+          "note": "The source lists states only (it notes Guam has right-to-work laws without a year); the territories' answers are in data/research/laws/starting-law-2026/labor-workforce.json, with no adoption year read."
+        },
+        "US-AZ": {
+          "inForce": true,
+          "adoptedYear": 1946
+        },
+        "US-CA": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-CO": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-CT": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-DC": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-DE": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-FL": {
+          "inForce": true,
+          "adoptedYear": 1944
+        },
+        "US-GA": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-GU": {
+          "inForce": null,
+          "adoptedYear": null,
+          "note": "The source lists states only (it notes Guam has right-to-work laws without a year); the territories' answers are in data/research/laws/starting-law-2026/labor-workforce.json, with no adoption year read."
+        },
+        "US-HI": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-IA": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-ID": {
+          "inForce": true,
+          "adoptedYear": 1985
+        },
+        "US-IL": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-IN": {
+          "inForce": true,
+          "adoptedYear": 2012
+        },
+        "US-KS": {
+          "inForce": true,
+          "adoptedYear": 1958
+        },
+        "US-KY": {
+          "inForce": true,
+          "adoptedYear": 2017
+        },
+        "US-LA": {
+          "inForce": true,
+          "adoptedYear": 1976
+        },
+        "US-MA": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-MD": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-ME": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-MI": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-MN": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-MO": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-MP": {
+          "inForce": null,
+          "adoptedYear": null,
+          "note": "The source lists states only (it notes Guam has right-to-work laws without a year); the territories' answers are in data/research/laws/starting-law-2026/labor-workforce.json, with no adoption year read."
+        },
+        "US-MS": {
+          "inForce": true,
+          "adoptedYear": 1954
+        },
+        "US-MT": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-NC": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-ND": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-NE": {
+          "inForce": true,
+          "adoptedYear": 1946
+        },
+        "US-NH": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-NJ": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-NM": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-NV": {
+          "inForce": true,
+          "adoptedYear": 1951
+        },
+        "US-NY": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-OH": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-OK": {
+          "inForce": true,
+          "adoptedYear": 2001
+        },
+        "US-OR": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-PA": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-PR": {
+          "inForce": null,
+          "adoptedYear": null,
+          "note": "The source lists states only (it notes Guam has right-to-work laws without a year); the territories' answers are in data/research/laws/starting-law-2026/labor-workforce.json, with no adoption year read."
+        },
+        "US-RI": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-SC": {
+          "inForce": true,
+          "adoptedYear": 1954
+        },
+        "US-SD": {
+          "inForce": true,
+          "adoptedYear": 1946
+        },
+        "US-TN": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-TX": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-UT": {
+          "inForce": true,
+          "adoptedYear": 1955
+        },
+        "US-VA": {
+          "inForce": true,
+          "adoptedYear": 1947
+        },
+        "US-VI": {
+          "inForce": null,
+          "adoptedYear": null,
+          "note": "The source lists states only (it notes Guam has right-to-work laws without a year); the territories' answers are in data/research/laws/starting-law-2026/labor-workforce.json, with no adoption year read."
+        },
+        "US-VT": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-WA": {
+          "inForce": false,
+          "adoptedYear": null
+        },
+        "US-WI": {
+          "inForce": true,
+          "adoptedYear": 2015
+        },
+        "US-WV": {
+          "inForce": true,
+          "adoptedYear": 2016
+        },
+        "US-WY": {
+          "inForce": true,
+          "adoptedYear": 1963
+        }
+      }
+    }
+  },
+  "derived": {
+    "pastUndatedLawAgeYearsLow": "youngest law in force at day one in each family: Medicaid 1.14 years (North Carolina, 2023-12-01) to right-to-work 8.05 years (Kentucky, 2017); spread 1.14 to 8.05",
+    "pastUndatedLawAgeYearsHigh": "oldest law in force at day one in each family: Medicaid 11.05 years (2014-01-01) to right-to-work 81.05 years (Florida, 1944); spread 11.05 to 81.05",
+    "pooledMedianAge": "67 laws in force: median 11.05 years before day one; the seeded 1 to 20 draw has median 10.5",
+    "checkedBy": "scripts/research/core-parameters-check.ts"
+  }
+}

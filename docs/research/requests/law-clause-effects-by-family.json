@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T03:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Laws that change the world",
+  "notes": [
+    "Built on main in the 'Laws that change the world' thread: every enactment route (a player's bill, the legislative clock, a city council ordinance) now runs one effects step, src/simulation/enacted-law-effects.ts. It is where each answer row would plug in.",
+    "Lawmaking stays with the Legislation and the 66 positions thread and the Congress passes laws thread; this question is only about what a passed law does."
+  ],
+  "priority": "P1",
+  "question": "For each kind of clause the game's bills can carry, which record in the world should change when the law takes effect, who does it reach, and when? The game's bills are built from 22 program families (appropriations, program sunset, service charges, assistance eligibility, agency reporting, public workforce, transit access, bridge maintenance, broadband access, water service lines, disaster recovery, utility resilience, critical infrastructure, education facilities, health service capacity, environmental monitoring, procurement disclosure, social service access, agricultural conservation, veteran transition referrals). Their clauses fall into kinds: a money amount, a charge or rate, who is eligible, a duty with no money (an inventory, a plan, a report, a service standard), and a timing clause. Today only the money amount, an Alaska tax levy and the pinned transit program change anything. Every other clause is law on paper and moves nothing. Please give, per family (or per clause kind if the answer is the same across families): the record it changes, the people or organizations it reaches, the moment it reaches them (at the effective date, at the next collection, when someone applies, when a deadline passes), and what happens when nobody complies. The same question covers a city ordinance and an act of Congress: which of these clause kinds each level can carry, and whether an ordinance or a federal act needs any kind the state list does not have.",
+  "questionId": "law-clause-effects-by-family",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Laws that change the world thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislation-content-contracts.ts: ClauseDimension, ProgramFamily.intendedOutcome, and the 22 families in legislation-*-families.ts",
+      "whatItDidNotSettle": "Each family declares what it is MEANT to change (intendedOutcome, with a metric key) and says the game cannot score it. It does not say which record changes at enactment or how it reaches anyone."
+    },
+    {
+      "source": "ChatGPT's answer to policy-effect-model-state-and-local (2026-09-22) and memo #515 decision 2 (law first, effects when encountered)",
+      "whatItDidNotSettle": "They settle the chain (passage, then effective rule, then covered activity or base, then actual tax, payment or service, then scoped aggregate response) and the order. They do not say what each clause kind's covered activity is."
+    },
+    {
+      "source": "ChatGPT's what-each-level-of-government-may-legislate answer (10:30 p.m. Eastern handoff, 2026-09-22)",
+      "whatItDidNotSettle": "It says what each level MAY legislate. It does not say what a passed clause of each kind does once enacted."
+    }
+  ],
+  "title": "What each kind of clause in a passed law changes, and when it reaches people",
+  "usableAnswer": "A table, one row per family or clause kind: record changed, who it reaches, when, and the non-compliance consequence. Mark UNKNOWN where real practice varies too much to state. Structure only; any magnitude (how much service improves, how many people apply) can be a separate, later answer, and saying which magnitudes are needed is enough.",
+  "whyItMatters": "The owner's goal for this area is that every law turns the right parts of the simulation and has gameplay effects consistent with the world. As of 2026-09-23 a player can pass a reporting mandate, a water-line inventory or an eligibility change and nothing in the world responds. The bill's page now says so plainly, clause by clause ('nothing in the world acts on this part of the law yet'). Those lines are placeholders for this answer."
+}

@@ -1,0 +1,29 @@
+--- /dev/null
++++ b/src/simulation/incident-response-news.test.ts
+@@ -0,0 +1,26 @@
++import { expect, it } from "vitest";
++import { responseFixture } from "./incident-response.fixture";
++import { publishIncidentEvent, inspectPublishedIncident, decideIncidentResponse, arrangeIncidentBriefing, attendIncidentBriefing } from "./incident-response";
++import { publishPublicEvent, projectPublicInformationDigest } from "./public-information";
++import { advanceWorldMinutes } from "./time-work";
++import { serializeWorld, deserializeWorld } from "./serialization";
++it("actual physical occurrence → NEWS → report → decision/work/time → follow-up → save", () => {
++ const f = responseFixture(true);
++ expect(() => publishIncidentEvent(f.w, f.reportId, {publishPublicEvent})).toThrow();
++ let w = {...f.w, control: {kind: "person" as const, personId: f.staff}};
++ expect(() => inspectPublishedIncident(w, f.source)).toThrow(/publication/);
++ w = publishIncidentEvent(w, f.source, {publishPublicEvent});
++ expect(projectPublicInformationDigest(w).items.some(i => i.sourceEventId === f.source)).toBe(true);
++ w = inspectPublishedIncident(w, f.source);
++ expect(w.history.knowledge.some(k => k.eventId === f.source && k.personId === f.staff)).toBe(true);
++ w = {...w, control: {kind: "person", personId: f.person}};
++ w = decideIncidentResponse(w, f.reportId, "commission-report", f.staff);
++ const work = w.history.workItems.at(-1)!.id;
++ w = advanceWorldMinutes(w, 30);
++ w = arrangeIncidentBriefing(w, work);
++ w = attendIncidentBriefing(w, w.history.scheduledActivities.at(-1)!.id);
++ expect(() => publishIncidentEvent(w, w.history.events.at(-1)!.id, {publishPublicEvent})).toThrow();
++ expect(projectPublicInformationDigest(w).items.some(i => i.sourceEventId === f.reportId)).toBe(false);
++ expect(serializeWorld(deserializeWorld(serializeWorld(w)))).toBe(serializeWorld(w));
++ expect(() => publishIncidentEvent(w, f.source, {publishPublicEvent})).toThrow(/already/);
++});

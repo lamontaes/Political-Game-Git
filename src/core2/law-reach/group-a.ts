@@ -1,0 +1,111 @@
+/**
+ * Law reach, group A (see index.ts): labor, business, housing, justice,
+ * rights, technology and government policies. Every policy in
+ * `data/laws/reach-group-a.json` puts its effect on the records of the named
+ * people, organizations, officeholders and counted groups it reaches; where
+ * a mechanic runs (minimum wages, the leave premium, budget lines' staff and
+ * money, election costs) it runs through the engine that owns the thing.
+ */
+import { registerPolicyHandler, type PolicyHandler } from "./host";
+import { applyRecords, POLICIES } from "./group-a-records";
+import {
+  federalMinimumWage,
+  localWageAuthority,
+  raiseMinimumWage,
+} from "./group-a-wages";
+import {
+  facialRecognition as facialRecognitionLaw,
+  housingLineMeasure,
+  paidLeave,
+  parksFunding,
+} from "./group-a-money";
+import { staffing } from "./group-a-staffing";
+import { registerVotingMonthlyProgram, votingLaw } from "./group-a-voting";
+import { rightToWork } from "./group-a-union";
+import { publicBargaining } from "./group-a-bargaining";
+import { lawInForce, yesLevels } from "../modules/laws";
+
+const records: PolicyHandler = (api, change) => {
+  const levels = POLICIES[change.key]?.effectLevels;
+  if (!levels) {
+    applyRecords(api, change.key, change.lawId, change.inForce);
+    return;
+  }
+  // A federal criminal-law change does not issue or revoke state licenses.
+  // The relevant levels are data; the shared resolver still decides whether
+  // any of their laws have been set aside by actual preemption.
+  if (!levels.includes(change.level)) return;
+  // The law that governs here is the shared resolver's (lawInForce), the one
+  // every other engine cites for the same rule (the births engine's applied
+  // rows); the first yes in chain order can be a level that does not govern.
+  const governing = lawInForce(api, change.key).governing;
+  const permission =
+    governing && governing.value === 1 && levels.includes(governing.level)
+      ? { lawId: governing.id }
+      : yesLevels(api, change.key).find((l) => levels.includes(l.level));
+  applyRecords(
+    api,
+    change.key,
+    permission?.lawId ?? change.lawId,
+    !!permission,
+  );
+};
+// The voting file imports the elections, budgets and voting engines, which
+// load this registry back through law reach; read its handler when a law
+// takes effect, not when this file loads, so no import order leaves it unset.
+const voting: PolicyHandler = (api, change) => votingLaw(api, change);
+// The money file reaches the treasury and budget engines, which load this
+// registry back the same way; its handlers are read when a law takes effect.
+const leave: PolicyHandler = (api, change) => paidLeave(api, change);
+const parks: PolicyHandler = (api, change) => parksFunding(api, change);
+const housingLine: PolicyHandler = (api, change) =>
+  housingLineMeasure(api, change);
+const facialRecognition: PolicyHandler = (api, change) =>
+  facialRecognitionLaw(api, change);
+
+/** Each mechanic's handler, by the mechanic name a policy's data row gives. */
+const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
+  none: [records],
+  // Credit reads the law at quotation; no blanket personal knowledge write.
+  "consumer-loan-quote": [],
+  // Housing reads the law when renewing full leases and counted rent flows.
+  // Eligibility alone must not tell every adult that their rent changed.
+  "rent-renewal": [],
+  "housing-construction": [],
+  "eviction-counsel": [],
+  // The legislature's authority check reads home rule when the council
+  // proposes a question the state has not settled (policy-authority.ts).
+  "policy-authority": [],
+  // The public-safety engine reads these laws where it decides a case, a
+  // sale or a cost, and records whom it applied them to (public-safety.ts).
+  "public-safety": [],
+  // The jobs engine's hiring weigh reads a ban on asking about a conviction
+  // where a public employer ranks applicants (jobs-record-bias.ts).
+  "hiring-record": [],
+  "federal-minimum-wage": [records, federalMinimumWage],
+  "raise-minimum-wage": [records, raiseMinimumWage],
+  "local-wage-authority": [records, localWageAuthority],
+  "paid-leave-premium": [leave],
+  "parks-funding": [parks],
+  "police-oversight": [facialRecognition],
+  // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
+  "housing-assistance": [housingLine],
+  // Read when a change is applied, not when this table is built: staffing's file
+  // may still be loading when this one is entered first.
+  staffing: [(api, change) => staffing(api, change)],
+  "public-bargaining": [records, publicBargaining],
+  "right-to-work": [records, rightToWork],
+  voting: [voting],
+  "office-limits": [voting],
+};
+
+export function registerGroupA(): void {
+  registerVotingMonthlyProgram();
+  for (const [key, policy] of Object.entries(POLICIES)) {
+    // The minimum wage as an amount runs in the laws engine itself.
+    if (!policy.reaches.length && policy.mechanic === "none") continue;
+    const handlers = MECHANICS[policy.mechanic];
+    if (!handlers) throw new Error(`No law-reach mechanic: ${policy.mechanic}`);
+    for (const handler of handlers) registerPolicyHandler(key, handler);
+  }
+}

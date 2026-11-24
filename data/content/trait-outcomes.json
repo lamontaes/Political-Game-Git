@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "note": "Every outcome a person's traits should shape outside a choice between options, the engine that owns it, and whether that engine reads the trait in play. The trait-wiring matrix (scripts/traits/trait-wiring-matrix.ts) joins these rows with the researched effect sizes in data/research/trait-effect-sizes.json. Outcome-web links are not listed here: their personality moderators belong to the outcome web.",
+  "outcomes": [
+    {
+      "id": "outcome.drawn-distribution",
+      "title": "Traits drawn to real norms by age and sex",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:1 (latent standard scores with sourced NEO facet age and sex differences, cut at 10/20/40/20/10)"
+    },
+    {
+      "id": "outcome.trait-intercorrelations",
+      "title": "Traits correlate with each other as in real people",
+      "engine": "src/core2/opening-personality.ts",
+      "wired": true,
+      "evidence": "src/core2/opening-personality.ts:73 (registered correlated pairs) and ANCHORED loadings at :31"
+    },
+    {
+      "id": "outcome.personality-heritability",
+      "title": "Children resemble their parents",
+      "engine": "src/core2/births-people.ts",
+      "wired": true,
+      "evidence": "src/core2/births-people.ts:102 draws a newborn from its parents' inherited parts (regenerated from the seed, the same parts the opening drew); measured parent-child correlation in two drawn places (buildBenchWorld seeds herit1 and herit2, 78 and 192 pairs): 0.03 to 0.34 by dimension, mean 0.18, against 0.20 to 0.28 expected from a heritability of 0.40 (Vukasovic & Bratko 2015)",
+      "note": "A counted newborn inherits by the same rule from its counted parents' kept levels (inheritedTemperament in src/core2/opening-personality.ts)."
+    },
+    {
+      "id": "outcome.mean-level-change-with-age",
+      "title": "Traits change slowly with age (maturity)",
+      "engine": "none",
+      "wired": true,
+      "evidence": "src/core2/modules/trait-change.ts:249 (each birthday moves the hidden scores along the opening age curves; counted people are caught up at fill-in, SG-TRAITS-counted-no-maturity)"
+    },
+    {
+      "id": "outcome.change-with-life-events",
+      "title": "Traits shift after life events (job loss, marriage, bereavement)",
+      "engine": "none",
+      "wired": true,
+      "evidence": "src/core2/modules/trait-change.ts:185 (a layoff, an eviction or a death in the family moves the emotional-stability traits 0.1 SD; data/trait-change.json)"
+    },
+    {
+      "id": "outcome.stress-reactivity",
+      "title": "Resting stress by temperament",
+      "engine": "src/core2/resting-stress.ts",
+      "wired": true,
+      "evidence": "src/core2/resting-stress.ts:115 (brooding raises, calm lowers) and src/core2/emotion.ts appraisal weights sized from Bolger and Schilling 1991 (appraisalDistressTraitWeight, appraisalBroodingTraitWeight in parameters.json)"
+    },
+    {
+      "id": "outcome.emotion-appraisal",
+      "title": "How strongly a person feels an event",
+      "engine": "src/core2/emotion.ts",
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:151 (recorded trait scales the appraisal multiplier)"
+    },
+    {
+      "id": "outcome.aide-work-quality",
+      "title": "An aide's work quality and learning rate",
+      "engine": "src/core2/modules/staff.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/staff.ts:686 (reliability and deliberation)"
+    },
+    {
+      "id": "outcome.appointee-qualification",
+      "title": "How qualified a resident is for an appointed post",
+      "engine": "src/core2/modules/executive.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/executive.ts:176 (reliability plus deliberation)"
+    },
+    {
+      "id": "outcome.job-performance",
+      "title": "An ordinary worker's performance at work",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1319 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:2056) and when it lets a worker go (jobs.ts:1366). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
+    },
+    {
+      "id": "outcome.earnings",
+      "title": "Promotion and pay by temperament",
+      "engine": "src/core2/modules/jobs.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1758 raisePay: on each job's yearly review a business adds to the market's move the return to the worker's tenure and how it reads their work (withinJobRaise, jobs.ts:1676; the work read is howTheyWork, jobs.ts:1319, through jobs.value-worker), sized from the tenure-wage and merit-raise research (jobsTenureReturnFull, jobsTenureReturnYears, jobsRaisePerWorkYear), in the share the business's memory of losses leaves it; the payroll pays the raised rate. Earlier channels stay: diligent people are hired sooner and let go later. Played: Aiea, Hawaii (1500550), seed 125c9f1ddf75bae0921d924b509a850dede48872f2fec473eaf9a3e8bdba0102, both raised in full at 0.948 years' tenure: pay-change:2026-01-01:work-relationship_b6c2f155e9938148 raised person_4d08aadd62909039 (how they work 4.400) from 1798 to 1915 cents an hour, pay-change:2026-01-01:work-relationship_224945d30e8f1354 raised person_dea9c6e0ad2bbce0 (-3.617) from 2192 to 2305, against a market move of 3.1 percent each (test src/core2/jobs-pay-growth.traits.test.ts)."
+    },
+    {
+      "id": "outcome.health-behaviors",
+      "title": "Health behaviors (smoking, drinking, exercise, checkups)",
+      "engine": "src/core2/modules/health.ts",
+      "wired": true,
+      "evidence": "src/core2/condition-pack.ts:191 (who holds substance use disorder and chronic lung disease in the opening) and src/core2/modules/health.ts:307 (people who join later); Bogg and Roberts 2004"
+    },
+    {
+      "id": "outcome.mortality",
+      "title": "Illness and death risk by conscientiousness",
+      "engine": "src/core2/modules/health.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/health.ts:427 (strain builds at exp(slope x conscientiousness) over the opening mean); Kern and Friedman 2008"
+    },
+    {
+      "id": "outcome.relationship-formation",
+      "title": "Making friends and acquaintances",
+      "engine": "src/core2/modules/life.ts",
+      "wired": true,
+      "evidence": "src/core2/closeness.ts temperedHours (relationships.warm-to): a contact's hours count by both people's warmth; read by src/core2/state.ts relationship() at every change of a tie; test src/core2/closeness.traits.test.ts"
+    },
+    {
+      "id": "outcome.conflict",
+      "title": "Arguments and grudges",
+      "engine": "src/core2/modules/drives.ts",
+      "wired": true,
+      "evidence": "src/core2/closeness.ts temperedHours (relationships.fall-out): a quarrel's lost hours (a confrontation, src/core2/modules/drives.ts; an unrewarded bribe, src/core2/modules/corruption.ts) count by both people's hold-on lean; test src/core2/closeness.traits.test.ts"
+    },
+    {
+      "id": "outcome.marriage-formation",
+      "title": "Partnering and marriage",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "No engine forms or ends a partnership in play; the partnership items in the pool are gated on core family-link work.",
+      "stopgapId": "SG-TRAITS-partnerships-no-engine"
+    },
+    {
+      "id": "outcome.divorce",
+      "title": "Separation and divorce",
+      "engine": "src/core2/modules/renewal.ts",
+      "wired": false,
+      "why": "No engine forms or ends a partnership in play; the partnership items in the pool are gated on core family-link work.",
+      "stopgapId": "SG-TRAITS-partnerships-no-engine"
+    },
+    {
+      "id": "outcome.trust-generalized",
+      "title": "How much a person trusts others",
+      "engine": "src/core2/modules/views.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:409 (the hearer's lean toward trusting scales how far they trust a speaker in standingWith)",
+      "size": "0.25 (ESTIMATED): the hearer's lean correlates 0.20 with their trust, as agreeableness does with the Interpersonal Trust Scale (Sindermann et al. 2021)."
+    },
+    {
+      "id": "outcome.persuasion",
+      "title": "How easily a person's view moves when they hear an argument",
+      "engine": "src/core2/modules/views.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (the hearer's lean toward yielding scales the stance change an argument or story makes)",
+      "size": "0.3 (ESTIMATED): the most yielding third is moved 1.37 times as far as the least, as openness raises the odds of being moved (Hibbing, Ritchie and Anderson 2011)."
+    },
+    {
+      "id": "outcome.news-reaction",
+      "title": "How strongly a person reacts to news",
+      "engine": "src/core2/modules/news.ts",
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (a printed story reaches readers as a news.read event through the same stance change); the mood side reads the event-felt trait term already wired"
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "title": "How a person copes with hardship (job loss, debt, eviction)",
+      "engine": "src/core2/emotion.ts",
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:257 marks the part of a layoff's, an eviction's or a missed payment's stress that a hardship put there (Affect.hardship; kinds in content.json hardshipEventKinds), and src/core2/modules/credit.ts:1115 gives a missed loan payment the layoff's Holmes and Rahe size; src/core2/trait-decisions.ts:466 hardshipStress reads it, decayed to the day, for the three coping decisions: src/core2/jobs-benefits.ts:221 filingDecision (jobs-benefits.file-claim, weight 1.0 from Whittaker et al. 2010), src/core2/modules/credit.ts:859 personalBorrowingDecision (credit.borrow, 0.8 from Sullivan 2008 and the move and claim sizes) and src/core2/modules/moves.ts:470 pushesOf (moves.move-away, 0.6 from Huttunen, Moen and Salvanes 2018); rows outcome.hardship-coping in data/research/trait-effect-sizes.json, tests src/core2/hardship-coping.traits.test.ts. Played year on the merged head (buildBenchWorld, twoLevel, every module, 2025-01-20 to 2026-01-20), University of California-Davis, California (place key 0681302, world seed 19d99c854e45d0d7a1cf22f1a75d760532568cd88f13bd6813a7c2d08845a6d6): person_724c78e06c1255b2 lost a job on 2025-06-01 (event:work.job-lost:2025-06-01:work-relationship_b9a5a6ad766e7575), filed claim:person_724c78e06c1255b2:2025-06-01 whose reasons name hardshipStress 0.323, and left town the next day, person.moved-away:person_724c78e06c1255b2:2025-06-02, whose reasons name push:hardshipStress 0.194 beside push:housingCost 0.875 (lean toward moving +0.744). In the same month person_029993064024f0e8, evicted 2025-05-24 (event:housing.eviction:eviction:rent:household_2b191d1ce1a15f48:2025-05-06) and leaning as far as a lean goes toward staying (-1.00), stayed through the year: pulls row person_029993064024f0e8 on 2025-06-02 names push hardshipStress 0.228. A counted person reads it at the day of their layoff claim only (SG-TRAITS-counted-hardship-stress)."
+    },
+    {
+      "id": "outcome.known-traits",
+      "title": "Others learn a person's traits only from what they saw",
+      "engine": "src/core2/mind-catalog.ts",
+      "wired": "partly",
+      "evidence": "src/core2/past-public.ts:162 lists a person's strongest traits as public facts",
+      "why": "Opinions of a person do not yet come only from acts witnessed, reputation and conversation."
+    },
+    {
+      "id": "outcome.speech-style",
+      "title": "How a person talks",
+      "engine": "src/director",
+      "wired": "partly",
+      "evidence": "src/director/ledger.ts:730 reads a trait for a line's register",
+      "why": "Owned by the English engine; the trait reads it needs are listed by the Words line."
+    }
+  ]
+}

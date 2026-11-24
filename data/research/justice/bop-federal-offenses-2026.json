@@ -1,0 +1,98 @@
+{
+  "id": "justice-bop-federal-offenses-2026",
+  "about": "Sentenced people in Federal Bureau of Prisons custody by most serious offense, as BOP publishes it weekly. It sizes the federal prison stock a federal case stream must reproduce in the aggregate (real totals check the simulation; they never decide whether one defendant is convicted). Not read by an engine yet: the federal case stream is pool item world-federal-case-stream.",
+  "source": {
+    "publisher": "Federal Bureau of Prisons, Inmate Statistics: Offenses",
+    "url": "https://www.bop.gov/about/statistics/statistics_inmate_offenses.jsp",
+    "dataUrl": "https://www.bop.gov/PublicInfo/execute/quickfacts?todo=query&output=json",
+    "lastUpdatedByPublisher": "Saturday, 31 October 2026",
+    "fetched": "2026-11-08",
+    "tag": "SOURCED"
+  },
+  "totals": {
+    "totalPopulationCount": 152107,
+    "totalSentencePopulation": 134813,
+    "note": "The offense rows sum to offenseTableTotal, which is more than totalSentencePopulation: BOP's offense table counts everyone it has offense data for (it says the data is limited by availability), so shares are of the table total, not of the sentenced population.",
+    "offenseTableTotal": 142466
+  },
+  "offenses": [
+    {
+      "id": "drug",
+      "label": "Drug offenses",
+      "inmates": 60561,
+      "sharePct": 42.5
+    },
+    {
+      "id": "weapons-explosives-arson",
+      "label": "Weapons, explosives, arson",
+      "inmates": 31553,
+      "sharePct": 22.1
+    },
+    {
+      "id": "sex-offenses",
+      "label": "Sex offenses",
+      "inmates": 20766,
+      "sharePct": 14.6
+    },
+    {
+      "id": "immigration",
+      "label": "Immigration",
+      "inmates": 6731,
+      "sharePct": 4.7
+    },
+    {
+      "id": "burglary-larceny-property",
+      "label": "Burglary, larceny, property offenses",
+      "inmates": 7108,
+      "sharePct": 5.0
+    },
+    {
+      "id": "extortion-fraud-bribery",
+      "label": "Extortion, fraud, bribery",
+      "inmates": 5418,
+      "sharePct": 3.8
+    },
+    {
+      "id": "homicide-aggravated-assault-kidnapping",
+      "label": "Homicide, aggravated assault, kidnapping",
+      "inmates": 5080,
+      "sharePct": 3.6
+    },
+    {
+      "id": "robbery",
+      "label": "Robbery",
+      "inmates": 3276,
+      "sharePct": 2.3
+    },
+    {
+      "id": "miscellaneous",
+      "label": "Miscellaneous",
+      "inmates": 991,
+      "sharePct": 0.7
+    },
+    {
+      "id": "courts-or-corrections",
+      "label": "Courts or corrections",
+      "inmates": 614,
+      "sharePct": 0.4
+    },
+    {
+      "id": "continuing-criminal-enterprise",
+      "label": "Continuing criminal enterprise",
+      "inmates": 210,
+      "sharePct": 0.1
+    },
+    {
+      "id": "banking-insurance-counterfeit-embezzlement",
+      "label": "Banking and insurance, counterfeit, embezzlement",
+      "inmates": 108,
+      "sharePct": 0.1
+    },
+    {
+      "id": "national-security",
+      "label": "National security",
+      "inmates": 50,
+      "sharePct": 0.0
+    }
+  ]
+}

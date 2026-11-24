@@ -1,0 +1,142 @@
+{
+  "head": "76e29c3a4715eef2d21ee10326fc2f6267eb9608",
+  "seed": "officeholder-principles-US-OR",
+  "place": {
+    "key": "4100275",
+    "displayName": "Adair Village, Oregon",
+    "formalName": "Adair Village",
+    "withinName": "Oregon",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_8a38ba39b9cb053a",
+        "slug": "us-place-4100275",
+        "name": "Adair Village, Oregon",
+        "kind": "census-place",
+        "parentName": "Oregon",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_8a38ba39b9cb053a",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Los_Angeles",
+        "utcOffsetMinutes": -480
+      },
+      "creationSummary": "Seeded world in Adair Village, Oregon, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Adair Village, Oregon",
+      "householdLocationLabel": "Adair Village, Oregon"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-OR",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "4100275"
+  },
+  "date": "2026-01-05",
+  "selectedPeople": 11,
+  "newRows": 11,
+  "inputUnchanged": true,
+  "idempotent": true,
+  "unsupported": {
+    "personId": "person_b5a62701947593d6",
+    "name": "John Kennedy",
+    "sameWorld": true
+  },
+  "example": {
+    "personId": "person_a554d2c2e73e3106",
+    "name": "Heather Savage",
+    "proposition": {
+      "id": "proposition_5f0c0c759f8c111d",
+      "stableKey": "us-policy-positions:government-operations.independent-redistricting",
+      "issueId": "policy-issue_a619b767989dc290",
+      "name": "Independent redistricting commission",
+      "question": "Should district lines be drawn by an independent commission rather than by the legislature?",
+      "parameters": [],
+      "tags": ["contested"],
+      "principles": [
+        {
+          "principleId": "principle-definition_be8e40c0833556cc",
+          "bearing": "consistent-with"
+        },
+        {
+          "principleId": "principle-definition_c275568aa4afec99",
+          "bearing": "consistent-with"
+        },
+        {
+          "principleId": "principle-definition_c41046c4f12ffec9",
+          "bearing": "against"
+        }
+      ]
+    },
+    "leaning": {
+      "score": -1,
+      "recordIds": ["principle_8e6c3405d5f6bcdf"]
+    },
+    "rows": [
+      {
+        "stableKey": "life-principles/v1:person_a554d2c2e73e3106:tradition:2026-01-05:0",
+        "personId": "person_a554d2c2e73e3106",
+        "principleId": "principle-definition_c41046c4f12ffec9",
+        "formedAt": "2026-01-05",
+        "stance": "endorses",
+        "conviction": "tentative",
+        "flexibility": "open",
+        "qualification": null,
+        "formation": {
+          "reason": "experience:life",
+          "relevantEventIds": [],
+          "sourceFactIds": ["fact_959e9e7a4098dd20", "fact_bb2117a8665f7dca"],
+          "propositionExposureIds": [],
+          "memoryIds": [],
+          "eventKnowledgeIds": [],
+          "claimIds": [],
+          "relationshipInteractionIds": [],
+          "subjectKnowledgeIds": [],
+          "decisionTraceIds": [],
+          "cue": null,
+          "evidenceReference": null,
+          "note": "Formed from their life (life-principles/v1): for: they came of age before 1985; for: they live in a small town."
+        },
+        "supersedesPrincipleRecordId": null,
+        "id": "principle_8e6c3405d5f6bcdf",
+        "sequence": 0
+      }
+    ],
+    "pulls": [
+      {
+        "principle": "tradition",
+        "toward": "endorses",
+        "weight": 1,
+        "because": "they came of age before 1985",
+        "factIds": ["fact_bb2117a8665f7dca"]
+      },
+      {
+        "principle": "limited-government",
+        "toward": "endorses",
+        "weight": 1,
+        "because": "they came of age before 1985",
+        "factIds": ["fact_bb2117a8665f7dca"]
+      },
+      {
+        "principle": "local-control",
+        "toward": "endorses",
+        "weight": 1,
+        "because": "they live in a small town",
+        "factIds": ["fact_959e9e7a4098dd20"]
+      },
+      {
+        "principle": "tradition",
+        "toward": "endorses",
+        "weight": 1,
+        "because": "they live in a small town",
+        "factIds": ["fact_959e9e7a4098dd20"]
+      }
+    ]
+  }
+}

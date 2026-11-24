@@ -1,0 +1,81 @@
+---
+name: look-first
+description: >
+  The search every session runs before it builds, fixes, files, registers a
+  stopgap or asks the owner anything: the rulings log, the decision register,
+  prior-rulings, the lane's law, the docs, the pool and the owner's Drive. Use
+  at the start of every item and before every question; a found ruling is
+  built and cited, never asked again. Not research into the real world
+  (researcher).
+---
+
+# Look first
+
+The owner, Oct 27, 2026: "Look at previous decisions. Search the drive. Search logs. I'm going to pull my hair out. I've talked about businesses and towns before. Find it... Not just the CTO, but every session. Every skill needs to have it... because I'm sick of seeing stuff fixed or asked that I've already done." Oct 14: "Look before you ask." Most of what looks open was decided.
+
+## When
+
+Before any of these, in any session (lead, lane, words, director, merger, fixer, pool worker, researcher, CTO, the owner's local session; any model or tool):
+
+- building a feature, a screen, a scene or a rule;
+- fixing a defect whose cause is a design choice;
+- filing a pool item or registering a stopgap (`owner-decision` above all);
+- sending the owner a question, a list of questions or a report that asks anything;
+- ruling in the owner's place (the CTO).
+
+## The search, in this order
+
+1. `docs/coordination/OWNER-DECISIONS.md`, whole: the only rulings log. Newest at top.
+2. `docs/coordination/DECISION-REGISTER.md`: the design decisions and their dates.
+3. `docs/coordination/prior-rulings/*.md`: digests of the owner's Drive rulings by area (economy, words, elections, and the rest). Read the digest for your area whole.
+4. `docs/play-first/LAW.md`: every ruling about play.
+5. `docs/coordination/playtest/*.md`: the sitting blocks, his words verbatim; `docs/coordination/voice-notes/*.md`: his voice notes word for word (words, scenes, grading, the Oct 24 playtest). When a ruling and a voice note disagree, the voice note is what he said.
+6. `rg -i` across `docs/` for the subject and its synonyms (a business is also an employer, a workplace, an establishment, a firm; a scene is also a talk, a moment, a beat).
+7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
+   Then the data files that carry rulings: `rg -i '<subject>' src/director/data src/core2/data data/english` and read the `about` and `source` fields near a match. The owner's rulings on how people talk, what a scene is and what a number means are quoted there, not only in `docs/` (Oct 30: the CTO ruled that a relative with no news could be asked after; the owner's Oct 14 Q7 and Oct 15 family-talk rulings in `src/director/data/conversation-rules.json` already said no, and the ruling was withdrawn).
+8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
+9. The open pull requests, before you fix anything you saw in play: `gh api -X GET search/issues -f q='repo:OWNER/REPO is:pr is:open <two words of what you saw>'`. A built fix can wait ungated for hours. On Nov 11 the lead saw the Journal note over the President's address, wrote the fix, and only then found the pool item and a six-hour-old pull request with the same change line for line. The right move was to replay that pull request in a drawn place and send it to a desk.
+10. `docs/design/` (the dated designs: `country-tier.md`, `life-record.md`, `words-machine.md`, `treasury-diversion.md` and the rest) and `docs/pool/redo-2026-11-10/checked.md`, which lists what Fable checked against the code on Nov 10.
+
+Stop at the first hit that answers; read it whole.
+
+**A pool item already did this search for you (owner, Nov 10, `.agents/rules/pool-item-standard.md`).** An item at `standard: 2` carries its Cause, Fix and Rules, and is built from the item alone; do not rediscover the project around it. Read the item, its files and the rule it names, then run steps 1 to 3 for any question the item does not answer. An item whose Cause says `Needs cause.` is not built, and a question about it goes on its pull request, not to the owner.
+
+## What you do with what you find
+
+- **A ruling exists:** build it. Cite it by file and date in the PR body, the item or the report ("owner, Sept 22, prior-rulings/economy.md R16: employers are generated to fit each town"). Never ask it again; never build the other way.
+- **A ruling exists and the code does the opposite:** that is a defect, not a question. Fix it and cite the ruling.
+- **Nothing found:** say so with the reading line, then ask or register the stopgap. The reading line names what you read and searched:
+  `Read: OWNER-DECISIONS (through <date>), DECISION-REGISTER, prior-rulings/<area>.md, LAW; searched docs/ and pool for: <terms>; Drive: <searched | no connector>.`
+  A question without the line is sent back (merger, CTO, the owner's local session).
+- **A design question or an inference is a question too (owner, Nov 15, 2026, 02:32Z: "Anytime there are design questions or inferences, you first need to check the entire repo, because I've ruled on that before. I've ruled on that multiple times").** That night a scene planner wrote three questions for him (party conventions, whether an election can be cheated, how the player learns of a lie) and all three were already ruled: `prior-rulings/elections.md` lines 105 to 114 and line 27, `DECISION-REGISTER.md` line 394, `OWNER-DECISIONS.md` lines 108 and 889. Search the prior-rulings digest of every area the question touches, not only your own (a scene question was answered in the elections and press digests), and search the subject's synonyms (cheating is also fraud, crime, unlawful conduct, corruption).
+- **Two rulings conflict:** the newer wins unless the older makes more sense; flag it in OWNER-DECISIONS under the CTO's hand.
+- **Before a question goes to the owner's page, open the item, the code it names and `docs/coordination/OWNER-DECISIONS.md` (grep the subject).** A sweeper's or a helper's one-line reason is not a reading. On Nov 10 three questions were written from one-line reasons and sent to him. Two were already answered (the discrimination ban, ruled Oct 24 and Oct 26, "I said yes"; town events, asked for Nov 1) and one named laws that already worked. He answered a question he had settled twice. This is the CTO's rule for both of them from that night.
+
+## The owner's standing answers (so they are never asked again)
+
+- Real data calibrates; the game is alternate history from the moment Start is pressed. No real statistic, date or name appears as itself in play (Oct 27: "none of that real data in there. Real data is just used to calibrate").
+- Scenes are the game. Time passes without an indicator beyond the date and time in the HUD; a quiet week pops nothing; a scene stops time, or the player does; the rest is played through the regular screens (bills, talks) (Oct 27).
+- Speeches, scenes and lines differ by the speaker's traits, party, wants and what is happening in the world; nothing reads the same in two worlds (Oct 27).
+- Employers are generated to fit each town from calibrated business tables; no fixed list, no generic cooperatives, no real brands (Sept 22, Sept 28, Sept 29, in prior-rulings/economy.md and words.md and OWNER-DECISIONS).
+- Developer ID, signing, licenses and rights are never raised (Oct 26, Oct 27).
+- A scene has an outcome or it is not a scene: "If a scene doesn't have an outcome and it's just happening to happen, then it shouldn't be a scene", except a step inside an event's arc (a feeler or exposition scene) that unlocks later ones (Nov 15, 02:32Z).
+- A speech is built by the player a short sentence at a time, and its length fits the occasion: short as the Gettysburg Address or 5 to 20 picks for a president's; speeches do not all follow one format (Nov 15, 02:27Z and 02:39Z).
+- Only the Story session writes, changes or deletes lines under `data/english/parts/`; every note he gives about words becomes a rule a program tests (owner, Nov 10, "Split by role"; `words-engine`).
+- A rule, a check or a skill merges before other pull requests (owner, Nov 10).
+- Nothing is done until a second session saw it in the running game (owner, Nov 3; `done-proof` (seen-in-game part)).
+- Old material is deleted, not kept; a design question gets the whole-repository search before it is asked (Nov 15; `words-reads`, rules 127 to 135).
+- Election day is the player's choice; discrimination is simulated; the Wildermyth standard for scenes; one UI and one scene system (Oct 26).
+
+## Gotchas
+
+- Nov 18 (#10135): a new hosted seed can expose a red in a different case in a repaired test file. Before claiming or dismissing it, match the failing case, assertion, place, and seed to the open repair, then replay that exact case on the repair head.
+
+## Self-check before you send anything to the owner
+
+- [ ] I read OWNER-DECISIONS whole and the prior-rulings digest for my area.
+- [ ] I searched docs/, the pool and Drive (or said the connector was missing) for the subject and its synonyms.
+- [ ] Before I built, or started a helper on, a fix for a red test or a line someone else owns, I read the titles of the open pull requests and the pool items claimed in the last day for the same file or line. (Nov 10: a helper reworded two journal lines an hour after the Story line had claimed the same two; the second pull request was withdrawn.)
+- [ ] Before I measured or wrote a cause, I searched the open pull requests for the engine and function it names and read the skill for that kind of work. (Nov 11: the lead spent an hour measuring why memory grows, found that office hours fill in counted residents, and wrote the fix into an item. The Speed lead's pull request for that fix had been open for nine hours, and `speed-work` already named the cause. One search for `bringCases` would have found both.)
+- [ ] Every question I still have ends with the reading line, and none of them is answered above.
+- [ ] Every ruling I found is cited where I build on it.

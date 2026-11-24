@@ -1,0 +1,1543 @@
+{
+  "compilerVersion": "2",
+  "limits": "Statutory table counts only; Joint rows allocate shared judgeships across the listed districts and must not be counted once per district. No current vacancies, judicial geography join, inferred. Territorial district appointments are recorded separately from Article III seats; temporary assignments do not add permanent seats. Notes and later operative changes require separate review.",
+  "records": [
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-1",
+      "authorizedSeats": 9,
+      "citation": "28 U.S.C. 1",
+      "districtLabels": [],
+      "kind": "supreme",
+      "publishedLabel": "Supreme Court of the United States",
+      "row": 1,
+      "sha256": "965e1b5875b569c785791f0fd32a13ad1ce0127662131b3b0eef9d1baebe5b40",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "District of Columbia",
+      "row": 1,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "First",
+      "row": 2,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 13,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Second",
+      "row": 3,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 14,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Third",
+      "row": 4,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 15,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Fourth",
+      "row": 5,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 17,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Fifth",
+      "row": 6,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 16,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Sixth",
+      "row": 7,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Seventh",
+      "row": 8,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Eighth",
+      "row": 9,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 29,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Ninth",
+      "row": 10,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 12,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Tenth",
+      "row": 11,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 12,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Eleventh",
+      "row": 12,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-44",
+      "authorizedSeats": 12,
+      "citation": "28 U.S.C. 44(a)",
+      "districtLabels": [],
+      "kind": "circuit",
+      "publishedLabel": "Federal",
+      "row": 13,
+      "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 8,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Alabama: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Alabama: Northern",
+      "row": 2,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Alabama: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Alabama: Middle",
+      "row": 3,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Alabama: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Alabama: Southern",
+      "row": 4,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Alaska"
+      ],
+      "kind": "district",
+      "publishedLabel": "Alaska",
+      "row": 5,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 13,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Arizona"
+      ],
+      "kind": "district",
+      "publishedLabel": "Arizona",
+      "row": 6,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Arkansas: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Arkansas: Eastern",
+      "row": 8,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Arkansas: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Arkansas: Western",
+      "row": 9,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 14,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "California: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "California: Northern",
+      "row": 11,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "California: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "California: Eastern",
+      "row": 12,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 28,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "California: Central"
+      ],
+      "kind": "district",
+      "publishedLabel": "California: Central",
+      "row": 13,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 13,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "California: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "California: Southern",
+      "row": 14,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Colorado"
+      ],
+      "kind": "district",
+      "publishedLabel": "Colorado",
+      "row": 15,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 8,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Connecticut"
+      ],
+      "kind": "district",
+      "publishedLabel": "Connecticut",
+      "row": 16,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Delaware"
+      ],
+      "kind": "district",
+      "publishedLabel": "Delaware",
+      "row": 17,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 15,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "District of Columbia"
+      ],
+      "kind": "district",
+      "publishedLabel": "District of Columbia",
+      "row": 18,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Florida: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Florida: Northern",
+      "row": 20,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 15,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Florida: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Florida: Middle",
+      "row": 21,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 18,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Florida: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Florida: Southern",
+      "row": 22,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Georgia: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Georgia: Northern",
+      "row": 24,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Georgia: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Georgia: Middle",
+      "row": 25,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Georgia: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Georgia: Southern",
+      "row": 26,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Hawaii"
+      ],
+      "kind": "district",
+      "publishedLabel": "Hawaii",
+      "row": 27,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Idaho"
+      ],
+      "kind": "district",
+      "publishedLabel": "Idaho",
+      "row": 28,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 22,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Illinois: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Illinois: Northern",
+      "row": 30,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Illinois: Central"
+      ],
+      "kind": "district",
+      "publishedLabel": "Illinois: Central",
+      "row": 31,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Illinois: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Illinois: Southern",
+      "row": 32,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Indiana: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Indiana: Northern",
+      "row": 34,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Indiana: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Indiana: Southern",
+      "row": 35,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Iowa: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Iowa: Northern",
+      "row": 37,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Iowa: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Iowa: Southern",
+      "row": 38,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Kansas"
+      ],
+      "kind": "district",
+      "publishedLabel": "Kansas",
+      "row": 39,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Kentucky: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Kentucky: Eastern",
+      "row": 41,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Kentucky: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Kentucky: Western",
+      "row": 42,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "joint-districts",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 1,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Kentucky: Eastern",
+        "Kentucky: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Kentucky: Eastern and Western",
+      "row": 43,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 12,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Louisiana: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Louisiana: Eastern",
+      "row": 45,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Louisiana: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Louisiana: Middle",
+      "row": 46,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Louisiana: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Louisiana: Western",
+      "row": 47,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Maine"
+      ],
+      "kind": "district",
+      "publishedLabel": "Maine",
+      "row": 48,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 10,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Maryland"
+      ],
+      "kind": "district",
+      "publishedLabel": "Maryland",
+      "row": 49,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 13,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Massachusetts"
+      ],
+      "kind": "district",
+      "publishedLabel": "Massachusetts",
+      "row": 50,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 15,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Michigan: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Michigan: Eastern",
+      "row": 52,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Michigan: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Michigan: Western",
+      "row": 53,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Minnesota"
+      ],
+      "kind": "district",
+      "publishedLabel": "Minnesota",
+      "row": 54,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Mississippi: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Mississippi: Northern",
+      "row": 56,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Mississippi: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Mississippi: Southern",
+      "row": 57,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Missouri: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Missouri: Eastern",
+      "row": 59,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Missouri: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Missouri: Western",
+      "row": 60,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "joint-districts",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Missouri: Eastern",
+        "Missouri: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Missouri: Eastern and Western",
+      "row": 61,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Montana"
+      ],
+      "kind": "district",
+      "publishedLabel": "Montana",
+      "row": 62,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Nebraska"
+      ],
+      "kind": "district",
+      "publishedLabel": "Nebraska",
+      "row": 63,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Nevada"
+      ],
+      "kind": "district",
+      "publishedLabel": "Nevada",
+      "row": 64,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New Hampshire"
+      ],
+      "kind": "district",
+      "publishedLabel": "New Hampshire",
+      "row": 65,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 17,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New Jersey"
+      ],
+      "kind": "district",
+      "publishedLabel": "New Jersey",
+      "row": 66,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New Mexico"
+      ],
+      "kind": "district",
+      "publishedLabel": "New Mexico",
+      "row": 67,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New York: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "New York: Northern",
+      "row": 69,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 28,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New York: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "New York: Southern",
+      "row": 70,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 15,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New York: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "New York: Eastern",
+      "row": 71,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "New York: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "New York: Western",
+      "row": 72,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "North Carolina: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "North Carolina: Eastern",
+      "row": 74,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "North Carolina: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "North Carolina: Middle",
+      "row": 75,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "North Carolina: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "North Carolina: Western",
+      "row": 76,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "North Dakota"
+      ],
+      "kind": "district",
+      "publishedLabel": "North Dakota",
+      "row": 77,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Ohio: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Ohio: Northern",
+      "row": 79,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 8,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Ohio: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Ohio: Southern",
+      "row": 80,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Oklahoma: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Oklahoma: Northern",
+      "row": 82,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 1,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Oklahoma: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Oklahoma: Eastern",
+      "row": 83,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Oklahoma: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Oklahoma: Western",
+      "row": 84,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "joint-districts",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 1,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Oklahoma: Northern",
+        "Oklahoma: Eastern",
+        "Oklahoma: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Oklahoma: Northern, Eastern, and Western",
+      "row": 85,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Oregon"
+      ],
+      "kind": "district",
+      "publishedLabel": "Oregon",
+      "row": 86,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 22,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Pennsylvania: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Pennsylvania: Eastern",
+      "row": 88,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 6,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Pennsylvania: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Pennsylvania: Middle",
+      "row": 89,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 10,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Pennsylvania: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Pennsylvania: Western",
+      "row": 90,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Puerto Rico"
+      ],
+      "kind": "district",
+      "publishedLabel": "Puerto Rico",
+      "row": 91,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Rhode Island"
+      ],
+      "kind": "district",
+      "publishedLabel": "Rhode Island",
+      "row": 92,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 10,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "South Carolina"
+      ],
+      "kind": "district",
+      "publishedLabel": "South Carolina",
+      "row": 93,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "South Dakota"
+      ],
+      "kind": "district",
+      "publishedLabel": "South Dakota",
+      "row": 94,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Tennessee: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Tennessee: Eastern",
+      "row": 96,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Tennessee: Middle"
+      ],
+      "kind": "district",
+      "publishedLabel": "Tennessee: Middle",
+      "row": 97,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Tennessee: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Tennessee: Western",
+      "row": 98,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 12,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Texas: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Texas: Northern",
+      "row": 100,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 19,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Texas: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Texas: Southern",
+      "row": 101,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 8,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Texas: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Texas: Eastern",
+      "row": 102,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 13,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Texas: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Texas: Western",
+      "row": 103,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Utah"
+      ],
+      "kind": "district",
+      "publishedLabel": "Utah",
+      "row": 104,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Vermont"
+      ],
+      "kind": "district",
+      "publishedLabel": "Vermont",
+      "row": 105,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 11,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Virginia: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Virginia: Eastern",
+      "row": 107,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Virginia: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Virginia: Western",
+      "row": 108,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 4,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Washington: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Washington: Eastern",
+      "row": 110,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 7,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Washington: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Washington: Western",
+      "row": 111,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "West Virginia: Northern"
+      ],
+      "kind": "district",
+      "publishedLabel": "West Virginia: Northern",
+      "row": 113,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "West Virginia: Southern"
+      ],
+      "kind": "district",
+      "publishedLabel": "West Virginia: Southern",
+      "row": 114,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 5,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Wisconsin: Eastern"
+      ],
+      "kind": "district",
+      "publishedLabel": "Wisconsin: Eastern",
+      "row": 116,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 2,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Wisconsin: Western"
+      ],
+      "kind": "district",
+      "publishedLabel": "Wisconsin: Western",
+      "row": 117,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc28-133",
+      "authorizedSeats": 3,
+      "citation": "28 U.S.C. 133(a)",
+      "districtLabels": [
+        "Wyoming"
+      ],
+      "kind": "district",
+      "publishedLabel": "Wyoming",
+      "row": 118,
+      "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
+      "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1424b",
+      "authorizedSeats": 1,
+      "citation": "48 U.S.C. 1424b(a)",
+      "districtLabels": [
+        "District Court of Guam"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court of Guam",
+      "row": 1,
+      "sha256": "d10c7ef9e79452f7b850e0f590cdda59beefe3a8d91b068cd06b585a11e27d02",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1614",
+      "authorizedSeats": 2,
+      "citation": "48 U.S.C. 1614(a)",
+      "districtLabels": [
+        "District Court of the Virgin Islands"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court of the Virgin Islands",
+      "row": 1,
+      "sha256": "e14b93886ab947c049c17984d8eea4003d7488c7ca38ac82adf5f2f2e1608a30",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1821",
+      "authorizedSeats": 1,
+      "citation": "48 U.S.C. 1821(b)(1)",
+      "districtLabels": [
+        "District Court for the Northern Mariana Islands"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court for the Northern Mariana Islands",
+      "row": 1,
+      "sha256": "d643577f7ada6dca88c5d987c70bb6fc00353a5b277856f873848af1dade7b40",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
+    }
+  ],
+  "runtimeWired": false
+}

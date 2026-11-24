@@ -1,0 +1,69 @@
+{
+  "scene": "classroom",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "classroom__midday.jpg",
+  "backdrops": [
+    "classroom__morning.jpg",
+    "classroom__rain.jpg",
+    "classroom__night.jpg"
+  ],
+  "spots": [
+    {
+      "id": "classroom-0",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 269,
+        "x": 760.0,
+        "width": 74
+      },
+      "box": [
+        684,
+        269,
+        836,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "classroom-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 305,
+        "x": 880.0,
+        "width": 49
+      },
+      "box": [
+        830,
+        305,
+        930,
+        720
+      ],
+      "feet": 719
+    },
+    {
+      "id": "classroom-2",
+      "pose": "walk",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 326,
+        "x": 820.0,
+        "width": 34
+      },
+      "box": [
+        785,
+        326,
+        855,
+        620
+      ],
+      "feet": 619
+    }
+  ]
+}

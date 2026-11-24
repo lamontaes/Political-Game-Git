@@ -1,0 +1,39 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index 30f1836e..46e6bf8a 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -101,6 +101,7 @@ import {
+   artPreviewLibraries,
+   artPreviewMode,
+   previewDatabaseName,
++  prepareCandidateOpeningWorld,
+   setupForArtPreview,
+   type ArtPreviewMode,
+ } from "../presentation/art-preview";
+@@ -312,7 +313,12 @@ export function PlayerGame() {
+     try {
+       const game =
+         createOpeningLifeController(replaySetup).finishTransition().game!;
+-      startPlaying(game.world, game.playerPersonId, replaySetup.seed, null);
++      startPlaying(
++        prepareCandidateOpeningWorld(game.world, replaySetup, previewMode),
++        game.playerPersonId,
++        replaySetup.seed,
++        null,
++      );
+     } catch (error) {
+       setProblem(
+         error instanceof Error
+@@ -587,7 +593,11 @@ export function PlayerGame() {
+               try {
+                 const game = screen.controller.finishTransition().game!;
+                 startPlaying(
+-                  game.world,
++                  prepareCandidateOpeningWorld(
++                    game.world,
++                    screen.setup,
++                    previewMode,
++                  ),
+                   game.playerPersonId,
+                   screen.setup.seed,
+                   null,

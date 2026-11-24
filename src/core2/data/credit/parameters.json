@@ -1,0 +1,375 @@
+{
+  "creditDepositWalletMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Conservative cash buffer while payment paths are connected to deposit withdrawals; JPMorgan Chase Institute, Cash is King (2016), reports median business balances covering 27 days of outflows. This is a wallet reserve, not a target for total savings.",
+    "stopgapId": "SG-WORLD-deposit-wallet-buffer",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of recorded costs"
+    }
+  },
+  "creditDepositLiquidityShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Liquidity kept against deposit withdrawals, separate from the capital constraint; calibrated against the repository FDIC community-bank balance sheets. This is a bank policy, not a statutory reserve requirement.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share of customer deposits retained as cash"
+    }
+  },
+  "creditBankEquityShareOfDeposits": {
+    "value": 0.086,
+    "tag": "SOURCED",
+    "citation": "Median of cushion plus other assets less deposits, as a share of deposits, over the 3,194 FDIC-insured banks under $1 billion, June 30, 2026 call reports (data/tables/town-bank-shapes.json).",
+    "spread": {
+      "low": -0.093,
+      "high": 0.259,
+      "unit": "share of deposits",
+      "citation": "10th and 90th percentiles of the same banks."
+    }
+  },
+  "creditLineMonthsOfPayroll": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Small firms seek lines covering a few months of operating costs (Federal Reserve Small Business Credit Survey, 2023 Report on Employer Firms).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "months of payroll",
+      "citation": "Small firms seek lines covering a few months of operating costs (Federal Reserve Small Business Credit Survey, 2023 Report on Employer Firms)."
+    }
+  },
+  "creditPrimeSpreadPct": {
+    "value": 1.75,
+    "tag": "TUNABLE",
+    "citation": "Small business lines price at prime plus one to three points (Federal Reserve Survey of Terms of Business Lending, 2010-2017; SBA 7(a) maximums).",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "percentage points over prime",
+      "citation": "Small business lines price at prime plus one to three points (Federal Reserve Survey of Terms of Business Lending, 2010-2017; SBA 7(a) maximums)."
+    }
+  },
+  "creditRiskSpreadPct": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A borrower whose sales barely cover its wages pays more (SBA 7(a) spread caps by loan size).",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "percentage points at the weakest record",
+      "citation": "A borrower whose sales barely cover its wages pays more (SBA 7(a) spread caps by loan size)."
+    }
+  },
+  "creditCapitalAppetiteSlope": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "A bank lends less as its capital falls below where it opened, on a sliding scale (Federal Reserve Senior Loan Officer Survey: tightening with capital and risk).",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "per share of opening capital",
+      "citation": "A bank lends less as its capital falls below where it opened, on a sliding scale (Federal Reserve Senior Loan Officer Survey: tightening with capital and risk)."
+    }
+  },
+  "creditMaxLimitsPerEquity": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Small banks hold loans of about eight to twelve times their equity (FDIC Quarterly Banking Profile, community banks).",
+    "spread": {
+      "low": 5,
+      "high": 12,
+      "unit": "line limits per dollar of equity",
+      "citation": "Small banks hold loans of about eight to twelve times their equity (FDIC Quarterly Banking Profile, community banks)."
+    }
+  },
+  "creditDepositsInThousands": {
+    "value": 1000,
+    "tag": "SOURCED",
+    "citation": "FDIC Summary of Deposits reports deposits in thousands of dollars."
+  },
+  "creditMinorPerDollar": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Cents per dollar."
+  },
+  "creditPersonalSpreadPct": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Commercial bank 24-month personal loan rates ran about 6 to 9 points over prime, 2015-2024 (Federal Reserve G.19, terms of credit).",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "points over prime",
+      "citation": "Commercial bank 24-month personal loan rates ran about 6 to 9 points over prime, 2015-2024 (Federal Reserve G.19, terms of credit)."
+    }
+  },
+  "creditPersonalTermMonths": {
+    "value": 24,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve G.19 reports personal loans at a 24-month term."
+  },
+  "creditDtiReferencePct": {
+    "value": 43,
+    "tag": "SOURCED",
+    "citation": "12 CFR 1026.43(e)(2)(vi) (2014-2021 general qualified mortgage): total debt payments at most 43 percent of monthly income."
+  },
+  "creditDtiSlope": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "A lender's yes falls smoothly as payments approach and pass the reference share of income.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.4,
+      "unit": "per point of debt-to-income",
+      "citation": "A lender's yes falls smoothly as payments approach and pass the reference share of income."
+    }
+  },
+  "creditChargeOffDays": {
+    "value": 120,
+    "tag": "SOURCED",
+    "citation": "FFIEC Uniform Retail Credit Classification and Account Management Policy (65 FR 36903, 2000): closed-end retail loans are charged off at 120 days past due."
+  },
+  "creditBorrowNeedWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "A household with few days of money left wants to borrow.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "score",
+      "citation": "A household with few days of money left wants to borrow."
+    }
+  },
+  "creditBorrowCostWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "The payment against income weighs against borrowing.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per share of monthly income",
+      "citation": "The payment against income weighs against borrowing."
+    }
+  },
+  "creditBorrowBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares.",
+    "spread": {
+      "low": -4,
+      "high": -1,
+      "unit": "score",
+      "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares."
+    }
+  },
+  "creditPersonalMonthsOfCosts": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "months of living costs",
+      "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending)."
+    }
+  },
+  "creditHouseholdMonthlyLendingShare": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Consumer loans are about 5 to 8 percent of community bank assets (FDIC Quarterly Banking Profile, 2019-2024), turning over in about two years; new household lending per month is a small share of the bank's funds. A first generated-world month without this cap lent all of the town bank's cash to 993 households.",
+    "spread": {
+      "low": 0.005,
+      "high": 0.05,
+      "unit": "share of the bank's cash per month",
+      "citation": "FDIC Quarterly Banking Profile, community banks."
+    }
+  },
+  "creditReportYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Fair Credit Reporting Act, 15 U.S.C. 1681c(a)(4): accounts charged to profit and loss may be reported for seven years."
+  },
+  "creditMedicalReportDays": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "Equifax, Experian and TransUnion, joint release \"Equifax, Experian, and TransUnion Support U.S. Consumers With Changes to Medical Collection Debt Reporting\" (March 18, 2022), https://investor.equifax.com/news-events/press-releases/detail/1222/equifax-experian-and-transunion-support-u-s-consumers: \"Effective July 1, 2022, paid medical collection debt will no longer be included on consumer credit reports. In addition, the time period before unpaid medical collection debt would appear on a consumer's report will be increased from 6 months to one year, giving consumers more time to work with insurance and/or healthcare providers to address their debt before it is reported on their credit file.\" The game plays after July 2022, so the one-year wait holds.",
+    "spread": {
+      "low": 180,
+      "high": 365,
+      "unit": "days from a medical bill's first delinquency to the credit report",
+      "citation": "The low end is the rule before July 2022, the National Consumer Assistance Plan of 2015: CFPB, Medical Debt Burden in the United States (March 2022), https://files.consumerfinance.gov/f/documents/cfpb_medical-debt-burden-in-the-united-states_report_2022-03.pdf: \"A medical debt furnished by a collection agency or debt purchaser should not show up on a consumer's credit report until 180 days from date of first delinquency, to allow time for insurance companies to process and render payments, as directed by the National Consumer Assistance Plan (NCAP) of 2015\". The high end is the three companies' one year (their March 18, 2022 release)."
+    }
+  },
+  "creditChargedOffYesShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "A lender's yes to a household with a charge-off on its report is a small share of its yes otherwise; a charge-off is among the most damaging items on a credit report.",
+    "spread": {
+      "low": 0,
+      "high": 0.3,
+      "unit": "share of the bank's yes",
+      "citation": "A lender's yes to a household with a charge-off on its report is a small share of its yes otherwise; a charge-off is among the most damaging items on a credit report."
+    }
+  },
+  "creditMinimumLoanMinor": {
+    "value": 100000,
+    "tag": "ESTIMATED",
+    "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
+    "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded. The spread comes from the FDIC's 2011 survey of banks (43 percent offered unsecured personal loans with no minimum and 53 percent a minimum of $2,500 or less) and its small-dollar loan pilot (a participating bank's standard minimum was $500; loans ran $399 to $1,000). Both are older than the opening; no current national figure was found.",
+    "spread": {
+      "low": 50000,
+      "high": 250000,
+      "unit": "minor units (cents)",
+      "citation": "FDIC, 2011 FDIC Survey of Banks' Efforts to Serve the Unbanked and Underbanked (other products results), and FDIC, The FDIC's Small-Dollar Loan Pilot Program (2024 feature article, fdic.gov/system/files/2024-07/smalldollar.pdf): $500 to $2,500."
+    },
+    "stopgapId": "SG-WORLD-credit-minimum-loan"
+  },
+  "creditStartupEquityShare": {
+    "value": 0.1,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 8 (effective June 1, 2025): a startup borrower injects equity of at least 10 percent of total project cost; the loan covers at most the rest."
+  },
+  "creditStartupDebtServiceCoverage": {
+    "value": 1.15,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
+  },
+  "creditIncomeRecordDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days of a job's work record a lender needs before it counts the pay actually earned from hours worked rather than the job's wage rate: two weeks, the most common pay period (BLS, 'Length of pay periods in the Current Employment Statistics survey', 2023: biweekly is the most common).",
+    "spread": {
+      "low": 7,
+      "high": 31
+    }
+  },
+  "smallDollarFallbackApr": {
+    "value": 3.91,
+    "tag": "ESTIMATED",
+    "citation": "The typical storefront payday loan's annual rate, for a state whose law lets the product operate and whose regulator the sources print no rate for (Puerto Rico). CFPB: \"The APR on that particular loan with a median duration of 14 days would be 391%.\" (a median $15 per $100 fee on a $350 loan); Pew: \"Lenders usually charge about $15 per $100 borrowed per two weeks (391 percent Annual Percentage Rate or APR).\" Sources: Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026; The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "The national typical rate stands for a place the state tables do not cover (data/credit/small-dollar.json states). A rate is the product's fee schedule worked out, so it is law and takes no per-world spread.",
+    "spread": {
+      "low": 1.4,
+      "high": 6.62,
+      "unit": "annual rate (ratio) across the 27 states the CRL map prints",
+      "citation": "Center for Responsible Lending, Red Alert Rates (June 2023): Oregon 140% to Texas 662%."
+    }
+  },
+  "smallDollarBorrowerHouseholdShare": {
+    "value": 0.011,
+    "tag": "SOURCED",
+    "citation": "Share of households that took out a payday loan in the past 12 months. FDIC 2023 survey: \"All households were asked whether, in the past 12 months, they had ... taken out a payday loan or payday advance\"; Table 5.2, Payday Loan, All Households: 1.5 (2019), 1.1 (2021), 1.1 (2023) percent. FDIC, 2023 FDIC National Survey of Unbanked and Underbanked Households (Table 5.2), https://www.fdic.gov/household-survey/2023-fdic-national-survey-unbanked-and-underbanked-households-report, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 0.011,
+      "high": 0.015,
+      "unit": "share of households",
+      "citation": "FDIC 2023 survey Table 5.2: 1.1 percent in 2021 and 2023, 1.5 percent in 2019."
+    }
+  },
+  "smallDollarAllowedUseRatio": {
+    "value": 1.19,
+    "tag": "ESTIMATED",
+    "citation": "How much likelier a household is to use a payday loan where the state lets lenders operate than the national average, which also counts states with no storefronts. Pew Exhibit 9 (past-five-year use, storefront plus online or other): Permissive states 5.22% + 1.37% = 6.59% of 17,881 adults, Hybrid states 5.06% + 1.28% = 6.34% of 5,565, Restrictive states 1.29% + 1.58% = 2.87% of 10,130, nation 4.01% + 1.48% = 5.49%. Where a lender operates, the interview-weighted use is 6.53%, 1.19 times the nation's. The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "Pew's 2011 interview shares (33,576 adults) taken as a ratio only, applied to the FDIC 2023 household share; the two surveys measure different periods and units.",
+    "spread": {
+      "low": 1.0,
+      "high": 1.2,
+      "unit": "times the national household share",
+      "citation": "Pew Exhibit 8: use is 6.3 percent in moderately regulated states and 6.6 percent in the least regulated, against 5.5 percent nationally."
+    }
+  },
+  "smallDollarLoansPerBorrowerYear": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Pew: \"Twelve million American adults use payday loans annually. On average, a borrower takes out eight loans of $375 each per year and spends $520 on interest.\" The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 6,
+      "high": 11,
+      "unit": "loans per borrower per year",
+      "citation": "CFPB Data Point: Payday Lending (March 2014): a median of six loans over a year for all borrowers; CFPB white paper: a median of 11 loans in its sample approach and 10.7 mean transactions."
+    }
+  },
+  "smallDollarLoanDollars": {
+    "value": 375,
+    "tag": "SOURCED",
+    "citation": "The average payday loan, in the dollars of the source year (2010 to 2011). Pew: \"the average loan is about $375\"; CFPB: \"The median amount borrowed by consumers in our sample was $350 ... with a common maximum loan size of $500\". The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026; Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 350,
+      "high": 500,
+      "unit": "dollars of the source year",
+      "citation": "CFPB white paper: median $350, mean $392, a common state maximum of $500; the top of the range also stands for prices since the source year."
+    }
+  },
+  "smallDollarCapitalTurnsPerYear": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How many times a year the lender's cash goes out and comes back: the credit engine settles loans at its monthly review, so a loan's money returns once a month. Pew: eight loans a year of 18 days each, so a borrower's loan money would turn about 20 times a year without the monthly review.",
+    "spread": {
+      "low": 12,
+      "high": 20,
+      "unit": "turns of the lender's cash per year",
+      "citation": "Monthly review (12) to Pew's 18-day loan (365 divided by 18, about 20)."
+    }
+  },
+  "smallDollarLoanToMonthlyIncome": {
+    "value": 0.187,
+    "tag": "ESTIMATED",
+    "citation": "The most a storefront lender lends, as a share of the borrower's monthly pay: the CFPB sample's median loan, $350, over its median borrower's pay, $22,476 a year or $1,873 a month (CFPB white paper Tables 1 and 2). \"In order for a consumer to obtain a payday loan, a lender generally requires the consumer to present identification and documentation of income, and have a personal deposit account. Lenders generally do not consider a consumer's other financial obligations or credit score when determining eligibility\". Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "estimatedFrom": "Median loan divided by median monthly income, from two medians of one sample; states also cap loan size by income ('limits on loan size based on monthly income', CFPB).",
+    "spread": {
+      "low": 0.133,
+      "high": 0.267,
+      "unit": "share of monthly pay",
+      "citation": "CFPB white paper: \"Most loans in our sample cluster around $250, $300, and $500\", over the same $1,873 monthly pay."
+    }
+  },
+  "smallDollarPaydayTermMonths": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "A single-payment payday loan is due on the borrower's next payday; the credit engine settles loans at its monthly review, so the loan is due at the next review and an unpaid balance carries forward at the loan's rate, as a rollover does. CFPB: \"We found a median loan term of 14 days, and a mean loan term of 18.3 days\"; \"If a borrower is unable to repay the full amount, the lender may give her the option to roll over the loan balance by paying a fee, usually equal to the original finance charge\". Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "monthly reviews",
+      "citation": "One review (a 14-day term rounded to the engine's cycle) to two (a 14-day loan renewed once), CFPB: 'Over 80% of payday loans are rolled over or followed by another loan within 14 days' (Data Point: Payday Lending, March 2014)."
+    }
+  },
+  "smallDollarInstallmentTermMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "The term of the installment loan a state with high-cost installment lending allows: NCLC's sample loan is \"a $500, six-month loan\". National Consumer Law Center, Predatory Installment Lending in the States, Appendix C (December 2025), https://www.nclc.org/wp-content/uploads/2025/12/2025_APR-Annual-Report_Appendix-C.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "NCLC Appendix C: \"Virginia's Short-Term Loan Act applies to loans up to $2,500 with terms between 4 and 24 months.\""
+    }
+  },
+  "smallDollarMinimumLoanDollars": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "The smallest loan a storefront lender writes, in dollars. Pew: \"Payday loans are small-dollar credit products that typically range from $100 to $500, though may be larger depending on state law\". The Pew Charitable Trusts, Payday Lending in America: Who Borrows, Where They Borrow, and Why (July 2012), https://www.pewtrusts.org/-/media/legacy/uploadedfiles/pcs_assets/2012/pewpaydaylendingreportpdf.pdf, fetched Oct 29, 2026.",
+    "spread": {
+      "low": 100,
+      "high": 100,
+      "unit": "dollars",
+      "citation": "Pew's range starts at $100 in every state it describes; CFPB white paper: loans in its sample cluster around $250, $300 and $500."
+    }
+  },
+  "smallDollarDefaultLookbackMonths": {
+    "value": 12,
+    "tag": "ESTIMATED",
+    "citation": "How long a storefront lender refuses a household whose payday loan it charged off. CFPB: \"Lenders generally do not consider a consumer's other financial obligations or credit score when determining eligibility; however, some lenders use specialty credit reporting firms to check for previous defaults on payday loans and perform other due diligence such as identity and deposit account verification.\" Its footnote 25: \"some share of borrowers who take out a single payday loan may have this low amount of usage because they never paid their loan back and, as a result, were not provided additional credit by that lender in our 12-month study period.\" Consumer Financial Protection Bureau, Payday Loans and Deposit Advance Products: A White Paper of Initial Data Findings (April 2013), pages 9 and 21, https://files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf, fetched Oct 30, 2026.",
+    "estimatedFrom": "The CFPB's study window, the one period over which it saw a defaulted borrower refused again by the same lender; how long a lender keeps refusing past it is not reported.",
+    "spread": {
+      "low": 12,
+      "high": 84,
+      "unit": "months",
+      "citation": "The CFPB's 12-month study period, to the seven years a consumer reporting agency, specialty firms included, may report a charged-off account (15 U.S.C. 1681c(a)(4))."
+    }
+  }
+}

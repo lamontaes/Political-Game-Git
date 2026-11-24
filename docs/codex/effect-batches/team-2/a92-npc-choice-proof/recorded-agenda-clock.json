@@ -1,0 +1,85 @@
+{
+  "seed": "a92-recorded-agenda-priority",
+  "observations": [
+    {
+      "seed": "a92-recorded-agenda-priority:US-DC:npc",
+      "place": "Washington, District of Columbia",
+      "state": "US-DC",
+      "chief": "Leo Quinn",
+      "holder": "Erin Velazquez",
+      "choice": "priority:appropriations",
+      "observedAt": "2026-02-03",
+      "dueAt": "2026-02-03",
+      "adviceEventId": "event_32a4a9f0e589dca4",
+      "chiefTraceId": "decision-trace_e05a6e0360112f13",
+      "principleSourceIds": [
+        "principle_4d7b0733d765da27"
+      ],
+      "decisionEventId": "event_9a9bdae790034485"
+    },
+    {
+      "seed": "a92-recorded-agenda-priority:US-MP:npc",
+      "place": "Koblerville, Northern Mariana Islands",
+      "state": "US-MP",
+      "chief": "Emma Phelps",
+      "holder": "Miranda Figueroa",
+      "choice": "priority:appropriations",
+      "observedAt": "2026-02-03",
+      "dueAt": "2026-02-03",
+      "adviceEventId": "event_ac64ac5ce8c86790",
+      "chiefTraceId": "decision-trace_64cc17b2262e262b",
+      "principleSourceIds": [
+        "principle_9cb2f9df71716347"
+      ],
+      "decisionEventId": "event_4d9b92473d8c67a3"
+    },
+    {
+      "seed": "a92-recorded-agenda-priority:US-CA:npc",
+      "place": "El Granada, California",
+      "state": "US-CA",
+      "chief": "Riley Mills",
+      "holder": "Tracy Townsend",
+      "choice": "priority:appropriations",
+      "observedAt": "2026-02-03",
+      "dueAt": "2026-02-03",
+      "adviceEventId": "event_20a8c55df9c77a6b",
+      "chiefTraceId": "decision-trace_b03b24c1a795cbae",
+      "principleSourceIds": [
+        "principle_ca3ed489c6358bd0"
+      ],
+      "decisionEventId": "event_7c3cc81fd6fb7af5"
+    },
+    {
+      "seed": "a92-recorded-agenda-priority:US-ND:npc",
+      "place": "Wing, North Dakota",
+      "state": "US-ND",
+      "chief": "Erica Roy",
+      "holder": "Tracy McCoy",
+      "choice": "priority:appropriations",
+      "observedAt": "2026-02-03",
+      "dueAt": "2026-02-03",
+      "adviceEventId": "event_15981bb8840ffae1",
+      "chiefTraceId": "decision-trace_79b154116de6cce3",
+      "principleSourceIds": [
+        "principle_6fedf695aed0bb27"
+      ],
+      "decisionEventId": "event_b702e15e6af32af4"
+    },
+    {
+      "seed": "a92-recorded-agenda-priority:US-MO:npc",
+      "place": "Montreal, Missouri",
+      "state": "US-MO",
+      "chief": "Charlotte Campos",
+      "holder": "Ivy Roy",
+      "choice": "priority:appropriations",
+      "observedAt": "2026-02-03",
+      "dueAt": "2026-02-03",
+      "adviceEventId": "event_640cbc71a212a408",
+      "chiefTraceId": "decision-trace_278727a99f4185f2",
+      "principleSourceIds": [
+        "principle_43f54e4dc5754006"
+      ],
+      "decisionEventId": "event_e5a31746b3532cd0"
+    }
+  ]
+}

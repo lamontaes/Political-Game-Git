@@ -1,0 +1,1997 @@
+{
+  "id": "state-income-tax-married-2026",
+  "asOf": "2026-10-12",
+  "taxYear": 2026,
+  "filingStatus": "married filing jointly",
+  "sourceKind": "secondary compilation (Tax Foundation 2026 table, one row per state) with official spot checks and overrides for 2026 legislation enacted after the table date",
+  "source": {
+    "title": "State Individual Income Tax Rates and Brackets, 2026",
+    "publisher": "Tax Foundation",
+    "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+    "retrieved": "2026-10-12 (fetched from the cloud session)",
+    "tableDate": "as of January 1, 2026 (published February 11, 2026)"
+  },
+  "companionFile": "data/research/money/state-income-tax-2026.json (single filers)",
+  "shape": "brackets[].overMarriedJoint is the lower bound of taxable income at which ratePercent starts, same convention as overSingle in the single-filer file (a first bracket above 0 means income below it is untaxed). Deductions/exemptions are {amount, form: 'deduction'|'credit'} or null when the state has none (Tax Foundation 'n.a.'). Local income taxes are excluded.",
+  "estimateRule": "estimate:true where Tax Foundation carried a 2025 indexed figure into 2026 (its notes j, n, ll), or where a 2026 change left a figure unconfirmed.",
+  "laterChanges2026": "Five states enacted 2026 rate cuts retroactive to January 1, 2026 after the table date: AR (3.7% top), GA (4.99%, $30,000 MFJ deduction), SC (1.99%/5.21%, SCIAD), UT (4.45%), WV (2.11%-4.58%). These rows use the new law. Hawaii's Act 24 (2026) changes brackets from tax year 2027 only.",
+  "places": {
+    "US-AL": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 1000
+        },
+        {
+          "ratePercent": 5.0,
+          "overMarriedJoint": 6000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 8500,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 1500,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 3000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "notes": [
+        "Alabama MFJ standard deduction is $8,500 at AGI up to $25,999, reduced $175 per $500 of AGI to a $5,000 floor."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Alabama",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "b", "c", "uu"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AK": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AZ": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.5,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 16700,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 100,
+        "form": "credit"
+      },
+      "notes": [
+        "Deduction/exemption tied to the federal amount.",
+        "Conforms to the pre-OBBBA federal standard deduction ($16,700 MFJ in 2026 terms)."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Arizona",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["e", "f", "u", "vv"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AR": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.7,
+          "overMarriedJoint": 4600
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 4940,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 29,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 58,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 29,
+        "form": "credit"
+      },
+      "taxFoundationTableRow": {
+        "brackets": [
+          {
+            "ratePercent": 2.0,
+            "overMarriedJoint": 0
+          },
+          {
+            "ratePercent": 3.9,
+            "overMarriedJoint": 4600
+          }
+        ],
+        "standardDeductionMarriedJoint": {
+          "amount": 4940,
+          "form": "deduction"
+        },
+        "note": "Superseded by 2026 legislation enacted after the table date."
+      },
+      "notes": [
+        "Top rate cut from 3.9% to 3.7% retroactive to January 1, 2026. The 2026 bracket breakpoint was not found in a DFA source; the $4,600 breakpoint from the Tax Foundation table (itself 2025 carried) is kept. Arkansas applies the same schedule to all filing statuses and has separate low-income tables.",
+        "Arkansas uses separate low-income tax tables below roughly $92,300 net income.",
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried."
+      ],
+      "source": {
+        "title": "Tax Foundation, \"Arkansas Cuts Income Tax Rates for the Fourth Time in Four Years\" (Act 1 / HB 1001 and SB 1 of the 2026 First Extraordinary Session, signed May 6, 2026; top rate 3.7% for tax year 2026)",
+        "url": "https://taxfoundation.org/blog/arkansas-income-tax-cut-rates/",
+        "fallback": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-CA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 22158
+        },
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 52528
+        },
+        {
+          "ratePercent": 6.0,
+          "overMarriedJoint": 82904
+        },
+        {
+          "ratePercent": 8.0,
+          "overMarriedJoint": 115084
+        },
+        {
+          "ratePercent": 9.3,
+          "overMarriedJoint": 145448
+        },
+        {
+          "ratePercent": 10.3,
+          "overMarriedJoint": 742958
+        },
+        {
+          "ratePercent": 11.3,
+          "overMarriedJoint": 891542
+        },
+        {
+          "ratePercent": 12.3,
+          "overMarriedJoint": 1000000
+        },
+        {
+          "ratePercent": 13.3,
+          "overMarriedJoint": 1485906
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 11080,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 153,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 306,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 153,
+        "form": "credit"
+      },
+      "officialCheck": {
+        "url": "https://www.ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf",
+        "finding": "MFJ thresholds match FTB 2025 Form 540 Schedule Y exactly (the 2026 schedule was not yet published; Tax Foundation carried 2025)."
+      },
+      "notes": [
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried.",
+        "Rates include California's 1% mental health services tax on taxable income over $1,000,000 (all statuses), which is why 12.3% starts at $1,000,000 and 13.3% at $1,485,906 for joint filers.",
+        "Standard deduction/exemption is indexed, but the 2026 figure was not published; 2025 amount carried."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row California",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "h", "j", "k", "l", "m", "n", "nn"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-CO": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.4,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": [
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Colorado",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "o"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-CT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 4.5,
+          "overMarriedJoint": 20000
+        },
+        {
+          "ratePercent": 5.5,
+          "overMarriedJoint": 100000
+        },
+        {
+          "ratePercent": 6.0,
+          "overMarriedJoint": 200000
+        },
+        {
+          "ratePercent": 6.5,
+          "overMarriedJoint": 400000
+        },
+        {
+          "ratePercent": 6.9,
+          "overMarriedJoint": 500000
+        },
+        {
+          "ratePercent": 6.99,
+          "overMarriedJoint": 1000000
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 15000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 24000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 0,
+        "form": "deduction"
+      },
+      "notes": [
+        "Tax-benefit recapture: high-income filers pay the top rate on all income.",
+        "Connecticut phases out the 2% bracket and adds recapture for MFJ AGI above $100,500 (see Tax Foundation note p).",
+        "Connecticut exemption phases out $1,000 per $1,000 of AGI over $48,000 (MFJ)."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Connecticut",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["i", "p", "q", "r"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-DE": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.2,
+          "overMarriedJoint": 2000
+        },
+        {
+          "ratePercent": 3.9,
+          "overMarriedJoint": 5000
+        },
+        {
+          "ratePercent": 4.8,
+          "overMarriedJoint": 10000
+        },
+        {
+          "ratePercent": 5.2,
+          "overMarriedJoint": 20000
+        },
+        {
+          "ratePercent": 5.55,
+          "overMarriedJoint": 25000
+        },
+        {
+          "ratePercent": 6.6,
+          "overMarriedJoint": 60000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 6500,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 110,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 220,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 110,
+        "form": "credit"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Delaware",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "h", "m", "s"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-FL": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-GA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.99,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 30000,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 4000,
+        "form": "deduction"
+      },
+      "taxFoundationTableRow": {
+        "brackets": [
+          {
+            "ratePercent": 5.19,
+            "overMarriedJoint": 0
+          }
+        ],
+        "standardDeductionMarriedJoint": {
+          "amount": 24000,
+          "form": "deduction"
+        },
+        "note": "Superseded by 2026 legislation enacted after the table date."
+      },
+      "notes": [
+        "Supersedes the Tax Foundation table (5.19%, $24,000), which predates H.B. 463. Not yet confirmed on a dor.georgia.gov page; reported by WABE/AJC and Georgia DOR revised 2026 withholding guide (per EY Tax News 2026-1294)."
+      ],
+      "source": {
+        "title": "Georgia H.B. 463 (2026), signed May 11, 2026; rate 4.99% and standard deduction $15,000 single / $30,000 MFJ for tax years beginning January 1, 2026",
+        "url": "https://www.wabe.org/georgia-governor-signs-income-property-tax-reduction-laws/",
+        "secondary": "https://www.ajc.com/politics/2026/05/brian-kemp-signs-georgia-income-property-tax-cuts-now-comes-the-hard-part/",
+        "fallback": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-HI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.4,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overMarriedJoint": 19200
+        },
+        {
+          "ratePercent": 5.5,
+          "overMarriedJoint": 28800
+        },
+        {
+          "ratePercent": 6.4,
+          "overMarriedJoint": 38400
+        },
+        {
+          "ratePercent": 6.8,
+          "overMarriedJoint": 48000
+        },
+        {
+          "ratePercent": 7.2,
+          "overMarriedJoint": 72000
+        },
+        {
+          "ratePercent": 7.6,
+          "overMarriedJoint": 96000
+        },
+        {
+          "ratePercent": 7.9,
+          "overMarriedJoint": 250000
+        },
+        {
+          "ratePercent": 8.25,
+          "overMarriedJoint": 350000
+        },
+        {
+          "ratePercent": 9.0,
+          "overMarriedJoint": 450000
+        },
+        {
+          "ratePercent": 10.0,
+          "overMarriedJoint": 550000
+        },
+        {
+          "ratePercent": 11.0,
+          "overMarriedJoint": 650000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 8800,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 1144,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 2288,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1144,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Hawaii",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["m", "t"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-ID": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 5.3,
+          "overMarriedJoint": 9622
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": [
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried.",
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies.",
+        "Deduction/exemption tied to the federal amount."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Idaho",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["j", "m", "o", "u"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-IL": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.95,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 2925,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 5850,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 2925,
+        "form": "deduction"
+      },
+      "notes": ["Illinois exemption not allowed above $500,000 AGI (MFJ)."],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Illinois",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d", "m", "v"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-IN": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.95,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 2000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Indiana",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "m", "w"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-IA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.8,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 40,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 80,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 40,
+        "form": "credit"
+      },
+      "notes": [
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Iowa",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "h", "o"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-KS": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.2,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 5.58,
+          "overMarriedJoint": 46000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 8240,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 9160,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 18320,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 2320,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Kansas",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "m"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-KY": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.5,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 3360,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": [
+        "Kentucky's standard deduction is not doubled for joint filers."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Kentucky",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "d", "z"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-LA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.0,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 25750,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Louisiana",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-ME": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.8,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overMarriedJoint": 54849
+        },
+        {
+          "ratePercent": 7.15,
+          "overMarriedJoint": 129749
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 16700,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 5300,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 10600,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 305,
+        "form": "credit"
+      },
+      "notes": [
+        "Deduction/exemption tied to the federal amount.",
+        "Dependent exemption/credit is indexed; 2025 amount carried.",
+        "Conforms to the pre-OBBBA federal standard deduction ($16,700 MFJ in 2026 terms)."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Maine",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["u", "y", "bb", "ll", "vv", "ww"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MD": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overMarriedJoint": 1000
+        },
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 2000
+        },
+        {
+          "ratePercent": 4.75,
+          "overMarriedJoint": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overMarriedJoint": 150000
+        },
+        {
+          "ratePercent": 5.25,
+          "overMarriedJoint": 175000
+        },
+        {
+          "ratePercent": 5.5,
+          "overMarriedJoint": 225000
+        },
+        {
+          "ratePercent": 5.75,
+          "overMarriedJoint": 300000
+        },
+        {
+          "ratePercent": 6.25,
+          "overMarriedJoint": 600000
+        },
+        {
+          "ratePercent": 6.5,
+          "overMarriedJoint": 1200000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 6700,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 3200,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 6400,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 3200,
+        "form": "deduction"
+      },
+      "notes": [
+        "Maryland 2% capital gains surtax for AGI over $350,000.",
+        "Conforms to the pre-OBBBA federal standard deduction ($16,700 MFJ in 2026 terms).",
+        "Maryland exemption phases out for MFJ AGI from $150,000 to $200,000."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Maryland",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "m", "x", "vv", "aa"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 9.0,
+          "overMarriedJoint": 1083150
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 4400,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 8800,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "notes": [
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Massachusetts",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["j", "rr"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MI": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.25,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 5900,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 11800,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 5900,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Michigan",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "d"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MN": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 5.35,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 6.8,
+          "overMarriedJoint": 48700
+        },
+        {
+          "ratePercent": 7.85,
+          "overMarriedJoint": 193480
+        },
+        {
+          "ratePercent": 9.85,
+          "overMarriedJoint": 337930
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 30600,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 5300,
+        "form": "deduction"
+      },
+      "officialCheck": {
+        "url": "https://www.revenue.state.mn.us/minnesota-income-tax-rates-and-brackets",
+        "finding": "Matches Minnesota Department of Revenue 'Minnesota Income Tax Rates and Brackets' 2026 MFJ table ($48,700 / $193,480 / $337,930)."
+      },
+      "notes": [
+        "Minnesota standard deduction phases down above $244,400 AGI.",
+        "Minnesota 1% surtax on net investment income over $1,000,000.",
+        "Conforms to the pre-OBBBA federal standard deduction ($16,700 MFJ in 2026 terms)."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Minnesota",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d", "bb", "cc", "oo", "vv"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MS": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 10000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 4600,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 6000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 12000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1500,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Mississippi",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": []
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MO": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 1348
+        },
+        {
+          "ratePercent": 2.5,
+          "overMarriedJoint": 2696
+        },
+        {
+          "ratePercent": 3.0,
+          "overMarriedJoint": 4044
+        },
+        {
+          "ratePercent": 3.5,
+          "overMarriedJoint": 5392
+        },
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 6740
+        },
+        {
+          "ratePercent": 4.5,
+          "overMarriedJoint": 8088
+        },
+        {
+          "ratePercent": 4.7,
+          "overMarriedJoint": 9436
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": ["Deduction/exemption tied to the federal amount."],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Missouri",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "b", "m", "u", "bb"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.7,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 5.65,
+          "overMarriedJoint": 95000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "officialCheck": {
+        "url": "https://revenue.mt.gov/news/recent-news/HB-337",
+        "finding": "Matches Montana DOR HB 337 notice: 4.7% to $95,000 MFJ, 5.65% above for 2026."
+      },
+      "notes": [
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies.",
+        "Deduction/exemption tied to the federal amount."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Montana",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["o", "u", "bb"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NE": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.46,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.51,
+          "overMarriedJoint": 8250
+        },
+        {
+          "ratePercent": 4.55,
+          "overMarriedJoint": 49530
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 17700,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 176,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 352,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 176,
+        "form": "credit"
+      },
+      "officialCheck": {
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/tax-forms/drafts/2026_tax_calculation_schedule.pdf",
+        "finding": "Matches Nebraska DOR draft 2026 tax calculation schedule (2.46% to $8,250; 3.51% to $49,530; 4.55% above)."
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Nebraska",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d", "h", "m", "bb"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NV": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NH": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "note": "New Hampshire's interest and dividends tax was repealed for tax years beginning after December 31, 2024; no wage tax.",
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NJ": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.4,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 1.75,
+          "overMarriedJoint": 20000
+        },
+        {
+          "ratePercent": 2.45,
+          "overMarriedJoint": 50000
+        },
+        {
+          "ratePercent": 3.5,
+          "overMarriedJoint": 70000
+        },
+        {
+          "ratePercent": 5.53,
+          "overMarriedJoint": 80000
+        },
+        {
+          "ratePercent": 6.37,
+          "overMarriedJoint": 150000
+        },
+        {
+          "ratePercent": 8.97,
+          "overMarriedJoint": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overMarriedJoint": 1000000
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 2000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1500,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New Jersey",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NM": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.5,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overMarriedJoint": 8000
+        },
+        {
+          "ratePercent": 4.3,
+          "overMarriedJoint": 25000
+        },
+        {
+          "ratePercent": 4.7,
+          "overMarriedJoint": 50000
+        },
+        {
+          "ratePercent": 4.9,
+          "overMarriedJoint": 100000
+        },
+        {
+          "ratePercent": 5.9,
+          "overMarriedJoint": 315000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 4000,
+        "form": "deduction"
+      },
+      "notes": [
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies.",
+        "Deduction/exemption tied to the federal amount."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New Mexico",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["m", "o", "u", "jj"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NY": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.9,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overMarriedJoint": 17150
+        },
+        {
+          "ratePercent": 5.15,
+          "overMarriedJoint": 23600
+        },
+        {
+          "ratePercent": 5.4,
+          "overMarriedJoint": 27900
+        },
+        {
+          "ratePercent": 5.9,
+          "overMarriedJoint": 161550
+        },
+        {
+          "ratePercent": 6.85,
+          "overMarriedJoint": 323200
+        },
+        {
+          "ratePercent": 9.65,
+          "overMarriedJoint": 2155350
+        },
+        {
+          "ratePercent": 10.3,
+          "overMarriedJoint": 5000000
+        },
+        {
+          "ratePercent": 10.9,
+          "overMarriedJoint": 25000000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 16050,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "officialCheck": {
+        "url": "https://www.tax.ny.gov/data/stats/ter/fiscal-year27/personal-income-tax.htm",
+        "finding": "Rates match the NY tax expenditure report description of Chapter 59 of the Laws of 2025 Part A (first half of a 0.2-point cut on the five lowest brackets in 2026, full cut in 2027)."
+      },
+      "notes": [
+        "Tax-benefit recapture: high-income filers pay the top rate on all income."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New York",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "i"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NC": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.99,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 25500,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row North Carolina",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": []
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-ND": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.95,
+          "overMarriedJoint": 80975
+        },
+        {
+          "ratePercent": 2.5,
+          "overMarriedJoint": 298075
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": [
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried.",
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies.",
+        "Deduction/exemption tied to the federal amount."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row North Dakota",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["j", "o", "u"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-OH": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 2.75,
+          "overMarriedJoint": 26050
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 2400,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 4800,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 2400,
+        "form": "deduction"
+      },
+      "notes": [
+        "Ohio exemption is $2,400 per person at AGI up to $40,000, $2,150 to $80,000, $1,900 to $500,000, none above."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Ohio",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "bb", "dd", "pp"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-OK": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.5,
+          "overMarriedJoint": 7500
+        },
+        {
+          "ratePercent": 3.5,
+          "overMarriedJoint": 9800
+        },
+        {
+          "ratePercent": 4.5,
+          "overMarriedJoint": 14400
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 12700,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 2000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 1000,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Oklahoma",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["m"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-OR": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.75,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overMarriedJoint": 9100
+        },
+        {
+          "ratePercent": 8.75,
+          "overMarriedJoint": 22800
+        },
+        {
+          "ratePercent": 9.9,
+          "overMarriedJoint": 250000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 5820,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 256,
+        "form": "credit"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 512,
+        "form": "credit"
+      },
+      "personalExemptionDependent": {
+        "amount": 256,
+        "form": "credit"
+      },
+      "notes": [
+        "Oregon exemption credit not allowed above $200,000 federal AGI (MFJ)."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Oregon",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a", "b", "d", "h", "m", "bb", "ee", "nn"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-PA": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 3.07,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Pennsylvania",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["a"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-RI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.75,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 4.75,
+          "overMarriedJoint": 82050
+        },
+        {
+          "ratePercent": 5.99,
+          "overMarriedJoint": 186450
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 22400,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 5250,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 10500,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 5250,
+        "form": "deduction"
+      },
+      "notes": [
+        "Rhode Island deduction and exemptions phase out between $261,000 and $290,800 modified AGI."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Rhode Island",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d", "bb", "ff"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-SC": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 1.99,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 5.21,
+          "overMarriedJoint": 30000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 30000,
+        "form": "deduction",
+        "name": "South Carolina Income Adjusted Deduction (SCIAD)"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 4930,
+        "form": "deduction"
+      },
+      "taxFoundationTableRow": {
+        "brackets": [
+          {
+            "ratePercent": 0.0,
+            "overMarriedJoint": 0
+          },
+          {
+            "ratePercent": 3.0,
+            "overMarriedJoint": 3640
+          },
+          {
+            "ratePercent": 6.0,
+            "overMarriedJoint": 18230
+          }
+        ],
+        "standardDeductionMarriedJoint": {
+          "amount": 16700,
+          "form": "deduction"
+        },
+        "note": "Superseded by 2026 legislation enacted after the table date."
+      },
+      "notes": [
+        "H. 4216 replaces the 0%/3%/6% schedule with 1.99% up to $30,000 and 5.21% above (DOR formula: 5.21% minus $966). The DOR page gives one $30,000 breakpoint without saying it differs by filing status; SC has historically used the same schedule for all statuses, so the joint breakpoint is the same (estimate). Starting point moves to federal AGI; SCIAD $30,000 MFJ, reduced at higher income per the bill. Dependent exemption carried from the pre-H. 4216 table (estimate).",
+        "State income starts from federal taxable income, so the federal standard deduction ($32,200 MFJ for 2026) applies.",
+        "Deduction/exemption tied to the federal amount.",
+        "Conforms to the pre-OBBBA federal standard deduction ($16,700 MFJ in 2026 terms)."
+      ],
+      "source": {
+        "title": "SC Department of Revenue, Information about H. 4216 (signed March 30, 2026; effective tax year 2026)",
+        "url": "https://www.dor.sc.gov/news/information-about-h-4216",
+        "fallback": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-SD": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-TN": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-TX": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-UT": {
+      "wageIncomeTax": "flat",
+      "brackets": [
+        {
+          "ratePercent": 4.45,
+          "overMarriedJoint": 0
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 1932,
+        "form": "credit"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": {
+        "amount": 2111,
+        "form": "deduction"
+      },
+      "taxFoundationTableRow": {
+        "brackets": [
+          {
+            "ratePercent": 4.5,
+            "overMarriedJoint": 0
+          }
+        ],
+        "standardDeductionMarriedJoint": {
+          "amount": 1932,
+          "form": "credit"
+        },
+        "note": "Superseded by 2026 legislation enacted after the table date."
+      },
+      "notes": [
+        "Rate updated from the Tax Foundation table (4.5%) for S.B. 60 (2026). Taxpayer credit amounts carried from the table.",
+        "Utah's 'standard deduction' is a 6% credit of the federal deduction, phased out at 1.3 cents per dollar above $36,426 AGI (MFJ, 2025 figure).",
+        "Dependent exemption/credit is indexed; 2025 amount carried."
+      ],
+      "source": {
+        "title": "EY Tax News 2026-0913: Utah S.B. 60 lowers rate from 4.5% to 4.45% retroactive to January 1, 2026",
+        "url": "https://taxnews.ey.com/news/2026-0913-utah-law-lowers-state-income-tax-rate-retroactive-to-january-1-2026",
+        "fallback": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-VT": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.35,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 6.6,
+          "overMarriedJoint": 82500
+        },
+        {
+          "ratePercent": 7.6,
+          "overMarriedJoint": 199450
+        },
+        {
+          "ratePercent": 8.75,
+          "overMarriedJoint": 304000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 15300,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 5300,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 10600,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 5300,
+        "form": "deduction"
+      },
+      "notes": [
+        "Bracket thresholds are indexed, but the 2026 figures were not published when Tax Foundation compiled the table; 2025 thresholds carried.",
+        "Standard deduction/exemption is indexed, but the 2026 figure was not published; 2025 amount carried.",
+        "Vermont: filers with federal AGI over $150,000 pay the greater of the schedule tax or 3% of federal AGI."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Vermont",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["j", "n", "hh", "mm"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-VA": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overMarriedJoint": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overMarriedJoint": 5000
+        },
+        {
+          "ratePercent": 5.75,
+          "overMarriedJoint": 17000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 17500,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 930,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 1860,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 930,
+        "form": "deduction"
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Virginia",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["m"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WA": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "note": "Washington taxes long-term capital gains only: 7% over $0 and 9% over $1,000,000, after a $278,000 standard deduction (2025 amount carried, same for joint filers); wages are not taxed.",
+      "capitalGainsOnly": {
+        "brackets": [
+          {
+            "ratePercent": 7.0,
+            "overMarriedJoint": 0
+          },
+          {
+            "ratePercent": 9.0,
+            "overMarriedJoint": 1000000
+          }
+        ],
+        "standardDeduction": 278000
+      },
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-WV": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 2.11,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 2.81,
+          "overMarriedJoint": 10000
+        },
+        {
+          "ratePercent": 3.16,
+          "overMarriedJoint": 25000
+        },
+        {
+          "ratePercent": 4.22,
+          "overMarriedJoint": 40000
+        },
+        {
+          "ratePercent": 4.58,
+          "overMarriedJoint": 60000
+        }
+      ],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": {
+        "amount": 2000,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 4000,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 2000,
+        "form": "deduction"
+      },
+      "taxFoundationTableRow": {
+        "brackets": [
+          {
+            "ratePercent": 2.22,
+            "overMarriedJoint": 0
+          },
+          {
+            "ratePercent": 2.96,
+            "overMarriedJoint": 10000
+          },
+          {
+            "ratePercent": 3.33,
+            "overMarriedJoint": 25000
+          },
+          {
+            "ratePercent": 4.44,
+            "overMarriedJoint": 40000
+          },
+          {
+            "ratePercent": 4.82,
+            "overMarriedJoint": 60000
+          }
+        ],
+        "standardDeductionMarriedJoint": null,
+        "note": "Superseded by 2026 legislation enacted after the table date."
+      },
+      "notes": [
+        "Same schedule applies to single, MFJ and head of household; supersedes the Tax Foundation table (2.22% to 4.82%)."
+      ],
+      "source": {
+        "title": "West Virginia Tax Division, 2026 Income Tax Rate Cut (SB 392, signed March 31, 2026; retroactive to January 1, 2026)",
+        "url": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+        "fallback": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WI": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 3.5,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overMarriedJoint": 20150
+        },
+        {
+          "ratePercent": 5.3,
+          "overMarriedJoint": 69260
+        },
+        {
+          "ratePercent": 7.65,
+          "overMarriedJoint": 443630
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 25840,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": {
+        "amount": 700,
+        "form": "deduction"
+      },
+      "personalExemptionMarriedJoint": {
+        "amount": 1400,
+        "form": "deduction"
+      },
+      "personalExemptionDependent": {
+        "amount": 700,
+        "form": "deduction"
+      },
+      "officialCheck": {
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-taxrates.aspx",
+        "finding": "Wisconsin DOR page shows only 2025 MFJ thresholds ($19,580 / $67,300 / $431,060); the 2026 Tax Foundation thresholds are about 2.9% higher, consistent with indexing, but not confirmed on a DOR page."
+      },
+      "notes": [
+        "Wisconsin standard deduction phases out for joint filers between $29,039 and $159,690 of income."
+      ],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Wisconsin",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["d", "m", "bb", "ii"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WY": {
+      "wageIncomeTax": "none",
+      "brackets": [],
+      "standardDeductionMarriedJoint": null,
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026)",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-DC": {
+      "wageIncomeTax": "graduated",
+      "brackets": [
+        {
+          "ratePercent": 4.0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 6.0,
+          "overMarriedJoint": 10000
+        },
+        {
+          "ratePercent": 6.5,
+          "overMarriedJoint": 40000
+        },
+        {
+          "ratePercent": 8.5,
+          "overMarriedJoint": 60000
+        },
+        {
+          "ratePercent": 9.25,
+          "overMarriedJoint": 250000
+        },
+        {
+          "ratePercent": 9.75,
+          "overMarriedJoint": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overMarriedJoint": 1000000
+        }
+      ],
+      "standardDeductionMarriedJoint": {
+        "amount": 32200,
+        "form": "deduction"
+      },
+      "personalExemptionSingle": null,
+      "personalExemptionMarriedJoint": null,
+      "personalExemptionDependent": null,
+      "notes": ["Deduction/exemption tied to the federal amount."],
+      "source": {
+        "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Washington DC",
+        "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "footnotes": ["u"]
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    }
+  }
+}

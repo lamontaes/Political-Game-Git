@@ -1,0 +1,28 @@
+{
+  "version": "census-poverty-thresholds-2024",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2025-09-01",
+    "citation": "U.S. Census Bureau, Poverty Thresholds for 2024 by Size of Family and Number of Related Children Under 18 Years (https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-poverty-thresholds/thresh24.xlsx), the official measure's cash-income line."
+  },
+  "unit": "dollars a year; multiply by minorPerDollar for the ledger's minor units",
+  "minorPerDollar": 100,
+  "adultAgeFrom": 18,
+  "elderAgeFrom": 65,
+  "note": "The unit is a household (the census unit is a family or unrelated individual); its eldest member stands for the householder, and every member under 18 counts as a related child. A one-person or two-person unit has separate lines when the householder is 65 or older.",
+  "onePerson": { "under65": 16320, "from65": 15045 },
+  "twoPeople": {
+    "under65": [21006, 21621],
+    "from65": [18961, 21540]
+  },
+  "bySize": {
+    "3": [24537, 25249, 25273],
+    "4": [32355, 32884, 31812, 31922],
+    "5": [39019, 39586, 38374, 37436, 36863],
+    "6": [44879, 45057, 44128, 43238, 41915, 41131],
+    "7": [51638, 51961, 50849, 50075, 48631, 46948, 45100],
+    "8": [57753, 58263, 57215, 56296, 54992, 53337, 51614, 51177],
+    "9": [69473, 69810, 68882, 68102, 66822, 65062, 63469, 63075, 60645]
+  },
+  "bySizeNote": "Index is the number of related children under 18 (none, one, two, ...); nine people or more use the last row."
+}

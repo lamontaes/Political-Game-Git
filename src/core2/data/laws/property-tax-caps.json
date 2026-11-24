@@ -1,0 +1,66 @@
+{
+  "about": "Statutory limits on yearly growth of a home's assessed value, by state, read by the property tax bill when the catalog law capping property-tax growth is in force. A state absent here has no row yet and takes the generic estimate in reach-group-b-parameters.json (propertyTaxGrowthCapShare). Where a statute also limits growth to the CPI change, only the ceiling is read. The assessment is kept per household, so a buyer's household is always assessed afresh at market: right for the states whose cap resets on sale, and a known gap for Oregon and Arizona, whose limited values carry over to a buyer (resetOnSale false).",
+  "tag": "SOURCED",
+  "states": {
+    "AR": {
+      "capShare": 0.05,
+      "scope": "homestead",
+      "source": "Arkansas Constitution Amendment 79, sec. 1: a homestead's assessed value rises at most 5% a year (other real property 10%); the amendment lets the assessment follow market on a change of ownership.",
+      "resetOnSale": true
+    },
+    "AZ": {
+      "capShare": 0.05,
+      "scope": "all",
+      "source": "Arizona Constitution art. IX, sec. 18 (Proposition 117): limited property value rises at most 5% a year.",
+      "resetOnSale": false
+    },
+    "CA": {
+      "capShare": 0.02,
+      "scope": "all",
+      "source": "California Constitution art. XIII A, sec. 2 (Proposition 13): assessed value rises at most 2% a year; reassessed to market on a change in ownership or new construction.",
+      "resetOnSale": true
+    },
+    "FL": {
+      "capShare": 0.03,
+      "scope": "homestead",
+      "source": "Florida Constitution art. VII, sec. 4(d) (Save Our Homes): homestead assessed value rises at most 3% or the CPI change, whichever is lower; reset to market on a change of ownership. The ceiling is read; the CPI limit is not.",
+      "resetOnSale": true
+    },
+    "MI": {
+      "capShare": 0.05,
+      "scope": "all",
+      "source": "Michigan Constitution art. IX, sec. 3 (Proposal A): taxable value rises at most 5% or the CPI change, whichever is lower; uncapped on a transfer of ownership. The ceiling is read; the CPI limit is not.",
+      "resetOnSale": true
+    },
+    "NM": {
+      "capShare": 0.03,
+      "scope": "residential",
+      "source": "New Mexico Property Tax Code sec. 7-36-21.2: residential taxable value rises at most 3% a year; reset to market on a change of ownership.",
+      "resetOnSale": true
+    },
+    "NY": {
+      "capShare": 0.06,
+      "scope": "residential",
+      "source": "New York Real Property Tax Law sec. 1805: a Class 1 (residential) parcel's assessment rises at most 6% a year and 20% over five years, outside New York City's own class rules for increases from physical changes; reset to market is not applied on sale.",
+      "resetOnSale": false
+    },
+    "OK": {
+      "capShare": 0.03,
+      "scope": "all",
+      "source": "Oklahoma Constitution art. X, sec. 8B: assessed value rises at most 3% a year; reset to market on a change of ownership.",
+      "resetOnSale": true
+    },
+    "OR": {
+      "capShare": 0.03,
+      "scope": "all",
+      "source": "Oregon Constitution art. XI, sec. 11 (Measure 50): maximum assessed value rises at most 3% a year.",
+      "resetOnSale": false
+    },
+    "TX": {
+      "capShare": 0.1,
+      "scope": "homestead",
+      "source": "Texas Tax Code sec. 23.23: a homestead's appraised value rises at most 10% a year (the 2023 law applies the cap to non-homestead property up to $5 million in the same way, not read here).",
+      "resetOnSale": true
+    }
+  }
+}

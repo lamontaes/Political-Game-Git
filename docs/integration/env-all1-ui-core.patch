@@ -1,0 +1,25 @@
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -1,3 +1,5 @@
++import { VenueActivityPanel } from "./VenueActivityPanel";
++import { completedActivityHere } from "../presentation/scene-venues";
+ import {
+   useCallback,
+   useEffect,
+@@ -1473,7 +1475,7 @@
+
+   const scenePeople = useMemo(
+     () =>
+-      planLifeScenePeople(session.world, moment.scene.presentPeople, sceneId),
++      planLifeScenePeople(session.world, completedActivityHere(session.world, session.personId) ? [] : moment.scene.presentPeople, sceneId),
+     [session.world, moment.scene.presentPeople, sceneId],
+   );
+
+@@ -2336,6 +2338,7 @@
+           ))}
+         </ul>
+       ) : null}
++      <VenueActivityPanel world={session.world} personId={session.personId} onWorldChange={onWorldChange} />
+       <div className="game-choices">
+         <button
+           type="button"

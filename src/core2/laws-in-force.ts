@@ -1,0 +1,596 @@
+/**
+ * Which law applies on a date, at every level, for one series.
+ *
+ * Pure: callers pass the place's chain and its rows for the series. Each level
+ * answers with its own phase in force on the date (a phase that hasn't started
+ * doesn't apply; it's listed as pending). The levels then combine by the
+ * series' doctrine:
+ *
+ * - floor (minimum wage): the highest floor in force governs. A local floor
+ *   counts only where the state lets its places set one, read through the
+ *   lifted `lawInForceFromCandidates` over the state's recorded authority
+ *   answer, so a later enacted law changes it the same way.
+ * - additive (income and sales tax): every level's tax applies together.
+ * - single (property tax, benefit amounts): one level sets it.
+ */
+import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import {
+  lawInForceFromCandidates,
+  type LawCandidate,
+} from "../rules/laws/law-in-force";
+import { minimumWageSettingFromFacts } from "../rules/laws/minimum-wage-setting";
+import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
+import { lawChainForPlace, startingLawRows } from "./laws-starting";
+import { parameter as p } from "./parameters";
+import { governmentUnit } from "./reference/government-units";
+
+export type LawDoctrine = "floor" | "additive" | "single";
+
+// Federal authority alone does not establish preemption. Each conflicting
+// value and its statutory basis are explicit in the shared question data.
+const QUESTION_POWERS = questionPowers.questions as Readonly<
+  Record<
+    string,
+    {
+      federalPreemption?: {
+        whenValue: number;
+        source: string;
+        excludedStateKeys?: readonly string[];
+      };
+    }
+  >
+>;
+
+export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
+  "minimum-wage": "floor",
+  "income-tax": "additive",
+  "sales-tax": "additive",
+  "corporate-income-tax": "additive",
+  // A state's estate or inheritance tax is its own, owed beside the federal
+  // estate tax (26 U.S.C. 2001 and each state's own act), so a state with none
+  // has none in force, not the federal rate.
+  "estate-tax": "additive",
+  "inheritance-tax": "additive",
+  "property-tax": "single",
+  "snap-maximum": "single",
+  "unemployment-weekly-maximum": "single",
+  "medicaid-match": "single",
+};
+
+export interface LevelLaw {
+  readonly level: LawLevelName;
+  readonly jurisdiction: string;
+  readonly row: LawRowInput | null;
+  /** Why this level's law does not apply, when it is recorded but set aside. */
+  readonly setAside?: string;
+}
+
+export interface LawInForceAnswer {
+  readonly series: string;
+  readonly date: string;
+  readonly doctrine: LawDoctrine;
+  /** The combined value in force: the governing floor, the sum, or the one level's value. */
+  readonly value: number | null;
+  readonly unit: string | null;
+  readonly governing: LawRowInput | null;
+  readonly levels: readonly LevelLaw[];
+  /** Phases recorded for a later date, earliest first. */
+  readonly pending: readonly LawRowInput[];
+  readonly estimate: boolean;
+}
+
+/** Authority answers enacted after the start; empty until M3 writes enactments. */
+export interface EnactedAuthority {
+  readonly series: string;
+  readonly jurisdiction: string;
+  readonly answer: "yes" | "no";
+  readonly measureId: string;
+  readonly operativeAt: string;
+  readonly sequence: number;
+}
+
+/** Whether a law jurisdiction belongs to the place's governing chain. */
+export function inTownChain(
+  chain: Pick<LawChain, "levels">,
+  jurisdiction: string,
+): boolean {
+  return chain.levels.some((level) => level.jurisdiction === jurisdiction);
+}
+
+/** The law key of the government an office serves, including outside offices. */
+export function officeLawJurisdiction(
+  chain: Pick<LawChain, "levels">,
+  office: {
+    readonly level: LawLevelName;
+    readonly jurisdiction: string;
+    readonly coversTown?: boolean;
+  },
+): string {
+  if (office.level === "federal") return "US";
+  if (office.level === "state" || office.level === "township")
+    return office.jurisdiction;
+  const unit = governmentUnit(office.jurisdiction);
+  const city = chain.levels[chain.levels.length - 1]!.jurisdiction;
+  if (office.level === "county") {
+    const own = unit?.countyGeoid ? `county:${unit.countyGeoid}` : null;
+    if (office.coversTown === false) return own ?? office.jurisdiction;
+    if (own && inTownChain(chain, own)) return own;
+    // Some county-level bodies make city law where the chain has no county.
+    return (
+      chain.levels.find((level) => level.level === "county")?.jurisdiction ??
+      city
+    );
+  }
+  return office.coversTown !== false
+    ? city
+    : unit?.placeGeoid
+      ? `place:${unit.placeGeoid}`
+      : office.jurisdiction;
+}
+
+export function inForceOn(row: LawRowInput, date: string): boolean {
+  return (
+    row.effectiveDate <= date && (row.endDate === null || date < row.endDate)
+  );
+}
+
+/**
+ * Rows for laws recorded only from a later date: for each level's series with
+ * no phase in force on the start date, its earliest phase (every tier of it)
+ * applies from the start until that phase begins, marked as an estimate.
+ */
+export function rowsCarriedToStart(
+  rows: readonly LawRowInput[],
+  today: string,
+): LawRowInput[] {
+  const groups = new Map<string, LawRowInput[]>();
+  for (const row of rows) {
+    const key = `${row.jurisdiction}|${row.level}|${row.series}`;
+    groups.set(key, [...(groups.get(key) ?? []), row]);
+  }
+  const out: LawRowInput[] = [];
+  for (const group of groups.values()) {
+    if (group.some((row) => inForceOn(row, today))) continue;
+    const later = group.filter((row) => row.effectiveDate > today);
+    if (!later.length) continue;
+    const first = later.map((row) => row.effectiveDate).sort()[0]!;
+    for (const row of later.filter((r) => r.effectiveDate === first))
+      out.push({
+        ...row,
+        id: `${row.id}:from-start`,
+        effectiveDate: today,
+        endDate: first,
+        source: [
+          ...(Array.isArray(row.source) ? row.source : [row.source]),
+          `estimate: the phase recorded from ${first}, applied from the start date until then`,
+        ].join(" ; "),
+        estimate: true,
+      });
+  }
+  return out;
+}
+
+/**
+ * The general tier for a place: a region tier whose counties include the
+ * place's county, else the rest-of-state region, else the general rate.
+ */
+function tierFits(row: LawRowInput, chain: LawChain): number {
+  const counties = row.terms?.counties as readonly string[] | undefined;
+  if (counties !== undefined) {
+    if (counties.some((county) => chain.countyGeoids[0] === county)) return 3;
+    return counties.length === 0 ? 2 : 0;
+  }
+  return row.tier === "general" ? 1 : 0;
+}
+
+/** Later acts replace older acts; the phases inside one bill follow their dates. */
+export function lawRowIsLater(row: LawRowInput, prior: LawRowInput): boolean {
+  const enacted = row.terms?.enactedBy !== undefined;
+  const priorEnacted = prior.terms?.enactedBy !== undefined;
+  if (enacted !== priorEnacted) return enacted;
+  const order = Number(row.terms?.enactedSequence ?? 0);
+  const priorOrder = Number(prior.terms?.enactedSequence ?? 0);
+  const sameBill =
+    row.terms?.enactedByBill !== undefined &&
+    row.terms.enactedByBill === prior.terms?.enactedByBill;
+  if (enacted && !sameBill && order !== priorOrder) return order > priorOrder;
+  return (
+    row.effectiveDate > prior.effectiveDate ||
+    (row.effectiveDate === prior.effectiveDate && order > priorOrder)
+  );
+}
+
+function levelRow(
+  rows: readonly LawRowInput[],
+  jurisdiction: string,
+  level: LawLevelName,
+  chain: LawChain,
+  date: string,
+): LawRowInput | null {
+  let best: LawRowInput | null = null;
+  let enacted: LawRowInput | null = null;
+  let bestFit = 0;
+  for (const row of rows) {
+    if (row.jurisdiction !== jurisdiction || row.level !== level) continue;
+    if (!inForceOn(row, date)) continue;
+    // An act replaces the opening phases, including later dated phases.
+    // Find the latest act in this pass without allocating and sorting rows.
+    if (
+      row.terms?.enactedBy !== undefined &&
+      (!enacted || lawRowIsLater(row, enacted))
+    )
+      enacted = row;
+    // A county ordinance that covers only unincorporated areas skips a city.
+    if (chain.incorporated && row.terms?.coversUnincorporatedOnly === true)
+      continue;
+    const fit = tierFits(row, chain);
+    if (
+      fit > bestFit ||
+      (fit === bestFit &&
+        fit > 0 &&
+        best &&
+        row.effectiveDate > best.effectiveDate)
+    ) {
+      best = row;
+      bestFit = fit;
+    }
+  }
+  return enacted ?? best;
+}
+
+/** Whether the state lets its places set their own rule on a series. */
+export function localAuthority(
+  authorityRows: readonly LawRowInput[],
+  enacted: readonly EnactedAuthority[],
+  chain: LawChain,
+  date: string,
+  /**
+   * The state's rows on the policy question that grants the power, where the
+   * laws engine keeps one. Its starting row is the grant at the start: a world
+   * whose day one is the century's opens with the answer its sessions left,
+   * not the research's. A statute enacted in play on either series amends it,
+   * and the research's starting row then only says whether a "no" preempts.
+   */
+  questionRows: readonly LawRowInput[] = [],
+): { allowed: boolean; measureId: string | null; preempts: boolean } {
+  // A statute enacted in play amends the state's grant outright (`levelRow`'s
+  // rule): its row competes with the questions the state answered by date, as
+  // an enacted law; the research's row is the law in force at the start.
+  const inStateOf = (rows: readonly LawRowInput[]) =>
+    rows.filter(
+      (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
+    );
+  const asked = inStateOf(questionRows);
+  const researched = inStateOf(authorityRows);
+  const inState = [...asked, ...researched];
+  const amended = inState.filter((row) => row.terms?.enactedBy !== undefined);
+  const isStarting = (row: LawRowInput) => row.terms?.enactedBy === undefined;
+  const starting = asked.find(isStarting) ?? researched.find(isStarting);
+  const candidate = (
+    answer: "yes" | "no",
+    measureId: string,
+    operativeAt: string,
+    origin: LawCandidate["origin"],
+    sequence: number,
+    preempts?: boolean,
+  ): LawCandidate => ({
+    answer,
+    measureId,
+    origin,
+    level: "state-statute",
+    operativeAt,
+    operativeBasis: origin === "enacted" ? "enacted-date" : "state-rule",
+    sequence,
+    ...(preempts === undefined ? {} : { preempts }),
+  });
+  const law = lawInForceFromCandidates({
+    enacted: [
+      ...enacted
+        .filter(
+          (e) => e.jurisdiction === chain.stateKey && e.operativeAt <= date,
+        )
+        .map((e) =>
+          candidate(
+            e.answer,
+            e.measureId,
+            e.operativeAt,
+            "enacted",
+            e.sequence,
+          ),
+        ),
+      ...amended.map((row) =>
+        candidate(
+          row.value === 1 ? "yes" : "no",
+          row.id,
+          row.effectiveDate,
+          "enacted",
+          Number(row.terms?.enactedSequence ?? 0),
+          row.terms?.preempts === true,
+        ),
+      ),
+    ],
+    starting: starting
+      ? candidate(
+          starting.value === 1 ? "yes" : "no",
+          starting.id,
+          starting.effectiveDate,
+          "in-force-at-start",
+          0,
+          starting.terms?.preempts === true,
+        )
+      : null,
+  });
+  // A "no" on the question preempts where the research says the state's own
+  // "no" does (its statute bars local wages, not merely grants none).
+  const researchPreempts =
+    asked.some(isStarting) &&
+    researched.some(
+      (row) =>
+        isStarting(row) && row.value === 0 && row.terms?.preempts === true,
+    );
+  return {
+    allowed: law?.answer === "yes",
+    measureId: law?.measureId ?? null,
+    preempts:
+      law?.preempts === true || (law?.answer === "no" && researchPreempts),
+  };
+}
+
+export function resolveLawInForce(input: {
+  readonly series: string;
+  readonly chain: LawChain;
+  readonly date: string;
+  readonly rows: readonly LawRowInput[];
+  /** Survey fallback, used only when no actual law supplies the amount. */
+  readonly calibrationRows?: readonly LawRowInput[];
+  readonly authorityRows?: readonly LawRowInput[];
+  readonly enactedAuthority?: readonly EnactedAuthority[];
+  /** The state's rows on the policy question that grants local authority (`localAuthority`). */
+  readonly authorityQuestionRows?: readonly LawRowInput[];
+  /** For sales tax: the state's average local rate, when the place has no local row. */
+  readonly localAverage?: readonly LawRowInput[];
+  /**
+   * For the income tax: the state's grant of local income-tax authority in
+   * force on the date (a row at 1 grants, at 0 withdraws), or null when the
+   * state has no row. A town's tax is set aside while the state's row says no.
+   */
+  readonly localTaxGrant?: LawRowInput | null;
+  /**
+   * For a policy question: the state bars its places from making their own
+   * rule (the research's `preempts`). A town's or county's row is then set
+   * aside, so a lower level never overrules a higher one.
+   */
+  readonly statePreempts?: boolean;
+}): LawInForceAnswer {
+  const { series, chain, date, rows } = input;
+  const doctrine = LAW_SERIES[series] ?? "single";
+  const levels: LevelLaw[] = chain.levels.map(({ level, jurisdiction }) => ({
+    level,
+    jurisdiction,
+    row: levelRow(rows, jurisdiction, level, chain, date),
+  }));
+  // Federal law set for one state (a benefit amount, a territory's own
+  // federal minimum wage) is recorded under the state's key and is more
+  // specific than the national row.
+  const federalForState = levelRow(
+    rows,
+    chain.stateKey,
+    "federal",
+    chain,
+    date,
+  );
+  if (federalForState) {
+    const index = levels.findIndex((l) => l.level === "federal");
+    const general = levels[index]!.row;
+    const sameAct =
+      general?.terms?.enactedByBill !== undefined &&
+      general.terms.enactedByBill === federalForState.terms?.enactedByBill;
+    // Research keeps the state's particular federal amount. An explicit
+    // nationwide amount enacted later replaces it under the same act-order
+    // rule as every other law. A specific section of that same act remains
+    // its exception, regardless of the order the sections were written.
+    const laterGeneralAct =
+      general?.terms?.enactedBy !== undefined &&
+      !sameAct &&
+      lawRowIsLater(general, federalForState);
+    if (!laterGeneralAct)
+      levels[index] = {
+        ...levels[index]!,
+        jurisdiction: chain.stateKey,
+        row: federalForState,
+      };
+  }
+
+  // A combined survey amount is not one government's statute. It supplies
+  // the initial estimate only until an actual dated law supplies this series.
+  if (!levels.some((l) => l.row) && input.calibrationRows)
+    for (const [index, l] of levels.entries()) {
+      const estimate = levelRow(
+        input.calibrationRows,
+        l.jurisdiction,
+        l.level,
+        chain,
+        date,
+      );
+      if (estimate) levels[index] = { ...l, row: estimate };
+    }
+
+  if (series === "sales-tax" && input.localAverage) {
+    const hasLocal = levels.some(
+      (l) => (l.level === "city" || l.level === "county") && l.row,
+    );
+    const average = input.localAverage.find(
+      (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
+    );
+    if (!hasLocal && average) {
+      const index = levels.findIndex((l) => l.level === "city");
+      levels[index] = { ...levels[index]!, row: average };
+    }
+  }
+  const pending = rows
+    .filter(
+      (row) => row.effectiveDate > date && inTownChain(chain, row.jurisdiction),
+    )
+    .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
+
+  let governing: LawRowInput | null = null;
+  let value: number | null = null;
+  if (doctrine === "floor") {
+    const authority = localAuthority(
+      input.authorityRows ?? [],
+      input.enactedAuthority ?? [],
+      chain,
+      date,
+      input.authorityQuestionRows ?? [],
+    );
+    let local: LawRowInput | null = null;
+    for (const [index, l] of levels.entries()) {
+      // Every local level the chain gives its own law (`lawChain`): a county,
+      // a township over the place, and the city.
+      if (l.level === "federal" || l.level === "state") continue;
+      if (!l.row) continue;
+      if (!authority.allowed) {
+        levels[index] = {
+          ...l,
+          setAside: authority.preempts
+            ? "state law preempts local minimum wages"
+            : "state law gives its places no minimum-wage power",
+        };
+        continue;
+      }
+      if (!local || (l.row.value ?? 0) > (local.value ?? 0)) local = l.row;
+    }
+    const federal = levels.find((l) => l.level === "federal")?.row ?? null;
+    const state = levels.find((l) => l.level === "state")?.row ?? null;
+    const fact = (
+      row: LawRowInput | null,
+      level: "federal" | "state" | "local",
+    ) =>
+      row && row.value !== null
+        ? {
+            hourlyMinor: row.value,
+            level,
+            measureId: row.id,
+            designation: row.tier,
+            effectiveAt: row.effectiveDate,
+          }
+        : null;
+    const federalFact = fact(federal, "federal");
+    const setting = minimumWageSettingFromFacts(
+      federalFact,
+      fact(state, "state") ?? federalFact,
+      fact(local, "local"),
+    );
+    governing =
+      [federal, state, local].find((row) => row?.id === setting?.measureId) ??
+      null;
+    value = setting?.hourlyMinor ?? null;
+  } else if (doctrine === "additive") {
+    // A territory's own income tax stands in place of the federal one.
+    const state = levels.find((l) => l.level === "state");
+    if (state?.row?.terms?.replacesFederal === true)
+      for (const [index, l] of levels.entries())
+        if (l.level === "federal" && l.row)
+          levels[index] = {
+            ...l,
+            setAside: "the territory's own income tax applies in its place",
+          };
+    // A town's income tax stands only while the state's grant does: when a
+    // state law takes the power away, the town's tax stops on that date.
+    if (series === "income-tax" && input.localTaxGrant?.value === 0)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law gives its places no income-tax power",
+          };
+    const applying = levels.filter(
+      (l) => l.row && l.row.value !== null && !l.setAside,
+    );
+    value = applying.length
+      ? round(applying.reduce((sum, l) => sum + (l.row!.value ?? 0), 0))
+      : null;
+    governing = applying[applying.length - 1]?.row ?? null;
+  } else {
+    // The same sourced rule governs opening and enacted federal law. A
+    // repeal ceases to preempt, so the lower level's existing answer returns.
+    const preemption = QUESTION_POWERS[series]?.federalPreemption;
+    if (preemption?.excludedStateKeys?.includes(chain.stateKey))
+      for (const [index, l] of levels.entries())
+        if (l.level === "federal" && l.row)
+          levels[index] = {
+            ...l,
+            setAside:
+              "this federal requirement does not cover the jurisdiction",
+          };
+    const mandate =
+      preemption &&
+      levels.find(
+        (l) =>
+          l.level === "federal" &&
+          !l.setAside &&
+          l.row?.value === preemption.whenValue,
+      );
+    if (mandate)
+      for (const [index, l] of levels.entries())
+        if (l !== mandate && l.row)
+          levels[index] = {
+            ...l,
+            setAside: "federal law requires this in every state",
+          };
+    if (input.statePreempts === true)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law bars its places from making this rule",
+          };
+    const applying = [...levels].reverse().find((l) => l.row && !l.setAside);
+    governing = applying?.row ?? null;
+    value = governing?.value ?? null;
+  }
+  const applied = levels.filter((l) => l.row && !l.setAside).map((l) => l.row!);
+  return {
+    series,
+    date,
+    doctrine,
+    value,
+    unit: governing?.unit ?? applied[0]?.unit ?? null,
+    governing,
+    levels,
+    pending,
+    estimate: applied.some((row) => row.estimate),
+  };
+}
+
+function round(value: number): number {
+  return Math.round(value * 10000) / 10000;
+}
+
+// Re-exported so other engine families read the starting rows through this entry, not the file (families guard).
+export { startingLawRows, type LawRowInput } from "./laws-starting";
+
+/**
+ * The minimum wage the starting law sets where a place is, in dollars an
+ * hour, on a date: the higher of its state's and the federal floor, read from
+ * the law rows (local minimums are not modeled in pay). An opening, or a
+ * place built before the world runs, reads it; a world in play reads the law
+ * in force (`minimumHourlyAt`, wage-floor.ts).
+ */
+export function startingMinimumHourlyAt(
+  placeKey: string,
+  date: string,
+): number | null {
+  const chain = lawChainForPlace(placeKey);
+  const answer = resolveLawInForce({
+    series: "minimum-wage",
+    chain,
+    date,
+    rows: startingLawRows(chain).filter(
+      (row) =>
+        row.series === "minimum-wage" &&
+        (row.level === "federal" || row.level === "state"),
+    ),
+  });
+  return answer.value === null ? null : answer.value / p("minorPerDollar");
+}

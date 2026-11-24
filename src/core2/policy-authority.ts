@@ -1,0 +1,236 @@
+/** Policy authority from the shared research catalog and current state laws. */
+import { labelOfAnotherAtLevel, policySeriesAtLevel } from "./policy-answers";
+import type { GovernmentLevel } from "./government-level";
+import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import territoryGrant from "../../data/research/powers-catalog/territory-grant.json" with { type: "json" };
+import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
+import { placeRow } from "./place-map";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  LOCAL_POWER_PREFIX,
+  localPowerBarred,
+  localPowerGranted,
+} from "./modules/laws";
+import type { Authority } from "./modules/legislature";
+import type { CoreAPI } from "./types";
+import { lawApplied } from "./law-reach/applied";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import type { LawRowInput } from "./laws-starting";
+
+export type PolicyLevel = GovernmentLevel;
+type Column = PolicyLevel | "dc" | "territory";
+interface Cell {
+  may: string;
+  status?: string;
+  source?: string;
+}
+interface Mapping {
+  dial: string;
+  levels: readonly string[];
+  gate?: { question: string; noBars: string };
+}
+const QUESTIONS = mapping.questions as Readonly<Record<string, Mapping>>;
+const DIALS = new Map(
+  (
+    catalog.dials as unknown as readonly {
+      id: string;
+      levels: Record<string, Cell>;
+    }[]
+  ).map((row) => [row.id, row.levels]),
+);
+interface NacoRow {
+  homeRuleOption?: string;
+  dillonsRuleFlexibilities?: string;
+}
+const NACO = nacoCounties.places as unknown as Readonly<
+  Record<string, NacoRow | undefined>
+>;
+const HOME_RULE =
+  "us-policy-positions:government-operations.broaden-local-authority";
+
+/** Current recorded law, not the opening answer once the state has changed it. */
+function stateLaw(api: CoreAPI, question: string): LawRowInput | undefined {
+  return (
+    lawInForce(api, question).levels.find((level) => level.level === "state")
+      ?.row ?? undefined
+  );
+}
+
+/** A recorded unknown blocks introduction; it is never silently treated as a grant. */
+
+export function policyAuthority(
+  api: CoreAPI,
+  question: string,
+  level: PolicyLevel,
+): Authority {
+  const state = lawChain(api).stateKey;
+  // The place map says what kind of jurisdiction the state is.
+  const kind = placeRow(state)?.form;
+  const column: Column =
+    kind === "district" && level !== "federal"
+      ? "dc"
+      : level === "state" && kind === "territory"
+        ? "territory"
+        : level;
+  const own =
+    column === "dc"
+      ? ["state", "county", "city"]
+      : column === "territory"
+        ? ["state"]
+        : [column];
+  const row = QUESTIONS[question];
+  const source = `data/research/powers-catalog/question-powers.json#${question}`;
+  const result = (
+    allowed: boolean,
+    reason: Authority["reason"],
+    basis = source,
+    disputed = false,
+  ): Authority => ({
+    allowed,
+    reason,
+    source: basis,
+    warning: disputed ? "disputed" : allowed ? "none" : "preempted",
+  });
+  const unsettled = (basis = source): Authority => {
+    api.stopgap("SG-GOV-policy-power-unresolved");
+    return result(false, "no-state-law", basis, true);
+  };
+  if (!row) return unsettled();
+  if (!row.levels.some((reach) => own.includes(reach)))
+    return result(false, "level-lacks-power");
+  // One label per rule at a level: where this level reads the question as
+  // another platform question's rule, it decides that rule under that label
+  // (the states' wage question is Congress's federal wage question).
+  if (labelOfAnotherAtLevel(question, level))
+    return result(
+      false,
+      "level-lacks-power",
+      `data/research/powers-catalog/question-powers.json#${question} (seriesByLevel.${level}: ${policySeriesAtLevel(question, level)})`,
+    );
+  const listed = DIALS.get(row.dial)?.[column];
+  // A territory's cell the catalog has not read is its state cell: the organic
+  // acts give a territorial legislature the rightful subjects of legislation
+  // not inconsistent with federal law (an estimate, marked as one).
+  const inherited =
+    column === "territory" && listed?.may === "UNKNOWN"
+      ? DIALS.get(row.dial)?.[territoryGrant.inherits]
+      : undefined;
+  const cell: Cell | undefined = inherited
+    ? { may: inherited.may, status: territoryGrant.tag.toLowerCase() }
+    : listed;
+  const basis = inherited
+    ? `data/research/powers-catalog/territory-grant.json (estimated from the state cell of ${row.dial})`
+    : `data/research/powers-catalog/catalog.json#${row.dial}/${column}`;
+  if (cell?.status === "game-profile" || inherited)
+    api.stopgap("SG-GOV-policy-power-conditions");
+  if (cell?.may === "no") return result(false, "level-lacks-power", basis);
+  const local = column === "county" || column === "city";
+  if (local) {
+    const specificGrant = stateLaw(api, `${LOCAL_POWER_PREFIX}${question}`);
+    if (localPowerBarred(api, question))
+      return result(
+        false,
+        "state-preempts-question",
+        specificGrant?.id ?? stateLaw(api, question)?.id ?? source,
+      );
+    if (row.gate) {
+      const law = stateLaw(api, row.gate.question);
+      if (!law) return unsettled();
+      if (
+        law.value === 0 &&
+        (row.gate.noBars === "always" ||
+          localPowerBarred(api, row.gate.question))
+      )
+        return result(false, "state-preempts-question", law.id);
+      if (law.value === 1) return result(true, "state-has-own-law", law.id);
+    }
+    // A specific legislative grant supplies this power independently of the
+    // general home-rule grant, after the question's separate statutory gate.
+    if (specificGrant?.value === 1)
+      return result(true, "state-has-own-law", specificGrant.id);
+    // The state's statute gives its places this power by name (researched
+    // starting grant), independent of general home rule.
+    if (
+      localPowerGranted(api, question, column === "county" ? "county" : "city")
+    )
+      return result(
+        true,
+        "state-has-own-law",
+        `data/research/laws/starting-law-2026#${question}/${lawChain(api).stateKey}/localGrant`,
+      );
+    if (
+      cell?.may === "UNKNOWN" ||
+      (cell?.may === "varies by state" && cell.status === "game-profile")
+    ) {
+      const grant = stateLaw(api, HOME_RULE);
+      if (!grant) return unsettled(basis);
+      // The state's grant of home rule is what lets this level's body
+      // legislate here; the grant is the result's source, and the drafting
+      // engine records the body it let (recordHomeRule).
+      return result(
+        grant.value === 1,
+        grant.value === 1 ? "state-has-own-law" : "level-lacks-power",
+        grant.id,
+      );
+    }
+  }
+  // A county's limited power is checked against its state's county authority
+  // (NACo 2022): where every county is under home rule it holds the power; in a
+  // Dillon's Rule state with no flexibility for services it does not; anywhere
+  // else the state's own grant of home rule decides, as for any local body.
+  if (column === "county" && cell?.may === "limited") {
+    const naco = NACO[state.slice(state.lastIndexOf("-") + 1)];
+    const nacoSource = `data/research/core/naco-2022-county-authority.json#${state.slice(state.lastIndexOf("-") + 1)}`;
+    const option = naco?.homeRuleOption ?? "";
+    if (option.startsWith("N/A"))
+      return result(true, "within-own-power", nacoSource);
+    if (
+      option.startsWith("N -") &&
+      !(naco?.dillonsRuleFlexibilities ?? "").includes("Services")
+    )
+      return result(false, "level-lacks-power", nacoSource);
+    const grant = stateLaw(api, HOME_RULE);
+    if (!grant) return unsettled(nacoSource);
+    return result(
+      grant.value === 1,
+      grant.value === 1 ? "state-has-own-law" : "level-lacks-power",
+      grant.id,
+    );
+  }
+  if (cell?.may === "limited") api.stopgap("SG-GOV-policy-power-conditions");
+  if (cell?.may === "yes" || cell?.may === "limited")
+    return result(true, "within-own-power", basis, cell.may === "limited");
+  return unsettled(basis);
+}
+
+/**
+ * A local body drafted a bill under the state's grant of home rule: the grant
+ * let that body legislate, so its government is in the law's reach. Called
+ * where a bill is drafted, never where a screen checks what a body may do.
+ */
+export function recordHomeRule(
+  api: CoreAPI,
+  authority: Authority,
+  level: PolicyLevel,
+): void {
+  if (!authority.allowed || !authority.source.startsWith("law:")) return;
+  const grant = api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(authority.source) as unknown as LawRowInput | undefined;
+  if (grant?.series !== HOME_RULE || grant.value !== 1) return;
+  const body = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((g) => g.level === level)
+    : undefined;
+  lawApplied(api, {
+    key: HOME_RULE,
+    lawId: grant.id,
+    targetId: body?.id ?? `${level}:${lawChain(api).townPlaceId}`,
+    target: "government",
+    engine: "core2-legislature-v1",
+    what: "home-rule-lets-body-legislate",
+  });
+}

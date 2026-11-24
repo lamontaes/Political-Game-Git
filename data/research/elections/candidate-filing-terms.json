@@ -1,0 +1,2583 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-06",
+  "note": "Estimated fallback terms keep every supported place playable until first-party filing research replaces each row. Estimates never decide an actor's behavior.",
+  "places": {
+    "AL": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "AK": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "AZ": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "AR": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "CA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "CO": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "CT": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "DE": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "DC": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "FL": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "GA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "HI": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "ID": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "IL": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "IN": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "IA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "KS": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "KY": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "LA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "ME": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MD": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MI": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MN": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MS": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MO": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MT": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NE": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NV": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NH": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NJ": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NM": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NY": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "NC": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "ND": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "OH": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "OK": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "OR": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "PA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "RI": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "SC": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "SD": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "TN": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "TX": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "UT": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "VT": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "VA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "WA": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "WV": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "WI": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "WY": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "PR": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "GU": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "VI": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "AS": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    },
+    "MP": {
+      "statewideExecutive": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": false,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "stateLegislative": {
+        "feeMinorUnits": 5000,
+        "signatures": 100,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "federalLegislative": {
+        "feeMinorUnits": 10000,
+        "signatures": 1000,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      },
+      "local": {
+        "feeMinorUnits": 7500,
+        "signatures": 25,
+        "feeInLieuOfSignatures": true,
+        "circulationOpens": "01-01",
+        "deadline": "06-01",
+        "sameDistrictOnly": true,
+        "onePerSigner": true,
+        "estimated": true,
+        "estimatedFrom": "Median of read filing terms for the same office family"
+      }
+    }
+  }
+}

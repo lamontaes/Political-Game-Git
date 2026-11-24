@@ -1,0 +1,60 @@
+{
+  "batch": 4,
+  "checkedAt": "2026-10-07T01:40:00Z",
+  "sourced": [
+    {
+      "state": "IA",
+      "instrument": "school-district-income-surtax",
+      "file": "raw/ia-code-257-19.pdf",
+      "sha256": "8938d92370910d027a5247093d0d9539e155b7628770f2d9fbc24d5a656a3d1a",
+      "bytes": 30578,
+      "url": "https://www.legis.iowa.gov/docs/code/257.19.pdf",
+      "citation": "Iowa Code \u00a7 257.19 (2026)",
+      "coverage": "single section",
+      "status": "SOURCED",
+      "note": "Instructional support program: a school board certifies intent and the funding method (property tax or income surtax); funding is limited to ten percent of regular program district cost.",
+      "retrievedAt": "2026-10-07T01:40:00Z"
+    },
+    {
+      "state": "IA",
+      "instrument": "school-district-income-surtax",
+      "file": "raw/ia-code-257-21.pdf",
+      "sha256": "e8021fea9156f8873018b0a89497f5d28a2a8514f08d852529b8a6341d49245d",
+      "bytes": 34999,
+      "url": "https://www.legis.iowa.gov/docs/code/257.21.pdf",
+      "citation": "Iowa Code \u00a7 257.21 (2026)",
+      "coverage": "single section",
+      "status": "SOURCED",
+      "note": "The instructional support income surtax is imposed on the state individual income tax of everyone residing in the school district on the last day of the tax year.",
+      "retrievedAt": "2026-10-07T01:40:00Z"
+    },
+    {
+      "state": "IA",
+      "instrument": "school-district-income-surtax",
+      "file": "raw/ia-code-298-14.pdf",
+      "sha256": "7559f2eeec6f07018001ff8453f338a5e2fad9e6fe52b82e544c21181159f17a",
+      "bytes": 29103,
+      "url": "https://www.legis.iowa.gov/docs/code/298.14.pdf",
+      "citation": "Iowa Code \u00a7 298.14 (2026)",
+      "coverage": "single section",
+      "status": "SOURCED",
+      "note": "Cumulative school district income surtax percents may not exceed twenty percent, counting any chapter 422D surtax.",
+      "retrievedAt": "2026-10-07T01:40:00Z"
+    },
+    {
+      "state": "WV",
+      "instrument": "business-and-occupation",
+      "file": "raw/wv-code-8-13-5.html",
+      "sha256": "f31759ddb3148ceaee92b0f9fab4a1e4e22b9e2cf0b0116c67ba4fcd36525f01",
+      "bytes": 71937,
+      "url": "https://code.wvlegislature.gov/8-13-5/",
+      "citation": "W. Va. Code \u00a7 8-13-5",
+      "coverage": "single section (full page, site menu included)",
+      "status": "SOURCED",
+      "note": "A municipality has plenary power to impose a business and occupation tax on activities the state taxed before July 1, 1987; rates are capped at the state's January 1, 1959 rates, one percent of gross income under 11-13-2k, and further limits in subsection (b).",
+      "retrievedAt": "2026-10-07T01:40:00Z"
+    }
+  ],
+  "notAcquired": [],
+  "findings": []
+}

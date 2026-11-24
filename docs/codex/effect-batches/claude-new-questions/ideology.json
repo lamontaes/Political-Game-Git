@@ -1,0 +1,338 @@
+{
+  "team": "claude-new-questions",
+  "weightProvenance": "Authored design choices grounded in cited positions, legal arguments and the research behind the linked outcome-web rows; NOT empirical effect sizes, survey estimates or actor-outcome probabilities.",
+  "weightScale": "0=no authored bearing;1=strongest authored bearing. These weights do not decide any actor action by themselves.",
+  "canonicalKeys": "Full us-policy-positions: principle and question stable keys.",
+  "about": "The reason behind every principle bearing of the seven questions added on 2026-10-01 so that the outcome web's researched links have a law to read: stand your ground, child access prevention, a handgun buying age of 21, same-day voter registration, all-mail voting, local 287(g) partnerships and a clean-air plan for counties that fail the federal particulate standards. The weights themselves live in src/simulation/policy-pack-us-policy-positions.ts and are retained by src/simulation/outcome-web/new-policy-questions.test.ts.",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.stand-your-ground",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "A person attacked where they have a right to be should not have to flee first; this is the case for the Florida-style statutes and the ALEC model.",
+          "sourceIds": ["giffords-syg"]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "consistent-with",
+          "strength": 0.4,
+          "reason": "American courts have long held that a person attacked need not retreat, and Justice Holmes wrote that the law does not demand calm reflection in the face of an uplifted knife.",
+          "sourceIds": ["brown-v-united-states"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.8,
+          "reason": "A pooled study of statutory adoption found about 8% more firearm homicide, and critics say the laws turn avoidable confrontations deadly; deterrence is the competing claim.",
+          "sourceIds": ["degli-esposti-2022", "giffords-syg"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Analyses of homicide reports cited by Giffords find a killing is far likelier to be ruled justified when the shooter is white and the victim Black, so the law may not fall the same way on everyone.",
+          "sourceIds": ["giffords-syg"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.child-access-prevention",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "Negligence-standard child access prevention laws went with about 13% fewer firearm deaths among children under 15, and most guns used in youth suicides and accidental shootings come from the home.",
+          "sourceIds": ["azad-2020-link", "giffords-cap"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.65,
+          "reason": "A rule on how a gun is kept at home limits a household's control of its own defense; the Supreme Court struck down D.C.'s rule that kept home guns locked or disassembled.",
+          "sourceIds": ["heller-2008"]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "Liability that attaches when a child could reach a gun, before anyone is hurt, reaches into the home earlier than the usual law of negligence does; this is an authored argument.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "reason": "States that limited handgun sales to people 21 and older had 18% lower suicide among 18- to 20-year-olds, and Giffords counts that age group at 18% of gun homicides against 4% of the population.",
+          "sourceIds": ["raifman-2020-link", "giffords-age"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.85,
+          "reason": "An 18-year-old is an adult for voting, contracts and military service, and the Fifth Circuit held the federal under-21 dealer-sale limit unconstitutional while the Eleventh Circuit upheld Florida's.",
+          "sourceIds": ["age-circuit-split"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "An age line treats adults of 18 to 20 differently from adults of 21 and over, though they hold the same other rights.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.4,
+          "reason": "A state rule above the federal floor adds a restriction on lawful adult purchases; this is an authored argument.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.same-day-voter-registration",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "Young voters and people who move often miss deadlines most; same-day registration raised turnout of 18- to 24-year-olds by 3.1 to 7.3 points.",
+          "sourceIds": ["grumbach-hill-2022-link", "ncsl-same-day"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "reason": "A fixed deadline falls hardest on renters and recent movers, so the same-day rule makes the ballot reach people alike; this is an authored argument.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:transparency",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "Officials have less time to check eligibility before a ballot is cast, which states answer with provisional ballots, statewide databases and sworn affidavits.",
+          "sourceIds": ["ncsl-same-day"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.4,
+          "reason": "Registering people at the polls takes extra staff, equipment and records work on a county; this is an authored argument, not a measured cost.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.all-mail-voting",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "reason": "A ballot that arrives at every home reaches people who cannot take time to vote on one day, and county roll-outs raised turnout about 2 points.",
+          "sourceIds": ["thompson-2020-link", "ncsl-all-mail"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.4,
+          "reason": "Fewer polling places and poll workers can lower the cost of an election; this is an authored argument, not a measured saving.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Voting in person on a single day is the arrangement most of the country keeps; only 8 states and D.C. mail every voter a ballot.",
+          "sourceIds": ["ncsl-all-mail"]
+        },
+        {
+          "principleKey": "us-policy-positions:transparency",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "Nobody can watch a ballot being marked at home, and the Carter-Baker commission called absentee ballots the largest source of potential voter fraud; signature checks are the answer.",
+          "sourceIds": ["carter-baker-2005"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "reason": "Supporters say deputized local officers let ICE take dangerous noncitizens at the jail door, and a 2025 executive order directs ICE to authorize such agreements to the maximum extent the law allows.",
+          "sourceIds": ["ice-287g"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.8,
+          "reason": "The American Immigration Council reports documented racial profiling under 287(g), and that the program has targeted people with little or no criminal history.",
+          "sourceIds": ["aic-287g"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.6,
+          "reason": "The task force model gives deputized officers the power to stop and arrest for immigration violations during ordinary patrols, and local detention can follow.",
+          "sourceIds": ["aic-287g", "maxwell-commons-2025"]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.45,
+          "reason": "Deputizing local police as federal immigration officers extends federal power into local policing; opponents also point to the cost, which ICE now partly reimburses.",
+          "sourceIds": ["aic-287g", "maxwell-commons-2025"]
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "A county that fails the federal particulate standard is breathing more soot and dust than the standard allows, and the plan is how the state brings it back.",
+          "sourceIds": ["clean-air-act-naaqs", "green-book"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "reason": "The Clean Air Act sets each standard at the level needed to protect public health with a margin of safety.",
+          "sourceIds": ["clean-air-act-naaqs"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.45,
+          "reason": "Dirty air falls hardest on people who live beside the sources and cannot move away; this is an authored argument.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Emission limits restrict what the owner of a plant, mine or farm may do with it, and the plan can cap existing operations.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "Fixed limits direct how firms must cut emissions, which open competition might do more cheaply; the 2005 designation study found only an uncertain 2.3% fall.",
+          "sourceIds": ["zigler-2018-link"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.5,
+          "reason": "A state agency must write, monitor and enforce the plan; this is an authored argument, not a measured cost.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "giffords-syg": {
+      "url": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
+      "read": "Giffords Law Center (an advocate for repeal): lists the 30 states with a stand-your-ground statute and 8 with court rulings, describes the NRA and ALEC model, and cites studies of higher homicide and of racial disparity in justified-homicide rulings. Position evidence, not a causal multiplier."
+    },
+    "degli-esposti-2022": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/",
+      "read": "Degli Esposti et al. 2022 (JAMA Network Open): statutory adoption is associated with higher firearm homicide rates in a pooled analysis of 41 states; the outcome-web link stand-your-ground-to-homicide is sized from it."
+    },
+    "brown-v-united-states": {
+      "url": "https://supreme.justia.com/cases/federal/us/256/335/",
+      "read": "Brown v. United States, 256 U.S. 335 (1921): Justice Holmes held that a person attacked need not retreat before using deadly force, because detached reflection cannot be demanded in the presence of an uplifted knife."
+    },
+    "azad-2020-link": {
+      "path": "data/research/outcome-web/links.json",
+      "key": "links.child-access-law-to-youth-gun-deaths",
+      "read": "Azad et al. 2020 (JAMA Pediatrics): negligence-standard child access prevention laws went with 13% fewer firearm deaths among children 0 to 14 from 1991 to 2016; RAND rates the evidence supportive."
+    },
+    "giffords-cap": {
+      "url": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
+      "read": "Giffords Law Center: lists 26 states and D.C. with a child access prevention or safe storage law, groups them by how liability attaches, and states that 70 to 90% of guns used by minors in suicides, accidental shootings and school shootings come from the home."
+    },
+    "heller-2008": {
+      "url": "https://supreme.justia.com/cases/federal/us/554/570/",
+      "read": "District of Columbia v. Heller, 554 U.S. 570 (2008): struck down D.C.'s requirement that a lawful home gun be kept locked or disassembled, because it made the gun unusable for self-defense."
+    },
+    "raifman-2020-link": {
+      "path": "data/research/outcome-web/links.json",
+      "key": "links.min-age-to-youth-gun-suicide",
+      "read": "Raifman et al. 2020 (BMJ): states limiting handgun sales to age 21 had an 18% lower suicide rate among 18- to 20-year-olds from 2001 to 2017; the study reports suicide by all means."
+    },
+    "giffords-age": {
+      "url": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
+      "read": "Giffords Law Center: state table of minimum ages to buy and possess handguns and long guns, and its count that 18- to 20-year-olds commit 18% of gun homicides while 4% of the population."
+    },
+    "age-circuit-split": {
+      "citation": "Reese v. ATF, 127 F.4th 583 (5th Cir. 2025); NRA v. Bondi (11th Cir. en banc, March 2025, 8-4)",
+      "read": "Courts have split on the age line: the Fifth Circuit (January 30, 2025) held the federal ban on dealer handgun sales to 18- to 20-year-olds unconstitutional, and the en banc Eleventh Circuit upheld Florida's under-21 purchase ban. Confirmed by search summaries on 2026-10-01; the opinions were not reread."
+    },
+    "ncsl-same-day": {
+      "url": "https://www.ncsl.org/elections-and-campaigns/same-day-voter-registration",
+      "read": "NCSL (updated 3/27/2026): lists the states with same-day registration with statute, timeframe and verification steps (provisional ballots, statewide voter databases, affidavits), and cites research that it raises turnout several points."
+    },
+    "grumbach-hill-2022-link": {
+      "path": "data/research/outcome-web/links.json",
+      "key": "links.same-day-registration-to-youth-turnout",
+      "read": "Grumbach and Hill 2022 (Journal of Politics): same-day registration raises turnout of 18- to 24-year-olds by 3.1 to 7.3 points."
+    },
+    "ncsl-all-mail": {
+      "url": "https://www.ncsl.org/elections-and-campaigns/table-18-states-with-all-mail-elections",
+      "read": "NCSL Table 18: 8 states and D.C. mail every registered voter a ballot for every election, with statute, year enacted and year first used."
+    },
+    "thompson-2020-link": {
+      "path": "data/research/outcome-web/links.json",
+      "key": "links.all-mail-voting-to-turnout",
+      "read": "Thompson, Wu, Yoder and Hall 2020 (PNAS): county roll-outs of universal vote-by-mail in California, Utah and Washington raised turnout 2.1 points with no change in either party's share."
+    },
+    "carter-baker-2005": {
+      "citation": "Commission on Federal Election Reform (Carter-Baker), Building Confidence in U.S. Elections, 2005",
+      "read": "The commission's 2005 report said absentee ballots remain the largest source of potential voter fraud, while recommending ways to secure them rather than ending absentee voting. Confirmed by a search summary quoting the report on 2026-10-01; the report was not reread."
+    },
+    "ice-287g": {
+      "url": "https://www.ice.gov/identify-and-arrest/287g",
+      "read": "ICE (as of 10/1/2026): 2,608 agreements in 39 states and 2 territories; describes the jail, warrant service and task force models and Executive Order 14159, which directs ICE to authorize state and local agreements to the maximum extent permitted by law."
+    },
+    "aic-287g": {
+      "url": "https://www.americanimmigrationcouncil.org/fact-sheet/287g-program-immigration/",
+      "read": "American Immigration Council (an opponent): says the program has been costly for localities, has targeted people with little or no criminal history, has harmed police-community relations and has caused documented racial profiling."
+    },
+    "maxwell-commons-2025": {
+      "url": "https://maxwellcommons.substack.com/p/287g-2025-a-year-in-review",
+      "read": "A 2025 review of 287(g) agreements by state: describes the task force model's power to stop and arrest during ordinary patrols, its 2012 discontinuation after findings against several agencies, and ICE's 2025 salary reimbursement."
+    },
+    "clean-air-act-naaqs": {
+      "url": "https://www.law.cornell.edu/uscode/text/42/7409",
+      "read": "42 U.S.C. 7409(b)(1): each primary air-quality standard is set at the level requisite to protect the public health with an adequate margin of safety."
+    },
+    "green-book": {
+      "url": "https://www3.epa.gov/airquality/greenbook/ancl.html",
+      "read": "EPA Green Book, current nonattainment counties for all criteria pollutants, data current as of September 30, 2026: the source of each state's starting answer."
+    },
+    "zigler-2018-link": {
+      "path": "data/research/outcome-web/links.json",
+      "key": "links.emission-rules-to-particulates",
+      "read": "Zigler, Choirat and Dominici 2018 (Epidemiology): the 2005 fine-particle nonattainment designations lowered PM2.5 by an estimated 2.3% (interval -10.7% to +4.8%), so the link is contested."
+    },
+    "canonical-authored": {
+      "read": "An authored argument for or against, with no external source; the weight is a design choice."
+    }
+  },
+  "limits": "Weights are authored and do not decide any actor's action by themselves. Arguments are conditional and individuals may disagree with their groups. The principle list has no 'election integrity' or 'family' principle, so the integrity argument against same-day and all-mail voting is carried by transparency and tradition. Two citations (age-circuit-split, carter-baker-2005) were confirmed by search summaries and not reread. Runtime group formation and actor reactions NOT RUN."
+}

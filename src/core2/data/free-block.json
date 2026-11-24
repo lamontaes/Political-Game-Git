@@ -1,0 +1,6 @@
+{
+  "version": "p15-free-block-v1",
+  "stopgapId": "SG-P15-free-block-plan",
+  "flexibleEffects": ["recover"],
+  "flexibleNote": "Leisure fills what is left of the day up to its ATUS length, so a shorter evening holds a shorter rest rather than none."
+}

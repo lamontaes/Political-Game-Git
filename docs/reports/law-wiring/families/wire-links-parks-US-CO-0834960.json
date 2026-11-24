@@ -1,0 +1,756 @@
+{
+  "seed": "4eecc7ab3472e0ef",
+  "place": {
+    "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
+    "key": "0834960",
+    "name": "Haxtun, Colorado",
+    "state": "US-CO"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+        "law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4",
+        "law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b"
+      ],
+      "openingReach": {
+        "fullPeople": 51,
+        "countedGroups": 2,
+        "countedPeople": 5958416,
+        "households": 0,
+        "organizations": 2,
+        "governments": 1,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_1760ff25eecd9029:2025-01-20",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_1760fe25eecd8e76:2025-01-20",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_c84bc60201f080de:2025-01-20",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_c84bc70201f08291:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 52,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 52,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2513": 8,
+        "src/core2/life.ts:557": 5,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:819": 3,
+        "src/core2/modules/legislature.ts:3691": 2,
+        "src/core2/law-reach/group-a-money.ts:220 <- src/core2/modules/budgets.ts:819": 1
+      },
+      "openingRow": "law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+            "treatment": 59273581188227,
+            "control": 59273783341184,
+            "ids": [
+              "journal:2025-02-01:1690",
+              "journal:2025-02-01:1691",
+              "journal:2025-02-01:1692"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 29538045,
+            "control": 29546307,
+            "ids": [
+              "journal:2025-01-21:1567",
+              "journal:2025-01-21:1568",
+              "journal:2025-01-21:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 847728645,
+            "control": 847736907,
+            "ids": [
+              "journal:2025-01-25:1596",
+              "journal:2025-01-25:1598",
+              "journal:2025-01-26:1600"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+            "treatment": 514588,
+            "control": 514589,
+            "ids": [
+              "journal:2025-02-06:9122",
+              "journal:2025-02-06:9123",
+              "journal:2025-02-06:9124"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": [],
+        "controlCited": [
+          {
+            "token": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+            "gross": 202152955,
+            "ids": [
+              "journal:2025-02-01:1855",
+              "journal:2025-02-01:1857",
+              "journal:2025-02-01:1859"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 2,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "way": "in",
+              "targets": 2,
+              "moved": 202152955,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": 202144693,
+                  "journal": "journal:2025-02-01:1857"
+                },
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": 8262,
+                  "journal": "journal:2025-02-01:1855"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "in",
+              "targets": 1,
+              "moved": 8262,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "in",
+                  "treatment": 20981106,
+                  "control": 20989368,
+                  "journal": "journal:2025-02-01:1969"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "in",
+              "targets": 1,
+              "moved": 8262,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 4181382,
+                  "control": 4189644,
+                  "journal": "journal:2025-02-01:1944"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 8262,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": -541574,
+                  "control": -549836,
+                  "journal": "journal:2025-02-01:1947"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "moved": 8262,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": -2971033,
+                  "control": -2979295,
+                  "journal": "journal:2025-02-01:1966"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+              "way": "in",
+              "targets": 1,
+              "moved": 2,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+                  "way": "in",
+                  "treatment": 59123538317856,
+                  "control": 59123538317858,
+                  "journal": "journal:2025-02-01:1693"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+              "way": "out",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-02-06",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+                  "way": "out",
+                  "treatment": -514588,
+                  "control": -514589,
+                  "journal": "journal:2025-02-06:9125"
+                }
+              ]
+            }
+          ],
+          "paid": 2,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding|in",
+          "sample": [
+            {
+              "target": "jurisdiction_8f809655f27e939d",
+              "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "way": "in",
+              "treatment": 0,
+              "control": 202144693,
+              "journal": "journal:2025-02-01:1857"
+            },
+            {
+              "target": "organization_55cbffeb1a31dc95",
+              "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|organization_55cbffeb1a31dc95",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "way": "in",
+              "treatment": 0,
+              "control": 8262,
+              "journal": "journal:2025-02-01:1855"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "way": "in",
+              "targets": 2,
+              "first": {
+                "target": "jurisdiction_8f809655f27e939d",
+                "row": "applied|us-policy-positions:civil-family-community.dedicated-parks-funding|jurisdiction_8f809655f27e939d",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding",
+                "way": "in",
+                "treatment": 0,
+                "control": 202144693,
+                "journal": "journal:2025-02-01:1857"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "parks-spending-to-exercise-access",
+            "status": "built",
+            "to": "parks.access-to-exercise"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_8f809655f27e939d:2025-02",
+            "link": "parks-spending-to-exercise-access",
+            "effect": 0
+          }
+        ],
+        "firedCount": 1,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 105,
+        "sample": [
+          "person_32ae1da76fa35145:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_6d8f6f82f2b85771:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_6d8f6e82f2b855be:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 134,
+        "countedGroups": 2,
+        "countedPeople": 5958334,
+        "households": 0,
+        "organizations": 2,
+        "governments": 1,
+        "other": 0,
+        "open": 139,
+        "ended": 52,
+        "sample": [
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_1760ff25eecd9029:2025-02-26",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_1760fe25eecd8e76:2025-02-26",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_c84bc60201f080de:2025-02-26",
+          "reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_c84bc70201f08291:2025-02-26"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 52,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "budget-line:parks",
+      "kind": "budget-line",
+      "family": "parks-culture",
+      "inForceAtOpening": false,
+      "change": "place:0834960 parks 28459532 -> 38459532 by law-wiring-17ac6c1b",
+      "lawIds": ["law-wiring-17ac6c1b"],
+      "openingReach": {
+        "fullPeople": 51,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 52,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_008ecc913e2f0294|2025-01-20",
+          "budget-line:parks|person_07af738140cd551c|2025-01-20",
+          "budget-line:parks|person_07af748140cd56cf|2025-01-20",
+          "budget-line:parks|person_07af768140cd5a35|2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 134,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 137,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_008ecc913e2f0294|2025-01-20",
+          "budget-line:parks|person_07af738140cd551c|2025-01-20",
+          "budget-line:parks|person_07af748140cd56cf|2025-01-20",
+          "budget-line:parks|person_07af768140cd5a35|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 134,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 137,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_008ecc913e2f0294|2025-01-20",
+          "budget-line:parks|person_07af738140cd551c|2025-01-20",
+          "budget-line:parks|person_07af748140cd56cf|2025-01-20",
+          "budget-line:parks|person_07af768140cd5a35|2025-01-20"
+        ]
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 29588768,
+            "control": 29546307,
+            "ids": [
+              "journal:2025-01-21:1567",
+              "journal:2025-01-21:1568",
+              "journal:2025-01-21:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 847778779,
+            "control": 847736907,
+            "ids": [
+              "journal:2025-01-25:1596",
+              "journal:2025-01-25:1598",
+              "journal:2025-01-26:1600"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1869",
+            "treatment": 7121406,
+            "control": 7121460,
+            "ids": [
+              "journal:2025-02-04:8721",
+              "journal:2025-02-04:8722",
+              "journal:2025-02-04:8723"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+            "treatment": 514591,
+            "control": 514589,
+            "ids": [
+              "journal:2025-02-06:9128",
+              "journal:2025-02-06:9129",
+              "journal:2025-02-06:9130"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:486",
+            "treatment": 174354,
+            "control": 174355,
+            "ids": ["journal:2025-02-06:9168", "journal:2025-02-06:9169"]
+          }
+        ],
+        "diffKinds": 5,
+        "cited": [
+          {
+            "token": "budget-line:parks",
+            "gross": 1215668017,
+            "ids": [
+              "journal:2025-02-01:1855",
+              "journal:2025-02-01:1856",
+              "journal:2025-02-01:1857"
+            ],
+            "control": 1215441390
+          },
+          {
+            "token": "law-wiring-17ac6c1b",
+            "gross": 475930,
+            "ids": [
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1926"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:0834960",
+            "line": "parks",
+            "moved": 10000000,
+            "treatment": 915205,
+            "control": 688578,
+            "ids": [
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1925",
+              "journal:2025-02-01:1926"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 2,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+              "way": "in",
+              "targets": 1,
+              "moved": 48409,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|budget-line:parks|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+                  "way": "in",
+                  "treatment": 3013171,
+                  "control": 2964762,
+                  "journal": "journal:2025-02-01:1846"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 48409,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|budget-line:parks|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": -598245,
+                  "control": -549836,
+                  "journal": "journal:2025-02-01:1950"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "out",
+              "targets": 1,
+              "moved": 48409,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_55cbffeb1a31dc95",
+                  "row": "applied|budget-line:parks|organization_55cbffeb1a31dc95",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "out",
+                  "treatment": -3027704,
+                  "control": -2979295,
+                  "journal": "journal:2025-02-01:1969"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "in",
+              "targets": 1,
+              "moved": 42461,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|budget-line:parks|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "in",
+                  "treatment": 4232105,
+                  "control": 4189644,
+                  "journal": "journal:2025-02-01:1947"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+              "way": "in",
+              "targets": 1,
+              "moved": 41872,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|budget-line:parks|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+                  "way": "in",
+                  "treatment": 21031240,
+                  "control": 20989368,
+                  "journal": "journal:2025-02-01:1972"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+              "way": "out",
+              "targets": 1,
+              "moved": 41284,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|budget-line:parks|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1158",
+                  "way": "out",
+                  "treatment": 59123538276574,
+                  "control": 59123538317858,
+                  "journal": "journal:2025-02-01:1693"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1869",
+              "way": "in",
+              "targets": 1,
+              "moved": 54,
+              "earliest": "2025-02-04",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|budget-line:parks|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-04",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1869",
+                  "way": "in",
+                  "treatment": -2058119,
+                  "control": -2058173,
+                  "journal": "journal:2025-02-04:8732"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+              "way": "out",
+              "targets": 1,
+              "moved": 2,
+              "earliest": "2025-02-06",
+              "sample": [
+                {
+                  "target": "jurisdiction_8f809655f27e939d",
+                  "row": "applied|budget-line:parks|jurisdiction_8f809655f27e939d",
+                  "date": "2025-02-06",
+                  "kind": "accounts.transfer @ src/core2/public-safety.ts:448",
+                  "way": "out",
+                  "treatment": -514591,
+                  "control": -514589,
+                  "journal": "journal:2025-02-06:9128"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "parks-spending-to-exercise-access",
+            "status": "built",
+            "to": "parks.access-to-exercise"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_8f809655f27e939d:2025-01",
+            "link": "parks-spending-to-exercise-access",
+            "effect": 0.00458738323299168
+          },
+          {
+            "id": "web:jurisdiction_8f809655f27e939d:2025-02",
+            "link": "parks-spending-to-exercise-access",
+            "effect": 0.00458738323299168
+          }
+        ],
+        "firedCount": 2,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 86,
+        "sample": [
+          "person_32ae1da76fa35145:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_6d8f6f82f2b85771:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_6d8f6e82f2b855be:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 169,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 170,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_008ecc913e2f0294|2025-01-20",
+          "budget-line:parks|person_07af738140cd551c|2025-01-20",
+          "budget-line:parks|person_07af748140cd56cf|2025-01-20",
+          "budget-line:parks|person_07af768140cd5a35|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
+    }
+  ]
+}

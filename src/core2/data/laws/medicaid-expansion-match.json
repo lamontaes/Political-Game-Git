@@ -1,0 +1,15 @@
+{
+  "about": "The federal share of Medicaid care for the expansion population: a higher share than the regular match, for the 50 States and the District of Columbia only.",
+  "percent": {
+    "value": 90,
+    "role": "law",
+    "tag": "SOURCED",
+    "source": "42 U.S.C. 1396d(y)(1), read at law.cornell.edu/uscode/text/42/1396d on Nov 11, 2026: 'Notwithstanding subsection (b), the Federal medical assistance percentage for a State that is one of the 50 States or the District of Columbia, with respect to amounts expended by such State for medical assistance for newly eligible individuals described in subclause (VIII) of section 1396a(a)(10)(A)(i) of this title, shall be equal to ... (E) 90 percent for calendar quarters in 2020 and each year thereafter.' (100 percent for 2014 to 2016, 95 in 2017, 94 in 2018, 93 in 2019.)",
+    "asOf": "2020"
+  },
+  "territories": {
+    "value": ["PR", "GU", "VI", "AS", "MP"],
+    "tag": "SOURCED",
+    "source": "The same subsection is limited to 'one of the 50 States or the District of Columbia'; the territories' Medicaid is financed under their own capped arrangement (42 U.S.C. 1396d(b) and 1308), so their expansion care keeps the regular match row in force rather than the expansion percentage."
+  }
+}

@@ -1,0 +1,3572 @@
+{
+  "schemaVersion": 2,
+  "asOf": "2026-10-14",
+  "about": "Regular legislative sessions for 2025, 2026 and 2027 for the 50 states, D.C. (Council legislative periods) and the five territories. 'meets' says whether the body holds a regular session that year; sessions give the convening date and the sine die adjournment ('full-year' where the body meets throughout the year). Each year row has a tag (SOURCED, or ESTIMATED with the rule as its comments) and its source. specialSession holds the constitutional rule for calling special sessions. sessionEnds (below) is the separate table of session-end limits the effective-date rules count from.",
+  "sources": {
+    "ncsl2025": {
+      "title": "2025 Legislative Session Calendar (updated Feb. 3, 2025)",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+      "retrievedAt": "2026-10-14",
+      "note": "The asterisk means the legislature meets throughout the year."
+    },
+    "ncsl2026": {
+      "title": "2026 State Legislative Session Calendar",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+      "retrievedAt": "2026-10-07",
+      "note": "The PDF's asterisk means the legislature meets throughout the year. Dates and comments preserve the NCSL table as updated March 23, 2026."
+    },
+    "guam": {
+      "title": "Guam Code Annotated, Title 2, Chapter 1, § 1101",
+      "publisher": "Guam Legislature",
+      "url": "https://www.guamcourts.org/CompilerofLaws/GCA/02gca/2gc001.PDF",
+      "note": "The regular session begins in January and may continue until the day before the next regular session."
+    },
+    "americanSamoa": {
+      "title": "Revised Constitution of American Samoa, art. II, § 8",
+      "publisher": "American Samoa Bar Association",
+      "url": "https://asbar.org/revised-constitution-of-american-samoa/",
+      "note": "Two regular sessions begin on the second Monday in January and July and last 45 legislative days; calendar adjournment dates are not specified in the source."
+    },
+    "northernMarianaIslands": {
+      "title": "Constitution of the Commonwealth of the Northern Mariana Islands, art. II, § 13",
+      "publisher": "Commonwealth of the Northern Mariana Islands Law Revision Commission",
+      "url": "https://cnmilaw.gov/constitution/",
+      "note": "The Legislature is a continuous body for the two years between its organizational meetings on the second Monday of January following a general election."
+    },
+    "puertoRico": {
+      "title": "Laws of Puerto Rico, tit. 2, § 1a",
+      "publisher": "Puerto Rico Office of Legislative Services (compiled text)",
+      "url": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/",
+      "note": "The first annual regular session begins the second Monday in January and adjourns June 30; the second begins the third Monday in August and adjourns on the date set in the statute."
+    },
+    "dc": {
+      "title": "D.C. Official Code § 1-204.11",
+      "publisher": "Council of the District of Columbia",
+      "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.11",
+      "note": "The Council's two-year legislative period begins on January 2 of each odd-numbered year; the Council meets throughout both years."
+    },
+    "rule2027": {
+      "title": "Convening and adjournment rules of each legislature's constitution or statute, applied to 2027",
+      "note": "No 2027 calendar is published yet. Each ESTIMATED 2027 row carries the rule that sets its dates: the convening date is the same weekday-of-month rule the 2025 session followed, and the adjournment is the statutory or constitutional limit where one fixes a date, else the 2025 session's length counted from the 2027 convening date."
+    }
+  },
+  "places": {
+    "US-AL": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Subjects limited to those in governor's proclamation unless two-thirds of each house vote otherwise; special sessions limited to 30 days (art. IV, sec. 76). Proclamation must state each matter (art. V, sec. 122).",
+        "cite": "Ala. Const. art. V, sec. 122; art. IV, sec. 76",
+        "url": "https://policyrisk.com/states/alabama/constitution/art-V-sec-122",
+        "note": "No legislative self-call found in sections read; read art. IV sec. 76 at https://policyrisk.com/states/alabama/constitution/art-IV-sec-76"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-02-04",
+              "adjournAt": "2025-05-19"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-04-27"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-02-02",
+              "adjournAt": "2027-05-17"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of February); adjournment is the 2025 session's length (104 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-AK": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "two-thirds of legislators by vote (conducted by legislative council or as prescribed by law)",
+        "limits": "30 days; in governor-called sessions legislation limited to subjects in proclamation, subjects presented by him, and reconsideration of bills he vetoed after last regular session",
+        "cite": "Alaska Const. art. II, sec. 9",
+        "url": "https://policyrisk.com/states/alaska/constitution/art-II-sec-9",
+        "note": "Also art. III, sec. 17 lets governor convene legislature when in public interest."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-21",
+              "adjournAt": "2025-05-21"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-20",
+              "adjournAt": "2026-05-20"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-19",
+              "adjournAt": "2027-05-19"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the third Tuesday of January); adjournment is the 2025 session's length (120 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-AZ": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Governor's call must specify subjects; no laws enacted except those relating to subjects in the call. No day limit stated.",
+        "cite": "Ariz. Const. art. IV, pt. 2, sec. 3",
+        "url": "https://azleg.gov/const/4/3.p2.htm",
+        "note": "Read the official azleg.gov text. Art. V sec. 4 shown as repealed. 'none' means none stated in this section."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-04-22"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-04-25"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-04-20"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (99 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-AR": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Governor's proclamation must specify purpose; no other business until disposed of; after that, two-thirds of all members of both houses may extend up to 15 days.",
+        "cite": "Ark. Const. art. VI, sec. 19",
+        "url": "https://policyrisk.com/states/arkansas/constitution/art-VI-sec-18",
+        "note": "Sec. 19 text appears on the sec. 18 page of this site (page text reads 'See. 19'); ratified 1874."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-04-11"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "Organization day Jan. 13, 2025 (House organized Nov. 19, 2024)."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-04-08",
+              "adjournAt": "2026-05-07"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-04-09"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (88 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-CA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Only on extraordinary occasions; legislature may legislate only on subjects specified in the proclamation (plus expenses and incidental matters). No day limit stated.",
+        "cite": "Cal. Const. art. IV, sec. 3(b)",
+        "url": "https://policyrisk.com/states/california/constitution/art-IV-sec-3",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "2025-09-12"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "NCSL lists the 2025-26 session as convened Dec. 2, 2024 (organizational session); regular business began Jan. 6, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-05",
+              "adjournAt": "2026-08-31"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "2027-09-10"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of January); adjournment is the 2025 session's length (249 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-CO": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "written request by two-thirds of the members of each house to the presiding officer of each house",
+        "limits": "Governor-called: no business other than that named in proclamation; legislature-called: only subjects specified in the request. Regular session capped at 120 days; no special session day cap stated.",
+        "cite": "Colo. Const. art. IV, sec. 9; art. V, sec. 7",
+        "url": "https://policyrisk.com/states/colorado/constitution/art-V-sec-7",
+        "note": "Art. IV sec. 9 read at https://policyrisk.com/states/colorado/constitution/art-IV-sec-9"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-05-07"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "2026-05-13"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-05-12"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (119 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-CT": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "No procedure stated; text says general assembly may meet 'at such other times as the general assembly shall judge necessary'",
+        "limits": "Special sessions adjourn upon completion of business; governor may convene on 'special emergencies' (not 'extraordinary occasions'). No day limit stated.",
+        "cite": "Conn. Const. art. III, sec. 2 (as amended 1970)",
+        "url": "https://policyrisk.com/states/connecticut/constitution/art-THIRD-sec-2",
+        "note": "Majority-petition route to Secretary of the State described in press releases was not found in the constitution text I read; probably statutory (not verified)."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-06-04"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-02-04",
+              "adjournAt": "2026-05-06"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-06-09"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Conn. Const. art. III, § 2: odd-year sessions adjourn by the Wednesday after the first Monday in June."
+          ]
+        }
+      }
+    },
+    "US-DE": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "mutual call of the presiding officers of both Houses",
+        "limits": "No subject or day limit stated in sections read; regular session may not extend past last day of June unless recalled by governor or presiding officers.",
+        "cite": "Del. Const. art. III, sec. 16 (governor); art. II, sec. 4 (presiding officers)",
+        "url": "https://policyrisk.com/states/delaware/constitution/art-II-sec-4",
+        "note": "Art. III sec. 16 read at https://policyrisk.com/states/delaware/constitution/art-III-sec-16"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-06-30"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-06-30"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-06-30"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "The General Assembly's regular session ends June 30 each year, the fiscal-year deadline (observed June 30 in 2025 and 2026)."
+          ]
+        }
+      }
+    },
+    "US-FL": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Convened as provided by law (statute, not stated in constitution)",
+        "limits": "Only business within governor's proclamation or communication, or introduced by two-thirds of each house; special session not to exceed 20 consecutive days unless extended by three-fifths of each house.",
+        "cite": "Fla. Const. art. III, sec. 3(c)-(d)",
+        "url": "https://policyrisk.com/states/florida/constitution/art-III-sec-3",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-03-04",
+              "adjournAt": "2025-05-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "Organizational session Nov. 19, 2024; regular session Mar. 4 - May 2, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-03-13"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-03-02",
+              "adjournAt": "2027-04-30"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of March); adjournment is the 2025 session's length (59 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-GA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Three-fifths of members of each house certify in writing to governor that an emergency exists; governor shall convene; if governor fails within 3 days (excluding Sundays) the General Assembly may convene itself",
+        "limits": "Laws limited to purposes in proclamation (amendable); 40 days unless extended by three-fifths of each house and approved by governor.",
+        "cite": "Ga. Const. art. V, sec. II, para. VII",
+        "url": "https://policyrisk.com/states/georgia/constitution/art-V-sec-II-para-VII",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-04-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-04-06"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-03-31"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (79 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-HI": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Written request of two-thirds of members of each house; presiding officers of both houses shall convene",
+        "limits": "Special sessions limited to 30 days; any session may be extended up to 15 days total by presiding officers on two-thirds written request or by governor.",
+        "cite": "Haw. Const. art. III, sec. 10",
+        "url": "https://policyrisk.com/states/hawaii/constitution/art-III-sec-10",
+        "note": "Senate alone may also be convened by president of senate on two-thirds written request of senators, or by governor."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-15",
+              "adjournAt": "2025-05-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-21",
+              "adjournAt": "2026-05-08"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-20",
+              "adjournAt": "2027-05-07"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the third Wednesday of January); adjournment is the 2025 session's length (107 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-ID": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Joint written petition of at least sixty percent of the membership of each house, to the president pro tempore of the senate and speaker of the house, who must convene it",
+        "limits": "Petition-called session must start within 15 days and is limited to subjects in the petition plus session expenses; governor-called limited to subjects in proclamation plus expenses.",
+        "cite": "Idaho Const. art. III, sec. 8(2) (petition); art. IV, sec. 9 (governor)",
+        "url": "https://policyrisk.com/states/idaho/constitution/art-III-sec-8",
+        "note": "Art. IV sec. 9 read at https://policyrisk.com/states/idaho/constitution/art-IV-sec-9"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "2025-04-26"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-04-10"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "2027-04-24"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of January); adjournment is the 2025 session's length (110 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-IL": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Joint proclamation of presiding officers of both houses (per Special Session Act, statute)",
+        "limits": null,
+        "cite": "Ill. Const. art. IV, sec. 5(b)",
+        "url": null,
+        "note": "NOT READ FROM THE CONSTITUTION: ilga.gov was unreachable (503/TLS) and the policyrisk copy lists art. IV sec. 5 as [Repealed], which looks wrong. Governor power and sec. 5(b) cite come from a web-search summary quoting the text; presiding-officer route and subject limits are unverified. Re-check at ilga.gov/commission/lrb/con4.htm."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-05-31"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "full-year",
+              "comments": ["Organizational Day 2025-11-18."]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-05-31"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Ill. Const. art. IV, § 10 sets May 31 as the end of the spring session."
+          ]
+        }
+      }
+    },
+    "US-IN": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "No day or subject limit stated in sections read (length and frequency of sessions fixed by law).",
+        "cite": "Ind. Const. art. IV, sec. 9; art. V, sec. 10(b) (governor must call special session to confirm lieutenant governor nominee)",
+        "url": "https://policyrisk.com/states/indiana/constitution/art-IV-sec-9",
+        "note": "Site text of sec. 9 carries an odd trailing note saying sec. 9 was repealed by the Nov. 6, 1984 amendment; treat the cite with caution and confirm against the official text."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-04-29"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "NCSL lists Nov. 19, 2024 (organization day), recess to Jan. 8, 2025; regular business began Jan. 8, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-12-01",
+              "adjournAt": "2026-02-27",
+              "comments": [
+                "The 2026 regular session started early on 2025-12-01 and reconvened 2026-01-05."
+              ]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-04-29"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Ind. Code § 2-2.1-1-2: the long session of odd years ends no later than April 29."
+          ]
+        }
+      }
+    },
+    "US-IA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Written request to the presiding officer of each house by two-thirds of the members of each house; the general assembly shall convene",
+        "limits": "No subject or day limit stated. Acts of a special session take effect 90 days after adjournment unless otherwise stated (art. III sec. 26).",
+        "cite": "Iowa Const. art. III, sec. 2 (legislature); art. IV, sec. 11 (governor)",
+        "url": "https://policyrisk.com/states/iowa/constitution/art-III-sec-2",
+        "note": "Art. IV sec. 11 read at https://policyrisk.com/states/iowa/constitution/art-IV-sec-11; governor must state purpose to both houses."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-05-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-04-21"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-04-30"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (109 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-KS": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Petition signed by at least two-thirds of the members elected to each house; governor shall then call the session",
+        "limits": "None in constitution; state AG Opinion 87-92 says a proclamation cannot limit subject matter or set an end date.",
+        "cite": "Kan. Const. art. 1, sec. 5",
+        "url": "https://policyrisk.com/states/kansas/constitution/art-1-sec-5",
+        "note": "Also read Kansas Legislative Attorneys memo (June 2024) at https://kslegislature.gov/li_2024s/documents/SpecialSessionMemorandum_LegislativeProcedures_UpdatedJune2024.pdf"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-05-06"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-04-10",
+              "comments": [
+                "First adjournment March 27; reconvenes April 9 for veto session."
+              ]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-05-04"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (113 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-KY": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Proclamation must state subjects to be considered; no other subject may be considered. No day limit stated.",
+        "cite": "Ky. Const. sec. 80",
+        "url": "https://policyrisk.com/states/kentucky/constitution/art-1-sec-80",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-07",
+              "adjournAt": "2025-03-28"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-06",
+              "adjournAt": "2026-04-15",
+              "comments": ["Veto recess April 1–13."]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-05",
+              "adjournAt": "2027-03-26"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of January); adjournment is the 2025 session's length (80 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-LA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Presiding officers of both houses shall convene on written petition of a majority of the elected members of each house",
+        "limits": "Proclamation at least 7 days ahead stating objects, date and number of days; power to legislate limited to enumerated objects under penalty of nullity; session not to exceed 30 calendar days. Governor may also call an emergency session without notice (epidemic, enemy attack, public catastrophe).",
+        "cite": "La. Const. art. III, sec. 2(B)-(C)",
+        "url": "https://policyrisk.com/states/louisiana/constitution/art-III-sec-2",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-04-14",
+              "adjournAt": "2025-06-12"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-03-09",
+              "adjournAt": "2026-06-01"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-04-12",
+              "adjournAt": "2027-06-10"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of April); adjournment is the 2025 session's length (59 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-ME": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "On the call of the President of the Senate and Speaker of the House, with the consent of a majority of the Members of the Legislature of each political party, all Members having been first polled",
+        "limits": "No subject or day limit stated in the sections read.",
+        "cite": "Me. Const. art. V, pt. 1, sec. 13 (governor); art. IV, pt. 3, sec. 1 (legislature)",
+        "url": "https://lldc.mainelegislature.org/Open/Const/Versions/MeConst_2013.pdf",
+        "note": "Governor text read in the 2013 codification PDF; legislature text read in https://www.maine.gov/REVENUE/propertytax/propertytaxlaw/lawbook/me_constitution.pdf (undated, current-looking). Pending bills (LD 1331) not checked."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-06-18"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "NCSL lists Dec. 4, 2024 (convened), in recess until Jan. 8, 2025; regular business resumed Jan. 8, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-07",
+              "adjournAt": "2026-04-15"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-06-16"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "3 M.R.S. § 2: first regular session adjourns by the third Wednesday in June."
+          ]
+        }
+      }
+    },
+    "US-MD": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Governor must issue a proclamation convening an extraordinary session if a majority of the members elected to each house petition him; also joint proclamation of the Senate President and House Speaker under art. II, sec. 17(g) (veto-related; not fully read)",
+        "limits": "No subject or day limit stated in sections read.",
+        "cite": "Md. Const. art. II, sec. 16 (governor); art. III, sec. 14 (petition)",
+        "url": "https://msa.maryland.gov/msa/mdmanual/43const/html/03art3.html",
+        "note": "Art. II sec. 16 read at https://msa.maryland.gov/msa/mdmanual/43const/html/02art2.html"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-04-07"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "2026-04-13"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-04-12"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (89 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-MA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "General court may assemble 'at such other times as they shall judge necessary'; no procedure stated",
+        "limits": "Governor with advice of council may call it together sooner than its prorogation/adjournment if welfare requires; may prorogue not exceeding 90 days in a recess. No subject or day limit stated.",
+        "cite": "Mass. Const. pt. 2, ch. 2, sec. 1, art. V (governor); Amendments art. LXXII, sec. 1 (legislature)",
+        "url": "https://malegislature.gov/Laws/Constitution",
+        "note": "Read the full constitution page; art. LXXII appears in brackets as printed, so confirm it is the operative text."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-01",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": ["Meets throughout the year (NCSL asterisk)."]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-01",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-06",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Wednesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-MI": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "No bill may pass on subjects other than those expressly stated in governor's proclamation or submitted by special message. No day limit stated.",
+        "cite": "Mich. Const. art. V, sec. 15; art. IV, sec. 28",
+        "url": "https://policyrisk.com/states/michigan/constitution/art-V-sec-15",
+        "note": "Art. IV sec. 28 read at https://policyrisk.com/states/michigan/constitution/art-IV-sec-28"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-MN": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "No subject or day limit stated; regular session may not meet after the first Monday following the third Saturday in May.",
+        "cite": "Minn. Const. art. IV, sec. 12",
+        "url": "https://policyrisk.com/states/minnesota/constitution/art-IV-sec-12",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-05-19"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-02-17",
+              "adjournAt": "2026-05-18"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-05-17"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Minn. Const. art. IV, § 12: the legislature may not meet after the first Monday following the third Saturday in May."
+          ]
+        }
+      }
+    },
+    "US-MS": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Governor's proclamation states subjects; legislature may not act on other subjects except impeachments and examination of state officers' accounts, plus matters the governor submits in writing. Scheduled special sessions every four years (sec. 36) limited to 30 days unless governor extends.",
+        "cite": "Miss. Const. art. 5, sec. 121; art. 4, sec. 36",
+        "url": "https://policyrisk.com/states/mississippi/constitution/art-5-sec-121",
+        "note": "Art. 4 sec. 36 read at https://policyrisk.com/states/mississippi/constitution/art-4-sec-36"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-07",
+              "adjournAt": "2025-04-06"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-06",
+              "adjournAt": "2026-04-05"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-05",
+              "adjournAt": "2027-04-04"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of January); adjournment is the 2025 session's length (89 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-MO": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Petition filed with the secretary of state stating the purpose, signed by three-fourths of the members of the Senate and three-fourths of the members of the House (sec. 20(b))",
+        "limits": "Governor's proclamation must state specifically each matter; petition sessions are tied to the stated purpose. A 30-day automatic adjournment for petition sessions is reported by a web-search summary of the Missouri Blue Book but I did not read that text.",
+        "cite": "Mo. Const. art. IV, sec. 9 (governor); art. III, sec. 20(b) (petition)",
+        "url": "https://policyrisk.com/states/missouri/constitution/art-IV-sec-9",
+        "note": "Sec. 20(b) petition rule read as paraphrased in Missouri House resolution HCR 105: https://documents.house.mo.gov/billtracking/bills201/hlrbillspdf/5741H.01I.pdf ; the constitution text of sec. 20(b) itself was not retrieved."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-05-16"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-07",
+              "adjournAt": "2026-05-15",
+              "comments": ["Veto session September 16."]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-05-21"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (128 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-MT": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Written request of a majority of the members",
+        "limits": "No subject or day limit stated in sections read.",
+        "cite": "Mont. Const. art. V, sec. 6; art. VI, sec. 11",
+        "url": "https://policyrisk.com/states/montana/constitution/art-V-sec-6",
+        "note": "Art. VI sec. 11 read at https://policyrisk.com/states/montana/constitution/art-VI-sec-11"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "2025-05-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": false,
+          "tag": "SOURCED",
+          "sessions": [],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+          "comments": [
+            "Does not meet in regular session in even-numbered years (constitution); see regular-session-years rule. NCSL's 2026 calendar has no regular session for this legislature."
+          ]
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "2027-04-30"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of January); adjournment is the 2025 session's length (116 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-NE": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "Legislature shall enter upon no business except that for which it was called; governor must state purpose in proclamation. No day limit stated.",
+        "cite": "Neb. Const. art. IV, sec. 8",
+        "url": "https://policyrisk.com/states/nebraska/constitution/art-IV-sec-8",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-06-09"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-07",
+              "adjournAt": "2026-04-17"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-06-14"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (152 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-NV": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "Petition signed by two-thirds of the members elected to each house, transmitted to the Secretary of State, specifying business and convening date",
+        "limits": "Governor-called (art. 5 sec. 9): only business named in the call, 20 consecutive calendar days. Petition-called (art. 4 sec. 2A): only business in the petition, 20 consecutive calendar days, takes precedence over governor-called session unless petition says otherwise; both have listed exceptions to the 20-day rule not fully read.",
+        "cite": "Nev. Const. art. 5, sec. 9; art. 4, sec. 2A",
+        "url": "https://policyrisk.com/states/nevada/constitution/art-4-sec-2A",
+        "note": "Art. 5 sec. 9 read at https://policyrisk.com/states/nevada/constitution/art-5-sec-9"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-02-03",
+              "adjournAt": "2025-06-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": false,
+          "tag": "SOURCED",
+          "sessions": [],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+          "comments": [
+            "Does not meet in regular session in even-numbered years (constitution); see regular-session-years rule. NCSL's 2026 calendar has no regular session for this legislature."
+          ]
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-02-01",
+              "adjournAt": "2027-05-31"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of February); adjournment is the 2025 session's length (119 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-NH": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none stated for special sessions; Part II Art. 3 lets the houses meet 'at such other times as they may judge necessary' (no mechanism given)",
+        "limits": "none stated; NH Supreme Court says governor need not list business and no scope limit",
+        "cite": "N.H. Const. Pt. II, Art. 50 (governor, with council advice, if welfare of state requires); Pt. II, Art. 3",
+        "url": "https://caselaw.findlaw.com/court/nh-supreme-court/1351522.html",
+        "note": "Constitution text not read directly (gencourt/justia blocked); Art. 50 and Art. 3 wording taken from NH Supreme Court opinion and CACR10 bill summary (https://bills.nhliberty.org/bills/2023/CACR10/revision/43937). Art. 43 is prorogue/adjourn."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "NCSL lists the legislature as meeting throughout the year."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-07",
+              "adjournAt": "2026-06-30"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-NJ": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "governor must call on petition of a majority of all members of each house",
+        "limits": null,
+        "cite": "N.J. Const. art. IV, § I, ¶ 4; art. V, § I, ¶ 12",
+        "url": "https://www.njleg.state.nj.us/constitution",
+        "note": "Also governor may convene the Legislature or Senate alone whenever public interest requires. No day or subject limit seen."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Tuesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-NM": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "three-fifths of members of each house certify an emergency; governor must convene extraordinary session within 5 days, else legislature may convene itself up to 30 days (unless impeachment pending)",
+        "limits": "session limited to subjects in governor's proclamation (per NM AG opinion, secondary); 30 days if self-convened",
+        "cite": "N.M. Const. art. IV, § 6",
+        "url": "https://50constitutions.org/nm/constitution/section-amendment-id-56204",
+        "note": "Read via 50constitutions.org summary of 1948 text; 2021 HJR1/SJR20 amendments were only proposals, adoption not confirmed."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-21",
+              "adjournAt": "2025-03-22"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-20",
+              "adjournAt": "2026-02-19"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-19",
+              "adjournAt": "2027-03-20"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the third Tuesday of January); adjournment is the 2025 session's length (60 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-NY": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "at extraordinary sessions only subjects the governor recommends may be acted on",
+        "cite": "N.Y. Const. art. IV, § 3",
+        "url": "https://www.nysenate.gov/legislation/laws/CNS/A4S3",
+        "note": "Governor may convene legislature or senate only on extraordinary occasions. Legislature self-call not found in constitution text read."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-07",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-NC": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "presiding officers must convene by joint proclamation on written requests from three-fifths of the members of each house",
+        "limits": "governor's call (with advice of Council of State, extraordinary occasions) must state purposes; legislative call has no stated subject or day limit",
+        "cite": "N.C. Const. art. III, § 5(7); art. II, § 11(2)",
+        "url": "https://www.ncleg.gov/Laws/Constitution/Article2",
+        "note": "Art. III § 5(7) read at https://www.ncleg.gov/Laws/Constitution/Article3"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-04-21",
+              "adjournAt": "2026-07-31",
+              "comments": [
+                "The 2026 session begins April 21; prior 2025 dates in the table are not 2026 convening dates."
+              ]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-ND": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "no stated limit; days in special session at governor's call do not count toward the 80-day regular limit",
+        "cite": "N.D. Const. art. V, § 7; art. IV, § 7",
+        "url": "https://ndlegis.gov/constit/a05.pdf",
+        "note": "Art. IV text at https://ndlegis.gov/constit/a04.pdf"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-07",
+              "adjournAt": "2025-05-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": false,
+          "tag": "SOURCED",
+          "sessions": [],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+          "comments": [
+            "Does not meet in regular session in even-numbered years (constitution); see regular-session-years rule. NCSL's 2026 calendar has no regular session for this legislature."
+          ]
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-05",
+              "adjournAt": "2027-04-30"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of January); adjournment is the 2025 session's length (115 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-OH": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "presiding officers (Senate president and House speaker) jointly may call; no member petition share",
+        "limits": "business limited to purpose in proclamation plus governor's later additions; call may limit purpose",
+        "cite": "Ohio Const. art. III, § 8; art. II, § 8",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-3.8",
+        "note": "Art. II § 8 at https://codes.ohio.gov/ohio-constitution/section-2.8"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-05",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-OK": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "no subject may be acted on except those the governor recommends",
+        "cite": "Okla. Const. art. VI, § 7",
+        "url": "https://law.justia.com/constitution/oklahoma/VI-7.html",
+        "note": "Justia page returned 403; wording from search-result quotation of that page and governor's executive orders. 2021 HJR1024 proposed changes; adoption not confirmed."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-02-03",
+              "adjournAt": "2025-05-30"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-02-02",
+              "adjournAt": "2026-05-29"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-02-01",
+              "adjournAt": "2027-05-28"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Okla. Const. art. V, § 26: adjourns sine die by 5:00 p.m. on the last Friday in May."
+          ]
+        }
+      }
+    },
+    "US-OR": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "in an emergency, presiding officers of both houses must convene on written request of a majority of the members of each house, to begin within 5 days",
+        "limits": "governor must state purpose when houses assemble; emergency session has no stated subject or day limit",
+        "cite": "Or. Const. art. V, § 12; art. IV, § 10a",
+        "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-21",
+              "adjournAt": "2025-06-29"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-02-02",
+              "adjournAt": "2026-03-06"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-19",
+              "adjournAt": "2027-06-27"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the third Tuesday of January); adjournment is the 2025 session's length (159 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-PA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "governor must call on petition of a majority of members elected to each house; no self-call",
+        "limits": "no legislation on subjects other than those designated in governor's proclamation",
+        "cite": "Pa. Const. art. II, § 4; art. III, § 12",
+        "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.HTM",
+        "note": "Governor may also call whenever in his opinion public interest requires."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-07",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-06",
+              "adjournAt": "2026-11-30"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-05",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-RI": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": null,
+        "cite": "R.I. Const. art. IX, § 7; art. VI, § 3",
+        "url": "https://rilegislature.gov/riconstitution/Constitution/C09.aspx",
+        "note": "Governor may convene on extraordinary occasions at any town or city. No legislative self-call or limit found in Art. VI text read."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-07",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-06",
+              "adjournAt": "2026-06-30"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-05",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Tuesday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-SC": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": null,
+        "cite": "S.C. Const. art. IV, § 19",
+        "url": "https://www.scstatehouse.gov/sess126_2025-2026/sj26/20260515.htm",
+        "note": "Official constitution page not reachable; section number and 'extraordinary occasions' wording from governor's 2026 executive order and legislative journals. Legislature=none from NCSL governor-only list seen in a search summary, not read directly."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-06-05"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-05-07"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-06-03"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Tuesday of January); adjournment is the 2025 session's length (142 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-SD": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "presiding officers of both houses may convene upon written request of two-thirds of the members of each house",
+        "limits": "only business encompassed by the stated purposes; no stated day limit or cap on number of sessions",
+        "cite": "S.D. Const. art. IV, § 3; art. III, § 31",
+        "url": "https://mylrc.sdlegislature.gov/api/Documents/221169.pdf",
+        "note": "Read in SD Legislative Research Council memo quoting both sections."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-03-31"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-03-30",
+              "comments": ["Veto day March 30."]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-03-29"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Tuesday of January); adjournment is the 2025 session's length (76 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-TN": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "presiding officers of both houses convene at written request of two-thirds of the members of each house",
+        "limits": "governor's call limited to purposes stated in proclamation (art. III § 9, per secondary source); no day limit found",
+        "cite": "Tenn. Const. art. II, § 8; art. III, § 9",
+        "url": "https://mtas.tennessee.edu/reference/provisions-tennessee-constitution",
+        "note": "Art. II § 8 read via MTAS reproduction; art. III § 9 limit from search summary of 50constitutions.org, not read directly."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-04-30"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "2026-04-24"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-04-28"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Tuesday of January); adjournment is the 2025 session's length (106 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-TX": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "30 days maximum; legislation only on subjects designated in governor's proclamation or presented by governor",
+        "cite": "Tex. Const. art. IV, § 8(a); art. III, § 40",
+        "url": "https://www.sll.texas.gov/assets/pdf/braden/13-article-iii.pdf",
+        "note": "Art. III § 40 read at that URL. Art. IV § 8(a) wording read in bill text quoting existing section: https://capitol.texas.gov/tlodocs/77R/billtext/html/HJ00045I.htm. Legislature=none from NCSL governor-only list in search summary."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-06-02"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": false,
+          "tag": "SOURCED",
+          "sessions": [],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+          "comments": [
+            "Does not meet in regular session in even-numbered years (constitution); see regular-session-years rule. NCSL's 2026 calendar has no regular session for this legislature."
+          ]
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-05-31"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Tex. Const. art. III, § 5 and § 24(b); Tex. Gov't Code § 301.001: regular session opens the second Tuesday in January of odd years and may not exceed 140 days."
+          ]
+        }
+      }
+    },
+    "US-UT": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "presiding officers jointly convene if a poll shows two-thirds of members elected to each house favor it (persistent fiscal crisis, war, disaster or emergency)",
+        "limits": "governor's call: only stated purpose plus other business governor raises; 48 hours public notice unless emergency or 2/3 of each house concur. Legislative call: only business in joint proclamation, not within 30 days after sine die, appropriations capped at 1% of prior-year total",
+        "cite": "Utah Const. art. VII, § 6; art. VI, § 2(3)",
+        "url": "https://le.utah.gov/xcode/ArticleVII/UC_AVII_S6_1800010118000101.html",
+        "note": "Art. VI § 2 text (effective 1/1/2021) at https://le.utah.gov/xcode/Articlevi/UC_AVI_S2_2020051220210101.pdf"
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-21",
+              "adjournAt": "2025-03-07"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-20",
+              "adjournAt": "2026-03-06"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-19",
+              "adjournAt": "2027-03-05"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Utah Const. art. VI, § 2 and Utah Code § 36-3-101: the general session opens on the third Monday in January (Martin Luther King Jr. Day in 2027), so business begins Tuesday, Jan. 19; it lasts 45 calendar days."
+          ]
+        }
+      }
+    },
+    "US-VT": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": null,
+        "cite": "Vt. Const. ch. II, § 20",
+        "url": "https://sos.vermont.gov/vsara/learn/general-assembly/special-sessions",
+        "note": "Governor may call General Assembly together 'when necessary' before the day to which it stands adjourned; wording read on VT State Archives page, not constitution page. Legislature=none from NCSL governor-only list in search summary."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-05-09"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-06",
+              "adjournAt": "2026-05-08"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-05-14"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (121 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-VA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "governor must convene upon application of two-thirds of the members elected to each house",
+        "limits": null,
+        "cite": "Va. Const. art. IV, § 6",
+        "url": "https://law.lis.virginia.gov/constitution/article4/section6/",
+        "note": "Governor may also convene when interest of Commonwealth requires. No day or subject limit in text read."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-08",
+              "adjournAt": "2025-02-22"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "2026-03-14",
+              "comments": [
+                "Veto session April 22 is separate from the regular session."
+              ]
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-13",
+              "adjournAt": "2027-02-27"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of January); adjournment is the 2025 session's length (45 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-WA": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "resolution adopted by two-thirds of members elected or appointed to each house",
+        "limits": "30 consecutive days; legislature's resolution must state purposes and session considers only germane measures unless 2/3 of each house adds purposes; governor's stated purposes are advisory",
+        "cite": "Wash. Const. art. II, § 12(2); art. III, § 7",
+        "url": "https://leg.wa.gov/state-laws-and-rules/washington-state-constitution/?showall=true",
+        "note": "Art. III § 7: governor may on extraordinary occasions convene legislature by proclamation stating purposes."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-04-27"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-03-12"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-04-25"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Monday of January); adjournment is the 2025 session's length (104 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-WV": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "governor must convene on written application of three-fifths of members elected to each house",
+        "limits": "governor-convened session enters on no business except that stated in the proclamation",
+        "cite": "W. Va. Const. art. VI, § 19; art. VII, § 7",
+        "url": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-02-12",
+              "adjournAt": "2025-04-12"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "Organization day Jan. 8, 2025; in recess until Feb. 12, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-14",
+              "adjournAt": "2026-03-14"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-02-10",
+              "adjournAt": "2027-04-10"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Wednesday of February); adjournment is the 2025 session's length (59 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-WI": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "when convened by governor, no business except as necessary for the special purposes of the call",
+        "cite": "Wis. Const. art. V, § 4; art. IV, § 11",
+        "url": "https://docs.legis.wisconsin.gov/document/wisconsinconstitution/IV",
+        "note": "Art. IV § 11 says legislature meets at times provided by law, so legislative-call rules sit in statute/rules, not read here."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the first Monday of January); it meets throughout the year."
+          ]
+        }
+      }
+    },
+    "US-WY": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "legislature may convene a special session on its own call; a 2021 governor proclamation describes this as written request of a majority of elected members of each house (mechanism text not read)",
+        "limits": "legislature-called special session not to last longer than 20 working days",
+        "cite": "Wyo. Const. art. 3, § 7(a)",
+        "url": "https://www.wyoleg.gov/2019/Introduced/HJ0006.pdf",
+        "note": "Read existing text via LSO bill showing 'convened by the governor or upon call of the legislature as herein provided' and 20 working days; the 'as follows' mechanism was cut off. Majority share is from a search summary of a proclamation."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-14",
+              "adjournAt": "2025-03-06"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-02-09",
+              "adjournAt": "2026-03-11"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-12",
+              "adjournAt": "2027-03-04"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening follows the same rule as 2025 (the second Tuesday of January); adjournment is the 2025 session's length (51 days) counted from the 2027 convening date."
+          ]
+        }
+      }
+    },
+    "US-DC": {
+      "specialSession": {
+        "governor": null,
+        "legislature": "Council Chairman may call additional legislative meetings; any 2 members may request a special legislative meeting and, if Chairman does not call it within 3 business days, a majority of Councilmembers may notice it (48 hours)",
+        "limits": "only matters stated in the request and notice may be considered at additional or special legislative meetings",
+        "cite": "Council of the District of Columbia Rules of Organization and Procedure (Council Period 26), Rule 303",
+        "url": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+        "note": "Home Rule Act (D.C. Code 1-204.11, .12) has no special-session power for Mayor; § 1-204.10 not readable. Mayor power therefore unconfirmed (null)."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-02",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "The Council's 2025-2026 legislative period begins Jan. 2, 2025."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-02",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-02",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "dc",
+          "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.11",
+          "comments": [
+            "D.C. Official Code § 1-204.11: the new legislative period begins January 2 of the odd-numbered year (a Saturday in 2027; the Council's first meeting follows)."
+          ]
+        }
+      }
+    },
+    "US-AS": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "governor's call sets start time and number of days; no fixed maximum",
+        "cite": "Rev. Const. of American Samoa art. II, § 8",
+        "url": "https://faolex.fao.org/docs/pdf/ams72562.pdf",
+        "note": "Article number from Ballotpedia/search summary; PDF shows 'Section 8. Legislative sessions'."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-03-17"
+            },
+            {
+              "conveneAt": "2025-07-14",
+              "adjournAt": "2025-09-15"
+            }
+          ],
+          "source": "americanSamoa",
+          "sourceUrl": "https://asbar.org/revised-constitution-of-american-samoa/",
+          "comments": [
+            "Two regular sessions begin the second Monday in January and July (art. II, § 8); adjournment is estimated from the 45-legislative-day limit (63 calendar days). NCSL lists Jan. 8, adjournment TBD."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-03-16",
+              "comments": [
+                "Estimated from the constitutional limit of 45 legislative days; the calendar-day adjournment is not reported by NCSL."
+              ]
+            },
+            {
+              "conveneAt": "2026-07-13",
+              "adjournAt": "2026-09-14",
+              "comments": [
+                "Estimated from the constitutional limit of 45 legislative days; the calendar-day adjournment is not reported by NCSL."
+              ]
+            }
+          ],
+          "source": "americanSamoa",
+          "sourceUrl": "https://asbar.org/revised-constitution-of-american-samoa/"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-03-15"
+            },
+            {
+              "conveneAt": "2027-07-12",
+              "adjournAt": "2027-09-13"
+            }
+          ],
+          "source": "americanSamoa",
+          "sourceUrl": "https://asbar.org/revised-constitution-of-american-samoa/",
+          "comments": [
+            "Two regular sessions begin the second Monday in January and July (art. II, § 8); adjournment is estimated from the 45-legislative-day limit (63 calendar days)."
+          ]
+        }
+      }
+    },
+    "US-GU": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "no legislation other than that specified in the call or governor's special message; no day limit stated",
+        "cite": "Organic Act of Guam, 48 U.S.C. § 1423h",
+        "url": "https://www.govinfo.gov/link/uscode/48/1423h",
+        "note": "Governor may call when in his opinion public interest may require."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-06",
+              "adjournAt": "2026-01-05"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf",
+          "comments": [
+            "Guam's regular session runs from the first Monday in January until the day before the next regular session (2 G.C.A. § 1101)."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-05",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "guam",
+          "sourceUrl": "https://www.guamcourts.org/CompilerofLaws/GCA/02gca/2gc001.PDF"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-04",
+              "adjournAt": "2028-01-02"
+            }
+          ],
+          "source": "guam",
+          "sourceUrl": "https://www.guamcourts.org/CompilerofLaws/GCA/02gca/2gc001.PDF",
+          "comments": [
+            "2 G.C.A. § 1101: the regular session begins on the first Monday in January and continues until the day before the next regular session (Jan. 3, 2028)."
+          ]
+        }
+      }
+    },
+    "US-MP": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "a house may be convened by its presiding officer",
+        "limits": "not more than 10 consecutive days; when convened by governor, only subjects described in the call",
+        "cite": "N. Mar. I. Const. art. II, § 13",
+        "url": "https://cnmileg.net/resources/files/constitutionarticleii.pdf",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "northernMarianaIslands",
+          "sourceUrl": "https://cnmilaw.gov/constitution/",
+          "comments": [
+            "NCSL lists Jan. 13, 2025 with adjournment TBD; the Legislature is a continuous body for its two-year term (CNMI Const. art. II, § 13)."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "full-year",
+              "comments": [
+                "NCSL lists both 2026 dates as TBD. The constitution makes the Legislature a continuous body for the two-year term; this row carries the 25th Legislature organized after the 2024 election into 2026."
+              ]
+            }
+          ],
+          "source": "northernMarianaIslands",
+          "sourceUrl": "https://cnmilaw.gov/constitution/"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "northernMarianaIslands",
+          "sourceUrl": "https://cnmilaw.gov/constitution/",
+          "comments": [
+            "CNMI Const. art. II, § 13: the Legislature convenes on the second Monday in January and is a continuous body for the two-year term."
+          ]
+        }
+      }
+    },
+    "US-PR": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none for general sessions (presiding officers must convene chambers for impeachment trials on written request of two-thirds of House members)",
+        "limits": "only matters in the call or governor's special message; not more than 20 calendar days",
+        "cite": "P.R. Const. art. IV, § 4; art. III, § 10; art. III, § 21",
+        "url": "https://www.lexjuris.com/lexprcont.htm",
+        "note": "Read in Spanish original; § 21 numbering from text ('sección 21')."
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "2025-06-30"
+            },
+            {
+              "conveneAt": "2025-08-18",
+              "adjournAt": "2025-11-18"
+            }
+          ],
+          "source": "puertoRico",
+          "sourceUrl": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/",
+          "comments": [
+            "2 L.P.R.A. § 1a: the first session runs from the second Monday in January to June 30; the second from the third Monday in August to the Tuesday before the third Thursday in November. NCSL lists Jan. 13 to Nov. 14."
+          ]
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "2026-06-30"
+            },
+            {
+              "conveneAt": "2026-08-17",
+              "adjournAt": "2026-11-17",
+              "comments": [
+                "The second session adjourns on the Tuesday before the third Thursday in November, from 2 L.P.R.A. § 1a."
+              ]
+            }
+          ],
+          "source": "puertoRico",
+          "sourceUrl": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "2027-06-30"
+            },
+            {
+              "conveneAt": "2027-08-16",
+              "adjournAt": "2027-11-16"
+            }
+          ],
+          "source": "puertoRico",
+          "sourceUrl": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/",
+          "comments": ["2 L.P.R.A. § 1a applied to 2027."]
+        }
+      }
+    },
+    "US-VI": {
+      "specialSession": {
+        "governor": true,
+        "legislature": "none",
+        "limits": "no legislation other than that specified in the call or governor's special message; 1968 amendment removed earlier 15-day and 30-day caps",
+        "cite": "Revised Organic Act of the Virgin Islands, 48 U.S.C. § 1573(a)",
+        "url": "https://www.govinfo.gov/link/uscode/48/1573",
+        "note": null
+      },
+      "years": {
+        "2025": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2025-01-13",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2025",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025.pdf"
+        },
+        "2026": {
+          "meets": true,
+          "tag": "SOURCED",
+          "sessions": [
+            {
+              "conveneAt": "2026-01-12",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "ncsl2026",
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+        },
+        "2027": {
+          "meets": true,
+          "tag": "ESTIMATED",
+          "sessions": [
+            {
+              "conveneAt": "2027-01-11",
+              "adjournAt": "full-year"
+            }
+          ],
+          "source": "rule2027",
+          "sourceUrl": "",
+          "comments": [
+            "Convening on the second Monday in January, as in 2025 and 2026; the legislature meets throughout the year (NCSL asterisk)."
+          ]
+        }
+      }
+    }
+  },
+  "sessionEnds": {
+    "US-AL": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-05-14"],
+          "sourceUrl": "https://stateandfed.com/?p=58523",
+          "quote": "The Alabama Legislature adjourned sine die May 14 amid a lengthy filibuster.",
+          "readAt": "2026-10-25"
+        },
+        "2026": {
+          "dates": ["2026-04-09"],
+          "sourceUrl": "https://www.legislature.state.al.us/",
+          "quote": "2026 Regular Session adjourned on April 9th, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-AR": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 4,
+            "weekday": 3,
+            "nth": 2
+          },
+          "lastDayAfterStart": 29
+        }
+      ],
+      "cite": "Ark. Const. art. 5, §§ 5, 17",
+      "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
+      "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-05-05"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "may reconvene for veto overrides anytime before sine die 5/5/25",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-04-29"],
+          "sourceUrl": "https://www.arkleg.state.ar.us/",
+          "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-AS": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        },
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 7,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        },
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 7,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        }
+      ],
+      "cite": "Rev. Const. of American Samoa art. II, § 8",
+      "source": "https://asbar.org/revised-constitution-of-american-samoa/",
+      "note": "Two regular sessions a year, opening on the second Monday in January and in July, each to last 45 days. Whether those are calendar days was not read; the game counts calendar days."
+    },
+    "US-AZ": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Ariz. Const. art. 4, pt. 2, § 3",
+      "source": "https://www.azleg.gov/const/4/3.p2.htm",
+      "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-06-27"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Arizona Jan. 13 June 27",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-06-13"],
+          "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
+          "quote": "Adjourned Sine Die: June 13, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-DC": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "The Council meets year-round; this date only anchors the estimated rule."
+    },
+    "US-FL": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 3,
+            "weekday": 1,
+            "nth": 1,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 1,
+            "plusDays": 8
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "cite": "Fla. Const. art. III, § 3(b), (d)",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-06-16"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Florida Mar. 4 June 16",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-03-13"],
+          "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
+          "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-HI": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-05-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Hawaii Jan. 15 May 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-05-08"],
+          "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
+          "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-ID": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Idaho Const. art. III, § 8(1)",
+      "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
+      "note": "Sets only the opening day; no limit on length was found.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-04-04"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Idaho Jan. 6 April 4",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-04-02"],
+          "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
+          "quote": "adjourned Sine Die on April 02, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-KS": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-04-11"],
+          "sourceUrl": "https://kssos.org/publications/sessionlaws/2025/Chapter-138-HCR-5018.html",
+          "quote": "That the Legislature shall adjourn sine die at the close of business of the daily session convened on April 11, 2025",
+          "readAt": "2026-10-25"
+        },
+        "2026": {
+          "dates": ["2026-04-10"],
+          "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
+          "quote": "The Legislature having adjourned sine die on April 10, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-KY": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 3,
+            "day": 30
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 4,
+            "day": 15
+          }
+        }
+      ],
+      "cite": "Ky. Const. § 42",
+      "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+      "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-03-28"],
+          "sourceUrl": "https://apps.legislature.ky.gov/RECORD/25rs/HCR92.html",
+          "quote": "adjourning the 2025 Regular Session of the General Assembly sine die",
+          "readAt": "2026-10-25"
+        },
+        "2026": {
+          "dates": ["2026-04-15"],
+          "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
+          "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-ME": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 6,
+            "weekday": 3,
+            "nth": 3
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 4,
+            "weekday": 3,
+            "nth": 3
+          }
+        }
+      ],
+      "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
+      "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
+      "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-03-21", "2025-06-25"],
+          "sourceUrl": "https://legislature.maine.gov/house/",
+          "quote": "The First Regular Session of the 132nd Legislature adjourned SINE DIE on Friday, March 21, 2025 at 12:26 AM. ... The First Special Session of the 132nd Legislature convened on Tuesday, March 25, 2025 at 10:00 AM. ... The First Special Session of the 132nd Legislature adjourned SINE DIE on Wednesday, June 25, 2025 at 5:31 PM.",
+          "readAt": "2026-10-25"
+        },
+        "2026": {
+          "dates": ["2026-04-29"],
+          "sourceUrl": "https://legislature.maine.gov/house/",
+          "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-MI": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Mich. Const. art. IV, § 13",
+      "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
+      "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
+    },
+    "US-MO": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        }
+      ],
+      "cite": "Mo. Const. art. III, § 20(a)",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
+      "note": "The regular session adjourns on May 30 each year."
+    },
+    "US-NC": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "N.C. Const. art. II, § 11(1)",
+      "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
+      "note": "The session adjourns by resolution; no end date or limit on length."
+    },
+    "US-NE": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Neb. Const. art. III, § 10",
+      "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+      "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-06-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Nebraska Jan. 8 June 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-04-17"],
+          "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
+          "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-NM": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 3
+          },
+          "lastDayAfterStart": 60
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 3
+          },
+          "lastDayAfterStart": 30
+        }
+      ],
+      "cite": "N.M. Const. art. IV, § 5(A)",
+      "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
+      "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-03-22"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "New Mexico Jan. 21 March 22",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-02-19"],
+          "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
+          "quote": "2026 ... February 19 Session ends (noon)",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-OK": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "weekday": 5,
+            "nth": -1
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "weekday": 5,
+            "nth": -1
+          }
+        }
+      ],
+      "cite": "Okla. Const. art. V, § 26",
+      "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
+      "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-05-30"],
+          "sourceUrl": "https://www.kjrh.com/news/local-news/sine-die-oklahoma-legislature-wraps-up-for-2025",
+          "quote": "The 2025 Oklahoma legislative session ended in the early morning hours of May 30.",
+          "readAt": "2026-10-25"
+        },
+        "2026": {
+          "dates": ["2026-05-14"],
+          "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
+          "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-TX": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 2
+          },
+          "lastDayAfterStart": 139
+        }
+      ],
+      "evenYear": [],
+      "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
+      "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+      "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-06-02"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Texas Jan. 14 June 2",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        }
+      }
+    },
+    "US-UT": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 3,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 45
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 3,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 45
+        }
+      ],
+      "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
+      "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
+      "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-03-07"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Utah Jan. 21 March 7",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-03-06"],
+          "sourceUrl": "https://le.utah.gov/",
+          "quote": "2026 General Session January 20, 2026 to March 6, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-WA": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 104
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
+      "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-04-27"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Washington Jan. 13 April 27",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-03-12"],
+          "sourceUrl": "https://leg.wa.gov/",
+          "quote": "The 2026 Regular Session adjourned sine die on March 12",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-WY": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Wyo. Const. art. 3, § 6",
+      "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+      "note": "The limit is 40 legislative working days a year, which are not calendar days.",
+      "adjourned": {
+        "2025": {
+          "dates": ["2025-03-06"],
+          "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2025dec22.pdf",
+          "quote": "Wyoming Jan. 14 March 6",
+          "readAt": "2026-10-25",
+          "note": "NCSL 2025 Legislative Session Calendar (updated December 22, 2025); its gray fill marks a session adjourned sine die."
+        },
+        "2026": {
+          "dates": ["2026-03-11"],
+          "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
+          "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
+          "readAt": "2026-09-29"
+        }
+      }
+    }
+  }
+}

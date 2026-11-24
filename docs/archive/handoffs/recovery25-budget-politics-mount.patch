@@ -1,0 +1,100 @@
+diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
+index da080d54..16e47ca8 100644
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -165,6 +165,7 @@ import {
+   WorkspaceFrame,
+ } from "./ShellWorkspaces";
+ import { PlayerVersion } from "./PlayerVersion";
++import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
+
+ /**
+  * The game.
+@@ -2074,6 +2075,14 @@ function PlayingScreen({
+       open: openSurface === "news",
+       group: "world",
+     });
++    entries.push({
++      surface: "politics",
++      label: "Budget & economy",
++      hint: "Public budget records and dated economic context",
++      testid: "nav-politics-budget",
++      open: openSurface === "politics",
++      group: "politics",
++    });
+     entries.push({
+       surface: "journal",
+       label: "Journal",
+@@ -2887,6 +2896,26 @@ function renderWorkspace({
+         </>,
+       );
+
++    case "politics": {
++      const homeJurisdictionId =
++        session.world.people[session.personId]?.homeJurisdictionId;
++      return frame(
++        "Politics",
++        "politics-workspace",
++        homeJurisdictionId ? (
++          <BudgetEconomyWorkspace
++            world={session.world}
++            jurisdictionId={homeJurisdictionId}
++          />
++        ) : (
++          <p className="game-note" role="status">
++            This life has no home jurisdiction to inspect.
++          </p>
++        ),
++        "Budget & economy",
++      );
++    }
++
+     case "journal":
+       return frame(
+         "Journal",
+diff --git a/src/player/ShellNav.tsx b/src/player/ShellNav.tsx
+index 59cf08fd..ad6edc99 100644
+--- a/src/player/ShellNav.tsx
++++ b/src/player/ShellNav.tsx
+@@ -91,17 +91,19 @@ export interface ShellDestination {
+ /**
+  * The menu's headings, in the order they are read.
+  *
+- * Twelve destinations in one column made "the day", "the room" and "life
++ * A long ungrouped destination column made "the day", "the room" and "life
+  * scenes" read as three names for one place and hid the real ones among them.
+  * Grouped, the column says what kind of thing each entry is before the player
+  * reads its name: what to do with the time, the people and places of the
+  * world, the character's own record, and the game itself.
+  */
+-export type ShellDestinationGroup = "now" | "world" | "you" | "game";
++export type ShellDestinationGroup =
++  "now" | "world" | "politics" | "you" | "game";
+
+ const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
+   now: "Your time",
+   world: "People and places",
++  politics: "Politics",
+   you: "You",
+   game: "Game",
+ };
+@@ -109,6 +111,7 @@ const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
+ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
+   "now",
+   "world",
++  "politics",
+   "you",
+   "game",
+ ];
+diff --git a/src/presentation/shell-navigation.ts b/src/presentation/shell-navigation.ts
+index 5cd8c3ab..008af807 100644
+--- a/src/presentation/shell-navigation.ts
++++ b/src/presentation/shell-navigation.ts
+@@ -58,6 +58,7 @@ export type ShellSurface =
+   | "calendar"
+   | "personal"
+   | "work"
++  | "politics"
+   | "news"
+   | "places"
+   | "municipal"

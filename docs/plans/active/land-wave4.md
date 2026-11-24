@@ -1,0 +1,36 @@
+# LAND-WAVE4 landing manifest
+
+Status: active. This manifest records the finite accepted-work landing sequence
+authorized by FINISH-WAVE4 section A. It does not grant semantic, editorial, or
+visual acceptance beyond the independent decisions named below.
+
+## Sequence
+
+| Order | PR   | Accepted input head                        | State                                                                                                                                                                                             |
+| ----- | ---- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | #90  | `8d59622214c60a71aa8a642f344955d4419e8665` | landed from candidate `1f5cec619b1a42b201021ccbba4807dfa6bec036`; merge/main `fe235bddd2f4496d7b3eebad6ed1a8597d8d81cc`                                                                           |
+| 2     | #132 | `ca468153a765d35ea9b250be19a96856ba93853d` | landed from candidate `a18d31cebaa01f3a1b211a2cedd6d4830686b4d4`; merge/main `fc8a4c8d7beec1d82ba049b4d091c260e7de4d7e`                                                                           |
+| 3     | #139 | `2fa21d77586955a615e164e00c8c083266bda17b` | landed from candidate `fde9f51d81efd538b1c974dd60044354905a236a`; merge/main `a41921a863c68a13e73cf4f013017ffe8e956c24`                                                                           |
+| 4     | #129 | `39d60da9f916a5f82db3a33b1dd8ebcfe0b36170` | W-1 head `fee335796dfe7e2787a9b8063410c7540a563233` independently passed; landed from candidate `c9693c5d8ac667cc1a353dc75bde3ae39f068426`; merge/main `51728148fa5ffa3e73155f6ad3acfcfc03a2b8fc` |
+| 5     | #135 | `cd90ef187e80e417ccade95582f16a26dddded32` | retargeted to main after #129 landed; composed with main `51728148fa5ffa3e73155f6ad3acfcfc03a2b8fc`; current-tree gates pending                                                                   |
+
+## Preserved gates
+
+- #90, #132, and #139 carry independent technical READY verdicts and successful
+  exact-head validation recorded by ACCEPT-WAVE3.
+- #129 retains its accepted P2R2 runtime semantics and original
+  `pr79-ordinary-baseline` seed. W-1 concerns only whether the regression
+  control independently distinguishes valid initialization identity movement
+  from wording changes.
+- #135 retains its independently cleared campaign clock repair and recorded
+  nonblocking caveats. Mergeability into #129 is not main readiness.
+- No merge uses administrator bypass, force-push, branch deletion, release
+  activation, or self-authored semantic acceptance.
+
+## Completion rule
+
+For each entry, refresh the live PR head and main, preserve the accepted input
+in the composed tree, run the required changed-seam and repository gates, then
+perform an ordinary merge commit with the exact expected head. Fetch the new
+main before beginning the next entry. Move this plan to `completed/` only after
+the finite sequence ends or record an exact unresolved gate.

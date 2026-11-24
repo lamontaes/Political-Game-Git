@@ -1,0 +1,36 @@
+{
+ "town": "santa-rita",
+ "replay": "6f539fcfdf6d96f9-5",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=6f539fcfdf6d96f9-5&date=&placeKey=territory%3AGU%3Asanta-rita&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-slim%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22plum%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22charcoal%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D",
+ "place": "Santa Rita, Guam",
+ "player": "person_83ed6c2dbcf3de6e",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/house-suburban-living__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$629\nHOME\nOWNED\nHouse",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "Ella Carter\nmother",
+   "text": "Ella Carter\n\nMother \u00b7 Age 57\n\nLives with you\n\nShe keeps to herself. She would rather find common ground than fight. When she says she'll do something, she does it.\n\nHOME\nSanta Rita, Guam\nHISTORY\n1967\n\nBorn in Santa Rita, Guam.\n\n2006\n\nStarted work at Byrd's Kitchen.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Liam Carter\nfather",
+   "text": "Liam Carter\n\nFather \u00b7 Age 54\n\nLives with you\n\nHe thinks things through before acting. When he says he'll do something, he does it. He doesn't back down from a fight.\n\nHOME\nSanta Rita, Guam\nHISTORY\n1970\n\nBorn in Santa Rita, Guam.\n\n2006\n\nStarted work at Williamson Supply Company.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Steven Shaffer\nuncle",
+   "text": "Steven Shaffer\n\nUncle \u00b7 Age 60\n\nWhen he says he'll do something, he does it. He thinks things through before acting. He loves being around people.\n\nHISTORY\n1964\n\nBorn."
+  },
+  {
+   "label": "Lisa Norris\naunt",
+   "text": "Lisa Norris\n\nAunt \u00b7 Age 57\n\nShe acts on impulse. She keeps to herself. She lets things slip.\n\nHISTORY\n1967\n\nBorn."
+  },
+  {
+   "label": "Ronnie Thompson\ngrandfather",
+   "text": "Ronnie Thompson\n\nGrandfather \u00b7 Age 75\n\nHe thinks things through before acting. When he says he'll do something, he does it. He plays it safe.\n\nHISTORY\n1949\n\nBorn.\n\n1967\n\nElla Carter was born."
+  }
+ ]
+}

@@ -1,0 +1,180 @@
+[
+  {
+    "id": "ak-2025-hb57-bsa-increase",
+    "jurisdiction": "Alaska",
+    "level": "state",
+    "session": "34th Legislature, 2025",
+    "bill_number": "HB 57",
+    "law_citation": null,
+    "short_title": "Public school funding (base student allocation) increase",
+    "enacted_date": "2025-05-20",
+    "enactment_path": "veto overridden (46-14 joint session)",
+    "effective_dates": [],
+    "official_text_url": "https://www.akleg.gov/basis/Bill/Detail/34?Root=HB%2057",
+    "aggregator_url": "https://legiscan.com/AK/bill/HB57/2025",
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "School funding",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": ["mandate/regulation"],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Permanently raises the per-student base amount in the school funding formula.",
+        "numbers": [
+          {
+            "value": 700,
+            "unit": "USD per student",
+            "text": "700 USD per student"
+          },
+          {
+            "value": 183000000,
+            "unit": "USD per year approx",
+            "text": "183000000 USD per year approx"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Districts must adopt policies restricting student cellphone use."
+      },
+      {
+        "kind": "grant-program",
+        "description": "Creates a reading-improvement grant program and expands career and technical education."
+      },
+      {
+        "kind": "appeal-right",
+        "description": "Charter school applicants get a new appeal path to the state.",
+        "inferred": true
+      },
+      {
+        "kind": "veto-override",
+        "description": "Enacted over the governor's veto by a three-quarters vote needed for appropriations.",
+        "numbers": [
+          {
+            "value": 46,
+            "unit": "votes for",
+            "text": "46 votes for"
+          },
+          {
+            "value": 14,
+            "unit": "votes against",
+            "text": "14 votes against"
+          }
+        ]
+      }
+    ],
+    "touches": ["school district budgets", "state operating budget"],
+    "daily_life": "Districts can keep teachers and small rural schools they were about to cut.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ak-2025-hb53-operating-budget",
+    "jurisdiction": "Alaska",
+    "level": "state",
+    "session": "34th Legislature, 2025",
+    "bill_number": "HB 53",
+    "law_citation": "Chapter 10, SLA 2025",
+    "short_title": "FY2026 operating budget",
+    "enacted_date": "2025-06-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.akleg.gov/basis/Bill/Detail/34?Root=HB%2053",
+    "aggregator_url": "https://legiscan.com/AK/bill/HB53/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": ["05"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Appropriates operating and loan-program expenses by agency and for specified programs."
+      },
+      {
+        "kind": "benefit",
+        "description": "Appropriates money to the Permanent Fund Dividend Fund; individual payment is determined through the dividend process."
+      },
+      {
+        "kind": "funding-source",
+        "description": "Uses specified state funds, including Permanent Fund earnings, for listed appropriations."
+      },
+      {
+        "kind": "waiver",
+        "description": "Enacted budget reflects gubernatorial line-item veto authority."
+      }
+    ],
+    "touches": ["Permanent Fund", "every state agency"],
+    "daily_life": "Funds state services and the dividend fund; the enacted appropriation alone does not state each resident’s check amount.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Official HB 53 page lists Chapter 10 SLA 2025 on June 12, 2025. Dividend-fund appropriation appears in legislative budget records; the final individual dividend amount was not checked against enacted text."
+  },
+  {
+    "id": "ak-2026-sb64-elections",
+    "jurisdiction": "Alaska",
+    "level": "state",
+    "session": "34th Legislature, 2026 (second session)",
+    "bill_number": "SB 64",
+    "law_citation": null,
+    "short_title": "Elections omnibus (ballot deadlines, preregistration, deepfakes)",
+    "enacted_date": "2026-03-23",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.akleg.gov/basis/Bill/Detail/34?Root=SB%2064",
+    "aggregator_url": "https://legiscan.com/AK/bill/SB64/2025",
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Elections and representation",
+    "secondary_menus": [],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "deadline",
+        "description": "Shortens the window for counting by-mail ballots so results are certified sooner.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "days mail ballot receipt window",
+            "text": "10 days mail ballot receipt window"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Allows voter preregistration at age 16.",
+        "numbers": [
+          {
+            "value": 16,
+            "unit": "years",
+            "text": "16 years"
+          }
+        ]
+      },
+      {
+        "kind": "disclosure",
+        "description": "Requires disclosure on election ads that use synthetic media (deepfakes)."
+      },
+      {
+        "kind": "penalty",
+        "description": "Updates the crime of unlawful interference with voting."
+      }
+    ],
+    "touches": ["Division of Elections", "Alaska Public Offices Commission"],
+    "daily_life": "Election results come out faster; 16-year-olds can sign up early.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

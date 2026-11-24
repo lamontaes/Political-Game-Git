@@ -1,0 +1,86 @@
+{
+  "scene": "post-office",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "post-office__midday.jpg",
+  "backdrops": [
+    "post-office__morning.jpg",
+    "post-office__rain.jpg"
+  ],
+  "spots": [
+    {
+      "id": "post-office-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 297,
+        "x": 520.0,
+        "width": 54
+      },
+      "box": [
+        464,
+        297,
+        576,
+        760
+      ],
+      "feet": 759
+    },
+    {
+      "id": "post-office-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 310,
+        "x": 820.0,
+        "width": 46
+      },
+      "box": [
+        773,
+        310,
+        867,
+        700
+      ],
+      "feet": 699
+    },
+    {
+      "id": "post-office-2",
+      "pose": "fold",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 320,
+        "x": 1050.0,
+        "width": 39
+      },
+      "box": [
+        1010,
+        320,
+        1090,
+        650
+      ],
+      "feet": 649
+    },
+    {
+      "id": "post-office-3",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 273,
+        "x": 1150.0,
+        "width": 71
+      },
+      "box": [
+        1077,
+        273,
+        1223,
+        880
+      ],
+      "feet": 879
+    }
+  ]
+}

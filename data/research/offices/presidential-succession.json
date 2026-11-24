@@ -1,0 +1,171 @@
+{
+  "about": "The line of succession to the presidency and how the vice presidency is filled, in the order the law sets. The vice president becomes president (U.S. Const. amend. XXV, sec. 1). With no vice president able, the Speaker of the House acts as president after resigning as Speaker and as a member, then the president pro tempore of the Senate on the same terms, then the cabinet secretaries in the order of 3 U.S.C. 19(d)(1) as amended (the Secretary of Homeland Security added by Pub. L. 109-177, sec. 503, 2006). Each must meet the constitutional qualifications for president: age 35, a natural-born citizen, 14 years a resident (U.S. Const. art. II, sec. 1, cl. 5). A vacant vice presidency is filled by the president's nominee, confirmed by a majority vote of both houses (amend. XXV, sec. 2).",
+  "sources": [
+    {
+      "id": "usc-3-19",
+      "title": "3 U.S.C. 19, Vacancy in offices of both President and Vice President; officers eligible to act",
+      "url": "https://www.law.cornell.edu/uscode/text/3/19"
+    },
+    {
+      "id": "amend-25",
+      "title": "U.S. Constitution, Twenty-Fifth Amendment",
+      "url": "https://constitution.congress.gov/constitution/amendment-25/"
+    },
+    {
+      "id": "art-2",
+      "title": "U.S. Constitution, Article II, section 1, clause 5 (qualifications)",
+      "url": "https://constitution.congress.gov/browse/article-2/section-1/clause-5/"
+    }
+  ],
+  "minimumResidencyYears": {
+    "value": 14,
+    "tag": "SOURCED",
+    "citation": "U.S. Const. art. II, sec. 1, cl. 5"
+  },
+  "minimumAge": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "U.S. Const. art. II, sec. 1, cl. 5"
+  },
+  "line": [
+    {
+      "key": "vice-president",
+      "title": "Vice President",
+      "kind": "office",
+      "acting": false,
+      "citation": "U.S. Const. amend. XXV, sec. 1"
+    },
+    {
+      "key": "speaker",
+      "title": "Speaker of the House",
+      "kind": "chamber-post",
+      "chamber": "federal:us-house",
+      "resignsSeat": true,
+      "acting": true,
+      "citation": "3 U.S.C. 19(a)(1)"
+    },
+    {
+      "key": "president-pro-tempore",
+      "title": "President pro tempore of the Senate",
+      "kind": "chamber-post",
+      "chamber": "federal:us-senate",
+      "resignsSeat": true,
+      "acting": true,
+      "citation": "3 U.S.C. 19(b)"
+    },
+    {
+      "key": "state",
+      "title": "Secretary of State",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "treasury",
+      "title": "Secretary of the Treasury",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "defense",
+      "title": "Secretary of Defense",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "attorney-general",
+      "title": "Attorney General",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "interior",
+      "title": "Secretary of the Interior",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "agriculture",
+      "title": "Secretary of Agriculture",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "commerce",
+      "title": "Secretary of Commerce",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "labor",
+      "title": "Secretary of Labor",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "health-and-human-services",
+      "title": "Secretary of Health and Human Services",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "housing-and-urban-development",
+      "title": "Secretary of Housing and Urban Development",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "transportation",
+      "title": "Secretary of Transportation",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "energy",
+      "title": "Secretary of Energy",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "education",
+      "title": "Secretary of Education",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "veterans-affairs",
+      "title": "Secretary of Veterans Affairs",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1)"
+    },
+    {
+      "key": "homeland-security",
+      "title": "Secretary of Homeland Security",
+      "kind": "cabinet",
+      "acting": true,
+      "citation": "3 U.S.C. 19(d)(1); Pub. L. 109-177, sec. 503"
+    }
+  ],
+  "vicePresidentVacancy": {
+    "nominatedBy": "president",
+    "confirmedBy": ["federal:us-house", "federal:us-senate"],
+    "citation": "U.S. Const. amend. XXV, sec. 2"
+  },
+  "cabinetConfirmation": {
+    "confirmedBy": ["federal:us-senate"],
+    "citation": "U.S. Const. art. II, sec. 2, cl. 2 (advice and consent of the Senate)"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "format": "ocd-district-lines-2026-enactment/v1",
+  "retrievedOn": "2026-09-29",
+  "note": "The date each state's 2026 U.S. House plan became law or took effect. A game date before it reads the 119th Congress lines. The dates come from the overview table and state sections of the English Wikipedia article below and from the news reports it cites; each state's row names the event. Read again when a court ruling moves a plan.",
+  "articleUrl": "https://en.wikipedia.org/wiki/2025%E2%80%932026_United_States_redistricting",
+  "states": {
+    "01": {
+      "stateUsps": "AL",
+      "effectiveFrom": "2026-06-02",
+      "event": "The U.S. Supreme Court lifted the Milligan injunction, letting the plan the Legislature passed in its May 2026 special session take effect.",
+      "citedSource": "https://governor.alabama.gov/newsroom/2026/05/2026-first-special-session-proclamation/"
+    },
+    "06": {
+      "stateUsps": "CA",
+      "effectiveFrom": "2025-11-04",
+      "event": "Voters approved Proposition 50 on election day, enacting the plan. The date it took effect after certification was not read.",
+      "citedSource": "https://www.cnn.com/election/2025/results/ballot-measures"
+    },
+    "12": {
+      "stateUsps": "FL",
+      "effectiveFrom": "2026-05-04",
+      "event": "The Governor signed HB 1-D, passed on April 29, 2026 in a special session.",
+      "citedSource": "https://www.flhouse.gov/Sections/Documents/loaddoc.aspx?FileName=_h0001Der.docx&DocumentType=Bill&BillNumber=1&Session=2026D"
+    },
+    "22": {
+      "stateUsps": "LA",
+      "effectiveFrom": "2026-05-29",
+      "event": "The Governor signed SB 121 on the day the Legislature passed it, after Louisiana v. Callais.",
+      "citedSource": "https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Louisiana"
+    },
+    "37": {
+      "stateUsps": "NC",
+      "effectiveFrom": "2025-10-22",
+      "event": "The General Assembly passed the plan, which became law without the Governor's signature.",
+      "citedSource": "https://www.nbcnews.com/politics/elections/north-carolina-lawmakers-pass-new-map-designed-give-gop-extra-house-se-rcna238702"
+    },
+    "39": {
+      "stateUsps": "OH",
+      "effectiveFrom": "2025-10-31",
+      "event": "The Ohio Redistricting Commission adopted the plan unanimously.",
+      "citedSource": "https://ohiocapitaljournal.com/2025/10/31/ohio-redistricting-commission-unanimously-passes-congressional-map-further-gop-advantage/"
+    },
+    "47": {
+      "stateUsps": "TN",
+      "effectiveFrom": "2026-05-07",
+      "event": "The General Assembly passed the plan and the Governor signed it the same day.",
+      "citedSource": "https://www.wkrn.com/news/tennessee-politics/tn-special-session-redistricting-day-3/"
+    },
+    "48": {
+      "stateUsps": "TX",
+      "effectiveFrom": "2025-08-29",
+      "event": "The Governor signed the plan passed in the second special session.",
+      "citedSource": "https://www.cnn.com/2025/08/29/politics/texas-redistricting-greg-abbott-house"
+    },
+    "49": {
+      "stateUsps": "UT",
+      "effectiveFrom": "2025-11-10",
+      "event": "A Utah district judge adopted the plaintiffs' Map 1 in place of the Legislature's plan.",
+      "citedSource": "https://www.sltrib.com/news/politics/2025/11/11/utah-gerrymandering-read-judges/"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "batch": 3,
+  "checkedAt": "2026-10-07T01:30:00Z",
+  "sourced": [],
+  "notAcquired": [
+    {
+      "state": "IN",
+      "instrument": "local-income",
+      "citation": "IC 6-3.6",
+      "reason": "Still no static first-party text. iga.in.gov (laws, api) returns the same 691-byte script shell as batch 2; in.gov/dlgf guessed file paths return 404; Justia, FindLaw and web.archive.org are refused or do not connect from the build host. Next route: a person with a browser saves IC 6-3.6 as PDF from iga.in.gov, or the DLGF local income tax guide is located by search."
+    },
+    {
+      "state": "AL",
+      "instrument": "occupational-license",
+      "citation": "Ala. Code § 11-51-90",
+      "reason": "Still script-rendered. www.legislature.state.al.us/CodeofAlabama/1975/11-51-90.htm answers 200 but holds only the site menu (2,087 characters of text, no statute); alison.legislature.state.al.us/code-of-alabama is a script shell; alisondb and web.archive.org do not connect; Justia and FindLaw are refused. Next route: a browser save of the section."
+    },
+    {
+      "state": "CO",
+      "instrument": "head-tax",
+      "citation": "Colo. Const. art. XX (home rule)",
+      "reason": "The batch 2 finding stands: no occupational privilege or head tax section in C.R.S. title 29. The Colorado Constitution is not served as a static file: leg.colorado.gov/laws/colorado-constitution links no PDF and four guessed olls paths return 404. The 2023 title 31 (municipalities) PDF exists at leg.colorado.gov/sites/default/files/images/olls/crs2023-title-31.pdf (200, 4.7 MB) and was not stored because no tax-power cell cites it. The matrix cell should cite Colo. Const. art. XX and the city's own code; the text still needs a browser save."
+    }
+  ],
+  "findings": []
+}

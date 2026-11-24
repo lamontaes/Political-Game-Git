@@ -1,0 +1,50 @@
+{
+  "version": "p8-opening-retirement-funding-v3-outside-flow",
+  "stopgapId": "SG-P8-opening-retirement-funding",
+  "contractIdPrefix": "opening-retirement-contribution",
+  "contributorIdPrefix": "opening-retirement-contributor",
+  "settlementPhaseId": "funding",
+  "contractKind": "funding.retirement-contribution",
+  "contributorJurisdictionKey": "US-FEDERAL",
+  "contributorNameTemplate": "U.S. Treasury / Social Security outside payment flow",
+  "contributorKind": "public-institution",
+  "contributorClassification": "sector:modeled-external-retirement-flow",
+  "contributorKinds": ["public-institution", "government"],
+  "eligiblePayerClassifications": [
+    "sector:modeled-retirement-income-account",
+    "sector:recorded-retirement-paying-account"
+  ],
+  "incomeKindIds": ["retirement"],
+  "parameters": {
+    "periodMonths": "openingRetirementPeriodMonths"
+  },
+  "flowEvidence": {
+    "publisher": "Social Security Administration",
+    "title": "2021 Trustees Report Table III.A1, OASI net benefit payments in calendar 2020",
+    "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+    "sourceFile": "src/core2/data/research/retirement-opening-2021.json",
+    "sourceField": "observations.oasiNetBenefitPayments2020",
+    "sourceVintage": "2020-12-31",
+    "publishedAt": "2021-08-31",
+    "financialKind": "ANNUAL_EXPENDITURE_FLOW",
+    "scope": "Reported $952,362 million OASI net benefit payments for calendar 2020, rounded in millions, include retirement and survivors rather than retired workers alone. The report adjusts early January 2021 payments for scheduled-benefit-year comparability. This is retrospective annual program expenditure context, not a Treasury/program liquid balance, observed 2021 appropriation, individual eligibility or local portfolio allocation. It never sets an opening stock, payment amount, allocation, cap or end."
+  },
+  "citation": "CTO REVIEW 15 outside-town accounting rule: due payments arrive as recorded flows, with no prepaid retirement reserves. Saved actual payer/person/award/income-contract terms define dated modeled obligations; exact payer and due schedule stay together. One outside-flow owner starts with zero stock. The owning finance provider must independently resolve each current due obligation and awards, then balance local stock credit against signed outside net-flow debit. An external flag or bare requested amount supplies no authority. The SSA 2020 annual OASI benefit flow is retrospective research context only; it creates no stock, allocation, cap or cutoff. Funding amounts exactly sum saved due income terms, and an end is copied only from an actual supplied income-term end.",
+  "identityBasis": "One identified U.S. Treasury / Social Security outside payment boundary for each modeled world, resolved at the canonical external institutional place. Treasury/SSA institutional roles are real; world owner ID, current location proxy, individual entitlement and portfolio allocation remain estimated. outsideFlow: Source signals accounting scope only. It creates no source authority, cash stock, security conversion or debt.",
+  "gaps": [
+    "Root must carry outsideFlow and externalInflow into actual finance/journal state and admit a genuine current due source before posting. The producer creates no inflow or balance and supplies no callbacks.",
+    "Individual SSA program eligibility, insured-worker/award rules, local/territory coverage and award-to-public-provider crosswalk remain estimated, with no observed appropriation claimed.",
+    "The January 2021 $1,543 retired-worker mean is an official estimated average. Existing career-length scaling and person variation are uncalibrated, and gross/net benefit and Medicare withholding are not resolved.",
+    "Existing fixed-day monthly recipient due terms are modeled rather than the real insured-worker SSA payment cycle; exact source-backed schedule and holiday/early-payment crosswalk remain open.",
+    "National taxes, borrowing, trust-fund security issuance/redemption and other federal payments are outside this town-boundary model. Signed outside net flow records the source of modeled inflows; it does not trace specific fungible federal dollars.",
+    "Funding continues for each admitted standing income term with no invented annual cutoff. Actual supplied income-term ends are preserved. Actual entitlement, denial, amendment and suspension rules remain outside this producer."
+  ],
+  "externalFlow": {
+    "kind": "external.retirement-income",
+    "ownerSubject": "US-FEDERAL:Social-Security:outside-payment-flow",
+    "openingCashBasis": "zero-opening-flow-boundary",
+    "identityCitation": "Social Security benefits are certified to the Managing Trustee for payment under 20 CFR 404.1805/404.1807; the Treasury Secretary is Managing Trustee under Social Security Act section 201(c). The October 13, 2020 SSA COLA announcement identifies January 2021 benefits. https://www.ssa.gov/OP_Home/cfr20/404/404-1805.htm ; https://www.govinfo.gov/content/pkg/CFR-2020-title20-vol2/xml/CFR-2020-title20-vol2-sec404-1807.xml ; https://www.ssa.gov/OP_Home/ssact/title02/0201.htm . One modeled outside payment boundary is estimated; zero means no prepaid local stock, not an observed zero Treasury balance or individual authority.",
+    "identityAsOf": "2020-04-01",
+    "identityVintage": "Payment procedures published in the 2020 CFR, section 404.1807 originated February 11, 1997; later retrieved official pages supplement general institutional identity, not an individual 2021 appropriation."
+  }
+}

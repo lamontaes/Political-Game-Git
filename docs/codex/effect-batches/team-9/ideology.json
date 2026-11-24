@@ -1,0 +1,462 @@
+{
+  "team": 9,
+  "weightProvenance": "Authored design choices grounded in cited positions, legal arguments and canonical stances; NOT empirical effect sizes, survey estimates or actor-outcome probabilities.",
+  "weightScale": "0=no authored bearing;1=strongest authored bearing. These weights do not decide any actor action by themselves.",
+  "canonicalKeys": "Full us-policy-positions: principle and question stable keys; organization names are reference labels, not invented entity IDs.",
+  "integrationOwner": "Coordinator integrates shared catalog. No direct catalog edits.",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "reason": "Wealth should not determine pretrial liberty for otherwise similarly situated defendants.",
+          "sourceIds": ["aclu-bail"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "Unconvicted people retain liberty unless individualized legal grounds justify detention.",
+          "sourceIds": ["aclu-bail"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "reason": "Detention disrupts work and family opportunities, especially for people unable to pay.",
+          "sourceIds": ["aclu-bail"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.45,
+          "reason": "Avoid unnecessary incarceration expense; this is an authored argument, not a measured savings rate.",
+          "sourceIds": ["canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.65,
+          "reason": "A person may oppose release reforms perceived to weaken appearance or safety safeguards; actual individualized safeguards matter.",
+          "sourceIds": ["bail-coalition", "canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Eliminating commercial money bail displaces surety-bail providers.",
+          "sourceIds": ["bail-coalition"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "American Civil Liberties Union",
+          "direction": "supports",
+          "reason": "Challenges detention based on inability to pay.",
+          "sourceIds": ["aclu-bail"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "American Bail Coalition",
+          "direction": "opposes",
+          "reason": "Protects surety-bail profession; opposition concerns eliminating that mechanism, not every reform.",
+          "sourceIds": ["bail-coalition"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "Charged defendants and their households",
+          "direction": "supports",
+          "reason": "Loss of liberty, earnings and caregiving is a personal stake; stance is individual, not universal.",
+          "sourceIds": ["aclu-bail"],
+          "kind": "authored-constituency-exposure",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "reason": "Supporters seek incapacitation and predictable serious-offense punishment.",
+          "sourceIds": ["criminal-statutes"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "reason": "A statutory floor can express uniform minimum punishment; charge selection and exceptions complicate equality.",
+          "sourceIds": ["criminal-statutes", "canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "consistent-with",
+          "strength": 0.45,
+          "reason": "Some actors favor retaining established serious-offense sentencing rules.",
+          "sourceIds": ["criminal-statutes", "canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.9,
+          "reason": "Opponents object to unnecessary incarceration and loss of individualized judicial discretion.",
+          "sourceIds": ["famm"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.7,
+          "reason": "Long custody burdens reentry and affected families.",
+          "sourceIds": ["famm"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Longer custody consumes correctional resources; no numerical cost inferred.",
+          "sourceIds": ["famm"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "FAMM",
+          "direction": "opposes",
+          "reason": "Explicitly campaigns to end mandatory minimums.",
+          "sourceIds": ["famm"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "Serious-offense punishment constituency",
+          "direction": "supports",
+          "reason": "Authored constituency representing incapacitation/accountability arguments evidenced by enacted statutes; not a measured institutional membership.",
+          "sourceIds": ["criminal-statutes"],
+          "kind": "authored-constituency-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "reason": "Independent public review makes official conduct and decisions accountable.",
+          "sourceIds": ["nacole"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "reason": "Complaint review should reach residents fairly rather than depend on institutional connections.",
+          "sourceIds": ["nacole"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "reason": "Accountability and public trust can support effective policing; authored argument rather than causal effect.",
+          "sourceIds": ["nacole"]
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "reason": "Residents seek a voice in oversight of their local police, subject to state authority.",
+          "sourceIds": ["nacole"]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "strength": 0.55,
+          "reason": "Officers may demand lawful process and protection from unauthorized discipline; fresh primary challenge text still missing.",
+          "sourceIds": ["existing-oversight-opposition"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.4,
+          "reason": "Boards need staff and investigations; no invented budget number.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "National Association for Civilian Oversight of Law Enforcement",
+          "direction": "supports",
+          "reason": "Promotes accountability, transparency and public trust.",
+          "sourceIds": ["nacole"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "Fraternal Order of Police, Newark Lodge No.12",
+          "direction": "opposes",
+          "reason": "Inherited cited challenge concerns particular investigative/disciplinary powers, not proof all police oppose all oversight. Fresh primary source blocked403.",
+          "sourceIds": ["existing-oversight-opposition"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "Screening and safety-training requirements are proposed safeguards for armed public encounters.",
+          "sourceIds": ["everytown"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.45,
+          "reason": "Objective permit standards can apply consistent rules; discretionary burdens may contradict this principle.",
+          "sourceIds": ["bruen"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.9,
+          "reason": "Opponents challenge undue permission burdens on ordinary armed self-defense.",
+          "sourceIds": ["bruen"]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.75,
+          "reason": "Licensing adds government control over carrying; lawful objective schemes differ from discretionary proper-cause tests.",
+          "sourceIds": ["bruen"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "Everytown for Gun Safety",
+          "direction": "supports",
+          "reason": "Supports concealed-carry permitting and screening/training standards.",
+          "sourceIds": ["everytown"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "New York State Rifle & Pistol Association and Bruen plaintiffs",
+          "direction": "opposes",
+          "reason": "Opposition verified for discretionary proper-cause licensing; do not generalize to every objective permit scheme.",
+          "sourceIds": ["bruen"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "reason": "Supporters seek developmentally appropriate rehabilitation and future opportunity.",
+          "sourceIds": ["youth-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "reason": "Adult punishment and confinement can disproportionately burden younger people.",
+          "sourceIds": ["youth-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "reason": "Juvenile systems provide rehabilitation and community supports.",
+          "sourceIds": ["youth-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.7,
+          "reason": "Opponents may retain adult treatment of specified serious offenses; authored interpretation of enacted exceptions.",
+          "sourceIds": ["guam-law"]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.45,
+          "reason": "Some actors favor established adult-court treatment of older teenagers.",
+          "sourceIds": ["guam-law", "canonical-authored"]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.4,
+          "reason": "Expanded juvenile services may require capacity and funding; actual cost remains unmeasured.",
+          "sourceIds": ["canonical-authored"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "The Sentencing Project",
+          "direction": "supports",
+          "reason": "Advocates developmentally appropriate/community alternatives to youth incarceration; specific age-law stance inferred from broader position.",
+          "sourceIds": ["youth-reform"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "Serious-offense adult-jurisdiction constituency",
+          "direction": "opposes",
+          "reason": "Authored constituency grounded in Guam legislative exceptions; no claim every lawmaker or victim shares this stance.",
+          "sourceIds": ["guam-law"],
+          "kind": "authored-constituency-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "reason": "Citizens regain equal political participation after criminal-system involvement.",
+          "sourceIds": ["voting-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "reason": "Voting is a civic right rather than an added continuing punishment.",
+          "sourceIds": ["voting-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "reason": "Reentry includes participation in decisions affecting the person and community.",
+          "sourceIds": ["voting-reform"]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.65,
+          "reason": "Opponents retain offense-based disenfranchisement or clemency traditions.",
+          "sourceIds": ["fl-law"]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.35,
+          "reason": "Some actors frame specified serious offenses as warranting ongoing civic restrictions; authored rationale, not evidence voting causes crime.",
+          "sourceIds": ["fl-law"]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.3,
+          "reason": "An opponent may insist on completion of every court-ordered sentence obligation before restoration; preserve this distinct argument.",
+          "sourceIds": ["fl-law"]
+        }
+      ],
+      "interestGroups": [
+        {
+          "name": "The Sentencing Project",
+          "direction": "supports",
+          "reason": "Advocates ending felony disenfranchisement and restoration.",
+          "sourceIds": ["voting-reform"],
+          "kind": "organization-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        },
+        {
+          "name": "Restricted-restoration constituency",
+          "direction": "opposes",
+          "reason": "Authored constituency grounded in enacted Florida offense and completion exclusions; no inferred individual legislator stance.",
+          "sourceIds": ["fl-law"],
+          "kind": "authored-constituency-position",
+          "entityId": null,
+          "runtimeBinding": "Resolve existing organization/person records; do not manufacture group membership or entity IDs."
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "aclu-bail": {
+      "url": "https://www.aclu.org/issues/smart-justice/bail-reform",
+      "read": "ACLU challenges wealth-based detention; supports individualized evidence, circumstances and public safety assessment."
+    },
+    "bail-coalition": {
+      "url": "https://ambailcoalition.org/about/",
+      "read": "American Bail Coalition mission promotes, protects and advances surety bail profession and constitutional right to bail."
+    },
+    "famm": {
+      "url": "https://famm.org/",
+      "read": "Sentencing Reform section: ending mandatory minimums and sentencing laws fitting individual rather than formula."
+    },
+    "criminal-statutes": {
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section924&num=0&edition=prelim",
+      "read": "924(c) mandatory and consecutive minimums show enacted incapacitation/accountability approach; argument interpretation is authored."
+    },
+    "nacole": {
+      "url": "https://www.nacole.org/",
+      "read": "Mission: building public trust through law-enforcement accountability and transparency."
+    },
+    "existing-oversight-opposition": {
+      "path": "data/research/laws/starting-law-2026.json",
+      "key": "questions.us-policy-positions:justice-public-safety.civilian-oversight-of-police.answers.US-NJ",
+      "read": "Existing sourced row cites police-union challenge FOP NewarkLodge12 vCityNewark244NJ75(2020); primary opinion download403 and fresh secondary download403. Preserve inherited citation, not claim newly read primary."
+    },
+    "everytown": {
+      "url": "https://everytownresearch.org/report/permitless-carry/",
+      "read": "Advocates permitting standards, training and screening; position evidence, not a causal multiplier."
+    },
+    "bruen": {
+      "url": "https://www.supremecourt.gov/opinions/21pdf/20-843_7j80.pdf",
+      "read": "Syllabus: NYSRPA and individual plaintiffs challenge discretionary proper-cause licensing; holding protects ordinary self-defense. Does not prohibit all objective shall-issue licensing."
+    },
+    "youth-reform": {
+      "url": "https://www.sentencingproject.org/reports/why-youth-incarceration-fails-an-updated-review-of-the-evidence/",
+      "read": "Advocates developmental/community alternatives; not evidence every juvenile-age expansion has one effect."
+    },
+    "guam-law": {
+      "url": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
+      "read": "5106(a) legislature places16+first/second-degree felony cases in adult court; current amendment history not fully checked."
+    },
+    "voting-reform": {
+      "url": "https://www.sentencingproject.org/issues/voting-rights/",
+      "read": "Advocates ending felony disenfranchisement and restoration upon prison exit."
+    },
+    "fl-law": {
+      "url": "https://www.flsenate.gov/Laws/Statutes/2025/98.0751",
+      "read": "2025statute excludes murder/sexualfelonies from automatic restoration and requires completed terms including financial obligations; no later2026amendment review."
+    },
+    "canonical-authored": {
+      "path": "src/simulation/policy-pack-us-policy-positions.ts",
+      "read": "Existing canonical six-law principle bearings are authored-fiction stances, not survey estimates."
+    }
+  },
+  "limits": "Arguments are conditional and individuals may disagree with their groups. Opposing directions on the same principle are distinct arguments requiring appropriate integration, not automatic duplicate summation. Fresh NJ opposition primary text blocked; juvenile and restoration opposing constituencies explicitly authored from statutory positions. Runtime group formation and actor reactions NOT RUN."
+}

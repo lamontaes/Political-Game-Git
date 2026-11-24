@@ -1,0 +1,155 @@
+[
+  {
+    "id": "al-2025-hb166-focus-act",
+    "jurisdiction": "Alabama",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 166",
+    "law_citation": null,
+    "short_title": "FOCUS Act (classroom cellphone restrictions)",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://alison.legislature.state.al.us/",
+    "aggregator_url": "https://legiscan.com/AL/bill/HB166/2025",
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Every local school board must adopt a policy barring student cellphone use during the instructional day."
+      },
+      {
+        "kind": "duty",
+        "description": "The state must develop a model policy on safe student internet use."
+      },
+      {
+        "kind": "exemption",
+        "description": "Exceptions for emergencies, health needs and plans for students with disabilities.",
+        "inferred": true
+      },
+      {
+        "kind": "deadline",
+        "description": "Local policies due before the school year.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["local school boards", "state board of education"],
+    "daily_life": "Students hand in or silence phones for the school day.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "al-2025-sb116-conversion-devices",
+    "jurisdiction": "Alabama",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 116",
+    "law_citation": null,
+    "short_title": "Firearm conversion device ban (Glock switches)",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://alison.legislature.state.al.us/",
+    "aggregator_url": "https://legiscan.com/AL/bill/SB116/2025",
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Firearms and weapons rules",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": ["penalty"],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Possessing or distributing a device that converts a semi-automatic pistol to fire automatically is a state crime."
+      },
+      {
+        "kind": "penalty",
+        "description": "Felony classification (class inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "definition",
+        "description": "Defines 'firearm conversion device'."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Lets state and local prosecutors charge conduct that was previously only a federal crime."
+      }
+    ],
+    "touches": ["local police", "district attorneys"],
+    "daily_life": "State police can arrest for a pistol auto-sear without waiting on federal agents.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "al-2025-sb252-pbm",
+    "jurisdiction": "Alabama",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 252",
+    "law_citation": null,
+    "short_title": "Pharmacy benefit manager reimbursement rules",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://alison.legislature.state.al.us/",
+    "aggregator_url": "https://legiscan.com/AL/bill/SB252/2025",
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Medicines and medical products",
+    "secondary_menus": ["08"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Pharmacy benefit managers serving Alabama health plans."
+      },
+      {
+        "kind": "standard",
+        "description": "Minimum reimbursement to pharmacies tied to a national acquisition-cost benchmark plus a dispensing fee.",
+        "numbers": [
+          {
+            "value": 10.64,
+            "unit": "USD dispensing fee (inferred)",
+            "text": "10.64 USD dispensing fee (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "prohibition",
+        "description": "Limits on fees and clawbacks PBMs may charge pharmacies."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Department of Insurance oversight.",
+        "inferred": true
+      }
+    ],
+    "touches": ["independent pharmacies", "employer health plans"],
+    "daily_life": "Helps a small-town pharmacy afford to stay open.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

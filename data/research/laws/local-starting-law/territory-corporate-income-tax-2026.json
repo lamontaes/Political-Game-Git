@@ -1,0 +1,84 @@
+{
+  "id": "territory-corporate-income-tax-2026",
+  "asOf": "2026-10-16",
+  "sourceKind": "statute for the mirror-code territories; a secondary summary for Puerto Rico; American Samoa's rate is an estimate from its adopted code",
+  "places": {
+    "US-GU": {
+      "system": "mirror code",
+      "mirrorsFederal": true,
+      "ratePercent": 21,
+      "source": {
+        "title": "48 U.S.C. § 1421i (Organic Act of Guam § 31): the Internal Revenue Code of the United States applies in Guam as the Guam Territorial Income Tax, so a corporation pays the section 11 rate (26 U.S.C. 11(b), 21 percent) to Guam in place of the United States; IRS Publication 570",
+        "url": "https://www.govinfo.gov/link/uscode/48/1421i"
+      }
+    },
+    "US-VI": {
+      "system": "mirror code",
+      "mirrorsFederal": true,
+      "ratePercent": 21,
+      "source": {
+        "title": "48 U.S.C. § 1397 (the Internal Revenue Code applies in the Virgin Islands as the Virgin Islands income tax, so a corporation pays the section 11 rate, 21 percent, to the territory in place of the United States); V.I. BIR Revenue Ruling 2025-1223-1; IRS Publication 570",
+        "url": "https://bir.vi.gov/content/publications/rev_ruling-2025-1223-1.pdf"
+      }
+    },
+    "US-MP": {
+      "system": "mirror code",
+      "mirrorsFederal": true,
+      "ratePercent": 21,
+      "source": {
+        "title": "Commonwealth Code 4 CMC §§ 1204, 1206, 1708 (the Northern Mariana Islands territorial income tax mirrors the Internal Revenue Code; cnmilaw.gov notes content may be out of date); IRS Publication 570",
+        "url": "https://cnmilaw.gov/commonwealth-code/3358"
+      }
+    },
+    "US-AS": {
+      "system": "own code based on a frozen IRC",
+      "mirrorsFederal": false,
+      "ratePercent": 35,
+      "estimate": true,
+      "estimatedFrom": "A.S.C.A. § 11.0403 adopts the income tax rules of the United States in effect on December 31, 2000, which for a corporation is the section 11 schedule of that date (15 percent rising to a top rate of 35 percent); the territory's own current corporate rate table was not read.",
+      "source": {
+        "title": "A.S.C.A. § 11.0403 and § 11.0503 (American Samoa Bar Association code annotated); IRS Publication 570",
+        "url": "https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/"
+      }
+    },
+    "US-PR": {
+      "system": "own code",
+      "mirrorsFederal": false,
+      "ratePercent": 37.5,
+      "normalRatePercent": 18.5,
+      "surtax": {
+        "specialDeduction": 25000,
+        "brackets": [
+          {
+            "ratePercent": 5,
+            "overSurtaxIncome": 0
+          },
+          {
+            "ratePercent": 15,
+            "overSurtaxIncome": 75000
+          },
+          {
+            "ratePercent": 16,
+            "overSurtaxIncome": 125000
+          },
+          {
+            "ratePercent": 17,
+            "overSurtaxIncome": 175000
+          },
+          {
+            "ratePercent": 18,
+            "overSurtaxIncome": 225000
+          },
+          {
+            "ratePercent": 19,
+            "overSurtaxIncome": 275000
+          }
+        ]
+      },
+      "source": {
+        "title": "PwC Worldwide Tax Summaries, Puerto Rico, Corporate: Taxes on corporate income (last reviewed August 7, 2026): an 18.5 percent normal tax plus a graduated surtax on surtax net income after a $25,000 special deduction, for a maximum nominal rate of nearly 37.5 percent",
+        "url": "https://taxsummaries.pwc.com/puerto-rico/corporate/taxes-on-corporate-income"
+      }
+    }
+  }
+}

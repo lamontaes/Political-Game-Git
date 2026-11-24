@@ -1,0 +1,1237 @@
+/**
+ * Out-of-pocket medical bills and the medical debt they leave, the coverage
+ * engine's monthly pass (modules/coverage.ts runs it on the 1st, after the
+ * premiums). Background simulation from research (owner, Oct 29 13:30 UTC):
+ * the player takes no step.
+ *
+ * A person's month of care is priced in the place they live: a month of
+ * ordinary care takes a fitted amount of a health worker's time
+ * (medicalCareUnitHealthPayDays), at what the place's own hospitals and
+ * clinics pay their staff today (carePrices), so the price of care moves
+ * with the town's own health pay. Each member's part follows two records
+ * read the day it is billed:
+ *
+ * - the care their health asks: the health engine's care need (one for a
+ *   serious illness under way, a share for held conditions, none otherwise;
+ *   a counted member's serious illness is the counted-illness row), on a
+ *   sliding scale up to the top 5 percent of spenders' care (MEPS #533). A
+ *   town with more illness has more care and larger bills;
+ * - the part of that care their coverage leaves them: their coverage record
+ *   (an employer plan, Medicare at 65), their Medicaid coverage where the
+ *   law reach keeps it by person id (coverageSpellsNow, named and counted
+ *   alike), or none, at the share MEPS #441 finds each pays out of pocket.
+ *
+ * The household pays the bill from what its members hold, less what they
+ * keep back for their home (as for everyday living, cost-of-living.ts), to
+ * the town's hospital or clinic (the one its living plan already buys from
+ * first), else the outside account. A counted household pays the same bill
+ * times its weight through its group's account (counted-money.ts
+ * chargeGroups), its housing arrears kept back. What a household cannot pay
+ * it still owes, oldest bill first, and asks again each month; a bill unpaid
+ * 120 days after it was billed (26 CFR 1.501(r)-6) is placed for collection
+ * as a medical-debt record on its books (the credit engine's loans, kind
+ * "medical"). The provider weighs each household: the further its income
+ * sits under the poverty guideline for its size, the more of the bill is
+ * written off as financial assistance and the less is sent to collections
+ * (collectionsShare), times the outcome web's factor for
+ * finance.medical-debt-in-collections, the measure the expansion's
+ * medicaid-expansion-to-medical-debt link moves.
+ * No roll: the bill goes unpaid because the household's cash and coverage
+ * say so.
+ *
+ * One cause, one path: the law reach keeps the Medicaid coverage of the
+ * town's residents, full and counted, by person id, and pays the adult
+ * nothing for it, so a town household meets the expansion only through its
+ * own coverage (a covered member's smaller bill) and the place-level row is
+ * left out of its factor. Medicaid's own part of a covered member's care (the
+ * cost of the care less the member's share) is paid to the seller by the
+ * state and federal treasuries, the federal share at the match in force
+ * (law-reach payMedicaidCare), inside their budget lines. A member the
+ * expansion would cover but whose coverage the work requirement ends (its
+ * stretch on their person id) is billed at their own plan's share; what that
+ * adds over Medicaid's share is paid first, under ids that cite the
+ * requirement. The expansion's and the requirement's coverage links are
+ * carried by those records (links.json carriedBy), so the web does not run
+ * them. A household in another place the world keeps
+ * (the places around the town), whose coverage the reach does not keep,
+ * meets the expansion through the place-level row on the share sent to
+ * collections, its one path there.
+ *
+ * Only households in the places whose money the world keeps are billed
+ * (billedPlaces).
+ */
+import { bookkeeping } from "./bookkeeping";
+import data from "./data/health/medical-bills.json" with { type: "json" };
+import { chargeGroups, fundGroups } from "./counted-money";
+import { incomeBandOn, fullHouseholdIncomes } from "./counted-income-fifth";
+import { countedIllnessOf } from "./counted-illness";
+import { coverageSpellsNow, spellOn } from "./health-own";
+import {
+  addDays,
+  ageOnDate,
+  daysBetweenText,
+  makeIsoDate,
+} from "./kernel/dates";
+import { outsideAccountOf } from "./modules/budgets";
+import {
+  housingKeptBack,
+  livingPlan,
+  mainBalance,
+  recordMedicalDebt,
+} from "./modules/business";
+import { careNeedOf } from "./modules/health";
+import { householdStateOf } from "./modules/counted-moves";
+import {
+  ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  townStatePlaces,
+  MEDICARE_LINE,
+  medicaidCoverageSpells,
+  payMedicaidCare,
+  payMedicareLinePart,
+  povertyLineDollars,
+} from "./modules/laws";
+import { webReach, type WebReach } from "./modules/outcome-web";
+import {
+  countedJob,
+  householdIncome,
+  residentsRuntime,
+  unplacedPayPerWorker,
+} from "./modules/residents";
+import { WEB_LINKS } from "./modules/laws";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
+
+/** The engine named on the law-reach rows these bills write. */
+const MEDICAL_BILLS_ENGINE = "medical-bills";
+import { parameter, type Parameter } from "./parameters";
+import type {
+  CoreAPI,
+  CoreState,
+  IsoDate,
+  PersonId,
+  PlaceId,
+  Source,
+} from "./types";
+
+export const MEDICAL_BILL_KIND = "health.medical-bill";
+export const MEDICAL_DEBT_OUTCOME = data.outcome;
+const PLACE_TWIN = data.personLevel.placeTwin;
+
+const PARAMETERS = data.parameters as unknown as Readonly<
+  Record<string, Parameter>
+>;
+const q = (key: string) => parameter(key, PARAMETERS);
+
+/** What a member's care is covered by, as the coverage engine and the law reach record it. */
+export type BillPlan = "employer" | "medicaid" | "medicare" | "none";
+
+const DRUG_NEGOTIATION =
+  "us-federal-positions:health.medicare-drug-price-negotiation";
+/** The researched cut in a Medicare member's out-of-pocket drug costs while Medicare negotiates prices (CMS, 2024). */
+const DRUG_LINK = WEB_LINKS.find(
+  (link) => link.key === "drug-negotiation-to-out-of-pocket",
+)!;
+
+const SHARE_KEY: Readonly<Record<BillPlan, string>> = {
+  employer: "medicalPatientShareEmployer",
+  medicaid: "medicalPatientShareMedicaid",
+  medicare: "medicalPatientShareMedicare",
+  none: "medicalPatientShareUninsured",
+};
+
+/** A month of the employer plans' care: what their insurers owed, and the real people on the plans. */
+export interface PlanCareMonth {
+  readonly insurerMinor: number;
+  readonly members: number;
+}
+
+/** One member's part of a month's bill. */
+export interface BilledMember {
+  readonly personId: string;
+  readonly plan: BillPlan;
+  /** The health engine's care need (0 to 1) the bill read. */
+  readonly careNeed: number;
+  readonly billMinor: number;
+  /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
+  readonly medicaidMinor?: number;
+  /** What a raised Medicare line pays of the member's care above Medicare's part at its base (Medicare members only). */
+  readonly medicareLineMinor?: number;
+  /** Medicare's whole part of the member's care at the line in force (its base part and any raised line's addition), which the federal treasury pays the seller (Medicare members only). */
+  readonly medicarePartMinor?: number;
+  /** The employer plan's insurer's part of the member's care, the cost less the member's share, which the insurer pays the seller from where premiums went (employer plan members only). */
+  readonly insurerMinor?: number;
+  /**
+   * What the work requirement added to the member's bill: the expansion
+   * covers them but the requirement ended their coverage (its stretch on
+   * their person id), so they pay their plan's share where Medicaid's would
+   * have been theirs. The household's payment of it cites the requirement.
+   */
+  readonly requirementMinor?: number;
+}
+
+/** A bill still owed to the provider: the day it was billed and what is left of it. */
+export interface OwedBill {
+  readonly billedAt: IsoDate;
+  readonly minor: number;
+}
+
+/** A household's latest month of medical bills (one row per household, the latest kept). */
+export interface MedicalBillRow {
+  readonly id: string;
+  readonly householdId: string;
+  readonly placeId: string;
+  readonly date: IsoDate;
+  readonly counted: boolean;
+  /** Real households the row stands for (one for a full household). */
+  readonly weight: number;
+  readonly members: readonly BilledMember[];
+  /** One real household's bill this month, what it was asked with what it still owed, what it paid and what it could not. */
+  readonly billMinor: number;
+  readonly askedMinor: number;
+  readonly paidMinor: number;
+  readonly unpaidMinor: number;
+  /** Bills still owed to the provider, oldest first, within the wait before collection. */
+  readonly owed: readonly OwedBill[];
+  /** What was still unpaid past the wait this month: the part the web's share sends to collections. */
+  readonly pastWaitMinor: number;
+  /** What the members held and kept back for their home (full households). */
+  readonly heldMinor?: number;
+  readonly keptBackMinor?: number;
+  /** Who was paid, and the cash journal entries that paid them. */
+  readonly sellerId: string | null;
+  readonly journalIds: readonly string[];
+  /** The share of what is unpaid past the wait sent to collections (the provider's weighing of the household's income, times the web's factor; the rest the provider writes off), and the web month row. */
+  readonly collectionsShare: number;
+  /** The household's income over the poverty guideline for its size, as the provider weighed it. */
+  readonly incomeOverPoverty: number;
+  /** The place's price of a month of ordinary care the bill was priced at, and the health pay it was read from (carePrices). */
+  readonly careUnitMonthlyMinor: number;
+  readonly carePayDailyMinor: number;
+  readonly webRecordId: string | null;
+  readonly webLinks: readonly string[];
+  /** Links read from the household's own records instead of the web (the place-level twin). */
+  readonly ownRecordsFor: readonly string[];
+  readonly toCollectionsMinor: number;
+  /** The medical-debt record on the household's books, if any part went to collections. */
+  readonly debtId: string | null;
+  readonly source: Source;
+}
+
+/**
+ * The places whose households' money the world keeps: those the residents
+ * runtime models (the town and the places around it), else the town alone.
+ * Null where neither is open (every household is billed). A household
+ * elsewhere (a national figure with no books, such as a press outlet's head
+ * or a central-bank governor) is not billed (stopgap
+ * SG-HEALTH-medical-bill-shape).
+ */
+function billedPlaces(api: CoreAPI): ReadonlySet<string> | null {
+  const rt = residentsRuntime(api.state as CoreState);
+  if (rt) return new Set(rt.input.accounts.map((row) => row.placeId));
+  return api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set([lawChain(api).townPlaceId])
+    : null;
+}
+
+interface Person {
+  readonly personId: string;
+  readonly plan: BillPlan;
+  readonly careNeed: number;
+  /** The work requirement holds this person's Medicaid coverage ended today. */
+  readonly endedByRequirement: boolean;
+}
+
+interface Household {
+  readonly householdId: string;
+  readonly placeId: string;
+  /** What the household earns a year, from its jobs and awards. */
+  readonly incomeAnnualMinor: number;
+  readonly counted: boolean;
+  readonly weight: number;
+  readonly incomeFifth: number;
+  readonly members: readonly Person[];
+  /** Whether the household's members' Medicaid coverage is read from their own records (the town's and its state's places around it, whose coverage the law reach keeps). */
+  readonly ownMedicaid: boolean;
+}
+
+function sourceFor(today: string): Source {
+  return {
+    tag: "ESTIMATED",
+    asOf: today,
+    citation:
+      "BLS Consumer Expenditure Survey 2024, medical services (CXUMEDSERVSLB0101M, Table 1800 by region and size), less the clinic component bought in everyday living; each member's part by the care their health record asks (MEPS Statistical Brief #533, 2018: the top 5 percent of spenders, 48.3 percent of spending) and the share of care their coverage leaves them (MEPS Statistical Brief #441, 2011, Figure 6). What goes unpaid goes to collections (CFPB, Medical Debt Burden in the United States, 2022).",
+    estimatedFrom:
+      "A household's month of out-of-pocket medical services, from its members' coverage and health records; what its cash cannot cover is placed for collection.",
+  };
+}
+
+/** The town's sellers of medical care, the largest staff first. */
+function medicalSellers(api: CoreAPI, placeId: string): string[] {
+  const core = api.state as CoreState;
+  const kinds = new Set(data.medicalSellerClassifications);
+  const staff = new Map<string, number>();
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined)
+      staff.set(job.organizationId, (staff.get(job.organizationId) ?? 0) + 1);
+  return [...core.organizations.values()]
+    .filter(
+      (org) =>
+        org.placeId === placeId &&
+        kinds.has(org.classification ?? "") &&
+        !core.finance.businesses.get(org.id)?.closedAt &&
+        core.cashJournal.residualAccountByOwner.has(org.id),
+    )
+    .sort(
+      (a, b) =>
+        (staff.get(b.id) ?? 0) - (staff.get(a.id) ?? 0) ||
+        a.id.localeCompare(b.id),
+    )
+    .map((org) => org.id);
+}
+
+/**
+ * Each person's plan today, full or counted, by the same rule: Medicare at
+ * its age, Medicaid where the law reach keeps their coverage
+ * (coverageSpellsNow, by person id), an employer plan, or none. Their own
+ * Medicaid record is read in the places whose residents' coverage the reach
+ * keeps (the town and the places around it in its state, `townStatePlaces`);
+ * null spells mean the world does not model it.
+ */
+function plans(
+  api: CoreAPI,
+  today: string,
+): {
+  readonly plan: (personId: string, age: number, employer: boolean) => BillPlan;
+  readonly ownMedicaid: (placeId: string) => boolean;
+  readonly endedByRequirement: (personId: string, plan: BillPlan) => boolean;
+} {
+  const spells = coverageSpellsNow(api);
+  const ended = medicaidCoverageSpells(api, ENDED_BY_REQUIREMENT);
+  const medicare = api.parameter("healthMedicareAge");
+  // The places whose coverage the reach keeps: the town and the places
+  // around it in its state, the same list the expansion's handler covers.
+  const kept = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(
+        townStatePlaces(api, lawChain(api).townPlaceId, lawChain(api).stateKey),
+      )
+    : null;
+  return {
+    ownMedicaid: (placeId) => spells !== null && !!kept?.has(placeId),
+    endedByRequirement: (personId, plan) =>
+      (plan === "employer" || plan === "none") &&
+      !!spellOn(ended?.get(personId), today),
+    plan: (personId, age, employer) => {
+      if (age >= medicare) return "medicare";
+      if (spells && spellOn(spells.get(personId), today)) return "medicaid";
+      return employer ? "employer" : "none";
+    },
+  };
+}
+
+// stopgapId: SG-WEB-uninsured-share-misses-medicaid-coverage — the web no
+// longer runs the expansion's or the work requirement's uninsured links (the
+// coverage records carry them), so a place's health.uninsured-pct, and the
+// graduation link that reads it, miss the Medicaid coverage those records hold.
+
+/** The part of a counted record's households its member's illness is in: none, all, or the row's share. */
+function illShare(
+  row: { readonly share?: number } | undefined,
+  weight: number,
+): number {
+  if (!row) return 0;
+  if (row.share === undefined || !(weight > 0)) return 1;
+  return Math.min(1, row.share / weight);
+}
+
+/**
+ * Everyone the pass bills this month, full and counted, by household: the
+ * households of the places whose money the world keeps (billedPlaces).
+ */
+function householdsToBill(
+  api: CoreAPI,
+  coverage: ReadonlyMap<string, string>,
+  countedHolders: ReadonlySet<string>,
+): Household[] {
+  const core = api.state as CoreState;
+  const today = makeIsoDate(core.date);
+  const { plan, ownMedicaid, endedByRequirement } = plans(api, today);
+  const billed = billedPlaces(api);
+  const incomes = fullHouseholdIncomes(core);
+  const out: Household[] = [];
+  const byHousehold = new Map<string, Person[]>();
+  for (const person of core.people.values()) {
+    if (!person.alive || person.id.startsWith("official:")) continue;
+    const home = core.households.get(person.householdId);
+    if (!home?.memberIds.includes(person.id)) continue;
+    if (billed && !billed.has(home.placeId)) continue;
+    const age = ageOnDate(makeIsoDate(person.birthDate), today);
+    const list = byHousehold.get(person.householdId) ?? [];
+    const own = plan(person.id, age, coverage.get(person.id) === "employer");
+    list.push({
+      personId: person.id,
+      plan: own,
+      careNeed: careNeedOf(core, person.id),
+      endedByRequirement: endedByRequirement(person.id, own),
+    });
+    byHousehold.set(person.householdId, list);
+  }
+  for (const [householdId, members] of byHousehold) {
+    const placeId = core.households.get(householdId)!.placeId;
+    out.push({
+      householdId,
+      placeId,
+      incomeAnnualMinor: incomes.get(householdId) ?? 0,
+      counted: false,
+      weight: 1,
+      incomeFifth: incomeBandOn(api, incomes.get(householdId) ?? 0),
+      members,
+      ownMedicaid: ownMedicaid(placeId),
+    });
+  }
+  const rt = residentsRuntime(core);
+  if (rt) {
+    for (const h of rt.store.liveHouseholds()) {
+      if (core.households.has(h.id)) continue;
+      if (billed && !billed.has(h.placeId)) continue;
+      const weight = rt.store.weightOf(h);
+      const members = rt.store.countedMembers(h).map((m) => {
+        const personId = rt.store.ids[m]!;
+        const age = ageOnDate(makeIsoDate(rt.store.born[m]!), today);
+        const own = plan(personId, age, countedHolders.has(h.id));
+        return {
+          personId,
+          plan: own,
+          // The illness is in `share` of the households the record stands
+          // for (all of them where absent): the record's care need is that part.
+          careNeed: illShare(
+            countedIllnessOf(api, personId as PersonId),
+            weight,
+          ),
+          endedByRequirement: endedByRequirement(personId, own),
+        };
+      });
+      if (!members.length) continue;
+      out.push({
+        householdId: h.id,
+        placeId: h.placeId,
+        incomeAnnualMinor: householdIncome(rt, h),
+        counted: true,
+        weight,
+        incomeFifth: incomeBandOn(api, householdIncome(rt, h)),
+        members,
+        ownMedicaid: ownMedicaid(h.placeId),
+      });
+    }
+  }
+  return out.sort((a, b) => a.householdId.localeCompare(b.householdId));
+}
+
+/** What a month of ordinary care costs in a place, and the pay it was priced from. */
+export interface CarePrice {
+  /** One person's month of ordinary care (care need zero), before any plan pays its part. */
+  readonly unitMonthlyMinor: number;
+  /** The daily pay the price was read from, averaged over the real jobs behind it. */
+  readonly payDailyMinor: number;
+  /** The jobs that pay stands for. */
+  readonly jobs: number;
+  /** Whose pay: the place's own hospitals and clinics, else the workers who live there. */
+  readonly from: "health-staff" | "resident-workers";
+}
+
+/**
+ * The price of care in each place today, from what its own health employers
+ * pay (named and counted jobs alike, a counted job standing for its
+ * household's weight). A place with no hospital or clinic buys its care
+ * nearby at what a day's work is paid where its own people work: the pay of
+ * the workers who live there, recorded jobs and the place's unplaced workers
+ * alike. A month of ordinary care takes medicalCareUnitHealthPayDays of that
+ * pay: the one fitted strength, set once so real pay gives the survey's bills.
+ */
+export function carePrices(api: CoreAPI): Map<string, CarePrice> {
+  const core = api.state as CoreState;
+  const kinds = new Set(data.medicalSellerClassifications);
+  const healthPlace = new Map<string, string>();
+  for (const org of core.organizations.values())
+    if (kinds.has(org.classification ?? ""))
+      healthPlace.set(org.id, org.placeId);
+  const sums = new Map<
+    string,
+    { health: number; healthJobs: number; all: number; allJobs: number }
+  >();
+  const sumOf = (placeId: string) => {
+    let sum = sums.get(placeId);
+    if (!sum)
+      sums.set(
+        placeId,
+        (sum = { health: 0, healthJobs: 0, all: 0, allJobs: 0 }),
+      );
+    return sum;
+  };
+  const add = (
+    organizationId: string | null,
+    homePlaceId: string | undefined,
+    wage: number,
+    jobs: number,
+  ) => {
+    if (!(wage > 0) || !(jobs > 0)) return;
+    if (homePlaceId) {
+      const home = sumOf(homePlaceId);
+      home.all += wage * jobs;
+      home.allJobs += jobs;
+    }
+    const at = organizationId ? healthPlace.get(organizationId) : undefined;
+    if (at) {
+      const sum = sumOf(at);
+      sum.health += wage * jobs;
+      sum.healthJobs += jobs;
+    }
+  };
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined) {
+      const home = core.people.get(job.personId)?.householdId;
+      add(
+        job.organizationId,
+        home ? core.households.get(home)?.placeId : undefined,
+        job.wageDailyMinor,
+        1,
+      );
+    }
+  const rt = residentsRuntime(core);
+  if (rt) {
+    const days = api.parameter("daysPerMeanYear");
+    for (const h of rt.store.liveHouseholds()) {
+      const weight = rt.store.weightOf(h);
+      for (const job of h.jobs)
+        if (job.endsAt === undefined && countedJob(core, job.id))
+          add(job.organizationId, h.placeId, job.wageDailyMinor, weight);
+      if (h.unplacedWorkers > 0)
+        add(
+          null,
+          h.placeId,
+          unplacedPayPerWorker(rt, h) / days,
+          h.unplacedWorkers * weight,
+        );
+    }
+  }
+  const unitDays = q("medicalCareUnitHealthPayDays");
+  const price = (
+    pay: number,
+    jobs: number,
+    from: CarePrice["from"],
+  ): CarePrice => {
+    const payDailyMinor = jobs > 0 ? Math.round(pay / jobs) : 0;
+    return {
+      unitMonthlyMinor: Math.round(payDailyMinor * unitDays),
+      payDailyMinor,
+      jobs,
+      from,
+    };
+  };
+  const out = new Map<string, CarePrice>();
+  for (const [placeId, sum] of sums)
+    out.set(
+      placeId,
+      sum.healthJobs > 0
+        ? price(sum.health, sum.healthJobs, "health-staff")
+        : price(sum.all, sum.allJobs, "resident-workers"),
+    );
+  return out;
+}
+
+/** Each member's bill this month, in minor units. */
+function billMembers(
+  api: CoreAPI,
+  households: readonly Household[],
+  prices: ReadonlyMap<string, CarePrice>,
+): Map<string, BilledMember[]> {
+  // stopgapId: SG-HEALTH-medical-bill-shape — no age profile or use gap by
+  // coverage; a counted member's care need is one while ill, else none.
+  api.stopgap("SG-HEALTH-medical-bill-shape");
+  const ratio = q("medicalSeriousIllnessCostRatio");
+  const one = api.parameter("one");
+  const care = (need: number) => one + (ratio - one) * need;
+  const medicaidShare = q(SHARE_KEY.medicaid);
+  // Medicare's negotiated drug prices cut what its members pay while the
+  // federal law is in force (the engine decides the cause from the law itself).
+  const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
+  const drugs = drugLaw.value === one ? one + (DRUG_LINK.size ?? 0) : one;
+  // The Medicare line in force over its base scales Medicare's own part of
+  // its members' care, so their share falls (or rises) by the same dollars.
+  const medicareLine = federalBenefitLine(api, MEDICARE_LINE);
+  const medicareBase = q(SHARE_KEY.medicare);
+  const medicareShare = Math.min(
+    one,
+    Math.max(0, one - (one - medicareBase) * medicareLine.level),
+  );
+  const shareOf = (plan: BillPlan) =>
+    plan === "medicare" ? medicareShare : q(SHARE_KEY[plan]);
+  // The members each law's change reached on this month's bills. One it
+  // reached before and not now (the line back at its base, the law repealed,
+  // the member gone) is no longer reached, so a repeal ends their rows.
+  const lineKey = `budget-line:${MEDICARE_LINE}`;
+  const reachedNow = new Map<string, Set<string>>([
+    [lineKey, new Set()],
+    [DRUG_NEGOTIATION, new Set()],
+  ]);
+  const out = new Map<string, BilledMember[]>();
+  for (const h of households) {
+    // A month of ordinary care at the place's own price, times the care the
+    // member's health asks; each plan's member pays their plan's share of it.
+    const unit = prices.get(h.placeId)?.unitMonthlyMinor ?? 0;
+    out.set(
+      h.householdId,
+      h.members.map((m) => {
+        const cost = unit * care(m.careNeed);
+        const billMinor = Math.round(
+          cost * shareOf(m.plan) * (m.plan === "medicare" ? drugs : one),
+        );
+        const lineMinor =
+          m.plan === "medicare"
+            ? Math.round(cost * (medicareBase - medicareShare) * drugs)
+            : 0;
+        const medicarePart =
+          m.plan === "medicare" ? Math.round(cost * (one - medicareShare)) : 0;
+        const insurerPart =
+          m.plan === "employer"
+            ? Math.round(cost * (one - shareOf("employer")))
+            : 0;
+        const added = billMinor - Math.round(cost * medicaidShare);
+        // The law reached this Medicare member by the same rule, full or
+        // counted: a counted member stands for their household's weight.
+        if (m.plan === "medicare" && drugs !== one && drugLaw.governing) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
+          reachedNow.get(DRUG_NEGOTIATION)!.add(m.personId);
+          lawApplied(api, {
+            key: DRUG_NEGOTIATION,
+            lawId: drugLaw.governing.id,
+            targetId: m.personId,
+            target: full ? "person" : "group",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-drug-bill-lowered",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
+            amountMinor: Math.round(
+              cost * medicareShare * (drugs - one) * times,
+            ),
+          });
+        }
+        // A bill that changed the Medicare line reached this member by the
+        // same rule: their share of the care moved by the line's change.
+        if (lineMinor !== 0 && medicareLine.lawId) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
+          reachedNow.get(lineKey)!.add(m.personId);
+          lawApplied(api, {
+            key: lineKey,
+            lawId: medicareLine.lawId,
+            targetId: m.personId,
+            target: full ? "person" : "group",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-share-changed-by-line",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
+            amountMinor: Math.round(lineMinor * times),
+          });
+        }
+        return {
+          personId: m.personId,
+          plan: m.plan,
+          careNeed: m.careNeed,
+          billMinor,
+          ...(m.plan === "medicaid"
+            ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
+            : {}),
+          ...(lineMinor > 0 ? { medicareLineMinor: lineMinor } : {}),
+          ...(medicarePart > 0 ? { medicarePartMinor: medicarePart } : {}),
+          ...(insurerPart > 0 ? { insurerMinor: insurerPart } : {}),
+          ...(m.endedByRequirement && added > 0
+            ? { requirementMinor: added }
+            : {}),
+        };
+      }),
+    );
+  }
+  for (const [key, now] of reachedNow)
+    for (const row of appliedOn(api, key))
+      if (row.engine === MEDICAL_BILLS_ENGINE && !now.has(row.targetId))
+        lawNoLongerApplies(api, key, row.targetId);
+  return out;
+}
+
+/**
+ * The share of a household's bills unpaid past the wait that its provider
+ * sends to collections rather than writing off as financial assistance. The
+ * provider weighs the household's own income against the poverty guideline
+ * for its size, on a sliding scale: a household far under the midpoint is
+ * written off nearly whole, one far over it is sent nearly whole. The web's
+ * factor then moves it where a law does.
+ */
+function collectionsShare(
+  api: CoreAPI,
+  h: Household,
+): {
+  share: number;
+  /** The household's income over the poverty guideline for its size. */
+  incomeOverPoverty: number;
+  reach: WebReach;
+  except: readonly string[];
+} {
+  const except = h.ownMedicaid ? [PLACE_TWIN] : [];
+  const reach = webReach(
+    api,
+    h.placeId,
+    "finance.medical-debt-in-collections",
+    { incomeFifth: h.incomeFifth },
+    except.length ? new Set(except) : undefined,
+  );
+  const one = api.parameter("one");
+  const line =
+    povertyLineDollars(
+      householdStateOf(api.state as CoreState, h.placeId) ?? "",
+      h.members.length,
+    ) * api.parameter("minorPerDollar");
+  const incomeOverPoverty = line > 0 ? h.incomeAnnualMinor / line : 0;
+  // Log-odds rise with the log of income over the midpoint; no income at all
+  // is the scale's floor, never a cliff.
+  const own =
+    incomeOverPoverty > 0
+      ? one /
+        (one +
+          (q("medicalCollectionsIncomeMidpoint") / incomeOverPoverty) **
+            q("medicalCollectionsIncomeSlope"))
+      : 0;
+  return {
+    share: Math.min(one, own * reach.factor),
+    incomeOverPoverty,
+    reach,
+    except,
+  };
+}
+
+const journalId = (date: string, sequence: number | undefined) =>
+  sequence === undefined ? null : `journal:${date}:${sequence}`;
+
+/** A full household pays from what its members hold, less what they keep back for their home. */
+function payFull(
+  api: CoreAPI,
+  h: Household,
+  askedMinor: number,
+  /** What the work requirement added to this month's bill, paid first. */
+  requirementMinor: number,
+  sellers: readonly string[],
+  source: Source,
+): Pick<
+  MedicalBillRow,
+  "paidMinor" | "heldMinor" | "keptBackMinor" | "sellerId" | "journalIds"
+> {
+  const core = api.state as CoreState;
+  const today = core.date;
+  const members = h.members
+    .map((m) => core.people.get(m.personId as PersonId)!)
+    .filter((person) => core.cashJournal.residualAccountByOwner.has(person.id));
+  const held = members.reduce(
+    (n, person) => n + mainBalance(core, person.id),
+    0,
+  );
+  // Rent or the mortgage first, as for everyday living: what falls due by
+  // the next bill day, less the pay due in before then.
+  const until = nextFirst(today);
+  let pay = 0;
+  for (const person of members) {
+    const job = core.jobs.get(person.jobId ?? "");
+    if (job && job.endsAt === undefined) pay += job.wageDailyMinor;
+  }
+  const keptBack = housingKeptBack(core, h.householdId, until, pay);
+  const plan = livingPlan(core, h.householdId);
+  const own = sellers.find((id) => plan?.sellers.has(id));
+  const payee = own ?? sellers[0] ?? outsideAccountOf(api);
+  const budget = Math.max(0, Math.min(askedMinor, held - keptBack));
+  const journalIds: string[] = [];
+  let paid = 0;
+  // The part the work requirement added is paid first, under ids that cite it.
+  const tranches = [
+    { upTo: Math.min(budget, requirementMinor), cites: ENDED_BY_REQUIREMENT },
+    { upTo: budget, cites: null },
+  ];
+  if (payee)
+    for (const { upTo, cites } of tranches)
+      for (const [leg, person] of members.entries()) {
+        if (paid >= upTo) break;
+        const receipt = api.accounts().transfer({
+          id: `medical:${h.householdId}:${today}:${leg}${cites ? `:${cites}` : ""}`,
+          from: api.accounts().main(person.id),
+          to: api.accounts().main(payee),
+          amountMinor: upTo - paid,
+          reasonKey: MEDICAL_BILL_KIND,
+          partial: true,
+          source,
+        });
+        paid += receipt.paidMinor;
+        const id = journalId(today, receipt.journalSequence);
+        if (id && receipt.paidMinor > 0) journalIds.push(id);
+      }
+  bookSale(core, payee, paid);
+  return {
+    paidMinor: paid,
+    heldMinor: held,
+    keptBackMinor: keptBack,
+    sellerId: payee ?? null,
+    journalIds,
+  };
+}
+
+/**
+ * The employer plans' insurers pay each seller their part of their members'
+ * care, from the outside account where the premiums went (the insurers are
+ * outside the town). Returns what each seller was paid.
+ */
+function payInsurerPart(
+  api: CoreAPI,
+  input: {
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): ReadonlyMap<string, number> {
+  const paidBySeller = new Map<string, number>();
+  const outside = outsideAccountOf(api);
+  if (!outside) return paidBySeller;
+  const accounts = api.accounts();
+  const today = api.state.date;
+  for (const [sellerId, minor] of [...input.bySeller]
+    .filter(([id, m]) => m > 0 && id !== outside)
+    .sort(([a], [b]) => a.localeCompare(b))) {
+    const receipt = accounts.transfer({
+      id: `health.insurer-care:${sellerId}:${today}`,
+      from: accounts.main(outside),
+      to: accounts.main(sellerId),
+      amountMinor: minor,
+      reasonKey: "health.insurer-care",
+      partial: true,
+      source: input.source,
+    });
+    if (receipt.paidMinor > 0) paidBySeller.set(sellerId, receipt.paidMinor);
+  }
+  return paidBySeller;
+}
+
+/** The 1st of the next month. */
+function nextFirst(today: string): IsoDate {
+  const next = addDays(makeIsoDate(`${today.slice(0, 7)}-01`), 32);
+  return makeIsoDate(`${next.slice(0, 7)}-01`);
+}
+
+/** The seller's books take the sale, as everyday living's do. */
+function bookSale(core: CoreState, sellerId: string | undefined, paid: number) {
+  if (!sellerId || paid <= 0) return;
+  const book = core.finance.businesses.get(sellerId);
+  if (!book) return;
+  book.receivedMinor += paid;
+  book.salesReceivedMinor += paid;
+}
+
+/**
+ * The counted households pay through their groups' accounts in one entry per
+ * place, each group up to what it holds less its housing arrears; a group's
+ * shortfall falls on its households in proportion to what they were asked.
+ */
+function payCounted(
+  api: CoreAPI,
+  households: readonly Household[],
+  askedOf: (householdId: string) => number,
+  /** What the work requirement added to a household's bill this month, charged first. */
+  requirementOf: (householdId: string) => number,
+  sellersOf: (placeId: string) => readonly string[],
+  source: Source,
+): Map<
+  string,
+  { paid: number; sellerId: string | null; journalIds: string[] }
+> {
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  const out = new Map<
+    string,
+    { paid: number; sellerId: string | null; journalIds: string[] }
+  >();
+  if (!rt) return out;
+  fundGroups(api, rt);
+  const byPlace = new Map<string, Household[]>();
+  for (const h of households) {
+    if (!h.counted) continue;
+    const list = byPlace.get(h.placeId);
+    if (list) list.push(h);
+    else byPlace.set(h.placeId, [h]);
+  }
+  for (const [placeId, list] of byPlace) {
+    const sellerId = sellersOf(placeId)[0] ?? outsideAccountOf(api) ?? null;
+    const account = sellerId
+      ? core.cashJournal.residualAccountByOwner.get(sellerId)
+      : undefined;
+    if (!account) continue;
+    // The part the work requirement added is charged first, in an entry that
+    // cites it; the rest of what each household is asked after it.
+    const parts = [
+      {
+        cites: ENDED_BY_REQUIREMENT as string | null,
+        of: (h: Household) =>
+          Math.min(askedOf(h.householdId), requirementOf(h.householdId)),
+      },
+      {
+        cites: null,
+        of: (h: Household) =>
+          askedOf(h.householdId) -
+          Math.min(askedOf(h.householdId), requirementOf(h.householdId)),
+      },
+    ];
+    for (const part of parts) {
+      const amountByContract: Record<string, number> = {};
+      let requested = 0;
+      for (const h of list) {
+        const asked = part.of(h);
+        if (asked <= 0) continue;
+        amountByContract[`hh:${h.householdId}`] = asked;
+        requested += Math.round(asked * h.weight);
+      }
+      if (requested <= 0) continue;
+      const id = `medical:counted:${placeId}:${core.date}${part.cites ? `:${part.cites}` : ""}`;
+      const sequence = core.cashJournal.nextSequence;
+      const charged = chargeGroups(api, rt, {
+        id,
+        flow: {
+          id,
+          kind: "purchase",
+          financeKind: MEDICAL_BILL_KIND,
+          placeId: placeId as PlaceId,
+          amountByContract,
+        },
+        requested,
+        toAccount: account,
+        reasonKey: MEDICAL_BILL_KIND,
+        source,
+        // Rent or the mortgage first: a group's housing arrears stay back.
+        reserveOf: (group) => rt.arrears.get(group) ?? 0,
+      });
+      bookSale(core, sellerId ?? undefined, charged.paid);
+      const entry = charged.paid > 0 ? journalId(core.date, sequence) : null;
+      for (const h of list) {
+        const asked = amountByContract[`hh:${h.householdId}`] ?? 0;
+        const ix = rt.store.householdOf.get(h.householdId);
+        const group = ix === undefined ? -1 : rt.store.households[ix]!.group;
+        const row = charged.byGroup.get(group);
+        const share = row && row.asked > 0 ? row.paid / row.asked : 0;
+        const was = out.get(h.householdId) ?? {
+          paid: 0,
+          sellerId,
+          journalIds: [],
+        };
+        out.set(h.householdId, {
+          paid: was.paid + Math.min(asked, Math.round(asked * share)),
+          sellerId,
+          journalIds:
+            entry && asked > 0 ? [...was.journalIds, entry] : was.journalIds,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+const table = (api: CoreAPI, module: string) =>
+  api.moduleState(module).table("medicalBills");
+
+/**
+ * What a household owes its provider after paying: payments settle the
+ * oldest bills first, and this month's bill joins what is left.
+ */
+function settleOwed(
+  owed: readonly OwedBill[],
+  billMinor: number,
+  paidMinor: number,
+  today: IsoDate,
+): OwedBill[] {
+  let left = paidMinor;
+  const out: OwedBill[] = [];
+  for (const row of [...owed, { billedAt: today, minor: billMinor }]) {
+    const settled = Math.min(left, row.minor);
+    left -= settled;
+    if (row.minor - settled > 0)
+      out.push({ billedAt: row.billedAt, minor: row.minor - settled });
+  }
+  return out;
+}
+
+/**
+ * The month's bills: every household's members billed by their coverage and
+ * health, paid with what it still owed from what the household holds, and
+ * the bills unpaid past the wait placed for collection on its books.
+ */
+export function billMedicalCare(
+  api: CoreAPI,
+  input: {
+    readonly module: string;
+    /** Each full person's current coverage plan, by person id. */
+    readonly coverage: ReadonlyMap<string, string>;
+    /** Counted households holding an employer plan now. */
+    readonly countedHolders: ReadonlySet<string>;
+  },
+): PlanCareMonth {
+  const core = api.state as CoreState;
+  const today = makeIsoDate(core.date);
+  const source = sourceFor(today);
+  const households = householdsToBill(
+    api,
+    input.coverage,
+    input.countedHolders,
+  );
+  if (!households.length) return { insurerMinor: 0, members: 0 };
+  const prices = carePrices(api);
+  const bills = billMembers(api, households, prices);
+  const billOf = (householdId: string) =>
+    (bills.get(householdId) ?? []).reduce((n, m) => n + m.billMinor, 0);
+  const prior = new Map(
+    households.map((h) => [
+      h.householdId,
+      (table(api, input.module).get(`medical-bill:${h.householdId}`) as
+        MedicalBillRow | undefined) ?? undefined,
+    ]),
+  );
+  // stopgapId: SG-HEALTH-medical-owed-fill-in — a counted household's owed
+  // bills stand for its whole weight, but a fill-in carries one household's
+  // worth onto the new full household and none onto the records that take
+  // the rest of its weight (the same root as the pool item
+  // world-fill-in-strands-group-living-arrears).
+  const owedOf = (householdId: string) =>
+    (prior.get(householdId)?.owed ?? []).reduce((n, row) => n + row.minor, 0);
+  const sellers = new Map<string, string[]>();
+  const sellersOf = (placeId: string) => {
+    let list = sellers.get(placeId);
+    if (!list) sellers.set(placeId, (list = medicalSellers(api, placeId)));
+    return list;
+  };
+  const requirementOf = (householdId: string) =>
+    (bills.get(householdId) ?? []).reduce(
+      (n, m) => n + (m.requirementMinor ?? 0),
+      0,
+    );
+  const counted = payCounted(
+    api,
+    households,
+    (id) => billOf(id) + owedOf(id),
+    requirementOf,
+    sellersOf,
+    source,
+  );
+  // A bill unpaid this long is placed for collection (26 CFR 1.501(r)-6).
+  const wait = q("medicalCollectionsWaitDays");
+  // Medicaid's part of its members' care, by the seller each household pays.
+  const medicaidBySeller = new Map<string, number>();
+  // Medicare's part of its members' care at the line in force, by seller.
+  const medicareBySeller = new Map<string, number>();
+  // The employer plans' insurers' part of their members' care, by seller.
+  const insurerBySeller = new Map<string, number>();
+  for (const h of households) {
+    const members = bills.get(h.householdId) ?? [];
+    const billMinor = billOf(h.householdId);
+    const askedMinor = billMinor + owedOf(h.householdId);
+    const paid = h.counted
+      ? {
+          paidMinor: counted.get(h.householdId)?.paid ?? 0,
+          sellerId: counted.get(h.householdId)?.sellerId ?? null,
+          journalIds: counted.get(h.householdId)?.journalIds ?? [],
+        }
+      : payFull(
+          api,
+          h,
+          askedMinor,
+          requirementOf(h.householdId),
+          sellersOf(h.placeId),
+          source,
+        );
+    const medicaid = members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0);
+    const payee =
+      paid.sellerId ?? sellersOf(h.placeId)[0] ?? outsideAccountOf(api);
+    if (medicaid > 0 && payee)
+      medicaidBySeller.set(
+        payee,
+        (medicaidBySeller.get(payee) ?? 0) + Math.round(medicaid * h.weight),
+      );
+    const medicare = members.reduce(
+      (n, m) => n + (m.medicarePartMinor ?? 0),
+      0,
+    );
+    if (medicare > 0 && payee)
+      medicareBySeller.set(
+        payee,
+        (medicareBySeller.get(payee) ?? 0) + Math.round(medicare * h.weight),
+      );
+    const insurer = members.reduce((n, m) => n + (m.insurerMinor ?? 0), 0);
+    if (insurer > 0 && payee)
+      insurerBySeller.set(
+        payee,
+        (insurerBySeller.get(payee) ?? 0) + Math.round(insurer * h.weight),
+      );
+    const owing = settleOwed(
+      prior.get(h.householdId)?.owed ?? [],
+      billMinor,
+      paid.paidMinor,
+      today,
+    );
+    const due = owing.filter(
+      (row) => daysBetweenText(row.billedAt, today) >= wait,
+    );
+    const owed = owing.filter((row) => !due.includes(row));
+    const pastWait = due.reduce((n, row) => n + row.minor, 0);
+    const { share, incomeOverPoverty, reach, except } = collectionsShare(
+      api,
+      h,
+    );
+    // Each bill past the wait sends its own part, which keeps its own first
+    // delinquency (the day it was billed) for the credit report's wait.
+    const parts = due.map((row) => ({
+      delinquentSince: row.billedAt,
+      minor: Math.round(row.minor * share),
+    }));
+    const toCollections = parts.reduce((n, part) => n + part.minor, 0);
+    // stopgapId: SG-HEALTH-medical-debt-collections — the debt is never paid
+    // down or sold, and the provider's write-off keeps no record.
+    if (pastWait > 0) api.stopgap("SG-HEALTH-medical-debt-collections");
+    const head = [...h.members].sort((a, b) =>
+      a.personId.localeCompare(b.personId),
+    )[0]!;
+    const debtId =
+      toCollections > 0
+        ? recordMedicalDebt(api, {
+            householdId: h.householdId,
+            borrowerId: head.personId,
+            creditorId:
+              paid.sellerId ??
+              prior.get(h.householdId)?.sellerId ??
+              outsideAccountOf(api) ??
+              "",
+            parts,
+            billId: `medical-bill:${h.householdId}`,
+            webRecordId: reach.recordId,
+            source,
+          })
+        : null;
+    const row: MedicalBillRow = {
+      id: `medical-bill:${h.householdId}`,
+      householdId: h.householdId,
+      placeId: h.placeId,
+      date: today,
+      counted: h.counted,
+      weight: h.weight,
+      members,
+      billMinor,
+      askedMinor,
+      ...paid,
+      unpaidMinor: Math.max(0, askedMinor - paid.paidMinor),
+      owed,
+      pastWaitMinor: pastWait,
+      collectionsShare: share,
+      incomeOverPoverty,
+      careUnitMonthlyMinor: prices.get(h.placeId)?.unitMonthlyMinor ?? 0,
+      carePayDailyMinor: prices.get(h.placeId)?.payDailyMinor ?? 0,
+      webRecordId: reach.recordId,
+      webLinks: reach.parts.map((part) => part.link),
+      ownRecordsFor: except,
+      toCollectionsMinor: toCollections,
+      debtId: debtId ?? prior.get(h.householdId)?.debtId ?? null,
+      source,
+    };
+    // Built fresh for this write and never touched again: frozen in place, not copied.
+    table(api, input.module).putOwned(row as never);
+  }
+  if (medicaidBySeller.size) {
+    const { paidBySeller } = payMedicaidCare(api, {
+      key: data.personLevel.policy,
+      bySeller: medicaidBySeller,
+      source,
+    });
+    for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
+  }
+  if (medicareBySeller.size)
+    for (const [sellerId, paid] of payMedicareLinePart(api, {
+      bySeller: medicareBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
+  if (insurerBySeller.size)
+    for (const [sellerId, paid] of payInsurerPart(api, {
+      bySeller: insurerBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
+  if (!bookkeeping()) dropSettledRows(api, input.module, households);
+  // What the employer plans' insurers owed for the month's care, and the
+  // real people on those plans: the coverage engine prices next year's
+  // premium from it.
+  const month = { insurerMinor: 0, members: 0 };
+  for (const h of households)
+    for (const m of bills.get(h.householdId) ?? [])
+      if (m.plan === "employer") {
+        month.insurerMinor += (m.insurerMinor ?? 0) * h.weight;
+        month.members += h.weight;
+      }
+  return month;
+}
+
+/**
+ * What a month of care for the people a plan could cover (everyone under
+ * Medicare's age in the billed places) would cost an employer plan's insurer
+ * today, a person: the opening's stand-in for a year of the plans' own
+ * claims, which do not exist yet on the first day.
+ */
+export function expectedPlanCare(api: CoreAPI): PlanCareMonth {
+  const households = householdsToBill(api, new Map(), new Set());
+  const prices = carePrices(api);
+  const ratio = q("medicalSeriousIllnessCostRatio");
+  const one = api.parameter("one");
+  const insurerShare = one - q(SHARE_KEY.employer);
+  const month = { insurerMinor: 0, members: 0 };
+  for (const h of households) {
+    const unit = prices.get(h.placeId)?.unitMonthlyMinor ?? 0;
+    for (const m of h.members) {
+      if (m.plan === "medicare") continue;
+      month.insurerMinor +=
+        unit * (one + (ratio - one) * m.careNeed) * insurerShare * h.weight;
+      month.members += h.weight;
+    }
+  }
+  return month;
+}
+
+/**
+ * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a household
+ * not billed this month (it died out, moved beyond the billed places or
+ * merged) that owes nothing and holds no medical-debt record leaves its row.
+ * The billing pass reads a row only for what is owed, the debt and its
+ * seller, so a household billed again later is billed as it would be from
+ * that row. Kept, they were 104 MB of a long run's heap (Montpelier,
+ * Vermont, year 6: 46,917 rows). With bookkeeping on (tests, proofs) every
+ * row stays.
+ */
+function dropSettledRows(
+  api: CoreAPI,
+  module: string,
+  households: readonly Household[],
+): void {
+  const billedNow = new Set(
+    households.map((h) => `medical-bill:${h.householdId}`),
+  );
+  const rows = table(api, module);
+  for (const row of [...(rows.rows() as unknown as MedicalBillRow[])])
+    if (!billedNow.has(row.id) && !row.owed.length && row.debtId === null)
+      rows.remove(row.id);
+}
+
+/** A household's latest month of medical bills, if it was billed. */
+export function medicalBillOf(
+  api: CoreAPI,
+  module: string,
+  householdId: string,
+): MedicalBillRow | undefined {
+  return table(api, module).get(`medical-bill:${householdId}`) as
+    MedicalBillRow | undefined;
+}

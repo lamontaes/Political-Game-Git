@@ -1,0 +1,62 @@
+{
+  "readOn": "2026-10-06",
+  "readBy": "Builder L3",
+  "note": "Days between regular meetings of a local legislative body, by body type and population band. A place's own recorded charter or council rule is used where one is read; every other body takes the band median below, ESTIMATED FROM AVERAGE. No national table of meeting frequency was reachable (ICMA's form-of-government survey does not publish one), so each median rests on the examples cited and is marked estimated. Nothing here picks a meeting for a place at random; the interval is the median of its type and size.",
+  "bands": [
+    { "id": "under-2500", "minPopulation": 0 },
+    { "id": "2500-9999", "minPopulation": 2500 },
+    { "id": "10000-49999", "minPopulation": 10000 },
+    { "id": "50000-199999", "minPopulation": 50000 },
+    { "id": "200000-plus", "minPopulation": 200000 }
+  ],
+  "medianIntervalDays": {
+    "city-council": {
+      "under-2500": 30,
+      "2500-9999": 14,
+      "10000-49999": 14,
+      "50000-199999": 14,
+      "200000-plus": 7
+    },
+    "town-or-township-board": {
+      "under-2500": 30,
+      "2500-9999": 30,
+      "10000-49999": 14,
+      "50000-199999": 14,
+      "200000-plus": 14
+    },
+    "county-board": {
+      "under-2500": 30,
+      "2500-9999": 30,
+      "10000-49999": 14,
+      "50000-199999": 14,
+      "200000-plus": 7
+    }
+  },
+  "evidence": [
+    {
+      "fact": "90% of the 20 largest California cities meet once weekly; Los Angeles three times a week, San Diego twice.",
+      "supports": "city-council 200000-plus: 7",
+      "source": "Legislative Analyst Report, Meeting Schedules, City Councils (File No. 020037), San Francisco Board of Supervisors",
+      "url": "https://sfbos.org/index.aspx?page=1259"
+    },
+    {
+      "fact": "Cities hold an average of 24 meetings a year in a California study (twice a month); mid-sized cities of about 40,000 to 53,000 meet twice a month.",
+      "supports": "city-council 2500-199999: 14",
+      "source": "Legislative Analyst Report, File No. 020037; Cupertino, Analysis of City Council Meetings 2017-2024 (February 13, 2025)",
+      "url": "https://cupertino.gov/files/assets/city/v/1/departments/documents/city-manager/02-february-13-2025-analysis-of-city-council-meetings-2017-2024.pdf"
+    },
+    {
+      "fact": "Most Texas cities meet twice a month (Waco, Temple, Abilene); Willis, Texas requires meeting at least once a month.",
+      "supports": "city-council 14 for mid-sized places, 30 for the smallest",
+      "source": "Killeen Daily Herald, councilman floats reducing council meetings by half; Willis, Texas city code Article III",
+      "url": "https://codelibrary.amlegal.com/codes/willis/latest/willis_tx/0-0-0-196"
+    },
+    {
+      "fact": "Michigan townships of Lincoln, Arcada, Leighton, Frankenmuth and Douglass hold regular board meetings once a month.",
+      "supports": "town-or-township-board 30 for small and mid-sized places",
+      "source": "each township's published meeting schedule",
+      "url": "https://www.lincolntwp-midland.gov/meetings"
+    }
+  ],
+  "gaps": "County board cadence rests on the same city examples and no county table was read; larger townships and counties are estimated. Replace a band median with a place's recorded schedule as sources are read."
+}

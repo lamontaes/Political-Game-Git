@@ -1,0 +1,184 @@
+--- a/src/presentation/new-game.ts
++++ b/src/presentation/new-game.ts
+@@ -1,3 +1,4 @@
++import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
+ import {
+   defaultPronounsForGender,
+   generationInputsFor,
+@@ -42,7 +43,8 @@
+  * the office and legislation surfaces exist because the world says the person
+  * works there, not because the game has nowhere else to put them.
+  */
+-export type NewGameStartingLife = "ordinary-life" | "legislative-office";
++export type NewGameStartingLife =
++  "ordinary-life" | "legislative-office" | "judicial-office-practice";
+ 
+ /**
+  * Whether anybody else is at home.
+@@ -186,6 +188,18 @@
+       message: `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`,
+     });
+   }
++  if (
++    setup.startingLife === "judicial-office-practice" &&
++    (setup.startKind !== "custom" ||
++      setup.startAge < 25 ||
++      setup.depth !== "summarize-earlier-life")
++  ) {
++    problems.push({
++      field: "startingLife",
++      message:
++        "Judicial office practice requires Custom Start, age 25 or older, and beginning after the early years.",
++    });
++  }
+   if (setup.startingLife === "legislative-office") {
+     if (setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE) {
+       problems.push({
+@@ -296,7 +310,10 @@
+     // answers. The starting role stays as the setup carries it: the normal
+     // creator offers no office, so a normal start is already `ordinary-life`,
+     // and a life reaches work through play rather than beginning in one.
+-    startingLife: setup.startingLife,
++    startingLife:
++      setup.startingLife === "judicial-office-practice"
++        ? "ordinary-life"
++        : setup.startingLife,
+     household: resolvedHousehold(setup),
+     depth: resolvedDepth(setup),
+     priors,
+@@ -306,8 +323,16 @@
+     generation:
+       setup.startKind === "custom" ? null : generationInputsFor(priors),
+   });
++  const office =
++    setup.startingLife === "judicial-office-practice"
++      ? initializeJudicialOfficePractice(built.world, {
++          mode: "custom",
++          jurisdictionId: place.context.jurisdiction.id,
++        })
++      : { ok: true as const, world: built.world };
++  if (!office.ok) throw new Error(office.reason);
+   return {
+-    world: built.world,
++    world: office.world,
+     playerPersonId: built.playerPersonId,
+     place,
+     setup,
+--- a/src/presentation/new-game-identity.ts
++++ b/src/presentation/new-game-identity.ts
+@@ -233,7 +233,8 @@
+     (record.depth !== "play-formative-years" &&
+       record.depth !== "summarize-earlier-life") ||
+     (record.startingLife !== "ordinary-life" &&
+-      record.startingLife !== "legislative-office") ||
++      record.startingLife !== "legislative-office" &&
++      record.startingLife !== "judicial-office-practice") ||
+     (record.household !== "lives-alone" &&
+       record.household !== "shares-a-home") ||
+     (record.givenName !== null && typeof record.givenName !== "string") ||
+--- a/src/presentation/setup-questionnaire-flow.ts
++++ b/src/presentation/setup-questionnaire-flow.ts
+@@ -76,7 +76,10 @@
+ export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
+   return setupLifeContext({
+     startAge: setup.startAge,
+-    startingLife: setup.startingLife,
++    startingLife:
++      setup.startingLife === "judicial-office-practice"
++        ? "ordinary-life"
++        : setup.startingLife,
+     household: setup.household,
+   });
+ }
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -1,3 +1,5 @@
++import { JudicialOfficeWork } from "./JudicialOfficeWork";
++import { judicialOfficeContexts } from "../simulation/judicial-office-work";
+ import {
+   useCallback,
+   useEffect,
+@@ -1009,6 +1011,31 @@
+             </button>
+           </div>
+ 
++          <button
++            type="button"
++            data-testid="judicial-office-start"
++            disabled={setup.startAge < 25}
++            className={
++              setup.startingLife === "judicial-office-practice"
++                ? "is-chosen"
++                : undefined
++            }
++            onClick={() =>
++              setSetup((now) => ({
++                ...now,
++                startingLife: "judicial-office-practice",
++                depth: "summarize-earlier-life",
++              }))
++            }
++          >
++            Judicial office practice
++            <small>
++              Fictional workplace and working relationships. No election,
++              appointment, legal term, or power to decide cases. Available at
++              age 25 and older.
++            </small>
++          </button>
++
+           <h3>At home</h3>
+           <div className="game-choices" data-testid="household-choices">
+             <button
+@@ -1477,17 +1504,26 @@
+     [session.world, moment.scene.presentPeople, sceneId],
+   );
+ 
++  const judicialOffices = useMemo(
++    () => judicialOfficeContexts(session.world),
++    [session.world],
++  );
++
+   const elsewhere = useMemo(() => {
+     const entries: { key: "day" | "people" | "work"; label: string }[] = [];
+     if (!capabilities.formativeYears) {
+       entries.push({ key: "day", label: "The day" });
+     }
+     entries.push({ key: "people", label: "People" });
+-    if (capabilities.legislation && capabilities.legislativeScenarioKey) {
++    if (
++      (capabilities.legislation && capabilities.legislativeScenarioKey) ||
++      judicialOffices.length > 0
++    ) {
+       entries.push({ key: "work", label: "Work" });
+     }
+     return entries;
+   }, [
++    judicialOffices,
+     capabilities.formativeYears,
+     capabilities.legislation,
+     capabilities.legislativeScenarioKey,
+@@ -1665,6 +1701,23 @@
+             personId={session.personId}
+             onWorldChange={onWorldChange}
+           />
++        </LifeOverlay>
++      ) : null}
++
++      {open === "work" && judicialOffices.length > 0 ? (
++        <LifeOverlay
++          title="Office work"
++          testid="judicial-office-section"
++          onClose={() => setOpen(null)}
++        >
++          {judicialOffices.map((office) => (
++            <JudicialOfficeWork
++              key={office.workRelationshipId}
++              world={session.world}
++              courtOrganizationId={office.courtOrganizationId}
++              onWorldChange={onWorldChange}
++            />
++          ))}
+         </LifeOverlay>
+       ) : null}
+ 

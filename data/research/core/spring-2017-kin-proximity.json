@@ -1,0 +1,33 @@
+{
+  "id": "spring-2017-kin-proximity",
+  "publisher": "Demography (Springer), via PubMed Central",
+  "vintage": "2017; Panel Study of Income Dynamics, 1980 to 2013",
+  "table": "Table 4, Model 2: Logit models of out-mobility from origin tract",
+  "title": "Spring, Ackert, Crowder and South, 'Influence of Proximity to Kin on Residential Mobility and Destination Choice: Examining Local Movers in Metropolitan Areas', Demography 54(4):1277-1304",
+  "universe": "PSID household heads, non-Latino Black or White, who stayed in the same metropolitan area across each interval: 103,276 person-periods from 13,897 persons, 16,545 of them a move to a new census tract",
+  "geography": "United States metropolitan areas",
+  "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/",
+  "doi": "10.1007/s13524-017-0587-x",
+  "retrievedOn": "2026-10-23",
+  "limits": "Out-mobility is leaving the census tract for another tract in the same metro area, not leaving the county or town. Kin count as nearby within 1 mile of the origin tract (tract centroids). Each odds ratio is for having at least one relative of that type nearby, with individual and tract controls; the model does not count relatives one by one. Standard errors are those printed with the odds ratios.",
+  "oddsRatios": {
+    "quote": "Parents within 1 mile (1 = yes) 0.530*** (0.021); Children within 1 mile (1 = yes) 0.644*** (0.034); Siblings/extended family within 1 mile (1 = yes) 0.741*** (0.023)",
+    "textQuote": "Having a parent within 1 mile of the origin tract reduces the odds of out-mobility by 47 %",
+    "parents": {
+      "or": 0.53,
+      "se": 0.021
+    },
+    "children": {
+      "or": 0.644,
+      "se": 0.034
+    },
+    "siblingsOrExtended": {
+      "or": 0.741,
+      "se": 0.023
+    }
+  },
+  "derived": {
+    "movesKinHold": "per relative in town: ln(1 / 0.741) = 0.30, the sibling or extended-kin effect (the game adds one hold per relative, so a parent and a sibling together give 0.60, near the parent effect ln(1 / 0.530) = 0.63); spread ln(1 / 0.786) = 0.24 (siblings, upper 95 percent bound) to ln(1 / 0.489) = 0.72 (parents, lower bound) (converted, not applied: the row keeps its starting 0.15 as TUNABLE with this band as its spread until world-town-net-moving-negative sets the departure rate right)",
+    "checkedBy": "scripts/research/core-parameters-check.ts"
+  }
+}

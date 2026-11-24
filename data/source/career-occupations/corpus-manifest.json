@@ -1,0 +1,42 @@
+{
+  "asOf": "2026-09-09",
+  "canonicalSha256": "435d6b078363bd282811c19ccf8088ea9f335026c69d7642f5db3fa5d717259a",
+  "compiler": {
+    "name": "career-occupations",
+    "version": "1.0.0"
+  },
+  "corpusId": "career-occupations",
+  "coverage": {
+    "boundedSampleReason": "National wage observations only. Occupation task coverage varies; sources establish neither employers nor credentials, vacancies, individual salary or past applicability.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Full 1016 O*NET-SOC 2019 identities and all task rows in O*NET 31.0; applicable May 2025 national cross-industry OEWS observations."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "onet31-occupations",
+      "sha256": "13b2aa4c08e6c9a3708d5e5ac83e13da5cc184e3798313c8942a266d00593ace"
+    },
+    {
+      "artifactId": "onet31-tasks",
+      "sha256": "afb7ba3bb00f0355d7d5f07e0a446ce880d72d15d4f3f2087973aa8c0dd102d4"
+    },
+    {
+      "artifactId": "onet2019-soc2018-crosswalk",
+      "sha256": "bfc6722a92c2d607e5a99dee88b7826cf5aa91f7c0453182e0c8268e32a20a19"
+    },
+    {
+      "artifactId": "bls-soc2018-structure",
+      "sha256": "ade08af40923266f3a854842e888ca3e93c15b26a147c20a2b12a61f4c4f4077"
+    },
+    {
+      "artifactId": "bls-oews2025-national",
+      "sha256": "b5855a37f3e03e779f6fbf173d3bbc94aeeff33426aef32fa95ce6d025bab1af"
+    }
+  ],
+  "parser": {
+    "name": "source-core-xlsx",
+    "version": "1.0.0"
+  },
+  "recordCount": 1016
+}

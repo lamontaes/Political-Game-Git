@@ -1,0 +1,74 @@
+{
+  "schema": "english-counts/1",
+  "register": "everyday",
+  "shippable": false,
+  "description": "Counts of how Americans take turns in recorded talk: turn length, short-turn share, question rate, reaction tokens, turn openers and hedges. Counts and one- to three-word tokens only; no line from the corpus ships.",
+  "source": {
+    "document": "Santa Barbara Corpus of Spoken American English, Parts 1 to 4",
+    "publisher": "University of California, Santa Barbara, Department of Linguistics",
+    "license": "CC BY-ND 3.0 US",
+    "url": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english"
+  },
+  "coverage": "All 60 recordings, mostly face-to-face conversation among family and friends, with some service encounters, classroom talk and a few monologues; not yet split by setting.",
+  "mining": {
+    "tool": "scripts/english-mining/count-santa-barbara.py",
+    "turnRule": "A turn is the run of transcript lines by one speaker until another speaker begins."
+  },
+  "counts": {
+    "turns": 24423,
+    "words": 245831,
+    "medianTurnWords": 5,
+    "shareTurnsThreeWordsOrFewer": 0.396,
+    "shareTurnsOneWord": 0.212,
+    "questionRate": 0.1,
+    "reactionTurnsPer1000Turns": {
+      "yeah": 37.1,
+      "mhm": 27.2,
+      "okay": 13.1,
+      "oh": 11.1,
+      "hm": 8.7,
+      "right": 8.0,
+      "no": 5.3,
+      "oh yeah": 2.6,
+      "wow": 2.0,
+      "yes": 1.9,
+      "really": 1.6,
+      "that's right": 1.6,
+      "i know": 1.5,
+      "sure": 1.1,
+      "oh really": 0.8,
+      "oh no": 0.5,
+      "oh wow": 0.4,
+      "exactly": 0.3,
+      "huh": 0.2
+    },
+    "turnOpenerPer1000Turns": {
+      "i": 60.4,
+      "and": 50.8,
+      "oh": 35.5,
+      "yeah": 34.9,
+      "you": 33.3,
+      "well": 28.1,
+      "so": 20.4,
+      "but": 19.2,
+      "no": 16.8,
+      "okay": 9.6,
+      "uh": 6.5,
+      "now": 4.1,
+      "like": 3.6,
+      "um": 3.0,
+      "see": 2.7
+    },
+    "hedgesPer1000Words": {
+      "like": 8.86,
+      "you know": 6.48,
+      "i mean": 2.12,
+      "i think": 1.99,
+      "maybe": 0.94,
+      "probably": 0.93,
+      "kind of": 0.65,
+      "i guess": 0.49,
+      "sort of": 0.26
+    }
+  }
+}

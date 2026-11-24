@@ -1,0 +1,52 @@
+{
+  "id": "fehr-forgiveness-correlates-2010",
+  "publisher": "Psychological Bulletin (American Psychological Association)",
+  "vintage": "175 studies, 26,006 participants, published to 2009",
+  "table": "Table 2, Main Effects for Cognitions, Affect, Constraints, and Sample/Study Characteristics (dispositional rows)",
+  "title": "The road to forgiveness: A meta-analytic synthesis of its situational and dispositional correlates",
+  "authors": "Fehr, Gelfand and Nag (2010), Psychological Bulletin 136(5):894-914, doi 10.1037/a0019993",
+  "universe": "Victims of a single offense by a single offender, in recall, scenario and survey studies (forgiveness of a spouse, friend, coworker or stranger)",
+  "geography": "Studies from several countries; no place breakdown",
+  "sourceUrl": "https://doi.org/10.1037/a0019993",
+  "retrievedOn": "2026-10-24",
+  "limits": "Correlations with forgiveness, not with holding a grudge after a job loss: the authors 'do not differentiate between measures of forgiveness (e.g., benevolence) and measures of unforgiveness (e.g., revenge)', so each r is read with its sign reversed as the pull toward keeping a grievance. A trait's pull on the choice, not a share of people; the game uses it only to check that personality turns some responses in the right direction and to a similar size (scripts/research/people-year.ts, src/core2/drives.test.ts).",
+  "dispositional": [
+    {
+      "id": "agreeableness",
+      "weightedMeanR": 0.22,
+      "low": 0.17,
+      "high": 0.27,
+      "studies": 10,
+      "participants": 1732,
+      "reading": "Agreeable people forgive; low agreeableness keeps the grievance. The game's people-mind-v1:conflict trait is agreeableness compliance reversed (data/content/trait-act-pulls.json), so a high conflict level leans toward hold-grudge."
+    },
+    {
+      "id": "neuroticism",
+      "weightedMeanR": -0.24,
+      "low": -0.32,
+      "high": -0.16,
+      "studies": 9,
+      "participants": 1551
+    },
+    {
+      "id": "trait-anger",
+      "weightedMeanR": -0.18,
+      "low": -0.23,
+      "high": -0.13,
+      "studies": 18,
+      "participants": 2239
+    },
+    {
+      "id": "trait-forgiveness",
+      "weightedMeanR": 0.3,
+      "low": 0.24,
+      "high": 0.36,
+      "studies": 30,
+      "participants": 5685
+    }
+  ],
+  "quote": "For agreeableness, r = .22, indicating that agreeable people tend to forgive their offenders.",
+  "tableRow": "Agreeableness: k = 10, total n = 1,732, mean r .21, weighted mean r .22, SE .02, 95% CI [.17, .27]. Neuroticism: k = 9, n = 1,551, weighted mean r -.24, 95% CI [-.32, -.16]. Trait anger: k = 18, n = 2,239, weighted mean r -.18, 95% CI [-.23, -.13].",
+  "use": "The drives.respond row of data/research/trait-effect-sizes.json (option hold-grudge): the size of the pull a low-agreeableness temperament gives toward keeping a grievance, which the response model's trait-lean gain (responseTraitLeanGain) is checked against.",
+  "readVia": "Full text read from the Psychological Bulletin PDF at https://ggsc.berkeley.edu/images/uploads/Fehr_et_al_2010_The_road_to_forgiveness-_A_meta-analytic_synthesis_of_its_situational_and_dispositional_correlates.pdf (text extracted with pdftotext)."
+}

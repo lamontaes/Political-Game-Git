@@ -1,0 +1,708 @@
+{
+  "id": "senate-classes-2026",
+  "about": "Each U.S. Senate seat's class, the party holding it, and the year it is next elected (class 2 in 2026, class 3 in 2028, class 1 in 2030; appointed seats on the 2026 ballot as specials). Parties only, no names.",
+  "source": "https://unitedstates.github.io/congress-legislators/legislators-current.json (public domain, CC0); specials from Ballotpedia",
+  "retrieved": "2026-10-12",
+  "states": {
+    "US-AK": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-AL": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-AR": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-AZ": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-CA": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-CO": [
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-CT": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-DE": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-FL": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": true
+      }
+    ],
+    "US-GA": [
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-HI": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-IA": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-ID": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-IL": [
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-IN": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-KS": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-KY": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-LA": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-MA": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-MD": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-ME": [
+      {
+        "class": 1,
+        "party": "Independent",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-MI": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-MN": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-MO": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-MS": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-MT": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-NC": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-ND": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-NE": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-NH": [
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-NJ": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-NM": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-NV": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-NY": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-OH": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": true
+      }
+    ],
+    "US-OK": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-OR": [
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-PA": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-RI": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-SC": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-SD": [
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-TN": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-TX": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-UT": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-VA": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Democrat",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-VT": [
+      {
+        "class": 1,
+        "party": "Independent",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-WA": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Democrat",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-WI": [
+      {
+        "class": 1,
+        "party": "Democrat",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 3,
+        "party": "Republican",
+        "nextElection": 2028,
+        "special": false
+      }
+    ],
+    "US-WV": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ],
+    "US-WY": [
+      {
+        "class": 1,
+        "party": "Republican",
+        "nextElection": 2030,
+        "special": false
+      },
+      {
+        "class": 2,
+        "party": "Republican",
+        "nextElection": 2026,
+        "special": false
+      }
+    ]
+  }
+}

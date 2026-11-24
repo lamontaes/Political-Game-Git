@@ -1,0 +1,48 @@
+{
+  "version": "federal-representation-v1",
+  "about": "Places whose representation in Congress and the electoral college differs from a state's. A place listed here sends a nonvoting member to the House (who does not vote on final passage, House Rule III), has no U.S. senators, and casts presidential electors only where noted. Every place not listed is a state: voting House members, two senators, and electors.",
+  "places": {
+    "US-DC": {
+      "houseMember": "Delegate",
+      "termYears": 2,
+      "senators": 0,
+      "presidentialElectors": true,
+      "citation": "2 U.S.C. sec. 25a (Delegate); U.S. Const. amend. XXIII (electors)"
+    },
+    "US-PR": {
+      "houseMember": "Resident Commissioner",
+      "termYears": 4,
+      "senators": 0,
+      "presidentialElectors": false,
+      "citation": "48 U.S.C. sec. 891 (Resident Commissioner, four-year term)"
+    },
+    "US-GU": {
+      "houseMember": "Delegate",
+      "termYears": 2,
+      "senators": 0,
+      "presidentialElectors": false,
+      "citation": "48 U.S.C. sec. 1711"
+    },
+    "US-VI": {
+      "houseMember": "Delegate",
+      "termYears": 2,
+      "senators": 0,
+      "presidentialElectors": false,
+      "citation": "48 U.S.C. sec. 1711"
+    },
+    "US-AS": {
+      "houseMember": "Delegate",
+      "termYears": 2,
+      "senators": 0,
+      "presidentialElectors": false,
+      "citation": "48 U.S.C. sec. 1731"
+    },
+    "US-MP": {
+      "houseMember": "Delegate",
+      "termYears": 2,
+      "senators": 0,
+      "presidentialElectors": false,
+      "citation": "48 U.S.C. sec. 1751"
+    }
+  }
+}

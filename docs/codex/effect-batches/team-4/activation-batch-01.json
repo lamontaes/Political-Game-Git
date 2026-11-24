@@ -1,0 +1,83 @@
+{
+  "schema": "team-outcome-link-batch/v1",
+  "team": 4,
+  "sourceHead": "1b2e54c8cdacaad0f0e045f4519c00f587f7b74c",
+  "sharedWriter": "coordinator",
+  "status": "numeric proposal; confidence interval and neighborhood exposure verification pending",
+  "linkEdits": [
+    {
+      "key": "new-apartments-to-nearby-rent",
+      "patch": {
+        "size": -0.06,
+        "range": [-0.07, -0.05],
+        "why": [
+          "A newly completed large apartment building adds homes available for lease near the building.",
+          "The additional homes compete for tenants with existing nearby apartments.",
+          "A landlord seeking an occupied unit must offer a rent and lease terms a tenant can afford and prefer to available alternatives.",
+          "The tenant chooses among the available homes from household income, location needs and quoted rents; the landlord chooses a rent from vacancy and competing offers. Bedrock: tenant and landlord decisions under a larger set of available homes."
+        ],
+        "conditions": [
+          "The cited estimate concerns nearby rents around completed large buildings in low-income neighborhoods, rather than a whole city's rental stock.",
+          "Absent when no large building is completed or the household is outside the nearby exposure area.",
+          "Weaker when new units do not compete for the same tenants or local demand absorbs the new supply; stronger exposure is not assigned an unsupported numeric multiplier."
+        ],
+        "reverseOnRepeal": "Repealing permission does not remove completed apartments. Their competition can persist. Preventing future construction removes future additional supply, with a construction delay; the study does not establish an equal opposite rent increase after repeal.",
+        "who": "Renters and landlords near completed large apartment buildings in the studied low-income neighborhoods. No townwide household exposure is inferred.",
+        "lagWhy": "The existing map's twelve-month lag is an inherited assumption. The observed effect begins after building completion and leasing; a construction-to-completion interval still requires verification.",
+        "aboutZero": false
+      },
+      "source": "Asquith, Mast and Reed 2023 (REStat)",
+      "quotedAnchor": "-5 to 7% nearby rents",
+      "estimateUnit": "fractional change in nearby rents associated with completion of a large apartment building",
+      "rangeMeaning": "Reported 5\u20137% specification estimate spread in the existing cited research record; NOT claimed to be a confidence interval.",
+      "verificationRequest": {
+        "desk": "Team9",
+        "missing": "Confirm the primary paper's estimate, confidence interval, nearby exposure definition, building size threshold and completion-to-rent measurement horizon. Do not relabel the specification spread as a CI."
+      },
+      "runtimeBlockers": [
+        "Existing cause reader measures permitted units in 5+ unit structures per year per 10,000 residents; it does not measure completed buildings or a household neighborhood exposure",
+        "The townwide rent reader needs household proximity exposure; multiplying all town rents per building would misapply the study"
+      ],
+      "personReader": "no person feels this yet"
+    },
+    {
+      "key": "right-to-counsel-to-evictions",
+      "patch": {
+        "range": [-0.78, -0.45],
+        "why": [
+          "The right establishes access to an attorney for a covered tenant facing an eviction case.",
+          "The attorney identifies defenses, procedural defects and lawful payment or settlement options from that tenant's lease, arrears and case.",
+          "The tenant and attorney present those facts and the landlord chooses whether to settle or press the case.",
+          "The court decides possession from the legal claim, evidence and applicable defenses. Bedrock: the judge's legal decision and the parties' recorded choices."
+        ],
+        "conditions": [
+          "Coverage must include the tenant, proceeding and place; no coverage or no available attorney means the legal entitlement has not yet delivered representation.",
+          "Case merits, arrears, existing representation and local procedure affect the result.",
+          "The existing tenant case writer already includes counsel. Counting its outcomes must not multiply those outcomes by this link again."
+        ],
+        "reverseOnRepeal": "Repeal removes future entitlement subject to actual transition rules. It does not reverse final court orders or prove an equal opposite increase in evictions. Existing representation and voluntary legal aid may continue.",
+        "who": "Covered tenants in eviction proceedings, their landlords, attorneys and the deciding court; not every renter.",
+        "lagWhy": "The inherited six-month map lag stands for program rollout, not a measured universal case delay. Eligibility, counsel assignment and the actual case hearing determine when a person's record changes.",
+        "aboutZero": false
+      },
+      "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
+      "rangeMeaning": "Existing cited record reports represented-tenant eviction-risk reductions of 45\u201378%; cross-study/context span, NOT a confidence interval.",
+      "verificationRequest": {
+        "desk": "Team9",
+        "missing": "Separate the Cassidy\u2013Currie estimate and CI from the NYC administrative result, identify denominators, eligibility and rollout timing; provide cost per represented case."
+      },
+      "personReader": "town-rent.ts records counsel in the actual case decision; stamp wiring remains pending its released hunk",
+      "activationPolicy": "Range metadata only; do not apply a second eviction multiplier to already decided cases."
+    }
+  ],
+  "execution": {
+    "linksActuallyActivated": 0,
+    "linksAdded": 0,
+    "directConsequencesPublished": 0,
+    "governmentCostsWired": 0,
+    "completeLaws": 0,
+    "totalLaws": 10
+  },
+  "executorFailure": "Recovered existing executor; source unchanged from tested preserved candidate",
+  "unpublishedPreservedCandidateHead": "5885a2dc882394f5b5cad6009b36bde74324a0b0"
+}

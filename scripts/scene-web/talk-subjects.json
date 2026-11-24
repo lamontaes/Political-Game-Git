@@ -1,0 +1,50 @@
+{
+  "about": "Which conversation subjects voice a situation type that has no purpose, by the cause label that stages it (src/director/conversation.ts). The scene web counts these lines by speaker: a subject's raise is the one bringing the news, its -reply the one hearing it. A type staged on a tie (no cause label of its own) opens an ordinary conversation between the two, so its talk is the general subjects listed under `types`, counted as both speakers' lines.",
+  "labels": {
+    "feeling:event:life.death": ["death-news"],
+    "feeling:event:health.serious-illness": ["illness-news"],
+    "money:job-ended": ["job-lost", "job-cause"],
+    "money:job-started": ["job-new", "job-new-told"],
+    "feeling:event:housing.eviction": [
+      "eviction",
+      "eviction-cause",
+      "eviction-where"
+    ],
+    "feeling:event:justice.imprisoned": ["prison-news"],
+    "feeling:event:justice.charged": ["charge"],
+    "feeling:event:justice.convicted": ["conviction"],
+    "feeling:event:justice.acquitted": ["acquittal"]
+  },
+  "types": {
+    "becoming-friends": [
+      "greet",
+      "mutual",
+      "shared-work",
+      "shared-school",
+      "own-work",
+      "their-work",
+      "kin",
+      "farewell"
+    ],
+    "reunion": [
+      "greet",
+      "mutual",
+      "shared-work",
+      "shared-school",
+      "own-work",
+      "their-work",
+      "kin",
+      "farewell"
+    ],
+    "first-meeting": [
+      "greet",
+      "mutual",
+      "shared-work",
+      "shared-school",
+      "own-work",
+      "their-work",
+      "kin",
+      "farewell"
+    ]
+  }
+}

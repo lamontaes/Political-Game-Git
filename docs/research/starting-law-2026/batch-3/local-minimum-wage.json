@@ -1,0 +1,399 @@
+{
+  "question": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+  "definition": "yes (preempts false) = cities or counties may set a minimum wage higher than the state's; no (preempts true) = state law (statute or controlling court ruling) bars local governments from setting their own minimum wage. States that are silent and untested are left unknown.",
+  "summarySource": "State code sites (IA, KS, MO, NC, OH, WI, UT, TX, ID, OR, FL, SC, MI, LA, AZ, WA, CO, AR), Eleventh Circuit en banc opinion (12/13/2019), NELP preemption brief (July 2017) and NYC agenda (Dec. 2025), NLC 'City Rights in an Era of Preemption' (2017/2018), UC Berkeley Labor Center local ordinance inventory (07/23/2026), all fetched September 2026.",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ala. Act No. 2016-18 (Ala. Code § 25-7-41)",
+      "operativeAt": "2016-02-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://media.ca11.uscourts.gov/opinions/pub/files/201711009.enb.pdf",
+      "note": "Signed February 25, 2016, voiding Birmingham's $10.10 ordinance; the Eleventh Circuit (en banc, 2019) dismissed the challenge for lack of standing."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ark. Code § 11-4-221",
+      "dateBasis": "not-found",
+      "source": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2017R%2FPublic%2F&file=643.pdf&ddBienniumSession=2017%2F2017R",
+      "note": "Act 643 of 2017 (approved 03/24/2017, no emergency clause) bars counties, cities and towns from requiring a minimum or living wage above state or federal law."
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "A.R.S. § 23-364(I)",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/23/00364.htm",
+      "note": "Counties, cities and towns may set higher minimum wages by ordinance; Flagstaff and Tucson have done so."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "No state preemption; about 40 cities and counties, including Los Angeles, San Francisco and San Diego, have their own higher minimum wages."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "C.R.S. § 29-1-1401; § 8-6-101(4)",
+      "operativeAt": "2020-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leg.colorado.gov/sites/default/files/2019a_1210_signed.pdf",
+      "note": "H.B. 19-1210 repealed the prior ban on local minimum wages; Denver, Edgewater and Boulder County have since adopted them."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "D.C. Code § 32-1003",
+      "dateBasis": "pre-2000",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "D.C. has no state above it; the D.C. Council sets a local minimum wage above the federal rate (ordinance dates from 1992)."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Fla. Stat. § 218.077(2)",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/218.077",
+      "note": "The statute (ch. 2003-87) bars local minimum wages, though Fla. Const. art. X, § 24(f) says the amendment does not limit any public body from requiring higher wages; ch. 2024-80 tightens the ban (adds 'maintain' and contractor wage rules) effective 09/30/2026."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Iowa Code § 364.3(12)",
+      "operativeAt": "2017-03-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.legis.iowa.gov/docs/code/364.3.pdf",
+      "note": "Ordinances adopted before 03/30/2017 were voided, including the Johnson, Linn, Polk, Lee and Wapello County wages."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Idaho Code § 44-1502(4)",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title44/T44CH15/SECT44-1502/",
+      "note": "Section history lists amendments in 2007 and 2016 (ch. 145); the exact date subsection (4) took effect was not confirmed."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://www.chicago.gov/city/en/depts/bacp/supp_info/minimumwageinformation.html",
+      "note": "Home-rule units may set higher wages; Chicago and Cook County have (many Cook County municipalities have opted out of the county rate)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "K.S.A. 12-16,130(a)(3)",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.org/statutes/chapters/ch12/012_016_0130.html",
+      "note": "Bars cities and counties from requiring wages above the minimum wage unless state or federal law requires them; enacted 2013 per NELP."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "KRS 337.275 (as construed in Ky. Restaurant Ass'n v. Louisville/Jefferson County Metro Gov't, Ky. 2016)",
+      "dateBasis": "not-found",
+      "source": "https://www.nlc.org/wp-content/uploads/2017/02/NLC-SML-Preemption-Report-2017-pages.pdf",
+      "note": "No express statute; the Kentucky Supreme Court held in 2016 that the state wage law leaves no room for local minimums, voiding the Louisville and Lexington ordinances."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "La. R.S. 23:642(B)",
+      "dateBasis": "pre-2000",
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=83958",
+      "note": "Enacted by Acts 1997, No. 317; amended 2012."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "Montgomery and Howard Counties have local minimum wages above the state rate."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "No state preemption found; Portland and Rockland have local minimum wages above the state rate."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "MCL 123.1385",
+      "operativeAt": "2015-06-30",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-123-1385",
+      "note": "Local Government Labor Regulatory Limitation Act, 2015 PA 105, immediate effect."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "Minneapolis and St. Paul have local minimum wages above the state rate."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "RSMo 290.528",
+      "operativeAt": "2017-08-28",
+      "dateBasis": "enacted-effective",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.528",
+      "note": "H.B. 1194 & 1193 (2017) nullified the St. Louis ordinance after the state supreme court struck the older 1998 ban (RSMo 67.1571) on single-subject grounds."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Miss. Code Ann. § 17-1-51",
+      "dateBasis": "not-found",
+      "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+      "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text itself was not reachable."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. § 95-25.1(d)",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_95/GS_95-25.1.html",
+      "note": "Current subsection (d), added by S.L. 2023-134, s. 5.9(a), preempts local rules on private-employer pay; the earlier subsection (c) from the 2016 law was repealed by S.L. 2017-4."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
+      "note": "Santa Fe city and county, Las Cruces and Albuquerque have local minimum wages."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.Y. Labor Law § 652 (as construed in Wholesale Laundry Bd. of Trade v. City of New York, 1962)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.nelp.org/insights-research/nelps-new-york-city-worker-justice-agenda/",
+      "note": "No express statute; a 1962 court ruling holds cities cannot set their own minimum wage, and advocates argue it could be reconsidered; the higher NYC/Long Island/Westchester rates are set by state law."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ohio Rev. Code § 4111.02",
+      "operativeAt": "2017-03-21",
+      "dateBasis": "enacted-effective",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-4111.02",
+      "note": "Added by S.B. 331 (131st General Assembly)."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Okla. Stat. tit. 40, § 160",
+      "dateBasis": "not-found",
+      "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+      "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the statute text was not reachable (oscn.net bot challenge)."
+    },
+    "US-OR": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "ORS 653.017",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors653.html",
+      "note": "Enacted 2001 (ch. 967); local governments may set wages only for their own employees, contracts and subsidies; the Portland-metro, standard and nonurban tiers are set by state law (ORS 653.025)."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "43 P.S. § 333.114a (Act 112 of 2006)",
+      "dateBasis": "not-found",
+      "source": "https://www.phila.gov/2019-01-31-higher-minimum-wage-for-pennsylvania/",
+      "note": "Philadelphia states it is preempted by Act 112 from passing any minimum wage law."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "R.I. Gen. Laws § 28-12-25",
+      "dateBasis": "not-found",
+      "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+      "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state statute site was not reachable from this environment."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "S.C. Code Ann. § 6-1-130(B)",
+      "dateBasis": "not-found",
+      "source": "https://www.scstatehouse.gov/code/t06c001.php",
+      "note": "Enacted by 2002 Act No. 243; bars local minimum wages above the federal rate."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tenn. Code Ann. § 50-2-112",
+      "dateBasis": "not-found",
+      "source": "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/",
+      "note": "Cited by NELP (July 2017) among states that bar local minimum wages; the state code text was not reachable."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tex. Lab. Code § 62.0515(a)",
+      "operativeAt": "2003-09-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://tcss.legis.texas.gov/resources/LA/htm/LA.62.htm",
+      "note": "The state minimum wage supersedes local wage ordinances for private employment, except public contracts."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Utah Code § 34-40-106(1)",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title34/Chapter40/C34-40-S106_1800010118000101.html",
+      "note": "Cities, towns and counties may not require a minimum wage above the federal minimum; last amended 2005."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "RCW 49.46.120",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=49.46.120",
+      "note": "State law is a floor that leaves more favorable local wage ordinances in force; Seattle, SeaTac, Tukwila and others have higher rates."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wis. Stat. § 104.001(2)",
+      "operativeAt": "2005-06-16",
+      "dateBasis": "enacted-effective",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/104/001",
+      "note": "2005 Wis. Act 12 voided any local minimum wage ordinance in effect on June 16, 2005 (Madison's)."
+    },
+    "US-AK": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Alaska Const. art. X, § 11; AS 29.10.200",
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the list of home-rule limits in AS 29.10.200 (checked at https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.10.200&secEnd=29.10.200) says nothing about wages; no Alaska city has yet adopted one."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mont. Code Ann. § 7-1-111(23)",
+      "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+      "note": "Self-government units are denied any power to require a private employer to pay a wage or benefit not required by state or federal law (subsection (2) also bars acting on Title 39, the labor title); the section history lists several 2021 amendments, and which one added (23) was not confirmed."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "SDCL 6-12-5; SDCL 6-12-6",
+      "source": "https://sdlegislature.gov/api/Statutes/6-12.html?all=true",
+      "note": "Only home-rule charter units qualify: their ordinances may set standards higher than state law unless a state law provides otherwise, though SDCL 6-12-6(1) withholds power over private civil relationships and no local wage has been tested."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "RSA 31:39",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "Weak: New Hampshire follows Dillon's Rule with no home rule (Wikipedia table), and the town bylaw powers in RSA 31:39 (https://gc.nh.gov/rsa/html/III/31/31-39.htm) list no wage power."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "24 V.S.A. § 2291",
+      "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+      "note": "Weak: Vermont follows Dillon's Rule with no home rule (Wikipedia table), and the enumerated municipal powers in 24 V.S.A. § 2291 include no power to set wages."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Va. Code § 15.2-1102 (charter powers, read under Dillon's Rule)",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "Weak: Virginia follows Dillon's Rule with no home rule (Wikipedia table); the general-welfare charter powers in Va. Code § 15.2-1102 (https://law.lis.virginia.gov/vacode/title15.2/chapter11/section15.2-1102/) grant no wage power in terms, and no Virginia locality has one."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "NRS 268.001; NRS 268.003(1)(c)",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-268.html",
+      "note": "Weak: Nevada keeps Dillon's Rule except for city 'matters of local concern', a term that excludes matters needing statewide uniformity and business activities subject to substantial state regulation, and no statute grants wage-setting power."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.D.C.C. § 40-05.1-06",
+      "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+      "note": "Weak: North Dakota applies Dillon's Rule (Wikipedia table) and home-rule cities get only the powers enumerated in § 40-05.1-06, which list no wage power; the general-welfare ordinance power in subsection 10 has not been tested on wages."
+    }
+  },
+  "unknown": {
+    "US-AS": "Territory; wage set under federal and territorial law, no local authority confirmed.",
+    "US-CT": "No express preemption or local minimum wage found; untested.",
+    "US-DE": "No express preemption or local minimum wage found; untested.",
+    "US-GA": "Widely reported to preempt (O.C.G.A. § 34-4-3.1), but no fetched page confirmed it: the Georgia code is on JavaScript-only or refused hosts.",
+    "US-GU": "Territory; no separate local governments with wage authority confirmed.",
+    "US-HI": "No express preemption or local minimum wage found; untested.",
+    "US-IN": "Widely reported to preempt (Ind. Code § 22-2-2-10.5), but the Indiana code site is JavaScript-only and no fetched page confirmed it.",
+    "US-MA": "No express preemption or local minimum wage found; towns likely need a home-rule petition, but this was not confirmed.",
+    "US-MP": "Territory; no municipal wage authority confirmed.",
+    "US-NE": "Silent on 2026-01-01; Lincoln adopted a local wage in May 2026 (effective 07/18/2026) and Omaha has one, but the Lincoln ordinance is under a temporary injunction.",
+    "US-NJ": "No express preemption or local minimum wage found; untested.",
+    "US-PR": "Territory; municipal authority over wages not confirmed.",
+    "US-VI": "Territory; no municipal wage authority confirmed.",
+    "US-WV": "No express preemption or local minimum wage found; untested.",
+    "US-WY": "No express preemption statute confirmed; untested."
+  },
+  "conflicts": [
+    {
+      "place": "US-FL",
+      "readings": "Fla. Stat. § 218.077 bars local minimum wages, but Fla. Const. art. X, § 24(f) says the minimum wage amendment does not limit any public body from requiring higher wages; NELP (2017) reported a pending Miami Beach challenge. Recorded as no because the statute remains in the current code.",
+      "sources": [
+        "https://www.flsenate.gov/Laws/Statutes/2025/218.077",
+        "https://www.flsenate.gov/Laws/Constitution",
+        "https://www.nelp.org/publication/fighting-preemption-local-minimum-wage-laws/"
+      ]
+    },
+    {
+      "place": "US-NH",
+      "readings": "NLC (2017) counts New Hampshire among states with minimum wage preemption because towns were never given the power; no express statute was found, so it is left unknown.",
+      "sources": [
+        "https://www.nlc.org/wp-content/uploads/2017/02/NLC-SML-Preemption-Report-2017-pages.pdf"
+      ]
+    },
+    {
+      "place": "US-NY",
+      "readings": "No statute bars local wages, but a 1962 court ruling holds cities cannot set one; NELP (2025) says the ruling is ripe for reconsideration. Recorded as no.",
+      "sources": [
+        "https://www.nelp.org/insights-research/nelps-new-york-city-worker-justice-agenda/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 10,
+    "no": 23,
+    "unknown": 23
+  },
+  "refusedHosts": [
+    "www.epi.org (403)",
+    "codes.findlaw.com (403)",
+    "legiscan.com (JavaScript challenge)",
+    "webserver.rilegislature.gov (not in allowlist)",
+    "webserver.rilin.state.ri.us (not in allowlist)",
+    "www.oklegislature.gov (not in allowlist)",
+    "webserver1.lsb.state.ok.us (403)",
+    "www.oscn.net (bot challenge)",
+    "billstatus.ls.state.ms.us (403)",
+    "alisondb.legislature.state.al.us (no connection)",
+    "www.leg.state.fl.us (403)",
+    "www.dol.gov (403)",
+    "casetext.com (410, service closed)",
+    "www.lawserver.com (JavaScript redirect)",
+    "opinions.kycourts.net (no connection)",
+    "grassrootschange.net (no connection)",
+    "oklahoma.public.law / rhode-island.public.law / indiana.public.law (no connection)",
+    "www.portlandmaine.gov (no connection)",
+    "minimumwage.minneapolismn.gov (not in allowlist)",
+    "leg.colorado.gov/bills pages (406; the signed-act PDF worked)",
+    "iga.in.gov (JavaScript-only, no statute text)"
+  ]
+}

@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr
+
+release:check — Post-rollout eligible change 2617e39673cba08d17b2cd1831a27a775d7fc018..b04a36a71df5a9ca79d9ac25466f3568ab3ce5ec modifies 11 non-declaration path(s) but adds or changes no declaration in docs/release/changes. Declare impact: patch, minor, or explicit none. The undeclared path(s): docs/codex/effect-batches/team-2/a93-staff-proof/56-current-main-tests.log, docs/codex/effect-batches/team-2/a93-staff-proof/56-current-main-types.log, docs/codex/effect-batches/team-2/a93-staff-proof/current-main-tests.log, docs/codex/effect-batches/team-2/a93-staff-proof/final-audit.log, docs/codex/effect-batches/team-2/a93-staff-proof/final-format.log, docs/codex/effect-batches/team-2/a93-staff-proof/final-lint.log, docs/codex/effect-batches/team-2/a93-staff-proof/initial-tests.log, docs/codex/effect-batches/team-2/a93-staff-proof/receipt.json, src/simulation/governing/staff-evidence.test.ts, src/simulation/governing/staff-evidence.ts and 1 more.

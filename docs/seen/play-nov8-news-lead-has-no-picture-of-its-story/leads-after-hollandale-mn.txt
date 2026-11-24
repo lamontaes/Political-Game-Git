@@ -1,0 +1,44 @@
+Seed: 8568-hollandale Place: Hollandale, Minnesota
+Place: Hollandale, Minnesota Seed: 8568-hollandale
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+day-1-tab-6: "Congress sets maximum monthly food assistance benefit at $298" -> us-capitol-exterior from law:US-MN:federal:snap-maximum:general:2025-10-01 (federal)
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-1-tab-6: "Congress sets maximum monthly food assistance benefit at $298" -> us-capitol-exterior from law:US-MN:federal:snap-maximum:general:2025-10-01 (federal)
+week-2-tab-1: "Janet Winters named council president" -> main-street from chamber-organized:office:gus2025:208444:board:2025-01-21
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-3: no lead (nothing in print)
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-2-tab-6: "Local income tax authority became law on January 9, 2025." -> state-capitol-mn from law:US-MN:state:local-income-tax-authority:general:2026-01-01
+week-2-tab-7: "Jennifer Molina takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-2-tab-8: "Jennifer Molina takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-2-tab-9: "Who is Jennifer Molina?" -> oval-office-standard from term:seat:US:president:2025-01-20 (federal)
+week-3-tab-1: "Hollandale jobless rate rises to 1%" -> sidewalk-main-street from web:jurisdiction_6566bb52e153ed68:2025-02
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-3: no lead (nothing in print)
+week-3-tab-4: "Janet Winters named council president" -> main-street from chamber-organized:office:gus2025:208444:board:2025-01-21
+week-3-tab-5: no lead (nothing in print)
+week-3-tab-6: "Heather Bowen named for Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-3-tab-7: "President nominates Heather Bowen to be Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-3-tab-8: "Who is William Guerrero?" -> main-street from profile:outlet:magazine:0:national:official:seat:US-AZ:us-house:08:2025-02-03
+week-3-tab-9: "Jennifer Molina sworn in as president" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-4-tab-1: "Hollandale City Council approves the Rent Stabilization Ordinance" -> council-chamber-small from office:gus2025:128690:council
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-3: no lead (nothing in print)
+week-4-tab-4: "Janet Winters named council president" -> main-street from chamber-organized:office:gus2025:208444:board:2025-01-21
+week-4-tab-5: no lead (nothing in print)
+week-4-tab-6: "Heather Bowen confirmed as Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-4-tab-7: "Senate confirms Heather Bowen as Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-4-tab-8: "Who is William Guerrero?" -> main-street from profile:outlet:magazine:0:national:official:seat:US-AZ:us-house:08:2025-02-03
+week-4-tab-9: "Jennifer Molina sworn in as president" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+Leads 19, pictured 19, federal 11, business 0
+NOTE: no business lead in this run
+PASS every lead carries the picture of its record

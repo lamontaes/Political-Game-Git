@@ -1,0 +1,524 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at state (law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+        "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2026-01-22:law-wiring-03d2708e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 6,
+        "countedGroups": 1,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_64420f52d99b1d5d:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_9f731938b52b511a:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_b759d8b2d7ea4962:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 6,
+        "countedGroups": 1,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_64420f52d99b1d5d:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_9f731938b52b511a:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_b759d8b2d7ea4962:2025-01-21",
+          "reach:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2661": 1843,
+        "src/core2/modules/outcome-web.ts:212": 242,
+        "src/core2/modules/legislature.ts:3839": 234,
+        "src/core2/modules/world-legislating.ts:299": 222,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/modules/business.ts:1319": 24,
+        "src/core2/modules/business.ts:1383": 12,
+        "src/core2/life.ts:565": 5,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/world-legislating.ts:674": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2012",
+            "treatment": 2385106,
+            "control": 2390038,
+            "ids": ["journal:2025-07-01:41402"]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 438110194,
+            "control": 438021398,
+            "ids": [
+              "journal:2025-01-26:1690",
+              "journal:2025-01-27:1706",
+              "journal:2025-01-28:1709"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 334630933,
+            "control": 334543806,
+            "ids": [
+              "journal:2025-01-21:1640",
+              "journal:2025-01-21:1641",
+              "journal:2025-01-21:1642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 87766718,
+            "control": 87708122,
+            "ids": [
+              "journal:2025-01-21:1658",
+              "journal:2025-01-21:1659",
+              "journal:2025-01-21:1660"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 234439969,
+            "control": 234386323,
+            "ids": [
+              "journal:2025-02-01:2000",
+              "journal:2025-02-01:2001",
+              "journal:2025-02-01:2002"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 175864447450752,
+            "control": 175864447477515,
+            "ids": [
+              "journal:2025-02-01:1769",
+              "journal:2025-02-01:1770",
+              "journal:2025-02-01:1771"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+            "treatment": 3355117908,
+            "control": 3355141970,
+            "ids": [
+              "journal:2025-01-26:1691",
+              "journal:2025-01-27:1707",
+              "journal:2025-01-28:1710"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 1138362713,
+            "control": 1138386045,
+            "ids": [
+              "journal:2025-01-21:1614",
+              "journal:2025-01-21:1615",
+              "journal:2025-01-21:1616"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1226",
+            "treatment": 714186891217578,
+            "control": 714186891238249,
+            "ids": [
+              "journal:2025-02-01:1779",
+              "journal:2025-02-01:1780",
+              "journal:2025-02-01:1781"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 36573272,
+            "control": 36567233,
+            "ids": [
+              "journal:2025-01-25:1681",
+              "journal:2025-01-25:1683",
+              "journal:2025-01-25:1685"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 7662785,
+            "control": 7656778,
+            "ids": [
+              "journal:2025-07-01:47492",
+              "journal:2025-07-01:47499",
+              "journal:2025-10-01:71410"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:791",
+            "treatment": 3818511758,
+            "control": 3818516700,
+            "ids": [
+              "journal:2025-03-03:15841",
+              "journal:2025-05-02:31385",
+              "journal:2025-05-19:32521"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2012",
+            "treatment": 2385106,
+            "control": 2390038,
+            "ids": ["journal:2025-07-01:41402"]
+          }
+        ],
+        "diffKinds": 32,
+        "cited": [
+          {
+            "token": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "gross": 119883,
+            "ids": [
+              "journal:2025-02-01:1969",
+              "journal:2025-03-01:9284",
+              "journal:2025-04-01:17190"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "way": "out",
+              "targets": 1,
+              "moved": 9863,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_ba7f49eca549fa70",
+                  "row": "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media",
+                  "way": "out",
+                  "treatment": -9863,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:1969"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 9863,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_ba7f49eca549fa70",
+                  "row": "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -41607,
+                  "control": -51470,
+                  "journal": "journal:2025-02-01:1980"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/world-transfer.ts:40|in",
+          "sample": [
+            {
+              "target": "organization_ba7f49eca549fa70",
+              "row": "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "treatment": -41607,
+              "control": -51470,
+              "journal": "journal:2025-02-01:1980"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "organization_ba7f49eca549fa70",
+                "row": "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media",
+                "way": "out",
+                "treatment": -9863,
+                "control": 0,
+                "journal": "journal:2025-02-01:1969"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "organization_ba7f49eca549fa70",
+                "row": "applied|us-policy-positions:technology-privacy.age-verification-for-social-media|organization_ba7f49eca549fa70",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "in",
+                "treatment": -41607,
+                "control": -51470,
+                "journal": "journal:2025-02-01:1980"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "age-verification-to-youth-depressive-episode",
+            "status": "built",
+            "to": "health.youth-major-depressive-episode"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2026-01",
+            "link": "age-verification-to-youth-depressive-episode",
+            "effect": -0.011
+          }
+        ],
+        "firedCount": 9,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "age-verification-to-youth-depressive-episode",
+            "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "lagMonths": 3,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 88,
+        "sample": [
+          "person_64420c52d99b1844:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+          "person_b2532c2bb80a61d2:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 7,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 7,
+        "sample": []
+      },
+      "seconds": 79
+    }
+  ]
+}

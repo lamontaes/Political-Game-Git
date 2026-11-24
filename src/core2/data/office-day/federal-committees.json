@@ -1,0 +1,1758 @@
+{
+  "version": "office-day-federal-committees-v1",
+  "about": "The standing, special and select committees of the U.S. House and Senate in the 119th Congress (2025-2026), each with its subcommittees as the chambers list them, so a member of Congress can hold real committee and subcommittee seats. Read by src/core2/office-day-federal.ts. The legislature engine refers a bill to one of three subject committees (finance, labor, general); each real committee names the one it stands for in engineCommittee, and lists the starting-law policy question keys its jurisdiction covers. Subcommittee lists come from the chambers' committee index pages as fetched on the retrieval date; the 11 House committees whose Clerk index showed a 'more' link were checked against their own committee sites on the same date (one subcommittee, House Transportation and Infrastructure Oversight and Investigations, was added; task forces listed on the Financial Services, Homeland Security and Oversight sites are not subcommittees and are left out). Each subcommittee's questions list names the policy question keys its jurisdiction covers. Joint committees are not included.",
+  "sources": {
+    "clerk": {
+      "url": "https://clerk.house.gov/committees",
+      "retrieved": "2026-10-14"
+    },
+    "senate": {
+      "url": "https://www.senate.gov/committees/",
+      "retrieved": "2026-10-14"
+    },
+    "committeeSites": {
+      "url": "https://agriculture.house.gov/subcommittees/ (and the other House committees' own sites: appropriations, armedservices, energycommerce, financialservices, foreignaffairs, homeland, judiciary, oversight, transportation, waysandmeans .house.gov)",
+      "retrieved": "2026-10-14"
+    }
+  },
+  "chambers": {
+    "house": [
+      {
+        "id": "house:agriculture",
+        "name": "Committee on Agriculture",
+        "engineCommittee": "environment",
+        "questions": [
+          "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:agriculture:commodity-markets-digital-assets-and-rural-development",
+            "name": "Subcommittee on Commodity Markets, Digital Assets, and Rural Development",
+            "questions": []
+          },
+          {
+            "id": "house:agriculture:conservation-research-and-biotechnology",
+            "name": "Subcommittee on Conservation, Research, and Biotechnology",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "house:agriculture:forestry-and-horticulture",
+            "name": "Subcommittee on Forestry and Horticulture",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "house:agriculture:general-farm-commodities-risk-management-and-credit",
+            "name": "Subcommittee on General Farm Commodities, Risk Management, and Credit",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "house:agriculture:livestock-dairy-and-poultry",
+            "name": "Subcommittee on Livestock, Dairy, and Poultry",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "house:agriculture:nutrition-and-foreign-agriculture",
+            "name": "Subcommittee on Nutrition and Foreign Agriculture",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "house:appropriations",
+        "name": "Committee on Appropriations",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.balanced-operating-budget",
+          "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "us-policy-positions:fiscal.minimum-reserve-balance"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:appropriations:agriculture-rural-development-food-and-drug-administration-and-related-agencies",
+            "name": "Subcommittee on Agriculture, Rural Development, Food and Drug Administration, and Related Agencies",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "house:appropriations:commerce-justice-science-and-related-agencies",
+            "name": "Subcommittee on Commerce, Justice, Science, and Related Agencies",
+            "questions": []
+          },
+          {
+            "id": "house:appropriations:defense",
+            "name": "Subcommittee on Defense",
+            "questions": []
+          },
+          {
+            "id": "house:appropriations:energy-and-water-development-and-related-agencies",
+            "name": "Subcommittee on Energy and Water Development and Related Agencies",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "house:appropriations:financial-services-and-general-government",
+            "name": "Subcommittee on Financial Services and General Government",
+            "questions": [
+              "us-policy-positions:fiscal.balanced-operating-budget",
+              "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "us-policy-positions:fiscal.minimum-reserve-balance",
+              "us-policy-positions:business-commerce.cap-consumer-loan-rates"
+            ]
+          },
+          {
+            "id": "house:appropriations:homeland-security",
+            "name": "Subcommittee on Homeland Security",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "house:appropriations:interior-environment-and-related-agencies",
+            "name": "Subcommittee on Interior, Environment, and Related Agencies",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon",
+              "us-policy-positions:civil-family-community.dedicated-parks-funding"
+            ]
+          },
+          {
+            "id": "house:appropriations:labor-health-and-human-services-education-and-related-agencies",
+            "name": "Subcommittee on Labor, Health and Human Services, Education, and Related Agencies",
+            "questions": [
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "us-policy-positions:labor-workforce.paid-family-leave",
+              "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "us-policy-positions:labor-workforce.right-to-work",
+              "us-policy-positions:education.public-funds-for-private-schooling",
+              "us-policy-positions:education.raise-teacher-minimum-salary",
+              "us-policy-positions:education.universal-preschool",
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "house:appropriations:legislative-branch",
+            "name": "Subcommittee on Legislative Branch",
+            "questions": []
+          },
+          {
+            "id": "house:appropriations:military-construction-veterans-affairs-and-related-agencies",
+            "name": "Subcommittee on Military Construction, Veterans Affairs, and Related Agencies",
+            "questions": []
+          },
+          {
+            "id": "house:appropriations:national-security-department-of-state-and-related-programs",
+            "name": "Subcommittee on National Security, Department of State, and Related Programs",
+            "questions": []
+          },
+          {
+            "id": "house:appropriations:transportation-housing-and-urban-development-and-related-agencies",
+            "name": "Subcommittee on Transportation, Housing and Urban Development, and Related Agencies",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.public-broadband",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "us-policy-positions:housing-land-use.rent-stabilization",
+              "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "house:armed-services",
+        "name": "Committee on Armed Services",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:armed-services:cyber-information-technologies-and-innovation",
+            "name": "Subcommittee on Cyber, Information Technologies, and Innovation",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:intelligence-and-special-operations",
+            "name": "Subcommittee on Intelligence and Special Operations",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:military-personnel",
+            "name": "Subcommittee on Military Personnel",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:readiness",
+            "name": "Subcommittee on Readiness",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:seapower-and-projection-forces",
+            "name": "Subcommittee on Seapower and Projection Forces",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:strategic-forces",
+            "name": "Subcommittee on Strategic Forces",
+            "questions": []
+          },
+          {
+            "id": "house:armed-services:tactical-air-and-land-forces",
+            "name": "Subcommittee on Tactical Air and Land Forces",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:budget",
+        "name": "Committee on the Budget",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.balanced-operating-budget",
+          "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "us-policy-positions:fiscal.minimum-reserve-balance"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": []
+      },
+      {
+        "id": "house:education-and-workforce",
+        "name": "Committee on Education and Workforce",
+        "engineCommittee": "education",
+        "questions": [
+          "us-policy-positions:education.universal-preschool",
+          "us-policy-positions:education.public-funds-for-private-schooling",
+          "us-policy-positions:education.raise-teacher-minimum-salary",
+          "us-policy-positions:labor-workforce.right-to-work",
+          "us-policy-positions:labor-workforce.paid-family-leave",
+          "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:education-and-workforce:early-childhood-elementary-and-secondary-education",
+            "name": "Subcommittee on Early Childhood, Elementary, and Secondary Education",
+            "questions": [
+              "us-policy-positions:education.public-funds-for-private-schooling",
+              "us-policy-positions:education.raise-teacher-minimum-salary",
+              "us-policy-positions:education.universal-preschool"
+            ]
+          },
+          {
+            "id": "house:education-and-workforce:health-employment-labor-and-pensions",
+            "name": "Subcommittee on Health, Employment, Labor, and Pensions",
+            "questions": [
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "us-policy-positions:labor-workforce.paid-family-leave",
+              "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "us-policy-positions:labor-workforce.right-to-work"
+            ]
+          },
+          {
+            "id": "house:education-and-workforce:higher-education-and-workforce-development",
+            "name": "Subcommittee on Higher Education and Workforce Development",
+            "questions": [
+              "us-policy-positions:education.public-funds-for-private-schooling",
+              "us-policy-positions:education.raise-teacher-minimum-salary",
+              "us-policy-positions:education.universal-preschool"
+            ]
+          },
+          {
+            "id": "house:education-and-workforce:workforce-protections",
+            "name": "Subcommittee on Workforce Protections",
+            "questions": [
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "us-policy-positions:labor-workforce.paid-family-leave",
+              "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "us-policy-positions:labor-workforce.right-to-work"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "house:energy-and-commerce",
+        "name": "Committee on Energy and Commerce",
+        "engineCommittee": "environment",
+        "questions": [
+          "us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "us-policy-positions:environment-energy.bottle-deposit",
+          "us-policy-positions:environment-energy.clean-electricity-standard",
+          "us-policy-positions:environment-energy.price-carbon",
+          "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+          "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "us-policy-positions:business-commerce.legalize-cannabis-sales",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "us-policy-positions:health-human-services.medicaid-work-requirement"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:energy-and-commerce:commerce-manufacturing-and-trade",
+            "name": "Subcommittee on Commerce, Manufacturing, and Trade",
+            "questions": [
+              "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+            ]
+          },
+          {
+            "id": "house:energy-and-commerce:communications-and-technology",
+            "name": "Subcommittee on Communications and Technology",
+            "questions": [
+              "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+            ]
+          },
+          {
+            "id": "house:energy-and-commerce:energy",
+            "name": "Subcommittee on Energy",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "house:energy-and-commerce:environment",
+            "name": "Subcommittee on Environment",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "house:energy-and-commerce:health",
+            "name": "Subcommittee on Health",
+            "questions": [
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "house:energy-and-commerce:oversight-and-investigations",
+            "name": "Subcommittee on Oversight and Investigations",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:ethics",
+        "name": "Committee on Ethics",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": []
+      },
+      {
+        "id": "house:financial-services",
+        "name": "Committee on Financial Services",
+        "engineCommittee": "labor-commerce",
+        "questions": [
+          "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "us-policy-positions:housing-land-use.rent-stabilization",
+          "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "us-policy-positions:housing-land-use.inclusionary-requirement"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:financial-services:capital-markets",
+            "name": "Subcommittee on Capital Markets",
+            "questions": []
+          },
+          {
+            "id": "house:financial-services:digital-assets-financial-technology-and-artificial-intelligence",
+            "name": "Subcommittee on Digital Assets, Financial Technology, and Artificial Intelligence",
+            "questions": []
+          },
+          {
+            "id": "house:financial-services:financial-institutions",
+            "name": "Subcommittee on Financial Institutions",
+            "questions": [
+              "us-policy-positions:business-commerce.cap-consumer-loan-rates"
+            ]
+          },
+          {
+            "id": "house:financial-services:housing-and-insurance",
+            "name": "Subcommittee on Housing and Insurance",
+            "questions": [
+              "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "us-policy-positions:housing-land-use.rent-stabilization",
+              "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+            ]
+          },
+          {
+            "id": "house:financial-services:national-security-illicit-finance-and-international-financial-institutions",
+            "name": "Subcommittee on National Security, Illicit Finance, and International Financial Institutions",
+            "questions": [
+              "us-policy-positions:business-commerce.cap-consumer-loan-rates"
+            ]
+          },
+          {
+            "id": "house:financial-services:oversight-and-investigations",
+            "name": "Subcommittee on Oversight and Investigations",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:foreign-affairs",
+        "name": "Committee on Foreign Affairs",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:foreign-affairs:africa",
+            "name": "Subcommittee on Africa",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:east-asia-and-pacific",
+            "name": "Subcommittee on East Asia and Pacific",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:europe",
+            "name": "Subcommittee on Europe",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:middle-east-and-north-africa",
+            "name": "Subcommittee on Middle East and North Africa",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:oversight-and-intelligence",
+            "name": "Subcommittee on Oversight and Intelligence",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:south-and-central-asia",
+            "name": "Subcommittee on South and Central Asia",
+            "questions": []
+          },
+          {
+            "id": "house:foreign-affairs:western-hemisphere",
+            "name": "Subcommittee on Western Hemisphere",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:homeland-security",
+        "name": "Committee on Homeland Security",
+        "engineCommittee": "judiciary",
+        "questions": [
+          "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:homeland-security:border-security-and-enforcement",
+            "name": "Subcommittee on Border Security and Enforcement",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "house:homeland-security:counterterrorism-and-intelligence",
+            "name": "Subcommittee on Counterterrorism and Intelligence",
+            "questions": []
+          },
+          {
+            "id": "house:homeland-security:cybersecurity-and-infrastructure-protection",
+            "name": "Subcommittee on Cybersecurity and Infrastructure Protection",
+            "questions": []
+          },
+          {
+            "id": "house:homeland-security:emergency-management-and-technology",
+            "name": "Subcommittee on Emergency Management and Technology",
+            "questions": []
+          },
+          {
+            "id": "house:homeland-security:oversight-investigations-and-accountability",
+            "name": "Subcommittee on Oversight, Investigations, and Accountability",
+            "questions": []
+          },
+          {
+            "id": "house:homeland-security:transportation-and-maritime-security",
+            "name": "Subcommittee on Transportation and Maritime Security",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:house-administration",
+        "name": "Committee on House Administration",
+        "engineCommittee": "government",
+        "questions": [
+          "us-policy-positions:government-operations.require-photo-id-to-vote",
+          "us-policy-positions:government-operations.automatic-voter-registration",
+          "us-policy-positions:government-operations.legislative-term-limits",
+          "us-policy-positions:government-operations.independent-redistricting",
+          "us-policy-positions:government-operations.same-day-voter-registration",
+          "us-policy-positions:government-operations.all-mail-voting"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:house-administration:elections",
+            "name": "Subcommittee on Elections",
+            "questions": [
+              "us-policy-positions:government-operations.all-mail-voting",
+              "us-policy-positions:government-operations.automatic-voter-registration",
+              "us-policy-positions:government-operations.independent-redistricting",
+              "us-policy-positions:government-operations.legislative-term-limits",
+              "us-policy-positions:government-operations.require-photo-id-to-vote",
+              "us-policy-positions:government-operations.same-day-voter-registration"
+            ]
+          },
+          {
+            "id": "house:house-administration:modernization-and-innovation",
+            "name": "Subcommittee on Modernization and Innovation",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:judiciary",
+        "name": "Committee on the Judiciary",
+        "engineCommittee": "judiciary",
+        "questions": [
+          "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "us-policy-positions:justice-public-safety.end-cash-bail",
+          "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "us-policy-positions:justice-public-safety.stand-your-ground",
+          "us-policy-positions:justice-public-safety.child-access-prevention",
+          "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+          "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+          "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:judiciary:the-administrative-state-regulatory-reform-and-antitrust",
+            "name": "Subcommittee on The Administrative State, Regulatory Reform, and Antitrust",
+            "questions": []
+          },
+          {
+            "id": "house:judiciary:the-constitution-and-limited-government",
+            "name": "Subcommittee on The Constitution and Limited Government",
+            "questions": [
+              "us-policy-positions:justice-public-safety.child-access-prevention",
+              "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "us-policy-positions:justice-public-safety.end-cash-bail",
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "us-policy-positions:justice-public-safety.stand-your-ground",
+              "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
+            ]
+          },
+          {
+            "id": "house:judiciary:courts-intellectual-property-artificial-intelligence-and-the-internet",
+            "name": "Subcommittee on Courts, Intellectual Property, Artificial Intelligence, and the Internet",
+            "questions": []
+          },
+          {
+            "id": "house:judiciary:crime-and-federal-government-surveillance",
+            "name": "Subcommittee on Crime and Federal Government Surveillance",
+            "questions": [
+              "us-policy-positions:justice-public-safety.child-access-prevention",
+              "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "us-policy-positions:justice-public-safety.end-cash-bail",
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "us-policy-positions:justice-public-safety.stand-your-ground"
+            ]
+          },
+          {
+            "id": "house:judiciary:immigration-integrity-security-and-enforcement",
+            "name": "Subcommittee on Immigration Integrity, Security, and Enforcement",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "house:judiciary:oversight",
+            "name": "Subcommittee on Oversight",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:natural-resources",
+        "name": "Committee on Natural Resources",
+        "engineCommittee": "judiciary",
+        "questions": [
+          "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:natural-resources:energy-and-mineral-resources",
+            "name": "Subcommittee on Energy and Mineral Resources",
+            "questions": []
+          },
+          {
+            "id": "house:natural-resources:federal-lands",
+            "name": "Subcommittee on Federal Lands",
+            "questions": [
+              "us-policy-positions:civil-family-community.dedicated-parks-funding"
+            ]
+          },
+          {
+            "id": "house:natural-resources:indian-and-insular-affairs",
+            "name": "Subcommittee on Indian and Insular Affairs",
+            "questions": []
+          },
+          {
+            "id": "house:natural-resources:oversight-and-investigations",
+            "name": "Subcommittee on Oversight and Investigations",
+            "questions": []
+          },
+          {
+            "id": "house:natural-resources:water-wildlife-and-fisheries",
+            "name": "Subcommittee on Water, Wildlife and Fisheries",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:oversight-and-government-reform",
+        "name": "Committee on Oversight and Government Reform",
+        "engineCommittee": "government",
+        "questions": [
+          "us-policy-positions:government-operations.broaden-local-authority",
+          "us-policy-positions:government-operations.ban-lobbying-after-office"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:oversight-and-government-reform:cybersecurity-information-technology-and-government-innovation",
+            "name": "Subcommittee on Cybersecurity, Information Technology, and Government Innovation",
+            "questions": []
+          },
+          {
+            "id": "house:oversight-and-government-reform:delivering-on-government-efficiency",
+            "name": "Subcommittee on Delivering on Government Efficiency",
+            "questions": []
+          },
+          {
+            "id": "house:oversight-and-government-reform:economic-growth-energy-policy-and-regulatory-affairs",
+            "name": "Subcommittee on Economic Growth, Energy Policy, and Regulatory Affairs",
+            "questions": []
+          },
+          {
+            "id": "house:oversight-and-government-reform:federal-law-enforcement",
+            "name": "Subcommittee on Federal Law Enforcement",
+            "questions": []
+          },
+          {
+            "id": "house:oversight-and-government-reform:government-operations",
+            "name": "Subcommittee on Government Operations",
+            "questions": [
+              "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "us-policy-positions:government-operations.broaden-local-authority"
+            ]
+          },
+          {
+            "id": "house:oversight-and-government-reform:health-care-and-financial-services",
+            "name": "Subcommittee on Health Care and Financial Services",
+            "questions": []
+          },
+          {
+            "id": "house:oversight-and-government-reform:military-and-foreign-affairs",
+            "name": "Subcommittee on Military and Foreign Affairs",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:rules",
+        "name": "Committee on the Rules",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:rules:legislative-and-budget-process",
+            "name": "Subcommittee on Legislative and Budget Process",
+            "questions": []
+          },
+          {
+            "id": "house:rules:rules-and-organization-of-the-house",
+            "name": "Subcommittee on Rules and Organization of the House",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:science-space-and-technology",
+        "name": "Committee on Science, Space, and Technology",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:science-space-and-technology:energy",
+            "name": "Subcommittee on Energy",
+            "questions": []
+          },
+          {
+            "id": "house:science-space-and-technology:environment",
+            "name": "Subcommittee on Environment",
+            "questions": []
+          },
+          {
+            "id": "house:science-space-and-technology:investigations-and-oversight",
+            "name": "Subcommittee on Investigations and Oversight",
+            "questions": []
+          },
+          {
+            "id": "house:science-space-and-technology:research-and-technology",
+            "name": "Subcommittee on Research and Technology",
+            "questions": []
+          },
+          {
+            "id": "house:science-space-and-technology:space-and-aeronautics",
+            "name": "Subcommittee on Space and Aeronautics",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:small-business",
+        "name": "Committee on Small Business",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:small-business:contracting-and-infrastructure",
+            "name": "Subcommittee on Contracting and Infrastructure",
+            "questions": []
+          },
+          {
+            "id": "house:small-business:economic-growth-tax-and-capital-access",
+            "name": "Subcommittee on Economic Growth, Tax, and Capital Access",
+            "questions": []
+          },
+          {
+            "id": "house:small-business:innovation-entrepreneurship-and-workforce-development",
+            "name": "Subcommittee on Innovation, Entrepreneurship, and Workforce Development",
+            "questions": []
+          },
+          {
+            "id": "house:small-business:oversight-investigations-and-regulations",
+            "name": "Subcommittee on Oversight, Investigations, and Regulations",
+            "questions": []
+          },
+          {
+            "id": "house:small-business:rural-development-energy-and-supply-chains",
+            "name": "Subcommittee on Rural Development, Energy, and Supply Chains",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:transportation-and-infrastructure",
+        "name": "Committee on Transportation and Infrastructure",
+        "engineCommittee": "transportation",
+        "questions": [
+          "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "us-policy-positions:transportation-infrastructure.fare-free-transit"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:transportation-and-infrastructure:aviation",
+            "name": "Subcommittee on Aviation",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+            ]
+          },
+          {
+            "id": "house:transportation-and-infrastructure:coast-guard-and-maritime-transportation",
+            "name": "Subcommittee on Coast Guard and Maritime Transportation",
+            "questions": []
+          },
+          {
+            "id": "house:transportation-and-infrastructure:economic-development-public-buildings-and-emergency-management",
+            "name": "Subcommittee on Economic Development, Public Buildings, and Emergency Management",
+            "questions": []
+          },
+          {
+            "id": "house:transportation-and-infrastructure:highways-and-transit",
+            "name": "Subcommittee on Highways and Transit",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+            ]
+          },
+          {
+            "id": "house:transportation-and-infrastructure:oversight-and-investigations",
+            "name": "Subcommittee on Oversight and Investigations",
+            "questions": []
+          },
+          {
+            "id": "house:transportation-and-infrastructure:railroads-pipelines-and-hazardous-materials",
+            "name": "Subcommittee on Railroads, Pipelines, and Hazardous Materials",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+            ]
+          },
+          {
+            "id": "house:transportation-and-infrastructure:water-resources-and-environment",
+            "name": "Subcommittee on Water Resources and Environment",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:veterans-affairs",
+        "name": "Committee on Veterans' Affairs",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:veterans-affairs:disability-assistance-and-memorial-affairs",
+            "name": "Subcommittee on Disability Assistance and Memorial Affairs",
+            "questions": []
+          },
+          {
+            "id": "house:veterans-affairs:economic-opportunity",
+            "name": "Subcommittee on Economic Opportunity",
+            "questions": []
+          },
+          {
+            "id": "house:veterans-affairs:health",
+            "name": "Subcommittee on Health",
+            "questions": []
+          },
+          {
+            "id": "house:veterans-affairs:oversight-and-investigations",
+            "name": "Subcommittee on Oversight and Investigations",
+            "questions": []
+          },
+          {
+            "id": "house:veterans-affairs:technology-modernization",
+            "name": "Subcommittee on Technology Modernization",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "house:ways-and-means",
+        "name": "Committee on Ways and Means",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.adopt-income-tax",
+          "us-policy-positions:fiscal.graduated-income-tax",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "us-policy-positions:fiscal.cap-property-tax-growth",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "us-policy-positions:health-human-services.medicaid-work-requirement"
+        ],
+        "sourceId": "clerk",
+        "subcommittees": [
+          {
+            "id": "house:ways-and-means:health",
+            "name": "Subcommittee on Health",
+            "questions": [
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "house:ways-and-means:oversight",
+            "name": "Subcommittee on Oversight",
+            "questions": []
+          },
+          {
+            "id": "house:ways-and-means:social-security",
+            "name": "Subcommittee on Social Security",
+            "questions": [
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "house:ways-and-means:tax",
+            "name": "Subcommittee on Tax",
+            "questions": [
+              "us-policy-positions:fiscal.adopt-income-tax",
+              "us-policy-positions:fiscal.cap-property-tax-growth",
+              "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "us-policy-positions:fiscal.graduated-income-tax"
+            ]
+          },
+          {
+            "id": "house:ways-and-means:trade",
+            "name": "Subcommittee on Trade",
+            "questions": []
+          },
+          {
+            "id": "house:ways-and-means:work-and-welfare",
+            "name": "Subcommittee on Work and Welfare",
+            "questions": [
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          }
+        ]
+      }
+    ],
+    "senate": [
+      {
+        "id": "senate:appropriations",
+        "name": "Committee on Appropriations",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.balanced-operating-budget",
+          "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "us-policy-positions:fiscal.minimum-reserve-balance"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:appropriations:agriculture-rural-development-food-and-drug-administration-and-related-agencies",
+            "name": "Subcommittee on Agriculture, Rural Development, Food and Drug Administration, and Related Agencies",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "senate:appropriations:commerce-justice-science-and-related-agencies",
+            "name": "Subcommittee on Commerce, Justice, Science, and Related Agencies",
+            "questions": []
+          },
+          {
+            "id": "senate:appropriations:department-of-defense",
+            "name": "Subcommittee on Department of Defense",
+            "questions": []
+          },
+          {
+            "id": "senate:appropriations:department-of-homeland-security",
+            "name": "Subcommittee on Department of Homeland Security",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "senate:appropriations:department-of-interior-environment-and-related-agencies",
+            "name": "Subcommittee on Department of Interior, Environment, and Related Agencies",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon",
+              "us-policy-positions:civil-family-community.dedicated-parks-funding"
+            ]
+          },
+          {
+            "id": "senate:appropriations:departments-of-labor-health-and-human-services-and-education-and-related-agencies",
+            "name": "Subcommittee on Departments of Labor, Health and Human Services, and Education, and Related Agencies",
+            "questions": [
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "us-policy-positions:labor-workforce.paid-family-leave",
+              "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "us-policy-positions:labor-workforce.right-to-work",
+              "us-policy-positions:education.public-funds-for-private-schooling",
+              "us-policy-positions:education.raise-teacher-minimum-salary",
+              "us-policy-positions:education.universal-preschool",
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "senate:appropriations:energy-and-water-development",
+            "name": "Subcommittee on Energy and Water Development",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:appropriations:financial-services-and-general-government",
+            "name": "Subcommittee on Financial Services and General Government",
+            "questions": [
+              "us-policy-positions:fiscal.balanced-operating-budget",
+              "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "us-policy-positions:fiscal.minimum-reserve-balance",
+              "us-policy-positions:business-commerce.cap-consumer-loan-rates"
+            ]
+          },
+          {
+            "id": "senate:appropriations:legislative-branch",
+            "name": "Subcommittee on Legislative Branch",
+            "questions": []
+          },
+          {
+            "id": "senate:appropriations:military-construction-veterans-affairs-and-related-agencies",
+            "name": "Subcommittee on Military Construction, Veterans Affairs, and Related Agencies",
+            "questions": []
+          },
+          {
+            "id": "senate:appropriations:state-foreign-operations-and-related-programs",
+            "name": "Subcommittee on State, Foreign Operations, and Related Programs",
+            "questions": []
+          },
+          {
+            "id": "senate:appropriations:transportation-housing-and-urban-development-and-related-agencies",
+            "name": "Subcommittee on Transportation, Housing and Urban Development, and Related Agencies",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.public-broadband",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "us-policy-positions:housing-land-use.rent-stabilization",
+              "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:agriculture-nutrition-and-forestry",
+        "name": "Committee on Agriculture, Nutrition, and Forestry",
+        "engineCommittee": "environment",
+        "questions": [
+          "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+          "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:agriculture-nutrition-and-forestry:commodities-derivatives-risk-management-and-trade",
+            "name": "Subcommittee on Commodities, Derivatives, Risk Management, and Trade",
+            "questions": []
+          },
+          {
+            "id": "senate:agriculture-nutrition-and-forestry:conservation-forestry-natural-resources-and-biotechnology",
+            "name": "Subcommittee on Conservation, Forestry, Natural Resources, and Biotechnology",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "senate:agriculture-nutrition-and-forestry:food-and-nutrition-specialty-crops-organics-and-research",
+            "name": "Subcommittee on Food and Nutrition, Specialty Crops, Organics, and Research",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "senate:agriculture-nutrition-and-forestry:livestock-dairy-poultry-and-food-safety",
+            "name": "Subcommittee on Livestock, Dairy, Poultry, and Food Safety",
+            "questions": [
+              "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development"
+            ]
+          },
+          {
+            "id": "senate:agriculture-nutrition-and-forestry:rural-development-energy-and-credit",
+            "name": "Subcommittee on Rural Development, Energy, and Credit",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:special-committee-on-aging",
+        "name": "Special Committee on Aging",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:armed-services",
+        "name": "Committee on Armed Services",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:armed-services:airland",
+            "name": "Subcommittee on Airland",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:cybersecurity",
+            "name": "Subcommittee on Cybersecurity",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:emerging-threats-and-capabilities",
+            "name": "Subcommittee on Emerging Threats and Capabilities",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:personnel",
+            "name": "Subcommittee on Personnel",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:readiness-and-management-support",
+            "name": "Subcommittee on Readiness and Management Support",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:seapower",
+            "name": "Subcommittee on Seapower",
+            "questions": []
+          },
+          {
+            "id": "senate:armed-services:strategic-forces",
+            "name": "Subcommittee on Strategic Forces",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:banking-housing-and-urban-affairs",
+        "name": "Committee on Banking, Housing, and Urban Affairs",
+        "engineCommittee": "labor-commerce",
+        "questions": [
+          "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+          "us-policy-positions:housing-land-use.rent-stabilization",
+          "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+          "us-policy-positions:housing-land-use.inclusionary-requirement"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:banking-housing-and-urban-affairs:digital-assets",
+            "name": "Subcommittee on Digital Assets",
+            "questions": []
+          },
+          {
+            "id": "senate:banking-housing-and-urban-affairs:economic-policy",
+            "name": "Subcommittee on Economic Policy",
+            "questions": []
+          },
+          {
+            "id": "senate:banking-housing-and-urban-affairs:financial-institutions-and-consumer-protection",
+            "name": "Subcommittee on Financial Institutions and Consumer Protection",
+            "questions": [
+              "us-policy-positions:business-commerce.cap-consumer-loan-rates"
+            ]
+          },
+          {
+            "id": "senate:banking-housing-and-urban-affairs:housing-transportation-and-community-development",
+            "name": "Subcommittee on Housing, Transportation, and Community Development",
+            "questions": [
+              "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "us-policy-positions:housing-land-use.rent-stabilization",
+              "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+            ]
+          },
+          {
+            "id": "senate:banking-housing-and-urban-affairs:national-security-and-international-trade-and-finance",
+            "name": "Subcommittee on National Security and International Trade and Finance",
+            "questions": []
+          },
+          {
+            "id": "senate:banking-housing-and-urban-affairs:securities-insurance-and-investment",
+            "name": "Subcommittee on Securities, Insurance, and Investment",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:budget",
+        "name": "Committee on Budget",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.balanced-operating-budget",
+          "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "us-policy-positions:fiscal.minimum-reserve-balance"
+        ],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:commerce-science-and-transportation",
+        "name": "Committee on Commerce, Science, and Transportation",
+        "engineCommittee": "labor-commerce",
+        "questions": [
+          "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+          "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+          "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          "us-policy-positions:transportation-infrastructure.public-broadband",
+          "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+          "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+          "us-policy-positions:transportation-infrastructure.fare-free-transit"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:commerce-science-and-transportation:aviation-space-and-innovation",
+            "name": "Subcommittee on Aviation, Space, and Innovation",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.public-broadband",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+            ]
+          },
+          {
+            "id": "senate:commerce-science-and-transportation:coast-guard-maritime-and-fisheries",
+            "name": "Subcommittee on Coast Guard, Maritime, and Fisheries",
+            "questions": []
+          },
+          {
+            "id": "senate:commerce-science-and-transportation:consumer-protection-technology-and-data-privacy",
+            "name": "Subcommittee on Consumer Protection, Technology, and Data Privacy",
+            "questions": [
+              "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+            ]
+          },
+          {
+            "id": "senate:commerce-science-and-transportation:science-manufacturing-and-competitiveness",
+            "name": "Subcommittee on Science, Manufacturing, and Competitiveness",
+            "questions": []
+          },
+          {
+            "id": "senate:commerce-science-and-transportation:surface-transportation-freight-pipelines-and-safety",
+            "name": "Subcommittee on Surface Transportation, Freight, Pipelines, and Safety",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "us-policy-positions:transportation-infrastructure.public-broadband",
+              "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit"
+            ]
+          },
+          {
+            "id": "senate:commerce-science-and-transportation:telecommunications-and-media",
+            "name": "Subcommittee on Telecommunications and Media",
+            "questions": [
+              "us-policy-positions:transportation-infrastructure.public-broadband",
+              "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "us-policy-positions:technology-privacy.restrict-government-facial-recognition"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:energy-and-natural-resources",
+        "name": "Committee on Energy and Natural Resources",
+        "engineCommittee": "judiciary",
+        "questions": [
+          "us-policy-positions:civil-family-community.dedicated-parks-funding",
+          "us-policy-positions:environment-energy.clean-electricity-standard",
+          "us-policy-positions:environment-energy.price-carbon"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:energy-and-natural-resources:energy",
+            "name": "Subcommittee on Energy",
+            "questions": [
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:energy-and-natural-resources:national-parks",
+            "name": "Subcommittee on National Parks",
+            "questions": [
+              "us-policy-positions:civil-family-community.dedicated-parks-funding"
+            ]
+          },
+          {
+            "id": "senate:energy-and-natural-resources:public-lands-forests-and-mining",
+            "name": "Subcommittee on Public Lands, Forests, and Mining",
+            "questions": [
+              "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:energy-and-natural-resources:water-and-power",
+            "name": "Subcommittee on Water and Power",
+            "questions": [
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:environment-and-public-works",
+        "name": "Committee on Environment and Public Works",
+        "engineCommittee": "environment",
+        "questions": [
+          "us-policy-positions:environment-energy.ban-new-gas-hookups",
+          "us-policy-positions:environment-energy.bottle-deposit",
+          "us-policy-positions:environment-energy.clean-electricity-standard",
+          "us-policy-positions:environment-energy.price-carbon",
+          "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:environment-and-public-works:chemical-safety-waste-management-environmental-justice-and-regulatory-oversight",
+            "name": "Subcommittee on Chemical Safety, Waste Management, Environmental Justice, and Regulatory Oversight",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:environment-and-public-works:clean-air-climate-and-nuclear-innovation-and-safety",
+            "name": "Subcommittee on Clean Air, Climate, and Nuclear Innovation and Safety",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:environment-and-public-works:fisheries-water-and-wildlife",
+            "name": "Subcommittee on Fisheries, Water, and Wildlife",
+            "questions": [
+              "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "us-policy-positions:environment-energy.bottle-deposit",
+              "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "us-policy-positions:environment-energy.clean-electricity-standard",
+              "us-policy-positions:environment-energy.price-carbon"
+            ]
+          },
+          {
+            "id": "senate:environment-and-public-works:transportation-and-infrastructure",
+            "name": "Subcommittee on Transportation and Infrastructure",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:finance",
+        "name": "Committee on Finance",
+        "engineCommittee": "finance",
+        "questions": [
+          "us-policy-positions:fiscal.adopt-income-tax",
+          "us-policy-positions:fiscal.graduated-income-tax",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "us-policy-positions:fiscal.cap-property-tax-growth",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "us-policy-positions:health-human-services.medicaid-work-requirement"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:finance:energy-natural-resources-and-infrastructure",
+            "name": "Subcommittee on Energy, Natural Resources, and Infrastructure",
+            "questions": []
+          },
+          {
+            "id": "senate:finance:fiscal-responsibility-and-economic-growth",
+            "name": "Subcommittee on Fiscal Responsibility and Economic Growth",
+            "questions": [
+              "us-policy-positions:fiscal.adopt-income-tax",
+              "us-policy-positions:fiscal.cap-property-tax-growth",
+              "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "us-policy-positions:fiscal.graduated-income-tax"
+            ]
+          },
+          {
+            "id": "senate:finance:health-care",
+            "name": "Subcommittee on Health Care",
+            "questions": [
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "senate:finance:international-trade-customs-and-global-competitiveness",
+            "name": "Subcommittee on International Trade, Customs, and Global Competitiveness",
+            "questions": []
+          },
+          {
+            "id": "senate:finance:social-security-pensions-and-family-policy",
+            "name": "Subcommittee on Social Security, Pensions, and Family Policy",
+            "questions": [
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          },
+          {
+            "id": "senate:finance:taxation-and-irs-oversight",
+            "name": "Subcommittee on Taxation and IRS Oversight",
+            "questions": [
+              "us-policy-positions:fiscal.adopt-income-tax",
+              "us-policy-positions:fiscal.cap-property-tax-growth",
+              "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "us-policy-positions:fiscal.graduated-income-tax"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:foreign-relations",
+        "name": "Committee on Foreign Relations",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:foreign-relations:africa-and-global-health-policy",
+            "name": "Subcommittee on Africa and Global Health Policy",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:east-asia-the-pacific-and-international-cybersecurity-policy",
+            "name": "Subcommittee on East Asia, the Pacific, and International Cybersecurity Policy",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:europe-and-regional-security-cooperation",
+            "name": "Subcommittee on Europe and Regional Security Cooperation",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:multilateral-international-development-multilateral-institutions-and-international-economic-energy-and-environmental-policy",
+            "name": "Subcommittee on Multilateral International Development, Multilateral Institutions, and International Economic, Energy, and Environmental Policy",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:near-east-south-asia-central-asia-and-counterterrorism",
+            "name": "Subcommittee on Near East, South Asia, Central Asia, and Counterterrorism",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:state-department-and-usaid-management-international-operations-and-bilateral-international-development",
+            "name": "Subcommittee on State Department and USAID Management, International Operations, and Bilateral International Development",
+            "questions": []
+          },
+          {
+            "id": "senate:foreign-relations:western-hemisphere-transnational-crime-civilian-security-democracy-human-rights-and-global-womens-issues",
+            "name": "Subcommittee on Western Hemisphere, Transnational Crime, Civilian Security, Democracy, Human Rights, and Global Women's Issues",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:homeland-security-and-governmental-affairs",
+        "name": "Committee on Homeland Security and Governmental Affairs",
+        "engineCommittee": "government",
+        "questions": [
+          "us-policy-positions:government-operations.broaden-local-authority",
+          "us-policy-positions:government-operations.ban-lobbying-after-office",
+          "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:homeland-security-and-governmental-affairs:permanent-subcommittee-on-investigations",
+            "name": "Permanent Subcommittee on Investigations",
+            "questions": []
+          },
+          {
+            "id": "senate:homeland-security-and-governmental-affairs:border-management-federal-workforce-and-regulatory-affairs",
+            "name": "Subcommittee on Border Management, Federal Workforce, and Regulatory Affairs",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "senate:homeland-security-and-governmental-affairs:disaster-management-district-of-columbia-and-census",
+            "name": "Subcommittee on Disaster Management, District of Columbia, and Census",
+            "questions": []
+          }
+        ]
+      },
+      {
+        "id": "senate:health-education-labor-and-pensions",
+        "name": "Committee on Health, Education, Labor, and Pensions",
+        "engineCommittee": "education",
+        "questions": [
+          "us-policy-positions:education.universal-preschool",
+          "us-policy-positions:education.public-funds-for-private-schooling",
+          "us-policy-positions:education.raise-teacher-minimum-salary",
+          "us-policy-positions:labor-workforce.right-to-work",
+          "us-policy-positions:labor-workforce.paid-family-leave",
+          "us-policy-positions:labor-workforce.raise-minimum-wage",
+          "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+          "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+          "us-policy-positions:health-human-services.work-requirement-for-assistance",
+          "us-policy-positions:health-human-services.medicaid-work-requirement"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:health-education-labor-and-pensions:education-and-the-american-family",
+            "name": "Subcommittee on Education and the American Family",
+            "questions": [
+              "us-policy-positions:education.public-funds-for-private-schooling",
+              "us-policy-positions:education.raise-teacher-minimum-salary",
+              "us-policy-positions:education.universal-preschool",
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+            ]
+          },
+          {
+            "id": "senate:health-education-labor-and-pensions:employment-and-workplace-safety",
+            "name": "Subcommittee on Employment and Workplace Safety",
+            "questions": [
+              "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "us-policy-positions:labor-workforce.paid-family-leave",
+              "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "us-policy-positions:labor-workforce.right-to-work"
+            ]
+          },
+          {
+            "id": "senate:health-education-labor-and-pensions:primary-health-and-retirement-security",
+            "name": "Subcommittee on Primary Health and Retirement Security",
+            "questions": [
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "us-policy-positions:health-human-services.work-requirement-for-assistance"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:judiciary",
+        "name": "Committee on Judiciary",
+        "engineCommittee": "judiciary",
+        "questions": [
+          "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+          "us-policy-positions:justice-public-safety.end-cash-bail",
+          "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+          "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+          "us-policy-positions:justice-public-safety.stand-your-ground",
+          "us-policy-positions:justice-public-safety.child-access-prevention",
+          "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+          "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+          "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
+        ],
+        "sourceId": "senate",
+        "subcommittees": [
+          {
+            "id": "senate:judiciary:antitrust-competition-policy-and-consumer-rights",
+            "name": "Subcommittee on Antitrust, Competition Policy, and Consumer Rights",
+            "questions": []
+          },
+          {
+            "id": "senate:judiciary:border-security-and-immigration",
+            "name": "Subcommittee on Border Security and Immigration",
+            "questions": [
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
+            ]
+          },
+          {
+            "id": "senate:judiciary:crime-and-counterterrorism",
+            "name": "Subcommittee on Crime and Counterterrorism",
+            "questions": [
+              "us-policy-positions:justice-public-safety.child-access-prevention",
+              "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "us-policy-positions:justice-public-safety.end-cash-bail",
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "us-policy-positions:justice-public-safety.stand-your-ground"
+            ]
+          },
+          {
+            "id": "senate:judiciary:federal-courts-oversight-agency-action-and-federal-rights",
+            "name": "Subcommittee on Federal Courts, Oversight, Agency Action, and Federal Rights",
+            "questions": [
+              "us-policy-positions:justice-public-safety.child-access-prevention",
+              "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "us-policy-positions:justice-public-safety.end-cash-bail",
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "us-policy-positions:justice-public-safety.stand-your-ground"
+            ]
+          },
+          {
+            "id": "senate:judiciary:intellectual-property",
+            "name": "Subcommittee on Intellectual Property",
+            "questions": []
+          },
+          {
+            "id": "senate:judiciary:privacy-technology-and-the-law",
+            "name": "Subcommittee on Privacy, Technology, and the Law",
+            "questions": []
+          },
+          {
+            "id": "senate:judiciary:the-constitution",
+            "name": "Subcommittee on The Constitution",
+            "questions": [
+              "us-policy-positions:justice-public-safety.child-access-prevention",
+              "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "us-policy-positions:justice-public-safety.end-cash-bail",
+              "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "us-policy-positions:justice-public-safety.stand-your-ground",
+              "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "senate:rules-and-administration",
+        "name": "Committee on Rules and Administration",
+        "engineCommittee": "government",
+        "questions": [
+          "us-policy-positions:government-operations.require-photo-id-to-vote",
+          "us-policy-positions:government-operations.automatic-voter-registration",
+          "us-policy-positions:government-operations.legislative-term-limits",
+          "us-policy-positions:government-operations.independent-redistricting",
+          "us-policy-positions:government-operations.same-day-voter-registration",
+          "us-policy-positions:government-operations.all-mail-voting"
+        ],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:small-business-and-entrepreneurship",
+        "name": "Committee on Small Business and Entrepreneurship",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:veterans-affairs",
+        "name": "Committee on Veterans' Affairs",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:select-committee-on-intelligence",
+        "name": "Select Committee on Intelligence",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:indian-affairs",
+        "name": "Committee on Indian Affairs",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      },
+      {
+        "id": "senate:select-committee-on-ethics",
+        "name": "Select Committee on Ethics",
+        "engineCommittee": "government",
+        "questions": [],
+        "sourceId": "senate",
+        "subcommittees": []
+      }
+    ]
+  }
+}

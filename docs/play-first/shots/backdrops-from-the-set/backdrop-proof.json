@@ -1,0 +1,269 @@
+[
+  {
+    "name": "Washington, District of Columbia, US-DC",
+    "key": "1150000",
+    "seed": "aa884ba4e906",
+    "street": [
+      {
+        "hour": 8,
+        "place": "main-street",
+        "file": "main-street__morning.jpg"
+      },
+      {
+        "hour": 12,
+        "place": "sidewalk-downtown",
+        "file": "sidewalk-downtown__midday.jpg"
+      },
+      {
+        "hour": 0,
+        "place": "main-street",
+        "file": "main-street__night.jpg"
+      }
+    ],
+    "businesses": [
+      {
+        "id": "organization_95344cbb49320d39",
+        "place": "union-hall-interior",
+        "file": "union-hall-interior__midday.jpg"
+      },
+      {
+        "id": "organization_9b079eb8c39e46a8",
+        "place": "tavern",
+        "file": "tavern__midday.jpg"
+      },
+      {
+        "id": "organization_3a578e71dd528196",
+        "place": "courthouse-square",
+        "file": "courthouse-square__midday.jpg"
+      },
+      {
+        "id": "organization_9b079fb8c39e485b",
+        "place": "diner",
+        "file": "diner__midday.jpg"
+      },
+      {
+        "id": "organization_9b07a0b8c39e4a0e",
+        "place": "tavern",
+        "file": "tavern__midday.jpg"
+      },
+      {
+        "id": "organization_4761a33acd684d7d",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      },
+      {
+        "id": "organization_21d145ddca453c67",
+        "place": "general-store",
+        "file": "general-store__midday.jpg"
+      },
+      {
+        "id": "organization_21d146ddca453e1a",
+        "place": "hardware-store-interior",
+        "file": "hardware-store-interior__midday.jpg"
+      },
+      {
+        "id": "organization:public-schools:jurisdiction_7691c6e3ae48f824",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:53cb17248b32a88f",
+        "place": "sidewalk-downtown",
+        "file": "sidewalk-downtown__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:5beaba4fbca16d2d",
+        "place": "sidewalk-downtown",
+        "file": "sidewalk-downtown__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-contributor:df7e152ccb904c6c",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Turtle Lake, Wisconsin, US-WI",
+    "key": "5581075",
+    "seed": "2c6a1e93bb73",
+    "street": [
+      {
+        "hour": 8,
+        "place": "main-street",
+        "file": "main-street__morning.jpg"
+      },
+      {
+        "hour": 12,
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      },
+      {
+        "hour": 0,
+        "place": "main-street",
+        "file": "main-street__night.jpg"
+      }
+    ],
+    "businesses": [
+      {
+        "id": "organization_813d5c79562bdb90",
+        "place": "union-hall-interior",
+        "file": "union-hall-interior__midday.jpg"
+      },
+      {
+        "id": "organization_f5e157bd7754d7ed",
+        "place": "hardware-store-interior",
+        "file": "hardware-store-interior__midday.jpg"
+      },
+      {
+        "id": "organization_f5e156bd7754d63a",
+        "place": "general-store",
+        "file": "general-store__midday.jpg"
+      },
+      {
+        "id": "organization_77d630865107b59d",
+        "place": "coffee-shop",
+        "file": "coffee-shop__midday.jpg"
+      },
+      {
+        "id": "organization_f5e155bd7754d487",
+        "place": "general-store",
+        "file": "general-store__midday.jpg"
+      },
+      {
+        "id": "organization_7dce6005bd9d4669",
+        "place": "courthouse-square",
+        "file": "courthouse-square__midday.jpg"
+      },
+      {
+        "id": "organization_77d62f865107b3ea",
+        "place": "diner",
+        "file": "diner__midday.jpg"
+      },
+      {
+        "id": "organization_77d62e865107b237",
+        "place": "coffee-shop",
+        "file": "coffee-shop__midday.jpg"
+      },
+      {
+        "id": "organization_37e47b631924ca72",
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__midday.jpg"
+      },
+      {
+        "id": "organization_4b3dc0319412b18e",
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__midday.jpg"
+      },
+      {
+        "id": "organization:public-schools:jurisdiction_16eeb1c1991e761e",
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:04a02a7d4497982c",
+        "place": "sidewalk-main-street",
+        "file": "sidewalk-main-street__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:614fce3292ebc269",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:83571f71da621f82",
+        "place": "courthouse-square",
+        "file": "courthouse-square__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-contributor:37ff1d1196aafff1",
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__midday.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Arispe, Iowa, US-IA",
+    "key": "1902800",
+    "seed": "31cf534321e0",
+    "street": [
+      {
+        "hour": 8,
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__morning.jpg"
+      },
+      {
+        "hour": 12,
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__midday.jpg"
+      },
+      {
+        "hour": 0,
+        "place": "downtown-sidewalk",
+        "file": "downtown-sidewalk__night.jpg"
+      }
+    ],
+    "businesses": [
+      {
+        "id": "organization_bc17c648ed7c6347",
+        "place": "union-hall-interior",
+        "file": "union-hall-interior__midday.jpg"
+      },
+      {
+        "id": "organization_32d6aef0ea470f6a",
+        "place": "grocery-store",
+        "file": "grocery-store__midday.jpg"
+      },
+      {
+        "id": "organization_32d6aff0ea47111d",
+        "place": "store",
+        "file": "store__midday.jpg"
+      },
+      {
+        "id": "organization_cdd01486af94ff0c",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      },
+      {
+        "id": "organization_44717d026c7e6d22",
+        "place": "coffee-shop",
+        "file": "coffee-shop__midday.jpg"
+      },
+      {
+        "id": "organization_32d6acf0ea470c04",
+        "place": "general-store",
+        "file": "general-store__midday.jpg"
+      },
+      {
+        "id": "organization_44717e026c7e6ed5",
+        "place": "diner-counter",
+        "file": "diner-counter__midday.jpg"
+      },
+      {
+        "id": "organization_44717b026c7e69bc",
+        "place": "coffee-shop",
+        "file": "coffee-shop__midday.jpg"
+      },
+      {
+        "id": "organization:public-schools:jurisdiction_9068ca9675ac0e79",
+        "place": "courthouse-square",
+        "file": "courthouse-square__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:d800fa0ee5169777",
+        "place": "sidewalk-downtown",
+        "file": "sidewalk-downtown__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-payer:f70ae8203df81c9f",
+        "place": "courthouse-square",
+        "file": "courthouse-square__midday.jpg"
+      },
+      {
+        "id": "opening-retirement-contributor:e041f1a4aaf84f43",
+        "place": "main-street",
+        "file": "main-street__midday.jpg"
+      }
+    ]
+  }
+]

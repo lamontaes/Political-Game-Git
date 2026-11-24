@@ -1,0 +1,106 @@
+{
+  "asOf": "2026-09-08",
+  "canonicalSha256": "f29235a609c2c0908303b45d5572b00367ec6a387a88a108310b58dcd4caee87",
+  "compiler": {
+    "name": "municipal-governance",
+    "version": "3.0.0"
+  },
+  "corpusId": "municipal-governance",
+  "coverage": {
+    "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Five scoped local-government records: Charlottesville and Richmond, Virginia; Carson City, Nevada; Portland, Oregon; and the District of Columbia. Compiled from locked enacted-text excerpts; supported fields differ by record and do not imply complete operative profiles."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "or-portland-charter-2-102",
+      "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+    },
+    {
+      "artifactId": "or-portland-charter-2-1",
+      "sha256": "2ca428f3fb524d4ae85ab98fefebe4eb49f1ee53572a1de19058979429071e32"
+    },
+    {
+      "artifactId": "or-portland-charter-1-101",
+      "sha256": "dadc1c84397ba5202fb011d1be46ce044ec3e319ee61583c87892e910ee0a049"
+    },
+    {
+      "artifactId": "or-portland-charter-2-101",
+      "sha256": "4ae6a6fbbe480a5b6c0b50e0518f3cd6114ab4c5eee2395bc2daf4fd2ddfb325"
+    },
+    {
+      "artifactId": "or-portland-charter-2-110",
+      "sha256": "afb4508f368aa5727044dacf719f92b81d71060c64fe64e43e77014edc853c31"
+    },
+    {
+      "artifactId": "dc-code-1-102",
+      "sha256": "5a3a02f6db287fa9b17526fb4cc750b7dac68b23112ae0c2aaf64f7fbbf40ade"
+    },
+    {
+      "artifactId": "dc-code-1-204-01",
+      "sha256": "94bd904f583bc748165f5f28a00b73cf2c089e0621c61f3e7ce65002bd5634df"
+    },
+    {
+      "artifactId": "dc-code-1-204-21",
+      "sha256": "8f0917bf9d7453a634978c0e1216a7a2b1ca5e9d2a9d22d00369f5c87e462a95"
+    },
+    {
+      "artifactId": "dc-code-1-204-22",
+      "sha256": "94b0b108229b7bc7cce0f77f4f7124aef1e0ba8c941738814e466f153aa0b9a3"
+    },
+    {
+      "artifactId": "dc-code-1-207-71",
+      "sha256": "39f50dc3171bac97daac328ea64b04159cb9560bd15babc8a205daff4ced6623"
+    },
+    {
+      "artifactId": "dc-code-1-204-04",
+      "sha256": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517"
+    },
+    {
+      "artifactId": "dc-code-1-204-12",
+      "sha256": "340363b65399c1f2ae5aadd3f20df87433d1c63ba15b228a35e59c657bae330a"
+    },
+    {
+      "artifactId": "dc-code-1-206-02",
+      "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a"
+    },
+    {
+      "artifactId": "va-code-15-2-1420",
+      "sha256": "5b7c5b8c5e3bb7fd8e19249b0123e06c49173f34cf7416fee78c46b4b8be417f"
+    },
+    {
+      "artifactId": "va-charlottesville-charter",
+      "sha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183"
+    },
+    {
+      "artifactId": "va-richmond-charter",
+      "sha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366"
+    },
+    {
+      "artifactId": "va-code-15-2-1427",
+      "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff"
+    },
+    {
+      "artifactId": "va-charlottesville-city-code-ch2",
+      "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7"
+    },
+    {
+      "artifactId": "va-code-15-2-1428",
+      "sha256": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43"
+    },
+    {
+      "artifactId": "va-code-15-2-1415",
+      "sha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f"
+    },
+    {
+      "artifactId": "nv-carson-city-charter",
+      "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad"
+    }
+  ],
+  "parser": {
+    "name": "municipal-governance-enacted-text",
+    "version": "1.0.0"
+  },
+  "recordCount": 5
+}

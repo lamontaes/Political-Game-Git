@@ -1,0 +1,11 @@
+{
+  "version": "core2-representative-sample-v1",
+  "citation": "Owner ruling, Oct 12 (ruling 4): the full people are a representative sample of the town, each standing for a weighted share. Groups follow the Census household tables' age-of-householder bands and household income halves; one household per group keeps the year within the speed rule (about 20 more full people; terciles, 33 more, made a year 22% slower).",
+  "ageBands": [
+    { "label": "18-34", "minAge": 18 },
+    { "label": "35-49", "minAge": 35 },
+    { "label": "50-64", "minAge": 50 },
+    { "label": "65-plus", "minAge": 65 }
+  ],
+  "payShares": [0.5]
+}

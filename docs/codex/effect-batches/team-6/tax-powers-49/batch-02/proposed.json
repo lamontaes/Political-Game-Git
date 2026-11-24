@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "5e7ca391ed05d64f52cb65a4c67e0ca2b777147b",
+  "powers": [
+    {
+      "key": "US-AZ:STATE:selective-excise",
+      "jurisdictionKey": "US-AZ",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "az-article-ix-3",
+      "sourceSha256": "2e55c035fe450bf5d9a216a6c0ac3208c26aa9a1be2c58b78276265533ee8dc0",
+      "sourceUrl": "https://www.azleg.gov/const/9/3.htm",
+      "citations": [
+        "Ariz. Const. art. IX, §3",
+        "Ariz. Const. art. IX, §22(A)–(D)",
+        "Ariz. Const. art. IX, §14",
+        "Ariz. Const. art. IX, §25"
+      ],
+      "constraints": [
+        "Covered net state-revenue increases require two-thirds of each house; governor signature makes the covered act effective immediately; veto override requires three-fourths. Preserve the listed exceptions and separate enactment-requirements provision.",
+        "Article IX §25 forbids new or increased transaction-based taxes on services; it does not repeal taxes in effect December 31,2017. This row is not permission to tax services.",
+        "Article IX §14 dedicates covered motor-vehicle and fuel receipts to enumerated highway/street purposes and preserves its stated exception and distribution rules.",
+        "A tax law must distinctly state its object; receipts may be used only for that object and enter the state treasury.",
+        "The tax must complete the actual legislative and executive process; its enacted operative date controls. No universal effective delay or generated rate is supplied.",
+        "Actual spending still needs a lawful appropriation and recorded cash; this foundation does not create a tax, liability, account balance, or service.",
+        "Capture date is an observed constitutional baseline, not an independently verified historical amendment interval; source approval remains required."
+      ]
+    },
+    {
+      "key": "US-DE:STATE:selective-excise",
+      "jurisdictionKey": "US-DE",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "de-article-viii",
+      "sourceSha256": "3214f1e18c3276d4e5d79cba2bbf371758c6cc206fdc8fee2b0154623058abaf",
+      "sourceUrl": "https://delcode.delaware.gov/constitution/constitution-09.html",
+      "citations": [
+        "Del. Const. art. VIII, §§1(a),2,6(a),10–12"
+      ],
+      "constraints": [
+        "New taxes/license fees and increased effective tax/fee rates require three-fifths of each house; the pledged-debt default exception is limited to its actual conditions, not an ordinary revenue shortfall.",
+        "Revenue bills originate in the House; incidental revenue is excluded from that definition and unrelated matter may not be annexed. Same-class uniformity applies.",
+        "Covered motor-vehicle/fuel receipts enter the Transportation Trust Fund; outside-purpose appropriations require three-fourths and a separate act. Preserve §12(d) restoration restrictions.",
+        "Property-only agricultural valuation and personal-income retroactivity clauses are not generalized to this excise foundation.",
+        "The tax must complete the actual legislative and executive process; its enacted operative date controls. No universal effective delay or generated rate is supplied.",
+        "Actual spending still needs a lawful appropriation and recorded cash; this foundation does not create a tax, liability, account balance, or service.",
+        "Capture date is an observed constitutional baseline, not an independently verified historical amendment interval; source approval remains required."
+      ]
+    },
+    {
+      "key": "US-ID:STATE:selective-excise",
+      "jurisdictionKey": "US-ID",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "id-article-vii-2",
+      "sourceSha256": "bbbb94debdebefa56a109e6408710532f10dceb5c608263eb56f47a1472d2df9",
+      "sourceUrl": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect2/",
+      "citations": [
+        "Idaho Const. art. VII, §2",
+        "Idaho Const. art. III, §1",
+        "Idaho Const. art. III, §14",
+        "Idaho Const. art. VII, §13",
+        "Idaho Const. art. VII, §17"
+      ],
+      "constraints": [
+        "Article VII §2 expressly permits business license and per-capita taxes under the legislative grant; it is not blanket permission for every excise base or a property-tax exemption. Written base-specific statutes and exemptions still control.",
+        "Revenue bills originate in the House; appropriations made by law control treasury withdrawals.",
+        "Covered gasoline/vehicle-registration revenues, net of allowed administration/refunds, are dedicated exclusively to enumerated highway purposes under Article VII §17.",
+        "The tax must complete the actual legislative and executive process; its enacted operative date controls. No universal effective delay or generated rate is supplied.",
+        "Actual spending still needs a lawful appropriation and recorded cash; this foundation does not create a tax, liability, account balance, or service.",
+        "Capture date is an observed constitutional baseline, not an independently verified historical amendment interval; source approval remains required."
+      ]
+    },
+    {
+      "key": "US-KS:STATE:selective-excise",
+      "jurisdictionKey": "US-KS",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ks-article-xi",
+      "sourceSha256": "65baa30263dad02e63af131ada4a0be7f052b185d0c02fbf4f37386b0a4d5947",
+      "sourceUrl": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-11.html",
+      "citations": [
+        "Kan. Const. art. XI, §§4,5",
+        "Kan. Const. art. II, §§1,24"
+      ],
+      "constraints": [
+        "The legislature must provide sufficient current-expense revenue; each tax law must distinctly state its object and receipts may be applied only to that object.",
+        "Specific lawful appropriations control treasury withdrawals. Article XI property-classification and income-tax provisions do not supply an excise rate or base.",
+        "The tax must complete the actual legislative and executive process; its enacted operative date controls. No universal effective delay or generated rate is supplied.",
+        "Actual spending still needs a lawful appropriation and recorded cash; this foundation does not create a tax, liability, account balance, or service.",
+        "Capture date is an observed constitutional baseline, not an independently verified historical amendment interval; source approval remains required."
+      ]
+    },
+    {
+      "key": "US-IA:STATE:selective-excise",
+      "jurisdictionKey": "US-IA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-10-02",
+      "sourceArtifactId": "ia-constitution",
+      "sourceSha256": "7042ffe80a5abd56d68ad23ef21735de0900777134928553df1d379d0ef7d12a",
+      "sourceUrl": "https://www.legis.iowa.gov/docs/publications/ICP/1518288.pdf",
+      "citations": [
+        "Iowa Const. art. III (Legislative), §§1,15,24; art. VII, §§7–10"
+      ],
+      "constraints": [
+        "Bills may originate in either house under Article III §15; do not substitute an assumed revenue-bill House-origination rule.",
+        "Each tax law must distinctly state the tax and its object; referring to another law alone is insufficient.",
+        "Covered vehicle/fuel receipts are dedicated to enumerated highway purposes; fish/wildlife receipts retain Article VII §9 dedication, and §10 sales-tax increase conditions protect the natural-resources trust fund.",
+        "Municipalities/counties require express legislative taxation authority; this state foundation grants no local taxing power.",
+        "The tax must complete the actual legislative and executive process; its enacted operative date controls. No universal effective delay or generated rate is supplied.",
+        "Actual spending still needs a lawful appropriation and recorded cash; this foundation does not create a tax, liability, account balance, or service.",
+        "Capture date is an observed constitutional baseline, not an independently verified historical amendment interval; source approval remains required."
+      ]
+    }
+  ],
+  "evidenceScopes": [
+    {
+      "jurisdictionKey": "US-AZ",
+      "sourceArtifactId": "az-article-ix-3",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-3.html",
+      "parentSha256": "2e55c035fe450bf5d9a216a6c0ac3208c26aa9a1be2c58b78276265533ee8dc0",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 1280,
+        "retrievedAt": "2026-10-02T10:53:17.430471+00:00",
+        "url": "https://www.azleg.gov/const/9/3.htm"
+      },
+      "citations": [
+        "Ariz. Const. art. IX, §3"
+      ],
+      "legalTextQuotes": [
+        "The legislature shall provide by law for an annual tax sufficient, with other sources of revenue, to defray the necessary ordinary expenses of the state for each fiscal year.",
+        "No tax shall be levied except in pursuance of law, and every law imposing a tax shall state distinctly the object of the tax, to which object only it shall be applied.",
+        "All taxes levied and collected for state purposes shall be paid into the state treasury in money only."
+      ],
+      "excerptSha256": "bbbd0433d57555e158a66f3558ec2377a24e3d117e51e5a8ec35b98060b1e955",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "sourceArtifactId": "az-article-ix-22",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-22.html",
+      "parentSha256": "f658dc01ea9080f9ce20d63d1839c1f9c1ad93b3a2bf339da9916c3f866bb433",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 2995,
+        "retrievedAt": "2026-10-02T10:53:17.460086+00:00",
+        "url": "https://www.azleg.gov/const/9/22.htm"
+      },
+      "citations": [
+        "Ariz. Const. art. IX, §22(A)–(D)"
+      ],
+      "legalTextQuotes": [
+        "An act that provides for a net increase in state revenues, as described in subsection B is effective on the affirmative vote of two-thirds of the members of each house of the legislature.",
+        "If the governor vetoes the measure, it shall not become effective unless it is approved by an affirmative vote of three-fourths of the members of each house of the legislature.",
+        "Each act to which this section applies shall include a separate provision describing the requirements for enactment prescribed by this section."
+      ],
+      "excerptSha256": "2c6caf92c3ba6e8e9cb1272547e1f01848dceb8e44603f798e5e6fda80843ae9",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "sourceArtifactId": "az-article-ix-14",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-14.html",
+      "parentSha256": "1da3641695581c9d8894b1cb5cb5dbce075e738aa359f5dbbc88db9ac0a51722",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 2552,
+        "retrievedAt": "2026-10-02T10:56:32.337509+00:00",
+        "url": "https://www.azleg.gov/const/9/14.htm"
+      },
+      "citations": [
+        "Ariz. Const. art. IX, §14"
+      ],
+      "legalTextQuotes": [
+        "All moneys collected in accordance with this section shall be distributed as provided by law."
+      ],
+      "excerptSha256": "a660be11e755685106aeb72655c32bd4d531ced2d670cbba81d8ad0e4ecdd097",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "sourceArtifactId": "az-article-ix-25",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-25.html",
+      "parentSha256": "1f40e8a993d289ae00b1e9545a3d5e1df78b9daa1b1d9725e00d40447b694db6",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 1094,
+        "retrievedAt": "2026-10-02T10:56:32.338352+00:00",
+        "url": "https://www.azleg.gov/const/9/25.htm"
+      },
+      "citations": [
+        "Ariz. Const. art. IX, §25"
+      ],
+      "legalTextQuotes": [
+        "The state, any county, city, town, municipal corporation, or other political subdivision of the state, or any district created by law with authority to impose any tax, fee, stamp requirement, or other assessment, shall not impose or increase any sales tax, transaction privilege tax, luxury tax, excise tax, use tax, or any other transaction-based tax, fee, stamp requirement or assessment on the privilege to engage in, or the gross receipts of sales or gross income derived from, any service performed in this state.",
+        "This section does not repeal or nullify any tax, fee, stamp requirement, or other assessment in effect on December 31, 2017."
+      ],
+      "excerptSha256": "1b70d24ff4efbd5e1bb64aede6ff7f8397c316223fea2bee949b7308b354ed7e",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "sourceArtifactId": "de-article-viii",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/de-article-viii.html",
+      "parentSha256": "3214f1e18c3276d4e5d79cba2bbf371758c6cc206fdc8fee2b0154623058abaf",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 27829,
+        "retrievedAt": "2026-10-02T10:53:17.109225+00:00",
+        "url": "https://delcode.delaware.gov/constitution/constitution-09.html"
+      },
+      "citations": [
+        "Del. Const. art. VIII, §§1(a),2,6(a),10–12"
+      ],
+      "legalTextQuotes": [
+        "All taxes shall be uniform upon the same class of subjects within the territorial limits of the authority levying the tax, except as otherwise permitted herein, and shall be levied and collected under general laws passed by the General Assembly.",
+        "No tax or license fee may be imposed or levied except by an Act of the General Assembly adopted with the concurrence of three-fifths of all members of each House.",
+        "The effective rate of any tax levied or license fee imposed by this State may not be increased except by an Act an act of the General Assembly adopted with the concurrence of three-fifths of all members of each House."
+      ],
+      "excerptSha256": "8cc5f9ada1933b02ae53a319d91b1723631013f89838accefeda3686709b1686",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "sourceArtifactId": "id-article-vii-2",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-2.html",
+      "parentSha256": "bbbb94debdebefa56a109e6408710532f10dceb5c608263eb56f47a1472d2df9",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 90531,
+        "retrievedAt": "2026-10-02T10:56:32.338813+00:00",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect2/"
+      },
+      "citations": [
+        "Idaho Const. art. VII, §2"
+      ],
+      "legalTextQuotes": [
+        "The legislature may also impose a license tax, both upon natural persons and upon corporations, other than municipal, doing business in this state; also a per capita tax: provided, the legislature may exempt a limited amount of improvements upon land from taxation."
+      ],
+      "excerptSha256": "4c94296851ce35b6b95d8e3a42681391f6f0dda155fab33145c1f4f3d544327f",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "sourceArtifactId": "id-article-iii-1",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-iii-1.html",
+      "parentSha256": "9550813e96d149f0f518524b5eec7529433f10cc835ebc0eb185f0e534ab1333",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 91402,
+        "retrievedAt": "2026-10-02T10:58:53.462880+00:00",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect1/"
+      },
+      "citations": [
+        "Idaho Const. art. III, §1"
+      ],
+      "legalTextQuotes": [
+        "The legislative power of the state shall be vested in a senate and house of representatives."
+      ],
+      "excerptSha256": "1e97272da057aefd6e1c04c720a3b247938fcc45dadc5f97d04a475cff2816a0",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "sourceArtifactId": "id-article-iii-14",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-iii-14.html",
+      "parentSha256": "f78cd5d12fc787af9038434233aeb0f0a031a60553827eaafc6d619591b69f6f",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 90178,
+        "retrievedAt": "2026-10-02T10:55:03.477969+00:00",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect14/"
+      },
+      "citations": [
+        "Idaho Const. art. III, §14"
+      ],
+      "legalTextQuotes": [
+        "Bills may originate in either house, but may be amended or rejected in the other, except that bills for raising revenue shall originate in the house of representatives."
+      ],
+      "excerptSha256": "d4dfaf390323558cb63a6f5040ac62fd18c0e38fb70739df1b8e950bf0dda799",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "sourceArtifactId": "id-article-vii-13",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-13.html",
+      "parentSha256": "c068b4d0d3ecc5821f27a5c98215246bd43b0084cf5064b951ca5e690b3ea12b",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 90105,
+        "retrievedAt": "2026-10-02T10:56:32.797580+00:00",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect13/"
+      },
+      "citations": [
+        "Idaho Const. art. VII, §13"
+      ],
+      "legalTextQuotes": [
+        "No money shall be drawn from the treasury, but in pursuance of appropriations made by law."
+      ],
+      "excerptSha256": "a31311cc177601abb5b1f4881b2608a186a9e22873b889a8c384afafeda0c54c",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "sourceArtifactId": "id-article-vii-17",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-vii-17.html",
+      "parentSha256": "06a0709a5e02c81a1304bcc46f1b203e358fc49e7256545240b1a45cb41af35a",
+      "mediaType": "text/html; charset=UTF-8",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 90745,
+        "retrievedAt": "2026-10-02T10:56:32.798733+00:00",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artvii/sect17/"
+      },
+      "citations": [
+        "Idaho Const. art. VII, §17"
+      ],
+      "legalTextQuotes": [
+        "On and after July 1, 1941 the proceeds from the imposition of any tax on gasoline and like motor vehicle fuels sold or used to propel motor vehicles upon the highways of this state and from any tax or fee for the registration of motor vehicles, in excess of the necessary costs of collection and administration and any refund or credits authorized by law, shall be used exclusively for the construction, repair, maintenance and traffic supervision of the public highways of this state and the payment of the interest and principal of obligations incurred for said purposes; and no part of such revenues shall, by transfer of funds or otherwise, be diverted to any other purposes whatsoever."
+      ],
+      "excerptSha256": "fcf689f7cc31e413dfdbc16d7da8fab51c1ebc0eafc9c91dd5fb2cf08f40eb14",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "sourceArtifactId": "ks-article-xi",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ks-article-xi.html",
+      "parentSha256": "65baa30263dad02e63af131ada4a0be7f052b185d0c02fbf4f37386b0a4d5947",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 47741,
+        "retrievedAt": "2026-10-02T10:55:03.580719+00:00",
+        "url": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-11.html"
+      },
+      "citations": [
+        "Kan. Const. art. XI, §§4,5"
+      ],
+      "legalTextQuotes": [
+        "The legislature shall provide, at each regular session, for raising sufficient revenue to defray the current expenses of the state for two years.",
+        "No tax shall be levied except in pursuance of a law, which shall distinctly state the object of the same; to which object only such tax shall be applied."
+      ],
+      "excerptSha256": "43a546735c745d9a1c7114f5560329b9561c5f87b8d2d9bbcc9be21a069acea8",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "sourceArtifactId": "ks-article-ii",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ks-article-ii.html",
+      "parentSha256": "03b03b9e255a71cba911f0c6654d60e39443e5ebb80268be9f37c83e89878845",
+      "mediaType": "text/html",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 49574,
+        "retrievedAt": "2026-10-02T10:56:33.243032+00:00",
+        "url": "https://www.sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-2.html"
+      },
+      "citations": [
+        "Kan. Const. art. II, §§1,24"
+      ],
+      "legalTextQuotes": [
+        "The legislative power of this state shall be vested in a house of representatives and senate.",
+        "No money shall be drawn from the treasury except in pursuance of a specific appropriation made by law."
+      ],
+      "excerptSha256": "8d7e6d3330a3715dedd83d40be06b6648566932faac789f2e2a0957e8391d8ba",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "sourceArtifactId": "ia-constitution",
+      "parentLocalPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/ia-constitution.pdf",
+      "parentSha256": "7042ffe80a5abd56d68ad23ef21735de0900777134928553df1d379d0ef7d12a",
+      "mediaType": "application/pdf",
+      "retrieval": {
+        "httpStatus": 200,
+        "responseBytes": 191407,
+        "retrievedAt": "2026-10-02T10:56:33.571305+00:00",
+        "url": "https://www.legis.iowa.gov/docs/publications/ICP/1518288.pdf"
+      },
+      "citations": [
+        "Iowa Const. art. III (Legislative), §§1,15,24; art. VII, §§7–10"
+      ],
+      "legalTextQuotes": [
+        "The legislative authority of this state shall be vested in a general assembly , which shall consist of a senate and house of representatives; and the style of every law shall be, “Be it enacted by the General Assembly of the State of Iowa.”",
+        "Every law which imposes, continues, or revives a tax, shall distinctly state the tax, and the object to which it is to be applied; and it shall not be sufficient to refer to any other law to fix such tax or object.",
+        "All motor vehicle registration fees and all licenses and excise taxes on motor vehicle fuel, except cost of administration, shall be used exclusively for the construction, maintenance and supervision of the public highways exclusively within the state or for the payment of bonds issued or to be issued for the construction of such public highways and the payment of interest on such bonds."
+      ],
+      "excerptSha256": "7e93d587cd35ab653ddbd21f6df6ba013d928d6a75e7a24b2ef9091cfd4f0942",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money"
+    }
+  ],
+  "limits": [
+    "Five additional state foundations, conditional and pending CTO source approval.",
+    "HTTP errors and HTML index/app shells are retrieval gaps, not sourced-none.",
+    "No prior source rows/corpus/compiler/manifest rewritten.",
+    "Iowa quotations retain PDF.js decoded text spacing; the actual PDF raw hash remains the primary source."
+  ]
+}

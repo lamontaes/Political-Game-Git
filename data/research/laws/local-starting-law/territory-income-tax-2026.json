@@ -1,0 +1,542 @@
+{
+  "id": "territory-income-tax-2026",
+  "asOf": "2026-10-12",
+  "taxYear": 2026,
+  "about": "Which income tax applies to bona fide residents of each U.S. territory in 2026, with the rate schedules where the territory has its own, and the federal 2026 schedule where it mirrors the IRC. Bracket entries use the same lower-bound convention as state-income-tax-2026.json (overSingle / overMarriedJoint).",
+  "overview": {
+    "mirror": ["US-GU", "US-VI", "US-MP"],
+    "ownCode": ["US-PR", "US-AS"],
+    "source": {
+      "title": "IRS Publication 570, Tax Guide for Individuals With Income From U.S. Possessions",
+      "url": "https://www.irs.gov/publications/p570"
+    }
+  },
+  "places": {
+    "US-PR": {
+      "system": "own code",
+      "mirrorsFederal": false,
+      "law": "C\u00f3digo de Rentas Internas de Puerto Rico de 2011 (Act 1-2011, as amended; rates as set by Act 257-2018), Secci\u00f3n 1021.01",
+      "agency": "Departamento de Hacienda de Puerto Rico",
+      "agencyUrl": "https://hacienda.pr.gov/",
+      "bracketsSingle": [
+        {
+          "ratePercent": 0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 7,
+          "overSingle": 9000
+        },
+        {
+          "ratePercent": 14,
+          "overSingle": 25000
+        },
+        {
+          "ratePercent": 25,
+          "overSingle": 41500
+        },
+        {
+          "ratePercent": 33,
+          "overSingle": 61500
+        }
+      ],
+      "bracketsMarriedJoint": [
+        {
+          "ratePercent": 0,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 7,
+          "overMarriedJoint": 9000
+        },
+        {
+          "ratePercent": 14,
+          "overMarriedJoint": 25000
+        },
+        {
+          "ratePercent": 25,
+          "overMarriedJoint": 41500
+        },
+        {
+          "ratePercent": 33,
+          "overMarriedJoint": 61500
+        }
+      ],
+      "marriedJointNote": "Section 1021.01 has one regular-tax table for all individuals; married couples living together who file jointly apply it to combined net taxable income (no doubled thresholds). The PwC summary gives the table without separating filing statuses, so the joint application is marked estimate.",
+      "standardDeduction": null,
+      "standardDeductionNote": "Puerto Rico has no standard deduction (PwC, reviewed August 7, 2026).",
+      "personalExemptionSingle": 3500,
+      "personalExemptionMarriedJoint": 7000,
+      "dependentExemption": 2500,
+      "otherTaxes": [
+        {
+          "name": "Gradual adjustment (ajuste gradual), Sec. 1021.01(b)",
+          "rule": "5% of net taxable income over $500,000, capped at 33% of personal and dependent exemptions plus $8,895."
+        },
+        {
+          "name": "Total tax reduction, Sec. 1021.01(c) (tax years after December 31, 2019)",
+          "rule": "Regular tax plus gradual adjustment is multiplied by 92% when gross income is $100,000 or less, 95% when over $100,000."
+        },
+        {
+          "name": "Alternate basic tax (contribuci\u00f3n b\u00e1sica alterna)",
+          "rule": "1% on $25,000-$50,000, 3% to $75,000, 5% to $150,000, 10% to $250,000, 24% above, on ABT net income; does not apply to filers whose only income is salaries on a withholding statement."
+        }
+      ],
+      "pendingReform": {
+        "status": "Not enacted as of 2026-10-12 (no enactment found).",
+        "bills": "P. de la C. 1014 / P. del S. 912 (filed January 12, 2026)",
+        "proposedTable": [
+          {
+            "ratePercent": 0,
+            "over": 0
+          },
+          {
+            "ratePercent": 6,
+            "over": 12500
+          },
+          {
+            "ratePercent": 12,
+            "over": 25000
+          },
+          {
+            "ratePercent": 24,
+            "over": 50000
+          },
+          {
+            "ratePercent": 29,
+            "over": 100000
+          },
+          {
+            "ratePercent": 33,
+            "over": 150000
+          }
+        ],
+        "proposedTableSource": "https://senado.pr.gov/document_vault/medidas_legislativas/rcs0127-26-A-109..pdf",
+        "note": "R.C. del S. 6-2026 / RCS 127-26 paid a one-time 2025 relief check equal to the difference between 2025 tax under Sec. 1021.01 and tax under this proposed table (without the 1021.01(c) reduction, plus an extra $2,500 deduction per dependent under 18). The proposed table is not the 2026 law."
+      },
+      "source": {
+        "title": "PwC Worldwide Tax Summaries, Puerto Rico, Individual: Taxes on personal income and Deductions (last reviewed August 7, 2026)",
+        "url": "https://taxsummaries.pwc.com/puerto-rico/individual/taxes-on-personal-income",
+        "secondary": "https://taxsummaries.pwc.com/puerto-rico/individual/deductions"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "Rates and exemptions are statutory and unchanged since 2019; the Hacienda 2026 form instructions were not reachable, and the joint-filer application of the single table is inferred. Pending reform could change 2026 if enacted retroactively."
+    },
+    "US-GU": {
+      "system": "mirror code",
+      "mirrorsFederal": true,
+      "law": "Organic Act of Guam \u00a7 31 (48 U.S.C. \u00a7 1421i): the U.S. income tax laws are the Guam Territorial Income Tax, with Guam substituted for the United States.",
+      "agency": "Guam Department of Revenue and Taxation",
+      "agencyUrl": "https://www.guamtax.com/info/structure.html",
+      "localChanges": [
+        "48 U.S.C. \u00a7 1421i lets the Guam Legislature levy a surcharge of up to 10% on territorial income tax liability; no individual surcharge in force was found.",
+        "Guam may rebate taxes on Guam-source income by local law (48 U.S.C. \u00a7 1421i(g)) and runs its own refundable credits (the Guam EITC is paid by the Government of Guam).",
+        "Residents file Form 1040 with Guam DRT, not the IRS."
+      ],
+      "source": {
+        "title": "48 U.S.C. \u00a7 1421i (Organic Act of Guam \u00a7 31); Guam DRT tax structure page; IRS Publication 570",
+        "url": "https://www.govinfo.gov/link/uscode/48/1421i",
+        "agency": "https://www.guamtax.com/info/structure.html",
+        "irs": "https://www.irs.gov/publications/p570"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "bracketsSingle": [
+        {
+          "ratePercent": 10,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 12,
+          "overSingle": 12400
+        },
+        {
+          "ratePercent": 22,
+          "overSingle": 50400
+        },
+        {
+          "ratePercent": 24,
+          "overSingle": 105700
+        },
+        {
+          "ratePercent": 32,
+          "overSingle": 201775
+        },
+        {
+          "ratePercent": 35,
+          "overSingle": 256225
+        },
+        {
+          "ratePercent": 37,
+          "overSingle": 640600
+        }
+      ],
+      "bracketsMarriedJoint": [
+        {
+          "ratePercent": 10,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 12,
+          "overMarriedJoint": 24800
+        },
+        {
+          "ratePercent": 22,
+          "overMarriedJoint": 100800
+        },
+        {
+          "ratePercent": 24,
+          "overMarriedJoint": 211400
+        },
+        {
+          "ratePercent": 32,
+          "overMarriedJoint": 403550
+        },
+        {
+          "ratePercent": 35,
+          "overMarriedJoint": 512450
+        },
+        {
+          "ratePercent": 37,
+          "overMarriedJoint": 768700
+        }
+      ],
+      "standardDeductionSingle": 16100,
+      "standardDeductionMarriedJoint": 32200,
+      "personalExemption": 0,
+      "scheduleSource": {
+        "title": "IRS IR-2025-103, tax year 2026 inflation adjustments including OBBBA amendments (Rev. Proc. 2025-32)",
+        "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
+      },
+      "scheduleNote": "Mirror code: the federal 2026 schedule applies with the territory substituted for the United States."
+    },
+    "US-VI": {
+      "system": "mirror code",
+      "mirrorsFederal": true,
+      "law": "48 U.S.C. \u00a7 1397 and the Naval Service Appropriation Act of 1922: the Internal Revenue Code applies as the Virgin Islands income tax with the Virgin Islands substituted for the United States; 33 V.I.C. Chapter 1 for local administration.",
+      "agency": "Virgin Islands Bureau of Internal Revenue",
+      "agencyUrl": "https://bir.vi.gov/",
+      "localChanges": [
+        "Local law may reduce tax on non-U.S.-source income and grant Economic Development Commission benefits (up to 90% reduction for approved beneficiaries).",
+        "The 10% surcharge in 33 V.I.C. \u00a7 581 applies to corporations only; no individual surcharge.",
+        "BIR treats federal regulations and rulings as mirrored where applicable (BIR Rev. Rul. 2025-1223-1)."
+      ],
+      "source": {
+        "title": "48 U.S.C. \u00a7 1397; V.I. BIR Revenue Ruling 2025-1223-1; IRS Publication 570",
+        "url": "https://bir.vi.gov/content/publications/rev_ruling-2025-1223-1.pdf",
+        "irs": "https://www.irs.gov/publications/p570"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "bracketsSingle": [
+        {
+          "ratePercent": 10,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 12,
+          "overSingle": 12400
+        },
+        {
+          "ratePercent": 22,
+          "overSingle": 50400
+        },
+        {
+          "ratePercent": 24,
+          "overSingle": 105700
+        },
+        {
+          "ratePercent": 32,
+          "overSingle": 201775
+        },
+        {
+          "ratePercent": 35,
+          "overSingle": 256225
+        },
+        {
+          "ratePercent": 37,
+          "overSingle": 640600
+        }
+      ],
+      "bracketsMarriedJoint": [
+        {
+          "ratePercent": 10,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 12,
+          "overMarriedJoint": 24800
+        },
+        {
+          "ratePercent": 22,
+          "overMarriedJoint": 100800
+        },
+        {
+          "ratePercent": 24,
+          "overMarriedJoint": 211400
+        },
+        {
+          "ratePercent": 32,
+          "overMarriedJoint": 403550
+        },
+        {
+          "ratePercent": 35,
+          "overMarriedJoint": 512450
+        },
+        {
+          "ratePercent": 37,
+          "overMarriedJoint": 768700
+        }
+      ],
+      "standardDeductionSingle": 16100,
+      "standardDeductionMarriedJoint": 32200,
+      "personalExemption": 0,
+      "scheduleSource": {
+        "title": "IRS IR-2025-103, tax year 2026 inflation adjustments including OBBBA amendments (Rev. Proc. 2025-32)",
+        "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
+      },
+      "scheduleNote": "Mirror code: the federal 2026 schedule applies with the territory substituted for the United States."
+    },
+    "US-MP": {
+      "system": "mirror code plus local wage tax and rebate",
+      "mirrorsFederal": true,
+      "law": "Covenant \u00a7 601 mirror: the Northern Marianas Territorial Income Tax (NMTIT), 4 CMC \u00a7 1701 et seq.; plus the Wage and Salary Tax, 4 CMC \u00a7\u00a7 1201, 1204, credited under \u00a7 1206; rebate under 4 CMC \u00a7 1708.",
+      "agency": "CNMI Department of Finance, Division of Revenue and Taxation",
+      "agencyUrl": "https://www.finance.gov.mp/",
+      "wageAndSalaryTax": {
+        "cite": "4 CMC \u00a7 1204",
+        "appliesTo": "total yearly wages and salaries (or earnings, \u00a7 1202)",
+        "method": "Single rate on the whole amount once the tier is reached (\"of the amount over $0\"), so the tax jumps at each tier.",
+        "tiers": [
+          {
+            "from": 0,
+            "to": 1000,
+            "ratePercent": 0
+          },
+          {
+            "from": 1001,
+            "to": 5000,
+            "ratePercent": 2
+          },
+          {
+            "from": 5001,
+            "to": 7000,
+            "ratePercent": 3
+          },
+          {
+            "from": 7001,
+            "to": 15000,
+            "ratePercent": 4
+          },
+          {
+            "from": 15001,
+            "to": 22000,
+            "ratePercent": 5
+          },
+          {
+            "from": 22001,
+            "to": 30000,
+            "ratePercent": 6
+          },
+          {
+            "from": 30001,
+            "to": 40000,
+            "ratePercent": 7
+          },
+          {
+            "from": 40001,
+            "to": 50000,
+            "ratePercent": 8
+          },
+          {
+            "from": 50001,
+            "to": null,
+            "ratePercent": 9
+          }
+        ],
+        "perPerson": true,
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1204.pdf"
+      },
+      "credit": {
+        "cite": "4 CMC \u00a7 1206",
+        "rule": "Wage and salary tax paid is a nonrefundable credit against NMTIT on Commonwealth-source income.",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1206.pdf"
+      },
+      "rebate": {
+        "cite": "4 CMC \u00a7 1708(b)(1)(i)",
+        "rebateBase": "NMTIT on Commonwealth-source income less nonrefundable credits (including the wage tax credit)",
+        "schedule": [
+          {
+            "over": 0,
+            "percent": 90,
+            "plus": 0
+          },
+          {
+            "over": 20000,
+            "percent": 70,
+            "plus": 18000
+          },
+          {
+            "over": 100000,
+            "percent": 50,
+            "plus": 74000
+          }
+        ],
+        "note": "Rebate is 90% of the first $20,000 of rebate base, 70% of the next $80,000, and 50% above $100,000. No rebate on income that was not subject to the wage/earnings or gross revenue tax unless the taxpayer elects to pay it.",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1708.pdf"
+      },
+      "howItCombines": "A wage earner pays the \u00a7 1204 wage tax (withheld). NMTIT is computed on the federal schedule, the wage tax is credited against it, and the \u00a7 1708 rebate offsets most of what remains, so for most residents the wage tax is the binding tax.",
+      "source": {
+        "title": "Commonwealth Code 4 CMC \u00a7\u00a7 1204, 1206, 1708 (cnmilaw.gov; the site notes content may be out of date); IRS Publication 570",
+        "url": "https://cnmilaw.gov/commonwealth-code/3358",
+        "irs": "https://www.irs.gov/publications/p570"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "Code text read from the Law Revision Commission site, which warns it may be out of date; recent public laws changing the rebate (austerity-era rebate cuts have been proposed) were not checked.",
+      "bracketsSingle": [
+        {
+          "ratePercent": 10,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 12,
+          "overSingle": 12400
+        },
+        {
+          "ratePercent": 22,
+          "overSingle": 50400
+        },
+        {
+          "ratePercent": 24,
+          "overSingle": 105700
+        },
+        {
+          "ratePercent": 32,
+          "overSingle": 201775
+        },
+        {
+          "ratePercent": 35,
+          "overSingle": 256225
+        },
+        {
+          "ratePercent": 37,
+          "overSingle": 640600
+        }
+      ],
+      "bracketsMarriedJoint": [
+        {
+          "ratePercent": 10,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 12,
+          "overMarriedJoint": 24800
+        },
+        {
+          "ratePercent": 22,
+          "overMarriedJoint": 100800
+        },
+        {
+          "ratePercent": 24,
+          "overMarriedJoint": 211400
+        },
+        {
+          "ratePercent": 32,
+          "overMarriedJoint": 403550
+        },
+        {
+          "ratePercent": 35,
+          "overMarriedJoint": 512450
+        },
+        {
+          "ratePercent": 37,
+          "overMarriedJoint": 768700
+        }
+      ],
+      "standardDeductionSingle": 16100,
+      "standardDeductionMarriedJoint": 32200,
+      "personalExemption": 0,
+      "scheduleSource": {
+        "title": "IRS IR-2025-103, tax year 2026 inflation adjustments including OBBBA amendments (Rev. Proc. 2025-32)",
+        "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill"
+      },
+      "scheduleNote": "Mirror code: the federal 2026 schedule applies with the territory substituted for the United States."
+    },
+    "US-AS": {
+      "system": "own code based on a frozen IRC",
+      "mirrorsFederal": false,
+      "law": "A.S.C.A. \u00a7 11.0403(a): the U.S. income tax and rules in effect on December 31, 2000 (1954 Code subtitle A, withholding chapters 24-25, subtitle F) are the Samoan Income Tax Act, a separate territorial tax; local amendments in A.S.C.A. ch. 11.05 take precedence (\u00a7 11.0403(c)).",
+      "agency": "American Samoa Government, Department of Treasury (Tax Office)",
+      "agencyUrl": "https://www.americansamoa.gov/tax-office",
+      "bracketsSingle": [
+        {
+          "ratePercent": 15,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 28,
+          "overSingle": 26250
+        },
+        {
+          "ratePercent": 31,
+          "overSingle": 63550
+        },
+        {
+          "ratePercent": 36,
+          "overSingle": 132600
+        },
+        {
+          "ratePercent": 39.6,
+          "overSingle": 288350
+        }
+      ],
+      "bracketsMarriedJoint": [
+        {
+          "ratePercent": 15,
+          "overMarriedJoint": 0
+        },
+        {
+          "ratePercent": 28,
+          "overMarriedJoint": 43850
+        },
+        {
+          "ratePercent": 31,
+          "overMarriedJoint": 105950
+        },
+        {
+          "ratePercent": 36,
+          "overMarriedJoint": 161450
+        },
+        {
+          "ratePercent": 39.6,
+          "overMarriedJoint": 288350
+        }
+      ],
+      "standardDeductionSingle": 4400,
+      "standardDeductionMarriedJoint": 7350,
+      "personalExemption": 2800,
+      "scheduleNote": "The 2000 federal schedule (Rev. Proc. 99-42), which American Samoa has used since 2001 (Samoa News, September 1, 2017). A 2017 bill to move to newer IRS tables passed the Senate on second reading; \u00a7 11.0403 still names December 31, 2000 (last amended 2009), so no update was enacted into that section.",
+      "alternativeMinimumTax": {
+        "cite": "A.S.C.A. \u00a7 11.0503 (adds IRC Sec. 5)",
+        "rule": "Non-corporate taxpayers pay at least 4% of adjusted gross income (raised from 2% in 2001); excludes a disabled taxpayer earning $1,000 or less and the first $5,000 earned by a taxpayer 65 or over.",
+        "source": "https://asbar.org/code-annotated/11-0503-section-5-added/"
+      },
+      "wageTax": {
+        "status": "repealed",
+        "rule": "A separate 2% wage tax (earmarked for LBJ Medical Center, in force about 2008-2021) was repealed by a tobacco tax act signed April 8, 2021, effective on approval.",
+        "source": "https://samoanews.com/node/117141"
+      },
+      "source": {
+        "title": "A.S.C.A. \u00a7 11.0403 and \u00a7 11.0503 (American Samoa Bar Association code annotated); IRS Publication 570; Samoa News",
+        "url": "https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/",
+        "secondary": "https://www.samoanews.com/local-news/senate-passes-2nd-reading-bill-update-local-tax-table",
+        "irs": "https://www.irs.gov/publications/p570"
+      },
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "The 2000 bracket figures come from the 2000 federal schedule the statute adopts; the Tax Office publishes no current table online, so continued use in 2026 is inferred from the statute date."
+    }
+  }
+}

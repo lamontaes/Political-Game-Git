@@ -1,0 +1,95 @@
+{
+  "id": "outside-agenda",
+  "about": "What another state's legislature takes up in a session (pool item nation-other-states-change-laws-in-year-one-then-almost-never). Each state keeps a pull toward each yes-or-no question; at each session it grows by how far the state's own figures moved since its last session (the country tier's people out of work, prices, pay, and the ledger's revenue against its budget), each figure's move counted against its full change and weighed by how much it bears on the question's area, and by the share of members who are new since then. A question whose pull reaches one whole is taken up, decided by the members and the governor as before, and its pull falls by one whether it passes or not. The opening's place along each pull is the world's own seeded line, so the starting law is not brought into line with the members all at once.",
+  "figures": {
+    "unemploymentPct": {
+      "fullChange": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "unit": "percentage points of the state's labor force out of work",
+      "citation": "About one point is the move in a state's unemployment rate that state legislative agendas answer within a session (BLS LAUS state series, 2001 to 2024: a recession year moves most states two to five points, an ordinary year a few tenths)."
+    },
+    "prices": {
+      "fullChange": 0.04,
+      "tag": "TUNABLE",
+      "spread": [0.02, 0.08],
+      "unit": "share the state's prices rose or fell",
+      "citation": "Near a year of the Federal Reserve's target inflation doubled; 2021 to 2023's price rises (BLS CPI, regional series, 5 to 9 percent a year) put housing and cost bills on most legislatures' agendas."
+    },
+    "hourlyPay": {
+      "fullChange": 0.05,
+      "tag": "TUNABLE",
+      "spread": [0.03, 0.1],
+      "unit": "share the state's average hourly pay moved",
+      "citation": "A little above a year of ordinary nominal wage growth (Atlanta Fed Wage Growth Tracker, 2015 to 2024: 3 to 6 percent)."
+    },
+    "budgetGap": {
+      "fullChange": 0.05,
+      "tag": "TUNABLE",
+      "spread": [0.02, 0.1],
+      "unit": "share of the budget by which the year's revenue fell short or ran over",
+      "citation": "NASBO Fiscal Survey of States: midyear revenue that misses the enacted estimate by a few percent starts budget fixes; 2009's 10 to 15 percent shortfalls drove tax changes in most states."
+    }
+  },
+  "weights": {
+    "tag": "TUNABLE",
+    "spread": [0, 1],
+    "note": "How much each figure's move bears on each question area (the part of a question's key before the dot), 0 to 1. An area no figure bears on is moved by new members only.",
+    "byArea": {
+      "labor-workforce": {
+        "unemploymentPct": 1,
+        "hourlyPay": 1
+      },
+      "business-commerce": {
+        "unemploymentPct": 0.5,
+        "prices": 0.5
+      },
+      "housing-land-use": {
+        "prices": 1,
+        "hourlyPay": 0.5
+      },
+      "fiscal": {
+        "budgetGap": 1,
+        "prices": 0.5
+      },
+      "government-operations": {
+        "budgetGap": 0.5
+      },
+      "health-human-services": {
+        "unemploymentPct": 0.5,
+        "budgetGap": 0.5
+      },
+      "education": {
+        "budgetGap": 0.5
+      },
+      "transportation-infrastructure": {
+        "budgetGap": 0.5,
+        "prices": 0.5
+      },
+      "agriculture-natural-resources": {
+        "prices": 0.5
+      },
+      "environment-energy": {
+        "prices": 0.5
+      },
+      "justice-public-safety": {},
+      "technology-privacy": {},
+      "civil-family-community": {}
+    }
+  },
+  "newMembers": {
+    "weight": 2,
+    "tag": "TUNABLE",
+    "spread": [1, 4],
+    "unit": "pull toward every question for a legislature whose members are all new",
+    "citation": "A chamber that turns over half its seats takes up the questions its new members ran on in its first session (NCSL turnover studies, 2010 and 2018 wave years); at weight 2, half new members carry each question one whole."
+  },
+  "openingYear": {
+    "role": "opening",
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "spread": [0.25, 1],
+    "unit": "pull a typical year between sessions adds toward a question",
+    "citation": "The year before the opening, which the world does not run: each pull opens at its seeded place along one whole plus this share, so the first session takes up what the year before it would have carried. Checked against played years of the Laconia, New Hampshire world (seed 8832429ff1e53841): a year of moves added 0.3 to 0.6 toward the questions whose figures moved. At 0.5 the Wickliffe, Oklahoma world (seed 8832429ff1e53841, place 4080975) put 49 percent of four years' changes in the first; 0.35 keeps the first session to the share a year's moves carry."
+  }
+}

@@ -1,0 +1,69 @@
+/* The textured-material look, for the owner to compare with the framed plates
+   (owner, Oct 29: "I would like an example of the first two textured
+   material framed plates"). Not loaded by the game: the screenshot script
+   adds it to the page for one shot. The panel is dark walnut with brass trim;
+   reading text sits on parchment insets. */
+#person.panel {
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='400'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='0.004 0.09' numOctaves='4' seed='11'/><feColorMatrix values='0 0 0 0 0.30  0 0 0 0 0.19  0 0 0 0 0.11  0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>")
+      0 0 / cover,
+    linear-gradient(#3a2416, #1f130b);
+}
+#person .plate,
+#person .fact-plate {
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.35  0 0 0 0 0.2  0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"),
+    radial-gradient(ellipse at 50% 40%, #f1e6cc, #dcc8a0 85%, #c9b083);
+  border: 1px solid #8a6a3a;
+  box-shadow:
+    0 0 0 1px #2a1a0e,
+    inset 0 0 22px rgba(110, 78, 34, 0.38),
+    0 3px 6px rgba(0, 0, 0, 0.55);
+  color: #2a1f16;
+  text-shadow: none;
+}
+#person .plate .label,
+#person .timeline-when,
+#person .timeline .pager-where {
+  color: #7a4a18;
+}
+#person .fact-value,
+#person .timeline-text {
+  color: #2a1f16;
+}
+#person .fact-note {
+  color: #5a4632;
+}
+#person .timeline-card {
+  background: rgba(255, 252, 240, 0.35);
+  border-color: rgba(122, 74, 24, 0.35);
+}
+#person .timeline .pager-grid::before {
+  background: linear-gradient(#a8772f, #7a4a18);
+  box-shadow: none;
+}
+#person .timeline-icon {
+  border-color: #7a4a18;
+  background: radial-gradient(circle at 40% 35%, #fbf3df, #e1cc9f 75%);
+  box-shadow: 0 0 0 2px rgba(122, 74, 24, 0.25);
+}
+#person .timeline-icon svg {
+  stroke: #6b3f12;
+}
+#person .chip {
+  background: rgba(0, 0, 0, 0.35);
+}
+#person .tab-rail {
+  background: linear-gradient(#1a0f08, #2a1a0e);
+  border-color: #8a6a3a;
+}
+#person #person-media {
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 42%,
+      rgba(241, 230, 204, 0.5),
+      rgba(220, 200, 160, 0) 70%
+    ),
+    linear-gradient(#d9c49b, #a88a5a);
+  border-color: #8a6a3a;
+}

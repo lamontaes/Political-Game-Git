@@ -1,0 +1,162 @@
+{
+  "about": "County areas whose general-purpose government the Census Bureau's 2025 Government Units listing carries as a municipality that is coextensive with the county (a consolidated city-county or unified government), so it has no county-type unit and no matched Census place. Each governs its whole county area and is the county's local body (a place inside it that has no government of its own answers to it). Read from the listing in src/core2/reference/government-units.generated.ts (U.S. Census Bureau, Census of Governments, 2025 Government Units listing): the six municipality units with no matched place in a county that has no county unit, outside Massachusetts, where the one such unit (the City of Easthampton) is a town whose place did not match and the state has no county governments. matchedUnits: the same kind of government where the listing matches the unit to the Census place it governs (its seat), so the seat already has its municipal body; a place with no government of its own inside such a county (a census-designated place) answers to that body as its municipal government.",
+  "units": [
+    {
+      "publisherId": "108124",
+      "countyGeoid": "30093",
+      "name": "CITY AND COUNTY OF BUTTE-SILVER BOW"
+    },
+    {
+      "publisherId": "161834",
+      "countyGeoid": "13059",
+      "name": "UNIFIED GOVERNMENT OF ATHENS-CLARKE COUNTY"
+    },
+    {
+      "publisherId": "164742",
+      "countyGeoid": "20071",
+      "name": "UNIFIED GOVERNMENT OF GREELEY COUNTY"
+    },
+    {
+      "publisherId": "165866",
+      "countyGeoid": "21111",
+      "name": "METRO GOVERNMENT OF LOUISVILLE-JEFFERSON COUNTY"
+    },
+    {
+      "publisherId": "175728",
+      "countyGeoid": "47037",
+      "name": "METROPOLITAN GOVERNMENT OF NASHVILLE-DAVIDSON COUNTY"
+    },
+    {
+      "publisherId": "183701",
+      "countyGeoid": "15003",
+      "name": "CITY AND COUNTY OF HONOLULU"
+    }
+  ],
+  "matchedUnits": [
+    {
+      "publisherId": "101942",
+      "countyGeoid": "12031",
+      "name": "CITY OF JACKSONVILLE"
+    },
+    {
+      "publisherId": "102163",
+      "countyGeoid": "13021",
+      "name": "COUNTY OF MACON-BIBB"
+    },
+    {
+      "publisherId": "127857",
+      "countyGeoid": "22109",
+      "name": "CONSOLIDATED GOVERNMENT OF TERREBONNE"
+    },
+    {
+      "publisherId": "133602",
+      "countyGeoid": "42101",
+      "name": "CITY OF PHILADELPHIA"
+    },
+    {
+      "publisherId": "160762",
+      "countyGeoid": "02110",
+      "name": "CITY AND BOROUGH OF JUNEAU"
+    },
+    {
+      "publisherId": "160787",
+      "countyGeoid": "02220",
+      "name": "CITY AND BOROUGH OF SITKA"
+    },
+    {
+      "publisherId": "161258",
+      "countyGeoid": "06075",
+      "name": "CITY AND COUNTY OF SAN FRANCISCO"
+    },
+    {
+      "publisherId": "161828",
+      "countyGeoid": "13053",
+      "name": "UNIFIED GOVERNMENT OF CUSSETA-CHATTAHOOCHEE COUNTY"
+    },
+    {
+      "publisherId": "161944",
+      "countyGeoid": "13215",
+      "name": "CONSOLIDATED GOVERNMENT OF COLUMBUS"
+    },
+    {
+      "publisherId": "161958",
+      "countyGeoid": "13239",
+      "name": "UNIFIED GOVERNMENT OF GEORGETOWN AND QUITMAN COUNTY"
+    },
+    {
+      "publisherId": "164911",
+      "countyGeoid": "20209",
+      "name": "UNIFIED GOVERNMENT OF WYANDOTTE COUNTY AND KANSAS CITY"
+    },
+    {
+      "publisherId": "165831",
+      "countyGeoid": "21067",
+      "name": "URBAN COUNTY GOVERNMENT OF LEXINGTON-FAYETTE"
+    },
+    {
+      "publisherId": "166054",
+      "countyGeoid": "22033",
+      "name": "CITY-PARISH OF BATON ROUGE-EAST BATON ROUGE"
+    },
+    {
+      "publisherId": "166076",
+      "countyGeoid": "22055",
+      "name": "CITY-PARISH OF LAFAYETTE"
+    },
+    {
+      "publisherId": "166094",
+      "countyGeoid": "22071",
+      "name": "CITY OF NEW ORLEANS"
+    },
+    {
+      "publisherId": "169444",
+      "countyGeoid": "30023",
+      "name": "COUNTY OF ANACONDA-DEER LODGE"
+    },
+    {
+      "publisherId": "175805",
+      "countyGeoid": "47127",
+      "name": "METROPOLITAN GOVERNMENT OF LYNCHBURG-MOORE COUNTY"
+    },
+    {
+      "publisherId": "175834",
+      "countyGeoid": "47169",
+      "name": "METROPOLITAN GOVERNMENT OF HARTSVILLE-TROUSDALE COUNTY"
+    },
+    {
+      "publisherId": "194463",
+      "countyGeoid": "02020",
+      "name": "MUNICIPALITY OF ANCHORAGE"
+    },
+    {
+      "publisherId": "194647",
+      "countyGeoid": "08031",
+      "name": "CITY AND COUNTY OF DENVER"
+    },
+    {
+      "publisherId": "194679",
+      "countyGeoid": "13245",
+      "name": "CONSOLIDATED GOVERNMENT OF AUGUSTA-RICHMOND COUNTY"
+    },
+    {
+      "publisherId": "194943",
+      "countyGeoid": "32510",
+      "name": "CITY OF CARSON CITY"
+    },
+    {
+      "publisherId": "196483",
+      "countyGeoid": "08014",
+      "name": "CITY AND COUNTY OF BROOMFIELD"
+    },
+    {
+      "publisherId": "201573",
+      "countyGeoid": "13307",
+      "name": "UNIFIED GOVERNMENT OF WEBSTER COUNTY"
+    },
+    {
+      "publisherId": "239781",
+      "countyGeoid": "02275",
+      "name": "CITY AND BOROUGH OF WRANGELL"
+    }
+  ]
+}

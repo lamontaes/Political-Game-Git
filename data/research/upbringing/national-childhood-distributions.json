@@ -1,0 +1,38 @@
+{
+  "siblings": {
+    "source": "https://www2.census.gov/library/publications/2011/demo/p70-126.pdf",
+    "title": "Living Arrangements of Children: 2009",
+    "publisher": "U.S. Census Bureau",
+    "survey": "Survey of Income and Program Participation, 2008 Panel, Wave 2 Topical Module",
+    "table": "Table 4",
+    "vintage": 2009,
+    "population": "Children under 18; siblings in the household may be any age",
+    "measure": "Number of siblings living in the household",
+    "categories": [
+      { "siblings": 0, "percent": 22.1 },
+      { "siblings": 1, "percent": 38.0 },
+      { "siblings": 2, "percent": 24.1 },
+      { "siblings": 3, "percent": 10.5 },
+      { "siblings": 4, "percent": 5.4, "lowerBound": true }
+    ]
+  },
+  "familyIncome": {
+    "source": "https://data.census.gov/table/ACSDT1Y2024.B17024",
+    "title": "ACS 2024 1-year Detailed Table B17024, United States",
+    "publisher": "U.S. Census Bureau",
+    "vintage": 2024,
+    "measure": "Children by ratio of family income to poverty level",
+    "periods": {
+      "early-childhood": [
+        { "level": "severe-scarcity", "percent": 16.4 },
+        { "level": "strained", "percent": 19.8 },
+        { "level": "secure", "percent": 63.7 }
+      ],
+      "adolescence": [
+        { "level": "severe-scarcity", "percent": 14.5 },
+        { "level": "strained", "percent": 18.7 },
+        { "level": "secure", "percent": 66.8 }
+      ]
+    }
+  }
+}

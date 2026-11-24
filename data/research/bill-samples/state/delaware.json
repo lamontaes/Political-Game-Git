@@ -1,0 +1,156 @@
+[
+  {
+    "id": "de-2025-hb225-operating-budget",
+    "jurisdiction": "Delaware",
+    "level": "state",
+    "session": "153rd General Assembly (2025)",
+    "bill_number": "HB 225",
+    "law_citation": null,
+    "short_title": "FY2026 operating budget",
+    "enacted_date": "2025-07-01",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legis.delaware.gov/",
+    "aggregator_url": "https://legiscan.com/DE/bill/HB225/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "General fund operating budget.",
+        "numbers": [
+          {
+            "value": 6500000000,
+            "unit": "USD approx",
+            "text": "6500000000 USD approx"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Companion supplemental one-time spending bill (HB 226).",
+        "numbers": [
+          {
+            "value": 37000000,
+            "unit": "USD",
+            "text": "37000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "availability-period",
+        "description": "Fiscal year beginning July 1.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["state agencies", "school funding"],
+    "daily_life": "Funds state services and school aid for the year.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "de-2025-hb140-end-of-life",
+    "jurisdiction": "Delaware",
+    "level": "state",
+    "session": "153rd General Assembly (2025)",
+    "bill_number": "HB 140",
+    "law_citation": null,
+    "short_title": "End-of-life options (medical aid in dying)",
+    "enacted_date": "2025-05-20",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legis.delaware.gov/",
+    "aggregator_url": "https://legiscan.com/DE/bill/HB140/2025",
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Long-term care / patient rights",
+    "secondary_menus": ["12"],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Terminally ill adult residents with capacity and a prognosis of six months or less.",
+        "numbers": [
+          {
+            "value": 6,
+            "unit": "months prognosis",
+            "text": "6 months prognosis"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Two clinicians must confirm eligibility; waiting periods apply.",
+        "inferred": true
+      },
+      {
+        "kind": "exemption",
+        "description": "Clinicians and facilities may decline to participate."
+      },
+      {
+        "kind": "reporting",
+        "description": "Reporting to the state health agency.",
+        "inferred": true
+      }
+    ],
+    "touches": ["hospitals", "hospice providers"],
+    "daily_life": "A dying patient may request medication to end life under set safeguards.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "de-2025-hb152-impersonating-federal-officer",
+    "jurisdiction": "Delaware",
+    "level": "state",
+    "session": "153rd General Assembly (2025)",
+    "bill_number": "HB 152",
+    "law_citation": null,
+    "short_title": "Crime of impersonating a federal officer",
+    "enacted_date": "2025-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legis.delaware.gov/",
+    "aggregator_url": "https://legiscan.com/DE/bill/HB152/2025",
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Criminal law and sentencing",
+    "secondary_menus": ["16"],
+    "instrument": "penalty",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "definition",
+        "description": "Expands the offense of impersonating a law enforcement officer to include federal officers."
+      },
+      {
+        "kind": "penalty",
+        "description": "Same penalty class as impersonating a state or local officer (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["immigrant communities", "local police"],
+    "daily_life": "Someone posing as an immigration agent to scare people can be charged under state law.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

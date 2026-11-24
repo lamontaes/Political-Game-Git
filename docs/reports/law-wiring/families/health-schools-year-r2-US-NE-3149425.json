@@ -1,0 +1,4480 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "medicaid-match",
+      "kind": "amount",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "medicaid-match 57.52 -> 63.27 at federal (law:US-NE:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+        "law:US-NE:federal:medicaid-match:general:2024-10-01",
+        "law:US-NE:federal:medicaid-match:general:2026-01-22:law-wiring-82e83741-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:federal:medicaid-match:general:2025-10-01",
+          "level": "federal",
+          "effectiveDate": "2025-10-01",
+          "value": 55.94
+        },
+        {
+          "id": "law:US-NE:federal:medicaid-match:general:2026-10-01",
+          "level": "federal",
+          "effectiveDate": "2026-10-01",
+          "value": 54.54
+        }
+      ],
+      "readers": {
+        "src/core2/law-reach/group-b-money.ts:743 <- src/core2/modules/budgets.ts:722": 40,
+        "src/core2/life.ts:556": 6,
+        "src/core2/law-reach/group-b-money.ts:743 <- src/core2/life.ts:556": 5
+      },
+      "openingRow": "law:US-NE:federal:medicaid-match:general:2024-10-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1309925536,
+            "control": 1287083114,
+            "ids": [
+              "journal:2025-02-01:3096",
+              "journal:2025-02-01:3097",
+              "journal:2025-02-01:3098"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3001059918,
+            "control": 3023745998,
+            "ids": [
+              "journal:2025-01-21:1511",
+              "journal:2025-01-21:1512",
+              "journal:2025-01-21:1513"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 472514134,
+            "control": 473792038,
+            "ids": [
+              "journal:2025-01-28:1616",
+              "journal:2025-01-29:1649",
+              "journal:2025-01-30:1654"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 336581826,
+            "control": 335671684,
+            "ids": [
+              "journal:2025-01-21:1537",
+              "journal:2025-01-21:1538",
+              "journal:2025-01-21:1539"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 181377460,
+            "control": 180716281,
+            "ids": [
+              "journal:2025-02-01:3078",
+              "journal:2025-02-01:3079",
+              "journal:2025-02-01:3080"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 206583182,
+            "control": 207197413,
+            "ids": [
+              "journal:2025-02-01:1935",
+              "journal:2025-02-01:1936",
+              "journal:2025-02-01:1937"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 499858116,
+            "control": 499275218,
+            "ids": [
+              "journal:2025-01-24:1590",
+              "journal:2025-01-25:1591",
+              "journal:2025-01-25:1593"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 3212925,
+            "control": 3786776,
+            "ids": [
+              "journal:2025-09-01:56054",
+              "journal:2025-09-01:56055",
+              "journal:2025-10-01:65080"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 303536067,
+            "control": 303058983,
+            "ids": [
+              "journal:2025-02-01:1896",
+              "journal:2025-02-01:1897",
+              "journal:2025-02-01:1898"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 7791031,
+            "control": 8222662,
+            "ids": [
+              "journal:2025-02-19:8174",
+              "journal:2025-02-19:8175",
+              "journal:2025-02-19:8176"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
+            "treatment": 42200326,
+            "control": 41848883,
+            "ids": [
+              "journal:2025-07-01:46429",
+              "journal:2025-07-01:46430",
+              "journal:2025-07-01:46431"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2602",
+            "treatment": 771497,
+            "control": 494851,
+            "ids": [
+              "journal:2025-06-01:34062",
+              "journal:2025-09-01:58168",
+              "journal:2025-12-01:84606"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": [
+          {
+            "token": "medicaid-match",
+            "gross": 695291,
+            "ids": [
+              "journal:2025-01-22:1587",
+              "journal:2025-01-22:1588",
+              "journal:2025-01-22:1589"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 1,
+              "moved": 46978,
+              "earliest": "2025-01-22",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-01-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": -46978,
+                  "control": 0,
+                  "journal": "journal:2025-01-22:1587"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 1,
+              "moved": 42709,
+              "earliest": "2025-01-21",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": -417700,
+                  "control": -460409,
+                  "journal": "journal:2025-01-21:1505"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+              "way": "out",
+              "targets": 1,
+              "moved": 19714,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+                  "way": "out",
+                  "treatment": 18561817203898,
+                  "control": 18561817223612,
+                  "journal": "journal:2025-04-01:16061"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "in",
+              "targets": 1,
+              "moved": 17007,
+              "earliest": "2025-03-17",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-17",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "in",
+                  "treatment": 950807,
+                  "control": 933800,
+                  "journal": "journal:2025-03-17:15438"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+              "way": "in",
+              "targets": 1,
+              "moved": 6621,
+              "earliest": "2025-03-17",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-17",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+                  "way": "in",
+                  "treatment": 440910,
+                  "control": 434289,
+                  "journal": "journal:2025-03-17:15439"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+              "way": "in",
+              "targets": 1,
+              "moved": 4269,
+              "earliest": "2025-01-21",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+                  "way": "in",
+                  "treatment": 4269,
+                  "control": 0,
+                  "journal": "journal:2025-01-21:1495"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+              "way": "out",
+              "targets": 1,
+              "moved": 701,
+              "earliest": "2025-03-22",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-22",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+                  "way": "out",
+                  "treatment": 22765,
+                  "control": 23466,
+                  "journal": "journal:2025-03-22:15704"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 1,
+              "moved": 650,
+              "earliest": "2025-03-22",
+              "sample": [
+                {
+                  "target": "US",
+                  "row": "applied|medicaid-match|US",
+                  "date": "2025-03-22",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": 22549,
+                  "control": 23199,
+                  "journal": "journal:2025-03-22:15703"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/life.ts:558|in",
+          "sample": [
+            {
+              "target": "US",
+              "row": "applied|medicaid-match|US",
+              "date": "2025-01-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": -417700,
+              "control": -460409,
+              "journal": "journal:2025-01-21:1505"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "US",
+                "row": "applied|medicaid-match|US",
+                "date": "2025-01-21",
+                "kind": "accounts.transfer @ src/core2/life.ts:558",
+                "way": "in",
+                "treatment": -417700,
+                "control": -460409,
+                "journal": "journal:2025-01-21:1505"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "US",
+                "row": "applied|medicaid-match|US",
+                "date": "2025-01-21",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+                "way": "in",
+                "treatment": 4269,
+                "control": 0,
+                "journal": "journal:2025-01-21:1495"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 1,
+              "first": {
+                "target": "US",
+                "row": "applied|medicaid-match|US",
+                "date": "2025-01-22",
+                "kind": "accounts.transfer @ src/core2/life.ts:558",
+                "way": "out",
+                "treatment": -46978,
+                "control": 0,
+                "journal": "journal:2025-01-22:1587"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 123,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:medicaid-match:general:2025-01-21:law-wiring-82e83741"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|medicaid-match|US"]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 55
+    },
+    {
+      "key": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+        "law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2026-01-22:law-wiring-9348bb6e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 6,
+        "countedGroups": 2,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_d7dd19d8395ddc6d",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_e4a1b257665ee922",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_dff14c77ae0c8f2f"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 6,
+        "countedGroups": 2,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_d7dd19d8395ddc6d",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_e4a1b257665ee922",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+          "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_dff14c77ae0c8f2f"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:172": 190,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/modules/budgets.ts:722": 152,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/modules/budgets.ts:1255": 16,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/life.ts:556": 12,
+        "src/core2/life.ts:556": 5
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3013869695,
+            "control": 3023745998,
+            "ids": [
+              "journal:2025-01-21:1513",
+              "journal:2025-01-21:1514",
+              "journal:2025-01-21:1515"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1296952786,
+            "control": 1287083114,
+            "ids": [
+              "journal:2025-02-01:3088",
+              "journal:2025-02-01:3089",
+              "journal:2025-02-01:3090"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218397835612,
+            "control": 177218398240763,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 37296317,
+            "control": 37651632,
+            "ids": [
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506",
+              "journal:2025-01-21:1507"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 302874299,
+            "control": 303058983,
+            "ids": [
+              "journal:2025-02-01:1888",
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 207051342,
+            "control": 207197413,
+            "ids": [
+              "journal:2025-02-01:1927",
+              "journal:2025-02-01:1928",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/budgets.ts:942",
+            "treatment": 19456920,
+            "control": 19592510,
+            "ids": [
+              "journal:2025-03-01:8457",
+              "journal:2025-03-01:8458",
+              "journal:2025-03-01:8459"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245860723325,
+            "control": 702245860834414,
+            "ids": [
+              "journal:2025-02-01:1704",
+              "journal:2025-02-01:1705",
+              "journal:2025-02-01:1706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 335579264,
+            "control": 335671684,
+            "ids": [
+              "journal:2025-01-21:1539",
+              "journal:2025-01-21:1540",
+              "journal:2025-01-21:1541"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:859",
+            "treatment": 2847456,
+            "control": 2915656,
+            "ids": [
+              "journal:2025-02-01:3064",
+              "journal:2025-03-01:10250",
+              "journal:2025-04-01:18079"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 473825104,
+            "control": 473792038,
+            "ids": [
+              "journal:2025-01-28:1618",
+              "journal:2025-01-29:1651",
+              "journal:2025-01-30:1656"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 180708166,
+            "control": 180716281,
+            "ids": [
+              "journal:2025-02-01:3070",
+              "journal:2025-02-01:3071",
+              "journal:2025-02-01:3072"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 8,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "moved": 326,
+              "earliest": "2025-06-01",
+              "sample": [
+                {
+                  "target": "person_97c83729e4b406a5",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 210488,
+                  "control": 210808,
+                  "journal": "journal:2025-06-01:32092"
+                },
+                {
+                  "target": "person_dff14c77ae0c8f2f",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_dff14c77ae0c8f2f",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 20530,
+                  "control": 20536,
+                  "journal": "journal:2025-11-01:74020"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 2,
+              "moved": 15,
+              "earliest": "2025-10-02",
+              "sample": [
+                {
+                  "target": "person_dff14c77ae0c8f2f",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_dff14c77ae0c8f2f",
+                  "date": "2025-10-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 62095,
+                  "control": 62089,
+                  "journal": "journal:2025-10-02:71502"
+                },
+                {
+                  "target": "person_ced623a0f6648d80",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_ced623a0f6648d80",
+                  "date": "2025-11-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 29395,
+                  "control": 29386,
+                  "journal": "journal:2025-11-02:80360"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 1,
+              "moved": 53600,
+              "earliest": "2025-07-02",
+              "sample": [
+                {
+                  "target": "person_97c83729e4b406a5",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+                  "date": "2025-07-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 53600,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "in",
+              "targets": 1,
+              "moved": 320,
+              "earliest": "2025-07-01",
+              "sample": [
+                {
+                  "target": "person_97c83729e4b406a5",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+                  "date": "2025-07-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -55384,
+                  "control": -55704,
+                  "journal": "journal:2025-07-01:40079"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 1,
+              "moved": 160,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_97c83729e4b406a5",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -72431,
+                  "control": -72271,
+                  "journal": "journal:2025-04-01:17743"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:431",
+              "way": "out",
+              "targets": 1,
+              "moved": 9,
+              "earliest": "2025-12-01",
+              "sample": [
+                {
+                  "target": "person_ced623a0f6648d80",
+                  "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_ced623a0f6648d80",
+                  "date": "2025-12-01",
+                  "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:431",
+                  "way": "out",
+                  "treatment": -7293,
+                  "control": -7284,
+                  "journal": "journal:2025-12-01:82811"
+                }
+              ]
+            }
+          ],
+          "paid": 2,
+          "pick": "accounts.transfer @ src/core2/credit-deposits.ts:159|out",
+          "sample": [
+            {
+              "target": "person_97c83729e4b406a5",
+              "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+              "date": "2025-06-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": 210488,
+              "control": 210808,
+              "journal": "journal:2025-06-01:32092"
+            },
+            {
+              "target": "person_dff14c77ae0c8f2f",
+              "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_dff14c77ae0c8f2f",
+              "date": "2025-11-01",
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "treatment": 20530,
+              "control": 20536,
+              "journal": "journal:2025-11-01:74020"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 2,
+              "first": {
+                "target": "person_97c83729e4b406a5",
+                "row": "applied|us-policy-positions:health-human-services.work-requirement-for-assistance|person_97c83729e4b406a5",
+                "date": "2025-06-01",
+                "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                "way": "out",
+                "treatment": 210488,
+                "control": 210808,
+                "journal": "journal:2025-06-01:32092"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "snap-work-requirement-to-participation",
+            "status": "built",
+            "to": "program.snap-receipt"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:health-human-services.work-requirement-for-assistance:general:2025-01-21:law-wiring-9348bb6e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 57
+    },
+    {
+      "key": "budget-line:healthAndHospitals",
+      "kind": "budget-line",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "place:3149425 healthAndHospitals 370305 -> 10370305 by law-wiring-0ccd53a1",
+      "lawIds": ["law-wiring-0ccd53a1"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 126,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 128,
+        "ended": 2,
+        "sample": [
+          "budget-line:healthAndHospitals|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:healthAndHospitals|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:healthAndHospitals|person_00a28a6650e55809|2025-01-20",
+          "budget-line:healthAndHospitals|person_014872ba8397579a|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 506931793,
+            "control": 471803605,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245847036258,
+            "control": 702245860792466,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3013007555,
+            "control": 3026618795,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1297066312,
+            "control": 1284573915,
+            "ids": [
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087",
+              "journal:2025-02-01:3088"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 343514721,
+            "control": 336410264,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 495122240,
+            "control": 501486103,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 177595914,
+            "control": 182324785,
+            "ids": [
+              "journal:2025-02-01:3068",
+              "journal:2025-02-01:3069",
+              "journal:2025-02-01:3070"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3163645656,
+            "control": 3160189681,
+            "ids": [
+              "journal:2025-01-28:1607",
+              "journal:2025-01-29:1640",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 72342460,
+            "control": 70136694,
+            "ids": [
+              "journal:2025-02-01:1956",
+              "journal:2025-02-01:1959",
+              "journal:2025-02-01:1962"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218396010246,
+            "control": 177218398018031,
+            "ids": [
+              "journal:2025-02-01:1682",
+              "journal:2025-02-01:1683",
+              "journal:2025-02-01:1684"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 4418243,
+            "control": 2822886,
+            "ids": [
+              "journal:2025-09-01:56394",
+              "journal:2025-09-01:56395",
+              "journal:2025-10-01:65518"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:351",
+            "treatment": 161130,
+            "control": 936625,
+            "ids": [
+              "journal:2025-05-01:24186",
+              "journal:2025-06-01:32193",
+              "journal:2025-06-01:32194"
+            ]
+          }
+        ],
+        "diffKinds": 41,
+        "cited": [
+          {
+            "token": "budget-line:healthAndHospitals",
+            "gross": 63826553133,
+            "ids": [
+              "journal:2025-02-01:1795",
+              "journal:2025-02-01:1796",
+              "journal:2025-02-01:1827"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 2,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "health-hospitals-spending-to-infant-mortality",
+            "status": "built",
+            "to": "health.infant-mortality"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "link": "health-hospitals-spending-to-infant-mortality",
+            "effect": -0.2508780019896444
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:healthAndHospitals:law-wiring-0ccd53a1",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:healthAndHospitals:law-wiring-0ccd53a1",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:healthAndHospitals:law-wiring-0ccd53a1"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 128,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 130,
+        "ended": 15,
+        "sample": [
+          "budget-line:healthAndHospitals|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:healthAndHospitals|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:healthAndHospitals|person_00a28a6650e55809|2025-01-20",
+          "budget-line:healthAndHospitals|person_02977976e9a4e00e|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 57
+    },
+    {
+      "key": "us-policy-positions:education.universal-preschool",
+      "kind": "question",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+        "law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2026-01-22:law-wiring-b3737e49-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 4,
+        "countedGroups": 2,
+        "countedPeople": 1,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 11,
+        "ended": 1,
+        "sample": [
+          "us-policy-positions:education.universal-preschool|person_0682d679c2eb8679|2025-01-21",
+          "us-policy-positions:education.universal-preschool|person_00dcb3d84e33b310|2025-06-01",
+          "us-policy-positions:education.universal-preschool|person_7c00c3c124ac85fb|2025-06-01",
+          "us-policy-positions:education.universal-preschool|person_a3877526a18d7278|2025-07-01"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 3,
+        "countedGroups": 2,
+        "countedPeople": 1,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 10,
+        "ended": 2,
+        "sample": [
+          "us-policy-positions:education.universal-preschool|person_00dcb3d84e33b310|2025-06-01",
+          "us-policy-positions:education.universal-preschool|person_7c00c3c124ac85fb|2025-06-01",
+          "us-policy-positions:education.universal-preschool|person_a3877526a18d7278|2025-07-01",
+          "us-policy-positions:education.universal-preschool|jurisdiction_45a3b3ebe97fe71d"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:172": 2013,
+        "src/core2/modules/legislature.ts:2133": 424,
+        "src/core2/modules/world-legislating.ts:253": 234,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/modules/budgets.ts:722": 56,
+        "src/core2/life.ts:556": 8,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:education.universal-preschool:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 496613780,
+            "control": 499275218,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 475630917,
+            "control": 473792038,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 178949022,
+            "control": 180716281,
+            "ids": [
+              "journal:2025-02-01:3068",
+              "journal:2025-02-01:3069",
+              "journal:2025-02-01:3070"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 337278027,
+            "control": 335671684,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245859630692,
+            "control": 702245860834414,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 38643673,
+            "control": 37651632,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 2927632,
+            "control": 3786776,
+            "ids": [
+              "journal:2025-09-01:56159",
+              "journal:2025-09-01:56160",
+              "journal:2025-10-01:65216"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 206506599,
+            "control": 207197413,
+            "ids": [
+              "journal:2025-02-01:1925",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1927"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1286460594,
+            "control": 1287083114,
+            "ids": [
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087",
+              "journal:2025-02-01:3088"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 303673484,
+            "control": 303058983,
+            "ids": [
+              "journal:2025-02-01:1886",
+              "journal:2025-02-01:1887",
+              "journal:2025-02-01:1888"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3160996993,
+            "control": 3160534508,
+            "ids": [
+              "journal:2025-01-28:1607",
+              "journal:2025-01-29:1640",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:859",
+            "treatment": 3258110,
+            "control": 2915656,
+            "ids": [
+              "journal:2025-02-01:3062",
+              "journal:2025-03-01:10250",
+              "journal:2025-04-01:18082"
+            ]
+          }
+        ],
+        "diffKinds": 39,
+        "cited": [
+          {
+            "token": "us-policy-positions:education.universal-preschool",
+            "gross": 2024572,
+            "ids": [
+              "journal:2025-02-22:8265",
+              "journal:2025-02-22:8266",
+              "journal:2025-03-02:14845"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 6,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 5,
+              "moved": 230065,
+              "earliest": "2025-02-22",
+              "sample": [
+                {
+                  "target": "household_01874ae9153f4307",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_01874ae9153f4307",
+                  "date": "2025-02-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 46013,
+                  "control": 0,
+                  "journal": "journal:2025-02-22:8265"
+                },
+                {
+                  "target": "household_0183c0e9153c22b2",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0183c0e9153c22b2",
+                  "date": "2025-03-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 46013,
+                  "control": 0,
+                  "journal": "journal:2025-03-02:14845"
+                },
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-06-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 46013,
+                  "control": 0,
+                  "journal": "journal:2025-06-02:38572"
+                },
+                {
+                  "target": "household_b1a749583922491b",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_b1a749583922491b",
+                  "date": "2025-06-02",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 46013,
+                  "control": 0,
+                  "journal": "journal:2025-06-02:38571"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 3,
+              "moved": 4,
+              "earliest": "2025-07-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -269435,
+                  "control": -269436,
+                  "journal": "journal:2025-07-01:41408"
+                },
+                {
+                  "target": "household_018ac8e915424ef8",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_018ac8e915424ef8",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -169947,
+                  "control": -169949,
+                  "journal": "journal:2025-09-01:57085"
+                },
+                {
+                  "target": "household_b1a749583922491b",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_b1a749583922491b",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -141071,
+                  "control": -141072,
+                  "journal": "journal:2025-09-01:58033"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 103468,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -116037,
+                  "control": -12569,
+                  "journal": "journal:2025-08-01:48222"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 1,
+              "moved": 46013,
+              "earliest": "2025-09-04",
+              "sample": [
+                {
+                  "target": "household_018ac8e915424ef8",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_018ac8e915424ef8",
+                  "date": "2025-09-04",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 46013,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 33691,
+              "earliest": "2025-09-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": 46260,
+                  "control": 12569,
+                  "journal": "journal:2025-09-01:56229"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+              "way": "out",
+              "targets": 1,
+              "moved": 15181,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "household_018ac8e915424ef8",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_018ac8e915424ef8",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+                  "way": "out",
+                  "treatment": -52467,
+                  "control": -37286,
+                  "journal": "journal:2025-08-01:54680"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 1,
+              "moved": 8771,
+              "earliest": "2025-03-02",
+              "sample": [
+                {
+                  "target": "household_0183c0e9153c22b2",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0183c0e9153c22b2",
+                  "date": "2025-03-02",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -8771,
+                  "control": 0,
+                  "journal": "journal:2025-03-02:14849"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 1,
+              "moved": 8771,
+              "earliest": "2025-03-03",
+              "sample": [
+                {
+                  "target": "household_0183c0e9153c22b2",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0183c0e9153c22b2",
+                  "date": "2025-03-03",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -8771,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 1,
+              "moved": 909,
+              "earliest": "2025-09-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-09-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 17530,
+                  "control": 16621,
+                  "journal": "journal:2025-09-01:56266"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "moved": 622,
+              "earliest": "2025-08-01",
+              "sample": [
+                {
+                  "target": "household_0194bfe9154a9432",
+                  "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+                  "date": "2025-08-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": 2173,
+                  "control": 2795,
+                  "journal": "journal:2025-08-01:48270"
+                }
+              ]
+            }
+          ],
+          "paid": 5,
+          "pick": "accounts.transfer @ src/core2/life.ts:558|in",
+          "sample": [
+            {
+              "target": "household_01874ae9153f4307",
+              "row": "applied|us-policy-positions:education.universal-preschool|household_01874ae9153f4307",
+              "date": "2025-02-22",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 46013,
+              "control": 0,
+              "journal": "journal:2025-02-22:8265"
+            },
+            {
+              "target": "household_0183c0e9153c22b2",
+              "row": "applied|us-policy-positions:education.universal-preschool|household_0183c0e9153c22b2",
+              "date": "2025-03-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 46013,
+              "control": 0,
+              "journal": "journal:2025-03-02:14845"
+            },
+            {
+              "target": "household_0194bfe9154a9432",
+              "row": "applied|us-policy-positions:education.universal-preschool|household_0194bfe9154a9432",
+              "date": "2025-06-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 46013,
+              "control": 0,
+              "journal": "journal:2025-06-02:38572"
+            },
+            {
+              "target": "household_b1a749583922491b",
+              "row": "applied|us-policy-positions:education.universal-preschool|household_b1a749583922491b",
+              "date": "2025-06-02",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 46013,
+              "control": 0,
+              "journal": "journal:2025-06-02:38571"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 5,
+              "first": {
+                "target": "household_01874ae9153f4307",
+                "row": "applied|us-policy-positions:education.universal-preschool|household_01874ae9153f4307",
+                "date": "2025-02-22",
+                "kind": "accounts.transfer @ src/core2/life.ts:558",
+                "way": "in",
+                "treatment": 46013,
+                "control": 0,
+                "journal": "journal:2025-02-22:8265"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "universal-childcare-to-mothers-work",
+            "status": "built",
+            "to": "labor.mothers-participation"
+          },
+          {
+            "key": "universal-prek-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          },
+          {
+            "key": "universal-prek-to-math-proficiency",
+            "status": "built",
+            "to": "school.math-proficient-pct"
+          },
+          {
+            "key": "universal-prek-to-reading-proficiency",
+            "status": "built",
+            "to": "school.reading-proficient-pct"
+          },
+          {
+            "key": "universal-prek-to-violent-crime",
+            "status": "built",
+            "to": "crime.violent"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "universal-childcare-to-mothers-work",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "universal-prek-to-graduation",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 168,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "universal-prek-to-math-proficiency",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 117,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "universal-prek-to-reading-proficiency",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 117,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "universal-prek-to-violent-crime",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 168,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "universal-childcare-to-mothers-work",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "universal-prek-to-graduation",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 168,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "universal-prek-to-math-proficiency",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 117,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "universal-prek-to-reading-proficiency",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 117,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "universal-prek-to-violent-crime",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 168,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "universal-childcare-to-mothers-work",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "universal-prek-to-graduation",
+            "from": "law:us-policy-positions:education.universal-preschool",
+            "lagMonths": 168,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 77,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.universal-preschool:general:2025-01-21:law-wiring-b3737e49"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 6,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "seconds": 56
+    },
+    {
+      "key": "budget-line:schools",
+      "kind": "budget-line",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "place:3149425 schools 70884629 -> 85061555 by law-wiring-913b820e",
+      "lawIds": ["law-wiring-913b820e"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 32,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 36,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-913b820e:positions:organization:public-schools:jurisdiction_45a3b3ebe97fe71d:2025-01-20",
+          "budget-line:schools|person_0682d379c2eb8160|2025-01-20",
+          "budget-line:schools|person_163e4399798d4f4a|2025-01-20",
+          "budget-line:schools|person_163e4499798d50fd|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 513973595,
+            "control": 471803605,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1313149384,
+            "control": 1284573915,
+            "ids": [
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087",
+              "journal:2025-02-01:3088"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 2998664236,
+            "control": 3026618795,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 285458424,
+            "control": 303563957,
+            "ids": [
+              "journal:2025-02-01:1886",
+              "journal:2025-02-01:1887",
+              "journal:2025-02-01:1888"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245846177728,
+            "control": 702245860792466,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 343327459,
+            "control": 336410264,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218393545622,
+            "control": 177218398018031,
+            "ids": [
+              "journal:2025-02-01:1682",
+              "journal:2025-02-01:1683",
+              "journal:2025-02-01:1684"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3164542521,
+            "control": 3160189681,
+            "ids": [
+              "journal:2025-01-28:1607",
+              "journal:2025-01-29:1640",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 504401191,
+            "control": 501486103,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 4184613,
+            "control": 2822886,
+            "ids": [
+              "journal:2025-09-01:56059",
+              "journal:2025-09-01:56060",
+              "journal:2025-10-01:65073"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 208577356,
+            "control": 207290246,
+            "ids": [
+              "journal:2025-02-01:1925",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1927"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/housing.ts:1127",
+            "treatment": 0,
+            "control": 1066038,
+            "ids": ["journal:2026-01-06:99241"]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "budget-line:schools",
+            "gross": 45435076020,
+            "ids": [
+              "journal:2025-02-01:1787",
+              "journal:2025-02-01:1788",
+              "journal:2025-02-01:1789"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 4,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 1,
+              "moved": 369959,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -369959,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:16308"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 1,
+              "moved": 168338,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -168338,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:17638"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 1,
+              "moved": 167840,
+              "earliest": "2025-02-05",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-02-05",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 167840,
+                  "control": 0,
+                  "journal": "journal:2025-02-05:7749"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 1,
+              "moved": 54422,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -54422,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:16430"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 1,
+              "moved": 42045,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -42045,
+                  "control": 0,
+                  "journal": "journal:2025-04-01:18201"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 1,
+              "moved": 19852,
+              "earliest": "2025-02-05",
+              "sample": [
+                {
+                  "target": "person_5adf61e87a0a8e37",
+                  "row": "applied|budget-line:schools|person_5adf61e87a0a8e37",
+                  "date": "2025-02-05",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -19852,
+                  "control": 0,
+                  "journal": "journal:2025-02-05:7750"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "school-spending-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561984748825637
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "school-spending-to-graduation",
+            "effect": 0.055618567019384946
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561728653952345
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05561600604867175
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05563005149844261
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "link": "school-spending-to-graduation",
+            "effect": 0.055644095625988564
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "link": "school-spending-to-graduation",
+            "effect": 0.05565813843149633
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 138,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:schools:law-wiring-913b820e",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:schools:law-wiring-913b820e",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:schools:law-wiring-913b820e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 31,
+        "countedGroups": 2,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 36,
+        "ended": 5,
+        "sample": [
+          "reach:law-wiring-913b820e:positions:organization:public-schools:jurisdiction_45a3b3ebe97fe71d:2025-01-20",
+          "budget-line:schools|person_0682d379c2eb8160|2025-01-20",
+          "budget-line:schools|person_163e4499798d50fd|2025-01-20",
+          "budget-line:schools|person_1d26acaf24293a6f|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 58
+    },
+    {
+      "key": "us-policy-positions:education.public-funds-for-private-schooling",
+      "kind": "question",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+        "law:US-NE:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-09-03:LB 30",
+        "law:US-NE:state:us-policy-positions:education.public-funds-for-private-schooling:general:2026-01-22:law-wiring-f1098369-b",
+        "law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2026-01-22:law-wiring-f1098369-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 3,
+        "countedPeople": 310500,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "us-policy-positions:education.public-funds-for-private-schooling|organization_8af18928e3f7b74e|2025-01-21",
+          "us-policy-positions:education.public-funds-for-private-schooling|jurisdiction_45a3b3ebe97fe71d",
+          "applied|us-policy-positions:education.public-funds-for-private-schooling|jurisdiction_45a3b3ebe97fe71d:private-tuition-group:3",
+          "applied|us-policy-positions:education.public-funds-for-private-schooling|jurisdiction_45a3b3ebe97fe71d:private-tuition-group:14"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 103500,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:education.public-funds-for-private-schooling|jurisdiction_45a3b3ebe97fe71d:private-tuition-group:3"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-09-03:LB 30",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:172": 950,
+        "src/core2/modules/legislature.ts:2133": 418,
+        "src/core2/modules/world-legislating.ts:253": 162,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/modules/budgets.ts:722": 48,
+        "src/core2/life.ts:556": 11,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245859726087,
+            "control": 702245860834414,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 336546767,
+            "control": 335671684,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 38468294,
+            "control": 37651632,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:411",
+            "treatment": 234233,
+            "control": 234247,
+            "ids": [
+              "journal:2025-02-06:7858",
+              "journal:2025-02-06:7859",
+              "journal:2025-02-06:7860"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:809",
+            "treatment": 15985536,
+            "control": 15985524,
+            "ids": [
+              "journal:2025-02-06:7762",
+              "journal:2025-02-06:7764",
+              "journal:2025-02-06:7765"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 8222671,
+            "control": 8222662,
+            "ids": [
+              "journal:2025-02-19:8164",
+              "journal:2025-02-19:8165",
+              "journal:2025-02-19:8166"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3023745992,
+            "control": 3023745998,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:838",
+            "treatment": 6376,
+            "control": 6380,
+            "ids": [
+              "journal:2025-04-06:22886",
+              "journal:2025-04-06:22887",
+              "journal:2025-04-06:22888"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:449",
+            "treatment": 632927,
+            "control": 632924,
+            "ids": [
+              "journal:2025-02-06:7878",
+              "journal:2025-02-06:7879",
+              "journal:2025-03-06:15170"
+            ]
+          }
+        ],
+        "diffKinds": 9,
+        "cited": [
+          {
+            "token": "us-policy-positions:education.public-funds-for-private-schooling",
+            "gross": 1399992,
+            "ids": [
+              "journal:2025-02-22:8265",
+              "journal:2025-02-22:8266",
+              "journal:2025-03-22:15704"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "vouchers-to-math-proficiency",
+            "status": "built",
+            "to": "school.math-proficient-pct"
+          },
+          {
+            "key": "vouchers-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "vouchers-to-math-proficiency",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "vouchers-to-graduation",
+            "from": "law:us-policy-positions:education.public-funds-for-private-schooling",
+            "lagMonths": 48,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-09-03:LB 30",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.public-funds-for-private-schooling:general:2025-01-21:law-wiring-f1098369"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 58
+    },
+    {
+      "key": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "kind": "question",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+        "law:US-NE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-09-03:LB 40",
+        "law:US-NE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2026-01-22:law-wiring-8f723f97-b",
+        "law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2026-01-22:law-wiring-8f723f97-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_ec73f444cf6e19d8",
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_45a3b3ebe97fe71d:counted-teachers"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-09-03:LB 40",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:172": 570,
+        "src/core2/modules/legislature.ts:2133": 481,
+        "src/core2/modules/world-legislating.ts:253": 168,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/public-pay-floor.ts:46": 70,
+        "src/core2/life.ts:556": 11,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "teacher-minimum-salary-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "month": "2025-07",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "month": "2025-08",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-09-03:LB 40",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 103,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 57
+    },
+    {
+      "key": "budget-line:higherEducation",
+      "kind": "budget-line",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "place:3149425 higherEducation 6405069 -> 16405069 by law-wiring-11fe5ef8",
+      "lawIds": ["law-wiring-11fe5ef8"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 8,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 2,
+        "sample": [
+          "budget-line:higherEducation|person_00a28a6650e55809|2025-01-20",
+          "budget-line:higherEducation|person_03819202b5d285c1|2025-01-20",
+          "budget-line:higherEducation|person_571e973828a92105|2025-01-20",
+          "budget-line:higherEducation|person_ec73f444cf6e19d8|2025-01-20"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3023745998,
+            "control": 3026618795,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1287083114,
+            "control": 1284573915,
+            "ids": [
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087",
+              "journal:2025-02-01:3088"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 499179481,
+            "control": 501486103,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 473792038,
+            "control": 471803605,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 180716281,
+            "control": 182324785,
+            "ids": [
+              "journal:2025-02-01:3068",
+              "journal:2025-02-01:3069",
+              "journal:2025-02-01:3070"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 3786776,
+            "control": 2822886,
+            "ids": [
+              "journal:2025-09-01:56023",
+              "journal:2025-09-01:56024",
+              "journal:2025-10-01:65045"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 335549752,
+            "control": 336410264,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 8216519,
+            "control": 7424194,
+            "ids": [
+              "journal:2025-02-19:8164",
+              "journal:2025-02-19:8165",
+              "journal:2025-02-19:8166"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 302951018,
+            "control": 303563957,
+            "ids": [
+              "journal:2025-02-01:1886",
+              "journal:2025-02-01:1887",
+              "journal:2025-02-01:1888"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
+            "treatment": 41848883,
+            "control": 42269903,
+            "ids": [
+              "journal:2025-07-01:46395",
+              "journal:2025-07-01:46396",
+              "journal:2025-07-01:46397"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3160534508,
+            "control": 3160189681,
+            "ids": [
+              "journal:2025-01-28:1607",
+              "journal:2025-01-29:1640",
+              "journal:2025-01-30:1645"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 70436864,
+            "control": 70136694,
+            "ids": [
+              "journal:2025-02-01:1956",
+              "journal:2025-02-01:1959",
+              "journal:2025-02-01:1962"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "budget-line:higherEducation",
+            "gross": 254346896472,
+            "ids": [
+              "journal:2025-02-01:1790",
+              "journal:2025-02-01:1791",
+              "journal:2025-03-01:8582"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 2,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "higher-education-spending-to-college-completion",
+            "status": "built",
+            "to": "school.college-completion-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024873911123958203
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002484136515807442
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024808795144119463
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024776201055429947
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024756996554122796
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.0024737783690147626
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "link": "higher-education-spending-to-college-completion",
+            "effect": 0.002471856245804092
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:higherEducation:law-wiring-11fe5ef8",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:higherEducation:law-wiring-11fe5ef8",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:higherEducation:law-wiring-11fe5ef8"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 9,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 10,
+        "ended": 5,
+        "sample": [
+          "budget-line:higherEducation|person_00a28a6650e55809|2025-01-20",
+          "budget-line:higherEducation|person_03819202b5d285c1|2025-01-20",
+          "budget-line:higherEducation|person_571e973828a92105|2025-01-20",
+          "budget-line:higherEducation|person_00dcb5d84e33b676|2025-02-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 53
+    },
+    {
+      "key": "snap-maximum",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "snap-maximum 292 -> 321 at federal (law:US-NE:federal:snap-maximum:general:2025-01-21:law-wiring-6081b18c) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:federal:snap-maximum:general:2025-01-21:law-wiring-6081b18c",
+        "law:US-NE:federal:snap-maximum:general:2024-10-01",
+        "law:US-NE:federal:snap-maximum:general:2026-01-22:law-wiring-6081b18c-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 17,
+        "households": 4,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "applied|snap-maximum|household_0180b9e91539e0f6",
+          "applied|snap-maximum|household_0183bee9153c1f4c",
+          "applied|snap-maximum|household_0191bce915485942",
+          "applied|snap-maximum|household_018e4ce91545651b"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 17,
+        "households": 14,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 15,
+        "ended": 0,
+        "sample": [
+          "applied|snap-maximum|household_0191bce915485942",
+          "applied|snap-maximum|household_018e4ce91545651b",
+          "applied|snap-maximum|household_0180b9e91539e0f6",
+          "applied|snap-maximum|household_019bc9e91550c3de"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 17,
+        "households": 14,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 15,
+        "ended": 0,
+        "sample": [
+          "applied|snap-maximum|household_0191bce915485942",
+          "applied|snap-maximum|household_018e4ce91545651b",
+          "applied|snap-maximum|household_0180b9e91539e0f6",
+          "applied|snap-maximum|household_019bc9e91550c3de"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:federal:snap-maximum:general:2025-10-01",
+          "level": "federal",
+          "effectiveDate": "2025-10-01",
+          "value": 298
+        },
+        {
+          "id": "law:US-NE:federal:snap-maximum:general:2026-10-01",
+          "level": "federal",
+          "effectiveDate": "2026-10-01",
+          "value": 306
+        }
+      ],
+      "readers": {
+        "src/core2/gov-measures.ts:305": 187,
+        "src/core2/gov-measures.ts:306": 187,
+        "src/core2/law-reach/group-b-food-aid.ts:56 <- src/core2/modules/budgets.ts:722": 24,
+        "src/core2/law-reach/group-b-food-aid.ts:161 <- src/core2/modules/budgets.ts:722": 24,
+        "src/core2/life.ts:556": 6,
+        "src/core2/law-reach/group-b-food-aid.ts:56 <- src/core2/life.ts:556": 3,
+        "src/core2/law-reach/group-b-food-aid.ts:161 <- src/core2/life.ts:556": 3
+      },
+      "openingRow": "law:US-NE:federal:snap-maximum:general:2024-10-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1309996693,
+            "control": 1287083114,
+            "ids": [
+              "journal:2025-02-01:3088",
+              "journal:2025-02-01:3089",
+              "journal:2025-02-01:3090"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3001057393,
+            "control": 3023745998,
+            "ids": [
+              "journal:2025-01-21:1509",
+              "journal:2025-01-21:1510",
+              "journal:2025-01-21:1511"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 472468127,
+            "control": 473792038,
+            "ids": [
+              "journal:2025-01-28:1618",
+              "journal:2025-01-29:1651",
+              "journal:2025-01-30:1656"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 336889760,
+            "control": 335671684,
+            "ids": [
+              "journal:2025-01-21:1535",
+              "journal:2025-01-21:1536",
+              "journal:2025-01-21:1537"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218399201355,
+            "control": 177218398240763,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 38527131,
+            "control": 37651632,
+            "ids": [
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506",
+              "journal:2025-01-21:1507"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 181407446,
+            "control": 180716281,
+            "ids": [
+              "journal:2025-02-01:3070",
+              "journal:2025-02-01:3071",
+              "journal:2025-02-01:3072"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 499859626,
+            "control": 499275218,
+            "ids": [
+              "journal:2025-01-24:1592",
+              "journal:2025-01-25:1593",
+              "journal:2025-01-25:1595"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 3212925,
+            "control": 3786776,
+            "ids": [
+              "journal:2025-09-01:56069",
+              "journal:2025-09-01:56070",
+              "journal:2025-10-01:65095"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 206642212,
+            "control": 207197413,
+            "ids": [
+              "journal:2025-02-01:1927",
+              "journal:2025-02-01:1928",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 303555650,
+            "control": 303058983,
+            "ids": [
+              "journal:2025-02-01:1888",
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 7808676,
+            "control": 8222662,
+            "ids": [
+              "journal:2025-02-19:8163",
+              "journal:2025-02-19:8164",
+              "journal:2025-02-19:8165"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "snap-maximum",
+            "gross": 6652600,
+            "ids": [
+              "journal:2025-01-22:1585",
+              "journal:2025-01-22:1586",
+              "journal:2025-01-22:1587"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 15,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 12,
+              "moved": 265086,
+              "earliest": "2025-01-22",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+                  "date": "2025-01-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 79200,
+                  "control": 0,
+                  "journal": "journal:2025-01-22:1587"
+                },
+                {
+                  "target": "household_0183bee9153c1f4c",
+                  "row": "applied|snap-maximum|household_0183bee9153c1f4c",
+                  "date": "2025-01-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 2500,
+                  "control": 0,
+                  "journal": "journal:2025-01-22:1588"
+                },
+                {
+                  "target": "household_018e4ce91545651b",
+                  "row": "applied|snap-maximum|household_018e4ce91545651b",
+                  "date": "2025-01-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 32100,
+                  "control": 0,
+                  "journal": "journal:2025-01-22:1590"
+                },
+                {
+                  "target": "household_0191bce915485942",
+                  "row": "applied|snap-maximum|household_0191bce915485942",
+                  "date": "2025-01-22",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 32100,
+                  "control": 0,
+                  "journal": "journal:2025-01-22:1589"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 6,
+              "moved": 9607,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -118407,
+                  "control": -108807,
+                  "journal": "journal:2025-02-01:1958"
+                },
+                {
+                  "target": "household_0183c7e9153c2e97",
+                  "row": "applied|snap-maximum|household_0183c7e9153c2e97",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -54593,
+                  "control": -54592,
+                  "journal": "journal:2025-05-01:24599"
+                },
+                {
+                  "target": "household_019bc9e91550c3de",
+                  "row": "applied|snap-maximum|household_019bc9e91550c3de",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -119635,
+                  "control": -119634,
+                  "journal": "journal:2025-06-01:33598"
+                },
+                {
+                  "target": "household_0180c1e91539ee8e",
+                  "row": "applied|snap-maximum|household_0180c1e91539ee8e",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -62043,
+                  "control": -62042,
+                  "journal": "journal:2025-07-01:40275"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+              "way": "out",
+              "targets": 5,
+              "moved": 799,
+              "earliest": "2025-03-31",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+                  "date": "2025-03-31",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "out",
+                  "treatment": -19,
+                  "control": -10,
+                  "journal": "journal:2025-03-31:16033"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|snap-maximum|household_019841e9154da6ef",
+                  "date": "2025-05-02",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "out",
+                  "treatment": -33,
+                  "control": -29,
+                  "journal": "journal:2025-05-02:30605"
+                },
+                {
+                  "target": "household_019bc9e91550c3de",
+                  "row": "applied|snap-maximum|household_019bc9e91550c3de",
+                  "date": "2025-05-07",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "out",
+                  "treatment": -225,
+                  "control": 0,
+                  "journal": "journal:2025-05-07:30872"
+                },
+                {
+                  "target": "household_0180c1e91539ee8e",
+                  "row": "applied|snap-maximum|household_0180c1e91539ee8e",
+                  "date": "2025-05-26",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "out",
+                  "treatment": -560,
+                  "control": 0,
+                  "journal": "journal:2025-05-26:31673"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "out",
+              "targets": 4,
+              "moved": 130300,
+              "earliest": "2025-01-21",
+              "sample": [
+                {
+                  "target": "household_0180b9e91539e0f6",
+                  "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 8542,
+                  "control": 78142,
+                  "journal": "journal:2025-01-21:1506"
+                },
+                {
+                  "target": "household_0183bee9153c1f4c",
+                  "row": "applied|snap-maximum|household_0183bee9153c1f4c",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 2300,
+                  "journal": ""
+                },
+                {
+                  "target": "household_018e4ce91545651b",
+                  "row": "applied|snap-maximum|household_018e4ce91545651b",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 29200,
+                  "journal": ""
+                },
+                {
+                  "target": "household_0191bce915485942",
+                  "row": "applied|snap-maximum|household_0191bce915485942",
+                  "date": "2025-01-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 29200,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 4,
+              "moved": 28280,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "household_0194bde9154a90cc",
+                  "row": "applied|snap-maximum|household_0194bde9154a90cc",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -238367,
+                  "control": -226867,
+                  "journal": "journal:2025-05-01:24088"
+                },
+                {
+                  "target": "household_019bc9e91550c3de",
+                  "row": "applied|snap-maximum|household_019bc9e91550c3de",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 267028,
+                  "control": 272328,
+                  "journal": "journal:2025-05-01:24150"
+                },
+                {
+                  "target": "household_0180c1e91539ee8e",
+                  "row": "applied|snap-maximum|household_0180c1e91539ee8e",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -99469,
+                  "control": -93288,
+                  "journal": "journal:2025-06-01:32068"
+                },
+                {
+                  "target": "household_0194b9e9154a8a00",
+                  "row": "applied|snap-maximum|household_0194b9e9154a8a00",
+                  "date": "2025-10-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": 145889,
+                  "control": 151188,
+                  "journal": "journal:2025-10-01:65169"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+              "way": "in",
+              "targets": 4,
+              "moved": 226,
+              "earliest": "2025-05-21",
+              "sample": [
+                {
+                  "target": "household_019bc9e91550c3de",
+                  "row": "applied|snap-maximum|household_019bc9e91550c3de",
+                  "date": "2025-05-21",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "in",
+                  "treatment": -21,
+                  "control": -241,
+                  "journal": "journal:2025-05-21:31422"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|snap-maximum|household_019841e9154da6ef",
+                  "date": "2025-05-26",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -3,
+                  "journal": ""
+                },
+                {
+                  "target": "household_0194bde9154a90cc",
+                  "row": "applied|snap-maximum|household_0194bde9154a90cc",
+                  "date": "2025-06-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "in",
+                  "treatment": -679,
+                  "control": -681,
+                  "journal": "journal:2025-06-01:38513"
+                },
+                {
+                  "target": "household_0180c1e91539ee8e",
+                  "row": "applied|snap-maximum|household_0180c1e91539ee8e",
+                  "date": "2025-06-17",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "in",
+                  "treatment": -572,
+                  "control": -573,
+                  "journal": "journal:2025-06-17:39273"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "out",
+              "targets": 3,
+              "moved": 229174,
+              "earliest": "2025-06-19",
+              "sample": [
+                {
+                  "target": "household_0194bde9154a90cc",
+                  "row": "applied|snap-maximum|household_0194bde9154a90cc",
+                  "date": "2025-06-19",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": 32400,
+                  "control": 43200,
+                  "journal": "journal:2025-06-19:39339"
+                },
+                {
+                  "target": "household_0183c7e9153c2e97",
+                  "row": "applied|snap-maximum|household_0183c7e9153c2e97",
+                  "date": "2025-07-10",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": 43200,
+                  "control": 108000,
+                  "journal": "journal:2025-07-10:47152"
+                },
+                {
+                  "target": "household_01983fe9154da389",
+                  "row": "applied|snap-maximum|household_01983fe9154da389",
+                  "date": "2025-11-10",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 153574,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "in",
+              "targets": 3,
+              "moved": 40245,
+              "earliest": "2025-06-19",
+              "sample": [
+                {
+                  "target": "household_0194bde9154a90cc",
+                  "row": "applied|snap-maximum|household_0194bde9154a90cc",
+                  "date": "2025-06-19",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "in",
+                  "treatment": -2479,
+                  "control": -3555,
+                  "journal": "journal:2025-06-19:39340"
+                },
+                {
+                  "target": "household_0183c7e9153c2e97",
+                  "row": "applied|snap-maximum|household_0183c7e9153c2e97",
+                  "date": "2025-07-10",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "in",
+                  "treatment": -3555,
+                  "control": -15874,
+                  "journal": "journal:2025-07-10:47153"
+                },
+                {
+                  "target": "household_01983fe9154da389",
+                  "row": "applied|snap-maximum|household_01983fe9154da389",
+                  "date": "2025-11-10",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -26850,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 3,
+              "moved": 9851,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "household_018e4ce91545651b",
+                  "row": "applied|snap-maximum|household_018e4ce91545651b",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -15578,
+                  "control": -12678,
+                  "journal": "journal:2025-04-01:18151"
+                },
+                {
+                  "target": "household_0191bce915485942",
+                  "row": "applied|snap-maximum|household_0191bce915485942",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -15578,
+                  "control": -12678,
+                  "journal": "journal:2025-04-01:18156"
+                },
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|snap-maximum|household_019841e9154da6ef",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -6824,
+                  "control": -2773,
+                  "journal": "journal:2025-06-01:33990"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 2,
+              "moved": 111222,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "household_019841e9154da6ef",
+                  "row": "applied|snap-maximum|household_019841e9154da6ef",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -113035,
+                  "control": -119422,
+                  "journal": "journal:2025-05-01:25581"
+                },
+                {
+                  "target": "household_01983fe9154da389",
+                  "row": "applied|snap-maximum|household_01983fe9154da389",
+                  "date": "2025-11-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -104835,
+                  "journal": ""
+                }
+              ]
+            }
+          ],
+          "paid": 12,
+          "pick": "accounts.transfer @ src/core2/life.ts:558|in",
+          "sample": [
+            {
+              "target": "household_0180b9e91539e0f6",
+              "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+              "date": "2025-01-22",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 79200,
+              "control": 0,
+              "journal": "journal:2025-01-22:1587"
+            },
+            {
+              "target": "household_0183bee9153c1f4c",
+              "row": "applied|snap-maximum|household_0183bee9153c1f4c",
+              "date": "2025-01-22",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 2500,
+              "control": 0,
+              "journal": "journal:2025-01-22:1588"
+            },
+            {
+              "target": "household_018e4ce91545651b",
+              "row": "applied|snap-maximum|household_018e4ce91545651b",
+              "date": "2025-01-22",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 32100,
+              "control": 0,
+              "journal": "journal:2025-01-22:1590"
+            },
+            {
+              "target": "household_0191bce915485942",
+              "row": "applied|snap-maximum|household_0191bce915485942",
+              "date": "2025-01-22",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 32100,
+              "control": 0,
+              "journal": "journal:2025-01-22:1589"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 12,
+              "first": {
+                "target": "household_0180b9e91539e0f6",
+                "row": "applied|snap-maximum|household_0180b9e91539e0f6",
+                "date": "2025-01-22",
+                "kind": "accounts.transfer @ src/core2/life.ts:558",
+                "way": "in",
+                "treatment": 79200,
+                "control": 0,
+                "journal": "journal:2025-01-22:1587"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "snap-maximum-to-food-insecurity",
+            "status": "built",
+            "to": "household.food-insecurity"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-09",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-10",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-11",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-12",
+            "link": "snap-maximum-to-food-insecurity",
+            "effect": -0.014698630136986301
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:snap-maximum:general:2025-01-21:law-wiring-6081b18c",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:snap-maximum:general:2025-01-21:law-wiring-6081b18c",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:federal:snap-maximum:general:2025-01-21:law-wiring-6081b18c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 19,
+        "households": 5,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 6,
+        "ended": 0,
+        "sample": [
+          "applied|snap-maximum|household:person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0",
+          "applied|snap-maximum|household:person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0",
+          "applied|snap-maximum|household_0180c1e91539ee8e",
+          "applied|snap-maximum|household_0183bee9153c1f4c"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 54
+    },
+    {
+      "key": "budget-line:welfareAndMedicaid",
+      "kind": "budget-line",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "place:3149425 welfareAndMedicaid 896882 -> 10896882 by law-wiring-380be418",
+      "lawIds": ["law-wiring-380be418"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 8,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 3,
+        "sample": [
+          "budget-line:welfareAndMedicaid|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:welfareAndMedicaid|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_bb01afc4e894db0f|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_97c83729e4b406a5|2025-04-01"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 285301357,
+            "control": 303563957,
+            "ids": [
+              "journal:2025-02-01:1886",
+              "journal:2025-02-01:1887",
+              "journal:2025-02-01:1888"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:558",
+            "treatment": 44741662,
+            "control": 37531584,
+            "ids": [
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496",
+              "journal:2025-01-21:1497"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1000",
+            "treatment": 702245855417843,
+            "control": 702245860792466,
+            "ids": [
+              "journal:2025-02-01:1692",
+              "journal:2025-02-01:1693",
+              "journal:2025-02-01:1694"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 467595048,
+            "control": 471803605,
+            "ids": [
+              "journal:2025-01-28:1606",
+              "journal:2025-01-29:1639",
+              "journal:2025-01-30:1644"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 4297121,
+            "control": 2822886,
+            "ids": [
+              "journal:2025-09-01:56216",
+              "journal:2025-09-01:56217",
+              "journal:2025-10-01:65249"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 1285873722,
+            "control": 1284573915,
+            "ids": [
+              "journal:2025-02-01:3086",
+              "journal:2025-02-01:3087",
+              "journal:2025-02-01:3088"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 3025321153,
+            "control": 3026618795,
+            "ids": [
+              "journal:2025-01-21:1504",
+              "journal:2025-01-21:1505",
+              "journal:2025-01-21:1506"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/housing.ts:1127",
+            "treatment": 0,
+            "control": 1066038,
+            "ids": ["journal:2026-01-06:99241"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 335497769,
+            "control": 336410264,
+            "ids": [
+              "journal:2025-01-21:1530",
+              "journal:2025-01-21:1531",
+              "journal:2025-01-21:1532"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1867",
+            "treatment": 8264056,
+            "control": 7424194,
+            "ids": [
+              "journal:2025-02-19:8164",
+              "journal:2025-02-19:8165",
+              "journal:2025-02-19:8166"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 500922782,
+            "control": 501486103,
+            "ids": [
+              "journal:2025-01-24:1580",
+              "journal:2025-01-25:1581",
+              "journal:2025-01-25:1583"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:707",
+            "treatment": 177218398553774,
+            "control": 177218398018031,
+            "ids": [
+              "journal:2025-02-01:1682",
+              "journal:2025-02-01:1683",
+              "journal:2025-02-01:1684"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "budget-line:welfareAndMedicaid",
+            "gross": 484626459612,
+            "ids": [
+              "journal:2025-02-01:1792",
+              "journal:2025-02-01:1793",
+              "journal:2025-02-01:1794"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 3,
+              "moved": 104166,
+              "earliest": "2025-02-21",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 111747,
+                  "control": 77025,
+                  "journal": "journal:2025-02-21:8257"
+                },
+                {
+                  "target": "person_d7dd19d8395ddc6d",
+                  "row": "budget-line:welfareAndMedicaid|person_d7dd19d8395ddc6d|2025-01-20",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 63922,
+                  "control": 29200,
+                  "journal": "journal:2025-02-21:8259"
+                },
+                {
+                  "target": "person_e4a1b257665ee922",
+                  "row": "budget-line:welfareAndMedicaid|person_e4a1b257665ee922|2025-01-20",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:558",
+                  "way": "in",
+                  "treatment": 63922,
+                  "control": 29200,
+                  "journal": "journal:2025-02-21:8260"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "out",
+              "targets": 3,
+              "moved": 39987,
+              "earliest": "2025-03-02",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                  "date": "2025-03-02",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -32299,
+                  "control": 0,
+                  "journal": "journal:2025-03-02:14871"
+                },
+                {
+                  "target": "person_d7dd19d8395ddc6d",
+                  "row": "budget-line:welfareAndMedicaid|person_d7dd19d8395ddc6d|2025-01-20",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -16522,
+                  "control": -12678,
+                  "journal": "journal:2025-04-01:18185"
+                },
+                {
+                  "target": "person_e4a1b257665ee922",
+                  "row": "budget-line:welfareAndMedicaid|person_e4a1b257665ee922|2025-01-20",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "out",
+                  "treatment": -16522,
+                  "control": -12678,
+                  "journal": "journal:2025-04-01:18180"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 1,
+              "moved": 34662,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -128867,
+                  "control": -94205,
+                  "journal": "journal:2025-03-01:8805"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 1,
+              "moved": 15207,
+              "earliest": "2025-03-06",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                  "date": "2025-03-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -15207,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+              "way": "out",
+              "targets": 1,
+              "moved": 30,
+              "earliest": "2025-03-31",
+              "sample": [
+                {
+                  "target": "person_3b8e45617114c97d",
+                  "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                  "date": "2025-03-31",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1268",
+                  "way": "out",
+                  "treatment": -40,
+                  "control": -10,
+                  "journal": "journal:2025-03-31:16058"
+                }
+              ]
+            }
+          ],
+          "paid": 3,
+          "pick": "accounts.transfer @ src/core2/life.ts:558|in",
+          "sample": [
+            {
+              "target": "person_3b8e45617114c97d",
+              "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+              "date": "2025-02-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 111747,
+              "control": 77025,
+              "journal": "journal:2025-02-21:8257"
+            },
+            {
+              "target": "person_d7dd19d8395ddc6d",
+              "row": "budget-line:welfareAndMedicaid|person_d7dd19d8395ddc6d|2025-01-20",
+              "date": "2025-02-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 63922,
+              "control": 29200,
+              "journal": "journal:2025-02-21:8259"
+            },
+            {
+              "target": "person_e4a1b257665ee922",
+              "row": "budget-line:welfareAndMedicaid|person_e4a1b257665ee922|2025-01-20",
+              "date": "2025-02-21",
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "treatment": 63922,
+              "control": 29200,
+              "journal": "journal:2025-02-21:8260"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:558",
+              "way": "in",
+              "targets": 3,
+              "first": {
+                "target": "person_3b8e45617114c97d",
+                "row": "budget-line:welfareAndMedicaid|person_3b8e45617114c97d|2025-01-20",
+                "date": "2025-02-21",
+                "kind": "accounts.transfer @ src/core2/life.ts:558",
+                "way": "in",
+                "treatment": 111747,
+                "control": 77025,
+                "journal": "journal:2025-02-21:8257"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "welfare-spending-to-poverty",
+            "status": "size-not-set",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:welfareAndMedicaid:law-wiring-380be418",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:welfareAndMedicaid:law-wiring-380be418",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:welfareAndMedicaid:law-wiring-380be418"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 7,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 9,
+        "sample": [
+          "budget-line:welfareAndMedicaid|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:welfareAndMedicaid|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_bb01afc4e894db0f|2025-01-20",
+          "budget-line:welfareAndMedicaid|person_e855af1ca8e2ee43|2025-04-01"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "seconds": 54
+    }
+  ]
+}

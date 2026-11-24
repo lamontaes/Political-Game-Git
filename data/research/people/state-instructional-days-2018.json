@@ -1,0 +1,168 @@
+{
+  "source": {
+    "tag": "SOURCED",
+    "citation": "Education Commission of the States, 50 State Comparison: Instructional Time Policies, as reproduced in NCES, State Education Reforms, Table 5.14, 'Number of instructional days and hours in the school year, by state: 2018' (https://nces.ed.gov/programs/statereform/tab5_14.asp), retrieved June 6, 2018.",
+    "asOf": "2018",
+    "unit": "minimum instructional days per school year a state requires; null where the state sets hours or leaves it to the district"
+  },
+  "minimumDays": {
+    "AK": {
+      "days": 180
+    },
+    "AL": {
+      "days": 180
+    },
+    "AR": {
+      "days": 178
+    },
+    "AZ": {
+      "days": 180
+    },
+    "CA": {
+      "days": 180,
+      "note": "Charter schools 175."
+    },
+    "CO": {
+      "days": 160
+    },
+    "CT": {
+      "days": 180
+    },
+    "DC": {
+      "days": 180
+    },
+    "DE": {
+      "days": null
+    },
+    "FL": {
+      "days": 180
+    },
+    "GA": {
+      "days": 180,
+      "note": "180 days or equivalent hours."
+    },
+    "HI": {
+      "days": 180
+    },
+    "IA": {
+      "days": 180
+    },
+    "ID": {
+      "days": null
+    },
+    "IL": {
+      "days": 180
+    },
+    "IN": {
+      "days": 180
+    },
+    "KS": {
+      "days": 186,
+      "note": "Kindergarten to grade 11 (186); grade 12 is 181."
+    },
+    "KY": {
+      "days": 170
+    },
+    "LA": {
+      "days": 177
+    },
+    "MA": {
+      "days": 180
+    },
+    "MD": {
+      "days": 180
+    },
+    "ME": {
+      "days": 175
+    },
+    "MI": {
+      "days": 180
+    },
+    "MN": {
+      "days": 165,
+      "note": "Grades 1 to 11 (165); grade 12 and kindergarten differ."
+    },
+    "MO": {
+      "days": 174,
+      "note": "Five-day week (174); a four-day week is 142."
+    },
+    "MS": {
+      "days": 180
+    },
+    "MT": {
+      "days": null
+    },
+    "NC": {
+      "days": 185
+    },
+    "ND": {
+      "days": 175
+    },
+    "NE": {
+      "days": null
+    },
+    "NH": {
+      "days": 180
+    },
+    "NJ": {
+      "days": 180
+    },
+    "NM": {
+      "days": null
+    },
+    "NV": {
+      "days": 180
+    },
+    "NY": {
+      "days": 180
+    },
+    "OH": {
+      "days": null
+    },
+    "OK": {
+      "days": 180
+    },
+    "OR": {
+      "days": null
+    },
+    "PA": {
+      "days": 180
+    },
+    "RI": {
+      "days": 180
+    },
+    "SC": {
+      "days": 180
+    },
+    "SD": {
+      "days": null
+    },
+    "TN": {
+      "days": 180
+    },
+    "TX": {
+      "days": null
+    },
+    "UT": {
+      "days": 180
+    },
+    "VA": {
+      "days": 180
+    },
+    "VT": {
+      "days": 175
+    },
+    "WA": {
+      "days": 180
+    },
+    "WI": {
+      "days": null
+    },
+    "WV": {
+      "days": 180
+    },
+    "WY": {
+      "days": 175
+    }
+  }
+}

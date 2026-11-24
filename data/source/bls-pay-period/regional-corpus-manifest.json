@@ -1,0 +1,28 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "bcf4055c5c6d571907e4e89db6a5e9c8571240c110f268b7e53a9a795dc4c1ad",
+  "compiler": "scripts/source/regional-money/compile-pay-period.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/bls-pay-period/regional-corpus.json.gz",
+  "coverage": {
+    "continuousTimeSeries": false,
+    "establishmentSize": 8,
+    "industry": 10,
+    "overall": 4,
+    "payPeriodCategories": [
+      "Weekly",
+      "Biweekly",
+      "Semimonthly",
+      "Monthly"
+    ],
+    "publicSectorCovered": false,
+    "sourceKind": "transcribed published HTML tables; not original publisher file bytes"
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/bls-pay-period/raw/ces-february-2023-page-tables.json",
+      "sha256": "501e7cf37e2dfaa942f28ed06b7f39020e7c81d0823099b1ae87dc75092dcdad"
+    }
+  ],
+  "recordCount": 76
+}

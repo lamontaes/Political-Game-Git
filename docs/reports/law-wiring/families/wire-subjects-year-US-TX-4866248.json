@@ -1,0 +1,283 @@
+{
+  "seed": "c887792099075f8c",
+  "place": {
+    "seed": "47b4e38fdd142e753f7d008a171a4b4ca36694c3ded046e894ae7e9ac5b96587",
+    "key": "4866248",
+    "name": "Scissors, Texas",
+    "state": "US-TX"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "estate-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+        "law:US:federal:estate-tax:general:2025-01-01",
+        "law:US:federal:estate-tax:general:2026-01-22:law-wiring-287823aa-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 4,
+        "countedGroups": 101,
+        "countedPeople": 101,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 105,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_d078779c32de25e2|US",
+          "applied|estate-tax|person_7a9979f5a2d7364c|US",
+          "applied|estate-tax|person_0646ef98a8febe8d|US",
+          "applied|estate-tax|person_20d49493fbb4fd6d|US"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 4,
+        "countedGroups": 101,
+        "countedPeople": 101,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 105,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_d078779c32de25e2|US",
+          "applied|estate-tax|person_7a9979f5a2d7364c|US",
+          "applied|estate-tax|person_0646ef98a8febe8d|US",
+          "applied|estate-tax|person_20d49493fbb4fd6d|US"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US:federal:estate-tax:general:2026-01-01",
+          "level": "federal",
+          "effectiveDate": "2026-01-01",
+          "value": 40
+        }
+      ],
+      "applied": {
+        "rows": 105,
+        "withAmount": 0,
+        "sample": [
+          "applied|estate-tax|person_d078779c32de25e2|US",
+          "applied|estate-tax|person_7a9979f5a2d7364c|US",
+          "applied|estate-tax|person_0646ef98a8febe8d|US"
+        ]
+      },
+      "readers": {
+        "src/core2/laws-death-taxes.ts:68": 456,
+        "src/core2/modules/outcome-web.ts:175": 240,
+        "src/core2/life.ts:557": 11
+      },
+      "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+            "treatment": 10388798,
+            "control": 10476142,
+            "ids": [
+              "journal:2025-01-21:1700",
+              "journal:2025-01-21:1701",
+              "journal:2025-01-21:1702"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 1766631826,
+            "control": 1766704143,
+            "ids": [
+              "journal:2025-02-01:2214",
+              "journal:2025-02-01:2215",
+              "journal:2025-02-01:2216"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 3333876212,
+            "control": 3333942862,
+            "ids": [
+              "journal:2025-02-01:5183",
+              "journal:2025-02-01:5184",
+              "journal:2025-02-01:5185"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:425",
+            "treatment": 5759502,
+            "control": 5696466,
+            "ids": [
+              "journal:2025-10-01:99214",
+              "journal:2025-10-01:99215",
+              "journal:2025-10-01:99216"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:303",
+            "treatment": 15033846,
+            "control": 15055709,
+            "ids": [
+              "journal:2025-09-01:87224",
+              "journal:2025-09-01:87226",
+              "journal:2025-09-01:87227"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2012",
+            "treatment": 8622103,
+            "control": 8639783,
+            "ids": [
+              "journal:2025-04-01:25198",
+              "journal:2025-04-01:25199",
+              "journal:2025-05-01:37679"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 1923201757,
+            "control": 1923186769,
+            "ids": [
+              "journal:2025-01-21:1686",
+              "journal:2025-01-21:1687",
+              "journal:2025-01-21:1688"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:913",
+            "treatment": 445195650,
+            "control": 445180800,
+            "ids": [
+              "journal:2025-02-01:4950",
+              "journal:2025-03-01:16590",
+              "journal:2025-04-01:28885"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 634220700,
+            "control": 634209041,
+            "ids": [
+              "journal:2025-01-27:1772",
+              "journal:2025-01-27:1775",
+              "journal:2025-01-27:1778"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 140585684,
+            "control": 140574647,
+            "ids": [
+              "journal:2025-02-01:2243",
+              "journal:2025-02-01:2246",
+              "journal:2025-02-01:2249"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 30472270,
+            "control": 30482030,
+            "ids": [
+              "journal:2025-07-01:71353",
+              "journal:2025-07-01:71354",
+              "journal:2025-07-01:71367"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:924",
+            "treatment": 169767249646612,
+            "control": 169767249656168,
+            "ids": [
+              "journal:2025-02-01:1847",
+              "journal:2025-02-01:1848",
+              "journal:2025-02-01:1849"
+            ]
+          }
+        ],
+        "diffKinds": 34,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 105,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 173,
+        "sample": [
+          "person_efe1d761ec0b7ecd:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_05b285f6b529b937:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_03c610f091ae93d5:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 3,
+        "countedGroups": 8,
+        "countedPeople": 8,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 11,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person:press:outlet:newspaper:0:jurisdiction_a2890f59632a651f:owner:0|US",
+          "applied|estate-tax|person_026ac12ca3dbed39|US",
+          "applied|estate-tax|person_3ff983e6fecfd6b1|US",
+          "applied|estate-tax|person_312302eb92845520|US"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 97
+    }
+  ]
+}

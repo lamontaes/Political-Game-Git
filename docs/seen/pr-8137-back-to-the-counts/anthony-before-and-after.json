@@ -1,0 +1,30 @@
+{
+  "before_2025_01_21": {
+    "name": "Anthony McDaniel",
+    "born": "1961-03-05",
+    "tier": "weekly",
+    "placeId": "jurisdiction_79a4097c7faa8801",
+    "householdId": "household_18d0936b5b3434ba",
+    "job": {
+      "title": "Server",
+      "orgId": "organization_3a5ab1896af05eaf",
+      "hourlyMinor": 1794,
+      "wageDailyMinor": 10251
+    },
+    "liquidMinor": 538650
+  },
+  "after_2025_09_25": {
+    "name": "Anthony McDaniel",
+    "born": "1961-03-05",
+    "tier": "weekly",
+    "placeId": "jurisdiction_79a4097c7faa8801",
+    "householdId": "household_18d0936b5b3434ba",
+    "job": {
+      "title": "Server",
+      "orgId": "organization_3a5ab1896af05eaf",
+      "hourlyMinor": 1794,
+      "wageDailyMinor": 10251
+    },
+    "liquidMinor": 447534
+  }
+}

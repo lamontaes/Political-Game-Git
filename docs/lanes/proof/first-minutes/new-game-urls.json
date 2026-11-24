@@ -1,0 +1,42 @@
+[
+  {
+    "town": "Haleyville, Alabama",
+    "replay": "ab5f58e9be125c95",
+    "url": "http://localhost:3000/api/newlife?seed=ab5f58e9be125c95&date=2025-01-20&placeKey=0132704&person=%7B%22givenName%22%3A%22Sonia%22%2C%22familyName%22%3A%22Ortiz%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitblack%3Achin-length+bob%22%2C%22colors%22%3A%7B%22top%22%3A%22royal+blue%22%2C%22trousers%22%3A%22maroon%22%2C%22shoes%22%3A%22cream%22%2C%22hair%22%3A%22blond%22%7D%7D%7D"
+  },
+  {
+    "town": "Murray, Nebraska",
+    "replay": "1d3f0e18ca4ba7e5",
+    "url": "http://localhost:3000/api/newlife?seed=1d3f0e18ca4ba7e5&date=2025-01-20&placeKey=3133425&person=%7B%22givenName%22%3A%22Audrey%22%2C%22familyName%22%3A%22Delgado%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22olive%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22gray%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Meadow Lakes, Alaska",
+    "replay": "f835dd278d7312a1",
+    "url": "http://localhost:3000/api/newlife?seed=f835dd278d7312a1&date=2025-01-20&placeKey=0247735&person=%7B%22givenName%22%3A%22Morgan%22%2C%22familyName%22%3A%22Olsen%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22slate%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22white%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Brookside, Delaware",
+    "replay": "4d50e1f88df997f9",
+    "url": "http://localhost:3000/api/newlife?seed=4d50e1f88df997f9&date=2025-01-20&placeKey=1009850&person=%7B%22givenName%22%3A%22Jaden%22%2C%22familyName%22%3A%22Schmidt%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitblack%22%2C%22colors%22%3A%7B%22top%22%3A%22rust%22%2C%22trousers%22%3A%22olive%22%2C%22shoes%22%3A%22tan%22%2C%22hair%22%3A%22light+brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Storrs, Connecticut",
+    "replay": "storrs-1",
+    "url": "http://localhost:3000/api/newlife?seed=storrs-1&date=2025-01-20&placeKey=0973980&person=%7B%22givenName%22%3A%22Carmen%22%2C%22familyName%22%3A%22Taylor%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%3Alow+ponytail%22%2C%22colors%22%3A%7B%22top%22%3A%22brown%22%2C%22trousers%22%3A%22denim%22%2C%22shoes%22%3A%22tan%22%2C%22hair%22%3A%22brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Washington, District of Columbia",
+    "replay": "dc-closures-a",
+    "url": "http://localhost:3000/api/newlife?seed=dc-closures-a&date=2025-01-20&placeKey=1150000&person=%7B%22givenName%22%3A%22Alexis%22%2C%22familyName%22%3A%22Gregory%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-medium%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22forest+green%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22gray%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Cabo Rojo, Puerto Rico",
+    "replay": "f857db7436bf7449",
+    "url": "http://localhost:3000/api/newlife?seed=f857db7436bf7449&date=2025-01-20&placeKey=7209861&person=%7B%22givenName%22%3A%22Lauren%22%2C%22familyName%22%3A%22Ramirez%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22denim%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22white%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D"
+  },
+  {
+    "town": "Santa Rita, Guam",
+    "replay": "6f539fcfdf6d96f9-5",
+    "url": "http://localhost:3000/api/newlife?seed=6f539fcfdf6d96f9-5&date=2025-01-20&placeKey=territory%3AGU%3Asanta-rita&person=%7B%22givenName%22%3A%22Jordan%22%2C%22familyName%22%3A%22Mueller%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2007%2C%22birthMonth%22%3A1%2C%22birthDay%22%3A27%2C%22recipe%22%3A%7B%22person%22%3A%22woman-slim%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22plum%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22charcoal%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D"
+  }
+]

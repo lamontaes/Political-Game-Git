@@ -1,0 +1,30 @@
+{
+  "stopgapId": "SG-TRAITS-counted-no-maturity",
+  "eventShiftParameter": "traitChangeEventShift",
+  "events": [
+    {
+      "kind": "work.job-lost",
+      "who": "subjects",
+      "shifts": {
+        "personality-v1:facet-calm": -1,
+        "personality-v1:facet-brooding": 1
+      }
+    },
+    {
+      "kind": "housing.eviction",
+      "who": "subjects",
+      "shifts": {
+        "personality-v1:facet-calm": -1,
+        "personality-v1:facet-brooding": 1
+      }
+    },
+    {
+      "kind": "life.death",
+      "who": "bereaved",
+      "shifts": {
+        "personality-v1:facet-calm": -1,
+        "personality-v1:facet-brooding": 1
+      }
+    }
+  ]
+}

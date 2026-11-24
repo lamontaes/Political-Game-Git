@@ -1,0 +1,174 @@
+[
+  {
+    "id": "mo-2025-hb594-capital-gains",
+    "jurisdiction": "Missouri",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 594",
+    "law_citation": null,
+    "short_title": "Capital gains subtraction and senior property tax credit",
+    "enacted_date": "2025-07",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "tax year 2025 (individuals)",
+      "2026-01-01 (circuit breaker credit changes)"
+    ],
+    "official_text_url": "https://house.mo.gov/Bill.aspx?bill=HB594&year=2025&code=R",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax - deductions",
+    "secondary_menus": ["05"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "deduction",
+        "description": "Individuals subtract all federally reported capital gains from state income.",
+        "numbers": [
+          {
+            "value": 100,
+            "unit": "percent",
+            "text": "100 percent"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Corporations get the same subtraction once the top individual rate falls to a threshold.",
+        "numbers": [
+          {
+            "value": 4.5,
+            "unit": "percent rate trigger",
+            "text": "4.5 percent rate trigger"
+          }
+        ]
+      },
+      {
+        "kind": "credit",
+        "description": "Senior property tax 'circuit breaker' credit increased and indexed.",
+        "numbers": [
+          {
+            "value": 1000,
+            "unit": "USD old owner max",
+            "text": "1000 USD old owner max"
+          },
+          {
+            "value": 1550,
+            "unit": "USD new owner max",
+            "text": "1550 USD new owner max"
+          },
+          {
+            "value": 750,
+            "unit": "USD old renter max",
+            "text": "750 USD old renter max"
+          },
+          {
+            "value": 1055,
+            "unit": "USD new renter max",
+            "text": "1055 USD new renter max"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Sales tax exemption for diapers and feminine hygiene products."
+      }
+    ],
+    "touches": ["state revenue", "older homeowners and renters"],
+    "daily_life": "Selling stock or a rental property brings no Missouri income tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "mo-2025-sb4-utilities",
+    "jurisdiction": "Missouri",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 4",
+    "law_citation": null,
+    "short_title": "Utility regulation (future test year, infrastructure charges)",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-08-28", "2026-07-01"],
+    "official_text_url": "https://www.senate.mo.gov/BillTracking/Bills/BillInformation?billid=66&year=2025",
+    "aggregator_url": "https://legiscan.com/MO/bill/SB4/2025",
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Utility regulation",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Allows eligible utilities to request a future test year for rate proceedings beginning July 1, 2026."
+      },
+      {
+        "kind": "surcharge",
+        "description": "Permits the Public Service Commission to include limited gas-plant construction work in progress in rate base, subject to refund and sunset conditions."
+      },
+      {
+        "kind": "prohibition",
+        "description": "Extends hot- and cold-weather conditions in which residential utility disconnection for nonpayment is barred."
+      }
+    ],
+    "touches": ["Public Service Commission", "electric and gas bills"],
+    "daily_life": "Some utility rate cases may use future costs; residential customers gain specified weather-related shutoff protections.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Official Missouri Senate page confirms signature, August 28, 2025 general effective date and these three provisions. The former April 9 enactment date was unsupported."
+  },
+  {
+    "id": "mo-2025-hb495-st-louis-police",
+    "jurisdiction": "Missouri",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 495",
+    "law_citation": null,
+    "short_title": "State control of St. Louis police; public safety omnibus",
+    "enacted_date": "2025-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://house.mo.gov/Bill.aspx?bill=HB495&year=2025&code=R",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Local-government powers",
+    "secondary_menus": ["10"],
+    "instrument": "agency/structure",
+    "secondary_instruments": ["preemption"],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "oversight-body",
+        "description": "Transfers control of the St. Louis city police department to a governor-appointed board."
+      },
+      {
+        "kind": "appointment",
+        "description": "Board members appointed by the governor with the mayor as a member (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "preemption",
+        "description": "Removes local control of a city police department."
+      },
+      {
+        "kind": "penalty",
+        "description": "Other public safety provisions (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["St. Louis city government", "police union"],
+    "daily_life": "City residents' police are run by a state board, not the mayor.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

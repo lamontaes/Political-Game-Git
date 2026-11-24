@@ -1,0 +1,31 @@
+{
+  "id": "census-2024-cev-volunteer-hours",
+  "publisher": "U.S. Census Bureau (America Counts story, with AmeriCorps)",
+  "vintage": "2023 (September 2022 to September 2023), with 2017 for comparison",
+  "table": "Civic Engagement and Volunteering Supplement, hours served by formal volunteers",
+  "title": "New U.S. Census Bureau and AmeriCorps Research Tracks Virtual Volunteering for First Time (Laura Hanson Schlachter and Tim Marshall, November 19, 2024)",
+  "universe": "Formal volunteers age 16 and over (people who volunteered through an organization in the past year)",
+  "geography": "United States",
+  "sourceUrl": "https://www.census.gov/library/stories/2024/11/civic-engagement-and-volunteerism.html",
+  "retrievedOn": "2026-10-25",
+  "limits": "Hours per formal volunteer in a year, through any organization, not only causes; the mean is pulled up by a few very active volunteers, so the median is the better check on a typical volunteer. National only. Read through the fetch tool; the AmeriCorps PDF of the same report returns 403 from the cloud. Total hours over volunteers (4.99 billion over 75.7 million) gives 65.9, not the story's 70; the story's averages are its own published estimates, kept as given.",
+  "hoursPerVolunteer": {
+    "2023": {
+      "mean": 70,
+      "median": 24
+    },
+    "2017": {
+      "mean": 96.5,
+      "median": 40
+    }
+  },
+  "totalHours2023": 4990000000,
+  "formalVolunteers2023": 75700000,
+  "quotes": [
+    "Over 75.7 million or 28.3% of the U.S. population age 16 and up formally volunteered through an organization",
+    "formal volunteers served an estimated 4.99 billion hours",
+    "average hours served per volunteer in the previous year dropped from 96.5 hours when the CEV began in 2017 to 70 hours in 2023.",
+    "Similarly, half of formal volunteers served 40 hours in 2017 compared to 24 hours in the latest data."
+  ],
+  "use": "Set beside a played town's cause volunteers by the cause-activity year report (scripts/research/cause-activity-year.ts): hours volunteered a year by each person who volunteered for a cause (their volunteer acts times volunteerHours), beside the hours of real formal volunteers through any organization, median 24 to 40 and mean 70 to 96.5. The survey's volunteers are over a quarter of people and count every organization, so it is a diagnostic proxy, not a band for cause volunteering, and draws no conclusion in either direction. Never a cap; a holder's own time, money and pulls decide each act."
+}

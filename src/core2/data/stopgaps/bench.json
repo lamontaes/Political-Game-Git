@@ -1,0 +1,28 @@
+[
+  {
+    "id": "SG-BENCH-money-recent-months",
+    "kind": "uncalibrated-tunable",
+    "file": "src/bench/bank.ts",
+    "line": 10,
+    "whatItFakes": "The Money sheet lists the six most recent monthly cash rows; six is a display window, not a measured span.",
+    "why": "The credit engine keeps one household row per monthly review with no limit, and the sheet needs some length; no parameter table row sets how far back a player looks.",
+    "addedBy": "claude/wire-opening-and-home",
+    "addedAt": "2026-10-28",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A TUNABLE display window in the parameter table, checked against how many months a player scrolls back, or a chart that draws every kept row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-BENCH-painted-tv-rooms-checked",
+    "kind": "partial-model",
+    "file": "src/bench/scene.ts",
+    "line": 569,
+    "whatItFakes": "Only the five *-living pictures and the mobile home were checked for a painted television; a set painted in another room picture (the suburban house shows one cut off at its left edge; the rural farmhouse, rowhouse, large house, kitchens, bedrooms, regional houses and official residences were not opened) shows no broadcast on its glass.",
+    "why": "The broadcast-on-glass fix (C18, Nov 23) measured the glass of the sets it found: the first pass opened only the *-living pictures, and the Replay found the mobile home's flat-screen set (Walthill, Nebraska, Nov 24) after it.",
+    "addedBy": "claude/pt-address-c18",
+    "addedAt": "2026-11-23",
+    "replacement": "A paintedScreens row in scene-places.json for each other picture that paints a set, found by looking at every room picture; no code changes.",
+    "status": "open"
+  }
+]

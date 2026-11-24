@@ -1,0 +1,305 @@
+{
+  "sourceHead": "9a2bdf93b23adb5465b8a5d6cedb49cfc6184575",
+  "runtimeSourceHead": "a522ed5be56ab97afedc24d8d73e847a7586852a",
+  "observerSeed": "team1-member-filing-20261001",
+  "snapshotDate": "2028-01-05",
+  "initialSequence": 423039,
+  "finalSequence": 423039,
+  "limits": "Terminal snapshot, not historical intake reconstruction. No historical intake snapshot is retained. No actor/principle producer, filer, time advance, score/threshold change or new year. Authority, prefix, pending, score and plain-position direction use actual existing predicates/settings. Later numeric requests, cooldown, origination, selection and accepted proposals are not inferred. These records cannot establish which historical branch rejected an intake.",
+  "bodies": [
+    {
+      "label": "New Jersey",
+      "jurisdictionId": "jurisdiction_8a587db997485af7",
+      "packId": "us-nj-legislature-profile-v1",
+      "authorityQuestionCount": 68,
+      "postIssuePrefixQuestionCount": 68,
+      "issuePrefix": null,
+      "pendingQuestionExclusions": 0,
+      "filingThreshold": 3,
+      "individualAgenda": true,
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "introductionAllowed": true,
+          "seatedNonPlayerSponsors": 80,
+          "memberQuestionPairs": 5440,
+          "pendingQuestionPairExclusions": 0,
+          "openMemberQuestionPairs": 5440,
+          "signedScoreRange": [-2.0812500000000003, 3.3968749999999996],
+          "maximumAbsoluteScore": 3.3968749999999996,
+          "zeroScorePairs": 3138,
+          "pairsClearingThreshold": 48,
+          "plainPositionChangePairsClearingThreshold": 0,
+          "questionsClearingThreshold": 3,
+          "plainPositionChangeQuestionsClearingThreshold": 0,
+          "clearingQuestionEvidence": [
+            {
+              "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "pairsClearingThreshold": 16,
+              "strongestRecordedExample": {
+                "personId": "person_39a9f8e66f2cf86f",
+                "name": "Derek Payne",
+                "propositionId": "proposition_96e212c1b9f200ca",
+                "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+                "score": 3.1343750000000004,
+                "principleRecordIds": [
+                  "principle_5f6f02a6b093ffce",
+                  "principle_30b825def5a18cc3"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            },
+            {
+              "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "pairsClearingThreshold": 16,
+              "strongestRecordedExample": {
+                "personId": "person_39a9f8e66f2cf86f",
+                "name": "Derek Payne",
+                "propositionId": "proposition_5677fab5d6dc185e",
+                "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "score": 3.3968749999999996,
+                "principleRecordIds": [
+                  "principle_5f6f02a6b093ffce",
+                  "principle_30b825def5a18cc3"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            },
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "pairsClearingThreshold": 16,
+              "strongestRecordedExample": {
+                "personId": "person_39a9f8e66f2cf86f",
+                "name": "Derek Payne",
+                "propositionId": "proposition_2fae18249369ab7e",
+                "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+                "score": 3.3937500000000003,
+                "principleRecordIds": [
+                  "principle_30b825def5a18cc3",
+                  "principle_5f6f02a6b093ffce"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:civil-family-community.dedicated-parks-funding",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            }
+          ],
+          "strongestRecordedExample": {
+            "personId": "person_39a9f8e66f2cf86f",
+            "name": "Derek Payne",
+            "propositionId": "proposition_5677fab5d6dc185e",
+            "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+            "score": 3.3968749999999996,
+            "principleRecordIds": [
+              "principle_5f6f02a6b093ffce",
+              "principle_30b825def5a18cc3"
+            ],
+            "operativeAnswer": "yes",
+            "lawMeasureId": "starting-law:US-NJ:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+            "pending": false,
+            "clearsThreshold": true,
+            "plainPositionAnswer": null,
+            "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+          },
+          "laterCooldownOriginationCompilationSelection": "NOT OBSERVED; no second proposal evaluator or filer invoked",
+          "acceptedProposals": "NOT OBSERVED; this read does not invoke the filer"
+        },
+        {
+          "chamberKey": "senate",
+          "introductionAllowed": true,
+          "seatedNonPlayerSponsors": 39,
+          "memberQuestionPairs": 2652,
+          "pendingQuestionPairExclusions": 0,
+          "openMemberQuestionPairs": 2652,
+          "signedScoreRange": [-2.0812500000000003, 3.3968749999999996],
+          "maximumAbsoluteScore": 3.3968749999999996,
+          "zeroScorePairs": 1792,
+          "pairsClearingThreshold": 24,
+          "plainPositionChangePairsClearingThreshold": 0,
+          "questionsClearingThreshold": 3,
+          "plainPositionChangeQuestionsClearingThreshold": 0,
+          "clearingQuestionEvidence": [
+            {
+              "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "pairsClearingThreshold": 8,
+              "strongestRecordedExample": {
+                "personId": "person_a2c5d9933d2ee671",
+                "name": "Bo Valentine",
+                "propositionId": "proposition_96e212c1b9f200ca",
+                "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+                "score": 3.1343750000000004,
+                "principleRecordIds": [
+                  "principle_39c61038cf0fbfc5",
+                  "principle_2854125723727322"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            },
+            {
+              "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "pairsClearingThreshold": 8,
+              "strongestRecordedExample": {
+                "personId": "person_a2c5d9933d2ee671",
+                "name": "Bo Valentine",
+                "propositionId": "proposition_5677fab5d6dc185e",
+                "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "score": 3.3968749999999996,
+                "principleRecordIds": [
+                  "principle_39c61038cf0fbfc5",
+                  "principle_2854125723727322"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            },
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "pairsClearingThreshold": 8,
+              "strongestRecordedExample": {
+                "personId": "person_a2c5d9933d2ee671",
+                "name": "Bo Valentine",
+                "propositionId": "proposition_2fae18249369ab7e",
+                "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+                "score": 3.3937500000000003,
+                "principleRecordIds": [
+                  "principle_2854125723727322",
+                  "principle_39c61038cf0fbfc5"
+                ],
+                "operativeAnswer": "yes",
+                "lawMeasureId": "starting-law:US-NJ:us-policy-positions:civil-family-community.dedicated-parks-funding",
+                "pending": false,
+                "clearsThreshold": true,
+                "plainPositionAnswer": null,
+                "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+              }
+            }
+          ],
+          "strongestRecordedExample": {
+            "personId": "person_a2c5d9933d2ee671",
+            "name": "Bo Valentine",
+            "propositionId": "proposition_5677fab5d6dc185e",
+            "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+            "score": 3.3968749999999996,
+            "principleRecordIds": [
+              "principle_39c61038cf0fbfc5",
+              "principle_2854125723727322"
+            ],
+            "operativeAnswer": "yes",
+            "lawMeasureId": "starting-law:US-NJ:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+            "pending": false,
+            "clearsThreshold": true,
+            "plainPositionAnswer": null,
+            "firstObservedPredicateFailure": "plain-position-direction; numeric-request path NOT OBSERVED, so actual rejection is not inferred"
+          },
+          "laterCooldownOriginationCompilationSelection": "NOT OBSERVED; no second proposal evaluator or filer invoked",
+          "acceptedProposals": "NOT OBSERVED; this read does not invoke the filer"
+        }
+      ]
+    },
+    {
+      "label": "Congress",
+      "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+      "packId": "us-congress-v1",
+      "authorityQuestionCount": 22,
+      "postIssuePrefixQuestionCount": 20,
+      "issuePrefix": "us-federal:",
+      "pendingQuestionExclusions": 0,
+      "filingThreshold": 3,
+      "individualAgenda": true,
+      "chambers": [
+        {
+          "chamberKey": "house",
+          "introductionAllowed": true,
+          "seatedNonPlayerSponsors": 434,
+          "memberQuestionPairs": 8680,
+          "pendingQuestionPairExclusions": 0,
+          "openMemberQuestionPairs": 8680,
+          "signedScoreRange": [-2.1875, 2.7125000000000004],
+          "maximumAbsoluteScore": 2.7125000000000004,
+          "zeroScorePairs": 6530,
+          "pairsClearingThreshold": 0,
+          "plainPositionChangePairsClearingThreshold": 0,
+          "questionsClearingThreshold": 0,
+          "plainPositionChangeQuestionsClearingThreshold": 0,
+          "clearingQuestionEvidence": [],
+          "strongestRecordedExample": {
+            "personId": "person_7677419a430516bd",
+            "name": "Erika Ortiz",
+            "propositionId": "proposition_31671735e1131cf7",
+            "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+            "score": 2.7125000000000004,
+            "principleRecordIds": [
+              "principle_40906b00ac301c5a",
+              "principle_4fcb0df5d37bf7af"
+            ],
+            "operativeAnswer": null,
+            "lawMeasureId": null,
+            "pending": false,
+            "clearsThreshold": false,
+            "plainPositionAnswer": "yes",
+            "firstObservedPredicateFailure": "filing-threshold"
+          },
+          "laterCooldownOriginationCompilationSelection": "NOT REACHED by these terminal saved scores",
+          "acceptedProposals": "NOT OBSERVED; this read does not invoke the filer"
+        },
+        {
+          "chamberKey": "senate",
+          "introductionAllowed": true,
+          "seatedNonPlayerSponsors": 99,
+          "memberQuestionPairs": 1980,
+          "pendingQuestionPairExclusions": 0,
+          "openMemberQuestionPairs": 1980,
+          "signedScoreRange": [-2.1875, 2.7125000000000004],
+          "maximumAbsoluteScore": 2.7125000000000004,
+          "zeroScorePairs": 1536,
+          "pairsClearingThreshold": 0,
+          "plainPositionChangePairsClearingThreshold": 0,
+          "questionsClearingThreshold": 0,
+          "plainPositionChangeQuestionsClearingThreshold": 0,
+          "clearingQuestionEvidence": [],
+          "strongestRecordedExample": {
+            "personId": "person_1ce5009b806e9e6a",
+            "name": "Jorge Rush",
+            "propositionId": "proposition_31671735e1131cf7",
+            "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+            "score": 2.7125000000000004,
+            "principleRecordIds": [
+              "principle_b19274b576a5a238",
+              "principle_a4367a2ceec327e9"
+            ],
+            "operativeAnswer": null,
+            "lawMeasureId": null,
+            "pending": false,
+            "clearsThreshold": false,
+            "plainPositionAnswer": "yes",
+            "firstObservedPredicateFailure": "filing-threshold"
+          },
+          "laterCooldownOriginationCompilationSelection": "NOT REACHED by these terminal saved scores",
+          "acceptedProposals": "NOT OBSERVED; this read does not invoke the filer"
+        }
+      ]
+    }
+  ]
+}

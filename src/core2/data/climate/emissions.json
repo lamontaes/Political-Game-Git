@@ -1,0 +1,34 @@
+{
+  "about": "The country's and the world's yearly CO2, the base the climate engine's carbon laws move, and the path the rest of the world follows.",
+  "usEnergyCo2GtPerYear": {
+    "value": 4.789,
+    "tag": "SOURCED",
+    "source": "U.S. Energy Information Administration, U.S. energy-related carbon dioxide emissions, 2024 total 4,789 million metric tons (eia.gov/environment/emissions/carbon/).",
+    "role": "level"
+  },
+  "landUseCo2GtPerYear": {
+    "value": 4.2,
+    "tag": "SOURCED",
+    "source": "Global Carbon Budget 2024, Earth System Science Data 17:965 (2025): land-use change 4.2 +/- 2.6 GtCO2 a year, held flat.",
+    "role": "level"
+  },
+  "usShareOfFossil": {
+    "value": 0.128,
+    "tag": "ESTIMATED",
+    "source": "4.789 GtCO2 (EIA, 2024) over 37.4 GtCO2 of global fossil CO2 (Global Carbon Budget 2024), held at the 2024 share along the path.",
+    "role": "level"
+  },
+  "worldFossilOpeningGt": {
+    "value": 38.1,
+    "tag": "SOURCED",
+    "source": "Global Carbon Budget 2025 (Global Carbon Project, Nov 2025): 38.1 billion metric tons of fossil CO2 in 2025 (ucdavis.edu/climate/blog/fossil-fuel-co2-emissions-hit-record-high-2025). The opening stock only; no later year is read.",
+    "role": "level"
+  },
+  "restOfWorldTrendPerYear": {
+    "tag": "ESTIMATED",
+    "low": -0.015,
+    "high": 0.003,
+    "spread": "Each world draws its own steady yearly change of the rest of the world's fossil CO2 from this span when it opens: IEA current-policies keeps about 38 Gt to 2050 (about 0 a year), stated-policies falls below 30 Gt in 2050 (about -1 a year); the low end is a faster fall than either.",
+    "source": "IEA World Energy Outlook 2025 scenarios (iea.org/reports/world-energy-outlook-2025/stated-policies-scenario, read from a search summary). Only the span of the trend is sourced; no year's value is read."
+  }
+}

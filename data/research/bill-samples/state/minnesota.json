@@ -1,0 +1,125 @@
+[
+  {
+    "id": "mn-2025-1ss-ch2-minnesotacare",
+    "jurisdiction": "Minnesota",
+    "level": "state",
+    "session": "2025 First Special Session",
+    "bill_number": "HF 1",
+    "law_citation": "Laws 2025, 1st Special Session, Chapter 2",
+    "short_title": "MinnesotaCare eligibility for undocumented adults removed",
+    "enacted_date": "2025-06-14",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/2/",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public coverage programs",
+    "secondary_menus": ["16"],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Adults without lawful immigration status lose eligibility for the state-funded MinnesotaCare program; children keep it."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Coverage ends on a set date.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-01 date",
+            "text": "2026-01-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["MinnesotaCare budget", "community clinics"],
+    "daily_life": "An undocumented adult loses state health coverage at year end.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "mn-2025-1ss-ch1-environment",
+    "jurisdiction": "Minnesota",
+    "level": "state",
+    "session": "2025 First Special Session",
+    "bill_number": "SF 3",
+    "law_citation": "Laws 2025, 1st Special Session, Chapter 1",
+    "short_title": "Environment and natural resources appropriations",
+    "enacted_date": "2025-06-14",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/1/",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Land, wildlife and conservation",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Biennial appropriations to DNR, Pollution Control Agency, Board of Water and Soil Resources and the zoo."
+      },
+      {
+        "kind": "funding-source",
+        "description": "General fund plus dedicated funds (game and fish, lottery-funded trust fund) (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["state parks", "water quality programs"],
+    "daily_life": "Keeps state parks and water monitoring funded.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "mn-2025-1ss-ch4-commerce-reinsurance",
+    "jurisdiction": "Minnesota",
+    "level": "state",
+    "session": "2025 First Special Session",
+    "bill_number": "HF 4",
+    "law_citation": "Laws 2025, 1st Special Session, Chapter 4",
+    "short_title": "Commerce policy and appropriations (reinsurance extension)",
+    "enacted_date": "2025-06-14",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/4/",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Insurance markets",
+    "secondary_menus": ["02"],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "sunset",
+        "description": "Extends the state reinsurance program for individual health insurance.",
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Commerce and Office of Cannabis Management funded."
+      }
+    ],
+    "touches": [
+      "individual insurance premiums",
+      "federal pass-through funding"
+    ],
+    "daily_life": "Keeps individual-market health premiums lower than they would be.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

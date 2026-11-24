@@ -1,0 +1,143 @@
+{
+  "status": "candidate-content-not-loaded-or-executed",
+  "sourceHead": "4965f63c41fe69621c72f47725c0d2914257f3ea",
+  "requiredBindings": [
+    "actual jurisdiction and authorized actor",
+    "selected proposition alternative/provision revision",
+    "affected target/population",
+    "quantity/rate and units where applicable",
+    "funding/resource source",
+    "conditions/exemptions",
+    "implementation owner",
+    "effective and expiry/transition dates"
+  ],
+  "rows": [
+    {
+      "questionKey": "ocd-authored-policy-questions:income-base-breadth",
+      "inspectedIssueKey": "us-state-and-local:fiscal.income-tax",
+      "effectOperationToBind": "tax-base-definition"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:income-rate-progressivity",
+      "inspectedIssueKey": "us-state-and-local:fiscal.income-tax",
+      "effectOperationToBind": "tax-rate-schedule"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:sales-tax-essential-exemptions",
+      "inspectedIssueKey": "us-state-and-local:fiscal.sales-tax",
+      "effectOperationToBind": "tax-exemption"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:property-tax-relief-targeting",
+      "inspectedIssueKey": "us-state-and-local:fiscal.property-tax",
+      "effectOperationToBind": "tax-relief-eligibility"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:service-fee-waivers",
+      "inspectedIssueKey": "us-state-and-local:fiscal.fees-and-charges",
+      "effectOperationToBind": "fee-eligibility"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:reserve-use-for-service-continuity",
+      "inspectedIssueKey": "us-state-and-local:fiscal.reserves",
+      "effectOperationToBind": "reserve-withdrawal-authority"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:capital-borrowing",
+      "inspectedIssueKey": "us-state-and-local:fiscal.debt-and-bonds",
+      "effectOperationToBind": "debt-authorization"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:local-revenue-sharing",
+      "inspectedIssueKey": "us-state-and-local:fiscal.revenue-sharing",
+      "effectOperationToBind": "grant-allocation-rule"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:public-contract-disclosure",
+      "inspectedIssueKey": "us-state-and-local:government-operations.public-contracting",
+      "effectOperationToBind": "reporting-duty"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:public-hiring-access",
+      "inspectedIssueKey": "us-state-and-local:government-operations.civil-service",
+      "effectOperationToBind": "employment-eligibility"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:agency-responsibility-transfer",
+      "inspectedIssueKey": "us-state-and-local:government-operations.agency-organization",
+      "effectOperationToBind": "authority-transfer"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:school-funding-need-weight",
+      "inspectedIssueKey": "us-state-and-local:education.school-funding",
+      "effectOperationToBind": "allocation-formula"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:teacher-compensation",
+      "inspectedIssueKey": "us-state-and-local:education.teacher-workforce",
+      "effectOperationToBind": "funded-work-terms"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:college-need-based-aid",
+      "inspectedIssueKey": "us-state-and-local:education.higher-education-tuition-and-aid",
+      "effectOperationToBind": "benefit-eligibility-amount"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:career-training-access",
+      "inspectedIssueKey": "us-state-and-local:education.career-and-technical-education",
+      "effectOperationToBind": "training-capacity-support"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:coverage-eligibility",
+      "inspectedIssueKey": "us-state-and-local:health-human-services.medicaid",
+      "effectOperationToBind": "coverage-rule"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:health-provider-capacity",
+      "inspectedIssueKey": "us-state-and-local:health-human-services.hospitals-and-providers",
+      "effectOperationToBind": "funded-service-capacity"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:income-assistance-access",
+      "inspectedIssueKey": "us-state-and-local:health-human-services.food-and-income-assistance",
+      "effectOperationToBind": "application-and-eligibility-rule"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:housing-density-permission",
+      "inspectedIssueKey": "us-state-and-local:housing-land-use.zoning",
+      "effectOperationToBind": "land-use-permission"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:housing-permit-process",
+      "inspectedIssueKey": "us-state-and-local:housing-land-use.permitting",
+      "effectOperationToBind": "procedure-and-deadline-rule"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:housing-subsidy-targeting",
+      "inspectedIssueKey": "us-state-and-local:housing-land-use.housing-affordability",
+      "effectOperationToBind": "benefit-allocation"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:transit-service-reach",
+      "inspectedIssueKey": "us-state-and-local:transportation-infrastructure.transit",
+      "effectOperationToBind": "funded-route-and-capacity"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:water-reliability-investment",
+      "inspectedIssueKey": "us-state-and-local:transportation-infrastructure.water-and-sewer",
+      "effectOperationToBind": "asset-maintenance-and-resilience"
+    },
+    {
+      "questionKey": "ocd-authored-policy-questions:emergency-response-capacity",
+      "inspectedIssueKey": "us-state-and-local:justice-public-safety.emergency-response",
+      "effectOperationToBind": "funded-staff-and-equipment"
+    }
+  ],
+  "rules": [
+    "The preference question alone is never a complete bill or executable effect.",
+    "Stable definitions can be reused; concrete selected terms must be represented in the existing alternative/provision context.",
+    "Do not apply support for one amount or group automatically to another proposal.",
+    "Preserve current useful issue IDs; no third taxonomy or duplicate source pack.",
+    "File follows the inspected PolicyPack row shape but was not passed through the actual repository loader in this environment."
+  ]
+}

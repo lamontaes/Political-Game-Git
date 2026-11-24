@@ -1,0 +1,2717 @@
+import type { ModuleRow } from "../module-data";
+import drivesJson from "../data/drives.json" with { type: "json" };
+import { daysBetweenText } from "../kernel/dates";
+import { chooseAct } from "../choice";
+import { availableActs } from "../life";
+import { extendData } from "../data";
+import { appraiseEvent } from "../emotion";
+import { parameter, parameterValues } from "../parameters";
+import { discretionaryHours } from "./work";
+import {
+  closenessBetween,
+  currentCloseness,
+  hoursFromLevel,
+} from "../closeness";
+import { traitLeanBetween } from "../trait-decisions";
+import { pairKey } from "../kernel/ids";
+import { setTraitProbe, traitProbe } from "../trait-probe";
+import { bookkeeping } from "../bookkeeping";
+import { keepsWhy } from "../why-kept";
+import { adTimeForSale, buyAdTime } from "./campaigns";
+import { residentCounts, residentsAccountFor } from "./residents";
+import { countedPersonOf } from "../counted-actor";
+import { isDemoted } from "../counted-groups";
+import { initialPersonState } from "../person-state";
+import { fillInPerson, resolveOperation } from "../state";
+import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
+import type { CashJournalPostedMarker } from "../journal-state";
+import {
+  declareSnapshotCovered,
+  registerDerivedCache,
+  registerWorldMapPart,
+} from "../snapshot";
+import type {
+  ActOffer,
+  ActionDefinition,
+  CoreAPI,
+  CoreData,
+  CoreEventInput,
+  CoreModule,
+  CoreState,
+  DecisionContext,
+  DecisionReason,
+  Drive,
+  IsoDate,
+  PersonId,
+  PersonState,
+  ReasonBinding,
+} from "../types";
+
+/**
+ * P10 drives and causes. A salient event reaches a person; perception weighs
+ * it by their role, closeness and traits; the shared chooser decides among
+ * response rows whether a drive forms, which kind and how strongly; the drive
+ * then fades over time, strengthens when acted on, and adds utility to act
+ * rows through goals. Every kind, response, role, channel and act is a data
+ * row in data/drives.json; this file registers operations only.
+ */
+export interface DriveKindRow {
+  id: string;
+  goalKind: string;
+  halfLifeParameter: string;
+  /**
+   * When present, the half-life is the holder's own: the base times
+   * exp(weight x their trait lean toward the first option over the second),
+   * the lean the response itself is chosen by (a grudge: hold it over carry on).
+   */
+  halfLifeLean?: {
+    /** The response held toward, and the one over it (`responses` ids). */
+    toward: string;
+    over: string;
+    weightParameter: string;
+  };
+  shareable: boolean;
+}
+
+export interface ResponseRow extends ActionDefinition {
+  driveKind?: string;
+  requires: readonly string[];
+  fitParameter: string;
+  baselineParameter?: string;
+  /**
+   * A response that takes years to pay back (retraining, a new business):
+   * the person's capacity for it falls smoothly with age around the center.
+   */
+  capacityFades?: { centerParameter: string; widthParameter: string };
+}
+
+export interface DrivesData {
+  version: string;
+  stopgapId: string;
+  causeGroupKind: string;
+  donationJournalSourceKind: string;
+  volunteerAffordances: readonly string[];
+  eventKinds: Readonly<Record<EventKindKey, string>>;
+  civicActEvents: readonly { eventKind: string; actionId: string }[];
+  /** The event a business's closure is recorded by (its counted workers are found from the closure record). */
+  closureEventKind: string;
+  factKeys: Readonly<Record<FactKey, string>>;
+  driveKinds: readonly DriveKindRow[];
+  responses: readonly ResponseRow[];
+  roles: readonly { id: string; operation: string; weightParameter: string }[];
+  perception: {
+    stopgapId: string;
+    traitWeightParameter: string;
+    closenessWeightParameter: string;
+    channels: readonly {
+      id: string;
+      traits: readonly { traitId: string; direction: string }[];
+    }[];
+  };
+  eventRules: readonly {
+    id: string;
+    eventKind: string;
+    roles: readonly string[];
+    channels: readonly string[];
+    responses: readonly string[];
+    /** The impact used when the event's record holds no appraised impulse. */
+    impulseParameter?: string;
+    /**
+     * How much harder this kind of event pushes toward a lasting drive than
+     * the responses' own fits say (a multiple of each drive response's fit,
+     * one when absent). Carrying on is not scaled.
+     */
+    fitScaleParameter?: string;
+  }[];
+  actions: readonly ActionDefinition[];
+  gaps: readonly string[];
+  /** Event kinds whose topic is the responsible person or institution. */
+  responsibleInTopic?: readonly string[];
+  /** The fact key naming an institution an event's record holds responsible. */
+  institutionFact?: { prefix: string; suffix: string };
+}
+
+type EventKindKey =
+  | "wordRetold"
+  | "formed"
+  | "shared"
+  | "confronted"
+  | "founded"
+  | "joined"
+  | "donated"
+  | "volunteered"
+  | "soughtStanding"
+  | "strengthened";
+type FactKey =
+  | "wordEvent"
+  | "responsible"
+  | "decidedBy"
+  | "drive"
+  | "origin"
+  | "condition"
+  | "driveKind"
+  | "sourceEvent"
+  | "organization"
+  | "strength"
+  | "strengthAdded"
+  | "response"
+  | "role"
+  | "originEvent"
+  | "countedSubject"
+  | "countedPerceivers"
+  | "countedSubjects"
+  | "countedHousehold";
+
+export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
+
+export interface ScoredResponse {
+  responseId: string;
+  score: number;
+  reasons: DecisionReason;
+}
+
+/** Why a drive formed (or was reinforced): every factor the decision read. */
+export interface FormationTrace {
+  date: IsoDate;
+  personId: PersonId;
+  /** The person was still in the wider population when they responded. */
+  counted?: true;
+  eventId: string;
+  eventKind: string;
+  ruleId: string;
+  role: string;
+  roleWeight: number;
+  closeness: number;
+  channelGain: number;
+  traitTerms: readonly { traitId: string; channel: string; term: number }[];
+  attention: number;
+  magnitude: number;
+  agency: number;
+  pressure: number;
+  event: {
+    date: IsoDate;
+    subjects: readonly PersonId[];
+    topic?: string;
+    desiredChange?: string;
+    facts?: Readonly<Record<string, string>>;
+  };
+  considered: readonly {
+    responseId: string;
+    fit: number;
+    lean: number;
+    urgency: number;
+  }[];
+  chosen: ScoredResponse;
+  runnerUp?: ScoredResponse;
+  driveId?: string;
+  strengthAdded: number;
+}
+
+/**
+ * Reasons for an act the drive served. For this module's own acts they are
+ * scored before the effect, as the chooser scored them; for the life
+ * module's civic acts they are reconstructed from current state at the event.
+ */
+export interface DriveActTrace {
+  date: IsoDate;
+  actionId: string;
+  targetId?: string;
+  /** "scored" before this module's effect; "reconstructed" at a civic event; "recorded" from the act's saved reason key. */
+  basis: "scored" | "reconstructed" | "recorded";
+  score?: number;
+  reasons?: DecisionReason;
+  reasonKey?: string;
+  runnerUp?: { actionId: string; targetId: string; score: number };
+  strengthBefore: number;
+}
+
+export interface HeldDrive {
+  id: string;
+  personId: PersonId;
+  kind: string;
+  goalKind: string;
+  topic: string;
+  desiredChange: string;
+  targetId?: PersonId;
+  sourceEventId: string;
+  formedAt: IsoDate;
+  anchorDate: IsoDate;
+  anchorStrength: number;
+  halfLifeDays: number;
+  shareable: boolean;
+  /** The response that formed it; every later reinforcement too only with bookkeeping on. */
+  formations: FormationTrace[];
+  /** Most recent act traces (bounded); actCount is exact. */
+  acts: DriveActTrace[];
+  actCount: number;
+  lastTracedAct?: string;
+  told: Set<PersonId>;
+}
+
+/** A fading total: its amount on the date it was last added to. */
+interface Given {
+  amount: number;
+  date: string;
+}
+
+const DRIVES_MODULE_ID = "core2-drives-p10-v1";
+/** The drives engine's monthly row of each cause group's giving from the counted population. */
+const COUNTED_GIVING_TABLE = "counted-giving";
+
+interface DrivesRuntime {
+  drives: Map<string, HeldDrive>;
+  byPerson: Map<PersonId, Map<string, HeldDrive>>;
+  /**
+   * Drives formed by people still in the wider population, kept by person
+   * until they are filled in (a counted record holds no drives of its own).
+   * Each stands for the household weight its person's record carries.
+   */
+  countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
+  groupsByTopic: Map<string, Set<string>>;
+  /** Each cause group's topic (its groupsByTopic entry) and known-fact key. */
+  causeGroups: Map<string, CauseGroupKeys>;
+  /**
+   * The cause groups each person may know of, by topic, in id order: every
+   * group whose known fact or membership was written for them (founding,
+   * joining, being told). Neither is ever undone, so nothing leaves a living
+   * person's list, and readers still check each group, so it only has to
+   * hold all they know. The dead are let go on the first of each month: no
+   * reader asks about them.
+   */
+  mayKnow: Map<PersonId, Map<string, string[]>>;
+  /**
+   * Each holder's drives with strength left, strongest first (ties by id),
+   * ranked once a day and dropped whenever their drives change.
+   */
+  serving: Map<PersonId, { date: IsoDate; list: readonly ServingDrive[] }>;
+  /**
+   * What each person has lately given to their causes, by kind of act: one
+   * for each act, fading with the days (causeGivenDays). The more they gave
+   * lately, the less a further act of the same kind pulls.
+   */
+  given: Map<PersonId, Map<string, Given>>;
+  groupFounder: Map<string, PersonId>;
+  /** The change each cause group was founded to win (its founder's drive). */
+  groupChange: Map<string, string>;
+  formedByYearKind: Map<string, number>;
+  /** The same count for drives formed in the wider population. */
+  countedFormedByYearKind: Map<string, number>;
+  responsesByRule: Map<string, number>;
+  /**
+   * The same count by the role the person held toward the event and whether
+   * they are old enough to form a drive of their own (agency at least half
+   * an adult's, from `responseAgencyTurnAge` on): rule:role:grown|young:response.
+   */
+  responsesByRole: Map<string, number>;
+  perceived: number;
+  decisions: FormationTrace[];
+  /** Today's scored choice for each drive holder, matched against the act recorded. */
+  predicted: Map<PersonId, PredictedChoice>;
+  /** Canonical donation records the cash journal resolves through this module's provider: in play only while the entry posts. */
+  donations: Map<string, DonationRecord>;
+}
+
+interface CauseGroupKeys {
+  topic: string;
+  knownKey: string;
+}
+
+interface ServingDrive {
+  drive: HeldDrive;
+  strength: number;
+}
+
+interface DonationRecord {
+  resolved: ResolvedCashJournalSource;
+  marker: CashJournalPostedMarker;
+}
+
+interface PredictedChoice {
+  date: IsoDate;
+  actionId: string;
+  targetId: string;
+  reasonKey: string;
+  score: number;
+  reasons: DecisionReason;
+  runnerUp?: { actionId: string; targetId: string; score: number };
+}
+
+/**
+ * The engine's state for a world. It is saved with the world (a restored world
+ * weighs the same drives, groups and giving as the saved one); the drive
+ * objects it shares with the core stay shared through the snapshot's refs.
+ */
+const runtimes = new WeakMap<CoreState, DrivesRuntime>();
+registerWorldMapPart("core2-drives-runtime", runtimes);
+
+function runtimeFor(readonlyState: Readonly<CoreState>): DrivesRuntime {
+  const state = readonlyState as CoreState;
+  let row = runtimes.get(state);
+  if (!row) {
+    const zero = parameter("zero", state.data.parameters);
+    row = {
+      drives: new Map(),
+      byPerson: new Map(),
+      countedByPerson: new Map(),
+      groupsByTopic: new Map(),
+      causeGroups: new Map(),
+      mayKnow: new Map(),
+      serving: new Map(),
+      given: new Map(),
+      groupFounder: new Map(),
+      groupChange: new Map(),
+      formedByYearKind: new Map(),
+      countedFormedByYearKind: new Map(),
+      responsesByRule: new Map(),
+      responsesByRole: new Map(),
+      perceived: zero,
+      decisions: [],
+      predicted: new Map(),
+      donations: new Map(),
+    };
+    runtimes.set(state, row);
+  }
+  return row;
+}
+
+const core = (api: CoreAPI) => api.state as CoreState;
+
+function bump(map: Map<string, number>, key: string, api: CoreAPI) {
+  map.set(key, (map.get(key) ?? api.parameter("zero")) + api.parameter("one"));
+}
+
+/** Exponential fading from the last anchor; exact whatever the read cadence. */
+export function currentStrength(
+  api: CoreAPI,
+  drive: Readonly<HeldDrive>,
+  date: IsoDate = api.state.date,
+): number {
+  const elapsed = daysBetweenText(drive.anchorDate, date);
+  return (
+    drive.anchorStrength *
+    Math.pow(api.parameter("two"), -elapsed / drive.halfLifeDays)
+  );
+}
+
+function writeDrive(api: CoreAPI, drive: HeldDrive, strength: number) {
+  // A counted person's drive is written on them when they are filled in.
+  if (!api.state.people.has(drive.personId)) return;
+  const row: Drive = {
+    id: drive.id,
+    kind: drive.kind,
+    sourceEventId: drive.sourceEventId,
+    topic: drive.topic,
+    desiredChange: drive.desiredChange,
+    strength,
+  };
+  api.updateDrive(drive.personId, row);
+  api.updateGoal(drive.personId, {
+    id: `drive:${drive.id}`,
+    kind: drive.goalKind,
+    urgency: strength,
+    sourceDriveId: drive.id,
+    ...(drive.targetId ? { targetId: drive.targetId } : {}),
+  });
+}
+
+/** Fills a share of the drive's unfilled strength; strength levels off below one. */
+function reinforce(api: CoreAPI, drive: HeldDrive, unfilledKept: number) {
+  const before = currentStrength(api, drive);
+  drive.anchorStrength =
+    api.parameter("one") - (api.parameter("one") - before) * unfilledKept;
+  drive.anchorDate = api.state.date;
+  runtimeFor(api.state).serving.delete(drive.personId);
+  writeDrive(api, drive, drive.anchorStrength);
+  return drive.anchorStrength - before;
+}
+
+function normalizedTrait(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  id: string,
+) {
+  const raw = actor.traits[id];
+  if (raw === undefined) return api.parameter("zero");
+  return Math.max(
+    api.parameter("negativeOne"),
+    Math.min(api.parameter("one"), raw / api.parameter("traitScale")),
+  );
+}
+
+function closenessTo(
+  api: CoreAPI,
+  actorId: PersonId,
+  subjects: readonly PersonId[],
+): number {
+  let best = api.parameter("zero");
+  for (const subject of subjects) {
+    best = Math.max(best, closenessBetween(api.state, actorId, subject));
+  }
+  return best;
+}
+
+type RoleTest = (
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  event: CoreEventInput,
+) => boolean;
+
+const roleOperations: Readonly<Record<string, RoleTest>> = {
+  "event-subject": (_api, actor, event) => event.personIds.includes(actor.id),
+  "family-of-subject": (api, actor, event) =>
+    event.personIds.some(
+      (id) =>
+        actor.familyIds.has(id) ||
+        api.state.people.get(id)?.familyIds.has(actor.id) === true,
+    ),
+  "household-of-subject": (api, actor, event) =>
+    event.personIds.some(
+      (id) =>
+        id !== actor.id &&
+        api.state.people.get(id)?.householdId === actor.householdId,
+    ) ||
+    // A counted subject's household, named by the event itself.
+    (!!actor.householdId &&
+      event.facts?.["counted-household"] === actor.householdId &&
+      !event.personIds.includes(actor.id)),
+  "known-to-subject": (api, actor, event) =>
+    event.personIds.some(
+      (id) =>
+        actor.knownIds.has(id) ||
+        api.state.people.get(id)?.knownIds.has(actor.id) === true,
+    ),
+  "event-witness": (_api, actor, event) =>
+    (event.witnessIds ?? []).includes(actor.id),
+};
+
+type RequirementTest = (
+  api: CoreAPI,
+  data: DrivesData,
+  actor: Readonly<PersonState>,
+  event: CoreEventInput,
+) => boolean;
+
+/** Whether a person is still in the wider population (counted, not yet filled in). */
+const countedIn = (api: CoreAPI) => (personId: string) =>
+  !api.state.people.has(personId) &&
+  countedPersonOf(api.state as CoreState, personId) !== undefined;
+
+/** Who an event holds responsible for a harm: a person or institution its record names. */
+export function responsibleId(
+  data: DrivesData,
+  event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+  counted?: (personId: string) => boolean,
+) {
+  const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
+  if (named) return named;
+  // The person the record names as deciding the harm (the owner or manager
+  // who decided a layoff), when they are a living full person or one still in
+  // the wider population (filled in when the holder has it out with them): a
+  // grudge can then be held against someone, not only the institution.
+  const decider = event.facts?.[data.factKeys.decidedBy];
+  if (decider && (people.get(decider)?.alive || counted?.(decider)))
+    return decider;
+  // Some engines name the responsible party as the event's topic (the
+  // employer behind a layoff, the landlord behind an eviction).
+  if (data.responsibleInTopic?.includes(event.kind) && event.topic)
+    return event.topic;
+  if (!data.institutionFact) return named;
+  // An institution the event's own record names (a business that closed).
+  const { prefix, suffix } = data.institutionFact;
+  const key = Object.keys(event.facts ?? {}).find(
+    (row) => row.startsWith(prefix) && row.endsWith(suffix),
+  );
+  return key?.slice(prefix.length, key.length - suffix.length);
+}
+
+const requirementOperations: Readonly<Record<string, RequirementTest>> = {
+  "event-topic": (_api, _data, _actor, event) =>
+    !!event.topic && !!event.desiredChange,
+  "event-responsible": (api, data, actor, event) => {
+    const counted = countedIn(api);
+    const id = responsibleId(data, event, api.state.people, counted);
+    return (
+      !!id &&
+      id !== actor.id &&
+      (api.state.people.has(id) ||
+        api.state.organizations.has(id) ||
+        counted(id))
+    );
+  },
+  "has-living-family": (api, _data, actor) =>
+    [...actor.familyIds].some((id) => api.state.people.get(id)?.alive),
+};
+
+/** Trait-weighted perception: a filter on decision inputs, not a mind. */
+export function perceive(
+  api: CoreAPI,
+  data: DrivesData,
+  actor: Readonly<PersonState>,
+  event: CoreEventInput,
+  rule: DrivesData["eventRules"][number],
+) {
+  const p = (key: string) => api.parameter(key);
+  // Among every role the person holds toward this event, the weightiest counts.
+  const role = data.roles
+    .filter(
+      (row) =>
+        rule.roles.includes(row.id) &&
+        (
+          roleOperations[row.operation] ??
+          (() => {
+            throw new Error(`Unregistered perception role: ${row.operation}`);
+          })
+        )(api, actor, event),
+    )
+    .reduce<DrivesData["roles"][number] | undefined>(
+      (best, row) =>
+        !best ||
+        api.parameter(row.weightParameter) > api.parameter(best.weightParameter)
+          ? row
+          : best,
+      undefined,
+    );
+  if (!role) return undefined;
+  api.stopgap(data.perception.stopgapId);
+  const traitTerms: { traitId: string; channel: string; term: number }[] = [];
+  let gainSum = p("zero");
+  for (const channelId of rule.channels) {
+    const channel = data.perception.channels.find(
+      (row) => row.id === channelId,
+    );
+    if (!channel)
+      throw new Error(`Unregistered perception channel: ${channelId}`);
+    let lean = p("zero");
+    for (const trait of channel.traits) {
+      const value = normalizedTrait(api, actor, trait.traitId);
+      if (value === p("zero")) continue;
+      const sign = trait.direction === "lowers" ? p("negativeOne") : p("one");
+      const term = sign * value * p(data.perception.traitWeightParameter);
+      traitTerms.push({ traitId: trait.traitId, channel: channelId, term });
+      lean += term;
+    }
+    gainSum += Math.max(p("zero"), p("one") + lean);
+  }
+  const channelGain = rule.channels.length
+    ? gainSum / rule.channels.length
+    : p("one");
+  const closeness = closenessTo(api, actor.id, event.personIds);
+  const roleWeight = p(role.weightParameter);
+  const attention =
+    roleWeight *
+    (p("one") + p(data.perception.closenessWeightParameter) * closeness) *
+    channelGain;
+  return {
+    role: role.id,
+    roleWeight,
+    closeness,
+    channelGain,
+    traitTerms,
+    attention,
+  };
+}
+
+function driveIdentity(
+  data: DrivesData,
+  kind: DriveKindRow,
+  actor: Readonly<PersonState>,
+  event: CoreEventInput,
+  api: CoreAPI,
+) {
+  const responsible = responsibleId(
+    data,
+    event,
+    api.state.people,
+    countedIn(api),
+  );
+  // A drive held against someone still in the wider population (an owner
+  // nobody has met who decided the layoff) names them: they are filled in from
+  // the records, as anyone named is, so every engine reads the same person.
+  if (!kind.shareable && responsible && countedIn(api)(responsible))
+    fillInPerson(api.state as CoreState, responsible);
+  const topic =
+    kind.shareable && event.topic
+      ? event.topic
+      : responsible
+        ? `${kind.id}:${responsible}`
+        : `${kind.id}:${actor.householdId}`;
+  return {
+    id: `${kind.id}:${topic}`,
+    topic,
+    desiredChange: event.desiredChange ?? topic,
+    targetId: kind.shareable ? undefined : responsible,
+  };
+}
+
+function scored(
+  decision: ReturnType<typeof chooseAct>,
+): ScoredResponse | undefined {
+  if (!decision.selected || !decision.selectedReasons) return undefined;
+  return {
+    responseId: decision.selected.definition.id,
+    score: Object.values(decision.selectedReasons).reduce((a, b) => a + b),
+    reasons: decision.selectedReasons,
+  };
+}
+
+const chooserDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
+
+/** A response row as a plain act row, in the field order the content rows use. */
+function chooserDefinition(
+  data: DrivesData,
+  row: ResponseRow,
+): ActionDefinition {
+  let definition = chooserDefinitions.get(row);
+  if (!definition) {
+    // Parsed like the content rows, so the chooser sees one object layout.
+    definition = JSON.parse(
+      JSON.stringify({
+        id: row.id,
+        actKinds: row.actKinds,
+        goalKinds: row.goalKinds,
+        need: row.need,
+        effortParameter: row.effortParameter,
+        effectParameter: row.effectParameter,
+        targetKind: row.targetKind,
+        effect: row.effect,
+        stopgapId: data.stopgapId,
+        emotion: row.emotion,
+      }),
+    ) as ActionDefinition;
+    chooserDefinitions.set(row, definition);
+  }
+  return definition;
+}
+
+/**
+ * The same response for the final choice among responses. Its trait lean is
+ * already inside each response's urgency, and for a lasting drive it is
+ * scaled by the person's agency (age and standing), so the chooser does not
+ * add it again: otherwise a young child with an activist's traits takes up a
+ * cause as readily as an adult (CTO ruling, Oct 14).
+ */
+const decisionDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
+function decisionDefinition(
+  data: DrivesData,
+  row: ResponseRow,
+): ActionDefinition {
+  let definition = decisionDefinitions.get(row);
+  if (!definition) {
+    definition = { ...chooserDefinition(data, row), actKinds: [] };
+    decisionDefinitions.set(row, definition);
+  }
+  return definition;
+}
+
+const NO_URGENCY_OVERRIDES: Readonly<Record<string, number>> = Object.freeze(
+  {},
+);
+
+/** A decision context in the same shape the life loop's projected contexts use. */
+function chooserContext(
+  actor: Readonly<PersonState>,
+  goalRows: NonNullable<DecisionContext["goalRows"]> = [],
+): DecisionContext {
+  // The actor's own current needs and no urgency overrides: the same values
+  // the chooser would read without them, in the shape it always receives.
+  return {
+    affect: actor.affect,
+    needValues: actor.needs,
+    goalUrgencies: NO_URGENCY_OVERRIDES,
+    goalRows,
+  };
+}
+
+/** The person's own decision about one perceived event; no roll, no assignment. */
+/** A counted person as the shared chooser reads them, from their counted record. */
+function countedActor(
+  api: CoreAPI,
+  personId: PersonId,
+): PersonState | undefined {
+  const state = api.state as CoreState;
+  const row = countedPersonOf(state, personId);
+  if (!row) return undefined;
+  const actor = initialPersonState(state, row, false);
+  // One model, two tiers: a full person's needs are evaluated from their
+  // money, work and stress every day, and the chooser reads them in every
+  // response. A counted person starts every need at zero, so the same event
+  // would score their responses without the money and time pressure a full
+  // person feels. Their needs are evaluated here by the same evaluators from
+  // the same record fields.
+  for (const definition of state.data.needs) {
+    const evaluate = resolveOperation(
+      state,
+      "needEvaluators",
+      definition.evaluator,
+    );
+    if (!evaluate)
+      throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
+    actor.needs[definition.id] = evaluate(api, actor, definition);
+  }
+  return actor;
+}
+
+/**
+ * The people still in the wider population an event happened to: the
+ * counted workers a closure ended the jobs of, or the counted worker a
+ * layoff named. The event itself names only full people.
+ */
+function countedSubjects(
+  api: CoreAPI,
+  data: DrivesData,
+  event: CoreEventInput,
+): PersonId[] {
+  const state = api.state as CoreState;
+  const out = new Set<PersonId>();
+  const named = event.facts?.[data.factKeys.countedSubject];
+  if (named) out.add(named);
+  if (event.kind === data.closureEventKind) {
+    // The closure event's id ends with the closed business; the closure
+    // record names the counted workers it ended the jobs of.
+    const closure = state.finance.closures.get(
+      event.id.split(":").slice(2).join(":"),
+    );
+    for (const personId of closure?.affectedCountedPersonIds ?? [])
+      out.add(personId as PersonId);
+  }
+  return [...out].filter((id) => stillCounted(state, id));
+}
+
+/**
+ * Whether someone is still in the wider population: no full record, or a full
+ * record that marks them returned to the counts (`isDemoted`: the jobs
+ * engine's rule for the same person), who then responds through that kept
+ * record as any full person does.
+ */
+function stillCounted(state: CoreState, id: PersonId): boolean {
+  const full = state.people.get(id);
+  return (!full || isDemoted(full)) && countedPersonOf(state, id) !== undefined;
+}
+
+export function respond(
+  api: CoreAPI,
+  data: DrivesData,
+  actorId: PersonId,
+  event: CoreEventInput,
+  /**
+   * The event the person lived through, where it is not the act itself: one
+   * who heard of an act (speech.ts, spreadWord) lived through the retelling,
+   * so a drive it forms is sourced there; the act still gives its kind and facts.
+   */
+  livedThrough: string = event.id,
+): FormationTrace[] {
+  const p = (key: string) => api.parameter(key);
+  // A person still in the wider population responds by the same rule, from
+  // their counted record (the shared chooser reads them the same way).
+  let counted = !api.state.people.has(actorId);
+  const first = counted
+    ? countedActor(api, actorId)
+    : api.state.people.get(actorId);
+  if (!first?.alive) return [];
+  let actor: Readonly<PersonState> = first;
+  const out: FormationTrace[] = [];
+  const params = parameterValues(api.state.data.parameters);
+  for (const rule of data.eventRules) {
+    if (rule.eventKind !== event.kind) continue;
+    const seen = perceive(api, data, actor, event, rule);
+    if (!seen) continue;
+    api.stopgap(data.stopgapId);
+    const appraisal = appraiseEvent(
+      actor,
+      event,
+      Math.max(p("zero"), Math.min(p("one"), seen.closeness)),
+      params,
+      api.state.data.appraisalTraits,
+    );
+    // An event recorded without an appraised impact (a closure) carries the
+    // rule's own sourced impact instead of none.
+    const appraised =
+      Math.abs(appraisal.moodImpulse) +
+      Math.max(p("zero"), appraisal.stressImpulse);
+    const magnitude =
+      appraised > p("zero") || !rule.impulseParameter
+        ? appraised
+        : p(rule.impulseParameter) *
+          (p("lifeEventMoodScale") + p("lifeEventStressScale"));
+    const pressure = seen.attention * magnitude;
+    const fitScale = rule.fitScaleParameter
+      ? p(rule.fitScaleParameter)
+      : p("one");
+    // Agency to form a lasting drive of one's own rises smoothly through adolescence.
+    const age =
+      daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
+    const agency =
+      p("one") /
+      (p("one") +
+        Math.exp(
+          (p("responseAgencyTurnAge") - age) / p("responseAgencyWidthYears"),
+        ));
+    const rows = rule.responses
+      .map((id) => {
+        const row = data.responses.find((response) => response.id === id);
+        if (!row) throw new Error(`Unregistered drive response: ${id}`);
+        return row;
+      })
+      .filter((row) =>
+        row.requires.every((name) => {
+          const test = requirementOperations[name];
+          if (!test)
+            throw new Error(`Unregistered response requirement: ${name}`);
+          return test(api, data, actor, event);
+        }),
+      );
+    // Built in the same shape as the life loop's offers, so the shared chooser stays on its fast path.
+    const offers: ActOffer[] = rows.map((row) => {
+      const offer: ActOffer = {
+        definition: chooserDefinition(data, row),
+        targetId: event.id,
+        driveId: undefined,
+        availableHours: p("hoursPerDay"),
+      };
+      offer.effortHours = p("zero");
+      return offer;
+    });
+    // Traits lean the event's push toward each response through the shared trait-act table.
+    const considered = offers.map((offer, position) => {
+      const row = rows[position]!;
+      // Scored with no context, exactly as an ordinary activation scores an offer.
+      const alone = chooseAct(core(api), actor.id, [offer]);
+      const lean =
+        (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
+      const fit = p(row.fitParameter) * (row.driveKind ? fitScale : p("one"));
+      return {
+        responseId: row.id,
+        fit,
+        lean,
+        urgency:
+          (row.baselineParameter ? p(row.baselineParameter) : p("zero")) +
+          pressure *
+            (row.driveKind ? agency : p("one")) *
+            (row.capacityFades
+              ? p("one") /
+                (p("one") +
+                  Math.exp(
+                    (age - p(row.capacityFades.centerParameter)) /
+                      p(row.capacityFades.widthParameter),
+                  ))
+              : p("one")) *
+            Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
+      };
+    });
+    const context = chooserContext(
+      actor,
+      rows.map((row, position) => {
+        const [goalKind] = row.goalKinds;
+        if (!goalKind)
+          throw new Error(`Response row lacks a goal kind: ${row.id}`);
+        return {
+          id: goalKind,
+          kind: goalKind,
+          urgency: considered[position]!.urgency,
+        };
+      }),
+    );
+    const decided = offers.map((offer, position) => ({
+      ...offer,
+      definition: decisionDefinition(data, rows[position]!),
+    }));
+    const decision = chooseAct(core(api), actor.id, decided, context);
+    const chosen = scored(decision);
+    if (!chosen) continue;
+    // A debug switch, off in play: would the same person, with the same event
+    // and no trait lean, have answered differently? (the trait-wiring audit)
+    const probe = traitProbe();
+    if (probe?.formula) {
+      setTraitProbe(undefined);
+      const flat = scored(
+        chooseAct(
+          core(api),
+          actor.id,
+          decided,
+          chooserContext(
+            actor,
+            rows.map((row, position) => {
+              const entry = considered[position]!;
+              const [goalKind] = row.goalKinds;
+              const leaned = Math.max(
+                p("zero"),
+                entry.fit + p("responseTraitLeanGain") * entry.lean,
+              );
+              return {
+                id: goalKind!,
+                kind: goalKind!,
+                urgency:
+                  entry.urgency -
+                  pressure *
+                    (row.driveKind ? agency : p("one")) *
+                    (leaned - Math.max(p("zero"), entry.fit)),
+              };
+            }),
+          ),
+          false,
+          false,
+        ),
+      );
+      setTraitProbe(probe);
+      probe.formula({
+        decisionId: "drives.respond",
+        actorId: actor.id,
+        lean: considered.find(
+          (entry) => entry.responseId === chosen.responseId,
+        )!.lean,
+        bare: flat?.score ?? p("zero"),
+        yes:
+          rows.find((row) => row.id === chosen.responseId)!.driveKind !==
+          undefined,
+        turned: flat?.responseId !== chosen.responseId,
+      });
+    }
+    // The runner-up is a second look at the same choice, not a choice of its own.
+    const runnerUp = scored(
+      chooseAct(
+        core(api),
+        actor.id,
+        decided.filter((offer) => offer !== decision.selected),
+        context,
+        false,
+        false,
+      ),
+    );
+    const row = rows.find((response) => response.id === chosen.responseId)!;
+    const trace: FormationTrace = {
+      date: api.state.date,
+      personId: actor.id,
+      ...(counted ? { counted: true } : {}),
+      eventId: event.id,
+      eventKind: event.kind,
+      ruleId: rule.id,
+      role: seen.role,
+      roleWeight: seen.roleWeight,
+      closeness: seen.closeness,
+      channelGain: seen.channelGain,
+      traitTerms: seen.traitTerms,
+      attention: seen.attention,
+      magnitude,
+      agency,
+      pressure,
+      event: {
+        date: event.date,
+        subjects: event.personIds,
+        ...(event.topic ? { topic: event.topic } : {}),
+        ...(event.desiredChange ? { desiredChange: event.desiredChange } : {}),
+        ...(event.facts ? { facts: event.facts } : {}),
+      },
+      considered,
+      chosen,
+      ...(runnerUp ? { runnerUp } : {}),
+      strengthAdded: p("zero"),
+    };
+    const runtime = runtimeFor(api.state);
+    bump(runtime.responsesByRule, `${rule.id}:${row.id}`, api);
+    bump(
+      runtime.responsesByRole,
+      `${rule.id}:${seen.role}:${agency >= p("one") / p("two") ? "grown" : "young"}:${row.id}`,
+      api,
+    );
+    runtime.perceived += p("one");
+    const kind = row.driveKind
+      ? data.driveKinds.find((entry) => entry.id === row.driveKind)
+      : undefined;
+    if (row.driveKind && !kind)
+      throw new Error(`Unregistered drive kind: ${row.driveKind}`);
+    if (kind) {
+      const urgency = considered.find(
+        (entry) => entry.responseId === row.id,
+      )!.urgency;
+      const identity = driveIdentity(data, kind, actor, event, api);
+      trace.driveId = identity.id;
+      // Naming the one responsible fills them in with their household (an owner who lets a relative go): a counted
+      // actor filled in just now is a full person, and they lived through the event as its subject.
+      // Someone returned to the counts (`stillCounted`) answers a counted
+      // event through their kept full record, and lived through it the same way.
+      const filledNow = counted && api.state.people.has(actor.id);
+      const experienced = `event:${livedThrough}:experienced`;
+      if (
+        filledNow ||
+        (!counted && isDemoted(actor) && !api.knows(actor.id, experienced))
+      ) {
+        if (filledNow) {
+          counted = false;
+          actor = api.state.people.get(actor.id)!;
+        }
+        api.observe(actor.id, {
+          key: experienced,
+          value: livedThrough,
+          learnedAt: event.date,
+          sourceId: livedThrough,
+          access: "perceived",
+        });
+      }
+      const holders = counted ? runtime.countedByPerson : runtime.byPerson;
+      let mine = holders.get(actor.id);
+      if (!mine) holders.set(actor.id, (mine = new Map()));
+      let drive = mine.get(identity.id);
+      const isNew = !drive;
+      if (!drive) {
+        drive = {
+          id: identity.id,
+          personId: actor.id,
+          kind: kind.id,
+          goalKind: kind.goalKind,
+          topic: identity.topic,
+          desiredChange: identity.desiredChange,
+          ...(identity.targetId ? { targetId: identity.targetId } : {}),
+          sourceEventId: livedThrough,
+          formedAt: api.state.date,
+          anchorDate: api.state.date,
+          anchorStrength: p("zero"),
+          halfLifeDays: driveHalfLifeDays(api, kind, actor, data),
+          shareable: kind.shareable,
+          formations: [],
+          acts: [],
+          actCount: p("zero"),
+          told: new Set(),
+        };
+        mine.set(drive.id, drive);
+        if (!counted) {
+          runtime.serving.delete(actor.id);
+          runtime.drives.set(`${actor.id}|${drive.id}`, drive);
+        }
+        bump(
+          counted ? runtime.countedFormedByYearKind : runtime.formedByYearKind,
+          `${api.state.date.slice(p("zero"), p("isoYearCharacters"))}:${kind.id}`,
+          api,
+        );
+      }
+      // Play reads only the response that formed the drive (its role and
+      // source facts); each later reinforcement's full trace is kept only
+      // with bookkeeping on, for the proofs and tests (Keep it simple, Oct
+      // 11). Kept for every reinforcement, they were the largest piece of
+      // history a world held: Montpelier, Vermont (5046000, seed mont1)
+      // held 83,352 traces, 154 MB of live heap, after two years.
+      if (!drive.formations.length || bookkeeping())
+        drive.formations.push(trace);
+      trace.strengthAdded = reinforce(
+        api,
+        drive,
+        Math.exp(-urgency * p("driveStrengthScale")),
+      );
+      // A moment for the story director: who, which event, how strong now
+      // (a counted person has no story until they are filled in).
+      if (counted) {
+        retain(api, runtime.decisions, trace);
+        out.push(trace);
+        continue;
+      }
+      const momentKind = isNew
+        ? data.eventKinds.formed
+        : data.eventKinds.strengthened;
+      const key = (name: FactKey) => `drive:${drive.id}:${data.factKeys[name]}`;
+      api.emit({
+        id: `${momentKind}:${actor.id}:${drive.id}:${event.id}`,
+        date: api.state.date,
+        kind: momentKind,
+        personIds: [actor.id],
+        placeId: actor.placeId,
+        topic: drive.topic,
+        desiredChange: drive.desiredChange,
+        source: event.source,
+        facts: {
+          [key("driveKind")]: kind.id,
+          [key("sourceEvent")]: event.id,
+          [key("originEvent")]: drive.sourceEventId,
+          [key("response")]: row.id,
+          [key("role")]: seen.role,
+          [key("strength")]: `${drive.anchorStrength}`,
+          [key("strengthAdded")]: `${trace.strengthAdded}`,
+        },
+      });
+    }
+    retain(api, runtime.decisions, trace);
+    out.push(trace);
+  }
+  return out;
+}
+
+/** Keeps the most recent traces within the registered budget; counts stay exact. */
+function retain<T>(api: CoreAPI, rows: T[], row: T) {
+  rows.push(row);
+  const limit = api.parameter("driveTraceRetention");
+  if (rows.length > limit + limit)
+    rows.splice(api.parameter("zero"), rows.length - limit);
+}
+
+function heldFor(api: CoreAPI, actorId: PersonId) {
+  return runtimeFor(api.state).byPerson.get(actorId);
+}
+
+/**
+ * The drives a full person holds, each with its kind, target, strength's
+ * anchor and own half-life, for dev mode's person view and proofs. Reads only.
+ */
+export function heldDrivesOf(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly Pick<
+  HeldDrive,
+  "id" | "kind" | "targetId" | "formedAt" | "halfLifeDays" | "sourceEventId"
+>[] {
+  return [...(heldFor(api, personId)?.values() ?? [])].map((drive) => ({
+    id: drive.id,
+    kind: drive.kind,
+    ...(drive.targetId ? { targetId: drive.targetId } : {}),
+    formedAt: drive.formedAt,
+    halfLifeDays: drive.halfLifeDays,
+    sourceEventId: drive.sourceEventId,
+  }));
+}
+
+/** Drives whose goal kind the act row serves, strongest first, ties by id. */
+function servingDrives(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  action: ActionDefinition,
+): HeldDrive[] {
+  const runtime = runtimeFor(api.state);
+  const mine = runtime.byPerson.get(actor.id);
+  if (!mine) return [];
+  // All the person's drives with strength left are ranked once a day; each
+  // act row takes the ones it serves in that order.
+  let ranked = runtime.serving.get(actor.id);
+  if (!ranked || ranked.date !== api.state.date) {
+    ranked = { date: api.state.date, list: rankDrives(api, mine) };
+    runtime.serving.set(actor.id, ranked);
+  } else if (bookkeeping()) {
+    const kept = ranked.list;
+    const fresh = rankDrives(api, mine);
+    if (
+      fresh.length !== kept.length ||
+      fresh.some(
+        (row, index) =>
+          row.drive !== kept[index]!.drive ||
+          row.strength !== kept[index]!.strength,
+      )
+    )
+      throw new Error("A kept drive ranking no longer matches the drives.");
+  }
+  return ranked.list
+    .filter((row) => action.goalKinds.includes(row.drive.goalKind))
+    .map((row) => row.drive);
+}
+
+/** A holder's drives with strength left, strongest first, ties by id. */
+function rankDrives(
+  api: CoreAPI,
+  mine: ReadonlyMap<string, HeldDrive>,
+): ServingDrive[] {
+  const zero = api.parameter("zero");
+  return [...mine.values()]
+    .map((drive) => ({ drive, strength: currentStrength(api, drive) }))
+    .filter((row) => row.strength > zero)
+    .sort(
+      (left, right) =>
+        right.strength - left.strength ||
+        left.drive.id.localeCompare(right.drive.id),
+    );
+}
+
+/** A living person, not the holder, whom the drive has not been told to. */
+function untold(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  drive: Readonly<HeldDrive>,
+  id: PersonId,
+): boolean {
+  return (
+    !drive.told.has(id) &&
+    id !== actor.id &&
+    api.state.people.get(id)?.alive === true
+  );
+}
+
+/**
+ * The strain a confrontation writes on a tie: the hours of time together that
+ * `levelLost` of closeness stands for where the tie is today, so the tie falls
+ * by that level whatever its size (Pins: it was written as hours).
+ */
+export function confrontationStrain(
+  api: CoreAPI,
+  actorId: string,
+  targetId: string,
+  levelLost: number,
+): { levelBefore: number; levelAfter: number; strainHours: number } {
+  const p = (key: string) => api.parameter(key);
+  const tie = api.state.relationships.get(pairKey(actorId, targetId));
+  const levelBefore = tie ? currentCloseness(api.state, tie) : p("zero");
+  const levelAfter = Math.max(p("zero"), levelBefore - levelLost);
+  // A tie with less than the level to lose (two strangers, or a thin tie)
+  // takes the hours of the level itself, as strain later time together must
+  // first make up: a stranger who is confronted is someone the holder has now
+  // fallen out with, not someone the confrontation never touched (CTO, #9747
+  // 6999923338).
+  return {
+    levelBefore,
+    levelAfter,
+    strainHours:
+      levelBefore < levelLost
+        ? hoursFromLevel(p, levelLost)
+        : hoursFromLevel(p, levelBefore) - hoursFromLevel(p, levelAfter),
+  };
+}
+
+/**
+ * How long a drive takes to fade by half without new events or acts: its
+ * kind's base, moved for a kind that names a trait lean by the holder's own
+ * lean (a resentful person holds a grudge for years, a forgiving one lets it
+ * go in weeks; Pins, CTO #9747 05:10Z). Kept on the drive, so dev mode's
+ * Trace box shows it.
+ */
+export function driveHalfLifeDays(
+  api: CoreAPI,
+  kind: DriveKindRow,
+  holder: Pick<PersonState, "traits">,
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+): number {
+  const base = api.parameter(kind.halfLifeParameter);
+  const lean = kind.halfLifeLean;
+  if (!lean) return base;
+  const kinds = (id: string) =>
+    data.responses.find((row) => row.id === id)?.actKinds ?? [];
+  return (
+    base *
+    Math.exp(
+      api.parameter(lean.weightParameter) *
+        traitLeanBetween(
+          api.state,
+          holder,
+          kinds(lean.toward),
+          kinds(lean.over),
+        ),
+    )
+  );
+}
+
+/** A grudge's confrontation weighs how recently the holder last had it out with the person. */
+const CONFRONT_RECENCY: readonly ReasonBinding[] = [
+  {
+    id: "confront-recency",
+    provider: "drives:confront-recency",
+    weightParameter: "grudgeConfrontRecencyWeight",
+  },
+];
+
+function driveOffer(
+  api: CoreAPI,
+  action: ActionDefinition,
+  targetId: string,
+  drive: HeldDrive,
+): ActOffer {
+  return {
+    definition: action,
+    targetId,
+    driveId: drive.id,
+    availableHours: api.parameter("hoursPerDay"),
+  };
+}
+
+const NO_GROUPS: readonly string[] = [];
+
+/** The offer round's entry for the nearby groups a person knows of, by topic. */
+const REACHABLE_GROUPS = "drives:reachable-groups";
+
+/**
+ * Adds a cause group to those a person may know of, before its known fact or
+ * membership is written. A group this runtime did not see founded is in no
+ * groupsByTopic list, so the old walk never read it either; it is not kept.
+ */
+function noteGroup(runtime: DrivesRuntime, personId: PersonId, id: string) {
+  const group = runtime.causeGroups.get(id);
+  if (!group) return;
+  let byTopic = runtime.mayKnow.get(personId);
+  if (!byTopic) runtime.mayKnow.set(personId, (byTopic = new Map()));
+  const ids = byTopic.get(group.topic);
+  if (!ids) byTopic.set(group.topic, [id]);
+  else if (!ids.includes(id)) {
+    ids.push(id);
+    ids.sort();
+  }
+}
+
+/** The groups on a topic a person may know of, in id order. */
+function mayKnowOn(
+  runtime: DrivesRuntime,
+  actorId: PersonId,
+  topic: string,
+): readonly string[] {
+  return runtime.mayKnow.get(actorId)?.get(topic) ?? NO_GROUPS;
+}
+
+/** Every group on a topic, as the readers walked them before mayKnow. */
+function everyGroupOn(runtime: DrivesRuntime, topic: string): string[] {
+  return [...(runtime.groupsByTopic.get(topic) ?? [])].sort();
+}
+
+function sameIds(left: readonly string[], right: readonly string[]) {
+  return left.length === right.length && left.every((id, i) => id === right[i]);
+}
+
+/**
+ * The groups on a topic a person knows of (a known fact or a membership),
+ * in id order. Under bookkeeping every group on the topic is asked as well,
+ * and the two must agree.
+ */
+function knownGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actorId: PersonId,
+  topic: string,
+): string[] {
+  const known = mayKnowOn(runtime, actorId, topic).filter((id) =>
+    groupKnown(api, actorId, id, runtime.causeGroups.get(id)!.knownKey),
+  );
+  if (
+    bookkeeping() &&
+    !sameIds(
+      known,
+      everyGroupOn(runtime, topic).filter((id) =>
+        groupKnown(api, actorId, id, `cause-group:${id}:known`),
+      ),
+    )
+  )
+    throw new Error("A person's known cause groups no longer match.");
+  return known;
+}
+
+function groupKnown(
+  api: CoreAPI,
+  actorId: PersonId,
+  groupId: string,
+  knownKey: string,
+) {
+  return (
+    api.knows(actorId, knownKey) !== undefined ||
+    api.state.memberships.has(`${actorId}:${groupId}`)
+  );
+}
+
+/** A group meets where it was founded: a person reaches it only from their own place or county. */
+function groupNearby(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  groupId: string,
+): boolean {
+  const placeId = api.state.organizations.get(groupId)?.placeId;
+  return (
+    placeId !== undefined &&
+    (placeId === actor.placeId || placeId === actor.countyId)
+  );
+}
+
+/** The groups on a topic a person knows of and can reach, in id order. */
+function reachableGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actor: Readonly<PersonState>,
+  topic: string,
+): string[] {
+  return knownGroups(api, runtime, actor.id, topic).filter((id) =>
+    groupNearby(api, actor, id),
+  );
+}
+
+/** The nearby groups on a topic a person belongs to, in id order. */
+function memberGroups(
+  api: CoreAPI,
+  runtime: DrivesRuntime,
+  actor: Readonly<PersonState>,
+  topic: string,
+): string[] {
+  const member = (id: string) =>
+    groupNearby(api, actor, id) &&
+    api.state.memberships.has(`${actor.id}:${id}`);
+  const ids = mayKnowOn(runtime, actor.id, topic).filter(member);
+  if (
+    bookkeeping() &&
+    !sameIds(ids, everyGroupOn(runtime, topic).filter(member))
+  )
+    throw new Error("A person's cause groups no longer match.");
+  return ids;
+}
+
+function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
+  const drive = offer.driveId
+    ? heldFor(api, actorId)?.get(offer.driveId)
+    : undefined;
+  if (!drive)
+    throw new Error("A drive act requires the actor's recorded drive.");
+  return drive;
+}
+
+const CAUSE_GIVEN = "drives:cause-given";
+
+/**
+ * The days over which what was given of an act fades, from the act's own
+ * binding (a membership is remembered longer than a session).
+ */
+function givenFadeDays(
+  api: CoreAPI,
+  binding: Readonly<ReasonBinding> | undefined,
+) {
+  return api.parameter(
+    binding?.arguments?.fadeDaysParameter ?? "causeGivenDays",
+  );
+}
+
+/** What is left today of a fading total. */
+function givenNow(
+  api: CoreAPI,
+  given: Readonly<Given> | undefined,
+  fadeDays: number,
+  date: string = api.state.date,
+) {
+  return given
+    ? given.amount * Math.exp(-daysBetweenText(given.date, date) / fadeDays)
+    : api.parameter("zero");
+}
+
+function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
+  drive.actCount += api.parameter("one");
+  drive.lastTracedAct = `${row.date}:${row.actionId}`;
+  retain(api, drive.acts, row);
+  // The act adds one to what the person has lately given of its kind.
+  const given = runtimeFor(api.state).given;
+  const mine = given.get(drive.personId) ?? new Map<string, Given>();
+  given.set(drive.personId, mine);
+  const fadeDays = givenFadeDays(
+    api,
+    api.state.data.actions
+      .find((action) => action.id === row.actionId)
+      ?.reasonBindings?.find((binding) => binding.provider === CAUSE_GIVEN),
+  );
+  mine.set(row.actionId, {
+    amount:
+      givenNow(api, mine.get(row.actionId), fadeDays, row.date) +
+      api.parameter("one"),
+    date: row.date,
+  });
+  reinforce(
+    api,
+    drive,
+    api.parameter("one") - api.parameter("driveActReinforcement"),
+  );
+}
+
+function traceAct(
+  api: CoreAPI,
+  actorId: PersonId,
+  offer: ActOffer,
+  drive: HeldDrive,
+  basis: DriveActTrace["basis"] = "scored",
+) {
+  const decision = chooseAct(core(api), actorId, [offer]);
+  const reasons = decision.selectedReasons!;
+  recordAct(api, drive, {
+    date: api.state.date,
+    actionId: offer.definition.id,
+    targetId: offer.targetId,
+    basis,
+    score: Object.values(reasons).reduce((a, b) => a + b),
+    reasons,
+    reasonKey: decision.reasonKey,
+    strengthBefore: currentStrength(api, drive),
+  });
+}
+
+/**
+ * The scored choice the life loop makes if this person acts today, through
+ * the same refresh, offers and chooser. Projecting needs and affect to today
+ * is exact and repeated identically at activation, so it changes no outcome.
+ */
+function predict(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  refresh: (actor: PersonState) => unknown,
+): PredictedChoice {
+  refresh(actor as PersonState);
+  // A prediction of the day's act, not a choice: nothing is kept, by the
+  // chooser or by the offer providers.
+  const offers = availableActs(core(api), actor.id, true);
+  const decision = chooseAct(
+    core(api),
+    actor.id,
+    offers,
+    undefined,
+    false,
+    false,
+  );
+  const selected = decision.selected;
+  const runner = selected
+    ? chooseAct(
+        core(api),
+        actor.id,
+        offers.filter((offer) => offer !== selected),
+        undefined,
+        false,
+        false,
+      )
+    : undefined;
+  const total = (reasons: DecisionReason | undefined) =>
+    Object.values(reasons ?? {}).reduce((a, b) => a + b, api.parameter("zero"));
+  return {
+    date: api.state.date,
+    actionId: selected?.definition.id ?? decision.reasonKey,
+    targetId: selected?.targetId ?? actor.id,
+    reasonKey: decision.reasonKey,
+    score: total(decision.selectedReasons),
+    reasons: decision.selectedReasons ?? {
+      need: api.parameter("zero"),
+      goal: api.parameter("zero"),
+      drive: api.parameter("zero"),
+      trait: api.parameter("zero"),
+      emotion: api.parameter("zero"),
+      effort: api.parameter("zero"),
+    },
+    ...(runner?.selected
+      ? {
+          runnerUp: {
+            actionId: runner.selected.definition.id,
+            targetId: runner.selected.targetId,
+            score: total(runner.selectedReasons),
+          },
+        }
+      : {}),
+  };
+}
+
+/** Acts the life module chose with this drive attached; read from the saved reason key. */
+function captureRecordedAct(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  drive: HeldDrive,
+  predicted: PredictedChoice | undefined,
+) {
+  if (
+    !actor.lastChoice ||
+    !actor.lastReason ||
+    actor.lastActDate >= api.state.date
+  )
+    return;
+  if (!actor.lastReason.endsWith(`:${drive.id}`)) return;
+  const key = `${actor.lastActDate}:${actor.lastChoice}`;
+  if (drive.lastTracedAct === key || actor.lastActDate < drive.formedAt) return;
+  const matched =
+    predicted?.date === actor.lastActDate &&
+    predicted.actionId === actor.lastChoice &&
+    predicted.reasonKey === actor.lastReason
+      ? predicted
+      : undefined;
+  recordAct(api, drive, {
+    date: actor.lastActDate,
+    actionId: actor.lastChoice,
+    basis: matched ? "scored" : "recorded",
+    reasonKey: actor.lastReason,
+    ...(matched
+      ? {
+          targetId: matched.targetId,
+          score: matched.score,
+          reasons: matched.reasons,
+          ...(matched.runnerUp ? { runnerUp: matched.runnerUp } : {}),
+        }
+      : {}),
+    strengthBefore: currentStrength(api, drive),
+  });
+}
+
+function actEvent(
+  api: CoreAPI,
+  data: DrivesData,
+  kind: string,
+  actorId: PersonId,
+  drive: HeldDrive,
+  targetId: string,
+  witnessIds: readonly PersonId[],
+  extra: Partial<CoreEventInput> = {},
+): CoreEventInput {
+  const actor = api.state.people.get(actorId)!;
+  const id = `${kind}:${api.state.date}:${actorId}:${targetId}:${drive.id}`;
+  return {
+    id,
+    date: api.state.date,
+    kind,
+    personIds: [actorId],
+    witnessIds,
+    placeId: actor.placeId,
+    topic: drive.topic,
+    desiredChange: drive.desiredChange,
+    source: {
+      tag: "SOURCED",
+      asOf: api.state.date,
+      citation:
+        "P10 committed actor activity driven by a recorded drive; records the attempt, not its outcome.",
+    },
+    ...extra,
+    facts: {
+      // Why the act was done (the drive, where it came from, how strong). Nobody
+      // reads these but the player's circle asking why, so everyone else's
+      // knowledge does not carry three facts for every act.
+      ...(keepsWhy(api.state as CoreState, actorId, targetId)
+        ? {
+            [`event:${id}:${data.factKeys.drive}`]: drive.id,
+            [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
+            [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
+          }
+        : {}),
+      ...extra.facts,
+    },
+  };
+}
+
+/** Eligibility already proved the donor can pay the whole gift, so the gift is paid in full. */
+function payDonation(
+  api: CoreAPI,
+  data: DrivesData,
+  donorId: PersonId,
+  groupId: string,
+  amount: number,
+  /** Where the gift comes from, by account (the counted population's funds); the donor's own cash otherwise. */
+  fromAccounts?: readonly { accountId: string; amountMinor: number }[],
+): number {
+  const state = core(api),
+    journal = state.cashJournal;
+  const own = journal.residualAccountByOwner.get(donorId);
+  const from =
+      fromAccounts ?? (own ? [{ accountId: own, amountMinor: amount }] : []),
+    to = journal.residualAccountByOwner.get(groupId);
+  if (!from.length || !to)
+    throw new Error("Donation requires both cash accounts.");
+  const id = `donation:${donorId}:${groupId}:${state.date}`;
+  const postings: CashJournalPosting[] = [
+    ...from.map((row, index) => ({
+      id: `${id}:from${index ? `:${index}` : ""}`,
+      accountId: row.accountId,
+      deltaMinor: -row.amountMinor,
+    })),
+    { id: `${id}:to`, accountId: to, deltaMinor: amount },
+  ];
+  runtimeFor(api.state).donations.set(id, {
+    resolved: {
+      kind: data.donationJournalSourceKind,
+      id,
+      date: state.date,
+      source: {
+        tag: "ESTIMATED",
+        citation: "P10 donation chosen by the shared chooser from a held drive",
+        asOf: state.date,
+        estimatedFrom: data.stopgapId,
+      },
+      expectedPostings: postings,
+      requiredRelatedRefs: [],
+      relatedRecords: [],
+    },
+    marker: {},
+  });
+  try {
+    api.postJournal({
+      id: `journal:${state.date}:${journal.nextSequence}`,
+      date: state.date,
+      expectedSequence: journal.nextSequence,
+      sourceRef: { kind: data.donationJournalSourceKind, id },
+      postings,
+    });
+  } finally {
+    // The journal reads the canonical record only while the entry posts (as
+    // the accounts engine's pending transfers); kept for every gift it was
+    // 68 MB of a long run's heap (Montpelier, Vermont, year 4: 22,062
+    // records). With bookkeeping on, tests and proofs keep every one.
+    if (!bookkeeping()) runtimeFor(api.state).donations.delete(id);
+  }
+  return amount;
+}
+
+/**
+ * A gift sized by its giver: their cash above their buffer, times how
+ * strongly they hold the cause, times donationShareOfSpare (calibrated to
+ * what U.S. households give to advocacy and environmental causes). Someone
+ * with nothing to spare gives nothing; nothing flips at a line.
+ */
+function giftOf(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  strength: number,
+): number {
+  const zero = api.parameter("zero");
+  const spare =
+    actor.liquidMinor -
+    actor.livingCostDailyMinor * api.parameter("moneyBufferDays");
+  if (spare <= zero) return zero;
+  return Math.floor(
+    spare *
+      api.parameter("donationShareOfSpare") *
+      Math.min(api.parameter("one"), Math.max(zero, strength)),
+  );
+}
+
+/**
+ * Once a month a group also raises from the wider population of its place:
+ * as many of its counted adults as the group's share of the place's full
+ * adults, times the share of households that give at all, each giving the
+ * mean of what the group's own full members' gift rule gives, from the
+ * counted residents' account. Stopgap SG-CORE-counted-giving-stand-in: a
+ * counted giver has no drive or cash of their own, so the members' mean gift
+ * stands in for theirs, given monthly.
+ */
+function raiseFromCounted(
+  api: CoreAPI,
+  data: DrivesData,
+  runtime: DrivesRuntime,
+): void {
+  const c = core(api);
+  const counts = residentCounts(c);
+  if (!counts.length) return;
+  const zero = api.parameter("zero");
+  const accounts = api.accounts();
+  for (const groupId of [...runtime.groupFounder.keys()].sort()) {
+    const group = api.state.organizations.get(groupId);
+    const row = counts.find((place) => place.placeId === group?.placeId);
+    if (!group?.topic || !row?.adults) continue;
+    let adults = zero,
+      members = zero,
+      fullGivers = zero,
+      gifts = zero;
+    for (const id of c.peopleByPlace.get(group.placeId) ?? []) {
+      const person = c.people.get(id);
+      // Adults, as the counted population's adults are counted.
+      if (
+        !person?.alive ||
+        daysBetweenText(person.birthDate, c.date) /
+          api.parameter("daysPerMeanYear") <
+          api.parameter("votingAge")
+      )
+        continue;
+      adults += api.parameter("one");
+      if (!c.memberships.has(`${id}:${groupId}`)) continue;
+      members += api.parameter("one");
+      const drive = [...(heldFor(api, id)?.values() ?? [])].find(
+        (held) => held.topic === group.topic,
+      );
+      const gift = drive
+        ? giftOf(api, person, currentStrength(api, drive))
+        : zero;
+      if (gift > zero) fullGivers += api.parameter("one");
+      gifts += gift;
+    }
+    if (!members || !adults || !gifts) continue;
+    // One model, two tiers: the counted adults give as the full ones do.
+    // As many of them share the cause as the full adults' members, as many
+    // of those give as the full members who gave this month (their spare
+    // cash and how strongly they hold it), each the full givers' mean gift.
+    const givers = Math.floor(
+      row.adults * (members / adults) * (fullGivers / members),
+    );
+    const pool = residentsAccountFor(c, group.placeId);
+    const owner = pool ? c.cashJournal.accounts.get(pool)?.ownerId : undefined;
+    if (!givers || !owner) continue;
+    // The counted households' cash sits in one fund per kind of household;
+    // the richer funds give more, in proportion to what each holds.
+    const funds = [...(c.cashJournal.accountsByOwner.get(owner) ?? [])]
+      .sort()
+      .map((accountId) => ({ accountId, balance: accounts.balance(accountId) }))
+      .filter((row) => row.balance > zero);
+    const held = funds.reduce((n, row) => n + row.balance, zero);
+    api.stopgap("SG-CORE-counted-giving-stand-in");
+    const amount = Math.min(Math.floor((gifts / fullGivers) * givers), held);
+    // The month's inputs, for dev mode's trace of the donation.
+    api
+      .moduleState(DRIVES_MODULE_ID)
+      .table(COUNTED_GIVING_TABLE)
+      .put({
+        id: `${COUNTED_GIVING_TABLE}:${groupId}`,
+        groupId,
+        placeId: group.placeId,
+        date: c.date,
+        fullAdults: adults,
+        fullMembers: members,
+        fullGivers,
+        fullGiftsMinor: gifts,
+        countedAdults: row.adults,
+        countedGivers: givers,
+        amountMinor: amount,
+      } as unknown as ModuleRow);
+    if (amount <= zero) continue;
+    // Each fund gives its share, never more than it holds; what rounding
+    // leaves over comes from the funds with room, so no fund goes below zero.
+    let left = amount;
+    const shares = funds.map((row) => {
+      const share = Math.min(
+        left,
+        row.balance,
+        Math.floor((amount * row.balance) / held),
+      );
+      left -= share;
+      return { accountId: row.accountId, amountMinor: share, cap: row.balance };
+    });
+    for (const row of shares) {
+      if (left <= zero) break;
+      const more = Math.min(left, row.cap - row.amountMinor);
+      row.amountMinor += more;
+      left -= more;
+    }
+    const from = shares
+      .map(({ accountId, amountMinor }) => ({ accountId, amountMinor }))
+      .filter((row) => row.amountMinor > zero);
+    payDonation(api, data, `counted:${group.placeId}`, groupId, amount, from);
+  }
+}
+
+/**
+ * A cause group spends what it raised (stress audit defect 2): on the first
+ * of each month it spends a share of its balance on ad time through the
+ * campaigns engine's purchase, every dollar on the journal. The ad is a
+ * public record the news carries, and it reaches people with the group's
+ * cause, which the views engine reads. Stopgap SG-CORE-cause-group-ads-only:
+ * ads are the only thing a group buys yet.
+ */
+function spendGroupFunds(api: CoreAPI, runtime: DrivesRuntime): void {
+  if (!adTimeForSale(api)) return;
+  const accounts = api.accounts();
+  for (const [groupId, founderId] of [...runtime.groupFounder].sort()) {
+    const group = api.state.organizations.get(groupId);
+    const change = runtime.groupChange.get(groupId);
+    if (!group?.topic || !change) continue;
+    const balance = accounts.balance(accounts.main(groupId));
+    const amount = Math.floor(
+      balance * api.parameter("causeGroupMonthlySpendShare"),
+    );
+    // An outlet sells no ad time below its smallest buy: the group saves
+    // toward it.
+    if (amount < api.parameter("causeGroupAdMinimumMinor")) continue;
+    api.stopgap("SG-CORE-cause-group-ads-only");
+    const id = `cause-group.ad:${groupId}:${api.state.date}`;
+    const reached = buyAdTime(api, {
+      buyerId: groupId,
+      amountMinor: amount,
+      recordId: id,
+      citation: `${groupId} spends ${amount} of its ${balance} on ad time`,
+    }).filter((person) => person.alive);
+    const founder = api.state.people.get(founderId)?.alive ? [founderId] : [];
+    api.emit({
+      id,
+      date: api.state.date,
+      kind: "cause-group.ad-ran",
+      personIds: founder,
+      witnessIds: reached
+        .map((person) => person.id)
+        .filter((personId) => !founder.includes(personId)),
+      placeId: group.placeId,
+      topic: group.topic,
+      desiredChange: change,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Ad time bought by ${groupId}`,
+        estimatedFrom: "causeGroupMonthlySpendShare",
+      },
+      facts: {
+        organizationId: groupId,
+        spentMinor: `${amount}`,
+        balanceBeforeMinor: `${balance}`,
+        reached: `${reached.length}`,
+      },
+    });
+  }
+}
+
+function founderOf(api: CoreAPI, groupId: string) {
+  return runtimeFor(api.state).groupFounder.get(groupId);
+}
+
+export function createDrivesModule(
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+): CoreModule {
+  return {
+    id: DRIVES_MODULE_ID,
+    // One row per cause group, replaced each month: what its counted giving was made of.
+    state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
+    // A donation is paid through the cash journal from this module's own canonical record.
+    journalSourceProviders: {
+      [data.donationJournalSourceKind]: (api, reference) => {
+        const row = runtimeFor(api.state).donations.get(reference.id);
+        return (
+          row && {
+            resolved: row.resolved,
+            marker: row.marker,
+            retainFull: false,
+          }
+        );
+      },
+    },
+    reasonProviders: {
+      // What the person gave lately to their causes weighs against giving
+      // more of the same, fading as the days pass: no cap, no cooldown.
+      [CAUSE_GIVEN]: (api, actor, offer, binding) => {
+        const given = runtimeFor(api.state)
+          .given.get(actor.id)
+          ?.get(offer.definition.id);
+        if (!given) return;
+        return {
+          value: -givenNow(api, given, givenFadeDays(api, binding)),
+          ...(offer.driveId ? { sourceIds: [offer.driveId] } : {}),
+        };
+      },
+      // Having just had it out with someone weighs against doing it again,
+      // fading as the days pass: no cooldown, no cutoff.
+      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return;
+        // The latest confrontation among the drive's kept act traces.
+        let last: string | undefined;
+        for (const act of drive.acts)
+          if (
+            act.actionId === offer.definition.id &&
+            act.basis === "scored" &&
+            (!last || act.date > last)
+          )
+            last = act.date;
+        if (!last) return;
+        const days = daysBetweenText(last, api.state.date);
+        return {
+          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+          sourceIds: [drive.id],
+        };
+      },
+    },
+    // Only the events a rule answers or a drive act emits reach this module.
+    eventKinds: [
+      ...new Set([
+        ...data.eventRules.map((rule) => rule.eventKind),
+        ...data.civicActEvents.map((row) => row.eventKind),
+        data.eventKinds.wordRetold,
+      ]),
+    ],
+    onDay(api, _decide, refresh) {
+      const runtime = runtimeFor(api.state);
+      if (api.state.date.endsWith("-01")) {
+        raiseFromCounted(api, data, runtime);
+        spendGroupFunds(api, runtime);
+        // A counted person's faded drives, and those of anyone the counts no
+        // longer hold (died or moved away), are let go.
+        for (const [personId, mine] of runtime.countedByPerson) {
+          if (!countedPersonOf(api.state as CoreState, personId)) {
+            runtime.countedByPerson.delete(personId);
+            continue;
+          }
+          for (const drive of mine.values())
+            if (
+              currentStrength(api, drive) < api.parameter("driveRetireStrength")
+            )
+              mine.delete(drive.id);
+          if (!mine.size) runtime.countedByPerson.delete(personId);
+        }
+        // The groups the dead may have known of: no reader asks about them.
+        for (const personId of runtime.mayKnow.keys())
+          if (!api.state.people.get(personId)?.alive)
+            runtime.mayKnow.delete(personId);
+      }
+      for (const [personId, mine] of runtime.byPerson) {
+        if (!api.state.people.get(personId)?.alive) {
+          runtime.byPerson.delete(personId);
+          runtime.serving.delete(personId);
+          runtime.given.delete(personId);
+          continue;
+        }
+        const actor = api.state.people.get(personId)!;
+        const predicted = runtime.predicted.get(personId);
+        for (const drive of mine.values()) {
+          captureRecordedAct(api, actor, drive, predicted);
+          const strength = currentStrength(api, drive);
+          if (strength < api.parameter("driveRetireStrength")) {
+            // Faded: written once at zero and no longer rewritten daily.
+            writeDrive(api, drive, api.parameter("zero"));
+            mine.delete(drive.id);
+            runtime.serving.delete(personId);
+          } else writeDrive(api, drive, strength);
+        }
+        if (!mine.size) {
+          runtime.byPerson.delete(personId);
+          runtime.serving.delete(personId);
+          runtime.predicted.delete(personId);
+        } else if (bookkeeping() || personId === api.state.playerId)
+          // The scored "why" behind a drive act is kept for the player, and
+          // for everyone only when bookkeeping is on (Keep it simple): a full
+          // choice scored daily for every drive holder grew with the number
+          // of holders, each year slower than the last.
+          runtime.predicted.set(personId, predict(api, actor, refresh));
+        else {
+          // Their needs are still brought up to today, as the scoring did.
+          refresh(actor as PersonState);
+          runtime.predicted.delete(personId);
+        }
+      }
+    },
+    // A person filled in from the counts holds the drives they formed there.
+    onFillIn(api, { memberIds }) {
+      const runtime = runtimeFor(api.state);
+      for (const personId of memberIds) {
+        const held = runtime.countedByPerson.get(personId);
+        if (!held || !api.state.people.has(personId)) continue;
+        runtime.countedByPerson.delete(personId);
+        const mine = runtime.byPerson.get(personId) ?? new Map();
+        runtime.byPerson.set(personId, mine);
+        runtime.serving.delete(personId);
+        for (const drive of held.values()) {
+          const strength = currentStrength(api, drive);
+          if (strength < api.parameter("driveRetireStrength")) continue;
+          // They lived through the event that formed it, as the core records
+          // for anyone an event names.
+          api.observe(personId, {
+            key: `event:${drive.sourceEventId}:experienced`,
+            value: drive.sourceEventId,
+            learnedAt: drive.formedAt,
+            sourceId: drive.sourceEventId,
+            access: "perceived",
+          });
+          mine.set(drive.id, drive);
+          runtime.serving.delete(personId);
+          runtime.drives.set(`${personId}|${drive.id}`, drive);
+          writeDrive(api, drive, strength);
+        }
+        if (!mine.size) runtime.byPerson.delete(personId);
+      }
+    },
+    onEvent(api, event, learnedBy) {
+      const civic = data.civicActEvents.find(
+        (row) => row.eventKind === event.kind,
+      );
+      if (civic) {
+        const [actorId] = event.personIds;
+        const definition = api.state.data.actions.find(
+          (row) => row.id === civic.actionId,
+        );
+        // The drive the life module attached: its first drive goal serving this act.
+        const actor = actorId ? api.state.people.get(actorId) : undefined;
+        const attached =
+          actor && definition
+            ? [...actor.goals.values()].find(
+                (goal) =>
+                  goal.sourceDriveId &&
+                  definition.goalKinds.includes(goal.kind),
+              )?.sourceDriveId
+            : undefined;
+        const drive =
+          actorId && attached
+            ? heldFor(api, actorId)?.get(attached)
+            : undefined;
+        if (drive && definition && actorId) {
+          const override =
+            api.state.data.work?.discretionaryDurationParameters?.[
+              definition.effect
+            ];
+          traceAct(
+            api,
+            actorId,
+            {
+              definition,
+              targetId:
+                event.facts?.[data.factKeys.organization] ?? event.placeId,
+              driveId: drive.id,
+              availableHours: Math.min(
+                api.parameter("hoursPerDay"),
+                discretionaryHours(api, actorId),
+              ),
+              effortHours: api.parameter(
+                override ?? definition.effortParameter,
+              ),
+            },
+            drive,
+            "reconstructed",
+          );
+        }
+      }
+      // Word of an act, retold by one who saw it (speech.ts, spreadWord): each hearer who
+      // believed it perceives the act itself as a witness of it.
+      if (event.kind === data.eventKinds.wordRetold) {
+        const told = event.facts?.[data.factKeys.wordEvent];
+        const act = told ? (JSON.parse(told) as CoreEventInput) : undefined;
+        if (
+          !act ||
+          !data.eventRules.some((rule) => rule.eventKind === act.kind)
+        )
+          return;
+        for (const id of event.witnessIds ?? [])
+          respond(
+            api,
+            data,
+            id,
+            {
+              ...act,
+              date: event.date,
+              witnessIds: [id],
+              source: event.source,
+            },
+            event.id,
+          );
+        return;
+      }
+      if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
+        return;
+      for (const id of learnedBy) respond(api, data, id, event);
+      // The counted people it happened to perceive it as its subjects, by the same rule.
+      for (const id of countedSubjects(api, data, event))
+        respond(api, data, id, { ...event, personIds: [id] });
+      // Counted people the event happened around (the household a counted
+      // death left), each perceiving it with the counted subject as its subject.
+      const subject = event.facts?.[data.factKeys.countedSubject];
+      const around = event.facts?.[data.factKeys.countedPerceivers];
+      if (subject && around)
+        for (const id of JSON.parse(around) as PersonId[])
+          if (
+            !api.state.people.has(id) ||
+            stillCounted(api.state as CoreState, id)
+          )
+            respond(api, data, id, { ...event, personIds: [subject] });
+      // A counted household the event happened to (an eviction): every
+      // member still counted is a subject with the whole household named,
+      // as each member of a full household is.
+      const household = event.facts?.[data.factKeys.countedSubjects];
+      if (household) {
+        const named = JSON.parse(household) as PersonId[];
+        for (const id of named)
+          if (stillCounted(api.state as CoreState, id))
+            respond(api, data, id, { ...event, personIds: named });
+      }
+    },
+    offerProviders: {
+      "drive-confidant": (api, actor, action) => {
+        // Every confidant of one drive scores the same and ties go to the
+        // lowest id, so only that one is offered: the choice is unchanged
+        // and a person with many acquaintances scores one offer, not dozens.
+        const out: ActOffer[] = [];
+        const serving = servingDrives(api, actor, action).filter(
+          (drive) => drive.shareable,
+        );
+        if (!serving.length) return out;
+        // The lowest id among the living relatives and acquaintances not yet
+        // told, in one pass: the first of them in id order, with no copy or sort.
+        for (const drive of serving) {
+          let lowest: PersonId | undefined;
+          for (const ids of [actor.familyIds, actor.knownIds])
+            for (const id of ids)
+              if (
+                (lowest === undefined || id < lowest) &&
+                untold(api, actor, drive, id)
+              )
+                lowest = id;
+          if (
+            bookkeeping() &&
+            lowest !==
+              [...new Set([...actor.familyIds, ...actor.knownIds])]
+                .sort()
+                .find((id) => untold(api, actor, drive, id))
+          )
+            throw new Error("A drive's confidant is not the first in order.");
+          if (lowest) out.push(driveOffer(api, action, lowest, drive));
+        }
+        return out;
+      },
+      "drive-topic": (api, actor, action) =>
+        servingDrives(api, actor, action)
+          .filter((drive) => drive.shareable)
+          .map((drive) => driveOffer(api, action, drive.id, drive)),
+      "known-cause-group": (api, actor, action, round) => {
+        const runtime = runtimeFor(api.state);
+        // The nearby groups the person knows of on each topic, worked out
+        // once a round: joining and giving offer the same groups.
+        let reachable = round?.get(REACHABLE_GROUPS) as
+          Map<string, readonly string[]> | undefined;
+        if (!reachable) {
+          reachable = new Map();
+          round?.set(REACHABLE_GROUPS, reachable);
+        }
+        const out: ActOffer[] = [];
+        for (const drive of servingDrives(api, actor, action)) {
+          let ids = reachable.get(drive.topic);
+          if (!ids) {
+            ids = reachableGroups(api, runtime, actor, drive.topic);
+            reachable.set(drive.topic, ids);
+          } else if (bookkeeping()) {
+            const kept = ids;
+            const fresh = reachableGroups(api, runtime, actor, drive.topic);
+            if (
+              fresh.length !== kept.length ||
+              fresh.some((id, index) => id !== kept[index])
+            )
+              throw new Error("A round's cause groups no longer match.");
+          }
+          for (const id of ids) out.push(driveOffer(api, action, id, drive));
+        }
+        return out;
+      },
+      "volunteer-place": (api, actor, action) => {
+        const serving = servingDrives(api, actor, action);
+        if (!serving.length) return [];
+        const runtime = runtimeFor(api.state);
+        // Known associations in the person's place and county, by direct fact lookup.
+        const associations: string[] = [];
+        for (const placeId of new Set([
+          actor.placeId,
+          ...(actor.countyId ? [actor.countyId] : []),
+        ]))
+          for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
+            [])
+            if (
+              api.state.publicOrganizations
+                .get(id)
+                ?.affordances?.some((kind) =>
+                  data.volunteerAffordances.includes(kind),
+                ) &&
+              api.knows(actor.id, `organization:${id}:public`)
+            )
+              associations.push(id);
+        associations.sort();
+        const out: ActOffer[] = [];
+        for (const drive of serving) {
+          for (const id of memberGroups(api, runtime, actor, drive.topic))
+            out.push(driveOffer(api, action, id, drive));
+          for (const id of associations)
+            out.push(driveOffer(api, action, id, drive));
+        }
+        return out;
+      },
+      "grudge-target": (api, actor, action) =>
+        servingDrives(api, actor, action)
+          .filter(
+            (drive) =>
+              drive.targetId && api.state.people.get(drive.targetId)?.alive,
+          )
+          .map((drive) => ({
+            ...driveOffer(api, action, drive.targetId!, drive),
+            reasonBindings: CONFRONT_RECENCY,
+          })),
+      "known-public-figure": (api, actor, action) => {
+        const out: ActOffer[] = [];
+        for (const drive of servingDrives(api, actor, action))
+          for (const id of [...actor.knownIds].sort())
+            if (
+              api.state.people.get(id)?.alive &&
+              api.knows(actor.id, `person:${id}:public-role`)
+            )
+              out.push(driveOffer(api, action, id, drive));
+        return out;
+      },
+    },
+    eligibilityRules: {
+      // A planned share runs again on later days; the drive's told set stops
+      // the second telling to the same person.
+      "drive-target-untold": (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        return !!drive && !drive.told.has(offer.targetId);
+      },
+      "no-known-group-on-topic": (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return false;
+        return !knownGroups(api, runtimeFor(api.state), actor.id, drive.topic)
+          .length;
+      },
+      "can-afford-donation": (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        return (
+          !!drive &&
+          giftOf(api, actor, currentStrength(api, drive)) >
+            api.parameter("zero")
+        );
+      },
+    },
+    effectHandlers: {
+      "share-drive": (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        traceAct(api, actorId, offer, drive);
+        drive.told.add(offer.targetId);
+        const impulse =
+          currentStrength(api, drive) *
+          api.parameter(offer.definition.effectParameter);
+        const runtime = runtimeFor(api.state);
+        const known = knownGroups(api, runtime, actorId, drive.topic);
+        api.relationship(
+          actorId,
+          offer.targetId,
+          "contact",
+          api.parameter("relationContactGain"),
+        );
+        api.updatePerson(actorId, { lastContactDate: api.state.date });
+        api.updatePerson(offer.targetId, { lastContactDate: api.state.date });
+        // The one told learns of the groups the teller knows of.
+        for (const id of known) noteGroup(runtime, offer.targetId, id);
+        api.emit(
+          actEvent(
+            api,
+            data,
+            data.eventKinds.shared,
+            actorId,
+            drive,
+            offer.targetId,
+            [offer.targetId],
+            {
+              stressImpulse: impulse,
+              moodImpulse: -impulse,
+              facts: Object.fromEntries(
+                known.map((id) => [
+                  runtime.causeGroups.get(id)!.knownKey,
+                  drive.topic,
+                ]),
+              ),
+            },
+          ),
+        );
+      },
+      "found-cause-group": (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        const actor = api.state.people.get(actorId)!;
+        traceAct(api, actorId, offer, drive);
+        const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
+        api.addOrganization({
+          id,
+          placeId: actor.placeId,
+          name: id,
+          kind: data.causeGroupKind,
+          topic: drive.topic,
+          liquidMinor: api.parameter("zero"),
+          source: {
+            tag: "SOURCED",
+            asOf: api.state.date,
+            citation:
+              "Founded in the simulation by a resident acting on a recorded drive; no registration or charter process is modeled.",
+          },
+        });
+        const runtime = runtimeFor(api.state);
+        let set = runtime.groupsByTopic.get(drive.topic);
+        if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
+        set.add(id);
+        const knownKey = `cause-group:${id}:known`;
+        runtime.causeGroups.set(id, { topic: drive.topic, knownKey });
+        runtime.groupFounder.set(id, actorId);
+        runtime.groupChange.set(id, drive.desiredChange);
+        noteGroup(runtime, actorId, id);
+        api.join(actorId, id, drive.id);
+        api.observe(actorId, {
+          key: knownKey,
+          value: drive.topic,
+          learnedAt: api.state.date,
+          sourceId: id,
+          access: "self",
+        });
+        api.emit(
+          actEvent(api, data, data.eventKinds.founded, actorId, drive, id, []),
+        );
+      },
+      "join-cause-group": (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        traceAct(api, actorId, offer, drive);
+        noteGroup(runtimeFor(api.state), actorId, offer.targetId);
+        api.join(actorId, offer.targetId, drive.id);
+        const founder = founderOf(api, offer.targetId);
+        if (
+          founder &&
+          founder !== actorId &&
+          api.state.people.get(founder)?.alive
+        )
+          api.relationship(
+            actorId,
+            founder,
+            "group",
+            api.parameter("relationContactGain"),
+          );
+        api.emit(
+          actEvent(
+            api,
+            data,
+            data.eventKinds.joined,
+            actorId,
+            drive,
+            offer.targetId,
+            founder && founder !== actorId ? [founder] : [],
+          ),
+        );
+      },
+      donate: (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        const actor = api.state.people.get(actorId)!;
+        traceAct(api, actorId, offer, drive);
+        const amount = giftOf(api, actor, currentStrength(api, drive));
+        const paid = payDonation(api, data, actorId, offer.targetId, amount);
+        api.emit(
+          actEvent(
+            api,
+            data,
+            data.eventKinds.donated,
+            actorId,
+            drive,
+            offer.targetId,
+            [],
+            {
+              facts: {
+                [`cause-group:${offer.targetId}:received-minor`]: `${paid}`,
+              },
+            },
+          ),
+        );
+      },
+      volunteer: (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        traceAct(api, actorId, offer, drive);
+        const founder = founderOf(api, offer.targetId);
+        if (
+          founder &&
+          founder !== actorId &&
+          api.state.people.get(founder)?.alive
+        )
+          api.relationship(
+            actorId,
+            founder,
+            "group",
+            api.parameter("relationContactGain"),
+          );
+        api.emit(
+          actEvent(
+            api,
+            data,
+            data.eventKinds.volunteered,
+            actorId,
+            drive,
+            offer.targetId,
+            founder && founder !== actorId ? [founder] : [],
+          ),
+        );
+      },
+      confront: (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        traceAct(api, actorId, offer, drive);
+        // A confrontation takes the tie down by a closeness level (its
+        // parameter), written as the strain in hours that level stands for
+        // where the tie is now, as a quarrel's strain is.
+        const { levelBefore, levelAfter, strainHours } = confrontationStrain(
+          api,
+          actorId,
+          offer.targetId,
+          api.parameter(offer.definition.effectParameter),
+        );
+        api.relationship(actorId, offer.targetId, "contact", -strainHours);
+        const event = actEvent(
+          api,
+          data,
+          data.eventKinds.confronted,
+          actorId,
+          drive,
+          offer.targetId,
+          [offer.targetId],
+          {
+            stressImpulse: api.parameter("confrontImpulse"),
+            moodImpulse: -api.parameter("confrontImpulse"),
+          },
+        );
+        api.emit({
+          ...event,
+          facts: {
+            ...event.facts,
+            [`event:${event.id}:${data.factKeys.responsible}`]: actorId,
+            levelBefore: levelBefore.toFixed(4),
+            levelAfter: levelAfter.toFixed(4),
+          },
+        });
+      },
+      "seek-standing": (api, actorId, offer) => {
+        const drive = drivesOf(api, actorId, offer);
+        traceAct(api, actorId, offer, drive);
+        api.relationship(
+          actorId,
+          offer.targetId,
+          "contact",
+          api.parameter(offer.definition.effectParameter),
+        );
+        api.updatePerson(actorId, { lastContactDate: api.state.date });
+        api.emit(
+          actEvent(
+            api,
+            data,
+            data.eventKinds.soughtStanding,
+            actorId,
+            drive,
+            offer.targetId,
+            [offer.targetId],
+          ),
+        );
+      },
+    },
+  };
+}
+
+export const DRIVES_MODULE = createDrivesModule();
+// Its runtime is a saved world part; the other maps are caches (rows of static
+// data, or rebuilt from the restored organizations).
+declareSnapshotCovered(DRIVES_MODULE.id);
+
+/** Adds the drive act rows to the shared data; mods add rows the same way. */
+export function withDrives(
+  base: CoreData,
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+): CoreData {
+  return extendData(base, { actions: data.actions });
+}
+
+/**
+ * The drives held in the wider population today: by person, each with its
+ * kind, the event that formed it and its strength now. Each person stands for
+ * the household weight of their counted record. Read-only.
+ */
+export function countedDrivesHeld(api: CoreAPI): {
+  personId: PersonId;
+  driveId: string;
+  kind: string;
+  sourceEventId: string;
+  strength: number;
+  /** How they stood toward the event that formed it, and that event's facts. */
+  role?: string;
+  sourceFacts?: Readonly<Record<string, string>>;
+}[] {
+  const out: {
+    personId: PersonId;
+    driveId: string;
+    kind: string;
+    sourceEventId: string;
+    strength: number;
+    role?: string;
+    sourceFacts?: Readonly<Record<string, string>>;
+  }[] = [];
+  for (const [personId, mine] of runtimeFor(api.state).countedByPerson)
+    for (const drive of mine.values())
+      out.push({
+        personId,
+        driveId: drive.id,
+        kind: drive.kind,
+        sourceEventId: drive.sourceEventId,
+        strength: currentStrength(api, drive),
+        ...(drive.formations[0]
+          ? {
+              role: drive.formations[0].role,
+              ...(drive.formations[0].event.facts
+                ? { sourceFacts: drive.formations[0].event.facts }
+                : {}),
+            }
+          : {}),
+      });
+  return out;
+}
+
+/** One cause group as another engine reads it (a campaign weighing whom the group backs). */
+export interface CauseGroupView {
+  readonly organizationId: string;
+  /** Who founded it (null where no member is left to say). */
+  readonly founderId: PersonId | null;
+  readonly topic: string;
+  /** The change it was founded to win: its founder's drive. */
+  readonly desiredChange: string;
+  /** Its living members today, longest-standing first. */
+  readonly memberIds: readonly PersonId[];
+}
+
+/** Built from the world's organizations: cleared when a world is restored. */
+const causeGroupIds = new WeakMap<
+  CoreState,
+  { size: number; ids: readonly string[] }
+>();
+registerDerivedCache(causeGroupIds);
+
+/**
+ * The cause groups founded in a place, read-only. The founder and the change
+ * the group was founded to win come from this engine's own record of the
+ * founding; where it holds none (a world rebuilt from its records), from what
+ * the founding wrote: the earliest member and the drive their membership
+ * names. The groups are found once each time the world's organizations
+ * change, not on every read.
+ */
+export function causeGroupsIn(
+  api: CoreAPI,
+  placeId: string,
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+): readonly CauseGroupView[] {
+  const state = api.state as CoreState;
+  let index = causeGroupIds.get(state);
+  if (index?.size !== state.organizations.size) {
+    index = {
+      size: state.organizations.size,
+      ids: [...state.organizations.values()]
+        .filter((org) => org.kind === data.causeGroupKind && !!org.topic)
+        .map((org) => org.id)
+        .sort(),
+    };
+    causeGroupIds.set(state, index);
+  }
+  const here = new Set(
+    index.ids.filter((id) => state.organizations.get(id)?.placeId === placeId),
+  );
+  if (!here.size) return [];
+  const members = new Map<string, { personId: PersonId; joinedAt: string }[]>();
+  const driveOf = new Map<string, string | undefined>();
+  for (const row of state.memberships.values()) {
+    if (!here.has(row.organizationId)) continue;
+    if (!state.people.get(row.personId)?.alive) continue;
+    const list = members.get(row.organizationId) ?? [];
+    list.push({ personId: row.personId, joinedAt: row.joinedAt });
+    members.set(row.organizationId, list);
+    driveOf.set(row.id, row.sourceDriveId);
+  }
+  const runtime = runtimeFor(state);
+  const out: CauseGroupView[] = [];
+  for (const id of [...here].sort()) {
+    // Longest-standing first; on one day, in the order they joined (the
+    // founder joins at the founding, before anyone else that day).
+    const rows = (members.get(id) ?? []).sort((a, b) =>
+      a.joinedAt.localeCompare(b.joinedAt),
+    );
+    const founderId = runtime.groupFounder.get(id) ?? rows[0]?.personId ?? null;
+    const driveId = founderId ? driveOf.get(`${founderId}:${id}`) : undefined;
+    const desiredChange =
+      runtime.groupChange.get(id) ??
+      (founderId && driveId
+        ? state.people.get(founderId)?.drives.get(driveId)?.desiredChange
+        : undefined);
+    if (!desiredChange) continue;
+    out.push({
+      organizationId: id,
+      founderId,
+      topic: state.organizations.get(id)!.topic!,
+      desiredChange,
+      memberIds: rows.map((row) => row.personId),
+    });
+  }
+  return out;
+}
+
+/** Read-only report for observers and proofs; writes nothing. */
+export function drivesReport(core: Readonly<CoreState>) {
+  const runtime = runtimes.get(core as CoreState);
+  return {
+    drives: runtime ? [...runtime.drives.values()] : [],
+    formedByYearKind: Object.fromEntries(runtime?.formedByYearKind ?? []),
+    countedFormedByYearKind: Object.fromEntries(
+      runtime?.countedFormedByYearKind ?? [],
+    ),
+    responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
+    responsesByRole: Object.fromEntries(runtime?.responsesByRole ?? []),
+    perceived: runtime?.perceived,
+    decisions: runtime?.decisions ?? [],
+    groups: runtime
+      ? [...runtime.groupFounder].map(([id, founderId]) => ({ id, founderId }))
+      : [],
+  };
+}

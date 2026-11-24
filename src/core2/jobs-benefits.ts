@@ -1,0 +1,571 @@
+/**
+ * Unemployment insurance: a worker laid off or put out by a closure files a
+ * claim under the state's program; after the waiting week the state's fund,
+ * outside the town, pays a weekly benefit (a share of the lost weekly pay up
+ * to the state's maximum) until they're hired or their weeks run out. A
+ * worker who quits for a better job or leaves work has no claim.
+ *
+ * Every claim reads the law in force directly (`lawInForce` on the
+ * `unemployment-insurance` and `unemployment-weekly-maximum` series), so a
+ * law enacted in play changes the next claim; a filed claim keeps the terms
+ * it was filed under and cites the law row.
+ */
+import { townOutsideOf } from "./opening-outside-market";
+import type { ModuleTable } from "./module-state";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import { lawApplied } from "./law-reach/applied";
+import { countedWeight } from "./law-reach/pay-reach";
+
+/** Who a claim's law reached: the person, or for a counted resident the people they stand for. */
+function claimant(
+  core: CoreState,
+  personId: string,
+): { targetId: string; target: "person" | "group"; count: number } {
+  if (core.people.has(personId))
+    return { targetId: personId, target: "person", count: 1 };
+  return {
+    targetId: `counted-claimants:${personId}`,
+    target: "group",
+    count: countedWeight(core, personId),
+  };
+}
+import type { LawInForceAnswer } from "./laws-in-force";
+import type { LawRowInput } from "./laws-starting";
+import { residentFacts, residentsRuntime } from "./modules/residents";
+import { countedPersonOf } from "./counted-actor";
+import { countedGroupIdOf } from "./modules/residents";
+import { appraiseEvent } from "./emotion";
+import { parameter, parameterValues } from "./parameters";
+import { initialPersonState } from "./person-state";
+import { hardshipReason, leanedYesWithTerm } from "./trait-decisions";
+import { transferCash } from "./world-transfer";
+import { countedPayment } from "./counted-money";
+import type {
+  Affect,
+  CoreAPI,
+  CoreEventInput,
+  CoreState,
+  JobInput,
+  PersonId,
+  PersonInput,
+  PlaceId,
+  Source,
+} from "./types";
+
+export interface UnemploymentTerms {
+  readonly hasProgram: boolean;
+  /** The weekly benefit's share of the lost job's weekly pay. */
+  readonly weeklyShare: number;
+  /** The state's fraction of the basis wages, and how many quarters of them (0: the weekly wage), where its row gives both. */
+  readonly weeklyFraction?: number;
+  readonly basisQuarters?: number;
+  readonly weeklyMaximumMinor: number;
+  readonly maxWeeks: number;
+  readonly waitingWeek: boolean;
+  /** Earnings in the base period (the last year) a claim needs. */
+  readonly minimumBasePeriodMinor: number;
+  /** The law row the terms were read from. */
+  readonly lawId?: string;
+  /** The weekly maximum's law row. */
+  readonly maximumLawId?: string;
+  readonly source: Source;
+}
+
+export interface ClaimRow {
+  id: string;
+  personId: string;
+  placeId: string;
+  /** Paid into: the person, or the place's pooled residents' account for a counted worker. */
+  payeeAccountOwnerId: string;
+  open: boolean;
+  filedAt: string;
+  nextPayAt: string;
+  weeklyMinor: number;
+  weeksLeft: number;
+  paidMinor: number;
+  reasonKey: string;
+  /** The law row whose terms fixed this claim. */
+  lawId?: string;
+  /** The weekly maximum's law row, where it, not the share of pay, fixed the benefit. */
+  cappedByLawId?: string;
+  source?: Source;
+  /** Why they filed, for the player and the people they deal with: the base, their traits' lean and the stress the loss left. */
+  reasons?: Readonly<Record<string, number>>;
+  endedAt?: string;
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
+}
+
+const DAYS_PER_WEEK = 7;
+const QUARTERS_PER_YEAR = 4;
+
+function lawSource(row: LawRowInput, asOf: string): Source {
+  const where = Array.isArray(row.source)
+    ? row.source.join(" ; ")
+    : (row.source as string);
+  const citation = `${row.id}: ${where}`;
+  return row.estimate
+    ? { tag: "ESTIMATED", asOf, citation, estimatedFrom: citation }
+    : { tag: "SOURCED", asOf, citation };
+}
+
+const NO_PROGRAM = (asOf: string): UnemploymentTerms => ({
+  hasProgram: false,
+  weeklyShare: 0,
+  weeklyMaximumMinor: 0,
+  maxWeeks: 0,
+  waitingWeek: false,
+  minimumBasePeriodMinor: 0,
+  source: {
+    tag: "ESTIMATED",
+    asOf,
+    citation: "No unemployment insurance law is in force here.",
+    estimatedFrom: "The laws module's starting law records no program.",
+  },
+});
+
+/**
+ * The state's unemployment insurance as the law in force records it (the
+ * laws module's `unemployment-insurance` and `unemployment-weekly-maximum`
+ * series). A world without the laws module open, or a state whose row says
+ * it has no program, has no claims.
+ */
+export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
+  const asOf = api.state.date;
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID))
+    return NO_PROGRAM(asOf);
+  return unemploymentTermsOf(
+    lawInForce(api, "unemployment-insurance"),
+    lawInForce(api, "unemployment-weekly-maximum"),
+    (key) => api.parameter(key),
+    asOf,
+  );
+}
+
+/**
+ * The same terms from any state's law answers: the town reads its own state's,
+ * and the country tier reads every state's (one rule, two tiers).
+ */
+export function unemploymentTermsOf(
+  program: LawInForceAnswer,
+  maximumAnswer: LawInForceAnswer,
+  parameter: (key: string) => number,
+  asOf: string,
+): UnemploymentTerms {
+  const row = program.governing;
+  const t = row?.terms as
+    | {
+        waitingWeek?: boolean;
+        maxWeeks?: number | null;
+        weeklyBenefitFraction?: number | null;
+        weeklyBenefitBasisQuarters?: number | null;
+        baseEarnings?: {
+          minimumBasePeriodWages?: number | null;
+          minimumHighQuarterWages?: number | null;
+        };
+      }
+    | undefined;
+  const maximum = maximumAnswer.value;
+  // The enacted amount is availability. The starting research also carries
+  // a hasProgram field, but retaining its formula must not override repeal.
+  if (!row || !t || row.value !== 1) return NO_PROGRAM(asOf);
+  if (typeof t.maxWeeks !== "number" || maximum === null)
+    return NO_PROGRAM(asOf);
+  const minor = parameter("minorPerDollar");
+  const quarterWeeks =
+    parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
+  const quarters = t.weeklyBenefitBasisQuarters ?? undefined;
+  // A fraction of the basis wages is a share of weekly pay once the basis's
+  // weeks are counted; a row that gives none falls to the program's median.
+  const weeklyShare =
+    typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
+      ? t.weeklyBenefitFraction * (quarters === 0 ? 1 : quarters * quarterWeeks)
+      : parameter("jobsBenefitWeeklyShare");
+  const wages =
+    t.baseEarnings?.minimumBasePeriodWages ??
+    t.baseEarnings?.minimumHighQuarterWages;
+  return {
+    hasProgram: true,
+    weeklyShare,
+    ...(typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
+      ? {
+          weeklyFraction: t.weeklyBenefitFraction,
+          basisQuarters: quarters,
+        }
+      : {}),
+    weeklyMaximumMinor: maximum * minor,
+    maxWeeks: t.maxWeeks,
+    waitingWeek: t.waitingWeek === true,
+    minimumBasePeriodMinor:
+      typeof wages === "number"
+        ? Math.round(wages * minor)
+        : parameter("jobsBenefitMinimumBasePeriodMinor"),
+    lawId: row.id,
+    ...(maximumAnswer.governing
+      ? { maximumLawId: maximumAnswer.governing.id }
+      : {}),
+    source: lawSource(row, asOf),
+  };
+}
+
+function weeksAfter(date: string, weeks: number): string {
+  const at = new Date(`${date}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() + weeks * DAYS_PER_WEEK);
+  return at.toISOString().slice(0, "YYYY-MM-DD".length);
+}
+
+/**
+ * What a claimant is under today, for the filing decision. A full person is
+ * read as they stand (the layoff just emitted has already raised their
+ * stress). A counted worker stores no stress, so the layoff's own appraisal of
+ * them stands for it on the day: their traits, the same rule that raised a full
+ * person's. With no layoff to appraise (a closure) a counted worker reads none.
+ */
+export function claimantFeeling(
+  c: CoreState,
+  full: { affect?: Affect } | undefined,
+  counted: PersonInput | undefined,
+  lost: CoreEventInput | undefined,
+): { affect?: Affect } {
+  if (full) return full;
+  if (!counted || !lost) return {};
+  return {
+    affect: appraiseEvent(
+      initialPersonState(c, counted, false),
+      lost,
+      parameter("zero", c.data.parameters),
+      parameterValues(c.data.parameters),
+      c.data.appraisalTraits,
+    ).affect,
+  };
+}
+
+/**
+ * An eligible worker files when the case for it is above zero: the base, how
+ * much of the lost pay the benefit would replace (a bigger share pulls toward
+ * filing, as the log of the share, sized from the benefit elasticity of
+ * take-up), the stress the loss left them under (help sought for a hardship,
+ * sized from a study) and their traits' lean toward filing over skipping. The
+ * record's traits are the full person's or the counted worker's own.
+ * `replaced` is the weekly benefit over the lost weekly pay.
+ */
+export function filingDecision(
+  api: CoreAPI,
+  filer: Pick<PersonInput, "traits"> & { id?: string },
+  feeling: { affect?: Affect },
+  replaced: number,
+) {
+  const c = api.state as CoreState;
+  const baseline = api.parameter("benefitsFileBase");
+  const replacement =
+    api.parameter("benefitsFileReplacementWeight") * Math.log(replaced);
+  const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
+  // Savings and expected time to a new job are not weighed yet, so temperament sorts who skips.
+  api.stopgap("SG-TRAITS-file-claim-circumstances-tie");
+  // The stress is one more reason in the case; the trait term is the lean
+  // toward filing over skipping at the decision's calibrated weight.
+  const { yes, term } = leanedYesWithTerm(
+    c,
+    filer,
+    "jobs-benefits.file-claim",
+    "file",
+    "skip",
+    baseline + replacement + hardship.term,
+  );
+  return { files: yes, baseline, replacement, lean: term, hardship };
+}
+
+/**
+ * Opens a claim for a worker who lost `job` through no choice of their own;
+ * returns it, or nothing when they don't qualify. `lost` is the layoff event
+ * just emitted (see `claimantFeeling`).
+ */
+/** A person's pay folded by calendar quarter, oldest first (the payroll's own record). */
+interface QuarterPay {
+  readonly quarter: string;
+  readonly grossMinor: number;
+}
+
+const quarterOf = (date: string): string =>
+  `${date.slice(0, 4)}Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}`;
+
+/**
+ * The wages a state's formula starts from, out of the person's recorded pay
+ * by quarter: the base period is the first four of the last five completed
+ * quarters; the basis is the highest quarter, the two highest, or the whole
+ * base year, as the state's row says. Null where no pay is recorded, the row
+ * gives no basis, or the state pays on the weekly wage.
+ */
+function basePeriodWages(
+  c: CoreState,
+  job: Readonly<JobInput>,
+  terms: UnemploymentTerms,
+): { wages: number; total: number } | null {
+  const work = c.work as unknown as {
+    payByQuarter?: ReadonlyMap<string, readonly QuarterPay[]>;
+    countedPayByQuarter?: ReadonlyMap<
+      string,
+      readonly { quarter: string; perWorkerGrossMinor: number }[]
+    >;
+  };
+  // A named worker's own list; a counted worker's is one worker of their
+  // group at the employer (the payroll keeps it per group and employer).
+  let fold: readonly QuarterPay[] | undefined = work.payByQuarter?.get(
+    job.personId,
+  );
+  if (!fold) {
+    const group = countedGroupIdOf(c, job.personId);
+    fold = group
+      ? work.countedPayByQuarter
+          ?.get(`${group}|${job.organizationId}`)
+          ?.map((row) => ({
+            quarter: row.quarter,
+            grossMinor: row.perWorkerGrossMinor,
+          }))
+      : undefined;
+  }
+  const q = terms.basisQuarters;
+  if (!fold?.length || terms.weeklyFraction === undefined || !q) return null;
+  const now = quarterOf(c.date);
+  const completed = fold.filter((row) => row.quarter < now).slice(-5);
+  // A record shorter than a base year (a world, or a job, under four completed
+  // quarters old) is not the base period: the earlier pay is not on record, so
+  // the lost job's last pay stands until four quarters are.
+  if (completed.length < 4) return null;
+  const base = completed.length === 5 ? completed.slice(0, 4) : completed;
+  const gross = base.map((row) => row.grossMinor).sort((a, b) => b - a);
+  return {
+    wages: gross.slice(0, q).reduce((n, v) => n + v, 0),
+    total: gross.reduce((n, v) => n + v, 0),
+  };
+}
+
+export function fileClaim(
+  api: CoreAPI,
+  table: ModuleTable,
+  job: Readonly<JobInput>,
+  reasonKey: string,
+  /** Weeks the lost job ran, for the base period. */
+  weeksWorked: number,
+  lost?: CoreEventInput,
+): ClaimRow | undefined {
+  const c = api.state as CoreState;
+  // One open claim a person: a second layoff while a claim is paying files
+  // nothing new (two claims paid the same person on one day and reused a
+  // payment id; Montpelier, Vermont, seed mont1, August 18, 2031).
+  if ((table.query("byPerson", [job.personId, true]) as unknown[]).length > 0)
+    return undefined;
+  const full = c.people.get(job.personId);
+  const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
+  if (!placeId) return undefined;
+  const filer = full ?? residentFacts(c, job.personId);
+  const payee = full
+    ? full.id
+    : residentsRuntime(c)?.input.accounts.find((row) => row.placeId === placeId)
+        ?.accountId;
+  if (!payee) return undefined;
+  const terms = unemploymentTerms(api);
+  if (!terms.hasProgram) return undefined;
+  // stopgapId: SG-LAWS-ui-base-period-last-pay (a worker with fewer than five completed quarters of pay on record is not read from the first four of the last five: four use all four, fewer use the lost job's pay on the last day)
+  api.stopgap("SG-LAWS-ui-base-period-last-pay");
+  const weeklyPay = job.wageDailyMinor * DAYS_PER_WEEK;
+  // Base-period earnings: the lost job's pay over the weeks of the last year it ran.
+  const basePeriodWeeks = Math.min(
+    api.parameter("jobsDaysPerYear") / DAYS_PER_WEEK,
+    weeksWorked,
+  );
+  if (weeklyPay * basePeriodWeeks < terms.minimumBasePeriodMinor)
+    return undefined;
+  // The base period: the first four of the last five completed quarters of
+  // the person's recorded pay (the one payroll's fold, core.work.payByQuarter),
+  // and the state's basis quarters of them, so a recent hours cut barely moves
+  // the benefit. With no pay history the lost job's last pay stands (the
+  // stopgap above).
+  const basis = basePeriodWages(c, job, terms);
+  if (basis && basis.total < terms.minimumBasePeriodMinor) return undefined;
+  const share = basis ? basis.wages * terms.weeklyFraction! : undefined;
+  const lawWeekly = share ?? terms.weeklyShare * weeklyPay;
+  const weekly = Math.round(Math.min(terms.weeklyMaximumMinor, lawWeekly));
+  if (!(weekly > 0)) return undefined;
+  let reasons: Record<string, number> | undefined;
+  if (filer) {
+    const decision = filingDecision(
+      api,
+      filer,
+      claimantFeeling(
+        c,
+        full,
+        full || !lost ? undefined : countedPersonOf(c, filer.id),
+        lost,
+      ),
+      weekly / weeklyPay,
+    );
+    if (!decision.files) return undefined;
+    // Why they filed is kept for the player and the people they deal with.
+    if (c.observer || c.focusPersonIds.has(filer.id) || filer.id === c.playerId)
+      reasons = {
+        baseline: decision.baseline,
+        replacement: decision.replacement,
+        lean: decision.lean,
+        hardshipStress: decision.hardship.term,
+        stress: decision.hardship.stress,
+      };
+  }
+  const capped =
+    terms.maximumLawId && lawWeekly > terms.weeklyMaximumMinor
+      ? terms.maximumLawId
+      : undefined;
+  const row: ClaimRow = {
+    id: `claim:${job.personId}:${c.date}`,
+    personId: job.personId,
+    placeId,
+    payeeAccountOwnerId: payee,
+    open: true,
+    filedAt: c.date,
+    nextPayAt: weeksAfter(c.date, terms.waitingWeek ? 2 : 1),
+    weeklyMinor: weekly,
+    weeksLeft: terms.maxWeeks,
+    paidMinor: 0,
+    reasonKey,
+    lawId: terms.lawId,
+    ...(capped ? { cappedByLawId: capped } : {}),
+    source: terms.source,
+    ...(reasons ? { reasons } : {}),
+  };
+  table.put({ ...row });
+  // The program's law reached this worker (a counted worker is a counted
+  // person with an id of their own, the same rule); the weekly maximum
+  // reached them when it, not the share of their pay, fixed the benefit.
+  if (terms.lawId)
+    lawApplied(api, {
+      key: "unemployment-insurance",
+      lawId: terms.lawId,
+      ...claimant(c, job.personId),
+      engine: "jobs",
+      what: "claim-filed",
+    });
+  if (capped)
+    lawApplied(api, {
+      key: "unemployment-weekly-maximum",
+      lawId: capped,
+      ...claimant(c, job.personId),
+      engine: "jobs",
+      what: "weekly-benefit-capped",
+    });
+  return row;
+}
+
+/** Pays every open claim due by today from the state's unemployment fund: its treasury. */
+export function payClaims(api: CoreAPI, table: ModuleTable): void {
+  const c = api.state as CoreState;
+  for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
+    if (row.nextPayAt > c.date) continue;
+    // The state's unemployment fund is its treasury, which the employers'
+    // state unemployment tax pays into (employer-taxes); a world with no
+    // state treasury open pays from the town's outside account.
+    const state = c.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).find((g) => g.level === "state")
+      : undefined;
+    const fund = state
+      ? c.organizations.get(state.organizationId)
+      : townOutsideOf(c.organizations.values(), row.placeId);
+    if (!fund) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "no-payer",
+      });
+      continue;
+    }
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
+      });
+      continue;
+    }
+    // The payment names the laws it is paid under: the program, and the
+    // weekly maximum where it fixed the benefit.
+    const under = `${row.lawId ? ":unemployment-insurance" : ""}${row.cappedByLawId ? ":unemployment-weekly-maximum" : ""}`;
+    const id = `unemployment-benefit:${row.personId}:${c.date}${under}`;
+    const source = row.source ?? unemploymentTerms(api).source;
+    // A claimant filled in since filing is paid as a full person. A counted
+    // claimant's claim stands for the people their household stands for: the
+    // benefit is paid times that count, the way counted wages are
+    // (counted-money.ts countedPayment); `paid` stays one claim's.
+    const full = c.people.has(row.personId);
+    const weight = full ? 1 : countedWeight(c, row.personId);
+    const pay = (payId: string, fromId: string, amountMinor: number) =>
+      full
+        ? transferCash(api, payId, fromId, row.personId, amountMinor, source, {
+            personId: row.personId,
+          })
+        : countedPayment(api, {
+            id: payId,
+            placeId: row.placeId as PlaceId,
+            personId: row.personId as PersonId,
+            otherOwnerId: fromId,
+            amountMinor: -amountMinor,
+            reasonKey: payId.split(":")[0]!,
+            source,
+          });
+    let paid = pay(id, fund.id, row.weeklyMinor);
+    // A state fund that cannot cover the week borrows the rest from outside
+    // the town, as a state borrows from the federal government when its fund
+    // runs short (26 U.S.C. 1201, Title XII advances).
+    if (state && paid < row.weeklyMinor) {
+      const advance = townOutsideOf(c.organizations.values(), row.placeId);
+      if (advance)
+        paid += pay(
+          `unemployment-advance:${row.personId}:${c.date}${under}`,
+          advance.id,
+          row.weeklyMinor - paid,
+        );
+    }
+    if (row.lawId && paid > 0)
+      lawApplied(api, {
+        key: "unemployment-insurance",
+        lawId: row.lawId,
+        ...claimant(c, row.personId),
+        engine: "jobs",
+        what: "benefit-paid",
+        amountMinor: paid * weight,
+      });
+    const weeksLeft = row.weeksLeft - 1;
+    table.put({
+      ...row,
+      paidMinor: row.paidMinor + paid,
+      weeksLeft,
+      nextPayAt: weeksAfter(c.date, 1),
+      ...(weeksLeft > 0
+        ? {}
+        : { open: false, endedAt: c.date, endReason: "exhausted" as const }),
+    });
+  }
+}
+
+/** A hire ends the person's open claim. */
+export function endClaim(
+  api: CoreAPI,
+  table: ModuleTable,
+  personId: string,
+): void {
+  for (const row of table.query("byPerson", [
+    personId,
+    true,
+  ]) as unknown as ClaimRow[])
+    table.put({
+      ...row,
+      open: false,
+      endedAt: api.state.date,
+      endReason: "hired",
+    });
+}

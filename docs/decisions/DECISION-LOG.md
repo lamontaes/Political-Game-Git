@@ -1,0 +1,3313 @@
+# Decision Log
+
+The log preserves significant choices and rejected alternatives.
+
+## Statuses
+
+- `ACCEPTED` — current decision.
+- `REJECTED` — considered and deliberately not adopted.
+- `DEFERRED` — unresolved or intentionally postponed.
+- `SUPERSEDED` — formerly accepted, now replaced by a named newer accepted decision.
+
+A superseded entry must name its replacement. A newer accepted entry must name every older decision it supersedes. Update affected authoritative documents alongside an accepted decision so this log does not become a hidden competing specification.
+
+## D-001 — Documentation authority
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+The Game Constitution is the highest product authority. Current accepted decisions, architecture and system documents, build specifications, tests, and implementation follow beneath it. Conflicts are recorded and resolved explicitly.
+
+Consequence: implementation convenience cannot silently weaken a principle, and behavioral changes require matching documentation and tests.
+
+## D-002 — Pure simulation boundary
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Place the domain and headless demo under `src/simulation/`. React components under `src/ui/`, `src/App.tsx`, and `src/main.tsx` may depend on the simulation; the simulation may not depend on UI, DOM, browser runtime, or React.
+
+Consequence: tests and observer-style simulation can run under Node without graphical infrastructure.
+
+## D-003 — TypeScript application stack
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Use TypeScript, React, Vite, and Vitest with minimal supporting tooling. Package the static development viewer through the Vite Sites plugin without coupling simulation behavior to hosting. This temporary viewer host is not the desktop product runtime or a persistence-platform choice.
+
+Consequence: framework additions require a demonstrated need rather than speculative complexity.
+
+## D-004 — Keyed seeded randomness and stable IDs
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+All simulation randomness uses an explicit seeded abstraction with non-consuming keyed forks. Persistent entities and events receive stable IDs from explicit semantic keys, independent of random draw order, labels, display order, and React rendering.
+
+Consequence: same-version seed/action replay is testable, history references survive state changes, and nondiegetic person materialization cannot perturb later world randomness.
+
+## D-005 — Progressive person materialization
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+People may begin lightweight and gain detail deterministically when relevant. Materialization can add compatible facts but cannot replace identity, contradict established facts or explicit person-fact constraints in canonical history, advance time, or record a fictional in-world event. Stored details retain a generator version; a conflicting later history constraint is rejected rather than rewriting generated biography.
+
+Consequence: large populations can remain computationally tractable without retroactive contradictions or order-dependent biographies.
+
+## D-006 — JSON-safe immutable world state and append-oriented history
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent world state with plain JSON-safe values and pure state transitions. Use stable append-oriented historical events as the durable basis for explanation. Represent corrections, changed views, and disputed claims through subsequent linked records rather than silent mutation.
+
+Consequence: saves can later cross a persistence boundary cleanly, and archives, memories, relationships, and briefings can share a traceable canonical history.
+
+## D-007 — Data-driven jurisdictions
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Keep generic world behavior in simulation code and jurisdiction-specific facts and rules in definitions or sourced snapshots with stable IDs and provenance.
+
+Consequence: Lexington-Fayette begins as an explicit placeholder and does not define universal government behavior.
+
+## D-008 — SQLite as persistence target
+
+- Date: 2026-08-21
+- Status: SUPERSEDED by D-015
+- Supersedes: none
+
+SQLite is the intended durable persistence store. The first build uses in-memory state while maintaining a simulation-facing boundary that can later receive a SQLite adapter.
+
+Consequence: the foundation does not invent a premature schema, but domain behavior may not couple itself to browser-local storage.
+
+## D-009 — Separate snapshot and save-world domains
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Real-world snapshots require provenance and initialize new worlds. Simulated history becomes authoritative after world creation, and snapshot updates do not alter existing saves.
+
+Consequence: historical saves remain internally coherent and reproducible.
+
+## D-010 — No required AI service or proprietary implementation
+
+- Date: 2026-08-21
+- Status: ACCEPTED
+- Supersedes: none
+
+Core simulation cannot require an LLM, paid model, network service, or proprietary code, assets, text, or implementation from another political game.
+
+Consequence: deterministic offline execution remains possible and the project remains independently implemented.
+
+## D-011 — Implement the complete vertical slice in the foundation build
+
+- Date: 2026-08-21
+- Status: REJECTED
+- Supersedes: none
+
+Rejected alternative: implement the complete Lexington political-life vertical slice during the foundation task.
+
+Reason: doing so would obscure the architecture, history, determinism, and testing contracts that later systems depend on. The vertical slice remains an accepted future product target.
+
+## D-012 — SQLite schema and save migrations
+
+- Date: 2026-08-21
+- Status: SUPERSEDED by D-015
+- Supersedes: none
+
+Detailed tables, migrations, repositories, transaction boundaries, and save compatibility policy will be designed after the minimal domain behavior is validated.
+
+## D-013 — Observer branching and control-transfer persistence
+
+- Date: 2026-08-21
+- Status: DEFERRED
+- Supersedes: none
+
+Branch lineage, taking control of an existing character, durable Observer Mode saves, and branch comparison remain future work. Current structures must avoid foreclosing them.
+
+## D-014 — Rich history knowledge and claim schema
+
+- Date: 2026-08-21
+- Status: SUPERSEDED by D-016
+- Supersedes: none
+
+The minimal event record does not yet model participant roles, witnesses, who learned about an event, competing claims, causal links, or visibility. Those fields require a dedicated design before persistence is fixed.
+
+Consequence: the foundation event shape is a staged subset, not a redefinition of Constitution principles 3, 22, 24, or 29.
+
+## D-015 — Versioned world snapshots in a Node-only SQLite repository
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: D-008, D-012
+
+Serialize the complete JSON-safe world through a versioned, integrity-checked snapshot envelope. Store one current snapshot per world in a strict SQLite table through a Node-only repository outside the pure simulation package. Save, load, list, and replacement-save operations use the same validated codec.
+
+Consequence: local desktop persistence is real without coupling domain behavior to SQLite or prematurely normalizing every life-history record. Cross-version migrations, action journals, recovery, and branch storage remain deferred behind the snapshot format boundary.
+
+## D-016 — Separate truth, memory, knowledge, claims, and relationship history
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: D-014
+
+Use separate append-only record families for canonical events, subjective memories, person-specific event knowledge, later claims, and relationship interactions. Rich events preserve typed participants and roles, visibility, tags, location and setting, social pressure, choice, motivation, and immediate reaction. Knowledge records preserve believed content, accuracy, confidence, and direct, told-by, public-record, media, or rumor provenance.
+
+Consequence: memories may differ in strength or interpretation, claims and secondhand beliefs may contradict truth, and relationship summaries remain derivations over explainable episodes. No subjective record silently edits an event.
+
+## D-017 — Typed biography facts and generic historical queries
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent factual biography as stable typed records for birth date, birthplace, dated residences, family relationships, education, and occupation. Use generic tags, participants, date/age bounds, geography, facts, and relationship histories for later-system queries rather than adding one-off fields for particular life experiences.
+
+Consequence: a lightweight person can gain compatible detail without losing established history, and later gameplay can ask about residence, past experience, unemployment, affected close contacts, or shared work without parsing prose or special-casing a single event such as marijuana use.
+
+## D-018 — Sparse proposition beliefs and separate political knowledge
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Store a shared stable catalog of policy domains, issues, specific propositions, knowledge subjects, and broad principle definitions. Store only formed per-person records in the append-oriented history: private beliefs, public positions, campaign commitments, principles, and subject knowledge. Keep private belief categorical across position, conviction, salience, and flexibility; treat absence as no formed belief rather than a neutral score. Keep education/occupation-derived expertise, political speech, promises, and historical behavior separate from private belief.
+
+Consequence: the system supports unusual and internally tense political combinations, proposition-specific disagreement within one issue, high expertise with uncertainty, strong low-knowledge beliefs, and thousands of possible propositions without a full vector on every person. Principles, facts, life events, trusted cues, and generated biography do not automatically assign beliefs. Autonomous explainable NPC opinion formation and political-action classification remain deferred.
+
+## D-019 — Authoritative staged roadmap and dependency integration guide
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Maintain `docs/ROADMAP.md` as the authoritative record of completed-stage reconciliation, future sequencing, and long-range integration intent. Maintain `docs/SYSTEM-DEPENDENCIES.md` as the required ownership/reference/API/persistence checklist for new persistent concepts. These documents remain below the Constitution, accepted decisions, architecture, and implemented system contracts; a future roadmap entry is not permission to invent that system's detailed mechanics early.
+
+Consequence: later stages must consume existing stable IDs, append-oriented history, provenance, sparse queries, serialization boundaries, and imperfect-information contracts deliberately. Stage completion is recorded only after implementation, validation, tests, and affected authoritative documents agree.
+
+## D-020 — Separate proposition exposure and perceived formation provenance
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent encountering a proposition as its own sparse append-oriented record with source provenance. It does not create a private belief, public statement, or commitment. Belief and principle formation may reference prior biography, exposure, experienced events, memories, event knowledge, claims, relationship interactions, subject knowledge, and categorized trusted cues, but canonical event truth is unavailable as formation context unless the person experienced it or the record cites their prior memory or knowledge.
+
+Consequence: never encountered, encountered without a formed view, and formed belief remain distinct; Stage 4 can later reason from perceived rather than omniscient context; and durable explanations can resolve structured sources without parsing rationale prose or populating blank belief vectors.
+
+## D-021 — Appraisal is distinct from event truth and memory
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent an appraisal as a person's historically situated interpretation of what an event or experience means to them. It may reference an event, the person's memory or knowledge, involved people, and provenance, but it neither mutates canonical truth nor duplicates the remembered account.
+
+Consequence: two people can experience the same occurrence and retain different meanings, one person can later reinterpret it explicitly, and an event need not create any appraisal or personality change.
+
+## D-022 — Values are distinct from personality, political principles, and beliefs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Store sparse, historically mutable personal values separately from personality tendencies, broad political principles, and proposition-specific beliefs. Values may conflict and may contribute to decisions without automatically producing policy positions.
+
+Consequence: people who value the same thing may reach different conclusions because of knowledge, experience, other values, goals, relationships, appraisal, and perceived effects.
+
+## D-023 — Autonomous decisions use subjective and explainable context
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Use one general decision architecture across future domains. It evaluates options from the actor's as-of subjective perception, separates hard constraints from soft considerations, preserves structured reasons and uncertainty, and uses isolated keyed bounded randomness only for plausible variation. Autonomous application is restricted to NPCs; major player-controlled internal choices remain proposals or player decisions.
+
+Consequence: unknown canonical truth cannot influence an NPC, an unavailable option cannot win through utility weighting or randomness, and the simulation can explain why an option was chosen or blocked without inventing a retrospective rationale.
+
+## D-024 — Temporary internal states are contextual inputs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent temporary states such as grief, stress, fear, anger, fatigue, or excitement as sparse effective-dated, provenance-bearing context that may influence a relevant decision. They are not a universal mood simulation and are not permanent player-facing meters.
+
+Consequence: later time, rest, health, and life systems can provide contextual inputs without making one state dominate every decision or adding constant maintenance gameplay in Stage 4.
+
+## D-025 — Shared resource-flow architecture is reserved for future systems
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Future personal finances, households, campaign finance, organizations, and government finance should share compatible concepts for source, recipient, amount or formula, cadence, effective period, authority or basis, restrictions, and actual outcome. Do not add one universal `fundingSource` field to unrelated records.
+
+Consequence: later salary, support, contribution, appropriation, revenue, and expenditure systems can interoperate without Stage 4 prematurely implementing money or finance.
+
+## D-026 — Mutable institutional behavior resolves from effective law
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Institutional properties that law or rules can change must eventually be resolved from the controlling authority effective at the queried simulated date, including effective dates and transition rules, rather than permanent constants embedded in institution or election code.
+
+Consequence: terms, eligibility, appointment authority, procedures, thresholds, succession, districting, rights, and powers can change coherently during a save. The law and institution systems themselves remain future work.
+
+## D-027 — Progressive resolution is a global scaling strategy
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Apply progressive resolution beyond people to organizations, courts, jurisdictions, countries, and events. Promotion adds simulation detail while preserving stable identity, established facts, references, and prior history.
+
+Consequence: the world can remain broad at low cost and deepen around relevance without pretending a newly detailed entity only just came into existence.
+
+## D-028 — Civic instruction is diegetic and available on demand
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Teach civic systems primarily through their faithful operation, natural in-world guidance such as orientations, allies, leaders, attorneys, clerks, transition officials, and briefings, plus inspectable reference material and official sources on demand.
+
+Consequence: complexity remains learnable without turning the game into a mandatory textbook sequence or replacing substantive mechanics with simplified tutorial abstractions.
+
+## D-029 — Decision traces are explanations, not canonical actions
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+A decision evaluation trace records available and blocked options, applicable considerations, uncertainty, bounded random influence, and the selected or deferred outcome. It is diagnostic/explanatory state, not the canonical event or action produced by the decision. Consequential traces may be durable; routine traces may remain ephemeral or compact.
+
+Consequence: Observer Mode and debugging can answer why a choice occurred while actual world consequences continue to enter the appropriate canonical history system exactly once.
+
+## D-030 — The Political Process is a rolling capability floor, not the architecture
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Treat the contemporary version of _The Political Process_ as a rolling capability floor for the eventual broad United States political simulation, never as this project's architecture or a source of proprietary implementation. The Lexington vertical slice does not wait for complete parity.
+
+Consequence: before mature national United States scope is called broadly feature-complete, perform a fresh capability audit and match important capabilities or intentionally surpass them through another design.
+
+## D-031 — Architecture rules apply retroactively
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Run the Architecture Integrity Audit at major stage boundaries and whenever a newly discovered architecture principle, failure pattern, or invariant could affect completed work. Earlier stages are not grandfathered. Every plausibly affected implementation is either confirmed compatible, corrected with a contained patch, assigned a concrete dependency-bound future migration, or rejected/superseded when retaining it would compound future work.
+
+Consequence: a stage-completion label cannot preserve incompatible foundations, while the audit remains scoped and does not authorize unrelated rewrites.
+
+## D-032 — Separate closed semantic sets from open content taxonomies
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Treat named examples as illustrative unless an authoritative specification explicitly closes the domain. A genuinely finite state machine, bounded scale, provenance discriminator with distinct validation, or supported typed record family may remain a closed union. Expandable classifications use catalogs or validated semantic namespaces with stable content keys. They must not become either prompt-derived exhaustive enums or untyped strings, `unknown`, and arbitrary metadata bags.
+
+Consequence: content can grow without changing engine control flow, while categories still preserve meaning, validation, query behavior, and provenance.
+
+## D-033 — Semantic behavior is the completion criterion
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Accept a simulation capability only when it performs the intended end-to-end behavior with the correct actor, simulated time, scope, authority, subjective access, effective rules where applicable, history, provenance, determinism, and persistence. A type, stored object, diagnostic rendering, placeholder, manual fixture, or graceful fallback is evidence or tooling rather than completion by itself.
+
+Consequence: acceptance tests must exercise meaningful outcomes and cross-system behavior, not only object construction or UI presence.
+
+## D-034 — Autonomous belief formation preserves independent dimensions
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+The political-belief adapter may select a high-level formation outcome, but it may not silently derive all Stage 3 belief dimensions from that outcome. Applied substantive proposals supply position-compatible conviction plus independently chosen salience and flexibility. Private belief, public position, and campaign commitment remain separate records.
+
+Consequence: equal support or opposition positions can retain materially different certainty, importance, and openness to revision after autonomous formation.
+
+## D-035 — Autonomous rule consumers resolve effective rules
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Extend D-026: when mutable law and institutional rules are implemented, every autonomous system whose behavior depends on them must consume the controlling rule effective for the actor, authority, scope or jurisdiction, and simulated date. It may not continue assuming the original, current-real-world, or default rule after the rule changes.
+
+Consequence: this is a future integration contract for law-consuming systems, not authorization to implement law, institutions, or future institutional AI in Stage 4.
+
+## D-036 — Research-gated bounded implementation runs
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+At a major roadmap stage, first audit the current repository and affected completed systems, then classify reviewed research and adversarial findings as implement now, retroactive correction, dependency-bound deferral, rejection, or a genuine user decision. Implement the accepted scope through one or more bounded, separately validated and checkpointed runs rather than treating the roadmap stage as one indivisible feature batch.
+
+Research examples test semantic adequacy and global diversity; they do not automatically become content, exhaustive enums, special-case branches, or permission to implement a later dependency. A run proceeds without an extra question when the approved brief already resolves all material choices, and its post-implementation semantic audit must ask whether the intended causal behavior works rather than whether a schema can merely store descriptive text.
+
+Consequence: foundational migrations can be corrected before later systems compound them, research remains auditable without creating scope leakage, and a stage may honestly remain in progress after one bounded substage is complete.
+
+## D-037 — Stable life identities, separated relationships, and qualitative load
+
+- Date: 2026-08-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent organizations, actual or expected work engagements, households, household memberships, kinship, partnerships, and care responsibilities as separate stable identities with append-oriented, effective-dated profile or lifecycle records. A job is not an occupation summary, a household is not a dwelling or family, kinship is not partnership, and care neither requires nor implies co-residence. Use validated open semantic namespaces for expandable content and closed sets only for lifecycle and behavior-bearing dimensions.
+
+Represent recurring demand with expected weekly ranges plus attention, concurrency, rigidity, interruptibility, and optional location constraint. Derive inspectable qualitative load and coordination pressure over active work, care, and exceptional commitments rather than subtracting every described hour from 168 or creating a universal life/productivity score. Resolve explicit completed weeks deterministically; any resulting fatigue reuses the Stage 4 temporary-state system with provenance to the load resolution.
+
+Preserve Stage 2 occupation, residence, and family facts as immutable biography/expertise summaries while making Stage 5.1 records canonical for detailed work, co-residence, partnership, and care. Stable canonical work takes precedence over textual employer fallback. Progressive person or organization detail changes resolution without changing historical existence or identity.
+
+Consequence: one persistent person can accumulate concurrent and changing work, homes, structural relationships, care, and recovery history that later systems can query as of date and append sequence without overwriting earlier truth. Expected future work can be known without becoming active. Formative content, adult career content/progression, resources, dwellings/property, relationship maintenance, health, offices, institutions, and player UI remain dependency-bound future work.
+
+## D-038 — Shared life history, participation, authority, and rule-consumer boundary
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent education enrollment as a stable person-to-`Organization` relationship with separate expected/active/terminal state history, so K-12, postsecondary, and later training share one identity architecture without making school names, grades, credentials, degrees, or majors root-engine ontology. Represent non-work membership, affiliation, and activity through a distinct stable organization-participation relationship; genuine service that is semantically work remains a `WorkRelationship`, and meaningful recurring load reuses `LifeCommitmentRecord` rather than adding activity-specific scheduling fields.
+
+Represent recognized authority or responsibility over a child through a separate effective-dated relationship whose holder is either a `Person` or an `Organization`. Authority does not imply or mutate kinship, partnership, household membership, or care, and no universal age, custody-power bundle, visitation calendar, or jurisdiction-specific guardianship law is embedded in the relationship.
+
+Treat canonical Stage 5 records as sequence-aware typed evidence for Stage 4 perception, appraisal provenance, and decision explanation. A closed engine record-family reference resolves only an existing record belonging to the actor and available before both the as-of date and exclusive global sequence cutoff; durable traces freeze its label and content. Preserve legacy `PersonFact` IDs and nondiegetic progressive-materialization behavior without fabricated append sequence. Birth date remains core identity, birthplace remains compatible origin detail, and education, occupation, residence, and family facts remain summary/fallback evidence only where a canonical sequence-aware family is absent.
+
+Life content asks a typed eligibility provider for an allowed or blocked result with validated open action/reason keys, actor, date, stable jurisdiction, and structured explanations. The default/test provider contains no universal age threshold. Stage 7 effective law may replace this provider without replacing Stage 5 entities, consistent with D-035.
+
+Gameplay remains U.S.-centric while jurisdiction identity stays open and stable; Run A adds no 50-state enum or validation and preserves future territory support. Playable formative/adult paths are Run B; personal resources, housing, and relationship integration are Run C. The generalized event engine, mutable law/institutions, territory-specific law/data, and player-facing UI remain deferred to their owning stages.
+
+## D-039 — Canonical character-history composition and bounded life situations
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none
+
+Played progression, deterministic quick generation, and manual/authored creation use one typed `CharacterHistoryPlan` applicator that delegates exclusively to existing canonical life, event, relationship, knowledge, memory, appraisal, temporary-state, and development-proposal boundaries. The plan is orchestration and content input, never a stored biography, alternate history family, or direct mutation route. `generated` is a closed, auditable life provenance variant for deterministic pre-play construction; authored and simulated-event provenance retain their existing meanings.
+
+Formative life resolves through sparse 0–7, 8–12, and 13–17 interval bands and a deliberately bounded situation catalog. Persistent peers, teachers, mentors, caregivers, coworkers, and later contacts are ordinary stable people in ordinary organization/life context. Friendship, conflict, recognition, and mentorship arise from interaction, event, knowledge, memory, appraisal, and context history rather than a relationship score or mentor entity. A situation may create non-applying development evidence only after repeated relevant history; it never hard-sets adult personality from a single choice.
+
+Adult education/training, volunteer work, ordinary employment, apprenticeship, Guard/Reserve service, activation/return, and relocation compose stable organizations, enrollment states, work statuses/roles, commitments, households, and ordinary historical records. Teen work and other sensitive actions consume the injected eligibility provider rather than encoding a universal age or territory rule. Enrollment completion state is the current canonical outcome seam; no credential database is introduced.
+
+Consequence: Run B adds no Run C resource/compensation/housing/debt/relationship-integration system, Stage 6 generalized prerequisite/chain engine, Stage 7 law/institution/territory implementation, foreign-government simulation, organization hierarchy, population-scale rosters, or polished player UI.
+
+Consequence: a person can accumulate school, participation, and child-authority history that remains stable across organization renames, transfers, later materialization, backdated append, subjective reasoning, and persistence without duplicating biography or stealing gameplay and law work from later runs.
+
+## D-040 — Personal resource flows, housing identity, and relationship effort compose canonical life history
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none
+
+Implement D-025's compatible flow vocabulary for the bounded personal/household domain, not as one universal finance object. A `ResourceFlow` has typed person, household, or organization endpoints; a stable basis and optional restriction; jurisdiction context where relevant; and append-oriented effective terms containing exact amount and cadence. Canonical money is a safe integer count of minor units plus a validated three-letter currency identity, never floating-point dollars. Expected terms, active/ended terms, and completed/partial/missed/blocked transfer outcomes remain distinct; cadence never silently creates a transfer.
+
+Effective compensation is a flow linked to one canonical paid or mixed `WorkRelationship`. It does not replace work status or role history, cannot make unpaid work paid, and creates income only when a pay period is explicitly resolved. A stable opening resource position plus committed actual outcomes derives historical liquid position without arbitrary balance mutation or double-counting. Stable obligations distinguish housing, care/support, debt, and other open bases from actual payment outcomes. Debt is bounded to principal and payment history; structured affordability explains available, strained, or blocked capacity using exact liquid evidence and active major obligations. Accounts, purchases, interest products, credit scores/reports, tax, insurance, bankruptcy, investments, and full banking remain deferred.
+
+A stable `Dwelling` is separate from household identity/location, occupancy, and tenure. Person or household occupancy has effective primary/secondary/shared history and implies neither lease nor ownership. Person, household, or organization tenure has independent lease, ownership, assignment, hosting, or other open semantics and implies neither residence nor household membership. Moving does not recreate a household; ownership does not force occupancy; assigned housing uses the same primitives. Care responsibility remains structural truth, while care costs and cross-household support use ordinary flows and obligations and infer no care, kinship, partnership, child authority, or co-residence.
+
+Meaningful relationship contact, shared activity, support, missed opportunity, and reconnection compose existing time commitments, historical events, interactions, knowledge, memories, and appraisals. Any continuity assessment is qualitative and derived from evidence; there is no upkeep counter, closeness score, monthly decay, relationship deletion, or automatic hostility from inactivity. An explicit resource outcome may become actor-relevant typed life evidence for knowledge, appraisal, a bounded temporary resource-pressure state, perception, and decision explanation; there is no universal financial-stress, happiness, or wellbeing field.
+
+Run C expands the finite typed Stage 4 life-source families and the one played/quick/authored `CharacterHistoryPlan` transition boundary. Date plus exclusive append sequence controls historical availability. Orchestration-only stable-key references are stripped before canonical writer input; this is a contained retroactive correction to D-039's already-declared plan-only boundary, not a record migration. Legacy `PersonFact` precedence, nondiegetic person materialization, stable open jurisdiction identity, and territory compatibility remain unchanged.
+
+Consequence: Stage 5 is complete with one durable life graph spanning formative context, education, work, family/care, resources, obligations, housing, relationship effort, and subjective consequences. Campaign, organization, and government finance; Stage 6 generalized events, economy, metrics, and shocks; Stage 7 mutable law/institutions and territory-specific data; foreign-government simulation; property markets; and polished player UI remain explicitly deferred.
+
+## D-041 — Cadence-safe capacity and period-bound resource settlement
+
+- Date: 2026-08-23
+- Status: ACCEPTED
+- Supersedes: none; contained correction/clarification to D-040 settlement and capacity semantics
+
+Affordability remains a derived, structured capacity assessment over exact liquid position and active major obligations. It must preserve obligation amounts in validated open cadence buckets and may derive strain only from a caller-supplied exact cadence comparison bucket. Different cadence keys are not normalized, parsed, or summed into one money amount.
+
+For each `ResourceFlow`, committed outcomes own inclusive settlement intervals and no two outcomes may duplicate or overlap an interval. Completed, partial, missed, and blocked are each the sole bounded canonical outcome for their period; there is no replacement, retry, collection, or correction ledger in Stage 5. Writer and persisted-world integrity enforce this rule before balances can be double-counted.
+
+Settlement validates terms effective at the settled period start, while the actual occurrence may remain on or after its end. If a later terms record becomes effective after the period start through that period end, the period is rejected as unprorated ambiguity rather than silently selecting old or new terms. This applies to general flow outcomes and the work-compensation convenience path.
+
+Consequence: D-040 continues to provide bounded exact personal/household flow history without an automatic billing scheduler, cadence conversion scheme, payroll proration engine, banking or accounting model, Stage 6 event/economy implementation, Stage 7 law content, or UI.
+
+## D-042 — Quantitative truth, observation vintages, and future transitions remain distinct
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent exact non-money quantitative values as canonical reduced safe-integer rationals with validated open namespaced units. Keep Stage 5 integer-minor-unit `MoneyAmount` separate, and let a closed metric-value union distinguish quantity from money. Store stable metric definitions in a world catalog with scope, stock/flow/rate/index nature, explicit point/interval period form, and aggregation limitations rather than adding one `World` property per metric or parsing Stage 3 proposition strings.
+
+Represent canonical quantitative world truth as append-oriented metric-state history and source-specific measurement/public-statistic vintages as a separate append-oriented observation history. Corrections and revisions explicitly supersede matching prior records without mutation and may not have an earlier recording date than their same-series predecessor; same-date order remains the global append sequence. Competing observation series remain distinct; uncertainty is exact and dimensionally compatible; and date plus exclusive append sequence controls availability. Truth and observations create no automatic person knowledge. An explicit ordinary release event plus existing event-knowledge provenance is the bridge into subjective information.
+
+Use one stable future due-item identity with the closed runtime/persisted scheduled/resolved/cancelled/blocked state vocabulary and canonical entity references, not opaque payloads, recurrence expressions, or duplicated domain truth. Nonserialized deterministic handlers resolve open transition keys. The authoritative `advanceWorld` path preflights and processes due-today plus later crossed items by due date then creation sequence, fails atomically for missing/failing handlers, and commits ordinary outcome history exactly once where applicable. At a committed or loaded frontier, a latest scheduled item due on the current date is valid pending work, but one strictly before current world time is invalid. A due-today item must resolve before authoritative time advances later. Handlers retain ordinary full-integrity canonical writers and may schedule later follow-ons, while existing due history remains append-only and cannot be rewritten by a handler.
+
+Consequence: Stage 6 Run A supplies exact quantitative state, fallible observation, and future-transition foundations only. Economy/effect mechanics and derived formulas remain Run B; policy forecasts/implementation remain Run C; generalized incident/event selection and chains remain Run D; mortality/incapacity/evidence remain Run E. Mutable law/institutions/elections, territory-specific data, media ecology, campaigns/governing, foreign-government simulation, and player-facing UI remain later-stage work. Stable jurisdiction identity remains open and contains no 50-state assumption.
+
+## D-043 — Causal provenance, typed effects, and bounded aggregate economy remain compositional
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent causal attribution as stable append-oriented `CausalProcessRecord` history that cites already-available canonical sources and optional earlier causal parents. It is provenance rather than a second narrative event store: meaningful occurrences remain `HistoricalEvent`. Causal ancestry is acyclic, date-plus-exclusive-sequence available, and queryable to sorted distinct root identities, so multiple effects of one root remain correlated while independent roots targeting the same metric remain distinct.
+
+Store reusable effect response semantics in a small world catalog and committed cause-to-metric relationships as separate `EffectActivationRecord` history. Run B supports only exact linear and bounded ease-out response curves with typed magnitude/direction, a durable typed magnitude basis, onset/ramp/maturity/end, optional compatible threshold and target bound, open realization key, and stable metric/scope identity. A point-target magnitude has the `point-at-target` basis and phases at the historical target point. An interval-target magnitude has the `interval-total` basis with one exact persisted interval and may contribute only to that exact interval; no cadence label, inferred month/year conversion, or implicit rate is accepted. It adds no equation DSL, serialized callback, arbitrary payload, or silent field mutation. Evaluation is explicit and inspectable: `evaluatedAt` is only the cutoff/recording frontier, never the causal phase date. Interval phase samples the earlier inclusive midpoint of its target interval; it is zero when that point is before onset or at/after exclusive expiry, ramps or matures according to that point, and deliberately does not integrate an unmodeled continuous economy. Only the contained `recordEvaluatedMetricState` seam may commit a result through the existing metric writer, with the baseline and contributing activation IDs preserved as provenance.
+
+Mark metric definitions as primitive or derived and reject independent writes to derived definitions. Canonical aggregate primitives include the minimum resident/labor/employment, nominal income/cost, consumption/output/housing-pressure, and revenue/outlays/debt state needed for Run B. Unemployment count/rate, real-purchasing-power-style capacity, and fiscal balance are exact queries retaining source-state IDs. Labor identities reject impossible counts and missing denominators; fiscal balance requires matching jurisdiction/segment, interval, and currency. Stage 5 personal/household flows and positions remain authoritative for concrete personal money, and Run B creates no people, firms, government accounts, appropriations, tax law, organization accounting, or continuous economy tick.
+
+Causal/economic truth remains non-omniscient and uses Run A observation plus ordinary release/knowledge history when a person learns it. The Run A due-item mechanism remains the only future-transition seam; Run B adds no scheduler or recurrence. World schema 11, generator `demo-world-v11`, metric catalog v2, causal-mechanism catalog v1, and snapshot format 10 persist the new definitions and two global-sequence history families; person materializer remains v4.
+
+Consequence: Run C policy baselines/operations may consume the same causal/effect substrate, Run D incidents may create the same causal identities and activations, and later reasoning can deduplicate shared roots without replacing Run B records. Policy/law, incidents/crises, mortality/incapacity/evidence, institutions/elections/campaigns/media, detailed government finance, national macroeconomics, territory-specific data, foreign-government simulation, and player-facing UI remain deferred to their owning runs/stages.
+
+## D-044 — Quantitative policy freezes baselines and requires explicit implementation
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent a quantitative proposal/intervention as a stable generic `PolicyAlternativeRecord`, optionally linked to descriptive proposition metadata but never derived by parsing its text. Represent its behavior as one or more immutable `PolicyOperationRecord` records, each targeting one existing primitive metric, stable jurisdiction/optional-segment scope, explicit point or interval period, and exact named baseline. The closed operation family is set-level, absolute change, relative change, share of a named baseline, cap, and floor with an optional exact typed trigger; quantities and money retain the accepted exact unit/currency contracts. Multiple jurisdictions require explicit scoped operations, with no universal national scope or 50-state assumption.
+
+Treat `PolicyBaselineRecord` as append-oriented dated counterfactual/forecast history, not observation or canonical metric truth. It freezes exact expected value, source frontier, methodology, assumptions, uncertainty, provenance, period, scope, and series predecessor. `PolicyEstimateRecord` freezes baseline-versus-alternative consequences and a shared projected Run B causal root under one separately inspectable implementation profile. Forecast creation never creates an actual effect activation or metric state, and later reality, revision, or backfill cannot rewrite or leak into an earlier date-plus-exclusive-sequence view.
+
+Keep authority/eligibility, funding/resources, administrative capacity/setup, enforcement/compliance, and uptake/participation as five distinct bounded exact factors with evidence and reasons. The only aggregate implementation rule is their exact multiplicative product; authority is allowed or blocked, while funding and capacity may derive capped exact resource-coverage ratios. This is synthetic/injected evidence until later authoritative institution and law producers exist, not one implementation, feasibility, political-opinion, or utility score.
+
+Require a separate `PolicyRealizationRecord` before actual consequences exist. Blocked or untriggered realization creates no actual cause/effect. Full or partial realization creates exactly one actual Run B causal process whose sole parent is the estimate's projected root and whose sole source/provenance source is that estimate; each consequence is the exact operation-derived Run B activation with its target, sign, absolute exact magnitude, point-target or exact interval-total basis, mechanism, timing, kind, null threshold/bound, source, and recording date. One alternative may have at most one full/partial realization. An estimate superseded in its own series cannot be newly scheduled or realized, although a realization committed before a later revision remains history. Canonical metric truth remains a later explicit baseline-plus-effect write. Delayed realization reuses the one Run A due-item handler seam: exactly one due item references exactly one available estimate, is due at the earliest operation start, carries the shared operation jurisdiction only when all operations share it (otherwise `null`), and cannot remain pending after realization. Scheduling validity is reconstructed at the due item's own append sequence: its estimate must then be current in its series and, when that estimate would produce effects, no earlier full/partial realization may already have implemented its alternative. Thus fabricated generic or persisted impossible schedules reject, while later history may make a valid historical schedule obsolete without corrupting it. At the due frontier, a superseded estimate or already-implemented alternative terminally cancels with a typed reason, never substitutes a replacement estimate or creates a second effect, so generic time advancement can cross the frontier. It adds no recurrence or scheduler.
+
+Policy truth and forecasts grant no subjective access automatically. A policy analysis becomes available to one actor only through an ordinary event and event-knowledge record; the bounded decision adapter consumes that actor's knowledge plus caller-supplied value/goal/belief/feasibility interpretation through Stage 4 and never maps magnitude directly to ideology. World schema 12, generator `demo-world-v12`, snapshot 11, metric catalog v2, causal catalog v1, and materializer v4 persist this boundary.
+
+Consequence: Run C adds no law/statute identity, legislative or executive authority model, office/agency, appropriation/tax/budget process, automatic forecast generator, public-opinion penalty, media ecology, generalized incident chain, mortality/evidence, territory data pack, foreign-government simulation, or player-facing UI. Run D generalized incidents is the next Stage 6 boundary; Stage 7 and later governing systems may become authoritative producers without replacing Run C policy records.
+
+## D-045 — Generalized incidents are explicit, causal, and append-oriented
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent a possible shock, condition, hazard, or actor-initiated civic occurrence as a JSON-safe stable `IncidentDefinition` in one catalog, not as historical truth. Definitions retain an open kind/category and tags, a closed occurrence mode, exact base likelihood, a deliberately small typed rule family, and bounded typed likelihood modifiers. The first rules are exact Run A metric comparisons, ordinary historical-event availability, and another definition's incident state; no string parser, callback, formula language, or hidden storyteller tick is allowed. Explicit evaluation returns every prerequisite/blocker result, exact likelihood/modifier evidence, exact exposure/vulnerability/resilience inputs, bounded impact share, keyed deterministic RNG evidence where applicable, and the occurrence decision. A missing metric is unavailable/ineligible rather than zero.
+
+For a probabilistic definition, derive the non-consuming keyed `SeededRng` evaluation identity from the world seed, definition key, caller evaluation key, scope, evaluation date, and historical cutoff. Compare an integer draw to the exact bounded `rate:share` likelihood without canonical floating-point probability. Occurrence likelihood remains distinct from consequence impact. The first accepted impact rule is exactly `exposure × vulnerability × (1 − resilience)`; each factor is independently inspectable and the resulting share may scale a typed consequence but cannot alter whether the hazard was eligible or rolled.
+
+The public evaluator validates the world and delegates to one non-recursive canonical evaluation core. An occurrence writer and persistence integrity reconstruct that same core from the snapshot's definition, evaluation key, scope, date, exact cutoff, risk inputs, and unscaled consequence plans; the complete evaluated result must match exactly. This protects base/final likelihood, prerequisite/blocker results, modifier application/factors/sources, RNG key/draw/result, risk factors, scaled consequences, and occurred result without a second semantic implementation. An older same-day cutoff remains valid only when this exact reconstruction agrees; it is never silently refreshed to the current frontier.
+
+Commit one successful occurrence atomically as an ordinary `incident.occurred` historical event, one root `incident:occurrence` causal process, immutable `IncidentRecord` evaluated-risk snapshot, ordinary meaningful onset/phase event and append-only `IncidentStateRecord`, and ordinary Run B effect activations. Definitions are reusable and never history; historical events remain the canonical statement that something happened. An incident owns one durable root throughout its state history. An immediate effect cites the onset occurrence; a delayed transition effect cites its ordinary phase event; all use the accepted Run B target/scope/magnitude-basis/mechanism/timing/realization contracts. Policy and incident activations may target the same metric, but separate roots remain separate and existing root deduplication handles one incident's correlated branches.
+
+Represent delayed escalation, response, recovery, or end as an append-oriented `IncidentTransitionPlanRecord`, then schedule exactly one existing Run A due item that names that plan. At creation, integrity reconstructs the plan's source state as the latest state before the plan sequence and the active state as the latest state before the due-item sequence; both must be active and have the same ID, alongside matching date, scope and provenance, and one-plan/one-due identity. The domain writer refuses a plan whose source state has already been superseded. At the due frontier normal handling commits one ordinary phase event and one superseding incident state exactly once. A plan that was valid when scheduled but later becomes obsolete because the incident is already resolved or advanced remains valid historical scheduling evidence and terminally cancels with a typed reason rather than deadlocking generic time advancement. It never silently substitutes another plan, adds recurrence, or rewrites history.
+
+Incident truth grants no knowledge. Existing ordinary event-knowledge provenance is the only Run D subjective bridge. Queries use date plus exclusive global sequence for incident identity/state/active/definition/kind/root/event history. World schema 13, generator `demo-world-v13`, snapshot 12, and incident catalog v1 persist the catalog and the three incident history families; metric catalog v2, causal catalog v1, and materializer v4 remain unchanged.
+
+Consequence: Run D introduces no weather simulator, full health/disease model, mortality/incapacity/evidence/discovery system, media, public opinion, recurrence, macroeconomic tick, law/institutions, elections/campaigns, budgets/taxes, territory-specific content, foreign government, tactical conflict engine, or player-facing UI. Run E owns mortality/incapacity/evidence; later systems consume the ordinary event and causal records rather than replacing them.
+
+## D-046 — Vitality, functional capacity, and objective evidence remain explicit history
+
+- Date: 2026-08-24
+- Status: ACCEPTED
+- Supersedes: none
+
+Represent individual mortality only for explicitly scheduled materialized people. Store stable mortality-table definitions in a versioned world catalog with explicit integer-age entries and exact bounded `rate:share` annual probabilities; there is no interpolation, sex/race/health dimension, or asserted real-world actuarial source in the synthetic validation tables. One canonical mortality plan snapshots person, table, birthday/check year, exact age and probability, recording date, provenance, and global sequence. It schedules exactly one ordinary Run A due item through the existing scheduler. Checks occur on the deterministic birthday boundary, including February 28 for a February 29 birth in a non-leap year, at their exact Run A due-order frontier; there is no daily roll, recurrence language, automatic materialization, or population scan.
+
+Evaluate a plan through non-consuming `SeededRng` identity keyed by world seed, person, table identity, check year/date, and age, then compare the integer draw to the exact probability. Persist one reconstructible result. Survival schedules exactly one explicit next-year plan when the same table has that next-age entry, and no follow-on when it does not. A handler checkpoint before Run A appends the terminal due state remains idempotently resumable without reroll or duplication. Death writes an ordinary `person.died` event, one durable death record, and exact result links; a mortality-caused death cannot exist without that exact died result. Birth implies the initial living boundary and no mutable `alive` flag is added. A valid pending plan made obsolete by another canonical death terminally cancels at its due frontier with exact canonical terminal metadata and cannot produce a result. Person identity and all prior relationship, work, resource, information, policy, and incident history survive death; no relationship cleanup, estate, probate, inheritance, or automatic resource transfer occurs.
+
+Represent functional capacity through append-only capable/limited/incapacitated history linked to ordinary capacity-change events and exact supersession. A living person defaults to capable before the first transition. Date plus exclusive append sequence controls vitality and capacity queries, so later-recorded backfill does not leak. The common life-eligibility boundary blocks deceased and incapacitated actors with structured `capacity:*` reasons, while limited status remains allowed for domain-specific interpretation. A Run D actor-initiated occurrence requires exactly one actor and reuses the same availability rule, so omitting actor identity cannot bypass it; generic historical writing about a deceased person remains valid.
+
+Represent objective evidence as stable append-oriented artifacts with an open kind, creation/recording dates, already-available ordinary event or incident truth, a closed public/restricted/private/sealed access classification, optional short context, provenance, and global sequence. Access is metadata, not an ACL or probability of awareness. Artifact creation grants nobody knowledge. Discovery is explicit and atomic: one private ordinary `evidence.discovered` event, one person/artifact discovery record, and one exact direct event-knowledge record for that person about the encounter. It neither teaches another person nor grants knowledge of every source event. Created/discovered date plus exclusive append sequence governs queries and backfill.
+
+World schema 14, generator `demo-world-v14`, snapshot 13, and vitality catalog v1 persist the new catalog and six history families through exact JSON and Node-only SQLite; incident v1, metric v2, causal v1, and materializer v4 remain unchanged. The permanent maximum-current contract is one continuous Stage 5 through Run E history including Stage 4 subjective state, Run A truth/observation/time, Run B causal economy, Run C policy, Run D incidents, capacity/recovery, one-person evidence discovery, deterministic mortality/death, preserved post-death identity/resources, and exact JSON/SQLite replay.
+
+Consequence: the conceptual Stage 6 implementation milestone is complete, pending external repository audit. Run E adds no medical/disease simulator, health score, population-wide mortality, investigation/search/chain-of-custody system, media/public-opinion ecology, estate/inheritance law, institution/office/law/authority model, territory-specific content, second scheduler, or player-facing Stage 6.5 UI.
+
+## D-047 — Player presentation is filtered, inspectorial, and separate from world state
+
+- Date: 2026-08-26
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run A slice;
+  no Stage 6 decision is superseded
+
+Make the deterministic political-office scene the normal browser entry point
+and retain the omniscient diagnostic viewer only at `?view=developer`. The
+player scene is not a restyled diagnostic dashboard. It composes one bounded
+synthetic person, office event, relationship interaction, scene anchor, seated
+pose, live shell, contextual menu, dossier, and civic-learning example. The
+fixture role, clock, and geometry are presentation context and establish no
+Stage 7 institution, office authority, law, calendar, or legislation system.
+
+Place the epistemic selector and interaction reducer in a React-independent
+presentation layer. A dossier field must be justified as personally known,
+institutionally accessible, publicly discoverable, reported, inferred and
+uncertain, or unknown. These are qualitative access classes, never numeric
+meters. Canonical existence grants no player access: the Run A fixture's private
+belief remains absent while its public statement remains eligible. Person
+selection, Inspect, dossier reading/closing, navigation, pin sizing, civic help,
+and learning state never invoke a simulation transition, append history,
+consume RNG, or advance the canonical date/action sequence.
+
+Store only the allowlisted learned concept in a versioned Stage 6.5 browser
+record. Opening help does not learn it; an explicit button or Shift + left click
+does, with a keyboard-equivalent control. Keep manual pin size authoritative
+over later automatic importance sizing for the session. Browser state is not a
+world snapshot and does not relax strict unsupported-version rejection.
+
+Accept the four project-owner-supplied 2026-08-26 images as visual/composition
+authority only: warm semi-illustrated office, scene-first depth, correct desk
+occlusion, compact navy/gold bottom-left plaque, and narrow mixed-density right
+tray. Their rights remain unknown, their measurements are visual estimates,
+and their raster bytes are not repository assets. Dynamic UI remains authored
+React/CSS/text. Playwright is the one new focused development dependency and
+must prove the bounded player flows with useful failure evidence. Stage 6 stays
+frozen and Stage 7 stays gated.
+
+## D-048 — Scene-native conversation composes canonical history without a second world model
+
+- Date: 2026-08-26
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run B slice;
+  no Stage 6 decision is superseded
+
+Add the first bounded player-facing conversation through the accepted office
+scene rather than a full-screen dialogue mode. A controlled person, two visible
+NPCs, and explicit presentation-owned room presence distinguish physical
+presence, active participation, current addressee, and resolved listener.
+Addressee and the closed Normal/Quiet/Private interaction mode are separate;
+Private remains unavailable when another person is plausibly within earshot.
+This is a deterministic room contract, not distance acoustics or a universal
+spatial simulation.
+
+Keep one immutable `World` owned by the player session and keep conversation UI
+state separate. Opening, closing, collapsing, changing addressee or audibility,
+and reading the transcript do not write history or move time. A substantive
+turn uses a stable key derived from scene, starting history frontier,
+participants, session, and local committed-turn ordinal. It may immediately
+record an NPC-only durable decision trace, then composes the existing ordinary
+event, claim, direct/told-by knowledge, heard-claim perception, and qualitative
+relationship writers. Claim occurrence remains distinct from truth and casual
+speech does not rewrite private belief, public position, or campaign promise.
+
+Conversation turns stay on `World.currentDate`; same-day causality uses the
+global history sequence and never `World.actionSequence`, fabricated minutes,
+or a sub-day clock. Authored phrase families translate bounded semantic results
+into deterministic dialogue without runtime AI or network access. A contained
+Stage 6 integrity correction orders the already-supported heard-claim source
+pair canonically so the public writer and persisted-world validator agree; it
+changes no record shape, vocabulary, or intended semantic rule.
+
+The existing right pin rail generalizes presentation-only person pins to both
+visible NPCs with deterministic order and deduplication. Pin activation opens
+explicit Compact/Standard/Expanded controls rather than silently cycling; a
+person pin also exposes an accessible Unpin action. Manual size remains
+authoritative, unpin removes only that person and clears stale manual size, and
+current/scheduled context stays in place. The compact conversation header names
+the synthetic controlled person as `You — Cameron Foster` and states the
+constituent-services problem before intent selection: two county referrals
+lacked a required proof-of-income form, Reed is checking the third, and Collins
+must decide whether to back a staff document checklist. Authored responses
+use the topic, addressee, intent, prior bounded turn, and semantic outcome.
+Listen is a non-spoken action whose availability derives from fixture-specific
+pending contributions rather than a universal turn cap. Collins and Reed may
+contribute sequentially; one empty beat may settle the room, after which empty
+duplicates reject until a later player action creates a new follow-up. A small
+progression record preserves the briefing subject, support/verification state,
+latest proposition, pending contributions, and phase across addressee changes.
+The current resolved listener set also gates a pending speaker: Quiet-to-Reed
+preserves an unheard Collins contribution without response or canonical
+consequences, while the same state under Normal may resolve it exactly once.
+Active conversation has no desktop internal scrollbar; paged history reuses
+the same bounded box rather than appending beneath active interaction.
+Temporary navigation, pin, and person-action menus dismiss on click-away or
+Escape without applying that rule to substantive conversation.
+
+Consequence: Run B proves that people present in a scene can hear, respond,
+decide, learn claims, and affect relationship history without a detached RPG
+dialogue tree. It adds no universal dialogue language, acoustic engine,
+calendar, legislation workspace, institution/law/authority model, Run C or Run
+D scope, or Stage 7 feature.
+
+## D-049 — Legislative working documents project existing policy semantics without becoming law
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 hold only for the bounded authorized Run C slice;
+  no Stage 6 policy or future Stage 7 law/institution decision is superseded
+
+Represent the first player-facing legislative work as one presentation-owned
+office working document, not a canonical bill, statute, chamber action,
+appropriation, or procedure record family. Deterministic document, provision,
+variant, annotation, and selection identities live in `src/presentation/`.
+Each quantitative variant stores explicit canonical links to an existing Stage
+6 `PolicyAlternativeRecord`, `PolicyOperationRecord`, and
+`PolicyEstimateRecord`; rendered legal prose is never parsed to infer
+quantitative behavior. The Transit Access Pilot fixture maps the current
+$8,000,000 phrase and prepared $4,000,000 phrase to distinct absolute increases
+in `government.outlays`, both scoped to the same Lexington jurisdiction and
+`transit.pilot-eligible-riders` segment for the same interval.
+
+Keep current legal text, Collins's working annotation, staff interpretation,
+prepared alternate text, and compare markup as separate presentation concepts.
+Document selection, clean/annotated display, and compare never write World.
+Policy estimates remain forecasts: they create no realization, effect
+activation, or metric truth. Cameron sees an interpretation only after the
+existing `recordPolicyAnalysisKnowledge()` path creates ordinary person-owned
+review knowledge. An additional canonical sensitivity estimate deliberately
+remains absent from the projection and DOM because Cameron never learns it.
+
+Derive the current office working variant from one exact duplicate-safe
+`office.working-draft-revised` historical event linking the controlled player,
+jurisdiction, both alternatives, and both operations. The event records a
+same-date office drafting instruction and leaves `currentDate`,
+`World.actionSequence`, policy realization, effect activation, and metric truth
+unchanged. It does not enact, introduce, pass, appropriate, or implement
+anything. Later law, institution, legislation, budget, and procedure systems
+must attach authoritative identities and acts without replacing this provision
+bridge or the accepted Stage 6 policy/effect backend.
+
+Extend the accepted Run B conversation progress with one discriminated
+legislative-provision subject. Its authored Collins response requires Collins's
+own policy-analysis knowledge and then uses the existing room, addressee,
+audibility, listener, ordinary event, unknown-truth claim, direct/told-by
+knowledge, and heard-claim perception commit path. No second legislation
+conversation engine or casework copy enters this subject.
+
+Consequence: Run C proves physical document → legal phrase → stable provision →
+known staff analysis → prepared quantitative alternative → provision
+discussion → office-draft instruction while preserving scene-first
+presentation and proposal-versus-implementation truth. It adds no formal
+officeholding, bill/law identity, sponsorship, chamber, committee, vote,
+passage, enactment, appropriation, calendar, sub-day clock, Run D surface, or
+Stage 7 system.
+
+## D-050 — Canonical zoned minute time owns exact agenda and work progression
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the Stage 6.5 calendar hold only for the bounded authorized
+  Run D-Lite slice; no Stage 6 future-transition or Stage 5 load decision is
+  superseded
+
+Advance World to schema 15 and snapshot format 14 with one canonical
+`SimulationMoment`: `IsoDate`, integer minute of day, IANA-style timezone
+identity, and explicit UTC offset. The zone retains geographic context while
+the explicit offset makes instant comparison and replay independent of host
+timezone data. `currentDate` must equal the moment date. Whole-day advancement
+preserves local minute, zone, and offset; exact-minute advancement updates both
+date forms across midnight and invokes the existing date-level future-due
+frontier. `FutureDueItem` remains date-level. Global history sequence and
+`World.actionSequence` remain append order and seeded-action input,
+respectively; neither becomes elapsed time.
+
+Represent agenda commitments with immutable scheduled-activity roots and
+append-oriented exact state. Roots own participants, responsible person,
+authored location, source identities, access, kind, and fixed or bounded
+movable flexibility. State owns start/end moments, lifecycle, change,
+supersession, and an optional ordinary outcome event. Shared-participant
+half-open interval overlap is invalid. Fixed and travel commitments never move
+silently; a flexible block moves only through an explicit valid reschedule. A
+rejected reschedule returns its deterministic reason and exact unchanged World.
+Travel is a real fixed interval, not descriptive padding.
+
+Represent office work with immutable roots and append-oriented state. Roots own
+real source identities, jurisdiction, access, a person/legislative-material/
+calendar/other focus target, and optional authored effort. State owns
+assignees, controlled-player decision/action/none requirement, waiting people,
+blocker, elapsed effort, calendar linkage, lifecycle, outcome, and
+supersession. Needs you, Waiting on others, Staff handling, and Completed /
+ready to review are projections from those semantics, never stored buckets.
+During canonical elapsed time, assigned staff progress only when not occupied
+by overlapping commitments; exact authored completion appends one state and
+ordinary event and cannot duplicate.
+
+Keep Calendar and Work/Pending presentation-owned as access-filtered planning
+projections over canonical truth. Their reducer stores only open/inspection and
+feedback state. Opening or inspecting them consumes no time. A declared
+meaningful activity cost uses the simulation transition. Private NPC schedule
+and work remain omitted. Manual pins remain deliberate references and are not
+auto-populated or overridden by system status.
+
+Consequence: later campaign, constituent, legislative, staff, public-event,
+governing, and authored-travel systems may reuse one exact schedule/work/time
+substrate. D-Lite adds no recurrence, routing, staff economy, campaign,
+election, electorate, law, institution, procedure, or Lexington Slice E system.
+
+## D-051 — D-Lite acceptance repair makes elapsed time, commitment boundaries, zones, and pins truthful
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: D-050 only where it described an IANA-style regex identity,
+  preserved a stale offset across whole-day advancement, or allowed generic
+  minute movement through unresolved controlled-person commitments; no record
+  family or later-stage scope decision is superseded
+
+A canonical `SimulationMoment` must name a timezone supported by the runtime's
+IANA data, and its local date, minute, and explicit offset must all represent
+the same instant in that zone. Exact-minute addition advances the represented
+instant and derives the resulting local date, minute, and offset. Whole-day
+advancement preserves the intended local clock and zone while resolving the
+offset valid on the target date. An ambiguous local time prefers the previous
+offset when valid and otherwise the earlier represented instant; a nonexistent
+local time rejects rather than fabricating a clock reading.
+
+Generic minute advancement stops before crossing the start of any unresolved
+scheduled activity involving the controlled person and returns the exact input
+World. Explicit scheduled-activity performance may consume its own pre-start
+wait and interval, but cannot jump through an earlier unresolved controlled
+commitment or travel block. D-Lite adds no lateness, missed-appointment, or
+automatic cancellation system.
+
+Player-facing action disclosure must equal the canonical transition. The
+9:10-to-10:15 briefing path therefore states 20 minutes waiting plus 45 minutes
+attending and 65 total elapsed minutes before confirmation. The bottom-left
+civic-glass shell rests as a compact translucent chip and expands through a
+forgiving pointer approach zone, focus, or activation; touch activation uses
+the same open state and reduced motion removes transition animation.
+
+`Pinned` contains only deliberate user-controlled references. Canonical next
+commitment is a separate status projection derived from `nextCommitment`.
+Every remaining person pin has an Unpin action and a scene-native re-pin route;
+the unsupported District Notes fixture is removed. Selecting a manual pin size
+persists it and closes the controls in the same reducer action.
+
+Consequence: this is a correctness and human-play repair to the existing
+D-Lite substrate. It adds no Slice E, campaign, election, governing, law,
+institution, procedure, routing, generalized multi-zone travel, or pin
+organization feature.
+
+## D-052 — D-Lite scheduled execution is activity-generic and canonically continuous
+
+- Date: 2026-08-27
+- Status: ACCEPTED
+- Supersedes: the briefing-specific Calendar/`PlayerOffice` execution adapter
+  described by the initial D-Lite implementation; no D-050/D-051 simulation,
+  travel, rescheduling, time-zone, work, or scope contract is superseded
+
+Project canonical performance timing for every future visible scheduled
+activity for which the controlled person is responsible. The projection owns
+no new truth: it reads the existing wait, activity duration, resulting moment,
+and earlier controlled-person blockers from the D-050/D-051 simulation API.
+Presentation maps the existing activity kind to the bounded player verbs Work,
+Travel, Attend, or Begin and submits the selected activity ID through the one
+`performScheduledActivity` transition. It does not special-case
+`briefingActivityId`, create a React clock, or store an activity status.
+
+`PlayerOffice` remains the sole mutable World owner and replaces its World only
+after canonical performance succeeds. Blocked later execution returns the
+exact input World and reports the earlier commitment or travel interval.
+Terminal activities project no performance action, so they cannot repeat.
+After every success, current moment, Calendar activity status, Next Commitment,
+Work/Pending, and staff progress rederive from the returned World.
+
+Consequence: the representative day continues deterministically from 9:10
+through briefing, flexible work, required travel, and the later community
+meeting. This repair adds no missed-appointment state, autonomous planning,
+Calendar redesign, recurrence, routing, Slice E, generated-person behavior, or
+Stage 7/8/9 system.
+
+## D-053 — Characters are composed deterministically from reusable components
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the "asset-substitution pass" language in the Stage 6.5 art and
+  presentation documents only where it implied that every final character is
+  one flattened raster; no D-047 identity, anchor, release-gate, or fail-closed
+  decision is superseded
+
+The "asset-substitution pass" recorded after PR #13 convergence described how
+the temporary A01/B01 development fixtures would be retired. It never
+authorized a permanent one-image-per-person character pipeline, and it is not
+authority for one. The current direction is modular deterministic character
+composition:
+
+- The canonical person owns a stable appearance identity
+  (`PersonAppearance.seed` and `recipeVersion`, D-047). Presentation resolves a
+  pose-independent identity recipe from that seed through the repository
+  `SeededRng` keyed forks (D-004), one fork per slot, so later slots never
+  perturb earlier ones. No presentation code introduces a second hash or
+  selection primitive.
+- Reusable body, head, hair (front/back), facial-hair, eyewear, top, bottom,
+  footwear, and accessory components are ordinary assets in the one existing
+  art manifest, released through the existing approval, QA, hash, provenance,
+  and runtime-release gate. An append-only character catalog ledger freezes
+  each generation's membership and definitions by signature. An established
+  identity pinned to a generation is reproducible after the library grows;
+  release state affects rendering eligibility, never selection.
+- Three anchor concepts stay distinct: a scene anchor owns where a character
+  sits in a room, the pelvis-hip-center root owns where the rig meets the
+  scene, and an attachment anchor owns where a component meets the rig.
+  Attachment anchors are metadata on the body component and are never painted
+  into imagery. The empty `attachmentSlots` placeholder is replaced by that
+  typed contract.
+- Generators such as Gemini, Firefly, or fit-and-extract tools are
+  development-time asset producers recorded in provenance. Ordinary runtime
+  code owns composition; no runtime depends on a generator, network, or model.
+- No new rendering engine is authorized. The existing DOM scene camera,
+  integer depth ordering, occluder, and transform contracts remain the
+  compositor.
+
+Consequence: the repository can represent, validate, and deterministically
+resolve modular characters before any component art exists. This decision
+implements no component art, generator, wardrobe library, normalization,
+head-angle generation, animation, or replacement of the accepted office
+characters; those remain separately gated. Canonical `Person` and `World`
+semantics are unchanged.
+
+## D-054 — The appearance catalog pin lives on the person-owned appearance record
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-053 statement that persisting a pinned generation was
+  deferred; no identity, anchor, release-gate, or fail-closed decision is
+  superseded
+
+An established person must not change appearance when the game reloads,
+another scene displays them, or later catalog generations add content. The
+only information required to guarantee that under D-053's pure resolver is the
+catalog generation the person is pinned to, so it is recorded as the optional
+`PersonAppearance.catalogGeneration` on the existing person-owned appearance
+record. It is an appearance pin, not biography, belief, or political truth:
+the resolved families and components are never stored and are always derived.
+
+The pin is set when a person is created, from a generation the creating caller
+supplies; the simulation never reads the art manifest. Presentation reads the
+pin and never writes it: rendering, inspection, scene placement, and the
+developer proof do not mutate `World`. A person created before pinning existed
+carries no pin, and presentation resolves them against the first generation,
+which the ledger signature freezes, so legacy people are equally stable. World
+integrity rejects a non-positive or non-integer pin. The snapshot format is
+unchanged because the field is optional and additive.
+
+The first running proof composes four generated people through one DOM
+compositor from shared DEV/NON-PRODUCTION procedural components drawn by a
+repository script, shows the first person again in a second scene, and
+survives save and reload through the ordinary snapshot codec. The accepted
+authored A01/B01 office path is untouched and coexists with the modular path.
+
+Consequence: appearance stability is a property of the save, not of one
+browser session. No production component art, generator, wardrobe library,
+head-angle generation, animation, engine, office-scene consumption, Slice F,
+or campaign/election change is authorized by this decision.
+
+## D-055 — Real masters are normalized deterministically into the modular contract, and seated contact is measured
+
+- Date: 2026-09-01
+- Status: ACCEPTED
+- Supersedes: the D-047 visual-estimate roots and anchors for the A01/B01
+  recipes and the original primary-desk-worktop occluder polygon only; no
+  identity, catalog, release-gate, or fail-closed decision is superseded
+
+Owner-supplied Political Game masters — gray body-geometry authorities, bald
+head/face identity masters, hair-only masters with a face opening, and
+unfitted garment and footwear design masters — enter the runtime only through
+`scripts/art-asset-factory/pg-modular-intake.ts`. The intake is deterministic
+image processing: per-row neutral-background keying with optional
+neutral-shadow suppression, opaque-bounds cropping, mask-derived body rig
+measurement (crown, brow, neck, shoulder line, waist, crotch root, sole line),
+fixed fit ratios against those measurements, hairline or neck-cut origins, and
+Lanczos-3 resampling. No pixel is generated or repainted. Source masters are
+copied byte-for-byte under `art/references/masters/pg-modular/` and every
+derivative's provenance records the master path, master hash, keying profile,
+crop, scale, and fit. A garment design master fitted to more than one body
+family keeps one family identity and yields one derivative per body family;
+context selects the derivative for the person's body.
+
+Manifest records carry an `availability` class. `development-fixture`
+components keep serving people; a `production-candidate` of a kind excludes
+fixtures of that kind from selection at any generation where it exists AND is
+released. The class lives on the record, not the definition, so generation
+signatures are unchanged. The release half of that test is not decoration: a
+candidate that has no drawable raster behind it would replace a person with a
+placeholder.
+
+The ordinary office seam now serves every person: an authored flattened
+recipe still wins; otherwise `composeOfficeVisuals` builds a modular render
+plan for the anchor's pose through the same compositor, and a missing body
+for that pose fails closed to the placeholder. The scene code does not care
+which path produced the character.
+
+The visible seat-contact defect had two causes. The foreground occluder's
+primary-desk-worktop polygon ran to the plate edge and swept through the
+primary chair, painting the chair back and seat over the seated figure. Both
+authored roots were declared mid-torso rather than on the seat plane, so the
+figures sat a quarter of their height too low and beside their chairs. The
+polygon now ends at the chair, and the roots are the seat-contact lines
+measured from the rasters by `scripts/art-asset-factory/seated-contact.ts`;
+the anchors are the chairs' seat points. A regression test measures both.
+
+Consequence: four real people compose from two body families, five heads,
+eight hairstyles, four tops, three bottoms, and three footwear designs, and
+persist and reload unchanged. No real seated body exists, so the office cannot
+yet seat a real modular person; no complexion-matched body base exists, so
+exposed skin on modular bodies renders as the gray geometry authority; no
+eyewear or accessory master exists locally. Those are asset requirements, not
+architecture gaps, and are recorded rather than faked.
+
+Amended by D-059: these thirty-five derivatives are banked candidates rather
+than catalog components. Everything above about the intake, the provenance,
+the seat-contact measurement and the occluder repair stands; what changed is
+that the parts do not enter a catalog generation until a person has looked at
+them.
+
+## D-056 — Legislative procedure is rule-driven, and legislative voting is a record of members
+
+- Date: 2026-09-01 (amended 2026-09-02 after independent audit)
+- Status: ACCEPTED
+- Supersedes: the `docs/systems/legislation.md` statement that legislation is
+  not implemented, for the bounded scope built here only; no Stage 6 policy,
+  election, time, or presentation decision is superseded
+
+A measure moves through an institution, and the institution comes from data.
+`src/simulation/legislature-rules.ts` defines a runtime rule contract covering
+chamber structure, sessions, introduction, referral, committees, floor stages,
+amendments, inter-chamber transit, executive presentment and veto, override
+forum, and enactment. `src/simulation/legislature-rule-packs.ts` holds packs
+compiled from the 50-state institutional research warehouse; every value cites
+the constitution, chamber rule, uniform rule or statute it came from. The
+engine holds no jurisdiction knowledge of its own, and a rule pack that
+contradicts itself is rejected before play.
+
+Three epistemic states never collapse into one another. `known` carries a
+resolved rule and its source, including a resolved negative such as a committee
+that may decline to hear a bill. `unknown` means no source settled it and is
+not zero, none or absent. `not-applicable` means the institution has no such
+concept, as with a second chamber in Nebraska. Reading an unknown rule and
+reading a not-applicable rule raise different errors, so no caller can silently
+treat one as the other, and the player surface says which is which.
+
+Those states fail closed. Only a rule that is `known` and says yes authorizes
+an act: unknown and not-applicable both refuse, and a known negative refuses
+too. That holds at the writer, in the steps the player is offered, and in
+integrity checking alike, so a rule the research did not settle cannot be shown
+as permission on one path and refused on another. Where a legislature applies a
+heavier bar to money bills and that bar is unresolved, the ordinary bar is not
+displayed or validated in its place; the player is told the heavier rule exists
+and is not settled.
+
+Source metadata is part of the simulation contract, not commentary. Each
+chamber cites its own instrument — a House rule cannot establish Senate
+procedure — and `verification` is a claim about evidence rather than a
+constructor default: `verified` means the operative text of the cited section
+was read, `partial` means the section is right but only a heading or official
+summary was checked. Values a scenario needs but no source establishes, such as
+how many members sit on a committee, are marked as the scenario's rather than
+carried as institutional fact.
+
+A measure's position is never stored. `LegislativeMeasureRecord` carries
+identity; `LegislativeActionRecord` is the append-only log of consequential
+transitions; where a bill sits is derived by replaying that log against its
+rule pack. Every transition also writes an ordinary historical event, so the
+institutional story lives in the same history as everything else and survives
+save, reload and replay.
+
+That replay is a state machine, not a reducer over the last action. Each action
+must be legal from the state immediately before it; the chamber, committee and
+floor stage it names must be the ones the measure is actually in; the rule that
+authorizes it must be `known`; and nothing at all may follow a terminal action.
+`assertLegislationIntegrity` refuses a history that breaks any of those, so a
+save cannot carry an impossible order of events, a bill cannot be both dead and
+law, and a measure resolves exactly once. Being signed at some point in the
+past is not standing authority to be enacted later: enactment is legal only
+from the position where enactment is the next step.
+
+Two chambers cannot send different texts to a governor. Where a second chamber
+adopts an amendment, the measure returns to the chamber it started in for a
+recorded vote on accepting that change; agreement leads to enrollment and
+refusal ends the bill. A second chamber that passes the text unchanged goes
+straight to enrollment. Conference between two chambers that will not agree
+remains unimplemented.
+
+Identity belongs to the saved world. Stable keys for new legislative records
+are derived from the measure's own recorded history, never from a counter held
+in a running process, so saving, reloading and carrying on produces the same
+next key as never having left, and two bills played in parallel cannot take
+each other's keys.
+
+Legislative voting shares nothing with the election substrate. An election
+resolves a contest through vote shares and tallies; a legislative question
+either reaches a required number of votes or does not. `LegislativeVoteRecord`
+records named members and their dispositions, the eligible membership, presence
+where the record represents it, the threshold's fraction, its denominator
+(members elected, members present, members voting, committee membership, or a
+joint sitting's combined membership) and its rounding rule. A majority is
+strictly more than half, so a majority of thirty-eight is twenty; three-fifths
+of forty-nine takes at least the fraction, so it is thirty. Integrity
+recomputes every tally, denominator and required count from the record's own
+dispositions, so a snapshot cannot claim an outcome its members did not
+produce.
+
+How a member decides is out of scope. This slice authors member decisions per
+scenario rather than inventing a legislator-behavior model, and leaves a clean
+seam for the researched relationship, bargaining and lobbying systems. No
+step applies an unexplained numeric modifier to any tally.
+
+Legislative activity runs on the world's own clock. A committee hearing is
+scheduled through the existing future-due substrate and fires through the
+ordinary time advance; there is no second legislative calendar. A rule that
+requires a chamber's floor stages to fall on separate legislative days is
+behavior, not decoration: the next stage cannot be reached before its earliest
+eligible date, and waiting for that day is a step the player takes on the same
+clock as the rest of their life. One executive act carries one date — the
+disposition, the action and the event all agree, and none of them may precede
+the presentment they answer. Deadlines are shown to the player but do not yet
+fire on their own, and no action deadline is claimed until calendar semantics
+exist to compute one.
+
+What a committee recommended and whether its motion to report carried are
+different facts. A committee may report a bill with the opinion that it should
+pass, that it should pass as amended, or that it should not pass, and all three
+reach the floor; a committee that will not report the bill at all is a
+different event with a different consequence, and the record shapes them
+differently rather than defaulting one into the other.
+
+The player is never offered another person's decision as a choice. Where a
+measure sits with somebody the player does not control, the only step is to
+wait, and what that person then does is revealed after the wait rather than
+selected before it.
+
+Consequence: the same engine runs three materially different institutions.
+Kentucky is ordinary bicameral and a veto falls to a majority of elected
+members in each house; Nebraska is one chamber with three separate
+constitutional floor stages, no second house and no conference at all; Alaska
+is bicameral but reconsiders a veto in one joint sitting of sixty members, at
+three-quarters for money bills. Those differences change the legal route a bill
+takes, not a label. Conference committees, calendars and deadlines as live
+constraints, automatic adjournment, executive inaction firing on its own,
+line-item and amendatory vetoes, confirmations, and the wider fifty states
+remain deliberately unimplemented. No pack currently resolves what becomes of a
+measure still pending at adjournment, so no measure can be recorded as dying
+that way until one does.
+
+## D-057 — Scenes and people are placed from declared contacts, and rasters are chosen by the screen
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-053 and D-054 rather than replacing them;
+  no Stage 6 semantics, no player/save ownership, and no source-corpus decision
+  is touched.
+
+`EnvironmentSceneSpec` is the one scene contract, and the runtime now consumes
+it. `src/presentation/scene-registry.ts` validates a spec and projects it into
+what the compositor draws; the office fixture's camera, safe areas, anchors and
+occluder are read from that spec rather than from a hand-written constant. A
+second scene schema was available and was not created: the researched spec
+already carried Camera, Anchor, Occluder, Zone, calibration and grade concepts,
+and only the genuinely missing fields were added to it.
+
+A scene may register with no raster at all. That is the honest state of a room
+whose plate has not been made, and the runtime says the picture is missing
+rather than substituting another room's.
+
+Placement is computed from contacts, never tuned per sprite. A scene declares a
+floor line per anchor and, for a seat, the seat plane, front, width and the
+seat and backrest z-orders; a body declares its own soles and, for a seated
+pose, its seated pelvis. Standing puts the sole line on the floor; seated puts
+the pelvis on the seat plane and then checks the resulting soles against the
+floor the chair stands on, because a seated person's feet are on the floor and
+modeling only the pelvis is exactly why hand-placed seated sprites floated.
+A body that predates the contract still places, by its pelvis root, and the
+runtime records that its contact is unverified rather than implying it was
+checked.
+
+Authoring the seat and the floor together settles numbers that guessing would
+not. The office fixture's floor line had to be 84% of plate height, not a
+rounder figure: it is where a seated figure of those sprites' proportions
+actually puts its feet once its pelvis is on the accepted 63.5% seat plane.
+
+Perspective is a bounded linear ramp between two authored floor calibration
+pairs, clamped rather than extrapolated. It is deliberately not a projective
+camera: the generation pipeline cannot supply truthful camera intrinsics, and
+inventing them would be fabricated measurement precision. Perspective depth and
+paint order are now separate fields — depth is the floor line, order is
+`zOrder` — and people in one scene sort by floor line rather than by the order
+they were listed in. Named occluders each carry their own z-order, because a
+desk front and a chair arm occlude a seated person differently and one flat
+mask cannot say so.
+
+One asset identity owns an ordered raster tier ladder, and the screen chooses
+among them: the required device width is the painted plate times the device
+pixel ratio, and the smallest tier at or above it wins. The runtime steps up
+immediately, steps down only after 250 ms of continuous sufficiency, and keeps
+painting the current raster until its replacement has decoded. The pipeline
+never synthesizes or enlarges a tier; a raster carrying less real detail than
+its pixel width claims must declare that, and the shortfall is reported rather
+than hidden.
+
+The supported fidelity envelope is stated on required device width, not display
+width. For a viewport at or wider than the plate's aspect the two coincide; for
+a taller viewport the cover-fit camera paints wider than the screen, so a
+1920x1200 window at device pixel ratio 2 is a 3840-wide panel that still needs
+about 4297 device pixels of plate. Stating the envelope on display width would
+promise fidelity there that no 4096 tier can deliver.
+
+Fidelity acceptance is separate from geometry acceptance and is asserted rather
+than computed and discarded. The camera passes at every tested viewport and
+always did; the shipped office plate fails fidelity from 1440x900 upward, and
+conflating the two is how a soft plate kept a green suite.
+
+For people: master dimensions are enforced by component class and an undersized
+master is rejected rather than enlarged, with the enlargement it would have
+needed stated. `art_class` separates production components from frozen
+development fixture art, and fixture art is never promoted. Complexion is
+source art on bodies and heads in named art-direction bands, never a runtime
+recolor, never demographic truth, and never inferred from a person's name or
+any other property; one head family is one complexion and a head must reach a
+body of the same complexion in every body family it claims. Required slots are
+enforced at resolve time, so a person with an empty required slot is not
+complete however well the rest of them draws. A garment may block a conflicting
+optional slot, and blocking a required one is a validation error.
+
+Consequence: adding a room or a person component is data and asset authoring
+against a stable contract. Development warnings are raised as data rather than
+exceptions, so a wrong-looking person and the contract they broke appear in the
+same view — the old floating-legs defect is now a named mismatch with both
+numbers printed. Player-facing degradation copy stays free of that vocabulary
+and says only what is actually being shown. Title tableau resolution exists as
+presentation-only primitives that take eligibility as caller-supplied truth,
+hold no saves and load no worlds, so no code path there can invent a biography.
+
+## D-058 — Art declares where it came from, and authoring declares what it does not know
+
+- Date: 2026-09-02
+- Status: ACCEPTED
+- Supersedes: nothing. It extends D-057, which established that scenes and people
+  are placed from declared contacts and that rasters are chosen by the screen.
+  This decision governs everything upstream of that runtime contract.
+
+Adding a room is data authoring. The pipeline between an approved picture and a
+registered scene is a set of contracts, and four of them are refusals.
+
+**The repository never enlarges a raster.** A requested tier above the master is
+skipped, the ladder is shorter, and the shortfall is stated. A 4096 file
+carrying 2048 pixels of detail is a promise the runtime cannot keep, and the
+cost is paid by whoever later assumes the number means something.
+
+**An external upscale is admissible, and must be declared.** Rejected
+alternative: banning upscaled masters outright. An externally upscaled render is
+frequently the best art available, and a ban would have meant either losing it
+or laundering it in by hand. Instead a candidate declares its lineage class and
+its native-detail state, and a declared upscale carries `nativeDetailWidth`
+forward into every tier derived from it, into the manifest, into the registry
+and into the runtime's fidelity warnings. Downscaling does not restore
+information and must not be allowed to erase the record of its absence.
+
+`RasterTierDerivation` therefore gained `external-upscale-derivative`: real
+pixels, admissible in production, detail that stops where the declaration says.
+It is deliberately distinct from `upscaled-development-fixture`, which is an
+enlargement this repository performed and which may never reach a production
+plate. Rejected alternative: allowing `nativeDetailWidth` on
+`deterministic-downscale`. That would have made a plain reduction's pixel width
+untrustworthy by default, when the whole value of that derivation is that its
+width IS its detail.
+
+**A scaffold's unknowns stay unknown.** Every value the compositor needs starts
+UNRESOLVED with a reason, and projection to a scene spec refuses while a
+blocking gap remains rather than emitting plausible defaults. A scaffold that
+quietly filled a floor line with 85 would produce a scene that registers,
+renders, and puts everyone's feet slightly through the floor in a way nobody can
+attribute to anything. `UNVERIFIED` is kept distinct from `UNKNOWN` because the
+remedies differ: one needs someone to decide, the other needs someone to check.
+
+**Nothing meaningful is read out of a filename.** Lineage, access class and
+world label are declared by a caller. Intake reads declarations, not
+directories; a file nobody declared is reported as undeclared rather than
+adopted with a plausible history.
+
+Two further separations follow.
+
+Physical art identity is not a world label. A scene family describes the room;
+what the World calls it — the player's apartment, their parents', a friend's —
+is canonical truth supplied at binding time. One apartment plate serves four
+homes across a career and one pavilion serves a childhood birthday and a
+campaign meet-and-greet, which is the whole economic argument for the split.
+Access class describes the kind of gate a place has and grants nothing: role
+eligibility tags are a search key for future progression work, and passage is
+decided from roles the World records.
+
+Baked decor is not information. Production art may be lived-in — artwork, books,
+plants, colored paper shapes, a clock-shaped block — and must not be legible.
+Anything the simulation owns goes in a declared dynamic surface slot, because
+readable words baked into a plate are either wrong or are asserting something
+the simulation never decided, and they are frozen either way.
+
+Measured geometry is an authoring aid and never a replica claim. A number a
+source stated is `direct-published`; a number measured off a drawing is
+`scale-derived` and requires a scale resolved against a known reference span on
+that same reproduction. Marking the second as the first is a validation error.
+Evidence attaches to an archetype informed by several rooms, because what
+transfers to a generic room is proportion, not any one room's dimension.
+
+Consequence: approved masters, external QA passes and measured-geometry research
+now have a schema to arrive through, and the failure modes they would otherwise
+introduce — a soft plate believed sharp, a guessed floor line, a duplicated
+apartment, a frozen bill number, a fabricated dimension — are unrepresentable
+rather than merely discouraged. None of this is wired into PlayerGame; the
+contracts and their tests exist first so that integration stays a cheap
+decision.
+
+## D-059 — One pose contract, and gaps that name themselves
+
+**Decision.** A pose family is registered data with a posture class, a facing,
+a root, contacts, eighteen landmarks, compatibility, a nominal canvas, a master
+minimum, a production status, a human-QA state and a contact-verification state.
+A scene anchor asks the registry for a posture; it does not take the first pose
+any body happens to have art for.
+
+The old resolver asked "does any body have this pose". That is the wrong
+question, and it is how the office guest chair silently drew a desk-work body
+in a guest chair. The right question is "does THIS person's body family have
+art for a pose this anchor permits", and the registry can answer it because
+identity resolution is pose-independent by contract: the recipe fixes body,
+head and garment families before it looks at a pose.
+
+Substitution is deliberately narrow. It only ever happens between poses the
+anchor itself lists, because that author declared them interchangeable there,
+and it is always reported. When nothing permitted can be drawn, the compositor
+fails closed and the diagnostic names which body families do have art and which
+do not, rather than saying "missing".
+
+**Statuses are checked against the library in both directions.** A family
+claiming released art must have some; a family claiming none must have none. A
+status that could only ever flatter is not a status.
+
+**Consequence.** The generation queue is computed rather than argued about. Of
+four uncovered pose families, exactly one is blocking current gameplay, because
+exactly one is asked for by a live scene anchor.
+
+## D-060 — Structure is a control layer, not a paragraph
+
+**Decision.** Every pose family generates one deterministic control plate from
+its own landmarks: limb mass, a closed torso, the skull above the headless body
+canvas, the contact planes, the skeleton, every landmark and both contacts. The
+art validator re-derives every plate and rejects one whose landmarks moved
+without regeneration.
+
+This implements the structure-control research conclusion that exact body
+structure and final visual rendering are separate control layers. Repeated
+prose-only anatomy edits normalized toward a model's default proportions; that
+was a control-method problem, not a prompt-wording problem.
+
+A plate carries no text, because text in a control image bleeds into generated
+art. A plate is never production art: no bone line, landmark dot or contact
+ring may appear in a finished character raster. Anchor dots live in metadata and
+a developer overlay draws them from there.
+
+## D-061 — A master is a source, and a filename is not evidence
+
+**Decision.** Twenty-five source masters are re-homed from the superseded PR #48
+branch as `character-component-master` assets, permanently unreleased. Exactly
+two meet the current dimension contract; none carries alpha. The thirty-five
+normalized derivatives are rejected: they sit 3.1x to 11x below the contract,
+and the garment set was enlarged above its own master, which is precisely the
+failure the master minimums exist to prevent. Nothing is lost, because the
+masters are here and the exact derivation recipe is preserved in provenance.
+
+Identifiers are re-cut on intake. The source named heads and hair with
+demographic tokens. Complexion is art direction, never demography, and is never
+inferred from a name, so those tokens do not enter asset IDs or paths; the
+received filenames stay in provenance so the lineage remains checkable.
+Hairstyle names are kept, because a hairstyle names a hairstyle.
+
+**Consequence.** The project now holds real production-size standing body
+authority for the first time, and knows precisely what it does not hold: no
+character master with alpha, and no head, hair or garment master within reach
+of its own minimum.
+
+## D-062 — A disposition without evidence is an assertion
+
+**Decision.** What happened to superseded branch cargo and to downloaded asset
+packs is recorded in one validated ledger. A `re-homed` claim must name real
+manifest assets and must have been measured in this repository; an entry that
+was not measured must name the command that would settle it; every disposition
+must give a reason. No external pack is counted as coverage anywhere.
+
+The animation library is archived on its purpose rather than its contents: an
+animation library is motion data for a rig, and the operating rule excludes
+rigging, 3D posing and extracting frames from rigs. The base-character and
+office packs are held pending rather than rejected, because a 129MB and a 527MB
+archive were not opened and rejecting them unseen would be as unfounded as
+adopting them unseen.
+
+**Consequence.** The asset bank inventory can state coverage without any of it
+resting on something nobody checked.
+
+## D-063 — Banked art is not catalog art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 (the disposition of its thirty-five derivatives only; its
+  intake, provenance, measurement and occluder decisions stand)
+
+Intake produces real files, real hashes and a real component definition long
+before anyone has agreed the art is good enough to put on a person. D-055 let
+those two things happen at once: the first thirty-five normalized derivatives
+were written into catalog generation 2 and marked released, which asserted
+production quality on behalf of art nobody had accepted.
+
+Looked at, the assertion does not hold. The body masters are untextured gray
+geometry mannequins, so every skin region a garment does not cover — hands,
+neck, forearms, any leg below a skirt — renders gray; the garment masters are
+unfitted design art rather than art drawn onto a body. Both are answerable only
+by eye, and the answer is currently no.
+
+So a banked part is now a distinct thing from a catalog component. A record
+with `asset_type: "character-component-candidate"` carries its definition in
+`candidate_component`, must be `unreleased`, and belongs to no catalog
+generation. `createCharacterComponentLibrary` cannot see it, so no identity can
+resolve to it however good its hash is. `liftCandidatesForReview` builds a
+throwaway library from candidates alone, and the `?view=character-proof&set=real`
+proof composes people from that — the surface on which the art is accepted or
+rejected. Promotion is then a deliberate act: `candidate_component` becomes
+`component`, the type changes, and the part joins a NEW generation.
+
+Keeping candidates out of the catalog is what protects the frozen-generation
+guarantee. A generation's membership is signed so a saved person resolves to
+the same parts forever; admitting a component that cannot be drawn would either
+render that person as a placeholder today, or change who they look like on the
+day the art is accepted. Generations 1 and 2 still carry the exact members and
+signatures PR #74 published, and a test reproduces both.
+
+Consequence: thirty-five derivatives, twenty-five masters, five master
+manifests, the deterministic intake, the seat-contact measurement, the occluder
+repair and the recombination proof are all preserved and under test; not one of
+them can reach a player until someone says so.
+
+## D-064 — A surface carries information only if it can be read, and a symbol is an identity before it is art
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Extends: D-058 (the authoring pipeline) with the four systems below; no
+  lineage, tier, scaffold or asset-bank decision is superseded
+
+The approved environment library — three apartments, a civic meeting hall, an
+executive suite and the Lexington staff office — now exists as authoring records
+rather than as research notes. Five are scaffolds carrying measured floor ramps,
+seat planes, staging positions and occluder rectangles; all five refuse to
+project, because the plates are Drive-only and nobody has decided a camera or a
+safe area. The refusal is the point: an incomplete scaffold is honest, and a
+spec with plausible numbers standing in for decisions nobody made is not.
+
+**Legibility gates promotion.** Thirteen visible frames and screens were
+inspected across the six rooms; four became runtime surfaces and nine stayed
+painted. The floor is 5% of plate height and 5% of plate width, with a 3% height
+floor for foreshortened surfaces — a document on a desk is a large page seen
+nearly flat — and no component floor at all for a surface carrying a known image
+or one line of text. Generative models paint small blank frames on every shelf,
+and promoting them yields a room of illegible dashboards; an illegible dashboard
+is worse than a rectangle of paint because it asserts something nobody can
+check. Applying the rule found one inconsistency in the inspection's own
+dispositions: the staff office corkboard pin, promoted there, is about 46 pixels
+across at 1080p and is declared ambient here, reversibly and with the number
+recorded.
+
+**A component surface says what may be drawn on it.** Twelve component families
+— a trend line, a roll call, a district map, a briefing card and eight others —
+each name the surface kinds they can honestly be drawn on and the empty state
+they fall back to. Both halves matter: a roll-call grid on a domestic television
+is a category error nothing at runtime would catch, and an empty state that
+invents a plausible docket is a lie the art keeps telling. Every fallback says
+the absence out loud.
+
+**Civic symbols are identities with citations.** 188 flags, seals and arms
+across 65 jurisdictions are recorded with their statutory authority, their
+restriction statutes and their colors, and every one is `not-acquired`: this
+repository holds no symbol artwork. Three rules are structural rather than
+advisory. There is no asset status meaning "generated", so an AI-drawn seal is
+unrepresentable rather than discouraged. A symbol that has not been acquired
+cannot carry an asset path. `symbolUsePermitted` refuses campaign and commercial
+contexts without reference to which symbol is being asked for, because the
+prohibition is about the use.
+
+**A downloaded pack answers two questions, not one.** What the license permits
+and whether the files are the kind of thing this renderer draws are independent,
+and answering only the second is how unlicensed art gets shipped. `use-now`
+requires a license stated in a document inside the archive AND at least one file
+of finished 2D art; anything else is archived or rejected with a reason from a
+closed vocabulary.
+
+**The generation queue says where art is, not just that it is wanted.** Most of
+what looks missing is not: it is banked here unreleased, or in Drive at the
+wrong resolution, or covered by a fixture nobody has noticed. Of 115 modular
+person assets accounted for, 58 are genuinely missing, 13 exist and fall short
+of a stated measurement, 2 exist and pass, 35 are banked here, and 7 are
+fixtures standing in silently.
+
+Consequence: adding a room is authoring data. What is still missing to ship one
+is bytes and two human judgments — a camera, and whether the art is good enough
+— and the records say which is which rather than blurring them.
+
+## D-065 — A banked candidate is in no generation, and says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-063 (its representation only; every disposition it made stands)
+
+D-063 said a banked candidate "belongs to no catalog generation". The records
+said otherwise: all thirty-five declared `catalog_generation: 2`, because
+`candidate_component` was typed as a full `CharacterComponentDefinition` and
+that type requires the field. The intake wrote 2 into every derivative, and the
+review lift built a generation-2 library by reading it back. Nothing leaked —
+the catalog could not see these parts and no saved person's appearance moved —
+but the schema, the generator, the tests and the prose disagreed with the
+binding contract, which an independent acceptance sweep reported.
+
+The disagreement is worth repairing rather than documenting away. A generation's
+membership is signed so a saved person resolves to the same parts forever, and a
+record that names a generation it is not in makes that signature harder to
+trust: it asserts a membership no ledger backs. "In no generation" and "in
+generation 2 but hidden" are different claims about the catalog, and only the
+first is true of art nobody has accepted.
+
+So a candidate now carries no generation at all.
+`CharacterComponentCandidateDefinition` is `CharacterComponentDefinition`
+without `catalog_generation`, derived from it so the two cannot drift, and the
+single difference between a banked part and a catalog part is the one that
+matters: membership. The field is absent rather than zero or null, because a
+candidate has no membership to state, not an empty one.
+
+A generation is assigned where admission happens and nowhere else.
+`promoteCandidateComponent` takes the generation from its caller, because
+admitting a part is an authorized decision about the catalog rather than
+something the part decides about itself. That function is the only place banked
+art is given a generation, which is what makes this decision a fact about the
+code rather than a sentence here. It writes nothing and promotes nothing; the
+thirty-five remain banked, unreleased, and awaiting the human visual acceptance
+D-063 reserves.
+
+Two consequences follow. `liftCandidatesForReview` has no number to carry over,
+so it stamps its own: the throwaway review library is one generation containing
+exactly the candidates, invented locally and never written back. And because the
+manifest is JSON and cannot be held to a type,
+`validateCharacterComponentCandidates` rejects any candidate that declares a
+`catalog_generation`, so the repair cannot quietly regress the way it arrived.
+
+Consequence: the published generations, their frozen signatures, the forty-six
+development fixtures and every disposition D-063 made are unchanged. What
+changed is that the records now say what the authority always said.
+
+## D-066 — A sitter is placed by what touches the chair, and a chair is where the picture says it is
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Repairs: D-055 and D-057 (the office fixture's seat geometry only; their
+  intake, pose, contact and authoring decisions stand)
+
+Human visual review of the office fixture rejected both seated figures: the
+primary sitter read as hovering in front of her chair rather than sitting in
+it, and the guest read as intersecting his. Neither was an art defect. Both
+rasters are coherent people, and the compositor placed them exactly where the
+scene told it to. The scene was wrong in two independent ways, and each hid the
+other.
+
+**The chairs were never measured.** Both anchors declared a seat plane of about
+63% and a shared floor line of 84%. The 84% was not read off the plate at all;
+the fixture's own comment recorded that it was derived from the 63.5% seat
+plane by asking where a sprite's feet would land. One unmeasured number was
+solved from another, so the two agreed with each other and with nothing in the
+picture. Measured off the runtime plate, the desk chair's cushion occupies
+y 68.4%–75.6% and the guest chair's y 61.8%–65.2%; the old 63.5% sat a third of
+the way up the desk chair's BACKREST. The two chairs also stand at different
+depths and cannot share a floor line: the desk chair's base meets the carpet
+near 91%, the guest chair's legs near 75%.
+
+**The placement point was the wrong point.** `composeOfficeVisuals` placed each
+recipe's `root` — the pelvis-hip-CENTER, a joint inside the body — on the seat
+plane. The thing that rests on a cushion is not that joint but the buttock and
+thigh surface a couple of percent of raster height below it. The recipes had
+declared a `seatedContact` all along and the compositor ignored it, while the
+modular path in `scene-placement.ts` has always placed seated bodies by their
+`seatedPelvis` contact. Two paths, two meanings, one of them silently wrong.
+
+So each anchor now carries its own measured cushion and its own measured floor
+line, the seat plane sits one third forward of each cushion's back edge because
+a sitter with their back against the backrest rests on the rear of the seat,
+and the compositor places the measured seat contact rather than the hip joint.
+Each sprite's contact-to-sole span then covers its own seat-to-floor gap, so
+pelvis-on-cushion and soles-on-floor hold together instead of being traded
+against one another. `standard_body_width_percent` moved from 21.5% to 19.48%
+because it is solved against those lines and the lines moved.
+
+Two consequences worth recording. The desk anchor returns from 79.2% to the
+measured cushion center at 77.2%: the 79.2% was a staging offset that existed
+only because the body was placed by its hip joint, which pushed its visible
+mass right until it threatened the safe area. And the working-document and
+briefing-memo affordances move above the scene-person hitboxes, where the civic
+marker already sat — a correctly sized sitter's transparent hitbox now reaches
+across the desk, and it must not swallow the click that opens the paper beneath
+it. Nothing about the painted scene changes; the person button draws nothing.
+
+Consequence: the office fixture's layout, occlusion rules, attachment system
+and composition are untouched. What changed is that the numbers describing the
+furniture are now read off the furniture, and the point placed on a chair is
+the point that touches it.
+
+## D-067 — The production office is a different room from the fixture, measured from its own master
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing. D-055 and D-057 keep the fixture; this adds the first
+  production scene beside it.
+
+Three rounds of human visual review of "the office" were rounds of review of a
+development fixture. `office-council-staff-fixture` declares
+`presentation_status: development-fixture`, a 1024x572 prompt30 plate, and a
+2048x1144 tier registered honestly as an upscale carrying no detail past 1024.
+Its own `explicit_unknowns` say its numbers "should not be copied into a
+production scene". It was the only office surface that existed, so every
+placement repair polished it and every screenshot of it was read as the game.
+
+The canonical Drive library already held an approved master —
+`OCD_SCENE_MASTER_SHARED_WORKROOM_OFFICE_5504x3072_01.jpg`, 5504x3072 — but
+Drive is not a runtime: the runtime imports `art/**` and nothing else, so a file
+sitting in Drive is not selectable however approved it is.
+
+So the master is now IN the repository, preserved byte-for-byte under
+`art/references/masters/scene-environment/` with its Drive id and sha256
+recorded in provenance, and carried into the runtime as two Lanczos-3
+DOWNSCALES at 1376x768 and 2752x1536. Both are `deterministic-downscale`, so
+neither declares a native-detail shortfall: their pixel width is the truth.
+Nothing in this repository enlarged anything.
+
+`shared-workroom-office-production` is the scene, and every number in it was
+measured from that master. The room's tiled floor is its own ruler: a 12-inch
+commercial tile measured near and far gives the apparent size of a known length
+at two depths, which solves the horizon at 39.9% of plate height and yields
+one meter ~= 0.585 \* (floor_y - 39.9)% of plate height. The floor calibration,
+the 18.42% standard body width and the cross-check on the one measurable seat
+all come out of that single relation. Nothing was transplanted from prompt30;
+a test asserts the two scenes share no plate, no ramp, no body width and no
+anchor.
+
+Only one chair in the room has a visible cushion. Every other seat is hidden
+behind a work table, so no seat plane can be measured for it, and those chairs
+are deliberately NOT declared as seat anchors rather than being given plausible
+numbers. The near table's occluder region is declared without an alpha mask,
+because nothing renders behind it yet and painting a speculative mask over a
+plate this detailed would be inventing geometry to satisfy a checklist.
+
+The production scene composes from `PRODUCTION_ONLY_CHARACTER_LIBRARY`, which
+is filtered to components that are not development fixtures. That set is empty
+today, so every anchor fails closed and the proof surface says which anchor
+failed and why. The authored A01/B01 recipes stay where they belong: on the
+fixture route, keyed to historical fixture appearance seeds, and a test forbids
+them from appearing on the production scene under any path.
+
+Consequence: `?view=production-office` is where office visual acceptance now
+happens, and it states its scene id, environment asset id, raster tier and
+derivation, production status and per-anchor rendering path on the page. A
+screenshot of it cannot be confused with a screenshot of the fixture, which is
+the confusion that cost three review cycles. `?view=office-fixture` survives,
+unchanged and clearly labeled, as regression evidence.
+
+## D-068 — A body root is not a garment attachment, and the banked bodies' anchors are not authoritative
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-055 and D-063 (the standing of the banked candidates' attachment
+  metadata only; their disposition as unpromoted reference evidence stands)
+
+With debug anchors on, human review found the `hips` attachment anchor on both
+banked bodies reading around the lower abdomen rather than the pelvis. The
+numbers confirm it: `pg_body_ml_standing_v1` puts its pelvis root at y 0.5396
+and its `hips` anchor at y 0.3479 — the garment hip line is authored roughly a
+fifth of body height ABOVE the hip joint it is named after.
+
+This is not a labeling nit. Bottoms attach to `hips`, so every trouser, skirt
+and pair of jeans in the bank hangs from the wrong line, and any fit judgment
+made against those garments was made against a contaminated placement.
+
+The repair is NOT to move the numbers. These bodies are rejected for production
+on their own merits — untextured gray geometry is structural and reference
+evidence, never player-facing body art — and quietly correcting their anchors
+would be promotion by the back door. Their attachment coordinates are therefore
+declared non-authoritative visual estimates on the records themselves, with the
+instruction that they are not to be inherited or repaired.
+
+What is added instead is the rule the next body will be held to.
+`CHARACTER_SEMANTIC_ANCHOR_ORDER` names six points that are different things
+with different jobs, and `validateProductionBodyAnchors` enforces two facts
+about them: they descend the body in order, and the garment `hips` attachment
+sits at or below the pelvis root, because a waistband does not ride up inside
+the ribcage. The root is the rig's placement point and nothing is worn on it;
+`feet` is a floor CONTACT and not an attachment at all.
+
+A test records that both banked bodies fail this rule, and says in its own name
+that they are not to be repaired to make it pass. Every future production body
+master measures these anchors from its own raster rather than inheriting them
+from a DEV fixture or normalizing them by eye, and shows them over that raster
+on a debug proof before any wardrobe family is accepted against it.
+
+Consequence: the distinction between placement and attachment is now written
+down and checkable, the contaminated coordinates are labeled where someone
+reading the record will see them, and no rejected art moved a pixel closer to
+production.
+
+## D-069 — The title screen resolves a room the way every other surface does, and can name no office
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+The title screen was plain markup on a pale page while `title-tableau.ts`,
+`scene-registry.ts` and `raster-tiers.ts` all existed and all passed their own
+tests. The resolver was correct and unreachable, which no unit test on the
+resolver could detect, so the first artifact of this decision is a browser test
+that fails when the front door paints nothing.
+
+The tableau an ordinary adult resolved to was the Lexington council staff
+office, because it was the only tableau in the bank. That is the
+universal-office substitution the consumer map forbids, and gating it more
+tightly is not the repair: the fact that would justify that room is which
+jurisdiction a character's job answers to, and a save summary does not carry it.
+The Lexington tableaux are therefore ABSENT from the title registry rather than
+restricted, and a test walks every capability set a summary can produce to prove
+no path reaches them.
+
+What a save summary can honestly support is an age and whether a residence is on
+record. `titleHeroFromSaveSummary` emits `adult` and `residence-known` and
+nothing else; `office` and `legislature` exist in the registry and are never
+emitted, so the tableaux gated on them cannot match. When the persistence lane
+carries canonical capability tags on the summary they belong in that one
+function, and the tableaux light up with no change to the registry or the shell.
+
+The community meeting hall is banked for its EMPTY state only. Being an adult,
+or having a job, does not mean a character has ever spoken at a public meeting;
+putting them at that lectern because the picture contains a lectern is
+presentation inventing a life. A no-save title uses one named front-door tableau
+rather than a deterministic pick, because the first screen of a game is the one
+place stable-but-arbitrary is wrong.
+
+Consequence: the title screen shows approved production art, an ordinary person
+is shown an ordinary room, a child is shown a room with their name on it and no
+figure at all, and no title can show jurisdiction-specific office art.
+
+## D-070 — A room is measured from its own raster, or it says it is not measured
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Four production plates were authored in this packet. None declares a floor
+calibration or a standard body width, and that is a refusal rather than an
+omission.
+
+The two apartments and the title hall have no repeating floor unit, so their
+plates contain no ruler and any near/far pair would be a guess wearing a
+measurement's clothes. The hearing room DOES have a tiled floor, and it was
+measured: successive tile seams sit at plate y 63.7%, 69.5%, 76.6%, 85.5% and
+96.5%. Fitting those to a flat floor under a fixed camera solves a horizon near
+the very top of the frame, which the room's own walls and ceiling contradict.
+The plate is an illustration and is not drawn on one consistent perspective. The
+measurement is recorded in `explicit_unknowns` and no calibration is derived
+from it, because a ramp fitted to numbers that do not describe a camera would
+place every future person in that room wrongly and look deliberate.
+
+Three rules are now executable. A production scene either declares a calibration
+pair or says in `explicit_unknowns` that it does not. No scene declares a body
+width without the ramp that scales it, because a size with no perspective paints
+everyone the same height whatever floor they stand on. And no two rooms share a
+ramp or a body width: two rooms agreeing to three decimal places did not both
+measure out that way, one was copied, which is exactly what made the fixture's
+numbers into "the project's numbers" before D-067.
+
+Consequence: an uncalibrated production room is a stated fact rather than a
+missing field, and the first person composed into any of these rooms will be
+placed against a ramp measured for it, not inherited from another picture.
+
+## D-071 — A missing picture is a record, and a generator seed is never its name
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Every gap in this project had been recorded as a sentence in a report. Sentences
+do not reconcile: nobody can ask a paragraph whether the thing it wants has
+since arrived, and when the standing queues were checked against the current
+Drive, four of their answers had changed. A hearing-room master had arrived and
+closed a gap the consumer map called permanent; an executive office master and
+two title tableaux had been moved into the rejected folder while the
+repository's intake request still listed them as approved.
+
+`asset-request.ts` makes the ask durable. Every request carries a stable
+semantic id, a lifecycle, the consumer it unblocks, what was SEARCHED before it
+was asked for, and acceptance criteria a delivery can fail. The inventory check
+is required because commissioning a second copy of something the project already
+owns is a mistake this project has made.
+
+A diffusion seed may be recorded as provenance and may never be an asset's
+identity. A seed names one roll of one model's dice: it survives no model
+upgrade, describes nothing about what the picture is for, and cannot be searched
+for by anyone asking whether the asset exists. The validator rejects a
+seed-shaped or digest-shaped request id.
+
+The return path is deliberately NOT reimplemented. `asset-lineage.ts` already
+measures a candidate and issues a disposition; `asset-bank.ts` already records
+the verification with hash, container, dimensions, transparency, style-family
+judgment and artifact flags. A second verification record would give the
+project two answers to "was this accepted".
+
+Consequence: a gap is a record with an id that survives being solved, a stale
+request is closed with a reason rather than requeued, and the queue can be
+checked against the manifest by a test rather than by a person.
+
+## D-072 — A surface says nothing unless a canonical owner fills it
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+
+Scenes declare surfaces — screens, boards, placards, documents on tables — and
+each names the classes of information it could carry. `surface-binding.ts`
+decides what appears on them, and its whole design is one refusal: presentation
+never supplies a payload.
+
+The chain is base plate, to a slot measured off that plate, to a canonical owner
+that holds the fact, to a binder, to the visible room. If the third link is
+missing the chain stops and the slot shows the decoration the scene already
+declared for it. It does not show a plausible bill number, a seal that looks
+about right, or a date because a screen is the sort of thing that has one.
+
+Today the world owns exactly one of the offered classes: the date.
+`worldSurfacePayloads` binds `calendar-date` and returns nothing for bill
+numbers, tallies, seals, headlines, portraits, agendas and results — and that is
+a description of the simulation, not a limitation of the binder. "No owner" and
+"owner with nothing" are kept as separate states, because the second is the more
+actionable of the two and collapsing them hides that a system exists and is
+empty.
+
+This matters more than it sounds. Every surface in this game is in a civic room.
+Inventing any of those classes produces a picture of a government that does not
+exist, which is indistinguishable from a simulation bug and much harder to
+notice.
+
+Consequence: 26 declared surfaces across seven rooms currently show their
+painted decoration and say why, on a review route, instead of being quietly
+blank or quietly wrong.
+
+## D-073 — A sheet is chopped by its own alpha, and a clean chop is not an approval
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+
+Four source sheets arrived and 32 components came out of three of them. Two
+rules came out with them.
+
+The first is that the grid is never assumed. These sheets do not divide evenly
+by their column count — 3584 across three columns is 1194.67 — so a fixed
+lattice shaves a pixel off some cells and not others, and the components stop
+being reproducible from the sheet. `source-sheet-chop.ts` projects each sheet's
+own alpha onto both axes and takes a cell as the intersection of one occupied
+column band with one occupied row band. A sheet laid out differently segments
+differently with no parameter changing.
+
+Background haze is cleared first, at alpha 8 rather than the alpha 1 the hair
+intake used, and the threshold is evidence rather than taste: roughly 22% of
+every sheet sits at alpha 1..8, and sampling found 98% of it more than four
+pixels from any pixel above alpha 64. It is background, not the soft edge of
+anything. The count cleared is reported per sheet, because a cleanup nobody can
+see the size of is a cleanup nobody can check.
+
+The second rule is the one that matters more. Twenty of the 32 cells chopped
+perfectly and are still not usable. Eight adult bodies carry a green silhouette
+contour on 67-80% of their soft-edge pixels — the approved character style
+authority has no silhouette stroke of any color, and at the ~250 plate pixels a
+body actually paints at, the rim is plainly visible. Twelve footwear pairs are
+drawn as bonded three-quarter product views while the body family stands
+front-on with its feet apart. Neither is a quality fault and neither is fixable
+by cropping differently.
+
+So the disposition vocabulary is per cell and separate from the chop: PASS,
+REVISE, REJECT, recorded in `art/qa/p71/source_intake_dispositions.json` with
+the measurement that produced it. Twelve heads PASS. Twenty cells are REVISE. No
+cell was promoted, and no body attachment anchors were authored at all, because
+D-068 requires a production body's six semantic anchors to be measured from the
+raster that actually ships — and this raster is going to be re-exported, so
+anchors measured now would be discarded, and authoring them to look complete is
+precisely the failure D-068 records.
+
+Consequence: chopping is measurement. The project can now take a dense sheet
+apart reproducibly, say what each cell is, and say why a good cell is still not
+shippable, without either discarding the sheet or promoting it.
+
+## D-074 — Source evidence is a separate substrate, and it is built out of refusals
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing on accepted main, which contained no `src/source` at all
+- Reconciled: renumbered from D-059 on merge of accepted main
+  (PR #87), whose D-057–D-073 already occupied the D-059 slot; the
+  architecture is unchanged, only the identifier.
+
+Real-world data enters this repository through one substrate, and that
+substrate is designed around what it will not represent. The failure that
+produced the rejected provenance architecture was not carelessness about facts.
+It was a design in which a fabricated fact was _representable_: a provenance
+record that took any string as a hash, a value type with a `value` field on
+states that have no value, a compiler that accepted any object, a manifest that
+stamped itself with the clock. What cannot be represented does not have to be
+caught.
+
+Two provenance records, never blended. A `RawArtifact` is evidence of a
+retrieval — a URL, an HTTP status, the instant it happened, and a SHA-256 over
+the bytes that came back. A `NormalizedCorpus` is evidence of a computation —
+which compiler at which version read which locked artifacts to produce how many
+records. A container and the member inside it carry different digests, because
+they are different bytes. `source:verify-artifacts` re-hashes what is on disk,
+so a digest that was of a URL string, of a parsed object, or simply typed by
+hand fails the first time anybody runs it.
+
+One value algebra, with eight states, five of which have no `value` key at all.
+KNOWN, HISTORICAL and NOT_YET_OPERATIVE carry a value; NOT_APPLICABLE,
+NO_REQUIREMENT_FOUND, SUPPRESSED, CONFLICTING and UNKNOWN do not have the
+field, so `?? 0` has nothing to attach to. There is no `valueOr` and no
+overload that takes a fallback: a caller who needs a display default writes it
+at the presentation boundary, where a reader can see it. Only KNOWN is present
+truth — a historical value and a not-yet-operative one both carry numbers and
+neither is the answer to "what is it now". Release status is an orthogonal
+property of a KNOWN value rather than a ninth state, because a preliminary
+number is still a number.
+
+Aggregation returns an aggregate, not a number. A sum over a set containing any
+non-KNOWN member is INCOMPLETE, names every gap and calls its number
+`partialValue`. Reconciliation refuses an incomplete component set outright
+rather than treating an absent part as zero, which is how a corpus with missing
+counts used to reconcile perfectly and wrongly.
+
+Compilers take opaque capability handles. `ProductionInput` and `FixtureInput`
+are branded with `unique symbol` keys that cannot be named outside their
+module, so a caller holding arbitrary JSON has no path to a compiler at all.
+Opening production artifacts reads bytes and compares digests; it does not
+trust filenames. Fixtures resolve only under `fixtures/source/` _and_ must
+declare themselves, because a path check alone falls to a symlink and a marker
+alone falls to a file in the right directory.
+
+Nothing tracked under `data/source/` carries a wall clock. Retrieval time is
+acquisition evidence, recorded by the retrieval that produced it; a corpus's
+`asOf` is the semantic date the publisher declares. A build-time observation is
+not a fact about the world, and it is what makes a generated artifact fail to
+regenerate. `npm run validate` compiles the whole tree into a scratch directory
+and fails on any byte that differs.
+
+Coverage is mandatory and has no default. Every corpus says whether it holds a
+complete universe, and a bounded one says why in a sentence a reader can check.
+Where an artifact is too large to commit, its identity is still pinned and a QA
+slice is cut from it by a stated predicate, with the parent's digest on the
+slice — so anyone holding the parent can re-cut it and compare.
+
+Identity is not authority. A place, county, district, court or committee record
+says what exists, what it is called and where it is. Powers, eligibility,
+selection method and current operative status are separate facts needing
+separate evidence, and each domain's validator refuses a field whose name
+claims otherwise. Nothing in the running game imports the substrate: a fact
+reaches the world through a named one-way adapter, and no adapter exists yet.
+
+## D-075 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 on merge of accepted main (PR #91),
+  whose source-substrate decision already occupied the D-074 slot; the
+  architecture is unchanged, only the identifier.
+
+The project can now read how canonical truth, claims, knowledge, perception,
+belief, decisions, relationships and consequences connect in a save. It reads
+them; it does not record them. `src/devtools/**` projects existing records into
+a graph whose every edge is a field the record already carries —
+`parentCausalIds`, `source.claimId`, `eventId`, a `supersedes` pointer, a mind
+source reference — and holds nothing between inspections. There is no second
+history store and no second causal graph. The downstream direction is derived
+at inspection time by reversing recorded parent edges, because the world
+records parents and not children, and persisting that reversal would turn a
+convenience into a competing source of truth.
+
+Nothing in the tool joins records by matching dates, names or text. That is the
+temptation the whole design resists: such a join produces a graph that looks
+causal and is not, and once it is in an exported trace an invented parent is
+indistinguishable from a recorded one. Where a nullable link field is null, the
+projection emits an unrecorded link naming the field and saying why nothing
+follows. Where a walk stops, it says which of five things stopped it: nothing
+was recorded, the target belongs to no registered source, the depth limit was
+reached, the edge closed a loop, or the edge reached a record another path had
+already reached. A shared ancestor is not a cycle, and reporting it as one
+would invent a loop the world does not have.
+
+Record class and truth origin are separate axes. Class answers what kind of
+record this is — canonical event, spoken claim, knowledge received, perception,
+mind state, private belief, public position, commitment, relationship change,
+decision trace, effect activation, presentation metadata. Origin reads the
+record's own provenance field and distinguishes authored and initialization
+background from simulated truth. A family carrying no provenance is
+`unrecorded`, which is not a synonym for authored, and a record the repository
+cannot justify classifying stays `unknown`.
+
+Which record families are traceable is a registration rather than a hard-coded
+list. A family becomes visible by registering a `TraceSource`; the graph logic
+knows nothing about which families exist. A registered source may not
+manufacture an edge, and may not claim a record id another source already
+produced — shadowing is rejected rather than merged, because a silent
+replacement would change what a trace means without changing anything visible
+about it. Later narrative and Pennywise trace sources register through this
+seam and require no change to the walker, index, export or UI.
+
+Absence of a record is never by itself evidence of absence in the world. The
+observer projection answers "who did not hear this" in two separately labeled
+ways: a person the event record lists as a participant who has no knowledge
+record citing the claim, and a person some caller's presence set names whom the
+event record does not list at all. The caller must state where that presence
+set came from and the trace repeats it. With no presence set supplied, the
+trace says plainly that it can only speak about recorded participants.
+
+Exports carry seed, world id, schema and generator version, history frontier
+and world content id, so a trace pasted into a bug report is something the next
+person can regenerate and diff. Identical replay plus identical request
+produces byte-identical output, through `canonicalJson` rather than a second
+serializer. The devtools boundary forbids ambient entropy for the same reason
+the simulation does.
+
+Consequence: audibility is visibly causal rather than cosmetic. The same two
+conversation turns, run quiet instead of normal, produce a different resolved
+listener set, a different set of knowledge records, a different set of
+perceptions, and a second-turn decision whose recorded chain ends somewhere
+else entirely. The tool did not arrange any of that; it read it back off the
+records. The inspector remains a development route at `?view=causal-trace`
+that ordinary play cannot reach, and opening, filtering, walking, comparing and
+exporting leave the world's canonical serialization, content hash and append
+frontier identical.
+
+## D-076 — Authored content is described by a declarative bank contract, not re-authored
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 on merge of accepted main (PR #84), whose
+  source-substrate decision holds D-074 and whose causal-tracing decision holds
+  D-075; the architecture is unchanged, only the identifier.
+
+The game's authored content lives in the modules that run it: formative
+situations in `character-history.ts`, conversation subjects in
+`conversation-subjects.ts`, the ordinary week in `ordinary-life.ts`, measures in
+`legislation-scenarios.ts`, institutional procedure in
+`legislature-rule-packs.ts`, and the personality, policy, metric, causal,
+incident and mortality definitions in their own catalogs. Each describes itself
+in its own vocabulary, which is correct for the code that runs it and useless
+for reviewing what the game contains.
+
+`src/content/` describes that content and does not re-author it. Adapters read
+banks that already exist; the banks keep their own shapes, their own stable
+keys, and their authority over what they mean. A bank id is a stable dotted
+content key checked with the existing `assertDottedContentKey`; an item id is
+`${bankId}/${itemKey}` where `itemKey` is exactly the key the source bank
+already uses, because renaming existing content to satisfy an index would be
+the index changing the game.
+
+Rejected: migrating the banks into one authored content format. That would
+rewrite content this lane does not own, and would make the index the source of
+truth for content whose truth lives in the modules that run it.
+
+Rejected: a second selection or orchestration engine over the index. Selection
+stays where it already is. The index holds no world, evaluates no eligibility,
+and cannot change anything.
+
+Every dimension is either declared by the bank or explicitly undeclared with
+the reason it is. There is no third state and no default, because an index that
+quietly invents a prerequisite reviews as fact. The test is what the SOURCE
+declares, never what runtime code could compute: a value a function could work
+out from a world is undeclared here, because the bank did not write it down.
+Formative eligibility is a predicate over a world in
+`formativeEligibilityProvider`; a conversation subject's intents come from
+`availableIntents(world, room, addressee, progress, …)`; the ordinary week's
+gate is `ordinaryLifeAvailableFor` asking `formativeIntervalAt`, and everything
+else about an ordinary work item is written by `openOrdinaryLife` from a world
+at creation time. All of those are findings rather than gaps. An episode
+stage's `requires`, by contrast, IS data — every `EpisodeRequirement` names a
+role, an age, a capability, a fact key or an earlier stage — so it is read and
+transcribed under each kind's own vocabulary. Reading a requirement is not
+evaluating one, and nothing here builds a world to do so.
+
+Each field means one thing and is used for only that thing, and a fact the bank
+declares once is reported once. A prerequisite gates; a required canonical fact
+is a record a world must show; an option is a bounded choice offered to
+somebody; a follow-up is somewhere the content leads; a role is a part somebody
+plays. Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, its members and its executive office, a measure's
+authored member decisions and the disposition its executive is written to take,
+which rule pack and jurisdiction a measure belongs to, a questionnaire item's
+assumed relationships and settings, a conversation subject's commit vocabulary —
+is none of those, and has its own name rather than being pushed into whichever
+facet had a free slot. Citations are provenance, because that is what a citation
+is. Unresolved research is unresolved research. Life stages are a set, so a bank
+that bands an item into several keeps it declared and keeps it findable under
+each; collapsing a band set to "undeclared" said the bank was silent about the
+one thing it had gone to the trouble of writing down.
+
+The test is whether the SOURCE declares the concept, never whether the concept
+is true or whether runtime code could produce it. A questionnaire's relationship
+and setting assumptions are declared, but the source says outright they "cannot
+be checked against records" — so they are declared structure, not required
+facts, because required facts are records a world must show and the questionnaire
+runs before any world exists. A measure's sponsor is introduced by the scenario
+builder at construction time; the blueprint declares no sponsor field, so no
+sponsor role is reported. A rule pack's members and executive are institutional
+participants the pack defines, not a ContentRole list it authored, so roles is
+undeclared and the institution is declared structure. Which rule pack and
+jurisdiction a measure runs through are intrinsic to what the measure is, not
+gates that must independently become true, so they are structure and not
+prerequisites. And one declaration is reported once: a formative situation's
+band is its life stage and nothing else, while an episode stage's age bound is a
+declared requirement and so a prerequisite and not a life stage, because an
+arbitrary age is not a named band.
+
+Authority and status are read from the repository, not invented. Legislative
+rule packs are `sourced` and carry their citations, retrieval dates and
+verification statuses through into the index. Situations, subjects, the ordinary
+week and the measures are `authored` — the measures keep the notice that says
+the procedure is sourced and the bill is not real. The synthetic catalogs are
+`synthetic-fixture` and `excluded-from-production`, which is what
+`assertProductionCatalogBoundary` already enforces. The production catalogs are
+`unestablished` and appear in the index as an empty bank, because "nothing has
+been established here" is a fact about the game and belongs in a review surface
+rather than being absent from it.
+
+Nothing counts. No test and no surface asserts how much content exists, so
+authoring one more situation is never a failure, and a bank registered later is
+one adapter and one line.
+
+Both exports are deterministic. The JSON goes through `canonicalJson` for the
+same reason a world snapshot does — key order is not content — and both carry a
+content digest so two reports can be compared. An export that changed between
+two identical runs could not be diffed, and a diff is what a reviewer does with
+one.
+
+The Content Browser is a development route at `?view=content`, alongside the
+developer viewer, the character proof, the legislation workspace and the office
+fixture. Nothing player-facing links to it or imports it, and tests assert both
+the route and the one-way dependency.
+
+Consequence: what the game has written down can be read, searched and exported
+without opening the game or building a world, and Packet 60 section O's
+declarative content-bank and Content Browser obligations are discharged here
+rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
+dialogue and from the Run-C working document remains deliberately unimplemented:
+both are world- and state-dependent renderings, not banks.
+
+## D-077 — PUMS supplies coherent donor structure, never a synthetic person's identity or biography
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: the D-074 statement that no source adapter exists; all other
+  D-074 capability, provenance, missingness, determinism, and coverage rules
+  remain binding
+
+ACS PUMS enters initialization as one linked housing record and every person
+sharing its `SERIALNO`, never as independently sampled demographic marginals.
+The compiler is dictionary-controlled, carries state/year/PUMA identity and
+both published weights, preserves allocation and unresolved states, and makes
+no claim below PUMA geography. A state shard is three independent artifacts —
+housing archive, person archive, and dictionary — and large raw bytes remain in
+a digest-checked domain cache rather than the runtime or repository.
+
+The 2024 acquisition and compilation path may exist before source bytes do, but
+the gate must say so. No lock, retrieval instant, byte length, or digest may be
+invented to make an interface look acquired. The checked-in fixture is marked
+synthetic and cannot cross the production capability boundary.
+
+Selection is deterministic under world seed, state, corpus identity/version,
+and explicit constraints. It uses exact integer household weights and selects
+an intact donor household before choosing an eligible subject. A different
+seed may vary the donor; unrelated RNG consumption cannot.
+
+The adapter is one-way and orchestration-only. It requires a caller binding for
+every donor person, checks donor age against the supplied fictional birth date,
+and submits supported intents through `CharacterHistoryPlan` and existing
+household, kinship, partnership, dwelling, occupancy, and tenure writers.
+Canonical world provenance describes generated donor-shaped records through an
+opaque donor digest; it does not call the fictional people Census respondents
+and does not retain raw `SERIALNO` in `World`.
+
+Source sex is retained only as source evidence and never writes or infers
+gender identity or pronouns. PUMA never supplies an exact city, address, school,
+or employer. Education and work fields remain auditable but unmapped when the
+source cannot establish the canonical institution or relationship terms.
+Income is not liquid cash. Nothing in the donor creates personality, ideology,
+morality, motive, feeling, belief, a future career, or player-facing prose.
+
+Rejected: manufacturing a synthetic household from independent marginal
+distributions. Correlations and within-household relationships are the reason
+for using microdata at all.
+
+Rejected: writing PUMS sex into canonical identity, or deriving identity from
+names. A source field and a fictional person's self-identity are different
+facts.
+
+Rejected: treating the existing 2023 Wyoming QA slice as national or silently
+relabeling it 2024. It remains accepted QA evidence for its original bounded
+purpose; this bridge adds a separate versioned state-shard interface.
+
+## D-078 — Campaign truth is separate from what the campaign is told, and offices exist only where a source says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none. This branch originally used D-057; main claimed D-057
+  through D-073 while it was open, and D-074 through D-077 have since been
+  claimed on main by the source-evidence substrate, the causal-trace inspector,
+  the declarative content bank and the PUMS donor bridge. This entry takes the
+  next free number rather than any of them.
+
+A life can now stand for office. Candidacy, a campaign committee, campaign work
+and a first election are canonical state on the accepted architecture rather
+than a screen with buttons on it.
+
+Nothing here builds a second copy of a system that already exists. The contest
+is the accepted election-contest substrate's and fires on the ordinary time
+advance, so election day arrives because the world reached it. The committee is
+an organization; its treasury is a resource position that the organization owns.
+That last point required one contract change: `ResourcePositionOwner` gained an
+`organization` case, because campaign money is the committee's and calling it
+the candidate's would have been a false statement about ownership, while a
+separate campaign wallet would have been a second money system. Making the
+mapping total also tightened an existing rule rather than loosening one —
+organization-sourced transfers were previously exempt from the overdraw check
+and now are not, which is why an advertising buy cannot spend money the
+committee has not raised.
+
+An afternoon of campaign work is a scheduled activity that costs the hours it
+costs, and a commitment the character already made can get in the way of it.
+Three kinds, because three makes the choice real: phones turn time into money,
+doors turn time into support, an advertising buy turns money back into support
+without the candidate in the room. Effect size is computed from how many people
+worked, for how long, and how much was actually spent, with seeded variation on
+top. There is no flat bonus per click and no threshold to beat.
+
+Support truth and the campaign's reading of it are different records, and this
+is enforced rather than intended. Canonical support is a world metric state that
+decides the election and is shown to nobody. The field memo is an observation of
+that state, wrong by a deterministic amount drawn from the seed, carrying a
+stated four-point margin that it can exceed. `src/simulation/index.ts` names its
+campaign exports one by one instead of re-exporting the module, so the reader
+that can see canonical support is unreachable from the presentation and player
+layers, which import from that barrel and nowhere else. A test asserts the
+omission; another asserts that no number on the player's screen equals the
+truth. The memo reaches the player only through the knowledge record, so a memo
+written but not yet read is not something the player knows.
+
+Which offices can be stood for is derived from the accepted legislative rule
+packs and from nothing else. A pack cites the instrument that establishes a
+chamber and the number of members elected to it, which is enough to say the
+office exists and is filled by election. It is not enough to say who may stand,
+when filing closes, how long a term runs, or which district a seat belongs to,
+and all four stay `unknown` rather than being defaulted. "Unknown" must not
+resolve to "anyone", so the game applies one conservative rule of its own — the
+same adult threshold the setup screen already uses — and labels it as its own,
+because "the game will not put anyone under 21 on a ballot" and "the law says
+no" are different sentences and only one of them is true. The pack is read from
+the jurisdiction rather than supplied by the caller. P85B/P85D clarify the
+parent-state boundary: Lexington residents reach Kentucky state offices through
+the declared state key; municipal capabilities remain absent. A winning role
+records the governing state, never replacing the character's residence.
+
+The production catalog boundary was relaxed once, deliberately and by name. It
+forbids a new game carrying catalog content, because none of it is sourced and
+an empty catalog honestly says "nothing has been established here". A world
+metric _definition_ is a different case: it says what a quantity means, not that
+anybody measured anything, and candidate support is a quantity the simulation
+produces itself with `simulated` provenance on every state. So the boundary now
+allows an explicit list of metric keys the simulation establishes for itself,
+containing exactly one, with a test keeping the list and the module that relies
+on it from drifting apart. A fixture corpus describing somewhere real without
+having read anything is still refused.
+
+Consequence: losing an election is a thing that happened to somebody, not an
+ending. A lost campaign closes its committee, ends the work it created, writes
+itself into history, and hands back the same life with the same day screen.
+Winning seats the member through the ordinary work records — an organization, a
+work relationship, a role in a jurisdiction — which is what opens the office and
+legislative surfaces that already existed; nothing was invented to let a winner
+through the door. Across ten seeds one candidate wins having done nothing and
+six win after three afternoons on the doors, so campaigning changes the odds
+without deciding the result. What a term is worth, when it begins, primaries,
+ballot access, campaign finance, districts, an actual electorate, and any office
+outside the accepted pack registry all remain unimplemented, and the elections
+document lists them rather than leaving them to be discovered.
+
+REST37-N authorized continuation (2026-09-14): the prior statement that every
+term boundary remains unimplemented is superseded only for new results naming
+exact Kentucky House/Senate keys in the sourced term-rule data. The
+[dated term contract](../systems/legislative-term-continuity.md) records the
+source and the retained authored first-election calendar limitation. Those
+results plan expected work for the actual winner; existing clock transitions
+independently check entry and end work at expiry. Undated legacy work retains
+its prior evidence and is not recertified. No other state's dates, special
+remainder terms, oath producer, national allocation/count producer or S
+legislative consumer is admitted by this continuation. The shared election
+resolver and its existing outcome arithmetic are preserved.
+
+## D-079 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 while merging current main into PR #89,
+  whose accepted decisions already occupied D-074–D-077, and renumbered again
+  from D-078 after main claimed D-078 for the campaign-truth decision; the
+  architecture is unchanged, only the identifier.
+
+Packet 76 found that the proof cross-morphology garment sharing works was
+circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
+and they share a canvas and share their anchors, so the compositor computed the
+same rectangle twice and called it adaptation. The painted silhouettes differ by
+15–21%, and the olive knit hung 29 px past the slim body while nothing in the
+contract could say so: a component carries one canvas and one origin and had no
+place to put a per-family number. 76A recorded the consequence — tops and
+bottoms "SAFE ONLY WITHIN A BODY FAMILY", anything else "POSSIBLE ONLY WITH A
+CONTRACT CHANGE".
+
+The per-family number now exists, and three things about where it lives are the
+decision.
+
+It lives in its own bank, `art/manifest/garment_fit_profiles.json`, not on
+`CharacterComponentDefinition`. A generation's signature hashes the complete
+component definitions, so a fit field on a definition would rewrite the
+signature of a frozen generation and move every person pinned to it. This is the
+same reasoning that put `availability` on the manifest record (D-065).
+
+It is keyed by garment family, target body family AND pose. Dropping the body
+family is the defect above; dropping the pose would let a standing fit be
+applied to a seated raster, which is the cross-viewpoint substitution 76A §5.5
+refused for exactly the reason it refuses a front-on shoe derived from a
+three-quarter one — no transform produces geometry the source does not contain.
+
+A garment with no answer in the bank is refused, not placed. It keeps its
+unfitted geometry so a debug view can show where it would have gone, reports
+itself unreleased, and names why. It does not fall back to the old rectangle and
+it never borrows another family's profile: "no entry" and "it probably fits" are
+different facts, and one of them is a guess.
+
+The bank is derived rather than authored. `npm run derive:garment-fit` measures
+both silhouettes, takes the geometric mean of the smallest and largest required
+span ratio at the category's anchors — minimizing the worst row rather than the
+average one — and writes the transform. Classification comes afterwards, from
+what that transform achieved when the real compositor placed the real rasters.
+Nothing is claimed and then confirmed.
+
+There is no rotation and no shear, and the absence is a finding. Every measured
+difference between these morphologies is a width difference along horizontal
+rows; nothing in the evidence rotates.
+
+A single affine does not solve everything, and the evidence says where it stops.
+Against a declared lean/average/heavy fixture triple whose waist moves three
+times as much as its shoulder, one scale takes a knit top from 30.0 px of
+residual to 12.1 px — better, and still 4.8% of the silhouette, outside the 3%
+bound. So there is a bounded escape hatch: a horizontal band warp with at most
+eight explicit control points, compiled to sixteen fixed bands, with stated
+limits on scale, on the step between adjacent bands and on the spread across
+them. It reaches 4.0 px. A garment that cannot be fitted inside those limits is
+classified `morphology-specific` and the art is regenerated; nothing is
+distorted indefinitely to avoid drawing it.
+
+What is measured is the PROPORTIONAL residual, not the distance from the
+garment's edge to the body's. A garment is not skin: a knit carries ease, ease is
+not error, and against the body's own outline a perfect fit can never score
+zero. Footwear is judged on whether it contains the foot and an accessory on
+whether it stays inside the silhouette, and neither is ever scaled — scaling
+them resizes the object rather than fitting it.
+
+Consequence: one canonical raster now serves every compatible adult morphology
+in the bank with a measured transform, and the categories that still need
+per-morphology art say so by name — front-on footwear, because the gap is
+viewpoint; child and adolescent bodies, because a child is not a scaled adult and
+no measured evidence of proportional compatibility exists; and any pairing that
+fails the bounds.
+
+## D-080 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none (amends D-079)
+- Reconciled: renumbered from D-075 while merging current main into PR #89,
+  whose accepted causal-tracing decision already occupied D-075, and renumbered
+  again from D-079 after main claimed D-078 and this entry moved with its
+  parent; the architecture is unchanged, only the identifier.
+
+An independent audit of the first D-079 head rejected it on three blockers and
+one contract defect, all reproduced before repair.
+
+**A warp could become a rectangle.** The only guard against drawing a bounded
+warp's bounding box lived in the render plan. Scene composition and the pose
+proof read projected layers directly, and a structurally valid sixteen-band warp
+came out of both as a drawable top and a drawable trouser with no bands and no
+refusal. The refusal now lives in `projectCharacterLayers`, the one place every
+consumer passes through: a warped layer is withheld there, keeps its unfitted
+rectangle, and names `fit-warp-not-renderable`. No caller declares band support
+any more, because no renderer has it; the measurement harness alone may admit a
+warp as geometry, to measure it, and a test keeps that option out of `src/`.
+A production bank may not carry a warp profile at all.
+
+**A limit that was not a number limited nothing.** `maxScale: "unlimited"`
+with a million-fold profile produced zero validation errors and resolved
+`ok: true`. Every bound is now validated for type, finiteness, sign, domain,
+envelope and coherence before any transform is compared against it, at runtime
+as well as in validation; a bank whose bounds fail refuses every governed
+garment. The transform schema is closed, so a `shearX` is refused rather than
+ignored.
+
+**No data measured as a perfect fit.** A window with no comparable rows scored
+zero, and a blank footwear raster classified as safe to share. Every measurement
+now carries a status, and only `measured` is evidence; anything else refuses to
+classify. And the residual compared spans, so a garment of the right width
+twelve pixels to one side scored zero while hanging off the body. The residual
+is now per side: each edge is held to where it would sit carrying the garment's
+own ease on the target body, so displacement, one-sided overhang and
+undercoverage all score as the pixels they are, and ease still scores zero.
+
+**The band recipe could not draw the band.** Bands carried a slice plus clip
+percentages against the whole image; drawing the whole image into the slice and
+clipping compresses it. Each band now records where the whole raster would sit
+so its own rows land in the slice, and the recipe is withdrawn.
+
+Consequence: the affine path — the only one the production bank uses — is
+unchanged in behavior and every measured example still improves. What changed
+is that nothing downstream can draw a fit it cannot draw, nothing can widen a
+bound by misspelling it, and nothing is called a fit for want of pixels.
+
+## D-081 — Legislative bargaining, targeted provisions, and stated commitments
+
+The merged legislation core could move a bill and count a vote. It could not
+say what was in the bill, what anyone had promised about it, or what had been
+asked for in return, so every negotiation in the game was flavor text over a
+fixed tally. This adds the smallest layer that makes those three things
+canonical, and refuses three tempting shortcuts while doing it.
+
+A bill's text is append-only provisions rather than a mutable body of prose. A
+section changes only by recording a new version that names the one it replaces
+_and_ the amendment the chamber adopted to carry it. Integrity re-derives that
+on every snapshot, so a save cannot claim a rewritten section without the vote
+that rewrote it. The consequence is that talking never legislates: a member can
+agree to anything in a conversation and the bill is unchanged until the chamber
+says otherwise.
+
+A commitment is a claim about the future, not the future. It records who said
+it, on what question, with what stance, how firmly _in words_, under which
+typed conditions, to what audience, and who actually heard it. Whether it was
+kept is derived from later canonical events; nothing is written back over the
+statement. Firmness is deliberately not a probability, because a visible number
+would answer the question the player is supposed to be reading the room for. A
+conditional commitment binds in one direction only — "support if X" binds to
+yes once X happens and says nothing before, "oppose unless X" is its mirror —
+so a promise the player never triggered is not a broken promise.
+
+Who a provision reaches reuses the existing typed scope and adds a beneficiary
+discriminant. A particularized section must name its beneficiary and its stated
+public ground for being written narrowly. There is no `pork` flag and no
+corruption axis: targeted spending is an ordinary legislative act that has to
+be argued for, and the record carries the argument rather than a verdict.
+Separately, exchange character distinguishes policy bargaining, reciprocal
+support, coalition coordination, constituent advocacy, public-interest appeal,
+and personal inducement. Only the last means personal benefit to the
+officeholder; it is offerable, always refused, and never confused with asking
+for a road.
+
+Vote behavior is extended for the members this world actually models and no
+further. One member's disposition on one question is derived through the
+existing decision evaluator over what is in the bill, what they have said, and
+who they have worked with — and, on an amendment, over what the amendment would
+change, so a member does not vote against the section they asked for. Seats
+without a simulated person keep their authored dispositions rather than
+acquiring a mind by proximity. There is no whip count, no certainty meter, and
+no path by which a provision buys a stated number of votes.
+
+Dialogue is content, not a bag of lines. Beats are keyed by move family and by
+the member's voice — which true thing about the bill they say first — with
+per-variant fact requirements, so a line naming an amount is never offered when
+the section states none. Selection hashes the turn's own key, so replay is word
+for word and no line depends on anything the speaker does not canonically know.
+
+Consequence: the player can be told two incompatible things by two colleagues,
+find out that satisfying one costs the other, put a named section to the
+chamber or refuse to, and later read each member's own account of how they
+voted and why. Nothing in that loop predetermines whether the bargain was
+wise, and no part of it reveals a hidden score.
+
+## D-082 — A promise binds only its own question, and only once it is owed
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Amends: D-081, which introduced stated commitments
+- Numbering note: originally D-057/D-058, then D-076/D-077 on this branch.
+  Reconciled as D-081/D-082 against live main, whose bank-contract and PUMS
+  decisions retain D-076/D-077. Live PR89 reserves D-078/D-079; the 79B
+  handoff reserves D-080 for PR101 (its fetched branch still uses D-078).
+
+An independent audit of the first cut of D-081 reproduced six defects in the
+same place: the system was reading a promise as saying more than the person
+said. This records what a promise is now allowed to mean.
+
+**Being free of a promise is not the opposite of it.** "I support it if you do
+X" is not owed until X happens. Before that it is not a promise to vote yes,
+and — this was the reproduced defect — it is not a reason to vote no either.
+The evaluator was converting an unmet conditional yes into a strong,
+high-confidence reason to vote against, so a member who offered conditional
+support became more opposed than a member who had said nothing at all. Its
+mirror, "I oppose it unless you do X", was being read as an affirmative
+promise of support the moment X arrived. Delivering what somebody asked for
+answers their objection; it does not extract a promise they never made. Both
+cases are now neutral, and an affirmative reason has to come from the bill
+itself, where the game can point at it.
+
+**Whether a promise was owed is settled before whether it was kept.** The
+assessor compared the vote direction first, so a member could vote yes while
+the thing they conditioned on was still missing and be reported as having
+honored the promise. There was no promise yet to honor. Owed comes first;
+matching comes second.
+
+**A promise names exactly one question, and there is one canonical way to say
+which.** Passing a bill, agreeing to the other chamber's changes, overriding a
+veto, and adopting an amendment to a section are different questions. Matching
+on the measure alone let a promise about passage and a promise about the
+override supersede each other, let the first later floor, concurrence or
+override vote grade a promise it had nothing to do with, and let a promise
+about one question weigh on a member's decision about another. One identity —
+measure, stage, the amendment or section the question turns on, and the chamber
+and floor stage when the promise named them — is now compared by all three,
+rather than by three hand-written comparisons that disagreed.
+
+**A condition the world cannot decide is not offered.** `provision-removed` was
+a public condition kind with an assessor branch and no canonical transition
+anywhere that could make it true for a section the bill carries: provisions are
+append-only, and nothing strikes one. A promise conditioned on it read as
+checkable and never was. It is removed from the contract rather than faked with
+a half-removal held in the interface, and the set of condition kinds is now
+exhaustive by construction and refused at recording and at snapshot validation
+if it ever stops being. If striking a section is wanted, it is an amendment
+path with its own canonical transition, and the condition returns with it.
+
+Consequence: a member can say a conditional yes without becoming an opponent,
+can be released from an objection without becoming a supporter, can hold
+different positions on passing a bill and on overriding a veto of it, and is
+never reported as having kept or broken a promise the world never called in.
+
+## D-083 — Executive authority is a referenced rule substrate, populated only to independently verified depth
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-078 on merge of accepted main (9c36b2f).
+  D-078 and D-079 were then the reservation held by the open garment
+  morphology and fit-profile lane; accepted main has since landed D-078 as
+  the campaign-truth decision (PR #85). During 101L convergence, live PR #89
+  owns D-079/D-080 and PR #79 owns D-081/D-082. The executive decision is
+  mechanically renumbered from D-080 to the next free identifier, D-083.
+  The substrate and decision substance are unchanged, only the identifier.
+
+Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
+and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
+(the jurisdiction data) as a data-and-readers substrate for executive powers and
+constraints, alongside the legislative rule packs. It composes with the
+legislature contract's shared `RuleValue` algebra but locally narrows that
+algebra through `ExecutiveRuleValue<T>` to `known | unknown`. A `known` value is
+source-bearing; an unresolved value stays `unknown` rather than claiming that a
+concept does not exist. The legislature's own three-state `RuleValue` semantics
+remain unchanged.
+
+The executive-authority substrate categorically rejects `not-applicable` before
+accessing its note. The shared shape carries only free text for that state, so a
+citation-shaped note cannot establish affirmative sourced inapplicability and
+must not be interpreted as evidence. If executive authority later needs a
+`not-applicable` state, it requires a distinct source-bearing representation
+approved as an architecture contract; widening the existing note-only shape is
+not sufficient.
+
+Bill-presentment facts — presentment, action windows, inaction outcome,
+line-item veto and override — are NOT restated. They remain owned by
+`LegislativeRulePack.executive`, and an executive pack references the
+legislative pack by id. That reference is built by `presentmentRef`, which
+resolves the id against the live compiled registry at module load, so a pack
+cannot reference a legislative pack that does not exist and a synthetic
+presentment identifier cannot be written at all. `resolvePresentmentAuthority`
+returns the referenced pack's own `ExecutiveRule` object and fails closed where
+no pack is referenced. No second copy of the veto exists.
+
+Evidence boundary, recorded because it constrains what these packs may claim:
+
+- The `92H` executive-governing research is complete. It is read here as
+  research, and it does NOT convert rows of the national executive-authority
+  matrix into primary legal authority for any field.
+- The national `92K` executive-authority matrix is REJECTED and requires
+  reconstruction. It is candidate/diagnostic evidence only. No row of it is
+  ingested, no field is promoted to `known` on its strength, and none of its
+  synthetic pack identifiers appears anywhere in this substrate.
+- The five state packs (KY, NE, AK, MN, IL) rest on the 92A
+  jurisdiction-authority wave, which resolved office identity, the separately
+  elected officers that make a state a plural executive, and — for Alaska alone
+  — appointment with legislative confirmation at the exact scope of Alaska
+  Const. Art. III, Sec. 25. Everything else stays `unknown`.
+- A clause establishing one specific appointment — a judicial vacancy, a named
+  board — does not establish a general power to appoint the principal officers
+  of the branch. Kentucky, Nebraska, Minnesota and Illinois therefore hold the
+  general appointment field `unknown` rather than widening a specific clause to
+  fit it. Illinois's confirmation requirement and confirming body are `unknown`
+  for the same reason, and no supermajority confirmation rule is carried.
+- The federal pack rests on the operative text of U.S. Constitution Article II,
+  retrieved from the National Archives transcript and cited at clause precision.
+  Article II has no express executive-order clause and no general supervisory
+  clause, so directive authority and supervisory authority stay `unknown` rather
+  than being inferred from the vesting clause. Federal statutory dimensions —
+  removal doctrine, reorganization, emergency powers, budget submission — stay
+  `unknown`.
+- Wisconsin is deliberately not packed; it is carried as an explicit gap in
+  `UNRESEARCHED_JURISDICTIONS`.
+
+Contract correction made by this decision: `assertExecutiveAuthorityPackIntegrity`
+now refuses a `known` value whose citation names an instrument without naming a
+provision inside it. `isGenericCitation` encodes that test — a citation must
+carry a pinpoint ("Art. II, Sec. 3", "KRS 117.015(2)", "10 ILCS 5/1A-1") and
+must not be one of the template shapes ("<State> Const. executive article",
+"<State> Const. veto section", "<State> Const. executive succession clause")
+that read like evidence and are not. Unfalsifiable sourcing is now rejected at
+the seam rather than left to review.
+
+Rejected alternatives: ingesting the rejected national matrix wholesale;
+promoting a field to `known` on secondary synthesis, report prose, a generic
+citation template, or constitutional silence; treating silence as
+`not-applicable`; and adding the product ideas that are not accepted primitives
+— a veto-deterrence, legal-risk, morale, competence, loyalty, confirmability or
+"strong executive" score. None of those are encoded, and a test walks every pack
+to prove no score, ideology or probability field exists.
+
+Consequence: the substrate is reusable across jurisdictions and grows by adding
+independently verified sourced data, never by widening the engine; a later
+verified research pass fills the unknown dimensions and adds Wisconsin without
+any schema change.
+
+Reconciliation after PR #102 merged (main `982f613`, accepted PR head
+`365ec2d`): #102 compiled the Minnesota (`us-mn-legislature-v1`) and Illinois
+(`us-il-general-assembly-v1`) legislative rule packs, so those two presentment
+references were built through `presentmentRef` against the live registry and
+became `known`. Exactly that changed. Nothing was researched, no other field
+moved off `unknown`, and federal presentment remains `unknown` because no
+federal legislative pack exists to resolve. This is the mechanism working as
+decided above — a reference becomes resolvable when, and only when, the
+artifact it names is actually compiled — not a new claim about either state.
+
+Integrity hardening (R2 repair, same PR #101 branch, no new claim): the
+contract's runtime boundary was tightened so it fails closed rather than open,
+without changing any sourced row.
+
+- `assertRuleValue` now holds each locally admitted `RuleValue` to its exact
+  shape. A `known` value must carry a value and a pinpointed source and nothing
+  else, while an `unknown` may carry only its note (an "unknown" smuggling a
+  value is rejected). A `not-applicable` is rejected categorically before its
+  note is accessed: citation-shaped free text is not a source-bearing
+  determination and cannot turn silence into a claim that a concept does not
+  exist. A future executive `not-applicable` representation requires a distinct
+  source-bearing architecture contract. The three enumerated fields (branch
+  structure, removal mode, clemency model) are checked against their closed
+  domains at runtime, so an invalid enum fails at validation, not only at
+  compile time.
+- This narrowing is local to executive authority. The legislature's shared
+  `RuleValue`, `notApplicableRule`, and `requireKnown` semantics remain
+  unchanged.
+- `isGenericCitation` no longer treats a bare year as a pinpoint. A citation
+  such as "US CONSTITUTION 1787" is refused; a genuine locator — an article,
+  section, clause, rule, statutory-code section, or a section-sign form like
+  "§ 1983" — still passes.
+- `resolvePresentmentAuthority` resolves the referenced pack from the live
+  registry (`rulePackById`) and refuses a caller-supplied object that is not the
+  registered instance, so a fabricated pack bearing a correct-looking id cannot
+  stand in for real presentment authority.
+
+Federal presentment remains `unknown`; no federal authority is invented. The
+bounded six-jurisdiction substrate, all six shipped executive packs, every
+jurisdiction fact, and every accepted sourced row are unchanged by this
+documentation reconciliation.
+
+## D-084 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 while merging current main (89b2f76) into
+  PR #90. Accepted main holds D-075 for causal tracing, and the garment fit
+  contract this decision extends landed as D-079/D-080 rather than the D-074
+  the original branch was written against. D-081 and D-082 are the reservation
+  held by the open PR #79 lane, so the next actually free identifier on main is
+  D-084. The measurement contract is unchanged; only the identifier and the
+  references to the accepted fit decision moved.
+
+D-079/D-080 left sleeves open because their fixtures are armless and nothing in the
+repository had measured an arm. Three arm representations already existed —
+the pose registry's nominal shoulder / elbow / wrist / hand landmarks, derived
+from fixture geometry in a nominal canvas; `measureBodyRig`, which finds rows
+and no arms; and fixture arms drawn as polygons fused to the torso — and none
+of them is a reading of the body that ships.
+
+`arm-measure.ts` is that reading, and the decision is what it refuses to read.
+Where an arm hangs clear of the torso the row carries a separate opaque run,
+both edges are silhouette edges, and the segment's axis, wrist and
+cross-sections come from pixels. Where the arm lies against the torso the row
+is one run; its outer edge is a silhouette edge and its inner edge is a painted
+line, which is color, and this contract does not read color. Those rows are
+fused, and every inner measurement over them is `occluded` — not estimated
+from proportion, not borrowed from the other side, not borrowed from the pose
+registry.
+
+Every value carries one of five statuses and an evidence class. `measured` is
+a reading; `partially-measured` locates a region and not a joint — an elbow on
+the outer contour is on the skin, not at the joint center, and says so;
+`ambiguous` means the silhouette was read and did not decide; `occluded` and
+`unavailable` carry no value at all. Sides are image sides, measured
+independently and never mirrored. Pose is part of the key, and the sleeve
+readiness gate refuses to compare across poses unless a caller declares them
+compatible.
+
+The measurement is deliberately strict about slices. A forearm carried across
+the body joins the torso along its upper rows, and a slice that climbs into
+those rows is declared fused even where both of the forearm's edges are
+visible, because on those rows the alpha holds one run and nothing in it says
+which pixels are forearm. That arm is reported occluded rather than measured
+from a guess about where the torso ends.
+
+What the bodies say: a hanging arm on the two real production candidates and
+the heavy Packet 71 body is measurable from the elbow down; the upper arm is
+fused on every body in the repository; every seated hands-on-thighs arm is
+occluded. So no sleeve transform is derived. A transform anchored on an
+occluded upper arm and a partially-measured elbow is the guess this decision
+exists to refuse, and the evidence names the generation that would change
+that: a lean and a heavy body in the same pose with arms held clear.
+
+Reconciling onto accepted main re-derived all of this rather than copying it,
+and the regenerated report is byte-identical. Accepted main does now carry a
+heavy and a lean body in the same apparent poses, among 51 Wave A morphology
+candidates, and it also carries a despilled copy of all eight Packet 71 bodies.
+Neither is arm evidence here. The despill writes color and never alpha —
+verified, all eight alpha channels byte-identical to their sources — so the
+despilled copies are the same silhouette. The Wave A candidates are
+`CANDIDATE_REFERENCE_ONLY`, none is production-eligible, none is in the asset
+manifest, and none carries a registered pose family; admitting them would mean
+reading pose identity off a filename. So the limitation stands and its blocker
+moved: from no such art existing, to that art existing unreleased with no
+declared identity that makes it measurable. Registering it is a separate
+authorization from this decision.
+
+Consequence: `art/qa/arm-measurements/` holds a report and overlays regenerated
+by test from the rasters; the pose registry's nominal landmarks stay control
+geometry and are shown beside the measurement as deviations; `assessSleeveFitReadiness`
+fails closed for fifteen of sixteen pairings and returns ratios, never a
+transform, for the one it passes. The runtime, the compositor, every component
+and every fit profile are unchanged.
+
+## D-085 — A bill records the configuration that wrote it, and that record pins the version
+
+- Date: 2026-09-08
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: numbered D-085 rather than D-084, which the current packet
+  reserves for PR #90. Main's D-079/D-080/D-083 and PR79's D-081/D-082 are
+  preserved unchanged.
+
+Bills in this game were authored one at a time. Three legislative scenarios
+existed and all three were the same mechanism — a transit subsidy — with the
+state, the bill number and the beneficiary changed, so a player choosing among
+them was choosing a label. Making bills composable means a bill's text is
+produced from a declared program family and a set of parameter values rather
+than written out by hand.
+
+That creates a fact nothing in the store could express.
+
+A measure record says what a bill is called, which jurisdiction and rule pack
+it belongs to, and who sponsored it. Provision records say what its operative
+text currently reads and what it used to read, append-only, with amendment
+authority behind every revision. Between them they describe the bill
+completely — and neither of them can say that the text was compiled from a
+named family, at a named version of that family, from a named set of parameter
+values. Without that, reopening a saved bill cannot say which program it
+belongs to, which amendment its politics are about, or whether the content
+bank has moved underneath it since.
+
+So one canonical shape is added: `legislativeDraftLineages`, an optional
+append-only `HistoryStore` family, wired into world integrity and history
+aggregation exactly as provisions are. Three things about it are the decision.
+
+It is written once, when the bill is filed, and never rewritten. An amended
+bill's text moves through the accepted provision writers; its lineage still
+records where it started. One measure may carry only one lineage, because two
+would mean two answers to "which configuration wrote this" and the later one
+would win by accident.
+
+It pins `familyVersion`, and that is the point of the record rather than a
+detail of it. The filed text is authoritative and lives in provisions, so
+editing a family in the bank — widening a bound, rewording a clause, retiring a
+configuration — changes what a _new_ bill would say and cannot restate a bill a
+player already filed. A saved bill whose family version no longer matches the
+bank is read back as what it is: its filed text stands, and the re-reading is
+reported unavailable with the reason, rather than silently recompiled into
+something else.
+
+Parameter values are stored as typed discriminated records, sorted by key, not
+as a JSON blob or an encoded identifier. A serialized world stays inspectable,
+two saves of the same configuration are byte-identical regardless of the order
+the player moved the controls in, and no value can arrive as a string that
+something downstream parses back into a number.
+
+Consequence: a docket can hold three unrelated bills in one life, each one
+still knowing what it is; and the content bank can grow, change or retire
+configurations without any of it reaching backwards into bills that are already
+filed.
+
+## D-086 — Evidence named at an exact head is a merge standard, and a claim carries what was measured
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+On the night of 21–September 22 the repository could not produce a CI verdict
+for any branch, and roughly thirty pull requests needed to reach `main` by
+morning. Every lane faced the same question independently: what may be merged
+when the gate cannot report.
+
+The answer adopted, and the reason it is not a license.
+
+**A merge requires evidence named at an exact head.** Not "the tests pass" but
+which commands were run, on which commit, with what output, and what was not
+run. A pull request merged this way says so in its own body and in the merge
+commit, so the record shows the standard that was applied rather than implying
+a verdict that never existed. Documents merged on local evidence; code required
+the gates a contributor runs locally — format, lint, typecheck, the affected
+tests and the release declaration range — each named at the head it ran on.
+
+**The reason this is safe is the naming, not the running.** A local run that
+nobody can locate afterwards is worth less than no claim at all, because it
+invites a reader to assume more than was done. Five separate claims that night
+outran their measurement and each was caught by someone asking which head, or
+which shard, or which browser.
+
+**So a claim carries what was measured.** Three habits, each paid for:
+
+- **Name the ref.** "The formatter is clean" was true on one branch and false
+  on another.
+- **Prefer the measurement to the conclusion, especially in anything durable.**
+  "Two of six unit shards reported green at 08:09Z" survives being wrong later;
+  "the unit suite is clean" has nothing in it to check. Two of the five wrong
+  claims traveled through project memory rather than a conversation, which
+  reaches every later reader stripped of the context that would let them judge
+  it.
+- **Retract in place, and say whose it was.** A correction that hides its
+  author teaches nobody, and the reader cannot tell which other claims from the
+  same source to re-examine.
+
+**A corollary, from the one finding that turned out not to be one: a test
+helper route is not a player route.** A walk reported that three menu
+destinations all opened the same page. They were keys in a Playwright helper,
+and the helper skipped silently when the control did not exist, so the walk sat
+on one page three times and read the same text three times. Confirm a
+destination exists on the rendered page before writing down a navigation
+defect. This is the same rule as the rest of the entry seen from the
+instrument's side: a measurement carries what it actually reached, and a
+helper that fails by doing nothing reports agreement where there was no
+observation.
+
+**What this does not license.** It is not permission to skip a gate that is
+available, to call a failing test an infrastructure flake, or to merge code
+whose behavior nobody exercised. Where a verdict is obtainable it is obtained.
+The standard exists for the case where it is not, and the honest report of that
+case says which parts were measured and which were merely argued.
+
+Consequence: the morning report distinguishes what was measured from what was
+inferred, and a reader who checks any individual claim finds the head it was
+measured on rather than a bare assertion.
+
+## D-087 — A merge with no conflict is not a merge with no consequence
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Twice in one night a clean automatic merge produced a tree that did not
+compile, and neither instance was visible in the merge itself. Git reports a
+conflict when two sides edit the same hunk. It reports nothing when one side
+adds a caller and the other removes the callee, because those live in
+different files, or in different hunks of the same file.
+
+**The instances.**
+
+- `#283` against `main` at `1c4a2d85`: main added
+  `src/presentation/legislation-bundle-docket.ts` in `bcee3aed`, which imports
+  `designationPrefix`; the branch removed that export from
+  `src/simulation/legislation-drafting.ts`, having relocated the prefix onto
+  the chamber record. Neither file conflicts. `npm run typecheck` fails with
+  `TS2305`.
+- The release branch, earlier the same night: a base merge that read as a
+  clean reversal of an export until the history was checked.
+
+**The rule.** A base merge that reports no conflict has not been validated.
+Run typecheck on the merged tree before the merge is treated as done, and name
+the head it ran on, exactly as D-086 requires of any other evidence. This is
+cheap — typecheck is the fastest gate the repository has — and it is the only
+one of the gates that catches this class at all. Lint, format and a unit shard
+that does not import the broken module all pass a tree that will not build.
+
+**What it does not license.** It is not an argument for skipping the other
+gates, and it is not a reason to avoid base merges. A branch that is behind
+main is a worse risk than one that is current; the point is that merging main
+in is a change like any other and needs a check run after it, not before.
+
+Consequence: "merged cleanly" stops being reported as a result on its own. The
+result is the gate that ran on the merged tree.
+
+## D-088 — An instrument that can fail by measuring nothing will report that as a pass
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**Every instrument needs a check that it engaged at all.**
+
+On the night of 21–September 22 this shape appeared six times, in four
+unrelated lanes, in tools with nothing to do with each other. Each time it
+produced a confident report of agreement where nothing had been observed, and
+each time the resulting claim traveled before anyone checked it. It is the
+common root of most of that night's retractions.
+
+**The instances.** Two are verified in this repository at the lines named; the
+other four were reported by the lanes that hit them and are recorded as such.
+
+Verified in the tree:
+
+- `src/simulation/no-citations-on-player-surfaces.test.ts:211` — the first
+  version of that block called `resolveCapability` with `officeKey: null`
+  only, and the resolver takes a whole branch, with its own sentences, only
+  when it is given an office key. In the file's own words: "the producer was
+  missed once by not being called at all, and missed again by being called
+  down one path."
+- `tests/e2e/civil-authority-normal-route.spec.ts:33` — a loop pressed
+  `pass-day` sixty times on the Calendar, which does not draw that control.
+  The arithmetic was wrong underneath it too: two hundred and forty-four days
+  could never be reached by sixty single-day presses.
+
+Reported by their lanes:
+
+- A walk helper that did a bare `continue` past a missing sub-control, so
+  three destinations were measured as one page three times — producing a
+  defect report about a screen that was fine.
+- A citation sweep that passed against an unfixed file, because its fixture
+  never reached a rule carrying a citation.
+- A `vitest` invocation naming three test files where two exist; the missing
+  path was ignored silently, so a passing count covered two files.
+- A probe matching whole-page text against `/found|new party|formed/i`, loose
+  enough to agree with almost anything. It cost two retractions on its own.
+
+**The corollary, added 2026-09-22 09:45Z after it caught the author of this
+entry.** _An instrument that reports nothing invites a guessed explanation,
+and the guess inherits the same false confidence._
+
+Three lanes in ninety minutes looked at the same time control and each wrote
+down a different confident reason a locator could not find it; none was
+checked against the file until the fourth reading. One said the label is
+screen-reader-only. The second — written into an earlier version of this
+entry — said the string does not exist, on the strength of a
+`git grep "Skip to Monday"` that returned nothing. The string is composed:
+`skipToLabel` at `src/presentation/time-target-label.ts:18` returns
+`` `Skip to ${describeTimeTarget(moment)}` ``, so a literal search cannot find
+it however often it reaches the screen. That is the fourth instance above,
+committed while writing the list of instances.
+
+The measured reason, on `main` at `b8f8702f`: the string is on that button in
+the `title` at `src/player/ShellNav.tsx:515`, in an `sr-only` span at `:542`,
+and via the `aria-describedby` at `:514`. The button's text content is `Week`
+with an `aria-hidden` chevron, so its accessible **name** is "Week", and
+`aria-describedby` contributes to an accessible _description_, never to a
+name. A role-and-name locator therefore cannot match it, and the fix is the
+`data-testid` or the accessible name. Both wrong diagnoses pointed at other
+fixes entirely.
+
+**The mirror image, added 2026-09-22 10:30Z.** An instrument that fails to
+start can report it as a **failure**. The research-audit lane's first attempt
+at a browser check printed `1 failed` when the browser had never started, so a
+harness that ran no test body produced the line a genuine assertion failure
+produces. That manufactures a defect rather than hiding one. Same root, same
+defense: the instrument must show it engaged before its verdict means
+anything.
+
+**A consequence for this repository specifically.** Three independent lanes
+found tests whose result depends on what else runs alongside them: one that
+passes alone on both `main` and a branch and fails only in a full shard, and
+two that answer differently depending on their neighbors. So **some of this
+suite's results depend on what else is running**, which weakens every
+same-tree attribution in both directions, including matches used to call a
+failure inherited. Re-running a case **on its own** is therefore a real
+diagnostic here — it produces a specific reportable fact, "passes alone, fails
+in company", rather than a second opinion — and it is not covered by the
+prohibition on re-running to dismiss a flake.
+
+**The rule.** An assertion that cannot fail is worse than no assertion,
+because it manufactures confidence rather than merely withholding it. So an
+instrument asserts its own reach before it asserts its result: a non-empty
+count of what it examined, a control it proves it found, a file list it proves
+it loaded. A walk that measures zero weeks fails loudly rather than agreeing
+quietly.
+
+**What it does not license.** It is not a reason to loosen an assertion so it
+stops being brittle — a loose matcher is instance four, not a fix for it. Nor
+is it a demand that every test carry a meta-assertion: it applies where the
+instrument can silently reach nothing, which is any sweep, walk, glob, grep or
+loop over a collection that may be empty.
+
+Consequence: a report that an instrument passed is incomplete without what it
+covered. "Green" on its own stops being a result, exactly as "merged cleanly"
+does under D-087.
+
+## D-089 — A generated file that is committed makes a branch un-mergeable, and an un-mergeable branch gets no CI at all
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**CI silence is a reason to check mergeability first, not to wait longer.**
+
+Two lanes lost hours on the night of 21–September 22 watching an empty queue
+for a run that was never going to be created. The reason is structural rather
+than incidental, and it is worth stating as a rule because nothing visible
+from the outside distinguishes it from a busy queue.
+
+**The mechanism, in three steps.**
+
+1. `docs/prose-inventory/README.md` and `docs/prose-inventory/coverage-report.md`
+   are generated output that is also committed, and the repository requires any
+   branch touching `src/` to regenerate them. `docs/dehardwire/census.json` is
+   the same shape.
+2. `main` therefore rewrites those files on essentially every source merge. So
+   does every branch. Two branches that touch no common source file still
+   collide there.
+3. GitHub builds no merge ref for a conflicted pull request, so it creates **no
+   `pull_request` workflow run at all.** Not a queued run, not a canceled run —
+   nothing to read, and nothing to cancel.
+
+Put together: on a night merging every two or three minutes, any branch
+touching `src/` becomes un-mergeable, and therefore un-testable, within minutes
+of every merge to `main` — **on a file no human wrote.**
+
+**Measured twice, independently.**
+
+The research-audit lane ran `git merge-tree --write-tree` for #305's head
+against every `main` in a three-hour window: clean against the two mains
+current at push time, **dirty against all twenty mains from `a08d2eef`
+(08:53:27Z) through `a610ea3f` (10:28Z)**, and the conflict is always the same
+two prose-inventory files.
+
+This lane's own instance, measured here rather than relayed. `08a999f2`, the
+0.4.0 release head, was pushed at 08:54:53Z having merged `main` at
+`4595878e` (08:49:53Z):
+
+| Merged against         | Result    |
+| ---------------------- | --------- |
+| `4595878e` — 08:49:53Z | clean     |
+| `a08d2eef` — 08:53:27Z | **dirty** |
+| `c659f256` — later     | **dirty** |
+
+It went un-mergeable **three and a half minutes after the merge it was built
+on**, and has stayed so. There is no workflow run on `08a999f2` and there never
+was one: the only run the release branch has ever had a verdict from is
+`35706104688`, on the earlier head `eb0abea1`. What had been written down in
+this lane's own documents as a branch deliberately _parked_ was in fact a
+branch that could not be _tested_, and that correction is the point of
+recording this.
+
+**The caveat, which must travel with the finding.** This explains 2h57m of the
+three hours, not all of it: at push time the head was clean and there were
+already zero checks three minutes later. **Mostly explained, not solved.** It
+also retires two earlier explanations of that lane's — a queue cap and a
+concurrency-group reading — both of which fitted everything visible at the
+time, which is the ordinary way a wrong explanation survives.
+
+**Three narrow options, none of which anyone should pick tonight.** They are
+recorded for the owner because each trades something real:
+
+- Stop committing `docs/prose-inventory/`, which removes the collision and
+  also removes the reviewable diff.
+- Have the gate regenerate and compare rather than diff a committed artifact,
+  which costs gate time on every run.
+- Give those files a merge driver, which keeps the diff and the gate and adds
+  a piece of git configuration every checkout must have.
+
+Consequence, and the part that changes behavior immediately: **when a branch
+has no checks, read its mergeability before reading the queue.** An empty
+queue and an un-mergeable head look identical from the outside, and only one of
+them gets better by waiting.
+
+## D-090 — A stricter rule the shipped route cannot satisfy is not stricter, it is dead
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+When a returned contract proposes a tighter condition on some behavior, read
+what actually calls the producer before building the condition. A rule that no
+live caller can ever satisfy does not make the system more careful. It makes
+that part of the system inert, and it does so silently, because a producer that
+never fires and a producer that fires and is correctly refused are
+indistinguishable from the outside — the same shape as D-088, where an
+instrument that fails by measuring nothing reports that as a pass.
+
+**The instance.** The returned contract for personality change said movement
+needs independent experiences "in more than one context", which reads as the
+obviously stricter rule and was built as one. The running game has exactly one
+producer of trait change, `produceRebuffedAskEffects`: somebody reaches out and
+is turned down. Contexts in play are therefore all the same person, so the
+requirement could never be met and nobody's temperament would have been able to
+move at all — the branch would have shipped a working, well-tested, completely
+inert system. Measured by reading the callers, not inferred from the design.
+
+Resolved by making variety raise the count sooner rather than gate it, which
+keeps what the rule was for — repetition is not evidence — while leaving the
+shipped route able to reach it. The time requirement does the work the context
+requirement was supposed to do, and time is something the live route genuinely
+accumulates.
+
+Consequence: a condition added to a producer is reviewed against its callers,
+and a rule no caller can satisfy is either relaxed or filed as a gap, never
+merged as a tightening. Where a rule is deliberately unreachable by today's
+callers, say so in the code at the point of the rule, so the next reader does
+not mistake an empty result for a working refusal.
+
+## D-091 — The unit suite and the browser suite are separate runs, and only the unit suite gates
+
+**ACCEPTED, 2026-09-22.** Proposed by the art/client/release lane after the
+capacity arithmetic below, and approved by lamontae in his own words: "sure,
+you can go ahead and split it off."
+
+**The measurement that forced it.** A browser shard runs 21 to 59 minutes and
+there are eight of them. A unit shard runs about four minutes and there are
+six. In one workflow they compete for the same runner slots, so the
+four-minute answer waits behind the hour-long one. On 2026-09-22 main's run
+`35711551223` was created at 09:38Z and its sixth unit shard did not go green
+until 11:34:28Z — nearly two hours for a suite that is roughly 38 job-minutes
+of work. Its browser shards had still not finished at 12:50Z, and three had
+never started. Meanwhile nine consecutive merges to main produced nine runs
+that died with zero jobs allocated, because nothing behind an executing run
+could get a slot.
+
+**What changed.** The `browser` matrix and the shard-union check moved to
+`.github/workflows/browser.yml`, which records its own Playwright baseline
+because artifacts do not cross workflow runs. `validate.yml` keeps
+`repository`, the six `unit` shards and the aggregate `validate`, and that
+aggregate **no longer lists `browser` in its `needs`**.
+
+**So the browser suite reports without blocking.** That is the second half of
+the decision and it was NOT put to lamontae, because it is reversible and he
+was mid-morning. It is recorded here as this lane's call, his to overrule.
+Three reasons for the default:
+
+- It is the state the repository has effectively been in all night. Main's
+  browser suite has not produced a complete verdict since `445441a5`, and
+  every merge for the last twelve hours landed without one.
+- The browser suite currently has 104 not-passing cases named in
+  `docs/BROWSER-SUITE-CASE-LIST.md`, 23 of which **can never pass on a
+  runner** because they need owner-private artwork. A gate that cannot go
+  green is not a gate.
+- Making it gate again is one line: add `browser-suite` to the required checks
+  in branch protection. Nothing in either workflow needs editing.
+
+**What was deliberately not done.** No test is skipped, retimed, quarantined or
+removed; both suites still run on every push and every pull request, and both
+still refuse a run whose shards do not partition the whole suite. The
+assertions in `tests/release/validate-workflow.test.ts` were retargeted across
+the two files rather than dropped, and the test gained three new ones that fail
+if the aggregate starts waiting on the browser suite again, if either workflow
+loses the `cancel-in-progress` carve-out for main, or if the browser workflow
+loses its own aggregate.
+
+**The risk this accepts, stated plainly.** A browser regression can now reach
+main without a red required check. Before the split it could too — it just took
+longer to find out. What the split buys is that a unit regression is caught in
+under fifteen minutes instead of two hours, and the repository's most common
+failure by far is a unit failure. If the browser suite is ever brought to a
+state where it can go green on a runner, this decision should be revisited.
+
+**Where this decision actually lives, and why no test can guard it.** Both
+workflows and `tests/release/validate-workflow.test.ts` describe the split;
+none of them decides it. What blocks a merge is the required-checks list in
+this repository's branch protection, a setting no file in the tree can read.
+So the most likely way this decision gets reversed is not an edit anyone
+reviews — it is `browser-suite` being added to that list, after which the
+workflows and the tests stay green and unchanged while unit verdicts start
+queueing behind browser shards again. Raised by the fix-main lane during
+adversarial review of the test file on 2026-09-22. If a unit verdict is ever
+slow again for no visible reason, read branch protection before reading code.
+
+> Numbering note: this entry was written as D-090 on
+> `claude/project-thread-w3zsrg` and renumbered to D-091 when it merged, because
+> the entry above claimed D-090 first and had already landed on main. Two lanes
+> appended the next number at the same time; nothing in the log or the gates
+> catches that. Both decisions stand unchanged.
+
+## D-092 — Being somewhere exposes you to people; conduct and temperament make the relationship
+
+**Decided by the owner, 2026-09-22.** His words: a friendship should not
+automatically be permanent — "it would be more accurate to say it exposes you
+to possibly like minded people and your actions/personality should drive
+interpersonal relationships".
+
+**What this settles.** Proximity produces candidates, not bonds. Sharing a
+school, a college, a workplace, a party chapter or a neighborhood puts people
+within reach of each other and does nothing else by itself. What turns a
+candidate into somebody who matters is what the two of them actually do, and
+who they are. It follows directly that a relationship can go the other way:
+anything conduct can build, conduct can damage, and nothing driven by conduct
+is permanent by construction.
+
+**The instance this was decided against, measured at `de6a71cc`.** Agreeing to
+work on coursework together writes one relationship interaction of kind
+`work:shared-coursework` with `change: "formed"`
+(`src/simulation/people-study.ts:270-284`). Being turned down writes nothing at
+all — the comment says "Being turned down is not a grievance", so a refusal
+leaves no trace. That interaction is then read by `deriveRelationshipSummary`
+(`src/simulation/queries.ts:230-263`), which sums a signed magnitude over every
+interaction ever recorded and buckets the total: below zero is estranged, three
+or more is close.
+
+Two consequences, both now decided against:
+
+- **The sum is monotonic in time.** Only an explicitly negative interaction
+  lowers it, and no amount of elapsed time does. So three ordinary agreeable
+  exchanges make two people close, and they remain close for the rest of both
+  lives whatever either of them does or does not do afterwards.
+- **Proximity alone is doing the work.** Nothing in that path reads either
+  person's temperament, their conduct toward each other, or anything they chose.
+  Co-enrollment plus one agreement is the whole mechanism.
+
+**What this does not settle, and is filed for research rather than assumed.**
+Which conduct should move a relationship and in which direction, which traits
+should bear on it and how much, and at what pace a relationship should fade
+when nothing happens. The pace question is the same shape as the one he already
+answered for personality, where how hard something is to move depends on how
+strongly it is held (see the personality-change work of the same day), and the
+answer here should be consistent with that rather than invented separately.
+
+**Not to be read as.** Not a decision that college should have no cohort. The
+opposite: putting people in a college is the half that is missing, since there
+is currently nobody there at all. What is refused is the bond arriving with
+them.
+
+## D-093 — People decide their own positions, positions change, and a party does not decide for its members
+
+**Decided by the owner, 2026-09-22**, on being shown that no ordinary person in
+the game has a party and that a person's position inside a party is a seeded
+draw reading nothing about them. His words: "people need to decide themselves.
+and that can change. and their party doesnt solely define their decisions. just
+like real life".
+
+**What this rules out.** Three designs are now out of scope, and none of them
+needs proposing again:
+
+- **Deriving a position from a party.** The causation runs the other way, or at
+  least not only that way. A party may follow from what somebody holds; what
+  somebody holds does not follow from their party.
+- **A position decided once and never revisited.** He said explicitly that it
+  can change, which is the same shape he already settled for personality, where
+  how hard something is to move depends on how strongly it is held.
+- **Party membership as a predictor** that decides how a member votes or acts.
+  A party is not a proxy for its members' convictions.
+
+**What it does not settle**, and is filed for research as
+`where-a-persons-politics-comes-from` rather than assumed: what a person draws
+on to decide a position, what weight each thing carries, and at what pace a
+position moves.
+
+**The requirement this joins.** Three things previously read as separate gaps
+are one requirement, and answering them separately would produce three
+unrelated mechanisms:
+
+> A person's own character and history decide their positions; their positions
+> and their conduct decide their relationships; and their party follows from
+> those rather than preceding them.
+
+The three faces, measured at `1eb5e30e`: no ordinary person holds a party at
+all, because affiliation is written only for seated executives, chapter
+organizers, and the consequences of party evolution
+(`living-world/opening.ts:390`, `party-chapters.ts:195`, `party-evolution.ts:308`);
+a person's position inside a party is a coin flip, because `partyActorStance`
+(`party-evolution.ts:161-175`) forks the world seed on the person and the
+question and reads no trait, value, goal, life event or relationship; and a
+private belief cannot be recorded at all, because every writer requires a
+policy proposition and the loaded pack declares none. See also D-092, which
+settles the relationship half of the same requirement.
+
+> Numbering note: appended as D-093 at 15:50Z on `claude/people-and-life-4qpuwb`.
+> If another lane claimed the number first, renumber this entry rather than the
+> one already on main, as the note under D-091 records.
+
+## D-094 — No source or provenance reference on any player-facing surface; amends principle 31
+
+**Decided by the owner, 2026-09-22 21:42Z.** Principle 31 of
+`docs/GAME-CONSTITUTION.md` said "Explanations and sources should be available
+on demand", while his standing rule is that no source or provenance reference
+appears anywhere a player can see. Asked which should win, he answered "yeha
+amend it".
+
+**The amendment.** Principle 31 now reads that explanations may be available on
+demand, but source and provenance references never appear on any player-facing
+surface, on demand or otherwise. The earlier wording is kept inline in the
+principle, marked as amended by this entry, so the change can be audited from
+either document.
+
+**What this settles.**
+
+- An on-demand disclosure panel is still a player-facing surface. A "Sources"
+  triangle, a citation printed under a refusal, and a link out to a statute are
+  all ruled out, whatever the panel is labeled.
+- Provenance is not deleted. It stays on the records, where a reviewer, an
+  auditor or the diagnostics-gated developer view reads it.
+- An explanation of how a rule works is still allowed and encouraged. What goes
+  is where the rule came from: "a term here lasts four years" is an
+  explanation; "compiled from RCW 43.01.010" is a source.
+
+**How it is held.** `src/player/no-source-panel-on-a-player-screen.test.ts`
+(landed with #394) refuses any `src/player` line outside a diagnostics gate
+that offers a sources or citations panel, reads a citation field, or links off
+the game.
+
+## D-095 — A release publishes onto a main that has moved
+
+**Decided by the owner, 2026-09-23 01:46Z.** He asked why the version number
+never changes: "I just want it to automatically update. Based on the size of
+the update or the breadth of the update. Every time." The release publisher
+could only fast-forward `main`, and only if `main` had not moved during the
+roughly thirty-five minutes a candidate takes to validate. On a `main` that
+takes a merge every few minutes that never happens, and no automated release
+had ever published; `0.4.0` was set by hand.
+
+**The change.** When `main` has moved, the publisher lays the validated
+release delta (the version fields, `PATCH_NOTES.md`, the consumed-change
+ledger and the deleted declarations) onto `main`'s new tip as one new commit,
+provided every file in that delta is still byte-identical to the validated
+parent. It retries up to five times while `main` keeps moving. It never
+forces a push, never merges source, and still runs no repository code with
+write authority.
+
+**What this settles.**
+
+- The size of each bump still comes from the declarations: `minor` for a
+  player-visible feature, `patch` for a player-visible fix, and no bump for
+  `none`.
+- The published commit carries merges that landed during the build and
+  were not part of that run's validation. They are gated before merge, and
+  the next release validates them.
+- If another release, or any hand edit, changes one of the release files
+  in the meantime, this release stands down and its declarations wait for
+  the next push.
+
+**How it is held.** `tests/release/release-workflow.test.ts` pins the
+byte-identity condition, the one-commit re-application, the unforced push and
+the retry bound.

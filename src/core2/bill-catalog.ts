@@ -1,0 +1,260 @@
+/**
+ * The bill paper's catalog (M3-01): the owner-accepted 18 subject menus with
+ * the policies the engine supports under each topic (`data/legislature/
+ * bill-catalog.json`, built by `scripts/research/build-bill-catalog.py`).
+ *
+ * `billCatalog` gives a body what it can draft: only policies its level can
+ * pass, each with the amount in force today (amounts start from the law in
+ * force) and, for a town, whether the state lets it act (the city attorney's
+ * warning or block). `provisionFor` turns a pick and an operation into a bill
+ * provision. Outcomes never appear in the drafting controls.
+ */
+import type { EntityId } from "./kernel/brands";
+import type { GovernmentLevel } from "./government-level";
+import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
+import type { CoreAPI } from "./types";
+import {
+  authorityFor,
+  beyondPower,
+  type Authority,
+  type Provision,
+} from "./modules/legislature";
+import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
+import { labelOfAnotherAtLevel, policyAuthority } from "./modules/laws";
+import {
+  budgetsOf,
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "./modules/budgets";
+import { localInstitutionsFor } from "./reference/local-institutions";
+import {
+  FEE_LEVEL_RUNS,
+  FEE_LEVEL_SERVICES,
+  isFeeLevelSeries,
+} from "./fee-levels";
+
+export type Operation =
+  "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
+type Level = GovernmentLevel;
+
+interface CatalogPolicy {
+  readonly id: string;
+  readonly name: string;
+  readonly kind: Provision["kind"];
+  readonly series?: string;
+  readonly question?: string;
+  readonly line?: string;
+  readonly unit?: string;
+  readonly operations: readonly Operation[];
+  readonly levels: readonly Level[];
+}
+
+export interface DraftablePolicy extends CatalogPolicy {
+  readonly inForce: number | null;
+  readonly inForceRecordId: string | null;
+  readonly inForceUnit: string | null;
+  /** For a fee: what the government's charge for it brings in over a year, and for sewer and trash what a home pays a month. */
+  readonly charge?: {
+    readonly yearlyMinor: number;
+    readonly perHomeMonthMinor: number | null;
+  };
+  readonly authority: Authority;
+}
+
+export interface CatalogMenu {
+  readonly id: string;
+  readonly name: string;
+  readonly topics: readonly {
+    readonly name: string;
+    readonly supported: boolean;
+    readonly policies: readonly DraftablePolicy[];
+  }[];
+}
+
+const subjects = (
+  catalog as unknown as {
+    subjects: {
+      id: string;
+      name: string;
+      topics: { name: string; supported: boolean; policies: CatalogPolicy[] }[];
+    }[];
+  }
+).subjects;
+
+/** What a body at this level can draft, menu by menu. */
+
+export function billCatalog(
+  api: CoreAPI,
+  level: Level,
+  jurisdiction: string = billLevelJurisdiction(api, level),
+): readonly CatalogMenu[] {
+  const government = governmentOfJurisdiction(api, jurisdiction);
+  const charged = new Map(
+    (government ? chargedServicesOf(api, government.id) : []).map((c) => [
+      c.service,
+      c,
+    ]),
+  );
+  // A government is offered a fee only where its records show it runs the thing: its charges row
+  // holds the service and, where a facility is needed, its own budget spends on it.
+  const spending = government
+    ? budgetsOf(api, government.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]?.spendingMinor
+    : undefined;
+  const charges = {
+    has: (service: string) => {
+      if (!charged.has(service)) return false;
+      const runs = FEE_LEVEL_RUNS[service];
+      if (runs === null || runs === undefined) return runs === null;
+      if (!runs.some((line) => (spending?.[line] ?? 0) > 0)) return false;
+      // A town or county is offered hospital charges only where a hospital stands in its place
+      // (who owns it is not recorded yet: pool item gov-fee-facility-record-for-tolls-and-parking).
+      return !(
+        service === "hospitals" &&
+        government &&
+        government.level !== "state" &&
+        !localInstitutionsFor(
+          government.jurisdictionId as EntityId,
+        ).hospitals.some((row) => row.kind === "hospital")
+      );
+    },
+  };
+  return subjects.map((subject) => ({
+    id: subject.id,
+    name: subject.name,
+    topics: subject.topics.map((topic) => ({
+      name: topic.name,
+      supported: topic.supported,
+      policies: topic.policies
+        .filter((p) => p.levels.includes(level))
+        // One label per rule at a level: a question this level reads as
+        // another platform question's rule is offered once, under that one.
+        .filter(
+          (p) =>
+            !(
+              p.kind === "policy-question" &&
+              p.question &&
+              labelOfAnotherAtLevel(p.question, level)
+            ),
+        )
+        // A fee is offered only where that government's own charges row holds
+        // the service it sets (a government with no toll is not offered one).
+        .filter(
+          (p) =>
+            !(p.series && isFeeLevelSeries(p.series)) ||
+            charges.has(FEE_LEVEL_SERVICES[p.series]!),
+        )
+        .map((p) => {
+          const provision = {
+            kind: p.kind,
+            series: p.series,
+            question: p.question,
+            line: p.line,
+            unit: p.unit,
+            value: 1,
+          } as Provision;
+          const inForce = billValueInForce(api, provision, jurisdiction);
+          const fee =
+            p.series && isFeeLevelSeries(p.series)
+              ? charged.get(FEE_LEVEL_SERVICES[p.series]!)
+              : undefined;
+          return {
+            ...p,
+            ...(fee
+              ? {
+                  charge: {
+                    yearlyMinor: fee.yearlyMinor,
+                    perHomeMonthMinor: fee.perHomeMonthMinor,
+                  },
+                }
+              : {}),
+            inForce: inForce.value,
+            inForceRecordId: inForce.recordId,
+            inForceUnit: inForce.unit,
+            // The same check for every body, as the draft makes it: a policy
+            // question reads the power catalog and the state's laws at this
+            // level, an amount its series' levels, and only a town needs the
+            // state's grant of authority.
+            authority:
+              level === "city" || level === "county"
+                ? level === "county" &&
+                  p.kind === "policy-question" &&
+                  p.question
+                  ? policyAuthority(api, p.question, "county")
+                  : authorityFor(api, provision)
+                : p.kind === "policy-question" && p.question
+                  ? policyAuthority(api, p.question, level)
+                  : (beyondPower(provision, level) ?? {
+                      allowed: true,
+                      warning: "none" as const,
+                      reason: "within-own-power" as const,
+                      source: "",
+                    }),
+          };
+        }),
+    })),
+  }));
+}
+
+/**
+ * A bill provision from a catalog pick: an amount for a law (raise or lower,
+ * starting from the law in force), a change to a budget line (expand or
+ * restrict by an amount), or a policy enacted or repealed. An optional
+ * effective date phases it in.
+ */
+export function provisionFor(input: {
+  readonly policyId: string;
+  readonly operation: Operation;
+  readonly amount?: number;
+  readonly effectiveDate?: string;
+}): Provision {
+  const policy = subjects
+    .flatMap((s) => s.topics.flatMap((t) => t.policies))
+    .find((p) => p.id === input.policyId);
+  if (!policy) throw new Error(`No such catalog policy: ${input.policyId}`);
+  // Any amount law can be repealed: the body's own law ends and the level
+  // holds what it held before, including nothing (owner, Nov 7).
+  if (policy.kind === "law-amount" && input.operation === "repeal")
+    return {
+      kind: "law-amount",
+      series: policy.series!,
+      value: 0,
+      repeal: true,
+      ...(policy.unit ? { unit: policy.unit } : {}),
+      ...(input.effectiveDate ? { effectiveDate: input.effectiveDate } : {}),
+      policyId: policy.id,
+      operation: input.operation,
+    };
+  if (!policy.operations.includes(input.operation))
+    throw new Error(`${policy.name} doesn't support ${input.operation}`);
+  const dated = {
+    ...(input.effectiveDate ? { effectiveDate: input.effectiveDate } : {}),
+    policyId: policy.id,
+    operation: input.operation,
+  };
+  if (policy.kind === "policy-question")
+    return {
+      kind: "policy-question",
+      question: policy.question!,
+      value: input.operation === "enact" ? 1 : -1,
+      ...dated,
+    };
+  if (policy.kind === "budget-line")
+    return {
+      kind: "budget-line",
+      line: policy.line!,
+      value:
+        (input.operation === "expand" ? 1 : -1) * Math.abs(input.amount ?? 0),
+      ...dated,
+    };
+  if (input.amount === undefined)
+    throw new Error(`${policy.name} needs the new amount`);
+  return {
+    kind: "law-amount",
+    series: policy.series!,
+    value: input.amount,
+    ...(policy.unit ? { unit: policy.unit } : {}),
+    ...dated,
+  };
+}

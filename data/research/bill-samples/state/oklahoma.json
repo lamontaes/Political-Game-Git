@@ -1,0 +1,165 @@
+[
+  {
+    "id": "ok-2025-hb2764-income-tax",
+    "jurisdiction": "Oklahoma",
+    "level": "state",
+    "session": "60th Legislature, 1st Session (2025)",
+    "bill_number": "HB 2764",
+    "law_citation": null,
+    "short_title": "Income tax cut with path to zero",
+    "enacted_date": "2025-05-28",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=HB2764&Session=2500",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Top rate cut and brackets reduced from six to three.",
+        "numbers": [
+          {
+            "value": 4.75,
+            "unit": "percent old top",
+            "text": "4.75 percent old top"
+          },
+          {
+            "value": 4.5,
+            "unit": "percent new top",
+            "text": "4.5 percent new top"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Further 0.25-point cuts when revenue growth tests are met, until zero.",
+        "numbers": [
+          {
+            "value": 0.25,
+            "unit": "percent step",
+            "text": "0.25 percent step"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Annual revenue reduction.",
+        "numbers": [
+          {
+            "value": 340500000,
+            "unit": "USD per year",
+            "text": "340500000 USD per year"
+          }
+        ]
+      }
+    ],
+    "touches": ["state revenue"],
+    "daily_life": "Every income bracket pays a quarter-point less.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ok-2025-sb54-dui",
+    "jurisdiction": "Oklahoma",
+    "level": "state",
+    "session": "60th Legislature, 1st Session (2025)",
+    "bill_number": "SB 54",
+    "law_citation": null,
+    "short_title": "Aggravated DUI expansion and mandatory jail",
+    "enacted_date": "2025-05",
+    "enactment_path": "veto overridden",
+    "effective_dates": ["2025-11-01"],
+    "official_text_url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=SB54&Session=2500",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Criminal law and sentencing",
+    "secondary_menus": [],
+    "instrument": "penalty",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "penalty",
+        "description": "Mandatory jail for first-time aggravated DUI.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "days minimum",
+            "text": "10 days minimum"
+          }
+        ]
+      },
+      {
+        "kind": "penalty",
+        "description": "Longer minimum for repeat offenders.",
+        "numbers": [
+          {
+            "value": 30,
+            "unit": "days minimum",
+            "text": "30 days minimum"
+          }
+        ]
+      },
+      {
+        "kind": "definition",
+        "description": "Broadens what counts as aggravated DUI."
+      },
+      {
+        "kind": "veto-override",
+        "description": "Enacted over the governor's veto."
+      }
+    ],
+    "touches": ["county jails", "courts"],
+    "daily_life": "A first aggravated DUI means at least ten days behind bars.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ok-2025-hb1460-court-fees",
+    "jurisdiction": "Oklahoma",
+    "level": "state",
+    "session": "60th Legislature, 1st Session (2025)",
+    "bill_number": "HB 1460",
+    "law_citation": null,
+    "short_title": "Criminal justice fee reductions and waivers",
+    "enacted_date": "2025-05-28",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-11-01"],
+    "official_text_url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=HB1460&Session=2500",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Courts and legal aid",
+    "secondary_menus": [],
+    "instrument": "fee",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": ["lower"],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Removes several fees charged to people moving through the justice system."
+      },
+      {
+        "kind": "waiver",
+        "description": "Strengthens the court fee waiver process for people who cannot pay."
+      }
+    ],
+    "touches": ["court clerks", "court funding"],
+    "daily_life": "A person leaving jail owes fewer court fees.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

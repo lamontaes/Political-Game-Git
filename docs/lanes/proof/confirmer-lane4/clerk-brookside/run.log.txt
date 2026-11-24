@@ -1,0 +1,10 @@
+jump 0 200 {"packet":{"version":"core2-part1b-v1","controlledPersonId":"person_0266f747aa7f03ca","at":{"date":"2025-01-23","minuteOfDay":420},"simulatedDays":2,"decisions":131,"acts":131,"kind":"complete"},"earliest":null,"through":{"date":"2026-05-16","minuteOfDay":420},"selfChosen":[{"pauseId":"player:person
+talk 0 
+jump 1 200 {"packet":{"version":"core2-part1b-v1","controlledPersonId":"person_0266f747aa7f03ca","at":{"date":"2025-02-04","minuteOfDay":480},"simulatedDays":14,"decisions":913,"acts":2096,"kind":"stop","pauseId":"player:person_0266f747aa7f03ca:16","stop":{"version":"core2-part1b-v1","at":{"date":"2025-02-04",
+talk 1 Your mother has news for you.
+jump 2 400 {"error":"Answer the open choice or stop first."}
+talk 2 Your mother has something to tell you as soon as you're in the door.
+jump 3 400 {"error":"Answer the open choice or stop first."}
+talk 3 Robert Moran went to school with you all year, and wants a word before everyone scatters.
+page.waitForResponse: Timeout 600000ms exceeded while waiting for event "response"
+  name: 'TimeoutError'

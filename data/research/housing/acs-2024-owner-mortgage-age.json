@@ -1,0 +1,82 @@
+{
+  "id": "acs-2024-owner-mortgage-age",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "2020-2024 ACS 5-year",
+  "table": "B25027",
+  "title": "Mortgage Status by Age of Householder",
+  "universe": "Owner-occupied housing units",
+  "geography": "United States",
+  "geographyId": "0100000US",
+  "sourceUrl": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25027.dat",
+  "metadataUrl": "https://api.census.gov/data/2024/acs/acs5/groups/B25027.json",
+  "retrievedOn": "2026-10-02",
+  "sourceExcerptSha256": "e741ac4d542dcda6fbf59876756a8bebb33d96103af57aa4f362b13870a9ae27",
+  "sourceExcerptBytes": 65536,
+  "sourceNationalRow": "0100000US|84210142|367889|51067639|228597|7271894|71174|11273894|69580|11481062|45254|5611572|22817|5188720|19305|7130476|22910|3110021|17249|33142503|144980|1639108|18527|2574617|20098|3939911|21792|3110565|15378|4302082|20618|9272425|41499|8303795|38404",
+  "limits": "Mortgage prevalence only. This table does not report outstanding principal or remaining loan term. National counts are not individual loan offers.",
+  "ageBands": [
+    {
+      "label": "15 to 34",
+      "minAge": 15,
+      "maxAgeExclusive": 35,
+      "mortgaged": 7271894,
+      "mortgageFree": 1639108,
+      "mortgagedCell": "B25027_E003",
+      "mortgageFreeCell": "B25027_E011"
+    },
+    {
+      "label": "35 to 44",
+      "minAge": 35,
+      "maxAgeExclusive": 45,
+      "mortgaged": 11273894,
+      "mortgageFree": 2574617,
+      "mortgagedCell": "B25027_E004",
+      "mortgageFreeCell": "B25027_E012"
+    },
+    {
+      "label": "45 to 54",
+      "minAge": 45,
+      "maxAgeExclusive": 55,
+      "mortgaged": 11481062,
+      "mortgageFree": 3939911,
+      "mortgagedCell": "B25027_E005",
+      "mortgageFreeCell": "B25027_E013"
+    },
+    {
+      "label": "55 to 59",
+      "minAge": 55,
+      "maxAgeExclusive": 60,
+      "mortgaged": 5611572,
+      "mortgageFree": 3110565,
+      "mortgagedCell": "B25027_E006",
+      "mortgageFreeCell": "B25027_E014"
+    },
+    {
+      "label": "60 to 64",
+      "minAge": 60,
+      "maxAgeExclusive": 65,
+      "mortgaged": 5188720,
+      "mortgageFree": 4302082,
+      "mortgagedCell": "B25027_E007",
+      "mortgageFreeCell": "B25027_E015"
+    },
+    {
+      "label": "65 to 74",
+      "minAge": 65,
+      "maxAgeExclusive": 75,
+      "mortgaged": 7130476,
+      "mortgageFree": 9272425,
+      "mortgagedCell": "B25027_E008",
+      "mortgageFreeCell": "B25027_E016"
+    },
+    {
+      "label": "75 and over",
+      "minAge": 75,
+      "maxAgeExclusive": null,
+      "mortgaged": 3110021,
+      "mortgageFree": 8303795,
+      "mortgagedCell": "B25027_E009",
+      "mortgageFreeCell": "B25027_E017"
+    }
+  ]
+}

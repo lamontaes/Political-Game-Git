@@ -1,0 +1,1021 @@
+{
+  "schemaVersion": 2,
+  "purpose": "Dated reference observations for explicit game-authored public sessions. These are not enacted-current-authority readings; source rights and legal validity remain unpromoted.",
+  "candidates": [
+    {
+      "governmentKey": "us-il-springfield",
+      "cacheKey": "0c24efd77db3910f",
+      "url": "https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx",
+      "title": "Springfield Council Rules and Procedures",
+      "retrievedAt": "2026-09-09T00:15:56.584344+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": null,
+      "quotes": [
+        "All official meetings of the Council shall be open to the public except as otherwise provided for by the Illinois Open Meetings Act.",
+        "Any person desiring to address the Council shall first be recognized by the presiding officer. Except for zoning matters and emergency ordinances, all requests by members of the public to address the Council during the Council’s consideration of “Ordinances and resolutions - final action,” shall be made to the Clerk in writing with the subject matter stated, not less than one (1) working day before the next scheduled Council meeting. Persons addressing the Council shall limit their statements to five minutes unless further time is granted by the presiding officer. This Rule shall not apply"
+      ],
+      "caveats": [
+        "Closed sessions permitted by the Illinois Open Meetings Act are excluded. Speaking requires recognition and a timely written request; the quoted five-minute limit applies."
+      ]
+    },
+    {
+      "governmentKey": "us-il-chicago",
+      "cacheKey": "f1b839f422d7fd98",
+      "url": "https://www.chicityclerk.com/attending-city-council-meetings",
+      "title": "Attending Chicago City Council Meetings",
+      "retrievedAt": "2026-09-09T00:16:16.641297+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "Chicago City Council",
+      "venue": "Council Chambers, second floor, City Hall, 121 North LaSalle Street",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": "10:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "Chicago City Council meetings are open to the public. Meetings typically begin at 10:00 am in the Council Chambers located on the second floor at City Hall, 121 North LaSalle Street."
+      ],
+      "caveats": [
+        "10:00 is typical, not an occurrence or full cadence."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-jersey-city",
+      "cacheKey": "81ece389577c129d",
+      "url": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+      "title": "Jersey City Council Meetings",
+      "retrievedAt": "2026-09-09T00:16:23.956570+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "SECOND",
+          "FOURTH"
+        ],
+        "weekday": "WEDNESDAY",
+        "startTime": "18:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "Council meetings are open to the public, who are welcome to speak during the designated public comment times.",
+        "In general, City Council Meetings are held on the 2nd and 4th Wednesdays of each month at 6:00 PM, unless otherwise designated."
+      ],
+      "caveats": [
+        "Speaking only at designated times; no unrestricted testimony grant."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-jersey-city",
+      "cacheKey": "81ece389577c129d",
+      "url": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+      "title": "Jersey City Council Meetings",
+      "retrievedAt": "2026-09-09T00:16:23.956570+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "caucus",
+      "kind": "CAUCUS",
+      "bodyName": "City Council",
+      "venue": "Anna Cucci Memorial Council Chambers, City Hall, 280 Grove Street, Second Floor",
+      "openToPublic": true,
+      "publicCommentOffered": false,
+      "cadence": null,
+      "quotes": [
+        "Caucuses are open to the public; however, there is no opportunity for public comment. The Council may also hold closed caucuses during which the public is excluded.",
+        "Note that all caucuses are held in the Anna Cucci Memorial Council Chambers, City Hall, 280 Grove Street, Second Floor."
+      ],
+      "caveats": [
+        "Closed caucuses explicitly excluded; preserve distinct series."
+      ]
+    },
+    {
+      "governmentKey": "us-tn-nashville-davidson-county",
+      "cacheKey": "0fcd1b19dca48aac",
+      "url": "https://www.nashville.gov/departments/council/boards/metro-council",
+      "title": "Metro Council",
+      "retrievedAt": "2026-09-09T00:16:28.879622+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "FIRST",
+          "THIRD"
+        ],
+        "weekday": "TUESDAY",
+        "startTime": "18:30",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "By Charter the regular meetings of the Council are held on the first and third Tuesdays of every month. Meetings convene at 6:30 p.m. All meetings are open to the public."
+      ],
+      "caveats": []
+    },
+    {
+      "governmentKey": "us-ma-springfield",
+      "cacheKey": "2cb5ffa9db19b05f",
+      "url": "https://www.springfield-ma.gov/cos/city-council-members",
+      "title": "Springfield City Council Members",
+      "retrievedAt": "2026-09-09T00:16:34.806808+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "FIRST",
+          "THIRD"
+        ],
+        "weekday": "MONDAY",
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All council meetings are open to the public.",
+        "Citizens may speak at council meetings, at hearings, and by special permission.",
+        "The City Council generally meets on the first and third Mondays of each month"
+      ],
+      "caveats": []
+    },
+    {
+      "governmentKey": "us-ma-worcester",
+      "cacheKey": "d14f2a75fd6d279c",
+      "url": "https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition",
+      "title": "File a Petition",
+      "retrievedAt": "2026-09-09T00:16:36.992512+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": "Council Chamber, third floor, City Hall",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": "TUESDAY",
+        "startTime": "18:30",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "City Council, School Committee and City of Worcester Boards and Commission meetings are generally all open to the public and interested individuals are encouraged to attend.",
+        "Generally, the City Council meets weekly on Tuesday evenings at 6:30 p.m. in the Council Chamber on the third floor of City Hall. During the summer months of July and August, the City Council generally meets three times."
+      ],
+      "caveats": [
+        "Generally public, not every closed/special occurrence.",
+        "Summer frequency exception prevents unqualified weekly schedule."
+      ]
+    },
+    {
+      "governmentKey": "us-nm-albuquerque",
+      "cacheKey": "24542c267feffad5",
+      "url": "https://www.cabq.gov/council/current-events/council-meeting-schedules/",
+      "title": "Council Meeting Schedules",
+      "retrievedAt": "2026-09-09T00:16:15.247773+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": "Vincent E. Griego Council Chambers, basement level, City of Albuquerque Government Center, 1 Civic Plaza NW",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": "17:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "Meetings are held in the Vincent E. Griego Council Chambers, basement level of the City of Albuquerque Government Center,",
+        "All meetings are open to the public.",
+        "Meeting Location & Time Meetings are held in the Vincent E. Griego Council Chambers, basement level of the City of Albuquerque Government Center, 1 Civic Plaza NW , Albuquerque, New Mexico 87102. All meetings begin at 5:00 p.m., unless another time is indicated on the agenda. All meetings are open to the public.",
+        "Most meetings occur on a Monday, unless otherwise noted below."
+      ],
+      "caveats": [
+        "17:00 default except when another time is indicated on the agenda."
+      ]
+    },
+    {
+      "governmentKey": "us-nm-albuquerque",
+      "cacheKey": "186ce68b60d7338a",
+      "url": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+      "title": "Council Committee Schedules",
+      "retrievedAt": "2026-09-09T00:16:14.963450+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "committee-of-the-whole",
+      "kind": "COMMITTEE",
+      "bodyName": "Committee-of-the-Whole (COW)",
+      "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": null,
+      "quotes": [
+        "Committee-of-the-Whole (COW) Meetings are held in the Vincent E. Griego Chambers, Basement Level of the City of Albuquerque Government Center building, One Civic Plaza NW, unless another location is indicated on the schedule. All meetings are open to the general public and will be televised live on GOVTV and YouTube, unless indicated otherwise on the agenda."
+      ],
+      "caveats": [
+        "The agenda may provide exceptions and the schedule may name another location. Attendance does not establish committee membership."
+      ]
+    },
+    {
+      "governmentKey": "us-nm-albuquerque",
+      "cacheKey": "186ce68b60d7338a",
+      "url": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+      "title": "Council Committee Schedules",
+      "retrievedAt": "2026-09-09T00:16:14.963450+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "finance-government-operations",
+      "kind": "COMMITTEE",
+      "bodyName": "Finance and Government Operations (FGO)",
+      "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": "17:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "Finance and Government Operations (FGO) Meetings are held in the Vincent E. Griego Chambers, Basement Level of the City of Albuquerque Government Center building, One Civic Plaza NW. All meetings begin at 5 p.m., unless another time is indicated on the agenda. All meetings are open to the general public.",
+        "The FGO Committee meets on a regular basis on the second Monday of each month, and on the fourth Monday of each month, if needed."
+      ],
+      "caveats": [
+        "Separate committee body; attendance does not establish committee membership.",
+        "17:00 default except when another time is indicated on the agenda."
+      ]
+    },
+    {
+      "governmentKey": "us-nm-albuquerque",
+      "cacheKey": "186ce68b60d7338a",
+      "url": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+      "title": "Council Committee Schedules",
+      "retrievedAt": "2026-09-09T00:16:14.963450+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "land-use-planning-zoning",
+      "kind": "COMMITTEE",
+      "bodyName": "Land Use, Planning & Zoning (LUPZ)",
+      "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": "17:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "Land Use, Planning & Zoning (LUPZ) Meetings are held in the Vincent E. Griego Chambers, Basement Level of the City of Albuquerque Government Center building, One Civic Plaza NW. All meetings begin at 5 p.m., unless another time is indicated on the agenda. All meetings are open to the general public.",
+        "The LUPZ Committee meets on a regular basis on the second Wednesday following the first Monday of each month, and the fourth Wednesday of each month, if needed."
+      ],
+      "caveats": [
+        "Separate committee body; attendance does not establish committee membership.",
+        "17:00 default except when another time is indicated on the agenda."
+      ]
+    },
+    {
+      "governmentKey": "us-wv-morgantown",
+      "cacheKey": "99698ca1375b4ada",
+      "url": "https://www.morgantownwv.gov/285/Procedures-for-Meeting",
+      "title": "Procedures for Meeting",
+      "retrievedAt": "2026-09-09T00:16:28.104368+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "workshop",
+      "kind": "WORK_SESSION",
+      "bodyName": "City Council",
+      "venue": "City Hall Council Chambers, 389 Spruce Street, Morgantown, West Virginia",
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "LAST"
+        ],
+        "weekday": "TUESDAY",
+        "startTime": "19:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "These meetings are public meetings where deliberation of public business occurs.",
+        "Workshops generally begin at 7 p.m. and are held in the City Hall Council Chambers located at 389 Spruce Street, Morgantown, West Virginia. Dates, times, and location of these meetings are subject to change by Council.",
+        "City Council generally schedules Workshops on the last Tuesday of each month."
+      ],
+      "caveats": [
+        "Public input scope can be suspended/modified by Council; no blanket speaking grant.",
+        "Generally last Tuesday; dates/times/location subject change."
+      ]
+    },
+    {
+      "governmentKey": "us-ri-providence",
+      "cacheKey": "fb67e503992ba50c",
+      "url": "https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf",
+      "title": "Providence Home Rule Charter",
+      "retrievedAt": "2026-09-09T00:15:57.434449+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "city council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All meetings of the city council and all committees ther eof shall be open to the public; except that the city council may upon the affirmative vote of a majority of its members, authorize an executive session in accordance with state law.",
+        "Regular meetings shall be held at such times and in such places as may be prescribed by ordinance or resolution, but not less frequently than once each month."
+      ],
+      "caveats": [
+        "Authorized executive sessions are excluded. The year in the source URL is not an enactment or effective date."
+      ]
+    },
+    {
+      "governmentKey": "us-ga-savannah",
+      "cacheKey": "ff2a721119164f18",
+      "url": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+      "title": "Council Meeting Procedures and Rules",
+      "retrievedAt": "2026-09-09T00:16:33.867081+00:00",
+      "historicalDocumentDate": "2024-01-11",
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": "Council Chambers, City Hall, 2 East Bay Street, Savannah, Georgia 31401",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "SECOND",
+          "FOURTH"
+        ],
+        "weekday": "THURSDAY",
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "The public shall be granted access to all meetings and at all times except for Executive Session (see Rule16).",
+        "All meetings of City Council will be held in Council Chambers at City Hall, 2 East Bay Street, Savannah, Georgia 31401 unless otherwise duly noticed.",
+        "City Council will schedule two regular meetings each month: On the second and fourth Thursdays.",
+        "11.5 PUBLIC COMMENT. City Council encourages public comment on issues before the Council. During the public comment part of Council meetings, specifically public hearings, the Mayor will call out for \"Public Comment.\" Speakers will be allowed to offer comments only on topics of discussion. Speakers will be granted up to two minutes each.",
+        "13.6 Public Addressing Council on Other Matters. As a general rule, members of the public do not speak on agenda items unless the City advertises such matters for public hearing or the Council by majority approval votes to decide that public comment(s) should be allowed during its deliberative process. In such instances, the Council shall follow its \"Rules For Conducting Public Hearings\" as herein provided as Section 12."
+      ],
+      "caveats": [
+        "Executive sessions are excluded and the venue may change with notice. Comment is generally limited to advertised hearings or council approval; the source states separate time limits."
+      ]
+    },
+    {
+      "governmentKey": "us-ga-savannah",
+      "cacheKey": "ff2a721119164f18",
+      "url": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+      "title": "Council Meeting Procedures and Rules",
+      "retrievedAt": "2026-09-09T00:16:33.867081+00:00",
+      "historicalDocumentDate": "2024-01-11",
+      "seriesKey": "work-session",
+      "kind": "WORK_SESSION",
+      "bodyName": "City Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "The work sessions will be open to the public, but no votes will be taken.",
+        "Work sessions may be held in the Media Room, on the second floor of City Hall, across from Council Chambers;",
+        "Prior to scheduled meetings, Council may meet in work sessions up to four hours before the meeting."
+      ],
+      "caveats": [
+        "Media Room is optional, not a fixed default.",
+        "No votes at work sessions; executive session distinct and closed."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-newark",
+      "cacheKey": "07ec2b81727ffde5",
+      "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "title": "Municipal Council Rules",
+      "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+      "historicalDocumentDate": "2019-01-23",
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "Municipal Council",
+      "venue": "Council Chamber, second floor, City Hall",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All pre-meetings, regular meetings, conference meetings and special meetings of th e Municipal Council shall be open to the public.",
+        "The Municipal Council shall hold regular meetings on the first Wednesday of each month at 12:30 p.m. and the third Wednesday at 6:30 p.m. or as soon thereafter as is possible , except as hereinafter provided.",
+        "All regular meetings of the Municipal Council shall be held in the Council Chamber on the second floor of City Hall except as hereinafter provided.",
+        "A hearing of citizens shall be held during the course of each regular meeting of the Municipal Council as set forth in Rule III."
+      ],
+      "caveats": [
+        "The document is amended through January 23, 2019, not a notice of a particular later meeting. Regular meetings use the second-floor chamber. Citizen hearings require registration and recognition; overlapping amendment text leaves the exact registration deadline unresolved."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-newark",
+      "cacheKey": "07ec2b81727ffde5",
+      "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "title": "Municipal Council Rules",
+      "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+      "historicalDocumentDate": "2019-01-23",
+      "seriesKey": "pre-meeting",
+      "kind": "WORK_SESSION",
+      "bodyName": "Municipal Council",
+      "venue": "Municipal Council Chamber, second floor, City Hall OR Council Conference Room, third floor, as determined by City Clerk based on agenda",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": "10:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All pre-meetings, regular meetings, conference meetings and special meetings of th e Municipal Council shall be open to the public.",
+        "The Pre-Meeting Conference shall convene in the Municipal Council Chamber, on the second floor in City Hall or the Council Conference Room on the third floor of City Hall to be determined by the City Clerk based on agenda items to be considered.",
+        "The Municipal Council shall hold pre -meeting conferences at 10:00 a.m. on all days preceding the day on which a regular meeting of the Council is held.",
+        "Prior to the conclusion of a pre -meeting conference, there shall be allocated a period of time not to exceed thirty (30) minutes wherein citizens may address the Municipal Council on any topic relevant to any Newark municipal government issue. Each individual speaker shall be limited to a maximum time period of three (3) minutes. Any person present at the pre -meeting, may speak within the limitation herein established. The Presiding Officer will select the person to be given the floor and establish the order of speaking."
+      ],
+      "caveats": [
+        "The clerk determines which of the two stated rooms is used. Dates may change for holidays or room availability. This is a dated reference, not a current notice."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-newark",
+      "cacheKey": "07ec2b81727ffde5",
+      "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "title": "Municipal Council Rules",
+      "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+      "historicalDocumentDate": "2019-01-23",
+      "seriesKey": "special-conference",
+      "kind": "WORK_SESSION",
+      "bodyName": "Municipal Council",
+      "venue": "Municipal Council Conference Room, third floor, City Hall",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "MONTHLY_ORDINAL_WEEKDAY",
+        "ordinals": [
+          "SECOND",
+          "FOURTH"
+        ],
+        "weekday": "TUESDAY",
+        "startTime": "10:00",
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All pre-meetings, regular meetings, conference meetings and special meetings of th e Municipal Council shall be open to the public.",
+        "The special Conference meeting shall convene in the Municipal Council Conference Room, on the third floor in City Hall.",
+        "The Municipal Council shall hold special conference meetings at 10:00 a.m. on the second and fourth Tuesday of each month except the months of July and August in which there shall be no special conference meeting.",
+        "Prior to the c onclusion of a special conference meeting, there shall be allocated a period of time not to exceed thirty (30) minutes wherein citizens may address the Municipal Council on any topic relevant to any Newark municipal government issue. Each individual speake r shall be limited to a maximum time period of three (3) minutes. Any person present at the special conference meeting, may speak within the limitation herein established. The Presiding Officer will select the person to be given the floor and establish the order of speaking."
+      ],
+      "caveats": [
+        "The third-floor conference room and the stated schedule have summer, holiday and availability exceptions. This is a dated reference, not a current notice."
+      ]
+    },
+    {
+      "governmentKey": "us-hi-honolulu",
+      "cacheKey": "11f5bd34313c376a",
+      "url": "https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf",
+      "title": "Revised Charter of Honolulu",
+      "retrievedAt": "2026-09-09T00:16:22.795962+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": "UNKNOWN",
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": null,
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "The council shall hold regular meetings and shall meet at least once each month. All meetings of the council shall be open to the public, and every vote taken by the council shall be by open ballot."
+      ],
+      "caveats": [
+        "Monthly minimum is not a complete schedule.",
+        "Committee counsel/staff consultation exceptions retained separately; no blanket committee access."
+      ]
+    },
+    {
+      "governmentKey": "us-ca-sacramento",
+      "cacheKey": "f26172c4d90e40b3",
+      "url": "https://www.cityofsacramento.gov/content/dam/portal/city-government/policies-procedures/Council_Rules_of_Procedure_Adopted.pdf",
+      "title": "Council Rules of Procedure",
+      "retrievedAt": "2026-09-09T00:16:19.113966+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "city council",
+      "venue": "City Hall Council Chamber, 915 I Street, First Floor, Sacramento, California",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": {
+        "kind": "OTHER",
+        "ordinals": [],
+        "weekday": "TUESDAY",
+        "startTime": null,
+        "note": "Reported schedule only; the source conditions and exceptions below apply. This does not schedule a real occurrence."
+      },
+      "quotes": [
+        "All meetings of the council must be open to the public, except as permitted by state law (Sacramento City Charter, § 31).",
+        "The city council shall generally meet on Tuesdays at either 2:00 p.m. or 5:00 p.m. in the City Hall Council Chamber, 915 I Street, First Floor, Sacramento, California, except as otherwise stipulated in the adopted meeting schedule.",
+        "Purpose of public comment. During regular meetings, the city provides opportunities for the public to address the council as a whole in order to listen to the public’s opinions regarding agendized items and unagendized matters within the subject matter jurisdiction of the city. At all other (special) meetings, public comment is limited to agendized items."
+      ],
+      "caveats": [
+        "State-law exceptions apply. The adopted schedule determines whether a Tuesday meeting begins at 2 p.m. or 5 p.m.; there is no single inferred start time."
+      ]
+    },
+    {
+      "governmentKey": "us-oh-cincinnati",
+      "cacheKey": "fee1e6d01b106bdf",
+      "url": "https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/",
+      "title": "Rules of Council",
+      "retrievedAt": "2026-09-09T00:16:17.269312+00:00",
+      "historicalDocumentDate": "2022-01",
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "Council",
+      "venue": null,
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": null,
+      "quotes": [
+        "All meetings of the Council and Committees shall be open to the public.",
+        "\"Term\" means the term of Council commencing December 1, 2013 and ending December 1, 2017.",
+        "Updated 01/22",
+        "For a period of not more than 30 minutes immediately prior to the start of each regular meeting of Council, there will be a citizens' forum where persons will be granted the privilege of the floor as follows:"
+      ],
+      "caveats": [
+        "The document combines a 2013–2017 term definition with an updated January 2022 cover. Current applicability is unresolved. The citizen forum precedes the council meeting; it does not establish unrestricted floor comment."
+      ],
+      "supportedFrom": "2013-12-01",
+      "supportedThrough": "2017-12-01",
+      "supportedIntervalScope": "Explicit defined Council Term §1.2.18; does NOT establish publication expiry. CoverUpdated01/22 and retainedtermdefinitionconflict; currentapplicabilityUNKNOWN.",
+      "currentApplicability": "UNKNOWN"
+    },
+    {
+      "governmentKey": "us-mn-minneapolis",
+      "cacheKey": "02e857ed88183e9b",
+      "url": "https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf",
+      "title": "City Council Rules",
+      "retrievedAt": "2026-09-09T00:16:27.154463+00:00",
+      "historicalDocumentDate": null,
+      "seriesKey": "regular",
+      "kind": "REGULAR_MEETING",
+      "bodyName": "City Council",
+      "venue": "Council chamber (Room 380), City Hall",
+      "openToPublic": true,
+      "publicCommentOffered": false,
+      "cadence": null,
+      "quotes": [
+        "Unless otherwise noticed, meetings shall be held in the Council’s chamber (Room 380) at City Hall, unless otherwise noticed, in accordance with an adopted schedule. All meetings shall be open to the public in accordance with the Minnesota Open Meeting Law.",
+        "Members of the public shall not be permitted to address the City Council at its meetings.",
+        "Except for information related to a quasi-judicial proceeding, members of the public may distribute printed material at regular or special meetings of the City Council by and through the City Clerk."
+      ],
+      "caveats": [
+        "Unless otherwise noticed; adopted schedule controls.",
+        "Public access in accordance with Minnesota Open Meeting Law."
+      ]
+    },
+    {
+      "governmentKey": "us-nj-newark",
+      "cacheKey": "07ec2b81727ffde5",
+      "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "title": "Municipal Council Rules",
+      "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+      "historicalDocumentDate": "2019-01-23",
+      "seriesKey": "special",
+      "kind": "SPECIAL_MEETING",
+      "bodyName": "Municipal Council",
+      "venue": "Council Chamber, second floor, City Hall",
+      "openToPublic": true,
+      "publicCommentOffered": true,
+      "cadence": null,
+      "quotes": [
+        "All pre-meetings, regular meetings, conference meetings and special meetings of th e Municipal Council shall be open to the public.",
+        "All Special Meetings of the Municipal Council shall be held in the Council Chamber on the second floor of City Hall except as hereinafter provided.",
+        "Prior to the conclusion of a special meeting, there shall be allocated a period of time not to exceed thirty (30) minutes wherein citizens may address the Municipal Council on any topic relevant to any Newark municipal government iss ue. Each individual speaker shall be limited to a maximum time period of three (3) minutes. Any person present at the special meeting, may speak within the limitation herein established. The Presiding Officer will select the person to be given the floor and establish the order of speaking."
+      ],
+      "caveats": [
+        "Special meetings are called separately and have no recurring cadence. Only noticed business is considered. The quoted comment period is 30 minutes total and three minutes per speaker; a same-day special conference shares the total."
+      ]
+    }
+  ],
+  "remainder": [
+    "Portland Maine54cb77617f41dc8c is a singleMarch16,2026notice; excluded from recurrence.",
+    "Closed Fargo and Savannah executive sessions must remain explicitclosed/no-write, not part of these open candidates.",
+    "Unknown testimony must remain UNKNOWN, including existing Fargo3532 and Morgantown3776 false values.",
+    "No place/GUS joins proposed.",
+    "Report-only Tallahassee45line427, Pensacola45line436 and Casper45line679 establish comment procedures exist but do not provide enough exact rules for numeric conditions or universal open-access inference.",
+    "Report-only JacksonMS45line125 says central public meeting location, not a comprehensive public-access rule.",
+    "Report-only JerseyCity45line575 caucus comment denial is superseded for this adapter by directly retrieved public-access statement retainingclosedexceptions.",
+    "Existing typed national public-access records LexingtonMA,Provincetown,Fargo,Enfield,Danville,Morgantown,Laramie remain consumer inputs; no duplicate series declarations proposed for their already-supported claims.",
+    "CarsonCity packet45line815 already covered by existing law/research municipalMeetingReading; no duplicate proposed.",
+    "All headers43A/44/45/46 carry2026-08-25; no demonstrated mismatch in research blanket attestation.",
+    "Source quote extraction checks literal presence after whitespace normalization; semantic scope review remains separately necessary.",
+    "Oakland added separately as reportOnlyCandidates; committeesremainunnamedobservation."
+  ],
+  "sources": {
+    "0c24efd77db3910f": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/0c24efd77db3910f.html",
+      "rawSha256": "182e85d64200bf3ad90aa3461d9b6fe6b15bb543a74d01224a375d8af8b765a0",
+      "textPath": "data/source/municipal-governance/meeting-practice/0c24efd77db3910f.html",
+      "textSha256": "182e85d64200bf3ad90aa3461d9b6fe6b15bb543a74d01224a375d8af8b765a0",
+      "retrieval": {
+        "key": "0c24efd77db3910f",
+        "url": "https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:15:56.584344+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx",
+        "mime": "text/html; charset=utf-8",
+        "bytes": 67486,
+        "sha256": "182e85d64200bf3ad90aa3461d9b6fe6b15bb543a74d01224a375d8af8b765a0"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "f1b839f422d7fd98": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/f1b839f422d7fd98.html",
+      "rawSha256": "cb3d8027d40f0844da2b3445228fb2ed048697f2335676664fd298f3b2a47bdf",
+      "textPath": "data/source/municipal-governance/meeting-practice/f1b839f422d7fd98.html",
+      "textSha256": "cb3d8027d40f0844da2b3445228fb2ed048697f2335676664fd298f3b2a47bdf",
+      "retrieval": {
+        "key": "f1b839f422d7fd98",
+        "url": "https://www.chicityclerk.com/attending-city-council-meetings",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:16:16.641297+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.chicityclerk.com/attending-city-council-meetings",
+        "mime": "text/html; charset=UTF-8",
+        "bytes": 27387,
+        "sha256": "cb3d8027d40f0844da2b3445228fb2ed048697f2335676664fd298f3b2a47bdf"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "81ece389577c129d": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/81ece389577c129d.html",
+      "rawSha256": "76258f296db6c5bb3cba2066992a7893daf1ea9c00421fbb6d76140ea22b72d2",
+      "textPath": "data/source/municipal-governance/meeting-practice/81ece389577c129d.html",
+      "textSha256": "76258f296db6c5bb3cba2066992a7893daf1ea9c00421fbb6d76140ea22b72d2",
+      "retrieval": {
+        "key": "81ece389577c129d",
+        "url": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:23.956570+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+        "mime": "text/html; charset=utf-8",
+        "bytes": 88684,
+        "sha256": "76258f296db6c5bb3cba2066992a7893daf1ea9c00421fbb6d76140ea22b72d2"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "0fcd1b19dca48aac": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/0fcd1b19dca48aac.html",
+      "rawSha256": "11fffe7d8b8d9d0c9698c2f75fc4b3a92d1747d3a116544b19cb2bb5c080e552",
+      "textPath": "data/source/municipal-governance/meeting-practice/0fcd1b19dca48aac.html",
+      "textSha256": "11fffe7d8b8d9d0c9698c2f75fc4b3a92d1747d3a116544b19cb2bb5c080e552",
+      "retrieval": {
+        "key": "0fcd1b19dca48aac",
+        "url": "https://www.nashville.gov/departments/council/boards/metro-council",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:16:28.879622+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.nashville.gov/departments/council/boards/metro-council",
+        "mime": "text/html; charset=UTF-8",
+        "bytes": 68217,
+        "sha256": "11fffe7d8b8d9d0c9698c2f75fc4b3a92d1747d3a116544b19cb2bb5c080e552"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "2cb5ffa9db19b05f": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/2cb5ffa9db19b05f.html",
+      "rawSha256": "6738afb7e8678d96a6ced80b912837d326ed53fa5ebc183f51b4db79b8a75d1a",
+      "textPath": "data/source/municipal-governance/meeting-practice/2cb5ffa9db19b05f.html",
+      "textSha256": "6738afb7e8678d96a6ced80b912837d326ed53fa5ebc183f51b4db79b8a75d1a",
+      "retrieval": {
+        "key": "2cb5ffa9db19b05f",
+        "url": "https://www.springfield-ma.gov/cos/city-council-members",
+        "research": [
+          "matrix44"
+        ],
+        "retrievedAt": "2026-09-09T00:16:34.806808+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.springfield-ma.gov/cos/city-council-members",
+        "mime": "text/html; charset=utf-8",
+        "bytes": 55971,
+        "sha256": "6738afb7e8678d96a6ced80b912837d326ed53fa5ebc183f51b4db79b8a75d1a"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "d14f2a75fd6d279c": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/d14f2a75fd6d279c.html",
+      "rawSha256": "d9a9396749337e18b303f1a8b1b43e62a5ee3aa5746b6a8c6634385aa323cca9",
+      "textPath": "data/source/municipal-governance/meeting-practice/d14f2a75fd6d279c.html",
+      "textSha256": "d9a9396749337e18b303f1a8b1b43e62a5ee3aa5746b6a8c6634385aa323cca9",
+      "retrieval": {
+        "key": "d14f2a75fd6d279c",
+        "url": "https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition",
+        "research": [
+          "matrix44"
+        ],
+        "retrievedAt": "2026-09-09T00:16:36.992512+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition",
+        "mime": "text/html; charset=utf-8",
+        "bytes": 76242,
+        "sha256": "d9a9396749337e18b303f1a8b1b43e62a5ee3aa5746b6a8c6634385aa323cca9"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "24542c267feffad5": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/24542c267feffad5.html",
+      "rawSha256": "16f4557d151b71ffa7eaef20bf9b5d7ce9bfd939f5b4138e7fe0c5c601e80ec4",
+      "textPath": "data/source/municipal-governance/meeting-practice/24542c267feffad5.html",
+      "textSha256": "16f4557d151b71ffa7eaef20bf9b5d7ce9bfd939f5b4138e7fe0c5c601e80ec4",
+      "retrieval": {
+        "key": "24542c267feffad5",
+        "url": "https://www.cabq.gov/council/current-events/council-meeting-schedules/",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:15.247773+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.cabq.gov/council/current-events/council-meeting-schedules/",
+        "mime": "text/html;charset=utf-8",
+        "bytes": 113134,
+        "sha256": "16f4557d151b71ffa7eaef20bf9b5d7ce9bfd939f5b4138e7fe0c5c601e80ec4"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "186ce68b60d7338a": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/186ce68b60d7338a.html",
+      "rawSha256": "205b75f027efde82ed04e181cab00f419553fa0c41b4390f7956e4d42d11767b",
+      "textPath": "data/source/municipal-governance/meeting-practice/186ce68b60d7338a.html",
+      "textSha256": "205b75f027efde82ed04e181cab00f419553fa0c41b4390f7956e4d42d11767b",
+      "retrieval": {
+        "key": "186ce68b60d7338a",
+        "url": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:14.963450+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+        "mime": "text/html;charset=utf-8",
+        "bytes": 118936,
+        "sha256": "205b75f027efde82ed04e181cab00f419553fa0c41b4390f7956e4d42d11767b"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "99698ca1375b4ada": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/99698ca1375b4ada.html",
+      "rawSha256": "f164b80758c27d7c4838cbd356aa65c81227126aeaed2f541d90cf6f1d3284bd",
+      "textPath": "data/source/municipal-governance/meeting-practice/99698ca1375b4ada.html",
+      "textSha256": "f164b80758c27d7c4838cbd356aa65c81227126aeaed2f541d90cf6f1d3284bd",
+      "retrieval": {
+        "key": "99698ca1375b4ada",
+        "url": "https://www.morgantownwv.gov/285/Procedures-for-Meeting",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:28.104368+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.morgantownwv.gov/285/Procedures-for-Meeting",
+        "mime": "text/html; charset=utf-8",
+        "bytes": 131293,
+        "sha256": "f164b80758c27d7c4838cbd356aa65c81227126aeaed2f541d90cf6f1d3284bd"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "fb67e503992ba50c": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/fb67e503992ba50c.pdf",
+      "rawSha256": "6c1cb53b8ba430baea265c73b5f87bfc8837ac106929bfdc557b6c946d789dc9",
+      "textPath": "data/source/municipal-governance/meeting-practice/fb67e503992ba50c.txt",
+      "textSha256": "1f0adde2cc78329267d4765d30e7f3f334085008cdc09f0d100a213cad680cd1",
+      "retrieval": {
+        "key": "fb67e503992ba50c",
+        "url": "https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:15:57.434449+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf",
+        "mime": "application/pdf",
+        "bytes": 545711,
+        "sha256": "6c1cb53b8ba430baea265c73b5f87bfc8837ac106929bfdc557b6c946d789dc9"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "ff2a721119164f18": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/ff2a721119164f18.pdf",
+      "rawSha256": "095afabbad7b73be29773468dee988e2bd548eab6645a490f1b3d1e9fd6eb81f",
+      "textPath": "data/source/municipal-governance/meeting-practice/ff2a721119164f18.txt",
+      "textSha256": "c4be92c2395db1cfaf623a23c6c24b8f986746f8cb37d94e77fd643bd19e724f",
+      "retrieval": {
+        "key": "ff2a721119164f18",
+        "url": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:33.867081+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+        "mime": "application/pdf",
+        "bytes": 4793769,
+        "sha256": "095afabbad7b73be29773468dee988e2bd548eab6645a490f1b3d1e9fd6eb81f"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "07ec2b81727ffde5": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/07ec2b81727ffde5.pdf",
+      "rawSha256": "e734c9a5895df378e1f7d57b05855694618ad375fa31abee45128ae0cad08411",
+      "textPath": "data/source/municipal-governance/meeting-practice/07ec2b81727ffde5.txt",
+      "textSha256": "d99d97e6803d5b6371320f678b406579e6413ae35565f0e412c82288aac710bf",
+      "retrieval": {
+        "key": "07ec2b81727ffde5",
+        "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+        "mime": "application/pdf",
+        "bytes": 173394,
+        "sha256": "e734c9a5895df378e1f7d57b05855694618ad375fa31abee45128ae0cad08411"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "11f5bd34313c376a": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/11f5bd34313c376a.pdf",
+      "rawSha256": "278e8bc463b4284d670cb4855026c468ee6d7bc5448bf1ac20b82a180454bf49",
+      "textPath": "data/source/municipal-governance/meeting-practice/11f5bd34313c376a.txt",
+      "textSha256": "f23ac0a8eb7ccc1694142f420a52b7d7070506d07101d145cc09119cd3345eb9",
+      "retrieval": {
+        "key": "11f5bd34313c376a",
+        "url": "https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf",
+        "research": [
+          "matrix44"
+        ],
+        "retrievedAt": "2026-09-09T00:16:22.795962+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf",
+        "mime": "application/pdf",
+        "bytes": 1407219,
+        "sha256": "278e8bc463b4284d670cb4855026c468ee6d7bc5448bf1ac20b82a180454bf49"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "f26172c4d90e40b3": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/f26172c4d90e40b3.pdf",
+      "rawSha256": "0a2a8beca44cb1160d89b37e1e8aebecb996b17227713c82c64cf881fa993bfe",
+      "textPath": "data/source/municipal-governance/meeting-practice/f26172c4d90e40b3.txt",
+      "textSha256": "c73b29e3201e9b5bef3ca8e82b81f9bde9d4d23a62fb1cb2e852bbe8f690b780",
+      "retrieval": {
+        "key": "f26172c4d90e40b3",
+        "url": "https://www.cityofsacramento.gov/content/dam/portal/city-government/policies-procedures/Council_Rules_of_Procedure_Adopted.pdf",
+        "research": [
+          "matrix45"
+        ],
+        "retrievedAt": "2026-09-09T00:16:19.113966+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.cityofsacramento.gov/content/dam/portal/city-government/policies-procedures/Council_Rules_of_Procedure_Adopted.pdf",
+        "mime": "application/pdf",
+        "bytes": 2230981,
+        "sha256": "0a2a8beca44cb1160d89b37e1e8aebecb996b17227713c82c64cf881fa993bfe"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "fee1e6d01b106bdf": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/fee1e6d01b106bdf.pdf",
+      "rawSha256": "344bf67417a64f74a9e71dd650c1da6915c0340e0e1549ab96cbbe43792e62f8",
+      "textPath": "data/source/municipal-governance/meeting-practice/fee1e6d01b106bdf.txt",
+      "textSha256": "0cc730d486ec5be3b1d5f9a9937ee50596d53d9c8133a75c993ddce14b245aa1",
+      "retrieval": {
+        "key": "fee1e6d01b106bdf",
+        "url": "https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:16:17.269312+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/",
+        "mime": "application/pdf;charset=UTF-8",
+        "bytes": 467626,
+        "sha256": "344bf67417a64f74a9e71dd650c1da6915c0340e0e1549ab96cbbe43792e62f8"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    },
+    "02e857ed88183e9b": {
+      "rawPath": "data/source/municipal-governance/meeting-practice/02e857ed88183e9b.pdf",
+      "rawSha256": "f772a207b5bc6acecb5c579aa4060b971857093d61390e31ebeab2c60ee2210a",
+      "textPath": "data/source/municipal-governance/meeting-practice/02e857ed88183e9b.txt",
+      "textSha256": "ff45b3401c9695c19842efe07c53458d9b87c98fd629d2ea500861ef0ecd5d57",
+      "retrieval": {
+        "key": "02e857ed88183e9b",
+        "url": "https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf",
+        "research": [
+          "matrix43"
+        ],
+        "retrievedAt": "2026-09-09T00:16:27.154463+00:00",
+        "rights": "UNKNOWN",
+        "status": 200,
+        "finalUrl": "https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf",
+        "mime": "application/pdf",
+        "bytes": 646697,
+        "sha256": "f772a207b5bc6acecb5c579aa4060b971857093d61390e31ebeab2c60ee2210a"
+      },
+      "rights": "UNKNOWN",
+      "inputClass": "reference-only; not admitted enacted authority"
+    }
+  }
+}

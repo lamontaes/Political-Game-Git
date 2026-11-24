@@ -1,0 +1,31 @@
+--- a/src/simulation/public-budgets/month.ts
++++ b/src/simulation/public-budgets/month.ts
+@@ -24,6 +24,7 @@
+ import { pensionFlows, pensionPayment } from "./pension-share";
+ import { reserveRule } from "./reserve-rule";
+ import { roadChargeFactor } from "./road-usage-charge";
++import { mileageBudgetStamp } from "./mileage-law-stamp";
+ import {
+   decideStatehoodCertification,
+   statehoodFederalAidFactor,
+@@ -823,6 +824,7 @@
+     }
+   }
+ 
++  const mileageStamp = mileageBudgetStamp(world, government, month, revenue);
+   const ageVerificationCost = ageVerificationCostForMonth(
+     world,
+     government,
+@@ -852,10 +854,11 @@
+       ? { cannabisRevenue }
+       : {}),
+     ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+-    ...(cannabisStamps.length || ageVerificationCost
++    ...(cannabisStamps.length || ageVerificationCost || mileageStamp
+       ? {
+           lawEffectStamps: [
+             ...cannabisStamps,
++            ...(mileageStamp ? [mileageStamp] : []),
+             ...(ageVerificationCost?.lawEffectStamps ?? []),
+           ],
+         }

@@ -1,0 +1,33 @@
+{
+  "about": "How the Census 2025 government listing meets the Census population file's incorporated places where the listing's own place code does not. A unit the listing carries without a place geoid but whose name is one place's (the city of Easthampton is listed as 'City of Easthampton Town') takes that place's geoid. An incorporated place with no unit is named here with its reason, so the test over every incorporated place has no unexplained gap.",
+  "source": "U.S. Census Bureau, 2025 Government Units Survey listing and Vintage 2025 population estimates (data/research/places/roadmap-r11-population-v2025-*.csv)",
+  "unitPlaceGeoids": {
+    "167489": {
+      "placeGeoid": "2767130",
+      "name": "Village of Minnetonka Beach, Minnesota (listed as 'City of Village of Minnetonka Beach')"
+    },
+    "195851": {
+      "placeGeoid": "2519365",
+      "name": "Easthampton, Massachusetts (listed as 'City of Easthampton Town')"
+    }
+  },
+  "noUnit": {
+    "1303440": "Athens-Clarke County, Georgia: a consolidated government; the listing carries it as the county's unit (13059)",
+    "1326156": "Echols County, Georgia: a consolidated government; the listing carries the county only",
+    "1571550": "Urban Honolulu, Hawaii: the City and County of Honolulu is the county's unit (15003)",
+    "2028412": "Greeley County, Kansas: a unified government; the listing carries it as the county's unit (20071)",
+    "2148006": "Louisville/Jefferson County, Kentucky: a metro government; the listing carries it as the county's unit (21111)",
+    "3011397": "Butte-Silver Bow, Montana: a city and county; the listing carries it as the county's unit (30093)",
+    "4752006": "Nashville-Davidson, Tennessee: a metropolitan government; the listing carries it as the county's unit (47037)",
+    "2033250": "Howard, Kansas: the listing carries only townships called Howard",
+    "2071450": "Tribune, Kansas: the seat of Greeley County, inside its unified government (20071)",
+    "2107390": "Blandville, Kentucky: no unit in the listing",
+    "2141716": "Keene, Kentucky: no unit in the listing",
+    "2162370": "Poplar Hills, Kentucky: no unit in the listing",
+    "2167890": "St. Mary, Kentucky: no unit in the listing",
+    "2172138": "South Park View, Kentucky: no unit in the listing",
+    "2179590": "Vicco, Kentucky: no unit in the listing",
+    "4858040": "Plantersville, Texas: no unit in the listing",
+    "4858502": "Poetry, Texas: no unit in the listing"
+  }
+}

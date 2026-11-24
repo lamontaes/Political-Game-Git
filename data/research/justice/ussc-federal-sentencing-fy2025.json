@@ -1,0 +1,158 @@
+{
+  "id": "justice-ussc-federal-sentencing-fy2025",
+  "about": "The federal criminal case stream for fiscal year 2025 (October 2024 to September 2025): individuals sentenced by primary offense, the share sentenced to prison and the length of sentence, and mandatory-minimum rates, from the U.S. Sentencing Commission, with the Bureau of Prisons stock they must reproduce. Not read by an engine yet: pool item world-federal-case-stream. Real totals check the simulation; they never decide whether one defendant is convicted.",
+  "source": {
+    "publisher": "U.S. Sentencing Commission, 2025 Sourcebook of Federal Sentencing Statistics, and Quick Facts",
+    "urls": [
+      "https://www.ussc.gov/sites/default/files/pdf/research-and-publications/annual-reports-and-sourcebooks/2025/2025_Sourcebook.pdf",
+      "https://www.ussc.gov/research/quick-facts/mandatory-minimum-penalties",
+      "https://www.ussc.gov/research/quick-facts/federal-offenders-prison",
+      "https://bjs.ojp.gov/document/fjs22.pdf",
+      "https://www.law.cornell.edu/uscode/text/18/3624"
+    ],
+    "fetched": "2026-11-08",
+    "tag": "SOURCED"
+  },
+  "individualsSentenced": 66662,
+  "offenses": [
+    {
+      "id": "drug-trafficking",
+      "sentenced": 16222,
+      "shareToPrisonPct": 96.6,
+      "meanMonthsPrison": 90,
+      "medianMonthsPrison": 72,
+      "imprisoned": 15665,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "firearms",
+      "sentenced": 8041,
+      "shareToPrisonPct": 93.9,
+      "meanMonthsPrison": 54,
+      "medianMonthsPrison": 44,
+      "imprisoned": 7552,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "immigration",
+      "sentenced": 25119,
+      "shareToPrisonPct": 95.6,
+      "meanMonthsPrison": 10,
+      "medianMonthsPrison": 6,
+      "imprisoned": 24006,
+      "table": "Sourcebook Tables 13 and 15",
+      "note": "14,528 sentences in the year were time served, never admitted to BOP custody."
+    },
+    {
+      "id": "fraud-theft-embezzlement",
+      "sentenced": 5080,
+      "shareToPrisonPct": 75.1,
+      "meanMonthsPrison": 29,
+      "medianMonthsPrison": 19,
+      "imprisoned": 3813,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "child-pornography",
+      "sentenced": 1432,
+      "shareToPrisonPct": 99.2,
+      "meanMonthsPrison": 120,
+      "medianMonthsPrison": 97,
+      "imprisoned": 1421,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "sexual-abuse",
+      "sentenced": 1409,
+      "shareToPrisonPct": 99.3,
+      "meanMonthsPrison": 232,
+      "medianMonthsPrison": 210,
+      "imprisoned": 1399,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "obscenity-other-sex",
+      "sentenced": 325,
+      "shareToPrisonPct": 93.5,
+      "meanMonthsPrison": 21,
+      "medianMonthsPrison": 18,
+      "imprisoned": 304,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "money-laundering",
+      "sentenced": 1368,
+      "shareToPrisonPct": 88.3,
+      "meanMonthsPrison": 68,
+      "medianMonthsPrison": 37,
+      "imprisoned": 1208,
+      "table": "Sourcebook Tables 13 and 15"
+    },
+    {
+      "id": "robbery",
+      "sentenced": 1249,
+      "shareToPrisonPct": 98.9,
+      "meanMonthsPrison": 108,
+      "medianMonthsPrison": 90,
+      "imprisoned": 1235,
+      "table": "Sourcebook Tables 13 and 15"
+    }
+  ],
+  "allOffenses": {
+    "shareToPrisonPct": 92.3,
+    "imprisoned": 61556,
+    "meanMonthsPrison": 51,
+    "medianMonthsPrison": 24,
+    "note": "Terms of 470 months or more, including life, are coded 470."
+  },
+  "mandatoryMinimums": {
+    "casesCarryingOne": 13926,
+    "shareOfCasesPct": 21,
+    "stillSubjectAtSentencingPct": 15,
+    "reliefPctOfThoseConvicted": 33,
+    "safetyValvePct": 14,
+    "substantialAssistancePct": 15,
+    "bothPct": 5,
+    "meanMonthsStillSubject": 158,
+    "meanMonthsRelieved": 74,
+    "meanMonthsNone": 28,
+    "shareOfMandatoryMinimumCasesByOffensePct": {
+      "drug": 68,
+      "sexual-abuse": 8,
+      "child-pornography": 7,
+      "firearms": 5,
+      "fraud": 3
+    },
+    "source": "https://www.ussc.gov/research/quick-facts/mandatory-minimum-penalties"
+  },
+  "stock": {
+    "bopInCustody": 154932,
+    "bopServingSentence": 134850,
+    "averageMonthsImposed": 153,
+    "asOf": "2025-09-27",
+    "source": "https://www.ussc.gov/research/quick-facts/federal-offenders-prison",
+    "goodTime": "Up to 54 days per year of the sentence imposed (18 U.S.C. 3624(b)), so at most 85.2 percent of a sentence is served; actual stays are shorter.",
+    "medianMonthsServedAtFirstRelease": {
+      "all": 39.2,
+      "violent": 55.5,
+      "drug": 52.8,
+      "weapons": 42.7,
+      "immigration": 15.3,
+      "fraud": 28.1,
+      "publicOrderIncludingSex": 65.6,
+      "fiscalYear": 2022,
+      "source": "https://bjs.ojp.gov/document/fjs22.pdf Table 12"
+    }
+  },
+  "steadyStateCheck": {
+    "basis": "ESTIMATED",
+    "method": "Prison admissions x mean sentence x 0.852 / 12 against the BOP stock by offense (data/research/justice/bop-federal-offenses-2026.json). The model overstates the stock about 1.65 times overall, so a stay share per offense group must be calibrated (TUNABLE) and checked against the BOP table.",
+    "impliedStaySharePerGroup": {
+      "drug": 0.52,
+      "sex-offenses": 0.5,
+      "fraud": 0.73,
+      "weapons": 0.93,
+      "immigration": 0.34
+    }
+  }
+}

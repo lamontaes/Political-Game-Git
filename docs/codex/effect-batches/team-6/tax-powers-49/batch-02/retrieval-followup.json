@@ -1,0 +1,26 @@
+[
+  {
+    "artifactId": "ct-constitution",
+    "requestedUrl": "https://www.cga.ct.gov/asp/Content/constitutions/CTConstitution.htm",
+    "retrievedAt": "2026-10-02T10:54:34.229634+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "ar-constitution",
+    "requestedUrl": "https://www.sos.arkansas.gov/uploads/elections/Arkansas_Constitution.pdf",
+    "retrievedAt": "2026-10-02T10:54:34.230351+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "co-constitution",
+    "requestedUrl": "https://leg.colorado.gov/sites/default/files/images/olls/crs2025-title-00.pdf",
+    "retrievedAt": "2026-10-02T10:54:34.230852+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "al-2022-constitution",
+    "requestedUrl": "https://alison.legislature.state.al.us/files/pdf/lsa/proposed-constitution/Constitution-Proposed-2022.pdf",
+    "retrievedAt": "2026-10-02T10:54:34.424046+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]

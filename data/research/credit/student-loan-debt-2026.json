@@ -1,0 +1,94 @@
+{
+  "id": "credit-student-loan-debt-2026",
+  "about": "Household student-loan debt for the student-loan debt kind (pool item laws-federal-student-loan-debt-kind): who holds it, how much, by age. Not read by an engine yet. studentaid.gov and its Internet Archive copies refused every fetch, so the Federal Student Aid portfolio (borrower counts, repayment status, monthly payments) is NOT in this file; those figures stay a research need and the engine must mark any it uses ESTIMATED. Real totals check the simulation; they never decide whether one household owes.",
+  "sources": {
+    "nyFed": {
+      "publisher": "Federal Reserve Bank of New York, Quarterly Report on Household Debt and Credit, 2026Q2 (August 2026)",
+      "workbook": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/hhd_c_report_2026q2.xlsx",
+      "report": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/pdf/HHDC_2026Q2.pdf",
+      "note": "Federal and private student loans are not separated.",
+      "fetched": "2026-11-08",
+      "tag": "SOURCED"
+    },
+    "scf": {
+      "publisher": "Federal Reserve Board, Survey of Consumer Finances 2022 bulletin",
+      "url": "https://www.federalreserve.gov/publications/files/scf23.pdf",
+      "table": "Table 4",
+      "fetched": "2026-11-08",
+      "tag": "SOURCED"
+    }
+  },
+  "nationalBalanceTrillionUsd": {
+    "value": 1.651,
+    "quarter": "2026Q2",
+    "sheet": "Page 3 Data"
+  },
+  "balanceByAgeTrillionUsd": {
+    "18-29": 0.3063,
+    "30-39": 0.5227,
+    "40-49": 0.3832,
+    "50-59": 0.2602,
+    "60-69": 0.1293,
+    "70+": 0.04297,
+    "sheet": "Page 21 Data",
+    "quarter": "2026Q2",
+    "sumOfAgeRows": 1.6447,
+    "note": "The published total is 1.651; the NY Fed notes a small number of unknown birth years."
+  },
+  "balanceShareByAgePct": {
+    "18-29": 18.6,
+    "30-39": 31.8,
+    "40-49": 23.3,
+    "50-59": 15.8,
+    "60-69": 7.9,
+    "70+": 2.6,
+    "tag": "ESTIMATED",
+    "method": "Each age row over the sum of the age rows (1.6447)."
+  },
+  "familiesWithStudentDebt": {
+    "sharePct": 21.8,
+    "year": 2022,
+    "table": "SCF Table 4 'Education loans'",
+    "medianBalanceUsd": 24500,
+    "meanBalanceUsd": 46600,
+    "tag": "SOURCED",
+    "note": "2022 dollars; adjusting to 2026 is an estimate the engine must mark."
+  },
+  "delinquency": {
+    "balancesNinetyPlusDaysPastDuePct": 10.6,
+    "flowIntoSeriousDelinquencyPctByAge": {
+      "18-29": 5.32,
+      "30-39": 6.49,
+      "40-49": 8.05,
+      "50+": 9.86,
+      "all": 7.44
+    },
+    "quarter": "2026Q2",
+    "sheet": "Page 12 and Page 28 Data",
+    "note": "The NY Fed web page gives 7.83 percent for the all-ages flow where the workbook gives 7.44; not reconciled."
+  },
+  "perCapitaStateThousandUsd": {
+    "US": 5.58,
+    "AZ": 5.1,
+    "CA": 4.75,
+    "FL": 5.16,
+    "IL": 5.98,
+    "MI": 5.93,
+    "NJ": 6.78,
+    "NV": 4.7,
+    "NY": 6.18,
+    "OH": 5.95,
+    "PA": 6.68,
+    "TX": 5.37,
+    "sheet": "Page 33 Data",
+    "quarter": "2026Q2",
+    "note": "Population with a credit report; only these eleven states and the nation are published in the workbook."
+  },
+  "notFound": [
+    "borrower count",
+    "repayment versus deferment, forbearance or default",
+    "typical monthly payment",
+    "borrowers by age",
+    "state borrower counts"
+  ]
+}

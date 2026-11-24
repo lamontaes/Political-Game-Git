@@ -1,0 +1,170 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-acs-pums-2023-1yr-wy-housing-zip",
+      "bytes": {
+        "length": 716884,
+        "sha256": "298cd303f2d23b7cef3a289668b92eb798ca2454249c18034807e4a69f5ccb22"
+      },
+      "container": {
+        "memberLength": 1827164,
+        "memberPath": "psam_h56.csv",
+        "memberSha256": "ac8482d9137642e4f0b22cbddd40b3f3dfe6fce9f3a0777b7f18feea0e41d130"
+      },
+      "localPath": "data/source/acs-pums/raw/csv_hwy.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+        "releaseDate": null,
+        "schemaVersion": "ACS 2023 1-year PUMS housing record layout",
+        "statedVintage": "2023 ACS 1-year PUMS"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 716884,
+        "retrievedAt": "2026-09-03T03:44:29.884Z",
+        "url": "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/csv_hwy.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-1yr-wy-person-zip",
+      "bytes": {
+        "length": 1287257,
+        "sha256": "5d050cce339aa48550cae6474b89171c4a0452f7c99252786340c9d189d29857"
+      },
+      "container": {
+        "memberLength": 4231555,
+        "memberPath": "psam_p56.csv",
+        "memberSha256": "8e47365e31a29f3291880ec87b8a74dc84b725e84614a7641f584e490ff6f4a2"
+      },
+      "localPath": "data/source/acs-pums/raw/csv_pwy.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+        "releaseDate": null,
+        "schemaVersion": "ACS 2023 1-year PUMS person record layout",
+        "statedVintage": "2023 ACS 1-year PUMS"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1287257,
+        "retrievedAt": "2026-09-03T03:44:30.183Z",
+        "url": "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/csv_pwy.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-data-dictionary-csv",
+      "bytes": {
+        "length": 324429,
+        "sha256": "003cfe1616d673dc23624e8604bc97579a642971852bc9c1ef673452b3a2515b"
+      },
+      "localPath": "data/source/acs-pums/raw/PUMS_Data_Dictionary_2023.csv",
+      "mediaType": "text/csv",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+        "releaseDate": null,
+        "schemaVersion": "PUMS data dictionary, 2023",
+        "statedVintage": "2023"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 324429,
+        "retrievedAt": "2026-09-03T03:44:30.414Z",
+        "url": "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2023.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-wy-housing-qa-slice",
+      "bytes": {
+        "length": 134101,
+        "sha256": "b4238c249b124d59f4ca0659fbd1e404c04b3c9a8ff9a659fd6e4150c16bc980"
+      },
+      "derivation": {
+        "parentArtifactId": "census-acs-pums-2023-1yr-wy-housing-zip",
+        "parentSha256": "298cd303f2d23b7cef3a289668b92eb798ca2454249c18034807e4a69f5ccb22",
+        "selectionPredicate": "The header row of psam_h56.csv, followed by the first 200 data rows whose SERIALNO marks a housing unit (contains \"HU\") and the first 20 whose SERIALNO marks group quarters (contains \"GQ\"), each stratum in published file order and each row byte-for-byte, with a trailing newline."
+      },
+      "localPath": "data/source/acs-pums/raw/psam_h56.qa-slice.csv",
+      "mediaType": "text/csv",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+        "releaseDate": null,
+        "schemaVersion": "ACS 2023 1-year PUMS housing record layout",
+        "statedVintage": "2023 ACS 1-year PUMS"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 134101,
+        "retrievedAt": "2026-09-03T03:44:29.884Z",
+        "url": "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/csv_hwy.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    },
+    {
+      "artifactId": "census-acs-pums-2023-wy-person-qa-slice",
+      "bytes": {
+        "length": 306694,
+        "sha256": "bf16509b6585772c0066a6542ede81060b7a24208a1d83e57a71c150eceb7eaf"
+      },
+      "derivation": {
+        "parentArtifactId": "census-acs-pums-2023-1yr-wy-person-zip",
+        "parentSha256": "5d050cce339aa48550cae6474b89171c4a0452f7c99252786340c9d189d29857",
+        "selectionPredicate": "The header row of psam_p56.csv followed by every data row whose SERIALNO appears in the housing QA slice, in published file order, byte-for-byte, with a trailing newline."
+      },
+      "localPath": "data/source/acs-pums/raw/psam_p56.qa-slice.csv",
+      "mediaType": "text/csv",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+        "releaseDate": null,
+        "schemaVersion": "ACS 2023 1-year PUMS person record layout",
+        "statedVintage": "2023 ACS 1-year PUMS"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 306694,
+        "retrievedAt": "2026-09-03T03:44:30.183Z",
+        "url": "https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/csv_pwy.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    }
+  ],
+  "domain": "acs-pums"
+}

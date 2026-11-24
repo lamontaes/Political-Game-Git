@@ -1,0 +1,122 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/tax-policy.test.ts --config /tmp/team6-m7-main.config.mts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-main.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/tax-policy.test.ts (11 tests | 8 failed) 733ms
+     ✓ keeps preview pure, distinguishes absent/zero and rounds exact cents half up 116ms
+     ✓ refuses unenacted policy and ordinary filing without the actual current seat 59ms
+     × records enactment before effect and never treats passage or time as money 95ms
+     × freezes one assessment, collects only on due date and conserves existing payer/public money through reload 71ms
+     × records a terminal failure without fake public receipt or negative payer funds (null) 53ms
+     × records a terminal failure without fake public receipt or negative payer funds (20) 61ms
+     × records zero explicitly without minting a transfer 61ms
+     × rejects save tampering with due date, assessment amount, scope and double occurrence 49ms
+     ✓ preserves older saves with absent optional tax histories 38ms
+     × freezes an earlier occurrence across a genuinely enacted new rate version 61ms
+     × keeps campaign cash separate and refuses using its classified account as the payer 68ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records enactment before effect and never treats passage or time as money
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:132:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > freezes one assessment, collects only on due date and conserves existing payer/public money through reload
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:142:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records a terminal failure without fake public receipt or negative payer funds (null)
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records a terminal failure without fake public receipt or negative payer funds (20)
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:214:38
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records zero explicitly without minting a transfer
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:254:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > rejects save tampering with due date, assessment amount, scope and double occurrence
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:269:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > freezes an earlier occurrence across a genuinely enacted new rate version
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:327:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > keeps campaign cash separate and refuses using its classified account as the payer
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:379:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 3 passed (11)
+   Start at  12:56:19
+   Duration  22.85s (transform 17.10s, setup 24ms, import 21.96s, tests 733ms, environment 0ms)
+
+JSON report written to /tmp/team6-m7-tax-main.json

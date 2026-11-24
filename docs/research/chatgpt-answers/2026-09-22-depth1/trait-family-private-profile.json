@@ -1,0 +1,69 @@
+{
+  "version": "depth1-salient-family-private-a",
+  "status": "authored-provisional-private-playtest-not-empirical",
+  "scope": "One or two salient adult descriptors; not the five latent dimensions; not official measured prevalence.",
+  "countWeights": {
+    "1": 1,
+    "2": 1
+  },
+  "sampling": "Weighted family draw for each slot, allowing repeat family; then distinct compatible supported descriptor. No duplicate descriptor and no family-size synonym weighting.",
+  "families": [
+    {
+      "family": "Self-image",
+      "selectionWeight": 8
+    },
+    {
+      "family": "Social approach",
+      "selectionWeight": 11
+    },
+    {
+      "family": "Social manner",
+      "selectionWeight": 8
+    },
+    {
+      "family": "Thinking and learning",
+      "selectionWeight": 11
+    },
+    {
+      "family": "Work and follow-through",
+      "selectionWeight": 11
+    },
+    {
+      "family": "Goals and advantage",
+      "selectionWeight": 9
+    },
+    {
+      "family": "Concern and reciprocity",
+      "selectionWeight": 9
+    },
+    {
+      "family": "Trust and integrity",
+      "selectionWeight": 6
+    },
+    {
+      "family": "Rules and flexibility",
+      "selectionWeight": 5
+    },
+    {
+      "family": "Conflict and repair",
+      "selectionWeight": 5
+    },
+    {
+      "family": "Pacing and risk",
+      "selectionWeight": 5
+    },
+    {
+      "family": "Emotional style",
+      "selectionWeight": 4
+    },
+    {
+      "family": "Emotional outlook",
+      "selectionWeight": 4
+    },
+    {
+      "family": "Attachment and closeness",
+      "selectionWeight": 4
+    }
+  ],
+  "withinFamily": "Use explicit descriptor meaning and compatibility; extreme disruptive descriptors get separately labelled lower candidate weights, not demographic inference. Full per-descriptor weights remain owner-implementer calibration, not supplied as measured rates here."
+}

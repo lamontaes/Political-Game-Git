@@ -1,0 +1,168 @@
+[
+  {
+    "id": "wy-2025-sf69-homeowner-exemption",
+    "jurisdiction": "Wyoming",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "SF 69",
+    "law_citation": "Enrolled Act No. 60 (Senate)",
+    "short_title": "Homeowner property tax exemption",
+    "enacted_date": "2025-03-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://wyoleg.gov/2025/Enroll/SF0069.pdf",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes - exemptions",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Exempts part of a single-family home's value from property tax.",
+        "numbers": [
+          {
+            "value": 25,
+            "unit": "percent",
+            "text": "25 percent"
+          },
+          {
+            "value": 1000000,
+            "unit": "USD of value max",
+            "text": "1000000 USD of value max"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Owner-occupancy requirement begins in the second year."
+      },
+      {
+        "kind": "sunset",
+        "description": "No sunset date."
+      }
+    ],
+    "touches": ["counties", "school districts", "special districts"],
+    "daily_life": "A homeowner's tax bill drops by about a quarter.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "wy-2025-hb199-steamboat-scholarship",
+    "jurisdiction": "Wyoming",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "HB 199",
+    "law_citation": "Enrolled Act No. 52 (House)",
+    "short_title": "Steamboat Legacy Scholarship Act (universal education savings accounts)",
+    "enacted_date": "2025-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.wyoleg.gov/2025/Enroll/HB0199.pdf",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools / school choice",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": ["replace"],
+    "parts": [
+      {
+        "kind": "benefit",
+        "description": "Education savings account for K-12 students at any income; award raised.",
+        "numbers": [
+          {
+            "value": 6000,
+            "unit": "USD old max",
+            "text": "6000 USD old max"
+          },
+          {
+            "value": 7000,
+            "unit": "USD per year new",
+            "text": "7000 USD per year new"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Pre-K students qualify if household income is under a limit.",
+        "numbers": [
+          {
+            "value": 250,
+            "unit": "percent of federal poverty level",
+            "text": "250 percent of federal poverty level"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Appropriated from the state general fund to a new program account."
+      },
+      {
+        "kind": "amount",
+        "description": "Program appropriation.",
+        "numbers": [
+          {
+            "value": 30000000,
+            "unit": "USD",
+            "text": "30000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "transition",
+        "description": "Renames and replaces an earlier income-limited ESA program."
+      }
+    ],
+    "touches": ["private schools", "state treasurer"],
+    "daily_life": "Any family can get $7,000 a year for private school or other education costs.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "A state court temporarily halted the program while a lawsuit proceeds (enacted but not operating)."
+  },
+  {
+    "id": "wy-2025-hb45-otters",
+    "jurisdiction": "Wyoming",
+    "level": "state",
+    "session": "2025 General Session",
+    "bill_number": "HB 45",
+    "law_citation": null,
+    "short_title": "Otters removed from protected animal definition",
+    "enacted_date": "2025-02-24",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://wyoleg.gov/Legislation/2025/HB0045",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Land, wildlife and conservation",
+    "secondary_menus": [],
+    "instrument": "other",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Removes otters from the statutory list of protected animals."
+      },
+      {
+        "kind": "delegation",
+        "description": "Leaves management to the Game and Fish Commission (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["Game and Fish Commission", "trappers"],
+    "daily_life": "Otter hunting or trapping may be allowed under commission rules.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

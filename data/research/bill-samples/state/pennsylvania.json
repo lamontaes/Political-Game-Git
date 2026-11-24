@@ -1,0 +1,161 @@
+[
+  {
+    "id": "pa-2025-sb160-general-appropriation",
+    "jurisdiction": "Pennsylvania",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "SB 160",
+    "law_citation": "Act 1A of 2025",
+    "short_title": "General Appropriation Act of 2025",
+    "enacted_date": "2025-11-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=HTM&yr=2025&sessInd=0&smthLwInd=0&act=1A",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": ["03"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "State general fund budget.",
+        "numbers": [
+          {
+            "value": 50100000000,
+            "unit": "USD",
+            "text": "50100000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "New school adequacy funding and basic education increase.",
+        "numbers": [
+          {
+            "value": 565000000,
+            "unit": "USD adequacy",
+            "text": "565000000 USD adequacy"
+          },
+          {
+            "value": 105000000,
+            "unit": "USD basic education",
+            "text": "105000000 USD basic education"
+          }
+        ]
+      },
+      {
+        "kind": "reporting",
+        "description": "Enacted 135 days after the fiscal year began (budget impasse).",
+        "numbers": [
+          {
+            "value": 135,
+            "unit": "days late",
+            "text": "135 days late"
+          }
+        ]
+      },
+      {
+        "kind": "credit",
+        "description": "Companion code bills create a state earned income credit equal to 10 percent of the federal credit.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "percent of federal EITC",
+            "text": "10 percent of federal EITC"
+          },
+          {
+            "value": 805,
+            "unit": "USD max",
+            "text": "805 USD max"
+          },
+          {
+            "value": 193000000,
+            "unit": "USD annual cost",
+            "text": "193000000 USD annual cost"
+          }
+        ]
+      },
+      {
+        "kind": "cap",
+        "description": "Cyber charter tuition aligned to cost (companion school code).",
+        "numbers": [
+          {
+            "value": 175000000,
+            "unit": "USD savings claimed",
+            "text": "175000000 USD savings claimed"
+          }
+        ]
+      }
+    ],
+    "touches": ["school districts", "county human services during impasse"],
+    "daily_life": "Ends months of delayed state payments to schools and counties.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "pa-2025-wptc",
+    "jurisdiction": "Pennsylvania",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "see Tax Reform Code amendments (2025)",
+    "law_citation": null,
+    "short_title": "Working Pennsylvanians Tax Credit",
+    "enacted_date": "2025-11-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax/working-pennsylvanians-tax-credit",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax - credits",
+    "secondary_menus": ["05"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "credit",
+        "description": "Refundable state credit equal to a share of the federal earned income tax credit.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "percent of federal EITC",
+            "text": "10 percent of federal EITC"
+          },
+          {
+            "value": 805,
+            "unit": "USD max",
+            "text": "805 USD max"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Anyone who qualifies for the federal credit qualifies automatically."
+      },
+      {
+        "kind": "effective-date",
+        "description": "First claimed in the 2026 filing season.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "filing season",
+            "text": "2026 filing season"
+          }
+        ]
+      }
+    ],
+    "touches": ["federal EITC", "Department of Revenue"],
+    "daily_life": "A low-wage worker gets up to $805 extra at tax time.",
+    "provision_of": "pa-2025-sb160-general-appropriation (budget package)",
+    "source_confidence": "official-status-checked",
+    "notes": "Act number of the tax code bill not confirmed; official agency page used."
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "about": "The extra death hazard of a worker at long weekly hours (long-hours-to-heart-and-stroke, src/core2/health-own.ts). A worker's hazard is multiplied by one plus, for each of the two causes, the cause's share of deaths at their age times its relative risk less one at their weekly hours (the way death-cause.ts moves a cause's share). Between the paper's hours categories the relative risk is linear, so nothing is a cliff; a point estimate below one reads as none (its interval holds one), and past the last point it holds.",
+  "link": "long-hours-to-heart-and-stroke",
+  "relativeRisks": {
+    "heart": [
+      {
+        "weeklyHours": 40,
+        "rr": 1,
+        "span": "35-40 hours a week, the comparison"
+      },
+      {
+        "weeklyHours": 44.5,
+        "rr": 0.99,
+        "span": "41-48 hours",
+        "interval": [0.88, 1.12]
+      },
+      {
+        "weeklyHours": 51.5,
+        "rr": 1.01,
+        "span": "49-54 hours",
+        "interval": [0.82, 1.25]
+      },
+      {
+        "weeklyHours": 55,
+        "rr": 1.17,
+        "span": "55 hours or more",
+        "interval": [1.05, 1.31]
+      }
+    ],
+    "stroke": [
+      {
+        "weeklyHours": 40,
+        "rr": 1,
+        "span": "35-40 hours a week, the comparison"
+      },
+      {
+        "weeklyHours": 44.5,
+        "rr": 1.04,
+        "span": "41-48 hours",
+        "interval": [0.94, 1.14]
+      },
+      {
+        "weeklyHours": 51.5,
+        "rr": 1.13,
+        "span": "49-54 hours",
+        "interval": [1, 1.28]
+      },
+      {
+        "weeklyHours": 55,
+        "rr": 1.35,
+        "span": "55 hours or more",
+        "interval": [1.13, 1.61]
+      }
+    ]
+  },
+  "relativeRisksSource": {
+    "tag": "SOURCED",
+    "citation": "Pega et al. (2021), Global, regional, and national burdens of ischemic heart disease and stroke attributable to exposure to long working hours for 194 countries, 2000-2016, Environment International 154:106595, Table 1 (the WHO and ILO joint estimates; Li et al. 2020 for ischemic heart disease, Descatha et al. 2020 for stroke).",
+    "quote": "Ischemic heart disease, >=55 hours/week: 22 studies (339,680 participants), relative risk 1.17 (1.05-1.31), sufficient evidence of harmfulness. Stroke, >=55 hours/week: 7 studies (162,644 participants), relative risk 1.35 (1.13-1.61), sufficient evidence of harmfulness. For ischemic heart disease the relative risk for mortality was used; \"For stroke, strength of evidence was rated insufficient for stroke mortality but sufficient for stroke morbidity, therefore relative risk for morbidity was used.\"",
+    "asOf": "2026-10-28",
+    "note": "The stroke figure is the paper's relative risk for stroke morbidity (its evidence for stroke mortality was rated insufficient), which the paper applies to its burden of stroke deaths and this applies to the death hazard (ESTIMATED). The 41-48 and 49-54 hour categories were judged inadequate or limited evidence by the paper and are used only to shape the ramp below 55 hours."
+  },
+  "bands": [
+    { "min": 15, "max": 20, "all": 12777, "heart": 285, "stroke": 70 },
+    { "min": 20, "max": 25, "all": 20934, "heart": 550, "stroke": 92 },
+    { "min": 25, "max": 35, "all": 67449, "heart": 3474, "stroke": 579 },
+    { "min": 35, "max": 45, "all": 105336, "heart": 11528, "stroke": 2057 },
+    { "min": 45, "max": 55, "all": 166773, "heart": 30430, "stroke": 5364 },
+    { "min": 55, "max": 65, "all": 376534, "heart": 79726, "stroke": 13425 },
+    { "min": 65, "max": 75, "all": 627680, "heart": 135016, "stroke": 27668 },
+    { "min": 75, "max": 85, "all": 798188, "heart": 176126, "stroke": 46825 },
+    { "min": 85, "max": 120, "all": 885004, "heart": 243271, "stroke": 66320 }
+  ],
+  "bandsSource": {
+    "tag": "SOURCED",
+    "citation": "National Center for Health Statistics, Deaths: Leading Causes for 2023, National Vital Statistics Reports 74(10), September 16, 2025, Table 1, all races, all origins, both sexes: all causes, diseases of heart (I00-I09, I11, I13, I20-I51) and cerebrovascular diseases (I60-I69), deaths by age group, 2023.",
+    "quote": "55-64: all causes 376,534; diseases of heart 79,726 (21.2 percent); cerebrovascular diseases 13,425 (3.6 percent). 85 and older: all causes 885,004; diseases of heart 243,271 (27.5 percent); cerebrovascular diseases 66,320 (7.5 percent).",
+    "asOf": "2023-12-31"
+  }
+}

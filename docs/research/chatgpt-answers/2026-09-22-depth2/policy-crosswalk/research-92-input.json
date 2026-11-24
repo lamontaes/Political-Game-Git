@@ -1,0 +1,1564 @@
+{
+  "pack": "us-state-local-core",
+  "provenance": {
+    "kind": "sourced",
+    "sources": [
+      "https://www.ncsl.org/technology-and-communication/ncsl-50-state-searchable-bill-tracking-databases",
+      "https://www.nlc.org/post/2026/07/10/new-national-league-of-cities-report-highlights-top-priorities-and-challenges-facing-americas-communities/",
+      "https://www.naco.org/resource/county-landscape-project",
+      "https://www.naco.org/resource/county-landscape-project-service-provision-and-public-workforce",
+      "https://www.nasbo.org/reports-data/state-expenditure-report"
+    ],
+    "note": "A research-derived policy-subject vocabulary; grouping and short descriptions are original director synthesis, not a national official taxonomy, prevalence survey, legal power grant, fixed law bank or proof of implemented effects. Definition keys are independent of display labels. Based on the selected 14-domain answer; contents only, with no runtime weights."
+  },
+  "domains": [
+    {
+      "key": "public-finance-administration",
+      "name": "Public finance and administration",
+      "description": "Budgets, revenue, public finance and the administration of government."
+    },
+    {
+      "key": "education-workforce",
+      "name": "Education and workforce preparation",
+      "description": "Learning institutions, education access and preparation for work; employment terms belong under labor."
+    },
+    {
+      "key": "health-human-services",
+      "name": "Health and human services",
+      "description": "Health coverage, care delivery, public health and social assistance."
+    },
+    {
+      "key": "justice-public-safety",
+      "name": "Justice and public safety",
+      "description": "Courts, justice processes, policing and emergency services."
+    },
+    {
+      "key": "transportation-infrastructure",
+      "name": "Transportation and infrastructure",
+      "description": "Mobility networks, public works and the operation of physical infrastructure."
+    },
+    {
+      "key": "housing-land-use-community-development",
+      "name": "Housing, land use and community development",
+      "description": "Housing availability and conditions, development rules and the use of land."
+    },
+    {
+      "key": "economic-development-business-regulation",
+      "name": "Economic development and business regulation",
+      "description": "Commerce, professional regulation and the institutions supporting economic activity."
+    },
+    {
+      "key": "labor-employment-pensions",
+      "name": "Labor, employment and pensions",
+      "description": "Employment rights, working terms, workforce relations and retirement obligations."
+    },
+    {
+      "key": "energy-environment-natural-resources",
+      "name": "Energy, environment and natural resources",
+      "description": "Energy systems, environmental quality, conservation and resource stewardship."
+    },
+    {
+      "key": "elections-democracy-ethics",
+      "name": "Elections, democracy and ethics",
+      "description": "Political participation, public accountability and democratic government structure."
+    },
+    {
+      "key": "technology-communications-cybersecurity",
+      "name": "Technology, communications and cybersecurity",
+      "description": "Information systems, data, communications networks and digital practices."
+    },
+    {
+      "key": "agriculture-rural-food",
+      "name": "Agriculture, rural development and food",
+      "description": "Working agricultural landscapes, food systems and rural communities."
+    },
+    {
+      "key": "civil-family-consumer",
+      "name": "Civil, family and consumer policy",
+      "description": "Civil rights and relationships, family law and consumer protections."
+    },
+    {
+      "key": "parks-culture-community-life",
+      "name": "Parks, culture and community life",
+      "description": "Recreation, libraries, cultural activities and shared community spaces."
+    }
+  ],
+  "issues": [
+    {
+      "key": "budget-and-appropriations",
+      "domain": "public-finance-administration",
+      "name": "Budget and appropriations",
+      "description": "Policy questions concerning budget and appropriations. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "taxes-and-revenue",
+      "domain": "public-finance-administration",
+      "name": "Taxes and revenue",
+      "description": "Policy questions concerning taxes and revenue. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "debt-and-capital-finance",
+      "domain": "public-finance-administration",
+      "name": "Debt and capital finance",
+      "description": "Policy questions concerning debt and capital finance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "public-workforce-and-pensions",
+      "domain": "public-finance-administration",
+      "name": "Public workforce and pension financing",
+      "description": "Budget exposure, funding and financial obligations of public employment and pensions. Employment terms and bargaining remain separate labor questions."
+    },
+    {
+      "key": "procurement-and-contracting",
+      "domain": "public-finance-administration",
+      "name": "Procurement and contracting",
+      "description": "Policy questions concerning procurement and contracting. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "intergovernmental-aid",
+      "domain": "public-finance-administration",
+      "name": "Intergovernmental aid",
+      "description": "Policy questions concerning intergovernmental aid. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "government-organization",
+      "domain": "public-finance-administration",
+      "name": "Government organization",
+      "description": "Administrative organization, agencies and allocation of government functions. Electoral or constitutional redesign is separately classified."
+    },
+    {
+      "key": "school-finance",
+      "domain": "education-workforce",
+      "name": "School finance",
+      "description": "Policy questions concerning school finance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "teachers-and-school-workforce",
+      "domain": "education-workforce",
+      "name": "Teachers and school workforce",
+      "description": "Policy questions concerning teachers and school workforce. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "curriculum-accountability-and-school-governance",
+      "domain": "education-workforce",
+      "name": "Curriculum accountability and school governance",
+      "description": "Policy questions concerning curriculum accountability and school governance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "early-childhood",
+      "domain": "education-workforce",
+      "name": "Early childhood",
+      "description": "Policy questions concerning early childhood. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "postsecondary-finance-and-governance",
+      "domain": "education-workforce",
+      "name": "Postsecondary finance and governance",
+      "description": "Policy questions concerning postsecondary finance and governance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "student-aid",
+      "domain": "education-workforce",
+      "name": "Student aid",
+      "description": "Policy questions concerning student aid. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "workforce-training",
+      "domain": "education-workforce",
+      "name": "Workforce education and training",
+      "description": "Access to, funding of and participation in learning and preparation for work; not a universal power to regulate working conditions."
+    },
+    {
+      "key": "medicaid-and-coverage",
+      "domain": "health-human-services",
+      "name": "Medicaid and coverage",
+      "description": "Policy questions concerning medicaid and coverage. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "health-costs-and-provider-regulation",
+      "domain": "health-human-services",
+      "name": "Health costs and provider regulation",
+      "description": "Policy questions concerning health costs and provider regulation. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "public-health",
+      "domain": "health-human-services",
+      "name": "Public health",
+      "description": "Policy questions concerning public health. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "behavioral-health-and-substance-use",
+      "domain": "health-human-services",
+      "name": "Behavioral health and substance use",
+      "description": "Policy questions concerning behavioral health and substance use. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "maternal-child-health",
+      "domain": "health-human-services",
+      "name": "Maternal child health",
+      "description": "Policy questions concerning maternal child health. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "disability-and-aging",
+      "domain": "health-human-services",
+      "name": "Disability and aging",
+      "description": "Policy questions concerning disability and aging. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "child-welfare-and-family-assistance",
+      "domain": "health-human-services",
+      "name": "Child welfare and family assistance",
+      "description": "Policy questions concerning child welfare and family assistance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "policing",
+      "domain": "justice-public-safety",
+      "name": "Policing",
+      "description": "Policy questions concerning policing. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "courts-and-pretrial",
+      "domain": "justice-public-safety",
+      "name": "Courts and pretrial",
+      "description": "Policy questions concerning courts and pretrial. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "sentencing-corrections-and-reentry",
+      "domain": "justice-public-safety",
+      "name": "Sentencing corrections and reentry",
+      "description": "Policy questions concerning sentencing corrections and reentry. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "juvenile-justice",
+      "domain": "justice-public-safety",
+      "name": "Juvenile justice",
+      "description": "Policy questions concerning juvenile justice. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "emergency-medical-and-911",
+      "domain": "justice-public-safety",
+      "name": "Emergency medical and 911",
+      "description": "Policy questions concerning emergency medical and 911. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "fire-and-emergency-response",
+      "domain": "justice-public-safety",
+      "name": "Fire and emergency response",
+      "description": "Policy questions concerning fire and emergency response. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "firearm-safety-and-carry",
+      "domain": "justice-public-safety",
+      "name": "Firearm safety and carry",
+      "description": "Policy questions concerning firearm safety and carry. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "roads-and-bridges",
+      "domain": "transportation-infrastructure",
+      "name": "Roads and bridges",
+      "description": "Policy questions concerning roads and bridges. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "transportation-funding",
+      "domain": "transportation-infrastructure",
+      "name": "Transportation funding",
+      "description": "Policy questions concerning transportation funding. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "traffic-safety",
+      "domain": "transportation-infrastructure",
+      "name": "Traffic safety",
+      "description": "Policy questions concerning traffic safety. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "transit-and-mobility",
+      "domain": "transportation-infrastructure",
+      "name": "Transit and mobility",
+      "description": "Policy questions concerning transit and mobility. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "airports-ports-and-freight",
+      "domain": "transportation-infrastructure",
+      "name": "Airports ports and freight",
+      "description": "Policy questions concerning airports ports and freight. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "water-wastewater-and-public-works",
+      "domain": "transportation-infrastructure",
+      "name": "Water wastewater and public works",
+      "description": "Policy questions concerning water wastewater and public works. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "housing-supply-and-affordability",
+      "domain": "housing-land-use-community-development",
+      "name": "Housing supply and affordability",
+      "description": "Policy questions concerning housing supply and affordability. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "zoning-and-land-use",
+      "domain": "housing-land-use-community-development",
+      "name": "Zoning and land use",
+      "description": "Policy questions concerning zoning and land use. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "homelessness",
+      "domain": "housing-land-use-community-development",
+      "name": "Homelessness",
+      "description": "Policy questions concerning homelessness. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "building-and-safety-codes",
+      "domain": "housing-land-use-community-development",
+      "name": "Building and safety codes",
+      "description": "Policy questions concerning building and safety codes. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "redevelopment-and-neighborhood-investment",
+      "domain": "housing-land-use-community-development",
+      "name": "Redevelopment and neighborhood investment",
+      "description": "Policy questions concerning redevelopment and neighborhood investment. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "property-maintenance",
+      "domain": "housing-land-use-community-development",
+      "name": "Property maintenance",
+      "description": "Policy questions concerning property maintenance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "business-attraction-and-incentives",
+      "domain": "economic-development-business-regulation",
+      "name": "Business attraction and incentives",
+      "description": "Policy questions concerning business attraction and incentives. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "occupational-licensing",
+      "domain": "economic-development-business-regulation",
+      "name": "Occupational licensing",
+      "description": "Policy questions concerning occupational licensing. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "professional-scope",
+      "domain": "economic-development-business-regulation",
+      "name": "Professional scope",
+      "description": "Policy questions concerning professional scope. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "small-business-and-commerce",
+      "domain": "economic-development-business-regulation",
+      "name": "Small business and commerce",
+      "description": "Policy questions concerning small business and commerce. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "tourism",
+      "domain": "economic-development-business-regulation",
+      "name": "Tourism",
+      "description": "Policy questions concerning tourism. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "regulated-markets",
+      "domain": "economic-development-business-regulation",
+      "name": "Regulated markets",
+      "description": "Policy questions concerning regulated markets. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "minimum-wage-and-hours",
+      "domain": "labor-employment-pensions",
+      "name": "Minimum wage and hours",
+      "description": "Policy questions concerning minimum wage and hours. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "leave-and-workplace-standards",
+      "domain": "labor-employment-pensions",
+      "name": "Leave and workplace standards",
+      "description": "Policy questions concerning leave and workplace standards. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "unemployment-insurance",
+      "domain": "labor-employment-pensions",
+      "name": "Unemployment insurance",
+      "description": "Policy questions concerning unemployment insurance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "workers-compensation",
+      "domain": "labor-employment-pensions",
+      "name": "Workers compensation",
+      "description": "Policy questions concerning workers compensation. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "collective-bargaining",
+      "domain": "labor-employment-pensions",
+      "name": "Collective bargaining",
+      "description": "Policy questions concerning collective bargaining. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "public-employment",
+      "domain": "labor-employment-pensions",
+      "name": "Public employment",
+      "description": "Policy questions concerning public employment. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "utility-rates-and-grid-reliability",
+      "domain": "energy-environment-natural-resources",
+      "name": "Utility rates and grid reliability",
+      "description": "Policy questions concerning utility rates and grid reliability. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "generation-and-energy-mix",
+      "domain": "energy-environment-natural-resources",
+      "name": "Generation and energy mix",
+      "description": "Policy questions concerning generation and energy mix. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "water-resources",
+      "domain": "energy-environment-natural-resources",
+      "name": "Water resources",
+      "description": "Policy questions concerning water resources. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "air-and-water-pollution",
+      "domain": "energy-environment-natural-resources",
+      "name": "Air and water pollution",
+      "description": "Policy questions concerning air and water pollution. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "waste-and-recycling",
+      "domain": "energy-environment-natural-resources",
+      "name": "Waste and recycling",
+      "description": "Policy questions concerning waste and recycling. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "climate-and-disaster-resilience",
+      "domain": "energy-environment-natural-resources",
+      "name": "Climate and disaster resilience",
+      "description": "Policy questions concerning climate and disaster resilience. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "parks-lands-wildlife-and-forestry",
+      "domain": "energy-environment-natural-resources",
+      "name": "Conservation lands, wildlife and forest stewardship",
+      "description": "Conservation and ecological management of public lands, wildlife and forests. Recreation operations and commercial forestry have separate primary issues."
+    },
+    {
+      "key": "election-administration",
+      "domain": "elections-democracy-ethics",
+      "name": "Election administration",
+      "description": "Policy questions concerning election administration. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "voting-rules-and-access",
+      "domain": "elections-democracy-ethics",
+      "name": "Voting rules and access",
+      "description": "Policy questions concerning voting rules and access. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "redistricting",
+      "domain": "elections-democracy-ethics",
+      "name": "Redistricting",
+      "description": "Policy questions concerning redistricting. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "campaign-finance",
+      "domain": "elections-democracy-ethics",
+      "name": "Campaign finance",
+      "description": "Policy questions concerning campaign finance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "ethics-and-lobbying",
+      "domain": "elections-democracy-ethics",
+      "name": "Ethics and lobbying",
+      "description": "Policy questions concerning ethics and lobbying. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "open-records-and-open-meetings",
+      "domain": "elections-democracy-ethics",
+      "name": "Open records and open meetings",
+      "description": "Policy questions concerning open records and open meetings. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "local-government-structure",
+      "domain": "elections-democracy-ethics",
+      "name": "Local government structure",
+      "description": "Forms, representation and structural rules of local government. Administrative implementation is related but not a duplicate occurrence."
+    },
+    {
+      "key": "artificial-intelligence",
+      "domain": "technology-communications-cybersecurity",
+      "name": "Artificial intelligence",
+      "description": "Policy questions concerning artificial intelligence. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "privacy-and-data-governance",
+      "domain": "technology-communications-cybersecurity",
+      "name": "Privacy and data governance",
+      "description": "Policy questions concerning privacy and data governance. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "government-cybersecurity",
+      "domain": "technology-communications-cybersecurity",
+      "name": "Government cybersecurity",
+      "description": "Policy questions concerning government cybersecurity. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "broadband-and-digital-access",
+      "domain": "technology-communications-cybersecurity",
+      "name": "Broadband and digital access",
+      "description": "Policy questions concerning broadband and digital access. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "government-technology-and-digital-services",
+      "domain": "technology-communications-cybersecurity",
+      "name": "Government technology and digital services",
+      "description": "Policy questions concerning government technology and digital services. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "agriculture-and-farm-policy",
+      "domain": "agriculture-rural-food",
+      "name": "Agriculture and farm policy",
+      "description": "Policy questions concerning agriculture and farm policy. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "food-systems-and-safety",
+      "domain": "agriculture-rural-food",
+      "name": "Food systems and safety",
+      "description": "Policy questions concerning food systems and safety. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "rural-development",
+      "domain": "agriculture-rural-food",
+      "name": "Rural development",
+      "description": "Policy questions concerning rural development. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "forestry-and-working-lands",
+      "domain": "agriculture-rural-food",
+      "name": "Forestry and working lands",
+      "description": "Productive forestry and working-land use. Related conservation effects are linked rather than represented by a duplicate proposal."
+    },
+    {
+      "key": "conservation",
+      "domain": "agriculture-rural-food",
+      "name": "Agricultural conservation",
+      "description": "Conservation practices on farms and other productive agricultural land; broader ecosystem protection belongs to the environment domain."
+    },
+    {
+      "key": "family-law-and-child-support",
+      "domain": "civil-family-consumer",
+      "name": "Family law and child support",
+      "description": "Policy questions concerning family law and child support. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "civil-rights-and-discrimination",
+      "domain": "civil-family-consumer",
+      "name": "Civil rights and discrimination",
+      "description": "Policy questions concerning civil rights and discrimination. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "reproductive-health",
+      "domain": "civil-family-consumer",
+      "name": "Reproductive rights and family law",
+      "description": "Civil rights, legal access and family-law questions concerning reproduction. Clinical care delivery and maternal health are related health issues, not duplicated action instances."
+    },
+    {
+      "key": "immigration-related",
+      "domain": "civil-family-consumer",
+      "name": "Immigration related",
+      "description": "Policy questions concerning immigration related. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "insurance-and-financial-consumer",
+      "domain": "civil-family-consumer",
+      "name": "Insurance and financial consumer",
+      "description": "Policy questions concerning insurance and financial consumer. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "general",
+      "domain": "civil-family-consumer",
+      "name": "General",
+      "description": "Policy questions concerning general. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "parks-and-recreation",
+      "domain": "parks-culture-community-life",
+      "name": "Parks and recreation",
+      "description": "Policy questions concerning parks and recreation. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "libraries",
+      "domain": "parks-culture-community-life",
+      "name": "Libraries",
+      "description": "Policy questions concerning libraries. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "arts-and-cultural-services",
+      "domain": "parks-culture-community-life",
+      "name": "Arts and cultural services",
+      "description": "Policy questions concerning arts and cultural services. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "historic-preservation",
+      "domain": "parks-culture-community-life",
+      "name": "Historic preservation",
+      "description": "Policy questions concerning historic preservation. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "community-events-and-public-space",
+      "domain": "parks-culture-community-life",
+      "name": "Community events and public space",
+      "description": "Policy questions concerning community events and public space. The applicable institution, proposed operation and current rules determine available actions."
+    },
+    {
+      "key": "insurance-market-regulation",
+      "domain": "economic-development-business-regulation",
+      "name": "Insurance markets and regulation",
+      "description": "Organization, operation and supervision of insurance markets, distinct from individual consumer protections and health coverage."
+    },
+    {
+      "key": "banking-and-credit-regulation",
+      "domain": "economic-development-business-regulation",
+      "name": "Banking and credit regulation",
+      "description": "Banking and credit-market regulation where the represented government has power; not an authorization to conduct monetary policy."
+    },
+    {
+      "key": "veterans-services",
+      "domain": "health-human-services",
+      "name": "Veterans services",
+      "description": "Supported state or local services for veterans, distinct from national military command or federal benefit authority."
+    },
+    {
+      "key": "child-care-access",
+      "domain": "health-human-services",
+      "name": "Child care access",
+      "description": "Availability and accessibility of child care services; educational content and preparation are related education questions."
+    },
+    {
+      "key": "intergovernmental-powers-and-preemption",
+      "domain": "elections-democracy-ethics",
+      "name": "Intergovernmental powers and preemption",
+      "description": "Allocation and limits of authority between governments; the classification does not itself resolve an actual power dispute."
+    }
+  ],
+  "subjects": [
+    {
+      "key": "knowledge-budget-and-appropriations",
+      "name": "Budget and appropriations",
+      "description": "Knowledge about budget and appropriations, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "budget-and-appropriations",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-taxes-and-revenue",
+      "name": "Taxes and revenue",
+      "description": "Knowledge about taxes and revenue, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "taxes-and-revenue",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-debt-and-capital-finance",
+      "name": "Debt and capital finance",
+      "description": "Knowledge about debt and capital finance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "debt-and-capital-finance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-public-workforce-and-pensions",
+      "name": "Public workforce and pension financing",
+      "description": "Knowledge about public workforce and pension financing, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "public-workforce-and-pensions",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-procurement-and-contracting",
+      "name": "Procurement and contracting",
+      "description": "Knowledge about procurement and contracting, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "procurement-and-contracting",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-intergovernmental-aid",
+      "name": "Intergovernmental aid",
+      "description": "Knowledge about intergovernmental aid, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "intergovernmental-aid",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-government-organization",
+      "name": "Government organization",
+      "description": "Knowledge about government organization, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "government-organization",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-school-finance",
+      "name": "School finance",
+      "description": "Knowledge about school finance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "school-finance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-teachers-and-school-workforce",
+      "name": "Teachers and school workforce",
+      "description": "Knowledge about teachers and school workforce, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "teachers-and-school-workforce",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-curriculum-accountability-and-school-governance",
+      "name": "Curriculum accountability and school governance",
+      "description": "Knowledge about curriculum accountability and school governance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "curriculum-accountability-and-school-governance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-early-childhood",
+      "name": "Early childhood",
+      "description": "Knowledge about early childhood, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "early-childhood",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-postsecondary-finance-and-governance",
+      "name": "Postsecondary finance and governance",
+      "description": "Knowledge about postsecondary finance and governance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "postsecondary-finance-and-governance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-student-aid",
+      "name": "Student aid",
+      "description": "Knowledge about student aid, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "student-aid",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-workforce-training",
+      "name": "Workforce education and training",
+      "description": "Knowledge about workforce education and training, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "workforce-training",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-medicaid-and-coverage",
+      "name": "Medicaid and coverage",
+      "description": "Knowledge about medicaid and coverage, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "medicaid-and-coverage",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-health-costs-and-provider-regulation",
+      "name": "Health costs and provider regulation",
+      "description": "Knowledge about health costs and provider regulation, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "health-costs-and-provider-regulation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-public-health",
+      "name": "Public health",
+      "description": "Knowledge about public health, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "public-health",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-behavioral-health-and-substance-use",
+      "name": "Behavioral health and substance use",
+      "description": "Knowledge about behavioral health and substance use, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "behavioral-health-and-substance-use",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-maternal-child-health",
+      "name": "Maternal child health",
+      "description": "Knowledge about maternal child health, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "maternal-child-health",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-disability-and-aging",
+      "name": "Disability and aging",
+      "description": "Knowledge about disability and aging, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "disability-and-aging",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-child-welfare-and-family-assistance",
+      "name": "Child welfare and family assistance",
+      "description": "Knowledge about child welfare and family assistance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "child-welfare-and-family-assistance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-policing",
+      "name": "Policing",
+      "description": "Knowledge about policing, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "policing",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-courts-and-pretrial",
+      "name": "Courts and pretrial",
+      "description": "Knowledge about courts and pretrial, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "courts-and-pretrial",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-sentencing-corrections-and-reentry",
+      "name": "Sentencing corrections and reentry",
+      "description": "Knowledge about sentencing corrections and reentry, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "sentencing-corrections-and-reentry",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-juvenile-justice",
+      "name": "Juvenile justice",
+      "description": "Knowledge about juvenile justice, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "juvenile-justice",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-emergency-medical-and-911",
+      "name": "Emergency medical and 911",
+      "description": "Knowledge about emergency medical and 911, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "emergency-medical-and-911",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-fire-and-emergency-response",
+      "name": "Fire and emergency response",
+      "description": "Knowledge about fire and emergency response, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "fire-and-emergency-response",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-firearm-safety-and-carry",
+      "name": "Firearm safety and carry",
+      "description": "Knowledge about firearm safety and carry, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "firearm-safety-and-carry",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-roads-and-bridges",
+      "name": "Roads and bridges",
+      "description": "Knowledge about roads and bridges, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "roads-and-bridges",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-transportation-funding",
+      "name": "Transportation funding",
+      "description": "Knowledge about transportation funding, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "transportation-funding",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-traffic-safety",
+      "name": "Traffic safety",
+      "description": "Knowledge about traffic safety, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "traffic-safety",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-transit-and-mobility",
+      "name": "Transit and mobility",
+      "description": "Knowledge about transit and mobility, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "transit-and-mobility",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-airports-ports-and-freight",
+      "name": "Airports ports and freight",
+      "description": "Knowledge about airports ports and freight, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "airports-ports-and-freight",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-water-wastewater-and-public-works",
+      "name": "Water wastewater and public works",
+      "description": "Knowledge about water wastewater and public works, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "water-wastewater-and-public-works",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-housing-supply-and-affordability",
+      "name": "Housing supply and affordability",
+      "description": "Knowledge about housing supply and affordability, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "housing-supply-and-affordability",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-zoning-and-land-use",
+      "name": "Zoning and land use",
+      "description": "Knowledge about zoning and land use, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "zoning-and-land-use",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-homelessness",
+      "name": "Homelessness",
+      "description": "Knowledge about homelessness, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "homelessness",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-building-and-safety-codes",
+      "name": "Building and safety codes",
+      "description": "Knowledge about building and safety codes, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "building-and-safety-codes",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-redevelopment-and-neighborhood-investment",
+      "name": "Redevelopment and neighborhood investment",
+      "description": "Knowledge about redevelopment and neighborhood investment, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "redevelopment-and-neighborhood-investment",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-property-maintenance",
+      "name": "Property maintenance",
+      "description": "Knowledge about property maintenance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "property-maintenance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-business-attraction-and-incentives",
+      "name": "Business attraction and incentives",
+      "description": "Knowledge about business attraction and incentives, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "business-attraction-and-incentives",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-occupational-licensing",
+      "name": "Occupational licensing",
+      "description": "Knowledge about occupational licensing, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "occupational-licensing",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-professional-scope",
+      "name": "Professional scope",
+      "description": "Knowledge about professional scope, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "professional-scope",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-small-business-and-commerce",
+      "name": "Small business and commerce",
+      "description": "Knowledge about small business and commerce, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "small-business-and-commerce",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-tourism",
+      "name": "Tourism",
+      "description": "Knowledge about tourism, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "tourism",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-regulated-markets",
+      "name": "Regulated markets",
+      "description": "Knowledge about regulated markets, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "regulated-markets",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-minimum-wage-and-hours",
+      "name": "Minimum wage and hours",
+      "description": "Knowledge about minimum wage and hours, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "minimum-wage-and-hours",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-leave-and-workplace-standards",
+      "name": "Leave and workplace standards",
+      "description": "Knowledge about leave and workplace standards, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "leave-and-workplace-standards",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-unemployment-insurance",
+      "name": "Unemployment insurance",
+      "description": "Knowledge about unemployment insurance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "unemployment-insurance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-workers-compensation",
+      "name": "Workers compensation",
+      "description": "Knowledge about workers compensation, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "workers-compensation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-collective-bargaining",
+      "name": "Collective bargaining",
+      "description": "Knowledge about collective bargaining, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "collective-bargaining",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-public-employment",
+      "name": "Public employment",
+      "description": "Knowledge about public employment, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "public-employment",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-utility-rates-and-grid-reliability",
+      "name": "Utility rates and grid reliability",
+      "description": "Knowledge about utility rates and grid reliability, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "utility-rates-and-grid-reliability",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-generation-and-energy-mix",
+      "name": "Generation and energy mix",
+      "description": "Knowledge about generation and energy mix, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "generation-and-energy-mix",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-water-resources",
+      "name": "Water resources",
+      "description": "Knowledge about water resources, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "water-resources",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-air-and-water-pollution",
+      "name": "Air and water pollution",
+      "description": "Knowledge about air and water pollution, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "air-and-water-pollution",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-waste-and-recycling",
+      "name": "Waste and recycling",
+      "description": "Knowledge about waste and recycling, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "waste-and-recycling",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-climate-and-disaster-resilience",
+      "name": "Climate and disaster resilience",
+      "description": "Knowledge about climate and disaster resilience, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "climate-and-disaster-resilience",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-parks-lands-wildlife-and-forestry",
+      "name": "Conservation lands, wildlife and forest stewardship",
+      "description": "Knowledge about conservation lands, wildlife and forest stewardship, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "parks-lands-wildlife-and-forestry",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-election-administration",
+      "name": "Election administration",
+      "description": "Knowledge about election administration, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "election-administration",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-voting-rules-and-access",
+      "name": "Voting rules and access",
+      "description": "Knowledge about voting rules and access, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "voting-rules-and-access",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-redistricting",
+      "name": "Redistricting",
+      "description": "Knowledge about redistricting, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "redistricting",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-campaign-finance",
+      "name": "Campaign finance",
+      "description": "Knowledge about campaign finance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "campaign-finance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-ethics-and-lobbying",
+      "name": "Ethics and lobbying",
+      "description": "Knowledge about ethics and lobbying, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "ethics-and-lobbying",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-open-records-and-open-meetings",
+      "name": "Open records and open meetings",
+      "description": "Knowledge about open records and open meetings, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "open-records-and-open-meetings",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-local-government-structure",
+      "name": "Local government structure",
+      "description": "Knowledge about local government structure, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "local-government-structure",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-artificial-intelligence",
+      "name": "Artificial intelligence",
+      "description": "Knowledge about artificial intelligence, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "artificial-intelligence",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-privacy-and-data-governance",
+      "name": "Privacy and data governance",
+      "description": "Knowledge about privacy and data governance, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "privacy-and-data-governance",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-government-cybersecurity",
+      "name": "Government cybersecurity",
+      "description": "Knowledge about government cybersecurity, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "government-cybersecurity",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-broadband-and-digital-access",
+      "name": "Broadband and digital access",
+      "description": "Knowledge about broadband and digital access, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "broadband-and-digital-access",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-government-technology-and-digital-services",
+      "name": "Government technology and digital services",
+      "description": "Knowledge about government technology and digital services, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "government-technology-and-digital-services",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-agriculture-and-farm-policy",
+      "name": "Agriculture and farm policy",
+      "description": "Knowledge about agriculture and farm policy, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "agriculture-and-farm-policy",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-food-systems-and-safety",
+      "name": "Food systems and safety",
+      "description": "Knowledge about food systems and safety, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "food-systems-and-safety",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-rural-development",
+      "name": "Rural development",
+      "description": "Knowledge about rural development, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "rural-development",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-forestry-and-working-lands",
+      "name": "Forestry and working lands",
+      "description": "Knowledge about forestry and working lands, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "forestry-and-working-lands",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-conservation",
+      "name": "Agricultural conservation",
+      "description": "Knowledge about agricultural conservation, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "conservation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-family-law-and-child-support",
+      "name": "Family law and child support",
+      "description": "Knowledge about family law and child support, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "family-law-and-child-support",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-civil-rights-and-discrimination",
+      "name": "Civil rights and discrimination",
+      "description": "Knowledge about civil rights and discrimination, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "civil-rights-and-discrimination",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-reproductive-health",
+      "name": "Reproductive rights and family law",
+      "description": "Knowledge about reproductive rights and family law, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "reproductive-health",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-immigration-related",
+      "name": "Immigration related",
+      "description": "Knowledge about immigration related, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "immigration-related",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-insurance-and-financial-consumer",
+      "name": "Insurance and financial consumer",
+      "description": "Knowledge about insurance and financial consumer, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "insurance-and-financial-consumer",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-general",
+      "name": "General",
+      "description": "Knowledge about general, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "general",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-parks-and-recreation",
+      "name": "Parks and recreation",
+      "description": "Knowledge about parks and recreation, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "parks-and-recreation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-libraries",
+      "name": "Libraries",
+      "description": "Knowledge about libraries, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "libraries",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-arts-and-cultural-services",
+      "name": "Arts and cultural services",
+      "description": "Knowledge about arts and cultural services, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "arts-and-cultural-services",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-historic-preservation",
+      "name": "Historic preservation",
+      "description": "Knowledge about historic preservation, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "historic-preservation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-community-events-and-public-space",
+      "name": "Community events and public space",
+      "description": "Knowledge about community events and public space, acquired only through an actual supported learning or information path.",
+      "scope": "issue",
+      "about": "community-events-and-public-space",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-insurance-market-regulation",
+      "name": "Insurance markets and regulation",
+      "description": "Knowledge about insurance markets and regulation, acquired through supported information or experience.",
+      "scope": "issue",
+      "about": "insurance-market-regulation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-banking-and-credit-regulation",
+      "name": "Banking and credit regulation",
+      "description": "Knowledge about banking and credit regulation, acquired through supported information or experience.",
+      "scope": "issue",
+      "about": "banking-and-credit-regulation",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-veterans-services",
+      "name": "Veterans services",
+      "description": "Knowledge about veterans services, acquired through supported information or experience.",
+      "scope": "issue",
+      "about": "veterans-services",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-child-care-access",
+      "name": "Child care access",
+      "description": "Knowledge about child care access, acquired through supported information or experience.",
+      "scope": "issue",
+      "about": "child-care-access",
+      "tags": [
+        "state-local-policy"
+      ]
+    },
+    {
+      "key": "knowledge-intergovernmental-powers-and-preemption",
+      "name": "Intergovernmental powers and preemption",
+      "description": "Knowledge about intergovernmental powers and preemption, acquired through supported information or experience.",
+      "scope": "issue",
+      "about": "intergovernmental-powers-and-preemption",
+      "tags": [
+        "state-local-policy"
+      ]
+    }
+  ],
+  "propositions": [],
+  "principles": []
+}

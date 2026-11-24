@@ -1,0 +1,68 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts -t income tax withheld from represented people --reporter=default --reporter=json --outputFile=/tmp/team6-budget-withholding-before.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/public-budgets/public-budgets.test.ts (29 tests | 1 failed | 28 skipped) 63ms
+     ↓ every state, D.C. and territory keeps a budget for a full year, none left unknown
+     ↓ American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated
+     ↓ Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1
+     ↓ a state opens exactly at its read figures in every world; a city's estimated share opens with a spread
+     ↓ D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown
+     ↓ Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself
+     ↓ under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed
+     ↓ a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance
+     ↓ without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks
+     ↓ a small government that pays its whole contribution records no underpayment from monthly rounding
+     ↓ each government's pension opens at its own plans' funded ratio, or the median where none is reported
+     ↓ a state NASBO reports no rainy-day balance for opens at the median share of the states it does
+     ↓ each government's pension costs and pays out what its own plans report, or the median where they do not
+     ↓ each government's pension share starts from its own reported payment, or the median where none is reported, and holds
+     ↓ a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption
+     × income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else 61ms
+     ↓ each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's
+     ↓ a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations
+     ↓ a place with no government in a county area with none is served by its town, its consolidated government or its state
+     ↓ each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's
+     ↓ the balance above the reserve target is carried into the next budget and spent across the year, once
+     ↓ a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month
+     ↓ a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once
+     ↓ a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again
+     ↓ a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect
+     ↓ a governor decides from their principles whether money a law saved the state goes to the reserve or to programs
+     ↓ maps an appropriation's program to its budget line
+     ↓ reads the default rates from Census and notes where each government's rate came from
+     ↓ opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/public-budgets/public-budgets.test.ts > public budgets > income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else
+TypeError: Cannot read properties of undefined (reading 'length')
+ ❯ extend src/simulation/history-index.ts:175:38
+    173|   ): Map<string, readonly unknown[]> => {
+    174|     const grown = new Map<string, unknown[]>();
+    175|     for (let at = from; at < records.length; at += 1) {
+       |                                      ^
+    176|       const record = records[at]!;
+    177|       for (const recordKey of new Set(keysOf(record))) {
+ ❯ src/simulation/history-index.ts:193:11
+ ❯ indexFollowingAppends src/simulation/history-index.ts:133:65
+ ❯ recordsByKey src/simulation/history-index.ts:189:18
+ ❯ readStateExecutiveHolders src/simulation/nationwide-world/state-executives.ts:417:61
+ ❯ Module.currentStateExecutiveHolders src/simulation/nationwide-world/state-executives.ts:407:18
+ ❯ currentStateExecutiveHolders src/simulation/public-budgets/public-budgets.test.ts:60:18
+ ❯ Module.settlePublicBudgets src/simulation/public-budgets/index.ts:172:21
+ ❯ src/simulation/public-budgets/public-budgets.test.ts:711:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 28 skipped (29)
+   Start at  10:04:30
+   Duration  13.78s (transform 10.95s, setup 21ms, import 13.57s, tests 63ms, environment 0ms)
+
+JSON report written to /tmp/team6-budget-withholding-before.json

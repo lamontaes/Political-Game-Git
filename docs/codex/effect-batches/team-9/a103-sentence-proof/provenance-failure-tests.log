@@ -1,0 +1,69 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/justice/sentencing-term.test.ts (7 tests | 2 failed) 51253ms
+     ✓ reads all 56 base robbery rows without turning missing facts into a grade  4278ms
+     ✓ does not accept unsupported fact provenance or substitute findings for convictions  415ms
+     ✓ saves an actual bounded term for the named defendant in US-ND  14830ms
+     × saves an actual bounded term for the named defendant in US-MA 7612ms
+     ✓ saves an actual bounded term for the named defendant in US-HI  9981ms
+     ✓ saves an actual bounded term for the named defendant in US-IA  9332ms
+     × saves an actual bounded term for the named defendant in US-CA 4793ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-MA
+Error: Historical event contains a duplicate tag: justice.sentence-source:https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section19
+ ❯ validateTags src/simulation/world.ts:4160:13
+    4158|     assertNonEmptyString(tag, `${label} tag`);
+    4159|     if (seen.has(tag)) {
+    4160|       throw new Error(`${label} contains a duplicate tag: ${tag}`);
+       |             ^
+    4161|     }
+    4162|     seen.add(tag);
+ ❯ recordWorldEvent src/simulation/world.ts:1005:3
+ ❯ recordFollowUp src/simulation/justice/prosecution.ts:387:20
+ ❯ followUp src/simulation/justice/prosecution.ts:482:20
+ ❯ advanceProsecutions src/simulation/justice/prosecution.ts:875:12
+ ❯ prosecutionStageHandler src/simulation/justice/prosecution-transitions.ts:95:20
+ ❯ src/simulation/future-transitions.ts:636:49
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:585:12
+ ❯ resolveFutureDueItemsThrough src/simulation/future-transitions.ts:636:16
+ ❯ src/simulation/justice/sentencing-term.test.ts:182:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-CA
+Error: Historical event contains a duplicate tag: justice.sentence-source:https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=213
+ ❯ validateTags src/simulation/world.ts:4160:13
+    4158|     assertNonEmptyString(tag, `${label} tag`);
+    4159|     if (seen.has(tag)) {
+    4160|       throw new Error(`${label} contains a duplicate tag: ${tag}`);
+       |             ^
+    4161|     }
+    4162|     seen.add(tag);
+ ❯ recordWorldEvent src/simulation/world.ts:1005:3
+ ❯ recordFollowUp src/simulation/justice/prosecution.ts:387:20
+ ❯ followUp src/simulation/justice/prosecution.ts:482:20
+ ❯ advanceProsecutions src/simulation/justice/prosecution.ts:875:12
+ ❯ prosecutionStageHandler src/simulation/justice/prosecution-transitions.ts:95:20
+ ❯ src/simulation/future-transitions.ts:636:49
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:585:12
+ ❯ resolveFutureDueItemsThrough src/simulation/future-transitions.ts:636:16
+ ❯ src/simulation/justice/sentencing-term.test.ts:182:25
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  18:15:40
+   Duration  94.14s (transform 33.00s, setup 26ms, import 42.65s, tests 51.25s, environment 0ms)
+
+JSON report written to /tmp/team9-a103-ca051-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,53 @@
+{
+  "status": "authored-request-not-executed-game-tests",
+  "cases": [
+    {
+      "id": "clock-stage-separation",
+      "expect": "Satisfying distinct-day readings does not bypass a separate final-form publication wait."
+    },
+    {
+      "id": "clock-revision-change",
+      "expect": "The current final bill form is evaluated; reading an old draft is not availability of amended text."
+    },
+    {
+      "id": "clock-emergency-not-waiver",
+      "expect": "CA crisis declaration without the required governor statement and actual house waiver does not remove the 72-hour rule."
+    },
+    {
+      "id": "clock-tx-session-class",
+      "expect": "TX ordinary versus general-appropriations and regular versus special session select their own sourced waits."
+    },
+    {
+      "id": "clock-ny-unit",
+      "expect": "Three calendar-legislative days are not silently counted as 72 elapsed hours; use a verified unit evaluator."
+    },
+    {
+      "id": "clock-no-quota",
+      "expect": "An eligible bill without scheduling/decisions does not magically progress every three days; an eligible scheduled bill need not wait an extra arbitrary three days."
+    },
+    {
+      "id": "local-charter-scope",
+      "expect": "The Ohio statutory reading rule is used only where applicable, not forced on every charter government."
+    },
+    {
+      "id": "tax-same-liability",
+      "expect": "Employer withholding and employee settlement cannot charge the same Philadelphia wage liability twice."
+    },
+    {
+      "id": "tax-government-isolation",
+      "expect": "A valid municipal levy amendment changes its own instrument only; state/federal and another locality stay unchanged."
+    },
+    {
+      "id": "tax-vintage",
+      "expect": "The dated 2025 versus 2026 Philadelphia rows apply to their correct represented periods."
+    },
+    {
+      "id": "tax-credits",
+      "expect": "A credit uses its actual local ordinance and previously paid liability, not a universal full-credit assumption."
+    },
+    {
+      "id": "clock-save-continue",
+      "expect": "Reopen, Save/Continue and larger time advances do not duplicate votes, waivers, enactments or collections."
+    }
+  ]
+}

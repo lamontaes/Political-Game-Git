@@ -1,0 +1,1145 @@
+{
+  "schema": "ocd-federal-policy-research/1",
+  "date": "2026-09-22",
+  "status": "First complete requested hierarchy in candidate loader shape; source/structural checks only. Not enacted law or verified runtime integration.",
+  "domain_count": 20,
+  "issue_count": 60,
+  "sources": {
+    "congress-areas": "https://www.congress.gov/help/field-values/policy-area",
+    "senate-powers": "https://www.senate.gov/about/powers-procedures.htm",
+    "fed-fomc": "https://www.federalreserve.gov/monetarypolicy/fomc.htm",
+    "medicare-medicaid": "https://www.hhs.gov/answers/medicare-and-medicaid/what-is-the-difference-between-medicare-medicaid/index.html",
+    "medicaid": "https://www.medicaid.gov/medicaid",
+    "education-role": "https://www.ed.gov/about/ed-overview",
+    "social-insurance-history": "https://www.ssa.gov/policy/docs/ssb/v66n1/v66n1p1.html",
+    "fema-programmes": "https://content.govdelivery.com/accounts/USDHSFEMA/bulletins/3d9d2ce",
+    "fec-links": "https://www.fec.gov/campaign-finance-data/candidate-committee-linkage-file-description/"
+  },
+  "issues": [
+    {
+      "issue_key": "budget.appropriations",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance"
+      ],
+      "federal_question": "Which federal activities receive spending authority, for what purpose and period?",
+      "distinction_from_state_local": "This is federal budget authority, not a state's appropriation or a city's actual payment.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency execution"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "budget.borrowing",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance"
+      ],
+      "federal_question": "What national borrowing authority and debt-management framework finances federal obligations?",
+      "distinction_from_state_local": "It changes United States obligations, not municipal bonds, state debt limits or household credit.",
+      "institutional_route": [
+        "statute",
+        "Treasury administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "budget.intergovernmental-grants",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance"
+      ],
+      "federal_question": "How is federal assistance distributed and what conditions accompany its use?",
+      "distinction_from_state_local": "The federal award and the recipient's own authorization, matching contribution and expenditure remain separate.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "tax.income-tax",
+      "congress_policy_area_crosswalk": [
+        "Taxation"
+      ],
+      "federal_question": "What income is included in the federal base and which rates, deductions and credits apply?",
+      "distinction_from_state_local": "A federal tax change does not replace separately applicable state or municipal income liabilities.",
+      "institutional_route": [
+        "statute",
+        "Treasury and IRS administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "tax.corporate-tax",
+      "congress_policy_area_crosswalk": [
+        "Taxation"
+      ],
+      "federal_question": "How are business income, deductions and tax treatment defined nationally?",
+      "distinction_from_state_local": "State business taxes, local fees and particular business activity remain distinct instruments and bases.",
+      "institutional_route": [
+        "statute",
+        "Treasury and IRS administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "tax.employment-excise-estate",
+      "congress_policy_area_crosswalk": [
+        "Taxation"
+      ],
+      "federal_question": "Which covered earnings, transactions or transfers create federal tax obligations?",
+      "distinction_from_state_local": "Shared tax vocabulary does not merge federal receipts with a state excise, local sales levy or property assessment.",
+      "institutional_route": [
+        "statute",
+        "Treasury and IRS administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "monetary-financial.monetary-stance",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "How should the Federal Reserve adjust the monetary-policy stance under its mandate?",
+      "distinction_from_state_local": "This is a central-bank decision, not a mayor's interest-rate slider or a bill that directly executes open-market operations.",
+      "institutional_route": [
+        "independent central-bank decision",
+        "statute for governing mandate"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "fed-fomc"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "monetary-financial.banking-stability",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "What federal rules and institutions govern financial risk and supervision?",
+      "distinction_from_state_local": "It concerns the federal financial framework, not a local development loan or a universal replacement of state regulation.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and supervision"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "monetary-financial.consumer-finance",
+      "congress_policy_area_crosswalk": [
+        "Economics and Public Finance",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "What federal protections and procedures apply to financial products, investment and insolvency?",
+      "distinction_from_state_local": "State consumer and contract matters remain separately applicable where the actual legal framework permits them.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and enforcement",
+        "judicial proceedings"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "defense.defense-authority",
+      "congress_policy_area_crosswalk": [
+        "Armed Forces and National Security"
+      ],
+      "federal_question": "What authority, constraints and oversight apply to national military action?",
+      "distinction_from_state_local": "The national armed forces and war-powers decision are not state police powers or local emergency response.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "constitutional executive authority",
+        "oversight"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "defense.procurement",
+      "congress_policy_area_crosswalk": [
+        "Armed Forces and National Security"
+      ],
+      "federal_question": "What national capabilities are acquired, maintained and staffed?",
+      "distinction_from_state_local": "A defense authorization and appropriation do not themselves deliver equipment, trained personnel or a finished local facility.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency procurement"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "defense.veterans",
+      "congress_policy_area_crosswalk": [
+        "Armed Forces and National Security"
+      ],
+      "federal_question": "What federal benefits and services are provided for covered veterans and families?",
+      "distinction_from_state_local": "Federal eligibility and funding differ from a state's additional veteran services or a city's assistance programme.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "foreign-affairs.diplomacy",
+      "congress_policy_area_crosswalk": [
+        "International Affairs"
+      ],
+      "federal_question": "What positions and commitments does the United States pursue with other governments?",
+      "distinction_from_state_local": "A national diplomatic act is not a state or city's ordinary contracting decision, even when their residents are affected.",
+      "institutional_route": [
+        "constitutional executive authority",
+        "Senate treaty role",
+        "statute and appropriation where required"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "senate-powers"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "foreign-affairs.foreign-assistance",
+      "congress_policy_area_crosswalk": [
+        "International Affairs"
+      ],
+      "federal_question": "Which overseas programmes receive support and on what terms?",
+      "distinction_from_state_local": "International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "executive and agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "foreign-affairs.arms-control",
+      "congress_policy_area_crosswalk": [
+        "International Affairs"
+      ],
+      "federal_question": "What national security agreements and constraints should be pursued or changed?",
+      "distinction_from_state_local": "States and municipalities do not acquire a parallel national treaty-making power merely because the issue affects them.",
+      "institutional_route": [
+        "constitutional executive authority",
+        "Senate treaty role",
+        "statute where required"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "senate-powers"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "trade.tariffs-customs",
+      "congress_policy_area_crosswalk": [
+        "Foreign Trade and International Finance"
+      ],
+      "federal_question": "What terms govern goods entering or leaving the country and the collection of customs duties?",
+      "distinction_from_state_local": "Customs duties at national borders are distinct from state or local sales taxes on subsequent transactions.",
+      "institutional_route": [
+        "statute",
+        "delegated executive action",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "trade.trade-agreements",
+      "congress_policy_area_crosswalk": [
+        "Foreign Trade and International Finance"
+      ],
+      "federal_question": "What international trade commitments and domestic adjustment support should be adopted?",
+      "distinction_from_state_local": "A national trade agreement is not a local business licence or a state's workforce programme.",
+      "institutional_route": [
+        "statute",
+        "executive negotiation",
+        "appropriation for support"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "trade.exports-investment",
+      "congress_policy_area_crosswalk": [
+        "Foreign Trade and International Finance"
+      ],
+      "federal_question": "What restrictions or review apply to sensitive trade and international investment?",
+      "distinction_from_state_local": "Federal cross-border controls differ from ordinary local land-use approval or state business registration.",
+      "institutional_route": [
+        "statute",
+        "delegated executive action",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "immigration.admission-status",
+      "congress_policy_area_crosswalk": [
+        "Immigration"
+      ],
+      "federal_question": "Who may enter or remain under each supported national immigration category?",
+      "distinction_from_state_local": "This changes national entry/status rules, not a state's services for residents or local housing eligibility.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "immigration.naturalization",
+      "congress_policy_area_crosswalk": [
+        "Immigration"
+      ],
+      "federal_question": "What national naturalization conditions and processes should apply?",
+      "distinction_from_state_local": "Citizenship is not inferred from a birthplace label or conferred by a municipality changing its own residency rule.",
+      "institutional_route": [
+        "statute",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "immigration.asylum-refugees",
+      "congress_policy_area_crosswalk": [
+        "Immigration"
+      ],
+      "federal_question": "How should protection, processing capacity and related support operate?",
+      "distinction_from_state_local": "National status determinations and processing are separate from state/local reception and services.",
+      "institutional_route": [
+        "statute",
+        "delegated executive action",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "health.medicare",
+      "congress_policy_area_crosswalk": [
+        "Health"
+      ],
+      "federal_question": "What covered benefits, payment arrangements and federal financing should Medicare use?",
+      "distinction_from_state_local": "Medicare is a federal programme, distinct from state insurance regulation and state Medicaid choices.",
+      "institutional_route": [
+        "statute",
+        "CMS administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "medicare-medicaid"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "health.medicaid-framework",
+      "congress_policy_area_crosswalk": [
+        "Health"
+      ],
+      "federal_question": "What federal requirements, matching and permitted programme options apply to Medicaid?",
+      "distinction_from_state_local": "The federal framework and financing are not the state's own administration and supported choices within that framework.",
+      "institutional_route": [
+        "statute",
+        "CMS rulemaking and administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "medicaid"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "health.public-health-products",
+      "congress_policy_area_crosswalk": [
+        "Health"
+      ],
+      "federal_question": "What federal research, coordination and medical-product standards are funded or required?",
+      "distinction_from_state_local": "Federal product/research responsibilities do not replace a county's local service capacity or the actual delivery of care.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency rulemaking and administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "social-insurance.retirement-survivors",
+      "congress_policy_area_crosswalk": [
+        "Social Welfare"
+      ],
+      "federal_question": "How should the federal retirement and survivors programme define benefits and financing?",
+      "distinction_from_state_local": "It is not a state public-employee pension or a local relief payment.",
+      "institutional_route": [
+        "statute",
+        "federal programme administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "social-insurance-history"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "social-insurance.disability-income",
+      "congress_policy_area_crosswalk": [
+        "Social Welfare"
+      ],
+      "federal_question": "What federal income-support eligibility and payment rules should apply?",
+      "distinction_from_state_local": "An income-support decision is different from a clinical condition, functional capacity or a state disability service.",
+      "institutional_route": [
+        "statute",
+        "federal programme administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "social-insurance-history"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "social-insurance.means-tested-support",
+      "congress_policy_area_crosswalk": [
+        "Social Welfare"
+      ],
+      "federal_question": "What federal funding, eligibility framework and administration govern supported assistance programmes?",
+      "distinction_from_state_local": "National programme rules, state administration and local delivery are linked but not the same government decision.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "education.elementary-secondary",
+      "congress_policy_area_crosswalk": [
+        "Education"
+      ],
+      "federal_question": "How should federal funds support eligible pupils, schools and equal access?",
+      "distinction_from_state_local": "Federal assistance does not make Congress the administrator of every classroom, curriculum or school district.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "education-role"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "education.student-aid",
+      "congress_policy_area_crosswalk": [
+        "Education"
+      ],
+      "federal_question": "Who receives federal postsecondary grants or loans and on what terms?",
+      "distinction_from_state_local": "Federal aid and repayment rules are separate from a state's grants and an institution's tuition/admission choices.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "education-role"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "education.education-research",
+      "congress_policy_area_crosswalk": [
+        "Education"
+      ],
+      "federal_question": "What federal research, evaluation and education information should be supported?",
+      "distinction_from_state_local": "A national evidence programme does not itself decide a local school's teaching or fabricate an individual's credentials.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "education-role"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "labor-commerce.labor-standards",
+      "congress_policy_area_crosswalk": [
+        "Labor and Employment",
+        "Commerce"
+      ],
+      "federal_question": "What federal employment standards and labor-relations rules should apply to covered work?",
+      "distinction_from_state_local": "Coverage and federal requirements do not erase distinct state standards, job terms or local employment realities.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and enforcement"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "labor-commerce.competition",
+      "congress_policy_area_crosswalk": [
+        "Labor and Employment",
+        "Commerce"
+      ],
+      "federal_question": "What federal competition and consumer safeguards govern covered markets?",
+      "distinction_from_state_local": "Federal market oversight is distinct from a local permit or a state's professional-licensing decision.",
+      "institutional_route": [
+        "statute",
+        "agency enforcement",
+        "judicial proceedings"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "labor-commerce.business-support",
+      "congress_policy_area_crosswalk": [
+        "Labor and Employment",
+        "Commerce"
+      ],
+      "federal_question": "What federal finance, procurement opportunities or development support should enterprises receive?",
+      "distinction_from_state_local": "A federal programme supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "housing.housing-assistance",
+      "congress_policy_area_crosswalk": [
+        "Housing and Community Development",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "Who receives supported rental or housing assistance and how is it funded?",
+      "distinction_from_state_local": "Federal assistance and its conditions differ from local zoning, an actual landlord's offer and state tenancy rules.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "housing.mortgage-finance",
+      "congress_policy_area_crosswalk": [
+        "Housing and Community Development",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "What federal housing-finance framework and credit support should apply?",
+      "distinction_from_state_local": "Federal credit support is not a local construction permission or a completed home.",
+      "institutional_route": [
+        "statute",
+        "agency administration and regulation"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "housing.community-investment",
+      "congress_policy_area_crosswalk": [
+        "Housing and Community Development",
+        "Finance and Financial Sector"
+      ],
+      "federal_question": "How should federal community-development resources be allocated and used?",
+      "distinction_from_state_local": "Recipient governments still have their own valid project, land-use, procurement and spending decisions.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "transport-water.surface-transport",
+      "congress_policy_area_crosswalk": [
+        "Transportation and Public Works",
+        "Water Resources Development"
+      ],
+      "federal_question": "What federal programme funding, conditions and safety framework support surface transport?",
+      "distinction_from_state_local": "The federal programme and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "transport-water.aviation-maritime",
+      "congress_policy_area_crosswalk": [
+        "Transportation and Public Works",
+        "Water Resources Development"
+      ],
+      "federal_question": "What national transport standards, network responsibilities and investments should apply?",
+      "distinction_from_state_local": "National network/safety responsibilities are distinct from a local facility's operations and land-use context.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency regulation and administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "transport-water.water-projects",
+      "congress_policy_area_crosswalk": [
+        "Transportation and Public Works",
+        "Water Resources Development"
+      ],
+      "federal_question": "Which navigation, flood-control or water-resource works should receive federal authority and investment?",
+      "distinction_from_state_local": "Federal project authority does not erase state/local water roles, required permissions or actual construction constraints.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency implementation"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "energy-environment.energy-systems",
+      "congress_policy_area_crosswalk": [
+        "Energy",
+        "Environmental Protection",
+        "Public Lands and Natural Resources"
+      ],
+      "federal_question": "What federal energy, transmission, research and efficiency framework should apply?",
+      "distinction_from_state_local": "Federal measures coexist with distinct state utility and local siting/service decisions as the actual rules provide.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency rulemaking and administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "energy-environment.pollution",
+      "congress_policy_area_crosswalk": [
+        "Energy",
+        "Environmental Protection",
+        "Public Lands and Natural Resources"
+      ],
+      "federal_question": "What federal environmental standards and enforcement framework should apply?",
+      "distinction_from_state_local": "Federal standards, state implementation and local exposure are different levels of the same affected world.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and enforcement"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "energy-environment.federal-lands",
+      "congress_policy_area_crosswalk": [
+        "Energy",
+        "Environmental Protection",
+        "Public Lands and Natural Resources"
+      ],
+      "federal_question": "How should federally controlled lands and resources be managed?",
+      "distinction_from_state_local": "Federal land management is not ownership of every state park, municipal parcel or private home.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency land management"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "agriculture.producer-support",
+      "congress_policy_area_crosswalk": [
+        "Agriculture and Food"
+      ],
+      "federal_question": "Which national agricultural support and risk-management arrangements should be offered?",
+      "distinction_from_state_local": "Federal programme terms differ from local land use and a farm's actual production, costs and decisions.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "agriculture.food-standards",
+      "congress_policy_area_crosswalk": [
+        "Agriculture and Food"
+      ],
+      "federal_question": "What federal support and standards govern the food system within applicable authority?",
+      "distinction_from_state_local": "National food-system rules do not replace all state/local inspection, health or business responsibilities.",
+      "institutional_route": [
+        "statute",
+        "agency rulemaking and enforcement"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "agriculture.rural-development",
+      "congress_policy_area_crosswalk": [
+        "Agriculture and Food"
+      ],
+      "federal_question": "What federal investment and assistance should support rural places?",
+      "distinction_from_state_local": "Federal programme eligibility is separate from a particular county's project choice, service need and delivery.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "emergencies.individual-assistance",
+      "congress_policy_area_crosswalk": [
+        "Emergency Management"
+      ],
+      "federal_question": "What federal disaster assistance is available to eligible affected people?",
+      "distinction_from_state_local": "A federal declaration/programme does not itself pay every household or replace state/local aid.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "executive declaration",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "fema-programmes"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "emergencies.public-assistance",
+      "congress_policy_area_crosswalk": [
+        "Emergency Management"
+      ],
+      "federal_question": "What disaster-response and repair costs qualify for federal support?",
+      "distinction_from_state_local": "Federal support and eligible expenditure differ from the recipient's own money, repair capacity and completed work.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "executive declaration",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "fema-programmes"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "emergencies.mitigation",
+      "congress_policy_area_crosswalk": [
+        "Emergency Management"
+      ],
+      "federal_question": "What federal support should reduce future exposure and improve resilience?",
+      "distinction_from_state_local": "Federal programme support is not a guarantee of local preparedness or a cancellation of hazards.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "justice-rights.federal-justice",
+      "congress_policy_area_crosswalk": [
+        "Crime and Law Enforcement",
+        "Civil Rights and Liberties, Minority Issues",
+        "Law"
+      ],
+      "federal_question": "What federal offences, procedures, judicial capacity and correctional responsibilities should apply?",
+      "distinction_from_state_local": "Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "executive enforcement",
+        "judicial proceedings"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "justice-rights.civil-rights",
+      "congress_policy_area_crosswalk": [
+        "Crime and Law Enforcement",
+        "Civil Rights and Liberties, Minority Issues",
+        "Law"
+      ],
+      "federal_question": "What federal protections and remedies govern covered rights and discrimination?",
+      "distinction_from_state_local": "Federal guarantees and remedies do not turn every interpersonal dispute into a federal case or replace all state remedies.",
+      "institutional_route": [
+        "statute",
+        "agency enforcement",
+        "judicial review"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "justice-rights.constitutional-process",
+      "congress_policy_area_crosswalk": [
+        "Crime and Law Enforcement",
+        "Civil Rights and Liberties, Minority Issues",
+        "Law"
+      ],
+      "federal_question": "How should institutions handle conflicts about authority, succession and compliance through supported constitutional processes?",
+      "distinction_from_state_local": "Changing a federal constitutional rule is not the same operation as passing an ordinary state or local bill.",
+      "institutional_route": [
+        "constitutional process",
+        "judicial review",
+        "legislative oversight"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "government.public-administration",
+      "congress_policy_area_crosswalk": [
+        "Government Operations and Politics",
+        "Congress"
+      ],
+      "federal_question": "How should federal work be organized, staffed, funded and procured?",
+      "distinction_from_state_local": "A federal agency or employment rule does not directly reorganize a state's civil service or a city's departments.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "authorized executive administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "government.congressional-business",
+      "congress_policy_area_crosswalk": [
+        "Government Operations and Politics",
+        "Congress"
+      ],
+      "federal_question": "How should each chamber organize its own work and exercise oversight?",
+      "distinction_from_state_local": "Internal House/Senate business follows its actual authority; it is not a statute changing a state chamber's procedures.",
+      "institutional_route": [
+        "chamber rules",
+        "oversight",
+        "statute for relevant external changes"
+      ],
+      "source_ids": [
+        "congress-areas",
+        "senate-powers"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "government.public-accountability",
+      "congress_policy_area_crosswalk": [
+        "Government Operations and Politics",
+        "Congress"
+      ],
+      "federal_question": "What federal disclosure, accountability and political-activity framework should apply?",
+      "distinction_from_state_local": "Federal jurisdiction and covered actors differ from state ethics bodies and local meeting requirements.",
+      "institutional_route": [
+        "statute",
+        "chamber rules where applicable",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "science-communications.research-space",
+      "congress_policy_area_crosswalk": [
+        "Science, Technology, Communications"
+      ],
+      "federal_question": "Which national research and space programmes are authorized and funded?",
+      "distinction_from_state_local": "Federal programme support is not a local university's internal decision or an automatic scientific discovery.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "science-communications.communications",
+      "congress_policy_area_crosswalk": [
+        "Science, Technology, Communications"
+      ],
+      "federal_question": "What federal communications framework and spectrum arrangements should apply?",
+      "distinction_from_state_local": "Federal communications decisions differ from local access projects and supported local siting decisions.",
+      "institutional_route": [
+        "statute",
+        "agency regulation and administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "science-communications.data-cybersecurity",
+      "congress_policy_area_crosswalk": [
+        "Science, Technology, Communications"
+      ],
+      "federal_question": "What federal cybersecurity, privacy and information-system rules should apply?",
+      "distinction_from_state_local": "Federal systems and standards are not every local government's software or a blanket override of state privacy law.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "authorized agency rules and operations"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "territories-culture.tribal-relations",
+      "congress_policy_area_crosswalk": [
+        "Native Americans",
+        "Arts, Culture, Religion",
+        "Government Operations and Politics"
+      ],
+      "federal_question": "What federal recognition, obligations and relations apply to represented tribal governments and peoples?",
+      "distinction_from_state_local": "Tribal sovereignty is not a local-government modifier or a federal grant recipient's fictional lack of government.",
+      "institutional_route": [
+        "statute",
+        "constitutional and treaty framework",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "territories-culture.territories-district",
+      "congress_policy_area_crosswalk": [
+        "Native Americans",
+        "Arts, Culture, Religion",
+        "Government Operations and Politics"
+      ],
+      "federal_question": "What federal relationships, powers and programme treatment apply to territories and D.C.?",
+      "distinction_from_state_local": "D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
+      "institutional_route": [
+        "statute",
+        "constitutional framework",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    },
+    {
+      "issue_key": "territories-culture.cultural-support",
+      "congress_policy_area_crosswalk": [
+        "Native Americans",
+        "Arts, Culture, Religion",
+        "Government Operations and Politics"
+      ],
+      "federal_question": "What federal cultural, historical and public-information institutions or grants should be supported?",
+      "distinction_from_state_local": "Federal institutions/support differ from a municipality operating its own library, park or cultural venue.",
+      "institutional_route": [
+        "statute",
+        "appropriation",
+        "agency administration"
+      ],
+      "source_ids": [
+        "congress-areas"
+      ],
+      "route_status": "General research-informed routing, not a grant of power or a complete procedure. Bind actual saved authority/delegation and statutory conditions at implementation.",
+      "effect_connection": "The proposal must bind authority, target, funded resources where applicable, implementer, scope, dates, exceptions and an actual supported consequence. A vocabulary row alone applies no law."
+    }
+  ],
+  "federal_distinct_instruments": [
+    "United States central-bank monetary operations",
+    "United States citizenship/naturalization and national admission status",
+    "United States armed-forces and national foreign relations",
+    "The federal treasury, federal debt and specifically federal taxes",
+    "Federal programme entitlements as specifically defined",
+    "Rules/appointments for federal institutions"
+  ],
+  "exclusive_scope_warning": "These are distinct instruments/authorities, not a claim that every related broad subject has no state/local aspect. Do not label all health, education, disaster response, energy, immigration-related services or financial regulation exclusively federal.",
+  "coverage_limit": "This is an extensible first hierarchy of recurring federal questions, not every CRS subject, all federal law, full programme entitlements or a set of probabilities. Exact current rates, coverage rules, delegation and treaty procedures are separate profiles. Historical SSA and FEMA references establish programme distinctions, not unverified 2026 amounts or eligibility.",
+  "catalogue_boundary": "Use the existing pack namespace and registration/reporting. Preserve the loaded state/local 13-domain/127-issue identity; the earlier proposed 14/92 crosswalk remains nonblocking. Do not switch to a third state/local taxonomy.",
+  "implementation_input": "No propositions are invented by this research to force a count. Existing modular provision/position definitions may reference these issues; generate actual terms through existing supported mechanisms and bind belief/effects to those actual terms."
+}

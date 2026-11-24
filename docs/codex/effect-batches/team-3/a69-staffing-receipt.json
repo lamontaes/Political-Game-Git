@@ -1,0 +1,3042 @@
+{
+  "assignment": "A69",
+  "baseHead": "477eae758f1a30bb9e0150bf49b00fe39aa380d0",
+  "testedBlobs": {
+    "src/simulation/public-budgets/staffing.ts": "896a064a4890c45b402016f641e0eafd81ee0041",
+    "src/simulation/public-budgets/staffing-a69.test.ts": "6cd2c63540fb826ec949b2ff74eb48ff5e65d955"
+  },
+  "seed": "a69-funded-staffing-all56",
+  "native": {
+    "passed": 56,
+    "todo": 4,
+    "durationSeconds": 19.3,
+    "file": "src/simulation/public-budgets/staffing-a69.test.ts"
+  },
+  "limits": "Stock Vitest case/hook limits, maxWorkers=1; changed files only",
+  "actualFundingBindings": 52,
+  "refusedMissingBindings": [
+    "US-MP",
+    "US-GU",
+    "US-VI",
+    "US-AS"
+  ],
+  "scope": "Controlled allocations and canonical life writers; not natural budget adoption or completed player slice. Missing bindings remain funded-staffing TODOs.",
+  "cases": [
+    {
+      "seed": "a69-funded-staffing-all56:US-TX",
+      "place": "US-TX",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_5779944552f824d9",
+        "name": "Peter McKee",
+        "workId": "work-relationship_bd670222e8f36ff5",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_25867e4ac5bd22fe:schools:cut:end:work-relationship_bd670222e8f36ff5",
+          "workRelationshipId": "work-relationship_bd670222e8f36ff5",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_8a685817f5946281",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f284626b2e71a357",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_5779954552f8268c",
+        "name": "Jacob Mills",
+        "workId": "work-relationship_6015d1a330d4d6c2",
+        "status": {
+          "id": "work-status_13ab798f9b1f7498",
+          "stableKey": "a69:teacher:person_5779954552f8268c:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_6015d1a330d4d6c2",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_5779924552f82173",
+        "name": "Adrian Ryan",
+        "enrollmentId": "education-enrollment_d40fcf79f354731c",
+        "workId": "work-relationship_c9cc3806a8767f8c"
+      },
+      "refused": {
+        "id": "person_5779984552f82ba5",
+        "name": "Alexis Jenkins"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-GA",
+      "place": "US-GA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_88894148e1cf0d5e",
+        "name": "Thomas Wade",
+        "workId": "work-relationship_eee270dd00dd6f7d",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_fb5ef794ba540f82:schools:cut:end:work-relationship_eee270dd00dd6f7d",
+          "workRelationshipId": "work-relationship_eee270dd00dd6f7d",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_cf818d06fff596f1",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_bab1a9824fc2ede8",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_88894248e1cf0f11",
+        "name": "Casey Sexton",
+        "workId": "work-relationship_016f0463c337b9b2",
+        "status": {
+          "id": "work-status_9deb60e5325855e8",
+          "stableKey": "a69:teacher:person_88894248e1cf0f11:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_016f0463c337b9b2",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_88894048e1cf0bab",
+        "name": "Miriam Holmes",
+        "enrollmentId": "education-enrollment_cee491d6934d7d69",
+        "workId": "work-relationship_8064970494eca8ad"
+      },
+      "refused": {
+        "id": "person_88894348e1cf10c4",
+        "name": "Holly Lawson"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-CA",
+      "place": "US-CA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_e5acd2508c09d221",
+        "name": "Cameron Whitney",
+        "workId": "work-relationship_ea627c60598d7d7a",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_a1a230f85ba16b14:schools:cut:end:work-relationship_ea627c60598d7d7a",
+          "workRelationshipId": "work-relationship_ea627c60598d7d7a",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_1e490ee5333a5a40",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_8ad64289089c54d8",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_e5accf508c09cd08",
+        "name": "Charlotte Campbell",
+        "workId": "work-relationship_8ac0ecae3f258af5",
+        "status": {
+          "id": "work-status_ee52e664d129d9d9",
+          "stableKey": "a69:teacher:person_e5accf508c09cd08:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_8ac0ecae3f258af5",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_e5acd1508c09d06e",
+        "name": "Beth Jones",
+        "enrollmentId": "education-enrollment_06cba59fd227f5cb",
+        "workId": "work-relationship_58bf8c3bd22a415d"
+      },
+      "refused": {
+        "id": "person_e5acd0508c09cebb",
+        "name": "Anika Cooper"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NV",
+      "place": "US-NV",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_3b4a3a07d8c7b361",
+        "name": "Miranda McPherson",
+        "workId": "work-relationship_687ef94bb8d90309",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_7c0baa1bebf4fa55:schools:cut:end:work-relationship_687ef94bb8d90309",
+          "workRelationshipId": "work-relationship_687ef94bb8d90309",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_7e0c91ba90afeb0d",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_8084582797b4f408",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_3b4a3707d8c7ae48",
+        "name": "Selena Logan",
+        "workId": "work-relationship_3f8f1a51a01ce70b",
+        "status": {
+          "id": "work-status_f9f8acad6a90e547",
+          "stableKey": "a69:teacher:person_3b4a3707d8c7ae48:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_3f8f1a51a01ce70b",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_3b4a3907d8c7b1ae",
+        "name": "Amos Spence",
+        "enrollmentId": "education-enrollment_d7dac814987e34db",
+        "workId": "work-relationship_ac62b67c85b48973"
+      },
+      "refused": {
+        "id": "person_3b4a3807d8c7affb",
+        "name": "Paola Griffin"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-TN",
+      "place": "US-TN",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_0dd2702f22a70a87",
+        "name": "Robert Wallace",
+        "workId": "work-relationship_418fae4bbb4868cb",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_262daadb373f8978:schools:cut:end:work-relationship_418fae4bbb4868cb",
+          "workRelationshipId": "work-relationship_418fae4bbb4868cb",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_21b3e4cda3c105cf",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_2248ec1f0f86b178",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_0dd2712f22a70c3a",
+        "name": "Neil Mullins",
+        "workId": "work-relationship_1dd3687126820263",
+        "status": {
+          "id": "work-status_2fd55832dda1336f",
+          "stableKey": "a69:teacher:person_0dd2712f22a70c3a:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_1dd3687126820263",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_0dd26f2f22a708d4",
+        "name": "Simon Hughes",
+        "enrollmentId": "education-enrollment_b0238ebe9343fa0d",
+        "workId": "work-relationship_4c30959a0fb48a5f"
+      },
+      "refused": {
+        "id": "person_0dd2722f22a70ded",
+        "name": "Rebekah Morgan"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MD",
+      "place": "US-MD",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_bfd1644d9edfb5d5",
+        "name": "Jackson Sims",
+        "workId": "work-relationship_7512041929e4c688",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_5f2c428554e932b8:schools:cut:end:work-relationship_7512041929e4c688",
+          "workRelationshipId": "work-relationship_7512041929e4c688",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_4711d752eac69526",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_450ddf4ae90564bd",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_bfd1634d9edfb422",
+        "name": "Tristan Holland",
+        "workId": "work-relationship_31fbe1d62e49fcd9",
+        "status": {
+          "id": "work-status_df3c1af996ed63cd",
+          "stableKey": "a69:teacher:person_bfd1634d9edfb422:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_31fbe1d62e49fcd9",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_bfd1614d9edfb0bc",
+        "name": "Cora Baker",
+        "enrollmentId": "education-enrollment_14579285a3d9aea0",
+        "workId": "work-relationship_8350ba2ab8dda313"
+      },
+      "refused": {
+        "id": "person_bfd15e4d9edfaba3",
+        "name": "Corey Roberts"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-PR",
+      "place": "US-PR",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_e215c4ade20f757d",
+        "name": "Laura Shepard",
+        "workId": "work-relationship_3162e12992b6fe37",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_6d54a6a771518753:schools:cut:end:work-relationship_3162e12992b6fe37",
+          "workRelationshipId": "work-relationship_3162e12992b6fe37",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_a8bfdd685c027c43",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_a353e9c98cd873d1",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_e215c1ade20f7064",
+        "name": "Luke Leonard",
+        "workId": "work-relationship_1cac43199436b89e",
+        "status": {
+          "id": "work-status_253b9ef1bb3f56dc",
+          "stableKey": "a69:teacher:person_e215c1ade20f7064:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_1cac43199436b89e",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_e215c3ade20f73ca",
+        "name": "Thomas McCoy",
+        "enrollmentId": "education-enrollment_ece3756acdaacc5f",
+        "workId": "work-relationship_d15cc0bd0f82b218"
+      },
+      "refused": {
+        "id": "person_e215bfade20f6cfe",
+        "name": "Evelyn Griffith"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-WV",
+      "place": "US-WV",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_c97cdded5629ff35",
+        "name": "Avery Warner",
+        "workId": "work-relationship_0b714f84b8b92fb6",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_9e20028fe32cd276:schools:cut:end:work-relationship_0b714f84b8b92fb6",
+          "workRelationshipId": "work-relationship_0b714f84b8b92fb6",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_5b5d15c0c26902b4",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_aa87b0a5c66c0f95",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_c97cdced5629fd82",
+        "name": "Samir Savage",
+        "workId": "work-relationship_4ddb769309a7001f",
+        "status": {
+          "id": "work-status_992b14b2a46616fb",
+          "stableKey": "a69:teacher:person_c97cdced5629fd82:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_4ddb769309a7001f",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_c97cdbed5629fbcf",
+        "name": "Tariq Campos",
+        "enrollmentId": "education-enrollment_5be9d9f5b59f7390",
+        "workId": "work-relationship_2b45a3d700c3952b"
+      },
+      "refused": {
+        "id": "person_c97cd7ed5629f503",
+        "name": "Kevin Castillo"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NY",
+      "place": "US-NY",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_90cf2a1436d109c5",
+        "name": "Jason Perry",
+        "workId": "work-relationship_9e85512a955341af",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_3c03599df25852b7:schools:cut:end:work-relationship_9e85512a955341af",
+          "workRelationshipId": "work-relationship_9e85512a955341af",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_c37ffd6d248cd6bb",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_5823f17a18df0928",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_90cf281436d1065f",
+        "name": "Andrea Washington",
+        "workId": "work-relationship_80a7abaf5a2339a6",
+        "status": {
+          "id": "work-status_c067412814bfffd4",
+          "stableKey": "a69:teacher:person_90cf281436d1065f:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_80a7abaf5a2339a6",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_90cf291436d10812",
+        "name": "Leah Rosa",
+        "enrollmentId": "education-enrollment_a7a1fdba5f1c6157",
+        "workId": "work-relationship_501825df3d17bbe6"
+      },
+      "refused": {
+        "id": "person_90cf251436d10146",
+        "name": "Bianca Barrett"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-SD",
+      "place": "US-SD",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_e093fb18a7176d29",
+        "name": "Madeline Sanders",
+        "workId": "work-relationship_f4d2bf7f81b3d050",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_608bd9150352ad1c:schools:cut:end:work-relationship_f4d2bf7f81b3d050",
+          "workRelationshipId": "work-relationship_f4d2bf7f81b3d050",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_d02f92888a8761ae",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_e6c2e9e3aabf79bc",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_e093fa18a7176b76",
+        "name": "Arjun Malone",
+        "workId": "work-relationship_de33b8485ca8f24f",
+        "status": {
+          "id": "work-status_f9813db3ddeea3a3",
+          "stableKey": "a69:teacher:person_e093fa18a7176b76:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_de33b8485ca8f24f",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_e093f818a7176810",
+        "name": "Dominic McNeil",
+        "enrollmentId": "education-enrollment_46074f51aa37c42c",
+        "workId": "work-relationship_7e3739a4a743a5c6"
+      },
+      "refused": {
+        "id": "person_e093fd18a717708f",
+        "name": "Dominic McCarthy"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-ID",
+      "place": "US-ID",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d871e351222932f1",
+        "name": "Charlotte Chambers",
+        "workId": "work-relationship_38f5d26d15c3b235",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_e0ffc2f23791fbff:schools:cut:end:work-relationship_38f5d26d15c3b235",
+          "workRelationshipId": "work-relationship_38f5d26d15c3b235",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_74d6bc95275ed6c9",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f8b00a65f83a3671",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d871e05122292dd8",
+        "name": "Jorge Valdez",
+        "workId": "work-relationship_489978913cf7734a",
+        "status": {
+          "id": "work-status_3f1097358aa8d4e8",
+          "stableKey": "a69:teacher:person_d871e05122292dd8:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_489978913cf7734a",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d871e2512229313e",
+        "name": "Stella White",
+        "enrollmentId": "education-enrollment_06b10fb0490c684b",
+        "workId": "work-relationship_72c2f3ddb605dafa"
+      },
+      "refused": {
+        "id": "person_d871e15122292f8b",
+        "name": "Derek Sheppard"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-SC",
+      "place": "US-SC",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_59c4715b92a2ffb6",
+        "name": "River Travis",
+        "workId": "work-relationship_603fadf3c3553a1e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_488145b5256f0347:schools:cut:end:work-relationship_603fadf3c3553a1e",
+          "workRelationshipId": "work-relationship_603fadf3c3553a1e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_ea44b0b4e0711e6c",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f46ee1aee5b5e61e",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_59c4725b92a30169",
+        "name": "Luna Hart",
+        "workId": "work-relationship_6055182fc91cc95e",
+        "status": {
+          "id": "work-status_582141c04303269c",
+          "stableKey": "a69:teacher:person_59c4725b92a30169:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_6055182fc91cc95e",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_59c4705b92a2fe03",
+        "name": "Timothy Sykes",
+        "enrollmentId": "education-enrollment_68490cae991db691",
+        "workId": "work-relationship_f2bf1c1e84205a7d"
+      },
+      "refused": {
+        "id": "person_59c4735b92a3031c",
+        "name": "Sam Nichols"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-AK",
+      "place": "US-AK",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_5c494f129a4442fe",
+        "name": "Kelly Miles",
+        "workId": "work-relationship_56134b92bc3f8f4a",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_863da1746ded0b12:schools:cut:end:work-relationship_56134b92bc3f8f4a",
+          "workRelationshipId": "work-relationship_56134b92bc3f8f4a",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_80d97be677bfd5b8",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_7c5ecfb25ddb1f07",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_5c494e129a44414b",
+        "name": "Tariq Gilbert",
+        "workId": "work-relationship_a2020aaad96c5da1",
+        "status": {
+          "id": "work-status_a9382196cf36ccbd",
+          "stableKey": "a69:teacher:person_5c494e129a44414b:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_a2020aaad96c5da1",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_5c4950129a4444b1",
+        "name": "Blair Yates",
+        "enrollmentId": "education-enrollment_bcb3da2b7b78904e",
+        "workId": "work-relationship_7001cad383fb8e07"
+      },
+      "refused": {
+        "id": "person_5c494d129a443f98",
+        "name": "Caleb Harrell"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-CT",
+      "place": "US-CT",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_c86dc140ea0cb5a3",
+        "name": "Maya Maynard",
+        "workId": "work-relationship_2f6ef192a62facef",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_7f67499c55dd8c5f:schools:cut:end:work-relationship_2f6ef192a62facef",
+          "workRelationshipId": "work-relationship_2f6ef192a62facef",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_44f782e79a138ddb",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_887a6d1f12e380fd",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_c86dc240ea0cb756",
+        "name": "Arthur Sweeney",
+        "workId": "work-relationship_d18b0883e7c7e177",
+        "status": {
+          "id": "work-status_0c83faf4700c5da3",
+          "stableKey": "a69:teacher:person_c86dc240ea0cb756:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_d18b0883e7c7e177",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_c86dc040ea0cb3f0",
+        "name": "Mei Salinas",
+        "enrollmentId": "education-enrollment_53fd6a9d7e4aa871",
+        "workId": "work-relationship_bc267c0e523447bd"
+      },
+      "refused": {
+        "id": "person_c86dc340ea0cb909",
+        "name": "Aiko Yoder"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-VA",
+      "place": "US-VA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_668c2186df74561f",
+        "name": "Holly Hendricks",
+        "workId": "work-relationship_12071db1808e5fab",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_c60c3f8de1a7bd6d:schools:cut:end:work-relationship_12071db1808e5fab",
+          "workRelationshipId": "work-relationship_12071db1808e5fab",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_6596f6d136733ed7",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_ad56f3d9355b9a29",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_668c2286df7457d2",
+        "name": "Jorge Price",
+        "workId": "work-relationship_5efebbaae8b4fc34",
+        "status": {
+          "id": "work-status_11cb6fc6283363f2",
+          "stableKey": "a69:teacher:person_668c2286df7457d2:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_5efebbaae8b4fc34",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_668c2086df74546c",
+        "name": "Kelsey Calderon",
+        "enrollmentId": "education-enrollment_52c08a88842a6df5",
+        "workId": "work-relationship_bb77d59df654a43d"
+      },
+      "refused": {
+        "id": "person_668c2386df745985",
+        "name": "Laura Leonard"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MT",
+      "place": "US-MT",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d3b7e929efb33eb7",
+        "name": "Miranda Yang",
+        "workId": "work-relationship_a4a8bd853afe346e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_b5933c5f7992ff97:schools:cut:end:work-relationship_a4a8bd853afe346e",
+          "workRelationshipId": "work-relationship_a4a8bd853afe346e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_60ba99b902113084",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_aff204847d0dd40e",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d3b7ea29efb3406a",
+        "name": "Yosef Arnold",
+        "workId": "work-relationship_fd4db6798a428854",
+        "status": {
+          "id": "work-status_9581ec237aca9e92",
+          "stableKey": "a69:teacher:person_d3b7ea29efb3406a:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_fd4db6798a428854",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d3b7e829efb33d04",
+        "name": "Cora Hale",
+        "enrollmentId": "education-enrollment_9255707e5857db6d",
+        "workId": "work-relationship_af7656e6e224c332"
+      },
+      "refused": {
+        "id": "person_d3b7eb29efb3421d",
+        "name": "Julia Fowler"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-WY",
+      "place": "US-WY",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_f7020029bfa91623",
+        "name": "Caleb Hardy",
+        "workId": "work-relationship_0bd386e29636478a",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_02e95dd389473a39:schools:cut:end:work-relationship_0bd386e29636478a",
+          "workRelationshipId": "work-relationship_0bd386e29636478a",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_50b50bdca91c59c8",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_5e2d480b9ad8c535",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_f7020129bfa917d6",
+        "name": "Sara Johnston",
+        "workId": "work-relationship_3a13316992600ba7",
+        "status": {
+          "id": "work-status_296437d3682b02fb",
+          "stableKey": "a69:teacher:person_f7020129bfa917d6:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_3a13316992600ba7",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_f701ff29bfa91470",
+        "name": "Kai Morse",
+        "enrollmentId": "education-enrollment_908046d1ee2ae611",
+        "workId": "work-relationship_9036f5befb910677"
+      },
+      "refused": {
+        "id": "person_f7020229bfa91989",
+        "name": "Carlos Cruz"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-UT",
+      "place": "US-UT",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d6441fdb20cffee5",
+        "name": "Ruby Lloyd",
+        "workId": "work-relationship_7eb316f4588634d8",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_3e70b406f2f7e3a3:schools:cut:end:work-relationship_7eb316f4588634d8",
+          "workRelationshipId": "work-relationship_7eb316f4588634d8",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_f204cc784170411e",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_4259e083bcae7804",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d64418db20cff300",
+        "name": "Casey Ross",
+        "workId": "work-relationship_407d2291ecf50416",
+        "status": {
+          "id": "work-status_1789287d75de29fc",
+          "stableKey": "a69:teacher:person_d64418db20cff300:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_407d2291ecf50416",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d6441cdb20cff9cc",
+        "name": "Monique Whitney",
+        "enrollmentId": "education-enrollment_2173fbd84037da40",
+        "workId": "work-relationship_c3234b0932f4d35d"
+      },
+      "refused": {
+        "id": "person_d6441bdb20cff819",
+        "name": "Dominic Kennedy"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-IL",
+      "place": "US-IL",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_953458cc51520654",
+        "name": "Mei Hester",
+        "workId": "work-relationship_d5fadf12399079d3",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_2bad9d74278f5e1e:schools:cut:end:work-relationship_d5fadf12399079d3",
+          "workRelationshipId": "work-relationship_d5fadf12399079d3",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_0abbfd7271de722f",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_bbc1ca2535de5d6f",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_95345bcc51520b6d",
+        "name": "Elise Riley",
+        "workId": "work-relationship_e6baeeba9ff1dda6",
+        "status": {
+          "id": "work-status_0dce977245562ff4",
+          "stableKey": "a69:teacher:person_95345bcc51520b6d:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_e6baeeba9ff1dda6",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_953459cc51520807",
+        "name": "Jackson Scott",
+        "enrollmentId": "education-enrollment_25f9337616116fc8",
+        "workId": "work-relationship_fc6dd459e5d97aba"
+      },
+      "refused": {
+        "id": "person_953455cc5152013b",
+        "name": "Imani Ingram"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-CO",
+      "place": "US-CO",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_a4854fee7287ddb2",
+        "name": "Kelsey Nichols",
+        "workId": "work-relationship_2eae25545029126b",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_5735be0c64af7f76:schools:cut:end:work-relationship_2eae25545029126b",
+          "workRelationshipId": "work-relationship_2eae25545029126b",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_97fa183cf60a4eef",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_3fbde3825712d417",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_a4854eee7287dbff",
+        "name": "Veronica Ramirez",
+        "workId": "work-relationship_f1615c01fdbc96dc",
+        "status": {
+          "id": "work-status_6ac057c1958f791a",
+          "stableKey": "a69:teacher:person_a4854eee7287dbff:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_f1615c01fdbc96dc",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_a48550ee7287df65",
+        "name": "Arjun O'Donnell",
+        "enrollmentId": "education-enrollment_7236db2dab4d38ea",
+        "workId": "work-relationship_e2e938b3946beb20"
+      },
+      "refused": {
+        "id": "person_a4854cee7287d899",
+        "name": "Leo Russell"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MI",
+      "place": "US-MI",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_6f3e14d31758337f",
+        "name": "Madeline Silva",
+        "workId": "work-relationship_177211a5fb1be422",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_13d3e8c59adac138:schools:cut:end:work-relationship_177211a5fb1be422",
+          "workRelationshipId": "work-relationship_177211a5fb1be422",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_47afada81faa1e50",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_c8af7c887551f068",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_6f3e15d317583532",
+        "name": "Adrian Herrera",
+        "workId": "work-relationship_91711da4c6b0db07",
+        "status": {
+          "id": "work-status_6c5581cc1a85c5d3",
+          "stableKey": "a69:teacher:person_6f3e15d317583532:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_91711da4c6b0db07",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_6f3e13d3175831cc",
+        "name": "Amos Ramsey",
+        "enrollmentId": "education-enrollment_89d738bb07052375",
+        "workId": "work-relationship_d9ce007c4bc6ca30"
+      },
+      "refused": {
+        "id": "person_6f3e0fd317582b00",
+        "name": "Seth Pena"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MN",
+      "place": "US-MN",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_f564a252cad707b9",
+        "name": "Andrew Rich",
+        "workId": "work-relationship_2bf330a42c6c5e08",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_af5b644d4153f5f2:schools:cut:end:work-relationship_2bf330a42c6c5e08",
+          "workRelationshipId": "work-relationship_2bf330a42c6c5e08",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_39b25a59577cce5e",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_2ea8fddd2afd79b0",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_f5649f52cad702a0",
+        "name": "Andrea Houston",
+        "workId": "work-relationship_a86f6b2d5fc61727",
+        "status": {
+          "id": "work-status_f36c7c1a48a70e7b",
+          "stableKey": "a69:teacher:person_f5649f52cad702a0:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_a86f6b2d5fc61727",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_f564a152cad70606",
+        "name": "Jeremiah McDaniel",
+        "enrollmentId": "education-enrollment_9ae9f604e108ad53",
+        "workId": "work-relationship_e469ac26cd1416f5"
+      },
+      "refused": {
+        "id": "person_f564a052cad70453",
+        "name": "Olivia Sawyer"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-VT",
+      "place": "US-VT",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_3287e666d370962a",
+        "name": "Veronica Cruz",
+        "workId": "work-relationship_1bfb715900306e27",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_d5ea4c4a09a68d62:schools:cut:end:work-relationship_1bfb715900306e27",
+          "workRelationshipId": "work-relationship_1bfb715900306e27",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_7e79c695a033cf93",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_cc39d9cad9982c14",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_3287e766d37097dd",
+        "name": "Ian Maldonado",
+        "workId": "work-relationship_bffd1ea3ea5f990e",
+        "status": {
+          "id": "work-status_ccf49dc443c0cc4c",
+          "stableKey": "a69:teacher:person_3287e766d37097dd:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_bffd1ea3ea5f990e",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_3287e466d37092c4",
+        "name": "Lara Sullivan",
+        "enrollmentId": "education-enrollment_328d959ff95a64ad",
+        "workId": "work-relationship_d50770996477ce04"
+      },
+      "refused": {
+        "id": "person_3287e066d3708bf8",
+        "name": "Charlotte Molina"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MS",
+      "place": "US-MS",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_03b01d8ee2ce988f",
+        "name": "Felix Wu",
+        "workId": "work-relationship_e530cecfc3c9af3c",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_c0a19315e3f9b6f4:schools:cut:end:work-relationship_e530cecfc3c9af3c",
+          "workRelationshipId": "work-relationship_e530cecfc3c9af3c",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_2ba291d8d9fb0d22",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_b5e2b9bea1d3710f",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_03b01b8ee2ce9529",
+        "name": "Isabel Ross",
+        "workId": "work-relationship_01b2957b89fdfe62",
+        "status": {
+          "id": "work-status_0b6643b7c494c910",
+          "stableKey": "a69:teacher:person_03b01b8ee2ce9529:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_01b2957b89fdfe62",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_03b01e8ee2ce9a42",
+        "name": "Jennifer Medina",
+        "enrollmentId": "education-enrollment_15d710ae790e0f3a",
+        "workId": "work-relationship_387274dac1c558ca"
+      },
+      "refused": {
+        "id": "person_03b0198ee2ce91c3",
+        "name": "Malik Garner"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-OH",
+      "place": "US-OH",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_ec199173cb8169b5",
+        "name": "Grace Peters",
+        "workId": "work-relationship_b0ad985d18efbd16",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_1c08feabe1b5ded0:schools:cut:end:work-relationship_b0ad985d18efbd16",
+          "workRelationshipId": "work-relationship_b0ad985d18efbd16",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_cf6c1f9925fb1394",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_e1907d2e2ab56259",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_ec198e73cb81649c",
+        "name": "Thomas Simon",
+        "workId": "work-relationship_54da46dcee321e71",
+        "status": {
+          "id": "work-status_277bafdd9211f2b5",
+          "stableKey": "a69:teacher:person_ec198e73cb81649c:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_54da46dcee321e71",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_ec199073cb816802",
+        "name": "Malik Harvey",
+        "enrollmentId": "education-enrollment_61e92a0d5d09e767",
+        "workId": "work-relationship_8276bc3940eb3c9b"
+      },
+      "refused": {
+        "id": "person_ec198f73cb81664f",
+        "name": "Brianna Mejia"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-KY",
+      "place": "US-KY",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_1412cb6535e89c07",
+        "name": "Sam Gibson",
+        "workId": "work-relationship_641fd7ee6dc37e2b",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_56e486c3a9095211:schools:cut:end:work-relationship_641fd7ee6dc37e2b",
+          "workRelationshipId": "work-relationship_641fd7ee6dc37e2b",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_33f6c438e11ef267",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_c535eab3f5dacad8",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_1412ca6535e89a54",
+        "name": "Sasha Molina",
+        "workId": "work-relationship_6600730285f8d01c",
+        "status": {
+          "id": "work-status_3935d4b189585d82",
+          "stableKey": "a69:teacher:person_1412ca6535e89a54:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_6600730285f8d01c",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_1412cc6535e89dba",
+        "name": "Evan Gallagher",
+        "enrollmentId": "education-enrollment_631e3c4d86b645a2",
+        "workId": "work-relationship_b957999d70678179"
+      },
+      "refused": {
+        "id": "person_1412c96535e898a1",
+        "name": "Mila Wall"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MA",
+      "place": "US-MA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d90295db17273ba4",
+        "name": "Emmanuel Osborne",
+        "workId": "work-relationship_0407169611527515",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_a941594846a1993d:schools:cut:end:work-relationship_0407169611527515",
+          "workRelationshipId": "work-relationship_0407169611527515",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_198012796f2f27d9",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_e2ce78da1b119032",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d90297db17273f0a",
+        "name": "Theodore Willard",
+        "workId": "work-relationship_7f7e72c01510f5a5",
+        "status": {
+          "id": "work-status_2066db4432773159",
+          "stableKey": "a69:teacher:person_d90297db17273f0a:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_7f7e72c01510f5a5",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d90296db17273d57",
+        "name": "Crystal Shannon",
+        "enrollmentId": "education-enrollment_c4f36a8c2ee32618",
+        "workId": "work-relationship_d4d66e3c0f9969ff"
+      },
+      "refused": {
+        "id": "person_d90292db1727368b",
+        "name": "Avery Mullen"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NM",
+      "place": "US-NM",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_63b931fb13c53be7",
+        "name": "Sabrina Sparks",
+        "workId": "work-relationship_bf8aa9dd8186e62e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_afb2901b4bdb01af:schools:cut:end:work-relationship_bf8aa9dd8186e62e",
+          "workRelationshipId": "work-relationship_bf8aa9dd8186e62e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_fa38c4fa164f87ac",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_c54ae1b36ac4ed15",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_63b930fb13c53a34",
+        "name": "Joshua Hoffman",
+        "workId": "work-relationship_f165ffb13d961fd3",
+        "status": {
+          "id": "work-status_adcfa3fde2b7c40f",
+          "stableKey": "a69:teacher:person_63b930fb13c53a34:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_f165ffb13d961fd3",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_63b932fb13c53d9a",
+        "name": "Gabriela Silva",
+        "enrollmentId": "education-enrollment_28e45773ca9f58c2",
+        "workId": "work-relationship_42e734eb7cbf27a4"
+      },
+      "refused": {
+        "id": "person_63b92ffb13c53881",
+        "name": "Robert Olson"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NC",
+      "place": "US-NC",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_4f4dc4614c22da93",
+        "name": "Blair Lane",
+        "workId": "work-relationship_e5666d11a8e5d72a",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_46bc45dd74ace07e:schools:cut:end:work-relationship_e5666d11a8e5d72a",
+          "workRelationshipId": "work-relationship_e5666d11a8e5d72a",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_e5c47dcfa3c6ffd8",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_2a090170cb347cf0",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_4f4dc5614c22dc46",
+        "name": "Nathan Price",
+        "workId": "work-relationship_636cbb18f2b19269",
+        "status": {
+          "id": "work-status_976a1b1131bf9e4d",
+          "stableKey": "a69:teacher:person_4f4dc5614c22dc46:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_636cbb18f2b19269",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_4f4dc3614c22d8e0",
+        "name": "Tyler Snider",
+        "enrollmentId": "education-enrollment_7ef924d803b6ff81",
+        "workId": "work-relationship_089a5bc7e43ba765"
+      },
+      "refused": {
+        "id": "person_4f4dc6614c22ddf9",
+        "name": "Mira McGee"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-DC",
+      "place": "US-DC",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_b4d9ca4f5038b01b",
+        "name": "Skyler Goodwin",
+        "workId": "work-relationship_8cdf411aaa765750",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_7691c6e3ae48f824:schools:cut:end:work-relationship_8cdf411aaa765750",
+          "workRelationshipId": "work-relationship_8cdf411aaa765750",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_762c1800927dbb36",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_38d7f24b7b7e401d",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_b4d9cb4f5038b1ce",
+        "name": "Philip Baker",
+        "workId": "work-relationship_550700863c418a45",
+        "status": {
+          "id": "work-status_1635adb7c344d4b9",
+          "stableKey": "a69:teacher:person_b4d9cb4f5038b1ce:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_550700863c418a45",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_b4d9c94f5038ae68",
+        "name": "Elliott Sandoval",
+        "enrollmentId": "education-enrollment_4d3649474dc2dea9",
+        "workId": "work-relationship_0e8679619707579d"
+      },
+      "refused": {
+        "id": "person_b4d9cc4f5038b381",
+        "name": "Theodore Sexton"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-WA",
+      "place": "US-WA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_41fbf49ec7f20fa4",
+        "name": "Mira Hudson",
+        "workId": "work-relationship_f0afae563b4691f1",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_e19dc137f4ace0a2:schools:cut:end:work-relationship_f0afae563b4691f1",
+          "workRelationshipId": "work-relationship_f0afae563b4691f1",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_68fc43b3c75cd8dd",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_9c7ee4c0898af5e9",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_41fbf79ec7f214bd",
+        "name": "Isaac Carlson",
+        "workId": "work-relationship_6252842e82120790",
+        "status": {
+          "id": "work-status_b4178779c5d5edbe",
+          "stableKey": "a69:teacher:person_41fbf79ec7f214bd:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_6252842e82120790",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_41fbf59ec7f21157",
+        "name": "Michael Thompson",
+        "enrollmentId": "education-enrollment_7434dfb468e2ff78",
+        "workId": "work-relationship_f79bd25c7447a280"
+      },
+      "refused": {
+        "id": "person_41fbf69ec7f2130a",
+        "name": "Kieran Hart"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-MO",
+      "place": "US-MO",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_76c838acd0757cb4",
+        "name": "Ivan Bowen",
+        "workId": "work-relationship_d05a5243cf7e19b2",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_466c229347f68908:schools:cut:end:work-relationship_d05a5243cf7e19b2",
+          "workRelationshipId": "work-relationship_d05a5243cf7e19b2",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_9775ee8a9b911a90",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_eb97090fa0748f5c",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_76c83bacd07581cd",
+        "name": "Adam Colon",
+        "workId": "work-relationship_4f0b6d299f70de48",
+        "status": {
+          "id": "work-status_6afc8a6b2f117d06",
+          "stableKey": "a69:teacher:person_76c83bacd07581cd:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_4f0b6d299f70de48",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_76c839acd0757e67",
+        "name": "Kian Russell",
+        "enrollmentId": "education-enrollment_f577ef4fbd231208",
+        "workId": "work-relationship_611f74a7d386bcc3"
+      },
+      "refused": {
+        "id": "person_76c835acd075779b",
+        "name": "Raymond White"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-HI",
+      "place": "US-HI",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_f4e0c1e1a8bc19d1",
+        "name": "Alex Rivers",
+        "workId": "work-relationship_025611383120a3ac",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_a07414363d153293:schools:cut:end:work-relationship_025611383120a3ac",
+          "workRelationshipId": "work-relationship_025611383120a3ac",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_5be7cedd7efc630a",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_67bb285444eb5fdf",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_f4e0bee1a8bc14b8",
+        "name": "Sean Sosa",
+        "workId": "work-relationship_e1e59e2ed195665b",
+        "status": {
+          "id": "work-status_fbf24dce7d393aff",
+          "stableKey": "a69:teacher:person_f4e0bee1a8bc14b8:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_e1e59e2ed195665b",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_f4e0c0e1a8bc181e",
+        "name": "Peter Price",
+        "enrollmentId": "education-enrollment_7b57aa1946e6d2cb",
+        "workId": "work-relationship_ad310ccf461b7c3b"
+      },
+      "refused": {
+        "id": "person_f4e0bfe1a8bc166b",
+        "name": "Lila Roach"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-AR",
+      "place": "US-AR",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_70d843ba64dbb3f9",
+        "name": "Ruby May",
+        "workId": "work-relationship_dda0e3f39597be73",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_b12b15ba0b37160a:schools:cut:end:work-relationship_dda0e3f39597be73",
+          "workRelationshipId": "work-relationship_dda0e3f39597be73",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_c3fbfa4624e11b8f",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_9fcf21a13f90c96a",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_70d841ba64dbb093",
+        "name": "Wyatt Wiley",
+        "workId": "work-relationship_5e3eb94bbe1e9cf9",
+        "status": {
+          "id": "work-status_29c9fc9bd6e543a5",
+          "stableKey": "a69:teacher:person_70d841ba64dbb093:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_5e3eb94bbe1e9cf9",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_70d842ba64dbb246",
+        "name": "Emily Mays",
+        "enrollmentId": "education-enrollment_88bdfc010e06aae3",
+        "workId": "work-relationship_959567b5ae374b66"
+      },
+      "refused": {
+        "id": "person_70d847ba64dbbac5",
+        "name": "Dylan Orr"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-LA",
+      "place": "US-LA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_6bd0149091548399",
+        "name": "Benjamin Grant",
+        "workId": "work-relationship_e6b1249b7e24d606",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_01889a41b26d050a:schools:cut:end:work-relationship_e6b1249b7e24d606",
+          "workRelationshipId": "work-relationship_e6b1249b7e24d606",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_ce1adfb5660e28b4",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_2ed65da0a275545e",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_6bd0119091547e80",
+        "name": "Dawn McGuire",
+        "workId": "work-relationship_7aa0a319274111aa",
+        "status": {
+          "id": "work-status_2f4d61f1a33247e8",
+          "stableKey": "a69:teacher:person_6bd0119091547e80:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_7aa0a319274111aa",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_6bd01390915481e6",
+        "name": "Andre Elliott",
+        "enrollmentId": "education-enrollment_1bef8213a44f8ef3",
+        "workId": "work-relationship_991f7b0843dd0df4"
+      },
+      "refused": {
+        "id": "person_6bd01790915488b2",
+        "name": "Amara Ward"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-OK",
+      "place": "US-OK",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_70f23e3dc0ffb441",
+        "name": "Yara Green",
+        "workId": "work-relationship_e961eda0bf3ce718",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_f51650dd336e11a6:schools:cut:end:work-relationship_e961eda0bf3ce718",
+          "workRelationshipId": "work-relationship_e961eda0bf3ce718",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_339bd983b18eb48e",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_c4d9685bff3e51f8",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_70f23b3dc0ffaf28",
+        "name": "Chloe Pearson",
+        "workId": "work-relationship_0717fadcc8152e8d",
+        "status": {
+          "id": "work-status_9381c41ea442c4a9",
+          "stableKey": "a69:teacher:person_70f23b3dc0ffaf28:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_0717fadcc8152e8d",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_70f23d3dc0ffb28e",
+        "name": "Alex Serrano",
+        "enrollmentId": "education-enrollment_42a5e86926878e0b",
+        "workId": "work-relationship_9ea243ca70cd597c"
+      },
+      "refused": {
+        "id": "person_70f23c3dc0ffb0db",
+        "name": "Riley Dixon"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-DE",
+      "place": "US-DE",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_83fe27d2c972858f",
+        "name": "James Melendez",
+        "workId": "work-relationship_464288acd9cd194c",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_0cd8633edb2e52ff:schools:cut:end:work-relationship_464288acd9cd194c",
+          "workRelationshipId": "work-relationship_464288acd9cd194c",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_a05278d02d608fa2",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f4bf879d53865639",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_83fe26d2c97283dc",
+        "name": "Lila Hamilton",
+        "workId": "work-relationship_19901c178969c426",
+        "status": {
+          "id": "work-status_8e6bbedd84cfefcc",
+          "stableKey": "a69:teacher:person_83fe26d2c97283dc:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_19901c178969c426",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_83fe28d2c9728742",
+        "name": "Sarah Ryan",
+        "enrollmentId": "education-enrollment_dce95a5fda7091fa",
+        "workId": "work-relationship_14f47f90be3bd9b3"
+      },
+      "refused": {
+        "id": "person_83fe25d2c9728229",
+        "name": "Dakota Velasquez"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-IA",
+      "place": "US-IA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_97529be430ffe5a2",
+        "name": "Julian Sykes",
+        "workId": "work-relationship_f63ed5516b984c2e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_57f245a5bbdbb2b9:schools:cut:end:work-relationship_f63ed5516b984c2e",
+          "workRelationshipId": "work-relationship_f63ed5516b984c2e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_599ea1ba68f87afc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f6db8a8d8560df2e",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_97529ae430ffe3ef",
+        "name": "Joshua Black",
+        "workId": "work-relationship_26b30689fe6fa419",
+        "status": {
+          "id": "work-status_19f7c65123b825dd",
+          "stableKey": "a69:teacher:person_97529ae430ffe3ef:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_26b30689fe6fa419",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_97529ce430ffe755",
+        "name": "Paola Mullins",
+        "enrollmentId": "education-enrollment_9ac393efe1db0d7a",
+        "workId": "work-relationship_b1a6fb3780d90976"
+      },
+      "refused": {
+        "id": "person_975299e430ffe23c",
+        "name": "Sara Morse"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-ME",
+      "place": "US-ME",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_fc1766a187431d4d",
+        "name": "Marshall Lopez",
+        "workId": "work-relationship_740bbbc96c239bac",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_07b0bd09be2c5618:schools:cut:end:work-relationship_740bbbc96c239bac",
+          "workRelationshipId": "work-relationship_740bbbc96c239bac",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_ac006a1bf5552fca",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_fcdc7ac321aea201",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_fc175fa187431168",
+        "name": "Alice Jacobs",
+        "workId": "work-relationship_1dcfffd05962657a",
+        "status": {
+          "id": "work-status_f43a5ec9402e8de8",
+          "stableKey": "a69:teacher:person_fc175fa187431168:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_1dcfffd05962657a",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_fc1765a187431b9a",
+        "name": "Sam Jennings",
+        "enrollmentId": "education-enrollment_e10f2b2a37d8cdcd",
+        "workId": "work-relationship_7ff9cadaaf1f0123"
+      },
+      "refused": {
+        "id": "person_fc1761a1874314ce",
+        "name": "Omar Villegas"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-WI",
+      "place": "US-WI",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_25eaee04e9236e5e",
+        "name": "Anya Sullivan",
+        "workId": "work-relationship_37d4b3bbca7959c2",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_ea654e11d4840e60:schools:cut:end:work-relationship_37d4b3bbca7959c2",
+          "workRelationshipId": "work-relationship_37d4b3bbca7959c2",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_ef38a038f5d5e248",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_0f2068a5e120bd8f",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_25eaed04e9236cab",
+        "name": "Aditi Spence",
+        "workId": "work-relationship_a1b3dfbb8fdf7f62",
+        "status": {
+          "id": "work-status_e81229d883c12b70",
+          "stableKey": "a69:teacher:person_25eaed04e9236cab:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_a1b3dfbb8fdf7f62",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_25eaef04e9237011",
+        "name": "Devon Montoya",
+        "enrollmentId": "education-enrollment_f9efe5733124cc4e",
+        "workId": "work-relationship_f7c35562992ed32c"
+      },
+      "refused": {
+        "id": "person_25eaf304e92376dd",
+        "name": "Kiara Hayes"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-IN",
+      "place": "US-IN",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_897d5bb2450f5444",
+        "name": "Leo McLean",
+        "workId": "work-relationship_546344787581dbf5",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_a225e868adae04b1:schools:cut:end:work-relationship_546344787581dbf5",
+          "workRelationshipId": "work-relationship_546344787581dbf5",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_3e041186fa31d609",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_624f26304696fecb",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_897d5cb2450f55f7",
+        "name": "Miriam Vaughn",
+        "workId": "work-relationship_e74e1f2134360142",
+        "status": {
+          "id": "work-status_058a1035240a7ae8",
+          "stableKey": "a69:teacher:person_897d5cb2450f55f7:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_e74e1f2134360142",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_897d5db2450f57aa",
+        "name": "Rachel Ryan",
+        "enrollmentId": "education-enrollment_cdc376aa6786382f",
+        "workId": "work-relationship_582857b687589393"
+      },
+      "refused": {
+        "id": "person_897d59b2450f50de",
+        "name": "Elizabeth Cohen"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-OR",
+      "place": "US-OR",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_a24f22ada861de8f",
+        "name": "Cora Rivera",
+        "workId": "work-relationship_a78e485e0db3e1cd",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_8a38ba39b9cb053a:schools:cut:end:work-relationship_a78e485e0db3e1cd",
+          "workRelationshipId": "work-relationship_a78e485e0db3e1cd",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_7b8fdac32a949971",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_73d21b68835bc0b4",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_a24f23ada861e042",
+        "name": "Alina Newton",
+        "workId": "work-relationship_b05bd21ec87bf9f0",
+        "status": {
+          "id": "work-status_b8a25c1513e47276",
+          "stableKey": "a69:teacher:person_a24f23ada861e042:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_b05bd21ec87bf9f0",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_a24f21ada861dcdc",
+        "name": "Leonard Caldwell",
+        "enrollmentId": "education-enrollment_5c241eee28507ad5",
+        "workId": "work-relationship_af1623560ef00907"
+      },
+      "refused": {
+        "id": "person_a24f1dada861d610",
+        "name": "Amos Reese"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NE",
+      "place": "US-NE",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_e82efc541e6d6292",
+        "name": "Carlos Stafford",
+        "workId": "work-relationship_b7f29b659c5db6c9",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_e46d73d60217a190:schools:cut:end:work-relationship_b7f29b659c5db6c9",
+          "workRelationshipId": "work-relationship_b7f29b659c5db6c9",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_99f71a1bc83f298d",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f158e323ef5bea33",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_e82efd541e6d6445",
+        "name": "Lila Riggs",
+        "workId": "work-relationship_57f3ce0456f41682",
+        "status": {
+          "id": "work-status_79c31bc04fd31930",
+          "stableKey": "a69:teacher:person_e82efd541e6d6445:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_57f3ce0456f41682",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_e82efa541e6d5f2c",
+        "name": "Jackson Dean",
+        "enrollmentId": "education-enrollment_d3daf7d874987bb5",
+        "workId": "work-relationship_37f9f2b5c3d7fdfa"
+      },
+      "refused": {
+        "id": "person_e82ef6541e6d5860",
+        "name": "Tyler Cross"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NJ",
+      "place": "US-NJ",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_59122310f7c9db31",
+        "name": "Nadia Randolph",
+        "workId": "work-relationship_9913e3be971a6db5",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_ee6401e408d2fc65:schools:cut:end:work-relationship_9913e3be971a6db5",
+          "workRelationshipId": "work-relationship_9913e3be971a6db5",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_5903d4c21ac89471",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_8c69e5a9ca9e73a6",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_59122210f7c9d97e",
+        "name": "Malik Wynn",
+        "workId": "work-relationship_c72e39efe8ee760b",
+        "status": {
+          "id": "work-status_e1805a34591bdce7",
+          "stableKey": "a69:teacher:person_59122210f7c9d97e:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_c72e39efe8ee760b",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_59122010f7c9d618",
+        "name": "Xavier Parrish",
+        "enrollmentId": "education-enrollment_8d582591d83db1b4",
+        "workId": "work-relationship_2271ee165fa5eeed"
+      },
+      "refused": {
+        "id": "person_59122510f7c9de97",
+        "name": "Austin Whitney"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-AZ",
+      "place": "US-AZ",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_2c46d9ecfeefef19",
+        "name": "Solomon Wynn",
+        "workId": "work-relationship_4e1d03846d69c22e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_23fd473ca3676ddf:schools:cut:end:work-relationship_4e1d03846d69c22e",
+          "workRelationshipId": "work-relationship_4e1d03846d69c22e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_0810f9b8a973a314",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_124caef18b1cd371",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_2c46d8ecfeefed66",
+        "name": "Jonathan Greene",
+        "workId": "work-relationship_fc0def180c403af1",
+        "status": {
+          "id": "work-status_7e2bbe4b04d40c95",
+          "stableKey": "a69:teacher:person_2c46d8ecfeefed66:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_fc0def180c403af1",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_2c46d6ecfeefea00",
+        "name": "Zane Carr",
+        "enrollmentId": "education-enrollment_bb7200bf263872fc",
+        "workId": "work-relationship_9e0aaa2f14d55a03"
+      },
+      "refused": {
+        "id": "person_2c46dbecfeeff27f",
+        "name": "Emil Barnett"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-NH",
+      "place": "US-NH",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_94919b7e146a7d39",
+        "name": "Diana McCarty",
+        "workId": "work-relationship_1a4e895effe53ffd",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_bd859cbd0a29c5ec:schools:cut:end:work-relationship_1a4e895effe53ffd",
+          "workRelationshipId": "work-relationship_1a4e895effe53ffd",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_216768b6ce7c5d69",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_57f76755b4e07331",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_9491987e146a7820",
+        "name": "Ray Davis",
+        "workId": "work-relationship_e4585939a94e8eb1",
+        "status": {
+          "id": "work-status_0b76c18e5e7ba7fd",
+          "stableKey": "a69:teacher:person_9491987e146a7820:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_e4585939a94e8eb1",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_94919a7e146a7b86",
+        "name": "Rowan Baker",
+        "enrollmentId": "education-enrollment_aa7f4a0b33808b83",
+        "workId": "work-relationship_d72976968e94cf81"
+      },
+      "refused": {
+        "id": "person_9491997e146a79d3",
+        "name": "Philip Powell"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-FL",
+      "place": "US-FL",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_13ceff1ea1e2238b",
+        "name": "Curtis Solis",
+        "workId": "work-relationship_30e34ec7dd195960",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_915bda12272bd690:schools:cut:end:work-relationship_30e34ec7dd195960",
+          "workRelationshipId": "work-relationship_30e34ec7dd195960",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_b72ba586325f59ee",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_040bd4e94b8db8d4",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_13cf051ea1e22dbd",
+        "name": "Anthony Monroe",
+        "workId": "work-relationship_6b510699efcfde7f",
+        "status": {
+          "id": "work-status_c25ef56b0b665143",
+          "stableKey": "a69:teacher:person_13cf051ea1e22dbd:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_6b510699efcfde7f",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_13cf011ea1e226f1",
+        "name": "Asher Juarez",
+        "enrollmentId": "education-enrollment_7106d2c28f5b173b",
+        "workId": "work-relationship_3ee866c0d5136c9b"
+      },
+      "refused": {
+        "id": "person_13cf021ea1e228a4",
+        "name": "Marshall Lawrence"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-PA",
+      "place": "US-PA",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d55e923be7decfa2",
+        "name": "Priya Rogers",
+        "workId": "work-relationship_4a2c726746ad37e1",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_d97e4633206399f8:schools:cut:end:work-relationship_4a2c726746ad37e1",
+          "workRelationshipId": "work-relationship_4a2c726746ad37e1",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_929883a4b9d48b6d",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_f5543e0c903a441d",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d55e8d3be7dec723",
+        "name": "Elias Sykes",
+        "workId": "work-relationship_ed6eb7c2d43dc8b5",
+        "status": {
+          "id": "work-status_e9e32fbcc7679b01",
+          "stableKey": "a69:teacher:person_d55e8d3be7dec723:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_ed6eb7c2d43dc8b5",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d55e933be7ded155",
+        "name": "Imani Holmes",
+        "enrollmentId": "education-enrollment_ba6ec508509f9dd0",
+        "workId": "work-relationship_ef933151ee275add"
+      },
+      "refused": {
+        "id": "person_d55e8c3be7dec570",
+        "name": "Charles Thornton"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-RI",
+      "place": "US-RI",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_ee5aa37aa6ce9728",
+        "name": "Brian Sharp",
+        "workId": "work-relationship_c379d9cee3a8f24e",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_a58df661b4f38f6f:schools:cut:end:work-relationship_c379d9cee3a8f24e",
+          "workRelationshipId": "work-relationship_c379d9cee3a8f24e",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_12bea3f2a75490ec",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_acc92b70f19fc8c5",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_ee5aa67aa6ce9c41",
+        "name": "Mina Marshall",
+        "workId": "work-relationship_ea12e5aa7d9f2370",
+        "status": {
+          "id": "work-status_6371b7097bf09c96",
+          "stableKey": "a69:teacher:person_ee5aa67aa6ce9c41:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_ea12e5aa7d9f2370",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_ee5aa47aa6ce98db",
+        "name": "Adam Arnold",
+        "enrollmentId": "education-enrollment_6b7ae331848590f4",
+        "workId": "work-relationship_fdbf64d7a90eb124"
+      },
+      "refused": {
+        "id": "person_ee5aa57aa6ce9a8e",
+        "name": "Tyler Day"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-KS",
+      "place": "US-KS",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_d46a90f4eaeac74a",
+        "name": "Lily Gonzales",
+        "workId": "work-relationship_8bcef9e5c935627f",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_e718cc3c1b73ce7c:schools:cut:end:work-relationship_8bcef9e5c935627f",
+          "workRelationshipId": "work-relationship_8bcef9e5c935627f",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_ac3336a9c0d85e13",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_72d88fa8f857cf27",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_d46a91f4eaeac8fd",
+        "name": "Katelyn Harmon",
+        "workId": "work-relationship_767c2c98f86b9a7c",
+        "status": {
+          "id": "work-status_d7f72183ec3045aa",
+          "stableKey": "a69:teacher:person_d46a91f4eaeac8fd:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_767c2c98f86b9a7c",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_d46a8ef4eaeac3e4",
+        "name": "Joshua Hutchinson",
+        "enrollmentId": "education-enrollment_f9cb65b3b0d6b10d",
+        "workId": "work-relationship_3b9ad640b3cca709"
+      },
+      "refused": {
+        "id": "person_d46a8af4eaeabd18",
+        "name": "Diego Stein"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-ND",
+      "place": "US-ND",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_8252f22ae57cce9a",
+        "name": "James Fletcher",
+        "workId": "work-relationship_fccf50fe136edb2b",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_7ae0b5277c3f5b0f:schools:cut:end:work-relationship_fccf50fe136edb2b",
+          "workRelationshipId": "work-relationship_fccf50fe136edb2b",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_242ced23908f688f",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_c797777379be7a3a",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_8252f12ae57ccce7",
+        "name": "Ian Evans",
+        "workId": "work-relationship_9f36e59f8bb863c2",
+        "status": {
+          "id": "work-status_75e787533769d280",
+          "stableKey": "a69:teacher:person_8252f12ae57ccce7:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_9f36e59f8bb863c2",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_8252f32ae57cd04d",
+        "name": "Shannon Robertson",
+        "enrollmentId": "education-enrollment_6389475d0d83ade2",
+        "workId": "work-relationship_5d289d7b5de17bcd"
+      },
+      "refused": {
+        "id": "person_8252ef2ae57cc981",
+        "name": "Anna Gallagher"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    },
+    {
+      "seed": "a69-funded-staffing-all56:US-AL",
+      "place": "US-AL",
+      "onDate": "2026-01-20",
+      "player": {
+        "id": "person_12fbd3af8b4b6b0e",
+        "name": "Jordan Stanley",
+        "workId": "work-relationship_bc357a19e27475de",
+        "status": {
+          "stableKey": "public-budgets-v1:staffing:jurisdiction_4c76be9c8a58fe2f:schools:cut:end:work-relationship_bc357a19e27475de",
+          "workRelationshipId": "work-relationship_bc357a19e27475de",
+          "effectiveAt": "2026-01-20",
+          "status": "ended",
+          "reason": "labor:laid-off",
+          "supersedesStatusId": "work-status_6e4a8cf287fc362c",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "public-budgets-v1"
+          },
+          "id": "work-status_0a9742f350b11b4d",
+          "sequence": 8
+        }
+      },
+      "senior": {
+        "id": "person_12fbd4af8b4b6cc1",
+        "name": "Haley Schneider",
+        "workId": "work-relationship_dcf6cadcbd21494f",
+        "status": {
+          "id": "work-status_8a03473033b7262b",
+          "stableKey": "a69:teacher:person_12fbd4af8b4b6cc1:status:initial",
+          "sequence": 3,
+          "workRelationshipId": "work-relationship_dcf6cadcbd21494f",
+          "effectiveAt": "2026-01-10",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "A69 recorded staffing control; the budget amounts are fixture inputs, not researched starting budgets."
+          },
+          "supersedesStatusId": null
+        }
+      },
+      "hired": {
+        "id": "person_12fbd2af8b4b695b",
+        "name": "Trevor Black",
+        "enrollmentId": "education-enrollment_61f14fcad28cac39",
+        "workId": "work-relationship_ac2091df9676af06"
+      },
+      "refused": {
+        "id": "person_12fbd5af8b4b6e74",
+        "name": "Anna Hampton"
+      },
+      "budgetAllocationBefore": 1000,
+      "budgetAllocationAfter": 500,
+      "baselineStaff": 2,
+      "afterCut": 1,
+      "afterCredential": 3
+    }
+  ]
+}

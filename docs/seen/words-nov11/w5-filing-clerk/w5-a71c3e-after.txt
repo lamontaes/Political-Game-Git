@@ -1,0 +1,11 @@
+Seed w5-a71c3e; place: Holton, Indiana
+Office: County election board, Holton
+Greeting: Erin Hogan / Erin Hogan / Hey, come on up. You've found the county election board for Holton. How can I help? / I want to run for the Holton Town Council. November 4, 2025 · Held by Kathy Swanson / I want to run for mayor. November 4, 2025 · Held by Michelle Hogan / Leave
+Told: Erin Hogan / Erin Hogan / PAT CANDIDATE / I want to run for the Holton Town Council. / Good for you. You're the first one in for the council. It's a 4-year term, and there's no primary, so you'd go straight onto the ballot November 4. You'd have a seat on the Holton Town Council, voting on the budget and every ordinance that comes before it. It all has to be back to me by February 7. / Count me in for the council. / Who am I up against in Holton? / So the papers are due February 7? / Not today, Erin. Maybe soon. / Leave
+Replies: Count me in for the council. | Who am I up against in Holton? | So the papers are due February 7? | Not today, Erin. Maybe soon.
+Answer: Erin Hogan / Erin Hogan / PAT CANDIDATE / Who am I up against in Holton? / Let's see. You're the first I've seen for the council. That could change. / Put me down for the council. / Run the dates by me again. Papers by February 7? / Give me a few days, Erin. / Leave
+Replies: Put me down for the council. | Run the dates by me again. Papers by February 7? | Give me a few days, Erin.
+Answer: Erin Hogan / Erin Hogan / PAT CANDIDATE / Run the dates by me again. Papers by February 7? / Write this down. Just the one election, November 4. Papers back to me by February 7. / I'm in. Give me the papers for the council. / I'm not ready yet, Erin. I'll be back. / Leave
+Replies: I'm in. Give me the papers for the council. | I'm not ready yet, Erin. I'll be back.
+File: I'm in. Give me the papers for the council.
+Filed: Erin Hogan / PAT CANDIDATE / I'm in. Give me the papers for the council. / Done. Your name's in for the council in Holton. Now it's you and the voters until November 4. Take care now. / SIGNATURES THE CLERK WILL COUNT: 30, HANDED IN BY FEBRUARY 7, 2025 / COLLECTING SIGNATURES / Continue

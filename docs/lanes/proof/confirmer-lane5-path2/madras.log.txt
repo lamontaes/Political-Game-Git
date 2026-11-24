@@ -1,0 +1,9 @@
+
+> political-life-rpg@0.78.0 speed:year
+> node --max-old-space-size=8192 --max-semi-space-size=64 --expose-gc --import tsx scripts/speed-years/run.ts --seed confirmer-madras-1 --place 4145250 --years 3 --max-seconds 100000 --out /tmp/claude-0/-home-user-Political-Game-Git/39df252c-0e86-5c04-a0d3-e3e72f11d951/scratchpad/l5p2/madras.json
+
+Madras, Oregon (key 4145250, seed confirmer-madras-1): built in 22.4 s
+year 1: 116.9 s, through 2026-01-20; heap 935 MB, process 3393 MB; 341609 records, the most in core2-law-effects-v1.applied 35178, core2-coverage-v1.medicalBills 23058, core2-offices-v1.terms 21183
+year 2: 307.4 s, through 2027-01-20; heap 1961 MB, process 4216 MB; 957811 records, the most in core.durableLog 233341, core2-campaigns-v1.foldedCauses 81317, core.relationships 55153
+year 3: 329.6 s, through 2028-01-20; heap 2738 MB, process 5794 MB; 1475582 records, the most in core.durableLog 394629, core2-campaigns-v1.foldedCauses 125424, core.relationships 81820
+exit and seconds: 0 877

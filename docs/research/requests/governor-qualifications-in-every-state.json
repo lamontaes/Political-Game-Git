@@ -1,0 +1,43 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "blocks-work",
+  "lane": "a corrupt life in power",
+  "priority": "P0",
+  "question": "For each of the 50 states, plus the D.C. mayor and the Puerto Rico governor, answered as one set: what are the qualifications to hold the office (minimum age, years of state residency or citizenship, U.S. citizenship and for how long, being a qualified elector or registered voter, any bar for felony conviction, other offices held or impeachment), and on what date each is tested (filing, election or taking office)? Cite the constitutional or statutory provision and mark anything not found as UNKNOWN.",
+  "questionId": "governor-qualifications-in-every-state",
+  "relatedQuestionIds": [
+    "elector-requirement-what-establishes-it",
+    "when-each-state-elects-its-governor",
+    "governor-term-length-outside-washington",
+    "puerto-rico-government-and-municipios"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "A corrupt life in power playtest thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "data/source/state-office-qualifications/corpus.json at main 5c971245",
+      "whatItDidNotSettle": "Governor rows exist for MN, MO, NE and OH only."
+    },
+    {
+      "source": "ChatGPT's governor election calendar (docs/research/chatgpt-answers/2026-09-22-nationwide-2235/)",
+      "whatItDidNotSettle": "It gives terms and dates, not qualifications."
+    },
+    {
+      "source": "docs/research/31D-recovered-qualifications.tsv at main",
+      "whatItDidNotSettle": "100 governor rows for ten states (NC, ND, NM, NY, OH, OK, OR, PA, RI, SC); the other 42 jurisdictions have none, and the rows need re-verification against current text."
+    }
+  ],
+  "title": "What it takes to be eligible for governor, in every state",
+  "usableAnswer": "A 52-row table: jurisdiction; minimum age; state residency and its length; citizenship; elector or registration requirement; other bars; the date each is tested; citations; and an evidence status per field.",
+  "whyItMatters": "Filing for governor checks no qualification at all: src/simulation/nationwide-world/state-executive-candidacy-packs.ts marks minimumAge, residency and termYears as unknownRule for every state without a pack (around line 231 at main 5c971245), and fileForStateExecutiveOffice checks none of them. In play, a 40-year-old started in Nome, Alaska filed and was sworn in as governor, while the same life was refused a state House seat for lacking a year's recorded district residence. The qualification corpus (data/source/state-office-qualifications/corpus.json) holds governor rows for only Minnesota, Missouri, Nebraska and Ohio, and docs/research/31D-recovered-qualifications.tsv has governor rows for ten more (NC, ND, NM, NY, OH, OK, OR, PA, RI, SC), none of them wired into governor filing. The Puerto Rico answer (puerto-rico-government-and-municipios) already gives that governor's rules.",
+  "answer": {
+    "summary": "A 52-row table. The 50-state baseline is the Council of State Governments' Book of the States 2023, Table 4.2, labeled SECONDARY UNVERIFIED: its 'no formal provision' mark is not a verified absence, and starred rows were carried forward from earlier years. Checked against primary text for ten: Alaska 30, U.S. citizen and resident 7 years before filing, qualified voter, holds no other office; California 18, the constitution's 5-year residency described by the Secretary of State as unconstitutional and unenforceable, plus the Gov. Code 1021 crime bar; Florida 30 when elected, 7 years' residency, elector, limit on succeeding after two terms; New Hampshire 30 on election day, domiciled 7 years, registered, affidavit; New York 30 and 5 years; Texas 30 and 5 years; Vermont 4 years' residency; Virginia 30, resident and registered voter for 5 years; D.C. mayor 1 year of residence and domicile, qualified elector, felony and employment bars; Puerto Rico 35, Puerto Rico citizen, U.S. citizen and bona fide resident 5 years each. Secondary examples: Oklahoma 31, South Dakota 21, Ohio, Rhode Island, Washington and Wisconsin 18, Rhode Island 30 days for each duration. No UNKNOWN is to be read as 'no requirement'.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-GOVERNOR-QUALIFICATIONS--52-JURISDICTIONS--2026-09-22.md (Drive 1PLL49zqKJCrkDMZcdBtcaPpARa4SvppA, SHA-256 a1c23acc6d8faca9bdce219aa43283b95a98d5936c2c08330c9af1e39d9a27a6)",
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-CTO-INTAKE--INVENTED-DEPTH-AUDIT-AND-2300Z-QUEUE--2026-09-22.md (Drive 1wYReCweJLIHRCP6y8GaWp8RhKxOrdtzw, SHA-256 905ba31340bd8d1f72bc89a09e3156e4f28cda1eae7985cf95a7624f30ed9848)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "Not ready to operate as a legal eligibility gate nationwide (ChatGPT's words). For 42 states, other bars and the date each requirement is tested are UNKNOWN; filing and continuing-to-hold restrictions are UNKNOWN unless directly verified; the CSG baseline is secondary and needs primary checks state by state."
+  }
+}

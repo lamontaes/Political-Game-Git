@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-29T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "public budgets",
+  "priority": "P2",
+  "question": "For a state that (1) adopts a broad personal income tax where it had none, (2) moves from a flat to a graduated income tax, (3) exempts groceries from its general sales tax, or (4) caps annual growth in property-tax levies: the typical change in the affected revenue source as a share of that source, with the range across states and the years it takes to reach full effect. Cite fiscal notes or studies (for example Massachusetts' 2022 surtax, Illinois' 2020 graduated-tax fiscal note, grocery exemptions in Mississippi, Tennessee and Arkansas, and property-tax caps such as California's Proposition 13 and Massachusetts' Proposition 2½).",
+  "questionId": "tax-question-revenue-effects",
+  "relatedQuestionIds": ["which-local-governments-can-tax-income"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by Build 12 · Public Budgets",
+  "sourcesChecked": [
+    {
+      "source": "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm",
+      "whatItDidNotSettle": "Question-by-question tax revenue fraction/range and phase-in table remains open."
+    }
+  ],
+  "title": "How much revenue changes when a state adopts an income tax, a graduated tax, a grocery exemption or a property-tax cap",
+  "usableAnswer": "One row per question with the share change of its source, its range and its phase-in, each cited.",
+  "whyItMatters": "A law answering one of these four questions changes no budget yet: each size is null in src/simulation/public-budgets/rules.ts (TAX_QUESTION_EFFECTS), so the revenue source stays where it was until the size is read.",
+  "answer": {
+    "summary": "Revenue impact must use the actual taxable base, rate, effective date and behavioral/incidence response. USITC’s observed import-price incidence illustrates why a legal rate change is not a same-percentage change in household spending or net revenue.",
+    "sources": [
+      "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "Question-by-question tax revenue fraction/range and phase-in table remains open."
+  }
+}

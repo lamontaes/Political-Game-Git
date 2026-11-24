@@ -1,0 +1,23 @@
+{
+  "about": "The disasters engine's severity ramp (src/core2/modules/disasters.ts): a disaster's severity is 0 at or below the low cutoff and 1 at or above the high cutoff, rising in a straight line between them, from the homes FEMA inspected as damaged in the town per resident. Written by src/core2/tooling/build-disaster-severity.ts.",
+  "unit": "homes FEMA inspected as damaged per resident of the town",
+  "lowCutoff": {
+    "value": 0.05263,
+    "tag": "ESTIMATED",
+    "citation": "Roth Tran and Wilson 2023, \"The Local Economic Impact of Natural Disasters,\" FRBSF Working Paper 2020-34, p. 7: \"we find a different pattern for less severe disasters—i.e., those with damages per capita below the 90th percentile for all disasters. For these disasters, the longer-run response of both population and house prices is slightly positive.\"",
+    "estimatedFrom": "The 90th percentile of the homes FEMA inspected as damaged per resident, over 9887 town rows of FEMA's household figures for disasters declared since 2020 that match one Census place of their state by normalized name (7997 damaged-home rows match none or several and are left out), residents from the Census Vintage 2025 estimate. The paper ranks county-months by SHELDUS damages per capita; this ranks towns by FEMA-inspected damaged homes per resident, the one damage record the game keeps for a town."
+  },
+  "highCutoff": {
+    "value": 0.1157,
+    "tag": "ESTIMATED",
+    "citation": "Roth Tran and Wilson 2023, p. 24: \"Notable differences in either the level or shape of the IRF do not really emerge until damages rise above the 95th percentile. For the most severe disasters—those with damages above the 95th percentile\". On p. 25 to 26: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years.\"",
+    "estimatedFrom": "The 95th percentile of the homes FEMA inspected as damaged per resident, over 9887 town rows of FEMA's household figures for disasters declared since 2020 that match one Census place of their state by normalized name (7997 damaged-home rows match none or several and are left out), residents from the Census Vintage 2025 estimate. The paper ranks county-months by SHELDUS damages per capita; this ranks towns by FEMA-inspected damaged homes per resident, the one damage record the game keeps for a town."
+  },
+  "effectYears": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "Boustan, Kahn, Rhode and Yanguas 2020, Journal of Urban Economics 118 (NBER w23410): a county-by-decade panel with \"an indicator for the presence of any severe disaster in the county and decade\", where \"Our preferred measure of a “severe” disaster is one with 25 or more deaths\" (section III); \"Above a certain severity threshold, it appears that households are equally responsive to large disasters and additional fatalities do not elevate the out-migration rate\" (section V); \"the occurrence of a severe disaster lowers housing prices by 5.2 percent and rents by 2.5 percent\" (section VI). A severe disaster counts once, for the ten years after it begins."
+  },
+  "matchedRows": 9887,
+  "unmatchedRows": 7997
+}

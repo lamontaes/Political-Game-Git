@@ -1,0 +1,509 @@
+{
+ "id": "state-reach",
+ "about": "Each state's or territory's population and the states it borders: how far a law there reaches, and which readers live next door (the Nation heading on News). Built by scripts/research/build-state-reach.py.",
+ "source": {
+  "tag": "SOURCED",
+  "population": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/state/totals/NST-EST2023-ALLDATA.csv (ESTIMATESBASE2020, the April 2020 census base; territories: the sum of the territory place rows in territory-places.json, so American Samoa, the Northern Marianas and the Virgin Islands read low where a place is missing)",
+  "borders": "https://www2.census.gov/geo/docs/reference/county_adjacency.txt (a state borders another where one's county is adjacent to the other's)"
+ },
+ "nationalPopulation": 335025707,
+ "states": {
+  "AK": {
+   "population": 733374,
+   "borders": []
+  },
+  "AL": {
+   "population": 5024294,
+   "borders": [
+    "FL",
+    "GA",
+    "MS",
+    "TN"
+   ]
+  },
+  "AR": {
+   "population": 3011490,
+   "borders": [
+    "LA",
+    "MO",
+    "MS",
+    "OK",
+    "TN",
+    "TX"
+   ]
+  },
+  "AS": {
+   "population": 47536,
+   "borders": []
+  },
+  "AZ": {
+   "population": 7157902,
+   "borders": [
+    "CA",
+    "CO",
+    "NM",
+    "NV",
+    "UT"
+   ]
+  },
+  "CA": {
+   "population": 39538212,
+   "borders": [
+    "AZ",
+    "NV",
+    "OR"
+   ]
+  },
+  "CO": {
+   "population": 5773707,
+   "borders": [
+    "AZ",
+    "KS",
+    "NE",
+    "NM",
+    "OK",
+    "UT",
+    "WY"
+   ]
+  },
+  "CT": {
+   "population": 3605912,
+   "borders": [
+    "MA",
+    "NY",
+    "RI"
+   ]
+  },
+  "DC": {
+   "population": 689548,
+   "borders": [
+    "MD",
+    "VA"
+   ]
+  },
+  "DE": {
+   "population": 989946,
+   "borders": [
+    "MD",
+    "NJ",
+    "PA"
+   ]
+  },
+  "FL": {
+   "population": 21538216,
+   "borders": [
+    "AL",
+    "GA"
+   ]
+  },
+  "GA": {
+   "population": 10713771,
+   "borders": [
+    "AL",
+    "FL",
+    "NC",
+    "SC",
+    "TN"
+   ]
+  },
+  "GU": {
+   "population": 153836,
+   "borders": []
+  },
+  "HI": {
+   "population": 1455274,
+   "borders": []
+  },
+  "IA": {
+   "population": 3190427,
+   "borders": [
+    "IL",
+    "MN",
+    "MO",
+    "NE",
+    "SD",
+    "WI"
+   ]
+  },
+  "ID": {
+   "population": 1839117,
+   "borders": [
+    "MT",
+    "NV",
+    "OR",
+    "UT",
+    "WA",
+    "WY"
+   ]
+  },
+  "IL": {
+   "population": 12813469,
+   "borders": [
+    "IA",
+    "IN",
+    "KY",
+    "MI",
+    "MO",
+    "WI"
+   ]
+  },
+  "IN": {
+   "population": 6785442,
+   "borders": [
+    "IL",
+    "KY",
+    "MI",
+    "OH"
+   ]
+  },
+  "KS": {
+   "population": 2937835,
+   "borders": [
+    "CO",
+    "MO",
+    "NE",
+    "OK"
+   ]
+  },
+  "KY": {
+   "population": 4506297,
+   "borders": [
+    "IL",
+    "IN",
+    "MO",
+    "OH",
+    "TN",
+    "VA",
+    "WV"
+   ]
+  },
+  "LA": {
+   "population": 4657785,
+   "borders": [
+    "AR",
+    "MS",
+    "TX"
+   ]
+  },
+  "MA": {
+   "population": 7032933,
+   "borders": [
+    "CT",
+    "NH",
+    "NY",
+    "RI",
+    "VT"
+   ]
+  },
+  "MD": {
+   "population": 6177253,
+   "borders": [
+    "DC",
+    "DE",
+    "PA",
+    "VA",
+    "WV"
+   ]
+  },
+  "ME": {
+   "population": 1363177,
+   "borders": [
+    "NH"
+   ]
+  },
+  "MI": {
+   "population": 10077674,
+   "borders": [
+    "IL",
+    "IN",
+    "MN",
+    "OH",
+    "WI"
+   ]
+  },
+  "MN": {
+   "population": 5706804,
+   "borders": [
+    "IA",
+    "MI",
+    "ND",
+    "SD",
+    "WI"
+   ]
+  },
+  "MO": {
+   "population": 6154889,
+   "borders": [
+    "AR",
+    "IA",
+    "IL",
+    "KS",
+    "KY",
+    "NE",
+    "OK",
+    "TN"
+   ]
+  },
+  "MP": {
+   "population": 45832,
+   "borders": []
+  },
+  "MS": {
+   "population": 2961306,
+   "borders": [
+    "AL",
+    "AR",
+    "LA",
+    "TN"
+   ]
+  },
+  "MT": {
+   "population": 1084244,
+   "borders": [
+    "ID",
+    "ND",
+    "SD",
+    "WY"
+   ]
+  },
+  "NC": {
+   "population": 10439459,
+   "borders": [
+    "GA",
+    "SC",
+    "TN",
+    "VA"
+   ]
+  },
+  "ND": {
+   "population": 779079,
+   "borders": [
+    "MN",
+    "MT",
+    "SD"
+   ]
+  },
+  "NE": {
+   "population": 1961965,
+   "borders": [
+    "CO",
+    "IA",
+    "KS",
+    "MO",
+    "SD",
+    "WY"
+   ]
+  },
+  "NH": {
+   "population": 1377524,
+   "borders": [
+    "MA",
+    "ME",
+    "VT"
+   ]
+  },
+  "NJ": {
+   "population": 9289039,
+   "borders": [
+    "DE",
+    "NY",
+    "PA"
+   ]
+  },
+  "NM": {
+   "population": 2117525,
+   "borders": [
+    "AZ",
+    "CO",
+    "OK",
+    "TX",
+    "UT"
+   ]
+  },
+  "NV": {
+   "population": 3104617,
+   "borders": [
+    "AZ",
+    "CA",
+    "ID",
+    "OR",
+    "UT"
+   ]
+  },
+  "NY": {
+   "population": 20202320,
+   "borders": [
+    "CT",
+    "MA",
+    "NJ",
+    "PA",
+    "RI",
+    "VT"
+   ]
+  },
+  "OH": {
+   "population": 11799331,
+   "borders": [
+    "IN",
+    "KY",
+    "MI",
+    "PA",
+    "WV"
+   ]
+  },
+  "OK": {
+   "population": 3959411,
+   "borders": [
+    "AR",
+    "CO",
+    "KS",
+    "MO",
+    "NM",
+    "TX"
+   ]
+  },
+  "OR": {
+   "population": 4237279,
+   "borders": [
+    "CA",
+    "ID",
+    "NV",
+    "WA"
+   ]
+  },
+  "PA": {
+   "population": 13002788,
+   "borders": [
+    "DE",
+    "MD",
+    "NJ",
+    "NY",
+    "OH",
+    "WV"
+   ]
+  },
+  "PR": {
+   "population": 3285874,
+   "borders": []
+  },
+  "RI": {
+   "population": 1097371,
+   "borders": [
+    "CT",
+    "MA",
+    "NY"
+   ]
+  },
+  "SC": {
+   "population": 5118422,
+   "borders": [
+    "GA",
+    "NC"
+   ]
+  },
+  "SD": {
+   "population": 886668,
+   "borders": [
+    "IA",
+    "MN",
+    "MT",
+    "ND",
+    "NE",
+    "WY"
+   ]
+  },
+  "TN": {
+   "population": 6910786,
+   "borders": [
+    "AL",
+    "AR",
+    "GA",
+    "KY",
+    "MO",
+    "MS",
+    "NC",
+    "VA"
+   ]
+  },
+  "TX": {
+   "population": 29145459,
+   "borders": [
+    "AR",
+    "LA",
+    "NM",
+    "OK"
+   ]
+  },
+  "UT": {
+   "population": 3271614,
+   "borders": [
+    "AZ",
+    "CO",
+    "ID",
+    "NM",
+    "NV",
+    "WY"
+   ]
+  },
+  "VA": {
+   "population": 8631373,
+   "borders": [
+    "DC",
+    "KY",
+    "MD",
+    "NC",
+    "TN",
+    "WV"
+   ]
+  },
+  "VI": {
+   "population": 27681,
+   "borders": []
+  },
+  "VT": {
+   "population": 643077,
+   "borders": [
+    "MA",
+    "NH",
+    "NY"
+   ]
+  },
+  "WA": {
+   "population": 7705267,
+   "borders": [
+    "ID",
+    "OR"
+   ]
+  },
+  "WI": {
+   "population": 5893713,
+   "borders": [
+    "IA",
+    "IL",
+    "MI",
+    "MN"
+   ]
+  },
+  "WV": {
+   "population": 1793713,
+   "borders": [
+    "KY",
+    "MD",
+    "OH",
+    "PA",
+    "VA"
+   ]
+  },
+  "WY": {
+   "population": 576850,
+   "borders": [
+    "CO",
+    "ID",
+    "MT",
+    "NE",
+    "SD",
+    "UT"
+   ]
+  }
+ }
+}

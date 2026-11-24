@@ -1,0 +1,34 @@
+{
+  "schema": "english-parts/1",
+  "register": "notice",
+  "description": "Public-notice wording the owner graded good, read by the paper's election notice (english-newscast, story kind election-notice). Restored Nov 8, 2026 from the notice bank deleted in 3d6576e9.",
+  "slots": {
+    "date": "The date recorded for the hearing or election.",
+    "place": "The jurisdiction recorded for the election.",
+    "office": "The election contest's recorded office title."
+  },
+  "maxWords": 35,
+  "parts": [
+    {
+      "key": "notice.election.notice-is-hereby-given-that-an-election-will-be-held-in-place-on-date-for-the-following-officers-office",
+      "move": "election",
+      "kind": "written",
+      "text": "NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
+      "tag": {
+        "move": "notice",
+        "key": "routine"
+      },
+      "uses": [
+        {
+          "move": "election",
+          "subject": "news",
+          "role": "election-notice",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    }
+  ]
+}

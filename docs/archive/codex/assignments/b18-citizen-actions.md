@@ -1,0 +1,61 @@
+# Citizen actions: vote, speak, petition, organize, write (bank id b18, phase P2 build; all in 1.0; unlocks "a quiet town grows a neighborhood association, a recall fight or a ballot question" and the pre-office life)
+
+Verified against origin/main 47c2ecb0e (Oct 6). Bank spec: docs/codex/specs/bank/b18-citizen-actions.md. Hand to the session that owns petitions with b01 (read `b01-petition-signatures.md` first: its `askToSign` is the only signer decision). Campaign-side volunteering is Session 22's (see b02), not this doc. Candidate filing petitions are b01's; do not touch them.
+
+## What the player experiences
+
+You do not need an office to push your town around. You vote (and in a close race you see it was close). You stand up at public comment and what you said is on the record. You start a petition to recall a council member, put an ordinance on the ballot, or block one the council just passed, where your state and town allow it; where they do not, you are told why in plain words. You gather signatures from real neighbors, with friends and volunteers helping; a few doorsteps play as scenes, the rest happens in the background. If it qualifies it goes on the ballot, voters decide from their own views, and a measure that passes becomes law. You found or join a group around a cause, march at city hall with the people who actually show up, and write your representative in your own voice. Officials who heard you, read your letter or saw the crowd weigh it by who you are to them, and remember. Everyone else in town does the same from their own lives.
+
+## Owner decisions it rests on
+
+- "Citizen actions: vote, speak at meetings, petitions and ballot measures, protests and groups, volunteer, write officials." Owner (this round): all of it is in 1.0.
+- "Signatures: a few played scenes, the rest background, where the place requires them." "Crowds: real people up front, a crowd sized by real turnout behind." "Meetings: only items that matter to you or the town play; rest summarized."
+- Register (Oct 5 night, item 3): "Any place's pending amendment or ballot measure starts not in force; if voters pass it in a game, its text governs."
+- Fixed: zero dice; no fixed percentages decide behavior; nothing blank or placeholder (estimate from similar places, mark it); one rule for all 50 states, D.C. and territories; emergent not authored; one writer per record kind; delete what you replace.
+
+## Existing code to extend (verified on 47c2ecb0e)
+
+- Recall, the model for every petition: `src/simulation/recall.ts` `municipalRecallRule` :107, `RecallPetition` :164, `canStartRecallPetition` :284, `startRecallPetition` :336, `recallResidentViews` :427 (counts every eligible resident with a recorded view; nobody is asked), `recallPetitionClosesHandler` :538 (uses it :571), `recallElectionHandler` :642 (:651). UI `presentation/recall.ts`, `player/MunicipalWorkspace.tsx:815-863`. Thresholds `municipal-election-rules.ts:392 resolveRequiredSignatures`.
+- Initiative and referendum rules exist as data and no play code reads them: `municipal-election-rule-packs.ts:121-134` (`initiative`, `initiativeThreshold`, `referendum`, `referendumThreshold`; for example :300-311 "not authorized under general municipal law"), compiled into `municipal-governments.generated.ts`.
+- Ballot measures: `living-world/constitutional-reform.ts` `proposeAmendment` :906, `recordedBallotTally` :1006 (only `policy-provision` deltas), `constitutionalReformBallotHandler` :1057; `constitutional-process.ts:375 proposeConstitutionalMeasure` (notes say citizen initiatives are not modeled).
+- Groups: `living-world/law-interest-groups.ts:78 joinLawInterestGroup` (only caller `official-views.ts:208`); founding rule is `FOUNDING_RESIDENTS = 6` :45, `LOSS_THAT_COUNTS_PER_MONTH_OF_PAY = 0.1` :44 and `RESOLVE_TO_JOIN_*` :50-51 (the last two marked PLACEHOLDER) (owner-banned; they go). Reads `official-view-reads.ts:355-400`.
+- NPC contact and attendance: `living-world/civic-actions.ts:165 reviewTownCivicActions` (called `migration/review.ts:270`; excludes the player; header says "NOT MODELED: what the contact said"; weights marked PLACEHOLDER at :55 and :65).
+- Public comment: `ordinary-meeting-presence.ts:57 speakAtOrdinaryMeeting`: NO non-test caller; its three speech lines at :35 are `PLACEHOLDER(overnight)`. Authority `municipal-public-work.ts:506`.
+- Voting: the count loop `election-contests.ts:177 countRecordedVoterBallots` runs `evaluateDecision` for every person in `personOrder`, the player included; no control check exists, so the player's own ballot is decided for them. Eligibility `issue-record.ts:343 isEligibleVoterIn`.
+- Officials' read: `governing/constituent-views.ts:39 constituentsConsideration` (aggregate lean only); `types.ts:5122 OfficeCaseworkWorkflowMode` and :5184 `caseworkMode` (no request records).
+- Unrest: `pressure/ladder.ts:333 stepPressureLadder` (statewide only). No protest action exists anywhere.
+- Held-back life choices: `adult-situations.ts:2025 adult.petition-ask`, `:1812 adult.volunteer-ask`.
+- Reach and shifts: `campaign-contact-calibration.ts:44 modelCampaignFieldReach` (b01 extends it for petitions); `living-world/work-schedules.ts:521 onShiftAt` (the spec said `work-schedules.ts` at simulation root; wrong path).
+- Not yet on main (planned by other assignments): `candidate-petitions.ts` / `askToSign` (b01), the office inbox (Session 23), vote considerations (Session 21), scenes (Session 4). Stub each as one function the real one replaces.
+- Newer code covering part: none (grep initiative/protest/letter in play code finds only the data and the unread rule packs).
+
+## Build steps (one PR each, in this order)
+
+1. **Voting is the player's choice.** The player's own ballot becomes a scene choice (candidate, measure or abstain) written as that person's recorded vote through the same count loop (`countRecordedVoterBallots` takes the player's saved choice where one exists, `evaluateDecision` otherwise). Session 13 stays the one counter. Must not: a second ballot path.
+2. **One petition engine.** Generalize `recall.ts` into petitions with a kind: recall (behavior kept), local initiative, protest referendum, state initiative or referendum, constitutional initiative. Rules come from the compiled municipal readings (`initiative` fields above) and a new per-state data row (availability, threshold, window, distribution, review; unread = median of similar states, marked estimated). Signers come only from b01's `askToSign` with the petition subject (official or proposition) where b01 passes a candidate; circulators reach people through `modelCampaignFieldReach`. `Replaces:` `recallResidentViews`' count of everyone with a view (recall closes on signed events). Clerk validity is b01's rule (a signature is invalid only when the record says so; no fixed rejection rate). Release `adult.petition-ask`. Where a form is not allowed, the clerk says why in words (from the rule row's reason).
+3. **Measures on the ballot.** A qualified petition or a council or legislature referral becomes a ballot measure on the next lawful election. Generalize `recordedBallotTally` / `constitutionalReformBallotHandler` from amendments to ordinances and statutes; voters decide from their beliefs on the proposition. On passage the text is enacted through the existing law-in-force path (change-back rules as a state data row). Test: a town measure passes and `lawInForce` reads it the next day.
+4. **Groups for any shared cause.** A founder is a resident with a strong recorded view or stake and a recorded goal who decides to found through `evaluateDecision`; others join from views, ties and time. `Replaces:` `FOUNDING_RESIDENTS`, `RESOLVE_TO_JOIN_*` and the loss line in `law-interest-groups.ts` (money lost to a law stays as one reason). The leader decides the group's actions on its own decision days: petition, protest, letter drive, endorsement, testimony, or suing (b16 maps, b13 courts). The player, a member, can argue in a scene.
+5. **Protests.** An organizer sets a place and date. Each reached resident decides to attend from how much the issue matters, their shift (`onShiftAt`) and ties; attendees are recorded people and the crowd behind them is sized from that turnout (same crowd rule as b03). A protest is a public event: the desk can cover it, it reaches officials' considerations and the pressure ladder as a recorded cause (extend `stepPressureLadder` below statewide only through that cause). Player attends or organizes as a Session 4 scene.
+6. **Letters, calls and email.** `civic-actions.ts` contact becomes a recorded message (sender, official, topic, stance, personal stake). `Replaces:` "NOT MODELED" and the PLACEHOLDER weights, with a decision from the sender's own stake, ties and time. The player writes one in a short scene (official, topic, stance; the English engine writes it in their voice). Messages land under the office's casework mode; `constituentsConsideration` adds the real messages received (b08's "constituents calling" reads the same records).
+7. **Public comment that counts.** Wire `speakAtOrdinaryMeeting` to the meeting scene; members who heard get a consideration on that item weighed by the speaker's standing with them and their traits (Session 21 owns vote considerations; this supplies the source). `Replaces:` the three PLACEHOLDER speech lines at :35 (Session 4 writes the words).
+
+## Must NOT build
+
+Fixed shares ("23% contact officials") deciding who acts (Pew numbers only calibrate and test the outcome); dice; authored protest or petition events; a second ballot or election engine; a second scene engine; a second signer decision; campaign volunteering (Session 22); statewide-only special cases; a daily tick over residents (decisions happen on group, petition and meeting dates).
+
+## Research tables
+
+In repo: municipal initiative and referendum readings (compiled), thresholds helper. Missing, one lookup each, 10 minutes max, sourced table: state initiative and referendum availability, signature threshold base, window, distribution rule, review (NCSL initiative and referendum states, Ballotpedia; the repo has only bill samples mentioning initiatives); state rule for a legislature changing a passed initiative. Pew civic engagement shares may calibrate test outcomes only, never decide anyone. Unread rows take the median of similar states and are marked estimated.
+
+## Done when (played-game proof)
+
+Random town where initiatives are allowed: the player votes by choice, starts an initiative, plays two doorstep scenes, volunteers gather the rest; it qualifies on real counts, goes on the ballot, passes or fails from voters' views, and if it passes the law changes. In a town where initiatives are not allowed the player is told why in plain words. A 10-year background run shows a group founded by a named resident, a protest with named attendees covered by the paper, and letters in a council member's vote reasons. Same flow in D.C. or a territory place. Tests: `petitions.test.ts` (kinds, thresholds, eligible signers), ballot-measure enactment test, group-founder test, protest-attendance test, letter-consideration test (ten letters change a member's reasons by named senders), grep test that the PLACEHOLDER lines named above are gone.
+
+## Proof to post
+
+Per PR: place and seed, the printed petition record (rule row and its basis, signers by circulator, clerk result), the ballot tally from named views, group founder reasons, attendee list, letter ids in a member's reasons, delete list for each "Replaces:", `npm run typecheck` and changed tests.
+
+## Standing rules
+
+"NEVER STOP WORK WAITING ON THE OWNER. When a decision is open, build everything that does not depend on the answer, plus the switch for it: a data row, a setting, or one function with the options stubbed. Log the question in the docket and keep building."
+Switches kept: per-state initiative rows are data (edit a row; an unread state uses the marked estimate); which actions a group may choose = one list row; the protest place list = one data row (city hall, the capitol); until b01, Session 4, 13, 21 or 23 land, stub `askToSign`, the scene row, the ballot hook, the vote consideration and the inbox as single functions the real ones replace. No open owner questions.

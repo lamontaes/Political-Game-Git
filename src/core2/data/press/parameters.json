@@ -1,0 +1,651 @@
+{
+  "about": "Press and interview parameters (OPUS-PEOPLE press, from OPUS-GOV's first version). Outlet counts and news habits live in data/research/press/local-news-2026.json.",
+  "parameters": {
+    "maxOutletsPerKind": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "The outlets of one kind that cover the town's politics are kept to a handful; a big county's hundreds of radio stations mostly carry music, not local news.",
+      "spread": [2, 8]
+    },
+    "newsRadioShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of full-power radio stations airing news or news/talk formats (Pew State of the News Media audio fact sheets: about 10% of commercial stations air news/talk).",
+      "spread": [0.06, 0.15]
+    },
+    "interviewsPerWeek": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "Candidate interviews one local outlet's political reporter can run in a week next to other assignments (local newsrooms average about 5 journalists per paper, data/research/press/local-news-2026.json staff).",
+      "spread": [1, 4]
+    },
+    "invitationWeeks": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "Weeks before a general election in which local outlets seek out the candidates on the ballot (endorsement interviews and voter guides run in the final month or two).",
+      "spread": [4, 10]
+    },
+    "televisionBar": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How newsworthy a candidate must be for a television station to give airtime (name recognition, incumbency, money); newspapers and radio take any candidate on the ballot.",
+      "spread": [0.1, 0.6]
+    },
+    "incumbentNewsworthiness": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The newsworthiness an incumbent carries over a challenger (incumbents draw more coverage: Prior 2006, 'The Incumbent in the Living Room').",
+      "spread": [0.1, 0.5]
+    },
+    "moneyNewsworthiness": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "Weight of a candidate's share of the money raised in the race on their newsworthiness.",
+      "spread": [0.2, 0.6]
+    },
+    "questionsPerInterview": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Questions on the record in a short candidate interview or questionnaire.",
+      "spread": [2, 5]
+    },
+    "interviewWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How far one interview read or watched moves a person's view of the candidate, between an ad (secondhand, paid) and a speech heard in person.",
+      "spread": [0.1, 0.4]
+    },
+    "brokenPromiseNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly a promise the candidate broke draws a reporter's question, against the other reasons to ask (accountability questions lead candidate interviews: Ballotpedia and League of Women Voters candidate questionnaires).",
+      "spread": [0.5, 2]
+    },
+    "recordVoteNewsWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How strongly each of an incumbent's recent recorded votes draws a question about it (local coverage of officeholders centers on their votes: Arnold 2004, Congress, the Press, and Political Accountability).",
+      "spread": [0.2, 1]
+    },
+    "recordVotesConsidered": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many of an incumbent's most recent recorded votes a reporter looks over before an interview.",
+      "spread": [3, 10]
+    },
+    "partyGapNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly the distance between two candidates' positions on a question (0 to 2, halved) draws a question: reporters frame races by where the candidates differ (Patterson 1993, Out of Order).",
+      "spread": [0.5, 2]
+    },
+    "townConcernNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly the town's own concern (the summed strength of its people's stances on a question over its adults, 0 to 1) draws a question; local outlets cover what their audience cares about (Hamilton 2004, All the News That's Fit to Sell).",
+      "spread": [0.5, 2]
+    },
+    "divisiveNewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a question's national divisiveness (how partisan and how evenly split, 0 to about 1) draws a question beside the race's own record.",
+      "spread": [0.2, 1]
+    },
+    "askedAgainPenalty": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much less a question draws each time this candidate has already answered it on the record: a reporter looks for what the candidate hasn't said yet.",
+      "spread": [0.5, 2]
+    },
+    "interviewAcceptBase": {
+      "value": 1.8,
+      "tag": "ESTIMATED",
+      "source": "Fitted so that about half the candidates a reporter asks accept: the League of Women Voters' VOTE411 2024 report, \"Nationally, the median candidate response rate was 51%\" (my.lwv.org/node/65462; federal races 63%, Connecticut General Assembly races 32%), a voter guide's request standing in for an interview's. Fitted on the interview asks of two played election-window years (Halfway, Missouri, place key 2929962, seed 3e9ed70a5fb7; Marblehead, Ohio, 3947502, seed 7772ab1c8196) with the reach, incumbency and trait weights: 49% and 54% accept. The spread is the base at which 39% and 61% of those asks accept.",
+      "spread": [1.5, 2.05]
+    },
+    "interviewReachWeight": {
+      "value": 13.5,
+      "tag": "TUNABLE",
+      "source": "How much more a candidate wants an interview from an outlet more of the town follows (the share of town adults who follow it). No study gives its size, so a standard deviation of reach weighs the same as one of incumbency among 591 asks in six drawn race windows (run seed acceptfit1; 0.073 and 0.291), as the exit poll weighs its two reasons.",
+      "spread": [6.75, 20]
+    },
+    "interviewIncumbentReluctance": {
+      "value": 3.4,
+      "tag": "TUNABLE",
+      "source": "A sitting official's reluctance to give an interview: they need the coverage least and risk their record. Checked against Vote Smart's 2016 Political Courage Test returns, 32 of 416 incumbents against 261 of 784 challengers, a share ratio of about 0.25 (from a search snippet of Vote Smart's release; its page was not fetched), a long survey rather than an interview. Fitted with the other weights on 591 asks in six drawn race windows (run seed acceptfit1), where incumbents accept about 46% of asks and challengers all of theirs (a ratio near 0.47).",
+      "spread": [2, 5]
+    },
+    "adultsPerNewspaperNewsroomWorker": {
+      "value": 6678,
+      "tag": "SOURCED",
+      "source": "U.S. adults per newsroom worker at newspapers, 2018: 253,768,092 U.S. adults on July 1, 2018 (U.S. Census Bureau, Estimates of the Voting Age Population for 2018, Federal Register, Oct 4, 2019, 2019-21663) over the 38,000 newspaper newsroom workers of 2018 (Pew Research Center, 'Fast facts about the newspaper industry's financial struggles', Feb 14, 2020). A market's newsroom jobs follow its adults at this rate, shared among its papers.",
+      "spread": [5500, 8000],
+      "role": "coefficient"
+    },
+    "newspaperNewsroomFloor": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "source": "Newsroom jobs the smallest paper keeps whatever its market: its editor and one reporter, the staff the game already seeds (Medill State of Local News 2024 puts the average surviving paper at about 5 journalists; the small weekly's floor of two is the game's own estimate, not a published figure).",
+      "spread": [1, 3],
+      "role": "coefficient"
+    },
+    "reportersPerNewspaper": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Reporters a local newspaper puts on one town's government (Medill State of Local News 2024: about 5 journalists per surviving paper across all its beats and towns; a small-town paper has one on its government).",
+      "spread": [1, 4]
+    },
+    "reportersPerStation": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Reporters a television or news radio station assigns to one town (a station covers a whole market; Pew local TV fact sheet 2023, RTDNA newsroom survey 2024: median local TV newsroom about 40 staff across a market of dozens of towns).",
+      "spread": [1, 2]
+    },
+    "reporterAgeMin": {
+      "value": 23,
+      "tag": "ESTIMATED",
+      "source": "Youngest working reporters, out of college (BLS CPS 2023 age of news analysts, reporters and journalists: median 38).",
+      "spread": [21, 25]
+    },
+    "reporterAgeMax": {
+      "value": 62,
+      "tag": "ESTIMATED",
+      "source": "Oldest working reporters (BLS CPS 2023: few reporters past their early sixties).",
+      "spread": [58, 67]
+    },
+    "editorAgeMin": {
+      "value": 32,
+      "tag": "ESTIMATED",
+      "source": "Youngest editors and publishers of a local outlet (BLS CPS 2023 editors: median age 44).",
+      "spread": [28, 38]
+    },
+    "editorAgeMax": {
+      "value": 70,
+      "tag": "ESTIMATED",
+      "source": "Oldest editors and publishers still running a local paper (owner-publishers often work past 65).",
+      "spread": [65, 78]
+    },
+    "reporterAnnualPayMinor": {
+      "value": 5750000,
+      "tag": "SOURCED",
+      "source": "BLS Occupational Employment and Wage Statistics, May 2023, 27-3023 News Analysts, Reporters, and Journalists: median annual wage $57,500."
+    },
+    "editorAnnualPayMinor": {
+      "value": 7502000,
+      "tag": "SOURCED",
+      "source": "BLS Occupational Employment and Wage Statistics, May 2023, 27-3041 Editors: median annual wage $75,020."
+    },
+    "fullTimeHoursPerYear": {
+      "value": 2080,
+      "tag": "SOURCED",
+      "source": "Full-time year used by BLS to turn an hourly wage into an annual one (40 hours times 52 weeks)."
+    },
+    "weeksPerYear": {
+      "value": 52,
+      "tag": "SOURCED",
+      "source": "The weeks in the full-time year BLS uses to turn an hourly wage into an annual one (40 hours times 52 weeks)."
+    },
+    "newspaperCirculationShare": {
+      "value": 0.542,
+      "tag": "ESTIMATED",
+      "source": "The part of a paper's revenue its readers pay (subscriptions and single copies) rather than advertisers: Pew Research Center, Newspapers fact sheet (2022): \"Total estimated circulation revenue was $11.6 billion\" and \"The total estimated advertising revenue for the newspaper industry in 2022 was $9.8 billion\"; 11.6 / (11.6 + 9.8). https://www.pewresearch.org/journalism/fact-sheet/newspapers/",
+      "spread": [0.45, 0.6]
+    },
+    "advertisingShareOfCosts": {
+      "value": 0.01145,
+      "tag": "ESTIMATED",
+      "source": "The part of a business's costs spent on advertising: IRS Statistics of Income, Returns of Active Corporations, Table 2.1, Tax Year 2022: advertising $473,153,216 thousand of total deductions $41,318,667,736 thousand. Spread across its size-of-assets columns, 0.81 to 1.23 percent. https://www.irs.gov/pub/irs-soi/22co21ccr.xlsx",
+      "spread": [0.0081, 0.0123]
+    },
+    "localNewsShareOfAdvertising": {
+      "value": 0.064,
+      "tag": "ESTIMATED",
+      "source": "The part of businesses' advertising bought from local news outlets: newspapers' $9.8 billion of advertising revenue (Pew Newspapers fact sheet 2022) and local TV's $20.5 billion over the air (Pew Local TV news fact sheet: \"In 2022, an election year, local TV over-the-air advertising revenue totaled $20.5 billion\") of the $473.2 billion corporations deducted for advertising (IRS SOI 2022 Table 2.1). Radio's part has no published total, so the spread runs above the value. https://www.pewresearch.org/journalism/fact-sheet/local-tv-news/",
+      "spread": [0.05, 0.09]
+    },
+    "storiesPerReporterWeek": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "Government and politics stories a local reporter files in a week beside other assignments (Pew 2019 study of local news: local outlets run about 0.6 civic stories a day across their staff, about two a week per reporter covering a town).",
+      "spread": [2, 6]
+    },
+    "briefsPerOutletWeek": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Short items a local outlet prints in its side column in a week (a police log, births, school results, new businesses), beside its reporters' stories; a weekly community paper's briefs and police-log columns run a handful of items an issue. Only items the town recorded are printed: a quiet week prints fewer, never padding.",
+      "spread": [2, 10]
+    },
+    "usualMonths": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The closed months a town's own usual is the mean of (a year, so a season's swing evens out); a paper's police log is read against the town's year, not against another town.",
+      "spread": [6, 24]
+    },
+    "briefUsualFloor": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How far under the town's own usual a brief's measure can fall before its space on the page is gone: at this share of usual the brief has none, and its space rises evenly to the ceiling. No cutoff: every share between has its own share of the space.",
+      "spread": [0.5, 0.9]
+    },
+    "briefUsualCeiling": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The share of the town's usual at which a brief has all the space the desk gives a brief; above it a brief's space no longer grows.",
+      "spread": [1.2, 2]
+    },
+    "briefUsualMinMonths": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The closed months a town's usual must rest on before a month can be called well over it; a usual from fewer months is too thin to call anything busy (coordinator ruling, Nov 14).",
+      "spread": [3, 12]
+    },
+    "briefChanceBar": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How rarely chance gives a month this busy at the town's usual (one month in twenty) before the paper calls it well over usual; four reports against a usual of two happens about one month in seven and is not news (coordinator ruling, Nov 14).",
+      "spread": [0.01, 0.1]
+    },
+    "storyProximityTown": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a local outlet values a story from its own town, the scale the other proximity weights are set on.",
+      "spread": [1, 1]
+    },
+    "storyProximityCounty": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "source": "Weight of a county story at a town outlet against a town story (local outlets lead with their own town; Pew 2019).",
+      "spread": [0.5, 0.9]
+    },
+    "storyProximityState": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "Weight of a state story at a town outlet against a town story (statehouse coverage fell by a third from 2003 to 2014; Pew 2014).",
+      "spread": [0.2, 0.6]
+    },
+    "storyProximityNation": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Weight of a national story at a town outlet, which leaves national news to the wire and networks.",
+      "spread": [0.1, 0.4]
+    },
+    "storyReaderCareWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of how strongly the outlet's followers hold views on a story's topic in what the reporter picks (outlets cover what their audience follows: Gentzkow and Shapiro 2010).",
+      "spread": [0.5, 2]
+    },
+    "storyPeopleWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of how many of the outlet's followers the story names or involves (news values of proximity and human interest: Galtung and Ruge 1965).",
+      "spread": [0.2, 1]
+    },
+    "storyDriveWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of the reporter's own causes and grudges in what they pick.",
+      "spread": [0.2, 1]
+    },
+    "letterStrength": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "How strongly a reader must feel (the views engine's stance strength) before writing to the paper is on the table; their temperament moves it from there (press.letter). Set inside the range played years show for views a story moved: in Blunt, South Dakota, 0.0001 to 0.09 with median 0.0075 and the top tenth above 0.023 in a year without letters stirring readers, median 0.014 in one with them. So strength of feeling decides most of it. Checked against a newspaper's letters page, which a paper fills at most once a week here: a played year prints fewer letters than weeks.",
+      "spread": [0.01, 0.05]
+    },
+    "letterTopicDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "source": "Days before the paper prints the same writer on the same question again, once it has printed their say on it. Checked against a played year's paper: no sentence printed more than three times in a year.",
+      "spread": [90, 730]
+    },
+    "letterWriterDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days a reader whose letter ran waits before the paper prints another from them: local papers' letters policies commonly print one letter per writer a month.",
+      "spread": [14, 60]
+    },
+    "storyFreshDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days a public record stays a story a reporter can still pick (news ages out within a week or two).",
+      "spread": [7, 28]
+    },
+    "slantLeanWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far the outlet's lean tilts a story for or against its subject (media slant follows audience lean: Gentzkow and Shapiro 2010).",
+      "spread": [0.2, 0.8]
+    },
+    "slantTieWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How far a reporter's closeness to the subject softens a story, and a grudge sharpens it.",
+      "spread": [0.2, 0.7]
+    },
+    "slantPublisherWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far the publisher's closeness to the subject softens a story (owner influence on coverage: Martin and McCrain 2019).",
+      "spread": [0.1, 0.4]
+    },
+    "slantAdvertiserWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How far a subject's ad spending at the outlet this cycle softens its stories, at its full share of the outlet's year (advertiser influence on local coverage: Reuter and Zitzewitz 2006).",
+      "spread": [0.05, 0.3]
+    },
+    "storyImpulse": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far one printed story moves a reader's stance on its topic, against a speech heard in person (1).",
+      "spread": [0.2, 0.8]
+    },
+    "exposureCommentDays": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Days from a reporter's finding to the story running, while the one exposed is asked for comment. The practice is sourced: the Society of Professional Journalists Code of Ethics, 'Seek Truth and Report It', asks reporters to diligently seek subjects of news coverage to allow them to respond to criticism or allegations of wrongdoing. No published figure gives how long a paper holds such a story; the spread is the edition cycle, a daily paper or newscast's next edition (1) to a weekly's (7).",
+      "spread": [1, 7],
+      "role": "coefficient"
+    },
+    "digDelayDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days a reporter takes to check a candidate's claim against the record before printing what they found.",
+      "spread": [7, 42]
+    },
+    "shadeBase": {
+      "value": -1.82,
+      "tag": "ESTIMATED",
+      "source": "Where a candidate asked about their own vote starts, before how far the vote stands from where the town stands and their temperament. A town's stand on a question is read against how far towns stand at the furthest (townStandReach), so a town standing that far reads as half way to an end, and the largest gap between vote and town is 0.75. Fitted so that at that gap the share of adults who would shade matches the share prepared to lie for gain in an incentivized one-shot cheating task: 26.1% (95% interval 19.2% to 34.4%), Heck, Thielmann, Moshagen and Hilbig (2018), Who lies? A large-scale reanalysis linking basic personality traits to unethical decision making, Judgment and Decision Making 13(4):356-371, 16 studies, N = 5,002. Measured across the 9,561 adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2) at shadeGapWeight 2: 26% shade where the town stands as far against the vote as a town can, 8% where the town is split (gap 0.5), none where the town stands fully with the vote (gap 0.25). The study's interval gives the spread.",
+      "spread": [-1.97, -1.65]
+    },
+    "shadeGapWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much more a candidate leans toward shading an answer about their own vote the further the vote stands from where the town stands on the question (half the distance between the two positions): the vote costs more with the people listening the further it sits from them. Checked with shadeBase moved to keep the share at the largest gap at the study's (16 towns, seeds shadefit1 and shadefit2): at 1.5, 3.7% shade a vote the town fully agrees with and 11.6% where the town is split; at 2, none and 8.3%; at 2.5, none and 5.8%.",
+      "spread": [1.5, 2.5]
+    },
+    "townStandReach": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "source": "How far from the middle a town stands on a question at the furthest, as a candidate weighs it: a town's stand is the mean of its electorate's own stances on the question in both tiers, by the one reader of where the town stands (electorateSides: a named voter at their current view, a counted record at its record's stance with its faith and degree, each by the people it stands for), and a candidate reads the town's stand against this reach, so a town standing this far reads as half way to an end, where shadeBase's calibration sits. Measured on the 54 questions with a left-right direction in 12 towns drawn from all 56 places, built two-level (seed standfit3, Nov 1): the 95th percentile of how far a town stood is 0.246, rounded (median 0.032; 90th percentile 0.177, 99th 0.333; Clayton, Oklahoma reached 0.364). The spread is the 90th to the 99th percentile. The earlier 0.12 (seed standfit1, Oct 26) was measured on the leans alone, with no faith, degree or stance moves.",
+      "spread": [0.177, 0.333]
+    },
+    "moveWeightPlain": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How far a plain answer carries in print, the scale the other moves are set on.",
+      "spread": [1, 1]
+    },
+    "moveWeightFurther": {
+      "value": 1.25,
+      "tag": "TUNABLE",
+      "source": "How far an answer backed with a fact from the record carries in print against a plain one.",
+      "spread": [1, 1.5]
+    },
+    "moveWeightTurn": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "source": "How far an answer turned back on a rival carries for the candidate's own position (the story is partly about the rival).",
+      "spread": [0.5, 1]
+    },
+    "moveWeightBrief": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a brief answer carries in print against a plain one.",
+      "spread": [0.25, 0.75]
+    },
+    "outletLeanHeadWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of an outlet's lean set by its head's own views; the rest follows its audience (Gentzkow and Shapiro 2010: slant tracks readers' lean far more than owners'; Martin and McCrain 2019: a new owner moved local TV coverage right).",
+      "spread": [0.1, 0.4]
+    },
+    "coworkerHoursAtOpening": {
+      "value": 40,
+      "tag": "TUNABLE",
+      "source": "Hours an outlet's staff have spent together by the opening, a week of shared work, so coworkers know one another.",
+      "spread": [8, 200]
+    },
+    "bureauMarginShare": {
+      "value": 0.08,
+      "tag": "TUNABLE",
+      "source": "An outlet's operating margin over its town staff's pay where its wider area funds the town bureau (newspaper operating margins of about 5 to 10 percent: Pew State of the News Media 2023; local TV margins higher).",
+      "spread": [0.03, 0.2]
+    },
+    "daysPerYear": {
+      "value": 365.25,
+      "tag": "SOURCED",
+      "source": "Mean days in a Gregorian year (365 plus a leap day every fourth year, less three per 400 years: 365.2425; 365.25 as the calendar's working mean)."
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Months in a calendar year."
+    },
+    "interviewHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours a reporter and a candidate spend together in a local interview.",
+      "spread": [0.5, 2]
+    },
+    "contradictionWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far a printed story setting a candidate's record against their word moves a reader's view of them, at the reporter's full resolve (fact-checks lower favorability of the checked politician: Nyhan and Reifler 2015; Wintersieck 2017).",
+      "spread": [0.1, 0.5]
+    },
+    "distrustDistance": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How far full distrust of an outlet moves a follower away from it, on the views lean scale (-2 to 2): at full distrust, as far as the scale's half-width (hostile media effect and outlet switching: Vallone, Ross and Lepper 1985; Stroud 2011).",
+      "spread": [1, 4]
+    },
+    "ownerAgeMin": {
+      "value": 40,
+      "tag": "ESTIMATED",
+      "source": "Youngest owners of a local outlet or station group (owners of U.S. newspapers and station groups are mostly past 50: Pew 2019 newspaper ownership study; Forbes 400 media owners).",
+      "spread": [30, 50]
+    },
+    "ownerHouseholdIncomeMinor": {
+      "value": 35000000,
+      "tag": "ESTIMATED",
+      "source": "The yearly household income of an outlet's owner, in cents, taken as the lower limit of the top 5 percent of U.S. households (Census Bureau, Historical Income Tables, Table H-1, recent years about $330,000 to $370,000), since the pool's press ruling has outlets owned by wealthy owners. It sets their living cost basket and the bank balance a family at that income keeps (SCF 2022).",
+      "spread": [25000000, 45000000]
+    },
+    "ownerAgeMax": {
+      "value": 85,
+      "tag": "ESTIMATED",
+      "source": "Oldest owners still holding an outlet (family owners commonly hold into their eighties).",
+      "spread": [75, 90]
+    },
+    "outletLeanOwnerWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of an outlet's lean set by its owner's views (a new owner moved local TV coverage right: Martin and McCrain 2019; owners' influence on endorsements: Gentzkow and Shapiro 2010).",
+      "spread": [0.1, 0.4]
+    },
+    "slantOwnerWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far the owner's regard for the people a story names (closeness, a grudge, how near their views sit) turns its framing (Martin and McCrain 2019; Durante and Knight 2012 on owner-driven slant).",
+      "spread": [0.1, 0.5]
+    },
+    "slantRivalWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far the owner's regard for a candidate's rivals turns the candidate's own coverage the other way: an owner who crossed a rival favors the candidate.",
+      "spread": [0.05, 0.4]
+    },
+    "regardViewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of how near two people's leans sit in one's regard for the other, beside closeness and grudges.",
+      "spread": [0.2, 0.8]
+    },
+    "tipDocumentsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a paper trail (a payment on the books) pushes a reporter to dig into a tip, against a rumor with nothing to check.",
+      "spread": [0.2, 1]
+    },
+    "exposureWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How far a printed story exposing an official's bribe moves a reader's view of them, at the outlet's full resolve (scandal coverage costs incumbents votes in proportion to exposure: Ferraz and Finan 2008; Snyder and Strömberg 2010).",
+      "spread": [0.2, 0.7]
+    },
+    "nationalProximityTown": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "Weight of a town story at a national outlet against a national one (national outlets rarely cover one town's council).",
+      "spread": [0.02, 0.3]
+    },
+    "nationalProximityCounty": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "Weight of a county story at a national outlet against a national one.",
+      "spread": [0.05, 0.3]
+    },
+    "nationalProximityState": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of a state story at a national outlet against a national one (statehouse fights reach national news when they are national questions).",
+      "spread": [0.3, 0.8]
+    },
+    "nationalProximityNation": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of a national story at a national outlet, the scale its other proximity weights are set on.",
+      "spread": [1, 1]
+    },
+    "nationalInterviewBar": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How newsworthy a candidate must be before a national outlet asks for an interview (name recognition, incumbency, money).",
+      "spread": [0.4, 1]
+    },
+    "profileWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far a magazine profile moves a reader's view of the person it profiles, at full framing (profiles shape name recognition and warmth more than a news item).",
+      "spread": [0.1, 0.4]
+    },
+    "audienceRecountDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between recounts of the town's counted residents for an outlet's audience and its stories' counted readers; audiences move by births, deaths and moves, which change a town's counts slowly within a month.",
+      "spread": [7, 90]
+    },
+    "nationalStoriesPerReporterWeek": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Stories a week a national outlet runs that bear on one town's state or the nation as its readers there follow it (a national outlet's few daily political stories are mostly about the capital and other states).",
+      "spread": [1, 3]
+    },
+    "partyBreakNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on a question where a candidate's own recorded vote broke with their party's side, on the scale of a broken promise (reporters ask about party defections: Groeling 2010).",
+      "spread": [0.3, 2]
+    },
+    "outletReadersNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on how far a candidate stands from the asking outlet's line on a question its readers care about (outlets ask what their audience cares about: Gentzkow and Shapiro 2010; hostile interviews probe weak points).",
+      "spread": [0.3, 2]
+    },
+    "reporterCauseNewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight on a policy question the asking reporter holds a cause on, at full strength.",
+      "spread": [0.2, 1]
+    },
+    "interestHeadWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far an editor's regard for someone asking (closeness, a grudge, how near their views sit) weighs in whether the outlet gives them an interview, beside newsworthiness (editors' access relationships with sources: Gans 1979, Deciding What's News; same scale as the owner's slantOwnerWeight).",
+      "spread": [0.1, 0.5]
+    },
+    "interestReadersWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of the share of an outlet's followers who have heard of someone asking for an interview (outlets cover who their audience follows: Gentzkow and Shapiro 2010).",
+      "spread": [0.2, 1]
+    },
+    "interviewAgainDays": {
+      "value": 28,
+      "tag": "TUNABLE",
+      "source": "Days before an outlet sits down again with an officeholder between races (a local beat reporter's monthly check-in with a council member or mayor).",
+      "spread": [14, 90]
+    },
+    "officeNewsworthiness:president": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.5, 1.5]
+    },
+    "officeNewsworthiness:vice-president": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.35, 1.0499999999999998]
+    },
+    "officeNewsworthiness:federal": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.25, 0.75]
+    },
+    "officeNewsworthiness:state": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.15, 0.44999999999999996]
+    },
+    "officeNewsworthiness:county": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.075, 0.22499999999999998]
+    },
+    "officeNewsworthiness:city": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
+    },
+    "officeNewsworthiness:township": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
+    },
+    "storyRenownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
+      "spread": [0.5, 2]
+    },
+    "newspaperOtherCostPerNewsroomJobYearMinor": {
+      "value": 56800000,
+      "tag": "SOURCED",
+      "source": "What a paper spends beyond newsroom pay for each newsroom job it keeps (printing, delivery, sales, administration, rent), per year, in cents: $24,002 million total expenses of U.S. newspaper publishers, all establishments, employer firms, 2018 (U.S. Census Bureau Service Annual Survey, series NPEAEEF351111 on FRED, https://fred.stlouisfed.org/data/NPEAEEF351111) over the 38,000 newsroom workers of 2018 (Pew Research Center, Feb 2020) is $631,600 per newsroom job; less $63,250, a reporter's median pay ($57,500, BLS) with 10 percent for employer taxes (the game's own payroll tax rate differs a little), leaves about $568,000. The same accounts give revenue of $25,436 million, so the average paper's expenses are 94 percent of its revenue. Newspapers only: the accounts for radio and television broadcasting include networks and music stations, which a town's news outlet is not, so only a newspaper's whole cost is modeled; a station's cost is its newsroom pay.",
+      "spread": [45000000, 70000000],
+      "role": "coefficient"
+    },
+    "newspaperRevenuePerAdultYear": {
+      "value": 10023,
+      "tag": "SOURCED",
+      "source": "A paper's total revenue (subscriptions and advertising) per adult in its market per year, in cents, 2018: $25,436 million revenue of U.S. newspaper publishers, all establishments, employer firms (U.S. Census Bureau Service Annual Survey, series REVEF51111ALLEST on FRED, https://fred.stlouisfed.org/data/REVEF51111ALLEST) over 253,768,092 U.S. adults on July 1, 2018 (U.S. Census Bureau, Estimates of the Voting Age Population for 2018, Federal Register, Oct 4, 2019, 2019-21663). The game pays it per reader: this figure over the national share of adults who follow local newspapers in data/research/press/local-news-2026.json, so a market that reads like the nation pays the national amount per adult.",
+      "spread": [8000, 12000],
+      "role": "coefficient"
+    }
+  }
+}

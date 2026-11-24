@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T01:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "The owner answered on 9/22 at 9:26 p.m. Eastern: yes, the player's character can own a business, and the design of how is deferred to ChatGPT.",
+    "Until this is answered, the player cannot start or buy a business. Businesses in town already have owners, revenue and an owner's draw, all as marked placeholders."
+  ],
+  "priority": "P1",
+  "question": "How should the player's character come to own and run a business? Cover: the ways in (start one, buy one, inherit one, join as a partner); what it takes (money, a license, a location, experience) and whether that differs by kind of business and by state; what running it asks of the player, and how often, versus what happens on its own; how revenue, costs, payroll, taxes and the owner's own pay are decided and shown; how a business fails, is sold or is passed on; and how owning one connects to politics (donations, lobbying, conflicts of interest while holding office, blind trusts, what a candidate must disclose).",
+  "questionId": "how-a-player-owns-a-business",
+  "relatedQuestionIds": [
+    "businesses-owners-and-wealth",
+    "employers-and-job-listings",
+    "what-ordinary-adults-have-saved"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The world as built",
+      "whatItDidNotSettle": "Businesses can be recorded with an owner and monthly revenue, but no action lets a person start, buy, run, sell or close one, and nothing records what an officeholder must do about a business they own."
+    }
+  ],
+  "title": "How the player's character owns a business",
+  "usableAnswer": "A short design: the ways in with their requirements, the decisions the player makes and how often, what the game handles on its own, how failure, sale and inheritance work, and the political rules for an owner who runs for or holds office, each with a real rule or source where one exists.",
+  "whyItMatters": "The owner wants the player able to own a business. Without a design, any version built would invent its requirements, its pace and its rules for officeholders."
+}

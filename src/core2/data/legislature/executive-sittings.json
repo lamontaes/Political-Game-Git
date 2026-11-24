@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "description": "Whether an elected executive sits with the body whose bills reach their desk at its regular sittings, read by the shared-sitting reader (src/core2/sitting-closeness.ts through world-legislating.ts's sitting calendar): an executive who sits with the body shares its sittings with its members as the members do. Pool item government-executive-shared-time-with-body. A governor's meetings with the legislature's leaders and a signing with the sponsor are not read here: no record of either meeting exists yet (pool items government-executive-leaders-meeting-as-sitting and scene-signing-casts-who-it-reaches).",
+    "retrieved": "2026-11-15"
+  },
+  "kinds": {
+    "mayor": {
+      "sits": "always",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "National League of Cities, Forms of Municipal Government, as src/core2/data/legislature/executive-proposal.json cites it: a mayor-council mayor recommends ordinances to the council and, under most general laws, presides at or attends its regular meetings (data/research/gov/local-executive-introduction-2026.json: mayorSeat member or separate-executive in every place). A town whose charter keeps the mayor away from council meetings is the charter's record; no per-town charter data is read yet.",
+      "spread": "sits at every regular meeting (presiding or attending) to none (a strong-mayor charter whose mayor sends a deputy)"
+    },
+    "county-executive": {
+      "sits": "where-presides",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "data/research/gov/local-executive-introduction-2026.json countyExecutive.mode, derived from data/research/local-government/county-governing-bodies.json executivePresidesOverBody: an executive who presides over the board sits at its meetings; a separate executive brings bills by request and does not.",
+      "spread": "per state, as the research row says"
+    },
+    "governor": {
+      "sits": "never",
+      "tag": "SOURCED",
+      "citation": "Every state constitution's separation of powers: the governor is not a member of the legislature and sits at no floor session (NCSL, Inside the Legislative Process)."
+    },
+    "president": {
+      "sits": "never",
+      "tag": "SOURCED",
+      "citation": "U.S. Const. art. I, sec. 6, cl. 2 (no person holding an office under the United States may be a member of either House)."
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# Shorter glimpses from the Nov 8 worlds (from the CTO's morning notes)
+
+Copied for the Dev Tester, which hands each to a sub-agent. Seeds and replays for each are in `docs/reports/dev-tests/2026-11-08.md`; where a glimpse names no seed, that report has it.
+
+These ran too briefly, or looked at too narrow a thing, for a vital statistics block.
+
+**Elections in six random towns, 2 to 3 years each.** Turnout looks real: 50 to 69 percent in general elections and 23 to 49 percent in local ones. But 43 to 85 percent of races were uncontested. That was 11 of 13 in Carolina Meadows, North Carolina; 16 of 21 in Agana Heights, Guam; and 17 of 22 in Charlotte Amalie East, Virgin Islands. Races almost always had 1 to 3 candidates, 7 at most. None reached the 8 to 15 a real open seat can draw after a wave. Some races drew nobody and left a seat empty: 3 of 13 in Carolina Meadows and 2 of 22 in the Virgin Islands. **Not fixed.** A new Elections session opened this morning. It fixes who runs, and ends a race nobody files for the way real law does: a write-in, a holdover or an appointment.
+
+**Dresser, Indiana, 2 years.** A seat emptied by a death had no party on record. Its special election counted the votes but named no winner, and the seat sat empty for over a year. The nightly test of every place had failed on this in 11 of 56 places since Nov 4. **Fixed, in the game:** an emptied seat keeps its last holder's party.
+
+**Logansport, Louisiana.** In a three-seat council race, the election-night screen showed the player's ballot as one name, though voters pick up to three. The count was always right. **Fixed, in the game:** the ballot shows every pick, in order.
+
+**Prairie Village, Kansas (city council): 14 laws, 75 days each.** Fare-free transit and moving highway money to transit worked from start to finish. Each took effect 30 days after passing, by the state's rule. Each changed the budget and made the news (20 and 25 stories read), and its repeal undid it. Two residents learned what fare-free transit changed for them. The property tax worked too. City income and sales taxes took effect but at first seemed to make no news. That was a counting miss; the paper does print them. The real gap was that nothing charged the city's rate. **Fixed, in the game:** city sales and income taxes now reach shoppers, workers and the town treasury. Spending bills move money but leave no law on the books to read yet. Four questions were barred at city level as state matters. Whether that matches each state's real law isn't checked yet. On the first try, the mayor vetoed fare-free transit even though every council member voted yes.
+
+**Middlebury, Vermont (state legislature).** On the first try, the governor vetoed 9 of 10 bills, and the tenth never got out of the legislature. On the later run, letting towns run fare-free transit took effect July 1, 2025, and its repeal took effect July 1, 2026. A statewide fare-free transit bill was held in committee even with every member set to vote yes. A committee chair can still hold a bill that way.
+
+**Plainview, Tennessee (county board): 75 days to a year.** The county passed its budget lines and its sales and property taxes, and repealed both taxes. It was barred from what Tennessee keeps for itself: a county income tax, a local minimum wage, a grocery tax exemption, gas hookup bans, police oversight boards and more. Whether each bar matches real law isn't checked yet. The night's biggest lesson came from here. Any bill passing at all set off about 209 more actions and left 10 more people alive after 75 days, through town halls, public comment and the news. The process itself starts chains of events. So a cash difference can't be pinned on one law. Grading uses only records that name the law.
+
+**Pay at the start, in four small towns.** Median hourly pay in private jobs at the opening runs $14.15 to $17.98. Those towns are Glen Lyon, Pennsylvania; Elsmere, Delaware; Lancaster, New Hampshire; and Duck, North Carolina. The national median is about $23. It isn't called a problem yet. The session is checking the opening pay against each state's figures for the same mix of jobs. If it's low, that's a numbers fix, not a design question.
+
+---

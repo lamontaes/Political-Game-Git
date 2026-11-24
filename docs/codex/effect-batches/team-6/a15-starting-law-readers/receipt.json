@@ -1,0 +1,64 @@
+{
+  "assignment": "CTO October 2 2:27: A15 enacted-only reader admission; NEXT A35",
+  "base": "b219621a71dd3ae70e2377bfcd536b589e125a45",
+  "sourceBlobs": {
+    "src/simulation/teacher-salary-floor.ts": "6923a530a95098a4e9831844a8bd8fcc783b3cba",
+    "src/simulation/federal-data-privacy-law.ts": "c609890d84a004922c77ff22df35df07a530d9f5",
+    "src/simulation/law-consequences/tax.ts": "445e342f31af36754c00e99c59e704cae9c940df",
+    "src/simulation/statutory-tax-law-attribution.ts": "f6b74b6b35171762ad797902319b5fef4ee00d04",
+    "src/simulation/a15-starting-law-readers.test.ts": "3781a9e28ab35cc4d622ec7703f371e5f9c5432e"
+  },
+  "native": {
+    "command": "OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/a15-starting-law-readers.test.ts --maxWorkers=1",
+    "testFiles": 1,
+    "passed": 8,
+    "failed": 0,
+    "exitCode": 0,
+    "startedAt": "2026-10-02T18:37:52Z",
+    "durationSeconds": 20.32,
+    "testMilliseconds": 229,
+    "limits": "Controlled query-boundary positive cases plus an actual random-place new game/Continue; not production starting-law activation."
+  },
+  "scopedTypes": {
+    "command": "node /tmp/team6-a15-types.mjs",
+    "changedRoots": 5,
+    "dependencyFiles": 1222,
+    "diagnostics": 0
+  },
+  "lint": "Five changed TS roots: PASS",
+  "format": "Five changed TS roots and release declaration: PASS",
+  "audit": {
+    "main": {
+      "head": "b219621a71dd3ae70e2377bfcd536b589e125a45",
+      "passed": 5,
+      "total": 8
+    },
+    "branch": {
+      "passed": 8,
+      "total": 8
+    },
+    "status": "PARTLY",
+    "commands": [
+      "node --import /tmp/team6-a15-main-loader.mjs --import tsx scripts/audit/autoscan.ts --only A15 --out /tmp/team6-a15-main-audit.json",
+      "npm run -s audit:scan -- --only A15 --out /tmp/team6-a15-branch-audit.json"
+    ],
+    "meaning": "Static reader exclusions removed, not proof of nationwide effects."
+  },
+  "earlierResults": {
+    "firstChangedTestRun": "6 passed / 1 failed: optional empty legislativeEnactments assertion; fixed with canonical empty fallback.",
+    "initialScopedTypes": "One diagnostic in controlled profile stub assertion; typing repaired."
+  },
+  "notRun": [
+    "full suites",
+    "unchanged LOAD",
+    "repository-wide types",
+    "nationwide law activation",
+    "official Claude gate"
+  ],
+  "sourceGaps": [
+    "Teacher starting rows contain no structured annual floor values.",
+    "National privacy starting row is absent.",
+    "Canonical starting tax proposal/statutory levy bindings are not supplied by this PR."
+  ],
+  "preserved": "No tax rate, assessment, collection, statutory amount, ID, occurrence date or sequence is created or repriced."
+}

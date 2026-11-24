@@ -1,0 +1,42 @@
+{
+  "id": "trauma-trajectories-2018",
+  "publisher": "Clinical Psychology Review (Elsevier)",
+  "vintage": "54 studies, 67 cases, published to 2017",
+  "table": "Abstract (pooled trajectory prevalences)",
+  "title": "Trajectories of resilience and dysfunction following potential trauma: A review and statistical evaluation",
+  "authors": "Galatzer-Levy, Huang and Bonanno (2018), Clinical Psychology Review 63:41-55, doi 10.1016/j.cpr.2018.05.008",
+  "universe": "People followed after a potentially traumatic event (bereavement, injury, disaster, combat and others)",
+  "geography": "Studies from several countries; no place breakdown",
+  "sourceUrl": "https://europepmc.org/article/MED/29902711",
+  "retrievedOn": "2026-10-24",
+  "limits": "Symptom trajectories, not actions: resilience means stable healthy functioning, which the drives engine's carry-on response stands for, but a resilient person may still take up a cause. All event types pooled; bereavement alone is not separated in the abstract.",
+  "trajectories": [
+    {
+      "id": "resilience",
+      "percent": 65.7,
+      "low": 61.6,
+      "high": 69.8
+    },
+    {
+      "id": "recovery",
+      "percent": 20.8,
+      "low": 16.2,
+      "high": 25.8
+    },
+    {
+      "id": "chronic",
+      "percent": 10.6,
+      "low": 8.6,
+      "high": 12.7
+    },
+    {
+      "id": "delayed",
+      "percent": 8.9,
+      "low": 5.3,
+      "high": 13.3
+    }
+  ],
+  "quote": "The resilience trajectory was the modal response across studies (average of 65.7% across populations, 95% CI [0.616, 0.698]), followed in prevalence by recovery (20.8% [0.162, 0.258]), chronicity (10.6%, [0.086, 0.127]), and delayed onset (8.9% [0.053, 0.133]).",
+  "use": "SG-P10-response-model: the band the share of people who carry on after a loss is reported against (scripts/research/people-year.ts); the builder item people-drives-responses-against-research-bands calibrates the response pressures to it.",
+  "readVia": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:29902711%20AND%20SRC:MED&resultType=core&format=json"
+}
