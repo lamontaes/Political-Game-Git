@@ -52835,6 +52835,1080 @@
       "elements": ["pattern-b6-03-asked-along"]
     },
     {
+      "key": "scene-talk.narrate-narrate.name-came-by-the-house-with-a-folder-and-the-look-of-someone-who-had-already-rehearsed-the-pitch",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} came by the house with a folder and the look of someone who had already rehearsed the pitch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-rung-the-bell-twice-before-anyone-came-to-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had rung the bell twice before anyone came to the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waited-in-the-hall-hat-in-hand-until-the-household-came-to-see-who-it-was",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waited in the hall, hat in hand, until the household came to see who it was.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-name-with-the-party-here-in-place-have-you-got-a-few-minutes",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm {name}, with the party here in {place}. Have you got a few minutes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-seeing-me-i-m-name-and-i-came-about-an-open-seat-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for seeing me. I'm {name}, and I came about an open seat in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.open-greet.i-won-t-take-much-of-your-time-i-m-name-and-i-have-a-question-for-you-about-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't take much of your time. I'm {name}, and I have a question for you about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.state-request.we-have-nobody-filed-for-the-open-seat-and-we-think-it-ought-to-be-you-will-you-run-for-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We have nobody filed for the open seat, and we think it ought to be you. Will you run for {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.state-request.the-party-has-looked-at-who-could-carry-place-and-your-name-keeps-coming-up-would-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The party has looked at who could carry {place}, and your name keeps coming up. Would you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.state-request.nobody-on-our-side-has-stepped-up-in-place-and-the-deadline-isn-t-far-off-will-you-let-us-put-your-name-forward",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody on our side has stepped up in {place}, and the deadline isn't far off. Will you let us put your name forward?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.state-request.we-need-a-candidate-who-knows-place-and-its-people-we-think-that-s-you-will-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need a candidate who knows {place} and its people. We think that's you. Will you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.state-request.the-seat-is-open-the-party-in-place-wants-you-on-the-ballot-and-i-m-here-to-ask-if-you-ll-say-yes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The seat is open, the party in {place} wants you on the ballot, and I'm here to ask if you'll say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-the-party-do-for-me-in-place-if-i-said-yes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would the party do for me in {place} if I said yes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-expect-from-me-once-i-held-the-seat-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you expect from me once I held the seat, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-ask.why-me-and-why-now-here-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why me, and why now, here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-run-for-place-and-i-ll-give-it-everything",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll run for {place}, and I'll give it everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-didn-t-see-this-coming-name-but-yes-put-me-down",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I didn't see this coming, {name}, but yes. Put me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-agree.if-place-needs-somebody-then-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "If {place} needs somebody, then I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-honored-name-but-i-won-t-run-for-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm honored, {name}, but I won't run for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-for-asking-but-running-isn-t-for-me-not-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you for asking, but running isn't for me, not in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-me-name-ask-someone-else-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not me, {name}. Ask someone else in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-name-i-need-to-talk-it-over-at-home",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days, {name}. I need to talk it over at home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-like-to-think-about-place-first-and-talk-to-the-people-i-live-with",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd like to think about {place} first, and talk to the people I live with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-answer.the-party-in-place-would-back-you-with-a-name-on-the-ballot-and-volunteers-at-the-door",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The party in {place} would back you with a name on the ballot and volunteers at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-answer.what-we-want-is-a-good-candidate-for-place-and-what-comes-after-is-up-to-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "What we want is a good candidate for {place}, and what comes after is up to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-answer.you-re-known-around-place-and-that-s-more-than-most-of-us-can-say",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You're known around {place}, and that's more than most of us can say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-you-ll-have-the-party-in-place-behind-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. You'll have the party in {place} behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-wonderful-i-ll-start-the-paperwork-for-place-today",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's wonderful. I'll start the paperwork for {place} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-press.are-you-sure-the-seat-in-place-won-t-wait-long-for-somebody-else",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Are you sure? The seat in {place} won't wait long for somebody else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-press.could-i-ask-you-to-think-about-it-once-more-place-needs-a-candidate",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Could I ask you to think about it once more? {place} needs a candidate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-ll-tell-the-party-you-weren-t-ready-and-we-ll-look-elsewhere-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll tell the party you weren't ready, and we'll look elsewhere in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-accept.take-the-time-you-need-but-the-filing-deadline-in-place-is-coming",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take the time you need, but the filing deadline in {place} is coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-call-you-in-a-couple-of-days-about-place-we-have-to-move",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I call you in a couple of days about {place}? We have to move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "stall"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-if-the-party-in-place-is-behind-me-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. If the party in {place} is behind me, I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-kind-but-i-still-can-t-name",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's kind, but I still can't, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "answer",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-it-over-i-ll-call-you-from-place-when-i-know",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think it over. I'll call you from {place} when I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-talked-me-into-it-i-ll-run-for-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've talked me into it. I'll run for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-thought-it-through-and-the-answer-for-place-stays-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've thought it through, and the answer for {place} stays no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-until-the-end-of-the-week-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me until the end of the week, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "after": "press",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-i-ll-tell-the-party-in-place-the-good-news",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll tell the party in {place} the good news.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-be-with-you-the-whole-way-in-place-you-have-my-word",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll be with you the whole way in {place}. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-look-for-someone-else-in-place-thank-you-for-hearing-me-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll look for someone else in {place}. Thank you for hearing me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
+      "key": "scene-talk.close-press.call-me-as-soon-as-you-ve-decided-so-place-isn-t-left-without-a-candidate",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me as soon as you've decided, so {place} isn't left without a candidate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
       "key": "scene-talk.close-press.the-spot-s-open",
       "move": "close-press",
       "kind": "spoken",
