@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 9299,
+  "judged": 9311,
   "no": {},
-  "yesHash": "2cg2vp1ny6v"
+  "yesHash": "1qgwjsqg7b6"
 }
