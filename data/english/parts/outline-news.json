@@ -3906,46 +3906,10 @@
       "elements": ["council-vote-story", "lede-names-the-body-that-acted"]
     },
     {
-      "key": "outline-news.lede.news-roll-call-members-of-the-body-who-met-on-date-approved-the-law-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "Members of the {body} who met on {date} approved the {law}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["council-vote-story", "lede-names-the-body-that-acted"]
-    },
-    {
       "key": "outline-news.lede.news-roll-call-the-law-which-the-body-took-up-on-date-was-voted-down-count",
       "move": "lede",
       "kind": "written",
       "text": "The {law}, which the {body} took up on {date}, was voted down {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["council-vote-story", "lede-names-the-body-that-acted"]
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-members-of-the-body-who-met-on-date-voted-down-the-law-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "Members of the {body} who met on {date} voted down the {law}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
