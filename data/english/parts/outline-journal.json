@@ -845,13 +845,13 @@
       "key": "outline-journal.born.birthday-is-in-month",
       "move": "born",
       "kind": "written",
-      "text": "My birthday is in {born-month}.",
+      "text": "I was born in {place} in {born-month}.",
       "uses": [
         {
           "subject": "journal-chapter-open",
           "role": "born",
           "tie": "record",
-          "requiresFacts": ["own-moment", "born-month"]
+          "requiresFacts": ["place", "own-moment", "born-month"]
         }
       ],
       "origin": "authored",
