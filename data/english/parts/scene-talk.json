@@ -93988,36 +93988,6 @@
       ]
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-won-t-forget-you-said-that-and-i-ll-see-you-on-vote-day",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I won't forget you said that, and I'll see you on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["vote-day"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
       "key": "scene-talk.follow-answer.i-live-in-place-and-i-decided-it-was-time-to-run",
       "move": "follow-answer",
       "kind": "spoken",
