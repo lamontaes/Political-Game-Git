@@ -1,0 +1,31 @@
+{
+  "id": "a-van-ramp-and-a-curb-ramp-share-the-aisle",
+  "kind": "situation",
+  "summary": "{inspector} finds a curb ramp taking up space beside a designated parking spot.",
+  "realLife": "At Livingston Employment Services, inspectors found that the built-up ramp intruded into the parking access aisle.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attj.html#:~:text=built-up%20curb%20ramp%20impermissibly%20extends"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{inspector}"],
+  "gates": [
+    "A parking layout includes a curb ramp that occupies the access aisle."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the access aisle, curb ramp footprint and proposed parking layout.",
+  "turns": [
+    {
+      "turn": "paint alone",
+      "what": "The inspector marks the space the ramp still occupies.",
+      "pulledBy": "A contractor proposes repainting the stall in place.",
+      "writesBack": "The plan goes back for a layout change."
+    },
+    {
+      "turn": "separate ramp and aisle",
+      "what": "The inspector measures the remaining clear aisle.",
+      "pulledBy": "A revised layout separates the two uses.",
+      "writesBack": "The inspection records the new clearance."
+    }
+  ]
+}

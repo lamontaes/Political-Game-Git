@@ -1,0 +1,31 @@
+{
+  "id": "a-ramp-ends-at-a-lip-outside-the-library",
+  "kind": "detail",
+  "summary": "{resident} reaches the top of the curb cut and finds another step on the way to the library.",
+  "realLife": "The Los Banos Library survey measured a one-inch rise at the upper end of the curb cut on its approach.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=change%20in%20level%20at%20the%20top%20of%20the%20curb%20cut"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{resident}"],
+  "gates": [
+    "A library entrance inspection records a level change at the top of a curb cut."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the curb cut, approach direction and measured change in level.",
+  "turns": [
+    {
+      "turn": "partial patch",
+      "what": "The inspector checks the full path people use.",
+      "pulledBy": "A patch fixes the lip on one side.",
+      "writesBack": "The report marks the remaining edge."
+    },
+    {
+      "turn": "surfaces level",
+      "what": "The inspector checks the approach again.",
+      "pulledBy": "The crew brings the two surfaces level.",
+      "writesBack": "The repair entry gains a measured result."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "take-curb-ramp-requests-by-intersection",
+  "kind": "move",
+  "summary": "{resident} identifies the particular crossing that keeps them off a county sidewalk route.",
+  "realLife": "Merced agreed to collect input from people with disabilities, including requests for curb cuts at specific places.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_sa.html#:~:text=curb%20cuts%20at%20particular%20locations"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{resident}"],
+  "gates": [
+    "A resident reports a barrier where a county sidewalk meets a street."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the reported crossing and the county's sidewalk project list.",
+  "turns": [
+    {
+      "turn": "corner corrected",
+      "what": "The resident marks the corner on a map with staff.",
+      "pulledBy": "The report identifies the wrong corner.",
+      "writesBack": "The request carries a corrected location."
+    },
+    {
+      "turn": "project already scheduled",
+      "what": "Staff connect the request to the scheduled work.",
+      "pulledBy": "A ramp project already covers that corner.",
+      "writesBack": "The resident's case points to the existing project."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "measure-the-force-at-the-shelter-door",
+  "kind": "detail",
+  "summary": "{inspector} pulls the animal shelter restroom door with a gauge to check how hard it is to open.",
+  "realLife": "At the Atwater animal shelter, the survey recorded different opening forces at the women's and men's restroom doors and listed both for correction.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_atti.html#:~:text=15%20pounds%20of%20force"
+  ],
+  "fits": ["office", "work-community", "journal", "home"],
+  "slots": ["{inspector}"],
+  "gates": [
+    "An animal shelter inspection identifies restroom doors that take too much force to open."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the two door identifiers and the opening-force reading at each.",
+  "turns": [
+    {
+      "turn": "closer adjusted",
+      "what": "The inspector checks the opening force again.",
+      "pulledBy": "The closer has been adjusted.",
+      "writesBack": "A second reading is filed against the same door."
+    },
+    {
+      "turn": "one door overlooked",
+      "what": "The inspector measures each separately.",
+      "pulledBy": "Only one door was adjusted.",
+      "writesBack": "One work order stays open."
+    }
+  ]
+}

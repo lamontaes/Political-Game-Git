@@ -1,0 +1,32 @@
+{
+  "id": "change-the-polling-place-after-reinspection",
+  "kind": "consequence",
+  "summary": "{elections_official} starts a polling-place change when the return inspection finds a barrier still there.",
+  "realLife": "Merced agreed to have an independent architect revisit outside polling sites and to replace a site if listed barriers remained under the settlement timetable.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_sa.html#:~:text=an%20alternate%20fully%20accessible%20polling%20place",
+    "https://archive.ada.gov/merced_co/merced_atte.html"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{elections_official}"],
+  "gates": [
+    "A return inspection has found an unresolved polling-site barrier."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the reinspection result and the survey of the proposed new polling place.",
+  "turns": [
+    {
+      "turn": "replacement approved",
+      "what": "Election staff reassign the location and prepare voter notices.",
+      "pulledBy": "An accessible alternative is verified.",
+      "writesBack": "The precinct record names the replacement site."
+    },
+    {
+      "turn": "replacement rejected",
+      "what": "The architect sends staff back to the search.",
+      "pulledBy": "The proposed replacement has an inaccessible approach.",
+      "writesBack": "The replacement remains unapproved."
+    }
+  ]
+}

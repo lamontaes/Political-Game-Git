@@ -1,0 +1,31 @@
+{
+  "id": "one-fountain-height-leaves-some-visitors-out",
+  "kind": "consequence",
+  "summary": "{official} learns that a drinking fountain a seated visitor can use may still leave someone unable to bend without a drink.",
+  "realLife": "At the Germino Building on the Los Banos Fairgrounds, inspectors found an accessible fountain but no option for people who had difficulty bending.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attk.html#:~:text=4.15.b."
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{official}"],
+  "gates": [
+    "A building survey finds a low fountain and no drinking option at standing height."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the building's drinking points, use heights and approach clearance.",
+  "turns": [
+    {
+      "turn": "low unit removed",
+      "what": "The reviewer asks how seated visitors will get water.",
+      "pulledBy": "A replacement plan removes the low unit.",
+      "writesBack": "The plan goes back with both needs recorded."
+    },
+    {
+      "turn": "two drinking heights",
+      "what": "The reviewer checks the approach to each.",
+      "pulledBy": "The design offers drinking points at both heights.",
+      "writesBack": "The facility file records both drinking locations."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "take-an-access-complaint-by-interview",
+  "kind": "move",
+  "summary": "{resident} gives the coordinator an account in person when the written form is a barrier.",
+  "realLife": "Merced County's grievance procedure offered an interview or a recording when a person requested another way to file.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attb.html#:~:text=personal%20interviews"
+  ],
+  "fits": ["office", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "A resident seeks an alternative way to submit an access complaint."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the facility, incident date and resident's chosen filing method.",
+  "turns": [
+    {
+      "turn": "recorded account",
+      "what": "The coordinator accepts the recording.",
+      "pulledBy": "The resident brings a recorded account.",
+      "writesBack": "The recording becomes the complaint on file."
+    },
+    {
+      "turn": "in-person account",
+      "what": "The coordinator asks where and when the barrier arose.",
+      "pulledBy": "The resident chooses an interview.",
+      "writesBack": "The intake record identifies the site and date."
+    }
+  ]
+}

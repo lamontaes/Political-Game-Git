@@ -1,0 +1,31 @@
+{
+  "id": "return-the-grievance-answer-in-a-readable-format",
+  "kind": "detail",
+  "summary": "{resident} asks for the county's answer in a format they can use on their own.",
+  "realLife": "Merced's grievance procedure provided for a response explaining the county's position and options in formats that could include Braille or audio.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_attb.html#:~:text=in%20format%20accessible%20to%20the%20complainant"
+  ],
+  "fits": ["office", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "A coordinator owes a resident a response and knows their format request."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the resident's requested format and the office's reply.",
+  "turns": [
+    {
+      "turn": "requested print size",
+      "what": "Staff prepare the answer at the requested size.",
+      "pulledBy": "The resident requests large print.",
+      "writesBack": "The delivery record names the format."
+    },
+    {
+      "turn": "replacement copy",
+      "what": "The resident calls for another copy.",
+      "pulledBy": "The reply arrives in ordinary print despite the request.",
+      "writesBack": "The case records a pending replacement."
+    }
+  ]
+}

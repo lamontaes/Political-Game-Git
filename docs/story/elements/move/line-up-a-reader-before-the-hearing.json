@@ -1,0 +1,31 @@
+{
+  "id": "line-up-a-reader-before-the-hearing",
+  "kind": "move",
+  "summary": "{coordinator} locates a qualified reader when a resident asks to use one.",
+  "realLife": "Merced agreed to identify qualified readers and interpreters and to put time frames for filling requests into written procedures.",
+  "sources": [
+    "https://archive.ada.gov/merced_co/merced_sa.html#:~:text=sources%20of%20qualified"
+  ],
+  "fits": ["office", "journal", "work-community", "news"],
+  "slots": ["{coordinator}"],
+  "gates": [
+    "A resident requests assistance reading materials for a county service."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the requested support, scheduled service and provider's availability.",
+  "turns": [
+    {
+      "turn": "reader booked",
+      "what": "Staff confirm the appointment with the resident.",
+      "pulledBy": "A qualified reader accepts the assignment.",
+      "writesBack": "The request has a named provider and time."
+    },
+    {
+      "turn": "appointment pending",
+      "what": "The coordinator asks the resident about another available time.",
+      "pulledBy": "The first provider cannot attend.",
+      "writesBack": "The appointment remains open pending the resident's reply."
+    }
+  ]
+}
