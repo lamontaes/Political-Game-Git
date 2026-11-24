@@ -15503,6 +15503,63 @@
       "date": "2026-11-19"
     },
     {
+      "key": "conversation.own-view-answer-private.i-d-rather-keep-that-to-myself-even-in",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I'd rather keep that to myself, even in {place}.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-private.my-view-stays-mine-and-nobody-in-needs-it",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "My view stays mine, and nobody in {place} needs it.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-private.i-d-rather-not-say-not-here-in",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I'd rather not say, not here in {place}.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private",
+          "requiresFacts": ["about", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
       "key": "conversation.own-view-answer-why.why-say-that",
       "move": "own-view-answer-why",
       "kind": "spoken",
@@ -34446,6 +34503,206 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-s-done-and-i-m-glad-because-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, and I'm glad, because {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-went-the-way-i-hoped-and-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It went the way I hoped, and {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-s-done-and-i-m-sorry-because-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, and I'm sorry, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.agree-it-went-the-way-i-feared-and-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It went the way I feared, and {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-it-s-done-whatever-you-think-and-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done, whatever you think, and {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-can-say-what-you-like-but-wants-it",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You can say what you like, but {reason-for}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["stand", "wants-it", "reason-for", "story-decided"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-it-s-done-now-and-i-still-say-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "It's done now, and I still say {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-take-core.disagree-you-can-say-what-you-like-but-wants-not",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You can say what you like, but {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": [
+            "stand",
+            "wants-not",
+            "reason-against",
+            "story-decided"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
     },
     {
       "key": "conversation.own-view-say-core.side-for-since-you-ask-i-think-reason-for",
