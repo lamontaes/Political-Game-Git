@@ -36,6 +36,7 @@ import { payOfficialPaycheck } from "./official-pay";
 export { SALARY_SERIES } from "./official-pay";
 export { LOCAL_SEAT_PAY_SERIES } from "../office-day-pay";
 import { startPublicJob } from "../public-payroll";
+import { TOWN_WORKPLACES } from "../town-workplaces";
 import { chargeOfficeHours } from "./work";
 import { campaignParameter } from "../campaign-data";
 import { seatPay, localSeatPaySeries, seatPayRow } from "../office-day-pay";
@@ -1809,6 +1810,48 @@ function enactedSeatPay(
   };
 }
 
+/**
+ * The work that is a seat's own politics: a campaign firm's or a party chapter's staff, read from the town's
+ * workplace table by the kind of employment it is, never from a list of offices.
+ */
+const POLITICAL_EMPLOYERS: ReadonlySet<string> = new Set(
+  TOWN_WORKPLACES.filter(
+    (w) =>
+      w.kind === "employment:campaign-staff" ||
+      w.kind === "employment:party-staff",
+  ).map((w) => w.classification),
+);
+
+/**
+ * The jobs a holder gives up on taking a seat: every other job when the seat is full time (it is their job), and,
+ * in any seat, a job at an employer whose work is the seat's own politics (a campaign firm or a party chapter
+ * pays a holder to be on a side of the seat they hold).
+ */
+export function jobsGivenUpOnSeating(
+  core: Readonly<CoreState>,
+  personId: string,
+  fullTime: boolean,
+  keep?: string,
+): string[] {
+  const out: string[] = [];
+  for (const job of core.jobs.values()) {
+    if (
+      job.personId !== personId ||
+      job.endsAt !== undefined ||
+      job.id === keep
+    )
+      continue;
+    const employer = core.organizations.get(job.organizationId);
+    if (
+      fullTime ||
+      (employer?.classification !== undefined &&
+        POLITICAL_EMPLOYERS.has(employer.classification))
+    )
+      out.push(job.id);
+  }
+  return out;
+}
+
 /** Seat new local holders in their office job; end the job of a term that ended. */
 export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
@@ -1873,6 +1916,13 @@ export function reviewOfficeJobs(api: CoreAPI): void {
           citation: pay.citation,
         })
       : null;
+    for (const given of jobsGivenUpOnSeating(
+      api.state as CoreState,
+      holder.personId,
+      jobId !== null,
+      jobId ?? undefined,
+    ))
+      api.endJob(given, `office-seated:${seat.id}:${api.state.date}`);
     table(api, "officeJobs").put({
       id: holder.id,
       personId: holder.personId,
