@@ -1,8 +1,8 @@
 # Pre-grade: Writer news
 
-Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored by this writer at that head (303 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-news` at `672df484`, every line authored by this writer at that head (303 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 284 of 303 pass (94%); 19 fail.
+- **Result:** 273 of 303 pass (90%); 0 fail; 30 not yet graded.
 - **Calibration:** C2 8/8, C3 8/8, D3 8/8, E2 8/8, G1 8/8, I1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
@@ -10,51 +10,38 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 
 ## Failing lines by rule
 
-### vary-the-shape (4)
+## Not yet graded
 
-- `outline-news.lede.news-address-the-inaugural-address-on-date-included-name-s-opposition-to-about`: "The inaugural address on {date} included {name}'s opposition to {about}." — 'The address included his opposition to X' is the same stiff nominal shape as I1-001 with the order swapped.
-- `outline-news.lede.news-address-the-inaugural-address-on-date-included-name-s-support-for-about`: "The inaugural address on {date} included {name}'s support for {about}." — 'The address included his support for X' is the same stiff nominal shape as I1-003 reworded.
-- `outline-news.margin.news-roll-call-a-one-vote-margin-decided-it-in-the-body`: "A one-vote margin decided it in the {body}." — 'A one-vote margin decided it' is the same meaning and verb as I1-012 with an awkward abstract subject.
-- `outline-news.lede.news-address-opposing-about-name-took-the-oath-on-date-and-said-so-in-the-inaugural-address`: "Opposing {about}, {name} took the oath on {date} and said so in the inaugural address." — Same awkward participle-opener shape as I1-024, 'took the oath and said so' reads simulated.
-
-### variants-differ-in-what-they-say (4)
-
-- `outline-news.margin.news-roll-call-a-single-member-of-the-body-opposed-law`: "A single member of the {body} opposed {law}." — Same sentence as I1-014 with 'single' swapped for 'only'; differs in wording only.
-- `outline-news.margin.news-roll-call-a-single-member-of-the-body-supported-law`: "A single member of the {body} supported {law}." — Same sentence as I1-018 with 'single' swapped for 'only'; differs in wording only.
-- `outline-news.margin.news-roll-call-just-one-member-of-the-body-backed-law`: "Just one member of the {body} backed {law}." — Same sentence as I1-018 with 'just' and 'backed' swapped in; a third copy of one shape.
-- `outline-news.margin.news-roll-call-law-was-backed-by-one-member-of-the-body`: "{law} was backed by one member of the {body}." — A passive restatement of I1-020 that drops 'only', so the failure of the bill reads weaker.
-
-### no-literary-phrasing / news-reads-as-a-story (2)
-
-- `outline-news.lede.news-address-opposition-to-about-was-part-of-name-s-inaugural-address-on-date`: "Opposition to {about} was part of {name}'s inaugural address on {date}." — 'Opposition to X was part of the address' is a stiff, nominalized lede that reads simulated, not like a reporter's sentence.
-- `outline-news.lede.news-address-support-for-about-was-part-of-name-s-inaugural-address-on-date`: "Support for {about} was part of {name}'s inaugural address on {date}." — 'Support for X was part of the address' is a stiff, nominalized lede that buries the President's stand.
-
-### no-pointing-at-the-unnamed (2)
-
-- `outline-news.margin.news-roll-call-it-ended-one-vote-apart-in-the-body`: "It ended one vote apart in the {body}." — 'It ended one vote apart' is awkward and leans on an 'it' the line never names.
-- `news.law.the-law-took-effect-in-place-on-date-ending-the-rule-it-repl`: "The {law} took effect in {place} on {date}, ending the rule it replaced." — 'Ending the rule it replaced' is circular and never names the old rule or what changed.
-
-### no-literary-phrasing (2)
-
-- `outline-news.lede.news-address-backing-about-name-took-the-oath-on-date-and-said-so-in-the-inaugural-address`: "Backing {about}, {name} took the oath on {date} and said so in the inaugural address." — The participle opener 'Backing X, he took the oath and said so' is a composed, awkward sentence that buries the stand.
-- `outline-news.margin.news-roll-call-law-found-support-from-one-member-of-the-body`: "{law} found support from one member of the {body}." — 'Found support from one member' is a dressed-up way to say one member voted for it.
-
-### news-reads-as-a-story (2)
-
-- `outline-news.lede.news-roll-call-the-body-s-vote-on-date-approved-law-count`: "The {body}'s vote on {date} approved {law}, {count}." — A vote does not approve a bill; 'the body's vote approved X' is awkward next to the plain I1-030.
-- `outline-news.lede.news-roll-call-the-body-s-vote-on-date-turned-down-law-count`: "The {body}'s vote on {date} turned down {law}, {count}." — 'The body's vote turned down X' makes the vote the actor; awkward next to the plain I1-032.
-
-### address-argues-not-announces (no law kept 'on the books') (1)
-
-- `outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-the-law-on-about-would-stay`: "{name} said in the inaugural address on {date} that the law on {about} would stay." — 'The law on {about} would stay' doubles the 'on' with the question's noun phrase and reports the rejected keep-the-law pattern.
-
-### note-stands-alone (1)
-
-- `news.law.the-law-replaced-the-old-rule-in-place-on-date`: "The {law} replaced the old rule in {place} on {date}." — 'The old rule' is never named, so a reader cannot tell what changed.
-
-### names-something-specific (1)
-
-- `news.crime.property-in-place-was-vandalized-on-date`: "Property in {place} was vandalized on {date}." — 'Property ... was vandalized' names no property, so the story says almost nothing.
+- `outline-news.lede.news-roll-call-law-fell-short-in-the-body-on-date-count`: "{law} fell short in the {body} on {date}, {count}."
+- `outline-news.lede.news-roll-call-law-did-not-get-enough-votes-in-the-body-on-date-count`: "{law} did not get enough votes in the {body} on {date}, {count}."
+- `outline-news.lede.news-roll-call-on-date-a-majority-of-the-body-voted-against-law-count`: "On {date}, a majority of the {body} voted against {law}, {count}."
+- `outline-news.lede.news-roll-call-on-date-a-majority-of-the-body-voted-for-law-count`: "On {date}, a majority of the {body} voted for {law}, {count}."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-asked-congress-to-pass-about`: "In the inaugural address on {date}, {name} asked Congress to pass {about}."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-urged-congress-not-to-pass-about`: "In the inaugural address on {date}, {name} urged Congress not to pass {about}."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-urged-congress-to-repeal-about`: "In the inaugural address on {date}, {name} urged Congress to repeal {about}."
+- `outline-news.margin.news-roll-call-the-body-voted-by-the-narrowest-margin-possible`: "The {body} voted by the narrowest margin possible."
+- `outline-news.margin.news-roll-call-one-member-could-have-changed-the-outcome-in-the-body`: "One member could have changed the outcome in the {body}."
+- `outline-news.margin.news-roll-call-the-body-came-within-a-single-vote-of-the-other-outcome`: "The {body} came within a single vote of the other outcome."
+- `outline-news.lede.news-address-name-endorsed-about-in-the-inaugural-address-on-date`: "{name} endorsed {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-pledged-support-for-about-in-the-inaugural-address-on-date`: "{name} pledged support for {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-the-inaugural-address-on-date-put-name-on-record-in-favor-of-about`: "The inaugural address on {date} put {name} on record in favor of {about}."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-came-out-in-favor-of-about`: "In the inaugural address on {date}, {name} came out in favor of {about}."
+- `outline-news.lede.news-address-name-sided-with-supporters-of-about-in-the-inaugural-address-on-date`: "{name} sided with supporters of {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-threw-the-new-administration-s-support-behind-about-on-date-the-day-of-the-`: "{name} threw the new administration's support behind {about} on {date}, the day of the oath."
+- `outline-news.lede.news-address-name-gave-about-a-plain-endorsement-in-the-inaugural-address-on-date`: "{name} gave {about} a plain endorsement in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-rejected-about-in-the-inaugural-address-on-date`: "{name} rejected {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-the-inaugural-address-on-date-put-name-on-record-against-about`: "The inaugural address on {date} put {name} on record against {about}."
+- `outline-news.lede.news-address-name-pledged-to-oppose-about-in-the-inaugural-address-on-date`: "{name} pledged to oppose {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-told-the-country-in-the-inaugural-address-on-date-that-the-administration-w`: "{name} told the country in the inaugural address on {date} that the administration will oppose {about}."
+- `outline-news.lede.news-address-name-sided-with-opponents-of-about-in-the-inaugural-address-on-date`: "{name} sided with opponents of {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-criticized-about-in-the-inaugural-address-on-date`: "{name} criticized {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-came-out-against-about`: "In the inaugural address on {date}, {name} came out against {about}."
+- `outline-news.lede.news-address-name-argued-against-about-in-the-inaugural-address-on-date`: "{name} argued against {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-said-no-to-about-in-the-inaugural-address-on-date`: "{name} said no to {about} in the inaugural address on {date}."
+- `outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-the-new-administration-will-leav`: "{name} said in the inaugural address on {date} that the new administration will leave {about} alone."
+- `outline-news.lede.news-address-in-the-inaugural-address-on-date-name-pledged-to-keep-about-as-it-is`: "In the inaugural address on {date}, {name} pledged to keep {about} as it is."
+- `outline-news.lede.news-address-name-told-the-country-on-date-that-about-will-not-change-under-the-new-administr`: "{name} told the country on {date} that {about} will not change under the new administration."
+- `outline-news.lede.news-address-name-promised-in-the-inaugural-address-on-date-to-keep-about-in-place`: "{name} promised in the inaugural address on {date} to keep {about} in place."
 
 ## Passing lines
 
@@ -101,7 +88,6 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 - `outline-news.headline.news-roll-call-headline-vote-sinks-in-the`: "Vote sinks {law} in the {body}"
 - `outline-news.headline.news-roll-call-headline-wins-by-a-vote-in-the`: "{law} wins by a vote in the {body}"
 - `outline-news.headline.news-roll-call-headline-by-one-vote-fails-in-the`: "By one vote, {law} fails in the {body}"
-- `outline-news.margin.news-roll-call-the-result-in-the-hung-on-a-single-member`: "The result in the {body} hung on a single member."
 - `outline-news.margin.news-roll-call-with-the-vote-at-a-single-change-of-mind-would-have-flipped-it`: "With the vote at {count}, a single change of mind would have flipped it."
 - `outline-news.margin.news-roll-call-the-split-almost-evenly-and-one-vote-decided-it`: "The {body} split almost evenly, and one vote decided it."
 - `outline-news.margin.news-roll-call-drew-a-single-no-from-the`: "{law} drew a single no from the {body}."
@@ -129,7 +115,6 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 - `outline-news.lede.news-address-chose-the-day-of-the-oath-to-speak-out-against`: "{name} chose the day of the oath, {date}, to speak out against {about}."
 - `outline-news.lede.news-address-on-with-the-oath-barely-taken-said-the-new-administration-stands-behind`: "On {date}, with the oath barely taken, {name} said the new administration stands behind {about}."
 - `outline-news.lede.news-address-sworn-in-on-told-the-country-the-new-administration-supports`: "Sworn in on {date}, {name} told the country the new administration supports {about}."
-- `outline-news.lede.news-address-in-the-address-that-followed-the-oath-on-stood-on-the-side-of`: "In the address that followed the oath on {date}, {name} stood on the side of {about}."
 - `outline-news.lede.news-address-used-the-day-of-the-oath-to-speak-in-favor-of`: "{name} used the day of the oath, {date}, to speak in favor of {about}."
 - `outline-news.lede.news-address-taking-office-on-lined-up-behind`: "Taking office on {date}, {name} lined up behind {about}."
 - `outline-news.lede.news-address-took-the-oath-on-and-called-for`: "{name} took the oath on {date} and called for {about}."
@@ -185,7 +170,6 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 - `outline-news.lede.news-address-the-new-president-name-came-out-against-about-in-the-inaugural-address-on-date`: "The new president, {name}, came out against {about} in the inaugural address on {date}."
 - `outline-news.lede.news-address-name-spoke-out-against-about-in-the-inaugural-address-on-date`: "{name} spoke out against {about} in the inaugural address on {date}."
 - `outline-news.lede.news-address-name-took-the-oath-on-date-and-used-the-inaugural-address-to-back-about`: "{name} took the oath on {date} and used the inaugural address to back {about}."
-- `outline-news.lede.news-address-the-new-president-name-spoke-in-favor-of-about-in-the-inaugural-address-on-date`: "The new president, {name}, spoke in favor of {about} in the inaugural address on {date}."
 - `outline-news.lede.news-address-name-spoke-up-for-about-in-the-inaugural-address-on-date`: "{name} spoke up for {about} in the inaugural address on {date}."
 - `outline-news.lede.news-address-name-took-the-oath-on-date-and-called-for-about-in-the-inaugural-address`: "{name} took the oath on {date} and called for {about} in the inaugural address."
 - `outline-news.lede.news-address-name-asked-for-about-in-the-inaugural-address-on-date`: "{name} asked for {about} in the inaugural address on {date}."
@@ -202,14 +186,10 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 - `outline-news.headline.news-address-headline-surname-tells-congress-about-is-the-wrong-course`: "{surname} tells Congress {about} is the wrong course"
 - `outline-news.headline.news-address-headline-surname-tells-congress-about-is-the-right-course`: "{surname} tells Congress {about} is the right course"
 - `outline-news.lede.news-roll-call-law-won-approval-from-the-body-on-date-count`: "{law} won approval from the {body} on {date}, {count}."
-- `outline-news.lede.news-roll-call-the-body-gave-law-its-approval-on-date-count`: "The {body} gave {law} its approval on {date}, {count}."
 - `outline-news.lede.news-roll-call-meeting-on-date-the-body-approved-law-count`: "Meeting on {date}, the {body} approved {law}, {count}."
 - `outline-news.lede.news-roll-call-meeting-on-date-the-body-voted-down-law-count`: "Meeting on {date}, the {body} voted down {law}, {count}."
-- `outline-news.lede.news-roll-call-law-failed-to-pass-the-body-on-date-count`: "{law} failed to pass the {body} on {date}, {count}."
 - `outline-news.lede.news-roll-call-the-body-did-not-pass-law-on-date-count`: "The {body} did not pass {law} on {date}, {count}."
 - `outline-news.margin.news-roll-call-one-member-s-vote-decided-it-in-the-body`: "One member's vote decided it in the {body}."
-- `outline-news.margin.news-roll-call-a-change-of-one-vote-in-the-body-would-have-reversed-the-result`: "A change of one vote in the {body} would have reversed the result."
-- `outline-news.margin.news-roll-call-the-margin-in-the-body-was-one-vote`: "The margin in the {body} was one vote."
 - `outline-news.margin.news-roll-call-only-one-member-of-the-body-voted-against-law`: "Only one member of the {body} voted against {law}."
 - `outline-news.margin.news-roll-call-law-drew-one-no-vote-in-the-body`: "{law} drew one no vote in the {body}."
 - `outline-news.margin.news-roll-call-only-one-member-of-the-body-voted-for-law`: "Only one member of the {body} voted for {law}."
@@ -218,11 +198,7 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `d0bfadd4`, every line authored
 - `outline-news.margin.news-roll-call-law-passed-the-body-with-no-votes-against-it`: "{law} passed the {body} with no votes against it."
 - `outline-news.margin.news-roll-call-no-member-of-the-body-voted-for-law`: "No member of the {body} voted for {law}."
 - `outline-news.lede.news-roll-call-law-got-a-count-vote-in-the-body-on-date-enough-to-pass`: "{law} got a {count} vote in the {body} on {date}, enough to pass."
-- `outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-to-approve-law`: "Members of the {body} voted {count} on {date} to approve {law}."
 - `outline-news.lede.news-roll-call-members-of-the-body-voted-count-on-date-against-law`: "Members of the {body} voted {count} on {date} against {law}."
-- `outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-become-law`: "{name} said in the inaugural address on {date} that {about} should become law."
-- `outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-be-repealed`: "{name} said in the inaugural address on {date} that {about} should be repealed."
-- `outline-news.lede.news-address-name-said-in-the-inaugural-address-on-date-that-about-should-not-become-law`: "{name} said in the inaugural address on {date} that {about} should not become law."
 - `outline-news.margin.news-roll-call-the-body-decided-it-by-one-vote`: "The {body} decided it by one vote."
 - `outline-news.margin.news-roll-call-only-one-member-of-the-body-opposed-law`: "Only one member of the {body} opposed {law}."
 - `outline-news.margin.news-roll-call-law-had-one-vote-against-it-in-the-body`: "{law} had one vote against it in the {body}."
