@@ -6,16 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20landlord%20signed%20their%20tenant%20up%20for%20water%20service"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
   "gates": [
     "The resident reports an unexpected account and can identify the property and tenancy."
   ],

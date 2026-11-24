@@ -6,15 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=Two%20elderly%20military%20veterans%20had%20a%20longstanding%20water%20leak"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "The repair date falls outside an adjustment deadline and evidence of earlier efforts is available."
   ],

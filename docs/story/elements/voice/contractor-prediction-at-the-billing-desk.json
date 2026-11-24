@@ -6,15 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20Bureau%20of%20Environmental%20Services%20project%20required%20a%20homeowner"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "A contractor's reported assurance and the bureau's billing decision can be distinguished."
   ],

@@ -6,16 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=Two%20elderly%20military%20veterans%20had%20a%20longstanding%20water%20leak"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
   "gates": [
     "The rule has changed and the utility can determine whether reconsideration is available."
   ],

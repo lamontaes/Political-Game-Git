@@ -6,16 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20disabled%20community%20member%20received%20a%20letter%20saying%20that"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
   "gates": [
     "A collection referral has been withdrawn and the utility has recalculated the balance."
   ],

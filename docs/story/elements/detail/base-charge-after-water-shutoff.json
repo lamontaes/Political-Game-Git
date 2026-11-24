@@ -6,15 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20homeowner%20declared%20bankruptcy%20in%202008%20and%20agreed%20to"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "The ledger distinguishes usage, fixed charges and penalties after a shutoff."
   ],

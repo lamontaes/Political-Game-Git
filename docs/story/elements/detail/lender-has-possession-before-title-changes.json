@@ -6,15 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=After%20suffering%20multiple%20heart%20attacks%20and%20losing%20his%20job%2C"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "The property has distinct occupancy, possession and account records."
   ],

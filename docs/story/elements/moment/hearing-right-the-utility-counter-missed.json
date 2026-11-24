@@ -6,16 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20resident%20and%20a%20condominium%20association%20separately%20contacted%20the"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
   "gates": [
     "A local code provision applies to the enforcement action and identifies the hearing authority."
   ],

@@ -6,15 +6,8 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20resident%20contacted%20the%20Ombudsman%20after%20the%20Portland%20Water"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "Eligibility depends on household size and the customer contests the count used."
   ],

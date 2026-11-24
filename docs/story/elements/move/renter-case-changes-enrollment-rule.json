@@ -6,18 +6,9 @@
   "sources": [
     "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20landlord%20signed%20their%20tenant%20up%20for%20water%20service"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A case decision and a separate policy commitment are on file."
-  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["A case decision and a separate policy commitment are on file."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a case decision and a separate policy commitment are on file.",
