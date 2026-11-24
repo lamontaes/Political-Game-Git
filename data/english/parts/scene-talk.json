@@ -82969,10 +82969,10 @@
       "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-office-tonight",
+      "key": "scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-office-this-week",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Good. I'll send you a list and a script for {office} tonight.",
+      "text": "Good. I'll send you a list and a script for {office} this week.",
       "uses": [
         {
           "subject": "scene",
@@ -83797,10 +83797,10 @@
       "elements": ["campaign-manager-is-someone-close"]
     },
     {
-      "key": "scene-talk.follow-answer.i-d-list-every-event-until-the-vote-then-i-d-ask-you-which-ones-matter",
+      "key": "scene-talk.follow-answer.i-d-list-every-event-for-office-until-the-vote-then-i-d-ask-you-which-ones-matter",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd list every event until the vote. Then I'd ask you which ones matter.",
+      "text": "I'd list every event for {office} until the vote. Then I'd ask you which ones matter.",
       "uses": [
         {
           "subject": "scene",
