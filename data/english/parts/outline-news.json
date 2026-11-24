@@ -3319,23 +3319,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-body-gave-law-its-approval-on-date-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body} gave {law} its approval on {date}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-meeting-on-date-the-body-approved-law-count",
       "move": "lede",
       "kind": "written",
@@ -3357,23 +3340,6 @@
       "move": "lede",
       "kind": "written",
       "text": "Meeting on {date}, the {body} voted down {law}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "failed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-news.lede.news-roll-call-law-failed-to-pass-the-body-on-date-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "{law} failed to pass the {body} on {date}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -4131,23 +4097,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-body-s-vote-on-date-approved-law-count",
-      "move": "lede",
-      "kind": "written",
-      "text": "The {body}'s vote on {date} approved {law}, {count}.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "lede",
-          "tie": "record",
-          "requiresFacts": ["body", "law", "date", "count", "passed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-news.lede.news-roll-call-at-its-meeting-on-date-the-body-voted-down-law-count",
       "move": "lede",
       "kind": "written",
@@ -4165,16 +4114,67 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-news.lede.news-roll-call-the-body-s-vote-on-date-turned-down-law-count",
+      "key": "outline-news.lede.news-roll-call-law-fell-short-in-the-body-on-date-count",
       "move": "lede",
       "kind": "written",
-      "text": "The {body}'s vote on {date} turned down {law}, {count}.",
+      "text": "{law} fell short in the {body} on {date}, {count}.",
       "uses": [
         {
           "subject": "news-roll-call",
           "role": "lede",
           "tie": "record",
           "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-law-did-not-get-enough-votes-in-the-body-on-date-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "{law} did not get enough votes in the {body} on {date}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-on-date-a-majority-of-the-body-voted-against-law-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "On {date}, a majority of the {body} voted against {law}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-on-date-a-majority-of-the-body-voted-for-law-count",
+      "move": "lede",
+      "kind": "written",
+      "text": "On {date}, a majority of the {body} voted for {law}, {count}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["body", "law", "date", "count", "passed"]
         }
       ],
       "origin": "authored",
