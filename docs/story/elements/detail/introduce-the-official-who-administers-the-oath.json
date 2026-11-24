@@ -11,5 +11,13 @@
   "slots": ["{oath_giver}", "{role}", "{member}"],
   "gates": ["This is the member’s first meeting with the oath giver."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The clerk names the officer for the gallery while the incoming member greets them by name.",
+      "pulledBy": "The two have served together before.",
+      "writesBack": "The introduction informs the audience and preserves the existing acquaintance."
+    }
+  ]
 }

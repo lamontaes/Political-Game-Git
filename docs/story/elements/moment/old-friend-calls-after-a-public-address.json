@@ -11,5 +11,13 @@
   "slots": ["{friend}", "{address}", "{place}"],
   "gates": ["The friend relationship and the earlier address are recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The friend leaves a message and the two compare notes the next morning.",
+      "pulledBy": "The member is still traveling when the address ends.",
+      "writesBack": "The return call links back to the speech."
+    }
+  ]
 }

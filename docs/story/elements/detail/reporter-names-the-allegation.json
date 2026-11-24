@@ -11,5 +11,13 @@
   "slots": ["{reporter}", "{official}", "{story}"],
   "gates": ["The allegation has appeared in a story."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The reporter identifies the story and asks whether the official has seen it.",
+      "pulledBy": "The publication arrived while the official was in session.",
+      "writesBack": "The official requests a copy before answering the allegation."
+    }
+  ]
 }

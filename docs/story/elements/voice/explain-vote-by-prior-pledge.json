@@ -11,5 +11,13 @@
   "slots": ["{member}", "{bill}", "{promise}"],
   "gates": ["The vote concerns an outstanding promise."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member explains why the final text led them to depart from their pledge.",
+      "pulledBy": "The pledge concerned a provision removed before passage.",
+      "writesBack": "The public explanation links the pledge to the change in text."
+    }
+  ]
 }

@@ -11,5 +11,13 @@
   "slots": ["{member}", "{bill}", "{amendment}"],
   "gates": ["An amendment is pending and the player participated."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member takes a position before the amendment vote.",
+      "pulledBy": "Either version would retain the provision on which the member's decision turns.",
+      "writesBack": "The position goes on record before the text is settled."
+    }
+  ]
 }

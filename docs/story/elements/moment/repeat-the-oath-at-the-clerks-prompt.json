@@ -11,5 +11,13 @@
   "slots": ["{member}", "{oath_giver}", "{seat}"],
   "gates": ["The seat has an incoming holder at a swearing-in."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The incoming member asks the clerk to repeat the last phrase.",
+      "pulledBy": "Noise from the gallery covered the prompt.",
+      "writesBack": "The clerk resumes at the missed phrase before recording completion."
+    }
+  ]
 }

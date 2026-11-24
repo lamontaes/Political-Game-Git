@@ -11,5 +11,13 @@
   "slots": ["{member}", "{reporter}", "{question}"],
   "gates": ["The interviewer has already pressed this point."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member answers the follow-up in detail when the reporter narrows the question.",
+      "pulledBy": "The first answer addressed the vote and the second question asks about the amendment.",
+      "writesBack": "The interview gains an explanation of the amendment."
+    }
+  ]
 }

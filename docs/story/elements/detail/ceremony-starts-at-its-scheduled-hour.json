@@ -11,5 +11,13 @@
   "slots": ["{member}", "{ceremony}", "{time}"],
   "gates": ["A start time is recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The clerk announces a delay before calling the incoming members forward.",
+      "pulledBy": "The preceding meeting still occupies the chamber.",
+      "writesBack": "Attendees receive a revised starting time."
+    }
+  ]
 }

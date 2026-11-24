@@ -11,5 +11,13 @@
   "slots": ["{visitor}", "{member}"],
   "gates": ["The two have never met."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The visitor learns that the person at the desk is a staffer and asks for the member.",
+      "pulledBy": "The visitor has never seen either person before.",
+      "writesBack": "The staffer directs the visitor to the right office."
+    }
+  ]
 }

@@ -11,5 +11,13 @@
   "slots": ["{member}", "{bill}", "{place}"],
   "gates": ["The cost to this government has been established."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member sends the reporter the town's estimate after the interview.",
+      "pulledBy": "The town clerk was still checking the figure when the reporter called.",
+      "writesBack": "The estimate has a source and a delivery date separate from the initial comment."
+    }
+  ]
 }

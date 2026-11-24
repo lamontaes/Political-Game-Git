@@ -11,5 +11,13 @@
   "slots": ["{sponsor}", "{bill}", "{provision}"],
   "gates": ["The bill’s operative provision is known."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The sponsor skips the introduction and explains the revised provision.",
+      "pulledBy": "The colleague has read an earlier version and asks what changed.",
+      "writesBack": "The conversation records the particular amendment discussed."
+    }
+  ]
 }

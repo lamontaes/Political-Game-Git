@@ -11,5 +11,13 @@
   "slots": ["{reporter}", "{member}", "{bill}"],
   "gates": ["The vote record identifies the member and the outcome."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The reporter corrects the question when the member points to the roll.",
+      "pulledBy": "The reporter had read the committee vote and asked about final passage.",
+      "writesBack": "The inquiry now identifies the correct vote and stage."
+    }
+  ]
 }

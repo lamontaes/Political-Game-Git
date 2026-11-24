@@ -11,5 +11,13 @@
   "slots": ["{member}", "{bill}", "{district}"],
   "gates": ["The district’s position is recorded for this question."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member describes the disagreement they heard at two district meetings.",
+      "pulledBy": "The meetings produced conflicting views and there is no districtwide count.",
+      "writesBack": "The interview attributes each view to a meeting."
+    }
+  ]
 }

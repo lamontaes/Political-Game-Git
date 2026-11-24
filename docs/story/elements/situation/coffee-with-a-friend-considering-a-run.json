@@ -11,5 +11,13 @@
   "slots": ["{friend}", "{office}", "{place}"],
   "gates": ["The friend is considering an eligible office."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The friend arrives with a decision to stay out of the race.",
+      "pulledBy": "They have checked the filing calendar against a family commitment.",
+      "writesBack": "The meeting ends with no candidacy."
+    }
+  ]
 }

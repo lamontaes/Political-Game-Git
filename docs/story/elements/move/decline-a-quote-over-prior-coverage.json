@@ -11,5 +11,13 @@
   "slots": ["{member}", "{outlet}", "{story}"],
   "gates": ["A relevant adverse story or strained tie is recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member gives the reporter the roll call and declines a personal quote.",
+      "pulledBy": "An earlier story strained trust but the vote itself is public.",
+      "writesBack": "The reporter has the public record and no attributable comment."
+    }
+  ]
 }

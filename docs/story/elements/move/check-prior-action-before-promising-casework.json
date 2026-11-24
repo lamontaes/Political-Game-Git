@@ -11,5 +11,13 @@
   "slots": ["{official}", "{constituent}", "{case}"],
   "gates": ["The official can identify the constituent’s case."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The office finds the referral but cannot confirm that the agency received it.",
+      "pulledBy": "The case file contains a sent date and no acknowledgment.",
+      "writesBack": "The next task is to check receipt with the agency."
+    }
+  ]
 }

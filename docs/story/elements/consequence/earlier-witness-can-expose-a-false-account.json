@@ -11,5 +11,13 @@
   "slots": ["{witness}", "{member}", "{statement}"],
   "gates": ["The witness could have heard the earlier statement."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The witness confirms who was present but declines to say what anyone promised.",
+      "pulledBy": "They left before the conversation ended.",
+      "writesBack": "The account gains a witness to attendance alone."
+    }
+  ]
 }

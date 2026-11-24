@@ -11,5 +11,13 @@
   "slots": ["{member}", "{visitor}", "{offer}"],
   "gates": ["An improper offer has been made."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member writes down the details before contacting the ethics office.",
+      "pulledBy": "The officer taking reports is unavailable when the meeting ends.",
+      "writesBack": "The dated note and subsequent report remain separate records."
+    }
+  ]
 }

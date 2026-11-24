@@ -11,5 +11,13 @@
   "slots": ["{player}", "{inviter}", "{opportunity}"],
   "gates": ["The earlier invitation was declined."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The organizer asks the same person again after their evening shift ends.",
+      "pulledBy": "The first refusal was about work hours and the new invitation falls on a day off.",
+      "writesBack": "The later invitation keeps its own answer and date."
+    }
+  ]
 }

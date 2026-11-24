@@ -11,5 +11,13 @@
   "slots": ["{member}", "{chamber}", "{bill}"],
   "gates": ["The chamber is debating the bill."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member speaks after the amendment is read into the record.",
+      "pulledBy": "Their position depends on which version is before the chamber.",
+      "writesBack": "The remark is attached to debate on the amended bill."
+    }
+  ]
 }

@@ -11,5 +11,13 @@
   "slots": ["{visitor}", "{member}", "{official_act}"],
   "gates": ["An official act within the member’s reach is on record."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The official asks which decision the visitor means and the visitor withdraws the request.",
+      "pulledBy": "The visitor will discuss the favor only in vague terms.",
+      "writesBack": "The meeting ends without an agreement."
+    }
+  ]
 }

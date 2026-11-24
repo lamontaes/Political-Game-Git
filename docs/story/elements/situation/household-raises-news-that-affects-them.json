@@ -11,5 +11,13 @@
   "slots": ["{household_member}", "{story}", "{concern}"],
   "gates": ["A connection between this household and the story is recorded."],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The family returns to the story when a letter confirms which household member it affects.",
+      "pulledBy": "The broadcast gave no effective date and the letter supplies one.",
+      "writesBack": "The later conversation refers to both the news and the notice."
+    }
+  ]
 }
