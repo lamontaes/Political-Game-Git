@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10331
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-24T06:45:34.227Z
 ---
 
 **What.** The CTO caught (C16) on the owner Nov 23 playtest that the news story last sentence floats in a second column (It reaches everyone in New Jersey.). The lead story on the News screen is set in two columns even when it is one or two short paragraphs.
