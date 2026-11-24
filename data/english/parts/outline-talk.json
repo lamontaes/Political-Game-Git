@@ -53,16 +53,16 @@
   "maxWords": 30,
   "parts": [
     {
-      "key": "outline-talk.lead.talk-address-point-sounds-like-is-going-to-push",
+      "key": "outline-talk.lead.talk-address-point-sounds-like-is-going-to-push-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Sounds like {president} is going to push {about}.",
+      "text": "Sounds like {president} is going to push {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -75,16 +75,17 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-so-is-dead-set-against",
+      "key": "outline-talk.lead.talk-address-point-so-is-dead-set-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "So {president} is dead set against {about}.",
+      "text": "So {president} is dead set against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"]
+          "requiresFacts": ["said", "president", "president-against"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
@@ -94,16 +95,17 @@
       "after": ["start"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-wants-nothing-to-do-with",
+      "key": "outline-talk.lead.talk-address-point-wants-nothing-to-do-with-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants nothing to do with {about}.",
+      "text": "{president} wants nothing to do with {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"]
+          "requiresFacts": ["said", "president", "president-against"],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -366,29 +368,6 @@
         "personality-v1:facet-blunt",
         "personality-v1:facet-argumentative"
       ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-can-keep-nobody-i-know-asked-for-it",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{president} can keep {about}. Nobody I know asked for it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "president",
-            "about",
-            "stand-against",
-            "president-for"
-          ]
-        }
-      ],
-      "lean": ["personality-v1:facet-cocky", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -768,16 +747,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-is-all-in-on",
+      "key": "outline-talk.lead.talk-address-point-is-all-in-on-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is all in on {about}.",
+      "text": "{president} is all in on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -791,16 +770,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-came-right-out-for",
+      "key": "outline-talk.lead.talk-address-point-came-right-out-for-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} came right out for {about}.",
+      "text": "{president} came right out for {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -810,16 +789,17 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-came-out-against",
+      "key": "outline-talk.lead.talk-address-point-came-out-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} came out against {about}.",
+      "text": "{president} came out against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"]
+          "requiresFacts": ["said", "president", "president-against"],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
@@ -845,25 +825,6 @@
         "personality-v1:facet-informal",
         "personality-v1:facet-light-hearted"
       ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-m-glad-said-it-out-loud",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'm glad {president} said it out loud.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"]
-        }
-      ],
-      "after": ["lead", "heard"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -951,10 +912,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-good-on-for-saying-no-to",
+      "key": "outline-talk.verdict-cold.talk-address-point-good-on-for-saying-no-to-said",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "Good on {president-object} for saying no to {about}.",
+      "text": "Good on {president-object} for saying no to {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
@@ -962,10 +923,11 @@
           "tie": "stand",
           "requiresFacts": [
             "president-object",
-            "about",
+            "said",
             "stand-with",
             "president-against"
-          ]
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -977,10 +939,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-wrong-to-fight",
+      "key": "outline-talk.verdict-cold.talk-address-point-is-wrong-to-fight-said",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "{president} is wrong to fight {about}.",
+      "text": "{president} is wrong to fight {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
@@ -988,10 +950,11 @@
           "tie": "stand",
           "requiresFacts": [
             "president",
-            "about",
+            "said",
             "stand-against",
             "president-against"
-          ]
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": [
@@ -1083,21 +1046,22 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-so-means-to-keep",
+      "key": "outline-talk.lead.talk-address-point-so-means-to-keep-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "So {president} means to keep {about}.",
+      "text": "So {president} means to keep {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
-          ]
+          ],
+          "excludesFacts": []
         }
       ],
       "after": ["start"],
@@ -1107,21 +1071,22 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-wants-to-undo",
+      "key": "outline-talk.lead.talk-address-point-wants-to-undo-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to undo {about}.",
+      "text": "{president} wants to undo {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
-          ]
+          ],
+          "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
@@ -1130,21 +1095,22 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-good-i-d-hate-to-lose",
+      "key": "outline-talk.verdict.talk-address-point-good-i-d-hate-to-lose-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "Good. I'd hate to lose {about}.",
+      "text": "Good. I'd hate to lose {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "stand-with",
             "president-for",
             "law-in-force"
-          ]
+          ],
+          "excludesFacts": []
         }
       ],
       "after": ["lead", "heard"],
@@ -1222,16 +1188,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.lead.talk-address-point-notice-how-fast-got-to",
+      "key": "outline-talk.lead.talk-address-point-notice-how-fast-got-to-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Notice how fast {president} got to {about}.",
+      "text": "Notice how fast {president} got to {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1242,16 +1208,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-of-everything-picked-to-lead-with",
+      "key": "outline-talk.lead.talk-address-point-of-everything-picked-to-lead-with-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Of everything, {president} picked {about} to lead with.",
+      "text": "Of everything, {president} picked {said} to lead with.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1265,16 +1231,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-funny-i-never-expected-to-bring-up-at-all",
+      "key": "outline-talk.lead.talk-address-point-funny-i-never-expected-to-bring-up-at-all-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Funny, I never expected {president} to bring up {about} at all.",
+      "text": "Funny, I never expected {president} to bring up {said} at all.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president"],
+          "requiresFacts": ["said", "president"],
           "excludesFacts": ["president-for", "president-against"]
         }
       ],
@@ -1288,16 +1254,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-nobody-is-getting-out-of",
+      "key": "outline-talk.lead.talk-address-point-nobody-is-getting-out-of-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Nobody is getting {about} out of {president}.",
+      "text": "Nobody is getting {said} out of {president}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1308,16 +1274,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-said-no-to-flat-out",
+      "key": "outline-talk.lead.talk-address-point-said-no-to-flat-out-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} said no to {about}, flat out.",
+      "text": "{president} said no to {said}, flat out.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1328,72 +1294,20 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on",
+      "key": "outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "You catch that? {president} shut the door on {about}.",
+      "text": "You catch that? {president} shut the door on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-curious", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-if-gets-a-say-is-on-its-way-out",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "If {president} gets a say, {about} is on its way out.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force",
-            "about-one"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-if-gets-a-say-are-on-their-way-out",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "If {president} gets a say, {about} are on their way out.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "president",
-            "president-against",
-            "law-in-force",
-            "about-many"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -1423,16 +1337,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-about",
+      "key": "outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I've been waiting for somebody to say that about {about}.",
+      "text": "I've been waiting for somebody to say that about {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "stand-with"],
+          "requiresFacts": ["said", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -1444,16 +1358,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do",
+      "key": "outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "Finally, somebody who sees {about} the way I do.",
+      "text": "Finally, somebody who sees {said} the way I do.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "stand-with"],
+          "requiresFacts": ["said", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -1468,16 +1382,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-can-t-get-behind-on",
+      "key": "outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I can't get behind {president-object} on {about}.",
+      "text": "I can't get behind {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-against"],
+          "requiresFacts": ["said", "president-object", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -1489,17 +1403,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-can-sell-to-somebody-else",
+      "key": "outline-talk.verdict.talk-address-point-can-sell-to-somebody-else-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "{president} can sell {about} to somebody else.",
+      "text": "{president} can sell {said} to somebody else.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "stand-against",
             "president-for"
@@ -1536,16 +1450,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-on-i-side-with",
+      "key": "outline-talk.verdict-cold.talk-address-point-on-i-side-with-said",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "On {about}, I side with {president-object}.",
+      "text": "On {said}, I side with {president-object}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-cold",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-with"],
+          "requiresFacts": ["said", "president-object", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -1693,21 +1607,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-after-and-i-m-glad-somebody-is",
+      "key": "outline-talk.verdict-cold.talk-address-point-is-after-and-i-m-glad-somebody-is-said",
       "move": "verdict-cold",
       "kind": "spoken",
-      "text": "{president} is after {about}, and I'm glad somebody is.",
+      "text": "{president} is after {said}, and I'm glad somebody is.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-cold",
           "tie": "stand",
-          "requiresFacts": [
-            "president",
-            "about",
-            "stand-with",
-            "president-for"
-          ],
+          "requiresFacts": ["president", "said", "stand-with", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1868,16 +1777,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on",
+      "key": "outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on-said",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "Which is why I'd back {president-object} on {about}.",
+      "text": "Which is why I'd back {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-with"],
+          "requiresFacts": ["said", "president-object", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -1982,37 +1891,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-about-got-a-flat-no-from-president",
+      "key": "outline-talk.lead.talk-address-point-president-called-said-a-mistake-and-said-it-should-end",
       "move": "lead",
       "kind": "spoken",
-      "text": "{about} got a flat no from {president}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-president-called-about-a-mistake-and-said-it-should-end",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "{president} called {about} a mistake and said it should end.",
+      "text": "{president} called {said} a mistake and said it should end.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -2141,16 +2030,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-on-about-i-m-right-there-with-president-object",
+      "key": "outline-talk.verdict.talk-address-point-on-said-i-m-right-there-with-president-object",
       "move": "verdict",
       "kind": "spoken",
-      "text": "On {about}, I'm right there with {president-object}.",
+      "text": "On {said}, I'm right there with {president-object}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-with"],
+          "requiresFacts": ["said", "president-object", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -2165,16 +2054,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-president-lost-me-on-about",
+      "key": "outline-talk.verdict.talk-address-point-president-lost-me-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "{president} lost me on {about}.",
+      "text": "{president} lost me on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -2207,16 +2096,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-like-most-of-what-president-says-but-not-about",
+      "key": "outline-talk.verdict.talk-address-point-i-like-most-of-what-president-says-but-not-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I like most of what {president} says, but not {about}.",
+      "text": "I like most of what {president} says, but not {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -2231,16 +2120,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-m-sorry-but-president-is-wrong-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-m-sorry-but-president-is-wrong-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'm sorry, but {president} is wrong on {about}.",
+      "text": "I'm sorry, but {president} is wrong on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -2255,40 +2144,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-d-push-back-on-president-object-about-about",
+      "key": "outline-talk.verdict.talk-address-point-hard-to-nod-along-when-president-talks-said-about-like-that",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'd push back on {president-object} about {about}.",
+      "text": "Hard to nod along when {president} talks about {said} like that.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-hard-to-nod-along-when-president-talks-about-about-like-that",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "Hard to nod along when {president} talks about {about} like that.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -2484,41 +2349,20 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-about",
+      "key": "outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-said",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "That's why I'm behind {president-object} on {about}.",
+      "text": "That's why I'm behind {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-with"],
+          "requiresFacts": ["said", "president-object", "stand-with"],
           "excludesFacts": []
         }
       ],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-that-puts-me-on-president-s-side",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "That puts me on {president}'s side.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -2539,10 +2383,7 @@
           "excludesFacts": []
         }
       ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -2550,16 +2391,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-that-s-why-i-can-t-back-president-object-on-about",
+      "key": "outline-talk.verdict-after.talk-address-point-that-s-why-i-can-t-back-president-object-on-said",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "That's why I can't back {president-object} on {about}.",
+      "text": "That's why I can't back {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-against"],
+          "requiresFacts": ["said", "president-object", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -3268,16 +3109,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-came-out-in-favor-of-about",
+      "key": "outline-talk.lead.talk-address-point-president-came-out-in-favor-of-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} came out in favor of {about}.",
+      "text": "{president} came out in favor of {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3288,16 +3129,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-said-yes-to-about",
+      "key": "outline-talk.lead.talk-address-point-president-said-yes-to-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} said yes to {about}.",
+      "text": "{president} said yes to {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3308,16 +3149,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-is-backing-about",
+      "key": "outline-talk.lead.talk-address-point-president-is-backing-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is backing {about}.",
+      "text": "{president} is backing {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3331,16 +3172,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-is-firmly-for-about",
+      "key": "outline-talk.lead.talk-address-point-president-is-firmly-for-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is firmly for {about}.",
+      "text": "{president} is firmly for {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3351,16 +3192,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-is-firmly-against-about",
+      "key": "outline-talk.lead.talk-address-point-president-is-firmly-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is firmly against {about}.",
+      "text": "{president} is firmly against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3371,16 +3212,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-is-opposed-to-about",
+      "key": "outline-talk.lead.talk-address-point-president-is-opposed-to-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is opposed to {about}.",
+      "text": "{president} is opposed to {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3391,17 +3232,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-keep-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-keep-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to keep {about}.",
+      "text": "{president} wants to keep {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3416,17 +3257,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-end-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-end-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to end {about}.",
+      "text": "{president} wants to end {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -3441,17 +3282,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-roll-back-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-roll-back-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to roll back {about}.",
+      "text": "{president} wants to roll back {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -3469,17 +3310,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-protect-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-protect-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to protect {about}.",
+      "text": "{president} wants to protect {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3494,17 +3335,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-is-defending-about",
+      "key": "outline-talk.lead.talk-address-point-president-is-defending-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} is defending {about}.",
+      "text": "{president} is defending {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3522,17 +3363,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-sided-with-those-who-want-to-keep-about",
+      "key": "outline-talk.lead.talk-address-point-president-sided-with-those-who-want-to-keep-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} sided with those who want to keep {about}.",
+      "text": "{president} sided with those who want to keep {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3550,17 +3391,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-plans-to-stand-behind-about",
+      "key": "outline-talk.lead.talk-address-point-president-plans-to-stand-behind-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} plans to stand behind {about}.",
+      "text": "{president} plans to stand behind {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3578,17 +3419,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-backing-about",
+      "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-backing-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} made a point of backing {about}.",
+      "text": "{president} made a point of backing {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -3606,17 +3447,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-repeal-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-repeal-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to repeal {about}.",
+      "text": "{president} wants to repeal {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -3631,17 +3472,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-about",
+      "key": "outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} wants to put an end to {about}.",
+      "text": "{president} wants to put an end to {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -3659,17 +3500,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-about",
+      "key": "outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} made a point of attacking {about}.",
+      "text": "{president} made a point of attacking {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -3687,16 +3528,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-backs-about",
+      "key": "outline-talk.lead.talk-address-point-president-backs-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} backs {about}.",
+      "text": "{president} backs {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3707,16 +3548,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-spoke-in-favor-of-about",
+      "key": "outline-talk.lead.talk-address-point-president-spoke-in-favor-of-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} spoke in favor of {about}.",
+      "text": "{president} spoke in favor of {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3730,16 +3571,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-argued-for-about",
+      "key": "outline-talk.lead.talk-address-point-president-argued-for-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} argued for {about}.",
+      "text": "{president} argued for {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3753,16 +3594,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-made-the-case-for-about",
+      "key": "outline-talk.lead.talk-address-point-president-made-the-case-for-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} made the case for {about}.",
+      "text": "{president} made the case for {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3773,16 +3614,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-argued-against-about",
+      "key": "outline-talk.lead.talk-address-point-president-argued-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} argued against {about}.",
+      "text": "{president} argued against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3796,16 +3637,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-spoke-against-about",
+      "key": "outline-talk.lead.talk-address-point-president-spoke-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} spoke against {about}.",
+      "text": "{president} spoke against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3816,16 +3657,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-made-the-case-against-about",
+      "key": "outline-talk.lead.talk-address-point-president-made-the-case-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} made the case against {about}.",
+      "text": "{president} made the case against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3839,16 +3680,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-president-rejected-about",
+      "key": "outline-talk.lead.talk-address-point-president-rejected-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "{president} rejected {about}.",
+      "text": "{president} rejected {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -3901,16 +3742,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-think-president-is-making-a-mistake-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-think-president-is-making-a-mistake-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I think {president} is making a mistake on {about}.",
+      "text": "I think {president} is making a mistake on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -3925,16 +3766,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-on-about-president-and-i-are-far-apart",
+      "key": "outline-talk.verdict.talk-address-point-on-said-president-and-i-are-far-apart",
       "move": "verdict",
       "kind": "spoken",
-      "text": "On {about}, {president} and I are far apart.",
+      "text": "On {said}, {president} and I are far apart.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -3946,16 +3787,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-m-against-what-president-said-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-m-against-what-president-said-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'm against what {president} said on {about}.",
+      "text": "I'm against what {president} said on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -3991,16 +3832,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-wish-president-saw-about-the-way-i-do",
+      "key": "outline-talk.verdict.talk-address-point-i-wish-president-saw-said-the-way-i-do",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I wish {president} saw {about} the way I do.",
+      "text": "I wish {president} saw {said} the way I do.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4063,16 +3904,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-can-t-stand-behind-president-object-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-can-t-stand-behind-president-object-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I can't stand behind {president-object} on {about}.",
+      "text": "I can't stand behind {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-against"],
+          "requiresFacts": ["said", "president-object", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4087,16 +3928,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-that-s-a-no-from-me-on-about",
+      "key": "outline-talk.verdict.talk-address-point-that-s-a-no-from-me-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "That's a no from me on {about}.",
+      "text": "That's a no from me on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "stand-against"],
+          "requiresFacts": ["said", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4153,16 +3994,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-side-with-president-object-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-side-with-president-object-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I side with {president-object} on {about}.",
+      "text": "I side with {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-with"],
+          "requiresFacts": ["said", "president-object", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -4174,16 +4015,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-m-glad-president-came-down-where-i-did-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-m-glad-president-came-down-where-i-did-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'm glad {president} came down where I did on {about}.",
+      "text": "I'm glad {president} came down where I did on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-with"],
+          "requiresFacts": ["said", "president", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -4195,16 +4036,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-president-and-i-agree-on-about-for-a-change",
+      "key": "outline-talk.verdict.talk-address-point-president-and-i-agree-on-said-for-a-change",
       "move": "verdict",
       "kind": "spoken",
-      "text": "{president} and I agree on {about}, for a change.",
+      "text": "{president} and I agree on {said}, for a change.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-with"],
+          "requiresFacts": ["said", "president", "stand-with"],
           "excludesFacts": []
         }
       ],
@@ -4232,28 +4073,7 @@
           "excludesFacts": []
         }
       ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-trust-president-object-on-that-one",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I trust {president-object} on that one.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-supportive", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -4375,16 +4195,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-did-you-hear-president-come-out-for-about",
+      "key": "outline-talk.lead.talk-address-point-did-you-hear-president-come-out-for-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Did you hear {president} come out for {about}?",
+      "text": "Did you hear {president} come out for {said}?",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -4395,16 +4215,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-you-heard-president-back-about-right",
+      "key": "outline-talk.lead.talk-address-point-you-heard-president-back-said-right",
       "move": "lead",
       "kind": "spoken",
-      "text": "You heard {president} back {about}, right?",
+      "text": "You heard {president} back {said}, right?",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-for"],
+          "requiresFacts": ["said", "president", "president-for"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -4418,16 +4238,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-did-president-really-just-say-no-to-about",
+      "key": "outline-talk.lead.talk-address-point-did-president-really-just-say-no-to-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Did {president} really just say no to {about}?",
+      "text": "Did {president} really just say no to {said}?",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -4441,16 +4261,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-anyone-else-hear-president-on-about-or-was-it-just-me",
+      "key": "outline-talk.lead.talk-address-point-anyone-else-hear-president-on-said-or-was-it-just-me",
       "move": "lead",
       "kind": "spoken",
-      "text": "Anyone else hear {president} on {about}, or was it just me?",
+      "text": "Anyone else hear {president} on {said}, or was it just me?",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president"],
+          "requiresFacts": ["said", "president"],
           "excludesFacts": ["president-for", "president-against"]
         }
       ],
@@ -4484,16 +4304,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-here-we-go-president-came-out-against-about",
+      "key": "outline-talk.lead.talk-address-point-here-we-go-president-came-out-against-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "Here we go: {president} came out against {about}.",
+      "text": "Here we go: {president} came out against {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "president-against"],
+          "requiresFacts": ["said", "president", "president-against"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -4507,17 +4327,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-there-it-is-president-wants-to-keep-about",
+      "key": "outline-talk.lead.talk-address-point-there-it-is-president-wants-to-keep-said",
       "move": "lead",
       "kind": "spoken",
-      "text": "There it is: {president} wants to keep {about}.",
+      "text": "There it is: {president} wants to keep {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-for",
             "law-in-force"
@@ -4532,17 +4352,17 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-you-d-think-president-would-skip-about-but-president-came-out-against-it",
+      "key": "outline-talk.lead.talk-address-point-you-d-think-president-would-skip-said-but-president-came-out-against-it",
       "move": "lead",
       "kind": "spoken",
-      "text": "You'd think {president} would skip {about}, but {president} came out against it.",
+      "text": "You'd think {president} would skip {said}, but {president} came out against it.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "lead",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "said",
             "president",
             "president-against",
             "law-in-force"
@@ -4584,16 +4404,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-here-s-where-president-and-i-split-about",
+      "key": "outline-talk.verdict.talk-address-point-here-s-where-president-and-i-split-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "Here's where {president} and I split: {about}.",
+      "text": "Here's where {president} and I split: {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4605,16 +4425,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-can-t-pretend-to-like-what-president-said-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-can-t-pretend-to-like-what-president-said-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I can't pretend to like what {president} said on {about}.",
+      "text": "I can't pretend to like what {president} said on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4626,16 +4446,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-d-be-lying-if-i-said-president-had-me-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-d-be-lying-if-i-said-president-had-me-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'd be lying if I said {president} had me on {about}.",
+      "text": "I'd be lying if I said {president} had me on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president", "stand-against"],
+          "requiresFacts": ["said", "president", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4647,16 +4467,16 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-d-hoped-for-something-different-from-president-object-on-about",
+      "key": "outline-talk.verdict.talk-address-point-i-d-hoped-for-something-different-from-president-object-on-said",
       "move": "verdict",
       "kind": "spoken",
-      "text": "I'd hoped for something different from {president-object} on {about}.",
+      "text": "I'd hoped for something different from {president-object} on {said}.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict",
           "tie": "stand",
-          "requiresFacts": ["about", "president-object", "stand-against"],
+          "requiresFacts": ["said", "president-object", "stand-against"],
           "excludesFacts": []
         }
       ],
@@ -4713,16 +4533,16 @@
       "after": ["verdict", "why", "verdict-after"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-about-about-and-we-ll-still-eat-supper",
+      "key": "outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-said-about-and-we-ll-still-eat-supper",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "You can disagree with me about {about}, and we'll still eat supper.",
+      "text": "You can disagree with me about {said}, and we'll still eat supper.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["said"],
           "excludesFacts": []
         }
       ],
@@ -4740,16 +4560,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-about-again-if-it-bothers-you",
+      "key": "outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-said-again-if-it-bothers-you",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "I won't bring up {about} again if it bothers you.",
+      "text": "I won't bring up {said} again if it bothers you.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["said"],
           "excludesFacts": []
         }
       ],
@@ -4764,16 +4584,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-about-to-get-through-supper",
+      "key": "outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-said-to-get-through-supper",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "We don't have to settle {about} to get through supper.",
+      "text": "We don't have to settle {said} to get through supper.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["said"],
           "excludesFacts": []
         }
       ],
@@ -4788,16 +4608,16 @@
       "after": ["why-first"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-say-what-you-think-about-about-i-d-rather-hear-it-than-guess",
+      "key": "outline-talk.verdict-after.talk-address-point-say-what-you-think-said-about-i-d-rather-hear-it-than-guess",
       "move": "verdict-after",
       "kind": "spoken",
-      "text": "Say what you think about {about}. I'd rather hear it than guess.",
+      "text": "Say what you think about {said}. I'd rather hear it than guess.",
       "uses": [
         {
           "subject": "talk-address-point",
           "role": "verdict-after",
           "tie": "stand",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["said"],
           "excludesFacts": []
         }
       ],
