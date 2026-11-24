@@ -904,28 +904,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline.disaster-meaning.inaugural-every-family-still-waiting-on-help-from-the-is-the-first-thing-on-my-desk-tomorrow",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Every family still waiting on help from the {the-disaster} is the first thing on my desk tomorrow.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster"]
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline.hired.inaugural-in-november-you-chose-me-and-with-me-and-today-we-both-go-to-work",
       "move": "hired",
       "kind": "spoken",
@@ -1006,28 +984,6 @@
       "lean": [
         "personality-v1:facet-devoted",
         "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.disaster-meaning.inaugural-i-ll-go-see-it-for-myself-before-the-month-is-out-and-i-ll-keep-going-back-for",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "I'll go see it for myself before the month is out, and I'll keep going back for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"]
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-sincere"
       ],
       "origin": "authored",
       "author": "the Story lead",

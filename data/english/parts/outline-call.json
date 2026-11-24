@@ -4978,52 +4978,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-i-ll-keep-the-on-my-schedule-for-as-long-as-there-s-work-left-to-do",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "I'll keep the {the-disaster} on my schedule for as long as there's work left to do.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-no-one-should-have-to-ask-twice-for-help-after-the-and-i-ll-see-that-t",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "No one should have to ask twice for help after the {the-disaster}, and I'll see that they don't.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.disaster-meaning.spoken-help-that-arrives-late-costs-more-and-i-ll-hold-this-government-to-the",
       "move": "disaster-meaning",
       "kind": "spoken",
@@ -5042,115 +4996,6 @@
         "personality-v1:facet-practical",
         "personality-v1:facet-meticulous"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-the-families-the-hit-are-owed-an-answer-and-they-ll-get-it-from-me-not",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "The families the {the-disaster} hit are owed an answer, and they'll get it from me, not from a form letter.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-that-s-what-i-mean-to-change-over-the-next-nobody-waits-alone-after-th",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "That's what I mean to change over the next {term-left}: nobody waits alone after the {the-disaster}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-washington-can-be-slow-after-the-i-intend-it-to-move-at-the-speed-of-t",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Washington can be slow. After the {the-disaster}, I intend it to move at the speed of the people living through it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-i-ll-report-back-on-the-rebuilding-after-the-every-time-i-speak-to-you",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "I'll report back on the rebuilding after the {the-disaster} every time I speak to you, for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.disaster-meaning.spoken-don-t-let-the-news-move-on-from-the-before-the-families-do",
-      "move": "disaster-meaning",
-      "kind": "spoken",
-      "text": "Don't let the news move on from the {the-disaster} before the families do.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "disaster-meaning",
-          "tie": "record",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["disaster", "disaster-image"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -6019,22 +5864,693 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-i-m-going-to-make-rebuilding-after-the-something-this-government-is-ju",
-      "move": "disaster-meaning",
+      "key": "outline-call.run.spoken-raises-showed-up-in-more-homes-than-not-over-the-last",
+      "move": "run",
       "kind": "spoken",
-      "text": "I'm going to make rebuilding after the {the-disaster} something this government is judged on.",
+      "text": "Raises showed up in more homes than not over the last {run-span}.",
       "uses": [
         {
           "subject": "inaugural",
-          "role": "disaster-meaning",
+          "role": "run",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
           "excludesFacts": []
         }
       ],
-      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-take-home-pay-has-been-on-the-rise-for-and-families-have-noticed",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Take-home pay has been on the rise for {run-span}, and families have noticed.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-ask-around-more-people-than-you-d-think-have-a-little-left-at-the-end",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Ask around: more people than you'd think have a little left at the end of the month after {run-span} like these.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-money-in-your-pocket-has-been-going-up-for-that-s-a-fact-not-a-slo",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The money in your pocket has been going up for {run-span}. That's a fact, not a slogan.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-after-of-steady-raises-people-are-planning-again",
+      "move": "run",
+      "kind": "spoken",
+      "text": "After {run-span} of steady raises, people are planning again.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-households-that-dreaded-the-end-of-the-month-ago-are-breathing-easier",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Households that dreaded the end of the month {run-span} ago are breathing easier now.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-a-good-run-of-doesn-t-make-the-news-and-that-s-a-sign-it-s-working",
+      "move": "run",
+      "kind": "spoken",
+      "text": "A good run of {run-span} doesn't make the news, and that's a sign it's working.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-wages-have-been-heading-up-for-and-i-m-not-going-to-take-credit-for-wh",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Wages have been heading up for {run-span}, and I'm not going to take credit for what you earned.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-pay-stubs-have-looked-a-little-better-for-and-that-s-you-not-me",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Pay stubs have looked a little better for {run-span}, and that's you, not me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-you-ve-worked-hard-for-and-it-has-begun-to-show-in-your-pay",
+      "move": "run",
+      "kind": "spoken",
+      "text": "You've worked hard for {run-span}, and it has begun to show in your pay.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-raise-you-got-in-the-last-wasn-t-an-accident-and-i-intend-to-prote",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The raise you got in the last {run-span} wasn't an accident, and I intend to protect what produced it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-plenty-of-families-are-saving-a-little-again-after-of-better-pay",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Plenty of families are saving a little again, after {run-span} of better pay.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-small-business-owners-have-been-giving-raises-for-and-workers-have-bee",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Small-business owners have been giving raises for {run-span}, and workers have been spending them at home.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-easy-to-take-of-rising-pay-for-granted-i-won-t",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Easy to take {run-span} of rising pay for granted. I won't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-not-everyone-has-felt-the-same-lift-but-most-households-are-better-off",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Not everyone has felt the same lift, but most households are better off after the last {run-span}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-over-pay-has-gone-up-in-most-trades-and-in-most-towns",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Over {run-span}, pay has gone up in most trades and in most towns.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-last-gave-a-lot-of-people-room-to-breathe-and-i-want-to-build-on-i",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The last {run-span} gave a lot of people room to breathe, and I want to build on it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-people-once-asked-whether-pay-would-ever-move-over-it-did",
+      "move": "run",
+      "kind": "spoken",
+      "text": "People once asked whether pay would ever move. Over {run-span}, it did.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-a-bigger-paycheck-changes-a-family-s-whole-week-and-a-lot-of-weeks-hav",
+      "move": "run",
+      "kind": "spoken",
+      "text": "A bigger paycheck changes a family's whole week, and a lot of weeks have been better in the last {run-span}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-let-me-start-with-the-good-news-pay-has-been-climbing-for",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Let me start with the good news: pay has been climbing for {run-span}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-wages-rose-across-and-if-you-were-part-of-that-you-earned-it",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Wages rose across {run-span}, and if you were part of that, you earned it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-not-long-ago-a-raise-was-a-rumor-in-the-last-it-has-been-a-fact-for-ma",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Not long ago, a raise was a rumor. In the last {run-span}, it has been a fact for many.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-there-s-more-to-take-home-than-there-was-ago-and-i-m-glad-to-say-so-fi",
+      "move": "run",
+      "kind": "spoken",
+      "text": "There's more to take home than there was {run-span} ago, and I'm glad to say so first.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-pay-is-up-and-has-been-up-for-my-job-is-to-help-it-hold",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Pay is up, and has been up for {run-span}. My job is to help it hold.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-pay-ahead", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-people-are-working-more-and-taking-home-more-than-ago-and-that-deserve",
+      "move": "run",
+      "kind": "spoken",
+      "text": "People are working more and taking home more than {run-span} ago, and that deserves saying out loud.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
       "lean": [
-        "personality-v1:facet-assertive",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-jobs-came-back-and-pay-came-up-over-the-last-and-the-two-helped-each-o",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Jobs came back and pay came up over the last {run-span}, and the two helped each other.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-more-work-better-pay-that-s-what-the-last-gave-a-lot-of-families",
+      "move": "run",
+      "kind": "spoken",
+      "text": "More work, better pay: that's what the last {run-span} gave a lot of families.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-when-people-can-find-a-job-and-win-a-decent-raise-the-whole-street-fee",
+      "move": "run",
+      "kind": "spoken",
+      "text": "When people can find a job and win a decent raise, the whole street feels it, and over {run-span} the street has felt it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-a-job-and-a-raise-in-the-same-is-what-most-people-hoped-for-and-many-g",
+      "move": "run",
+      "kind": "spoken",
+      "text": "A job and a raise in the same {run-span} is what most people hoped for, and many got it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-hiring-and-wages-both-moved-the-right-way-for",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Hiring and wages both moved the right way for {run-span}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-i-d-call-the-last-a-good-stretch-for-anyone-who-wanted-work-and-a-fair",
+      "move": "run",
+      "kind": "spoken",
+      "text": "I'd call the last {run-span} a good stretch for anyone who wanted work and a fair wage.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-workplace-has-changed-for-the-better-over-more-openings-bigger-pay",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The workplace has changed for the better over {run-span}: more openings, bigger paychecks.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": [
+            "run-good",
+            "run-pay-ahead",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-last-were-good-to-this-country-and-i-ll-say-so",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The last {run-span} were good to this country, and I'll say so.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
         "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
@@ -6042,16 +6558,656 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-every-dollar-meant-for-the-families-the-hit-will-be-tracked-until-it-r",
+      "key": "outline-call.run.spoken-things-have-gone-well-for-and-well-is-worth-defending",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Things have gone well for {run-span}, and well is worth defending.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-i-d-be-foolish-to-pretend-the-last-went-badly-because-for-most-of-you",
+      "move": "run",
+      "kind": "spoken",
+      "text": "I'd be foolish to pretend the last {run-span} went badly, because for most of you they didn't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-a-lot-has-gone-right-over-the-last-and-my-first-rule-is-not-to-break-i",
+      "move": "run",
+      "kind": "spoken",
+      "text": "A lot has gone right over the last {run-span}, and my first rule is not to break it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-over-the-country-got-a-little-steadier-and-i-mean-to-respect-that",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Over {run-span}, the country got a little steadier, and I mean to respect that.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-you-gave-this-country-of-hard-work-and-it-paid-something-back",
+      "move": "run",
+      "kind": "spoken",
+      "text": "You gave this country {run-span} of hard work, and it paid something back.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-no-one-should-be-embarrassed-to-say-the-last-were-good-ones",
+      "move": "run",
+      "kind": "spoken",
+      "text": "No one should be embarrassed to say the last {run-span} were good ones.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-the-country-is-in-better-shape-than-it-was-ago-and-i-know-whose-work-t",
+      "move": "run",
+      "kind": "spoken",
+      "text": "The country is in better shape than it was {run-span} ago, and I know whose work that is.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-people-who-said-it-couldn-t-be-done-were-wrong-for-and-i-d-like-them-t",
+      "move": "run",
+      "kind": "spoken",
+      "text": "People who said it couldn't be done were wrong for {run-span}, and I'd like them to stay wrong.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.run.spoken-credit-goes-to-the-people-who-made-the-last-what-they-were",
+      "move": "run",
+      "kind": "spoken",
+      "text": "Credit goes to the people who made the last {run-span} what they were.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "run",
+          "tie": "record",
+          "requiresFacts": ["run-good", "run-span"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-ll-be-judged-on-this-recovery-over-the-next-and-i-welcome-that",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "Every dollar meant for the families the {the-disaster} hit will be tracked until it reaches them.",
+      "text": "I'll be judged on this recovery over the next {term-left}, and I welcome that.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-this-is-a-test-of-whether-a-government-can-finish-what-it-starts-and-i",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "This is a test of whether a government can finish what it starts, and it runs {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-rebuilding-is-a-long-middle-with-no-headlines-and-i-intend-to-work-thr",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Rebuilding is a long middle with no headlines, and I intend to work through all {term-left} of it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-persistent", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-families-don-t-recover-on-a-news-schedule-so-for-neither-will-i",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Families don't recover on a news schedule, so for {term-left} neither will I.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-my-promise-on-the-rebuilding-is-small-and-i-can-keep-it-i-ll-check-on",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "My promise on the rebuilding is small and I can keep it: I'll check on it for {term-left}, and I'll tell you what I find.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-ask-me-in-a-year-how-the-rebuilding-is-going-and-i-ll-have-an-answer-a",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Ask me in a year how the rebuilding is going, and I'll have an answer. Ask me again in {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-the-first-rule-of-help-is-that-it-has-to-arrive-and-i-ll-hold-to-that",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "The first rule of help is that it has to arrive, and I'll hold to that for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-whether-it-was-a-mountain-of-paperwork-or-a-missing-check-i-want-to-he",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Whether it was a mountain of paperwork or a missing check, I want to hear where help stalled, and I'll keep asking for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-d-rather-be-bothered-about-the-recovery-than-be-quiet-and-wrong-all",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I'd rather be bothered about the recovery than be quiet and wrong, all {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-a-government-that-forgets-people-the-minute-they-re-off-the-news-has-n",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "A government that forgets people the minute they're off the news has no right to ask for trust over {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-those-who-stayed-to-rebuild-should-find-help-waiting-not-a-waiting-lis",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Those who stayed to rebuild should find help waiting, not a waiting list. I'll answer for that for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-can-t-give-anyone-back-what-they-lost-but-across-i-can-make-the-road",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I can't give anyone back what they lost, but across {term-left} I can make the road home shorter.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-ll-keep-the-rebuilding-on-my-schedule-for-as-long-as-there-s-work-le",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I'll keep the rebuilding on my schedule for as long as there's work left to do, and I've got {term-left} of schedule.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-no-one-should-have-to-ask-twice-for-help-and-over-i-ll-see-that-they-d",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "No one should have to ask twice for help, and over {term-left} I'll see that they don't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-the-families-who-were-hit-are-owed-an-answer-and-for-they-ll-get-it-fr",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "The families who were hit are owed an answer, and for {term-left} they'll get it from me, not from a form letter.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-that-s-what-i-mean-to-change-over-the-next-nobody-waits-alone",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "That's what I mean to change over the next {term-left}: nobody waits alone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-washington-can-be-slow-for-i-intend-it-to-move-at-the-speed-of-the-peo",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Washington can be slow. For {term-left}, I intend it to move at the speed of the people living through it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-ll-report-back-on-the-rebuilding-every-time-i-speak-to-you-for",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I'll report back on the rebuilding every time I speak to you, for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-don-t-let-the-news-move-on-before-the-families-do-i-won-t-for",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Don't let the news move on before the families do. I won't, for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-i-m-going-to-make-rebuilding-something-this-government-is-judged-on-fo",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "I'm going to make rebuilding something this government is judged on for {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-every-dollar-meant-for-those-families-will-be-tracked-until-it-reaches",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Every dollar meant for those families will be tracked until it reaches them, and I'll say so each year of the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6065,16 +7221,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-i-ll-ask-hard-questions-about-the-response-to-the-starting-with-the-ag",
+      "key": "outline-call.disaster-meaning.spoken-i-ll-ask-hard-questions-about-the-response-starting-with-the-agencies",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "I'll ask hard questions about the response to the {the-disaster}, starting with the agencies I run.",
+      "text": "I'll ask hard questions about the response, starting with the agencies I run, and I'll keep asking for {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6085,16 +7241,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-people-shouldn-t-need-a-lawyer-to-get-help-after-the",
+      "key": "outline-call.disaster-meaning.spoken-people-shouldn-t-need-a-lawyer-to-get-help-and-i-ll-work-on-that-for",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "People shouldn't need a lawyer to get help after the {the-disaster}.",
+      "text": "People shouldn't need a lawyer to get help, and I'll work on that for {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6108,16 +7264,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-for-the-the-standard-i-ll-hold-myself-to-is-simple-did-the-family-get",
+      "key": "outline-call.disaster-meaning.spoken-the-standard-i-ll-hold-myself-to-is-simple-did-the-family-get-what-it",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "For the {the-disaster}, the standard I'll hold myself to is simple: did the family get what it needed, and when?",
+      "text": "The standard I'll hold myself to is simple: did the family get what it needed, and when? I'll ask it for {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6131,16 +7287,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-i-won-t-let-the-turn-into-a-line-in-a-history-book-while-people-are-st",
+      "key": "outline-call.disaster-meaning.spoken-i-won-t-let-this-turn-into-a-line-in-a-history-book-while-people-are-s",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "I won't let the {the-disaster} turn into a line in a history book while people are still waiting.",
+      "text": "I won't let this turn into a line in a history book while people are still waiting, not in {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6154,16 +7310,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-anyone-who-calls-this-government-after-the-should-reach-a-person-who-c",
+      "key": "outline-call.disaster-meaning.spoken-anyone-who-calls-this-government-for-help-should-reach-a-person-who-ca",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "Anyone who calls this government after the {the-disaster} should reach a person who can actually help.",
+      "text": "Anyone who calls this government for help should reach a person who can actually help, and I'll check that for {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6177,16 +7333,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-if-the-taught-us-one-thing-it-s-that-the-work-before-the-next-one-matt",
+      "key": "outline-call.disaster-meaning.spoken-if-this-taught-us-anything-it-s-that-the-work-before-the-next-one-matt",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "If the {the-disaster} taught us one thing, it's that the work before the next one matters as much as the work after.",
+      "text": "If this taught us anything, it's that the work before the next one matters as much as the work after, and I'll plan for it over {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6200,16 +7356,16 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-i-ll-sit-down-with-the-people-running-the-recovery-after-the-and-i-ll",
+      "key": "outline-call.disaster-meaning.spoken-i-ll-sit-down-with-the-people-running-the-recovery-and-i-ll-listen-to",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "I'll sit down with the people running the recovery after the {the-disaster}, and I'll listen to the people receiving it first.",
+      "text": "I'll sit down with the people running the recovery, and I'll listen to the people receiving it first, over {term-left}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "disaster-meaning",
           "tie": "record",
-          "requiresFacts": ["the-disaster"],
+          "requiresFacts": ["the-disaster", "term-left"],
           "excludesFacts": []
         }
       ],
@@ -6223,10 +7379,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.disaster-meaning.spoken-the-next-will-show-whether-we-learned-anything-from-the",
+      "key": "outline-call.disaster-meaning.spoken-the-next-will-show-whether-we-learned-anything",
       "move": "disaster-meaning",
       "kind": "spoken",
-      "text": "The next {term-left} will show whether we learned anything from the {the-disaster}.",
+      "text": "The next {term-left} will show whether we learned anything.",
       "uses": [
         {
           "subject": "inaugural",
@@ -6240,6 +7396,52 @@
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-over-the-recovery-will-be-one-of-the-things-i-m-measured-by",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "Over {term-left}, the recovery will be one of the things I'm measured by.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.disaster-meaning.spoken-the-recovery-gets-a-place-in-every-plan-i-make-for-the-next",
+      "move": "disaster-meaning",
+      "kind": "spoken",
+      "text": "The recovery gets a place in every plan I make for the next {term-left}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "disaster-meaning",
+          "tie": "record",
+          "requiresFacts": ["the-disaster", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["disaster", "disaster-image"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
