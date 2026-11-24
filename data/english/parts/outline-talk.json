@@ -3856,6 +3856,988 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
+      "key": "outline-talk.why.talk-address-point-when-money-is-this-short-in-i-ll-back-whoever-says-it-plainly",
+      "move": "why",
+      "kind": "spoken",
+      "text": "When money is this short in {place}, I'll back whoever says it plainly.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-money-is-stretched-in-and-sounds-like-someone-who-knows-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Money is stretched in {place}, and {president} sounds like someone who knows it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "president",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-every-dollar-counts-in-and-i-don-t-want-to-see-it-spent-on-that",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Every dollar counts in {place}, and I don't want to see it spent on that.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-people-in-have-no-money-to-spare-and-is-right-not-to-ask-for-more",
+      "move": "why",
+      "kind": "spoken",
+      "text": "People in {place} have no money to spare, and {president} is right not to ask for more.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-money-is-too-short-in-for-me-to-cheer-for-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Money is too short in {place} for me to cheer for it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-can-promise-what-likes-but-households-in-pay-for-it-first",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{president} can promise what {president} likes, but households in {place} pay for it first.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "president",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-people-in-could-use-the-help-and-is-standing-in-the-way-of-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "People in {place} could use the help, and {president} is standing in the way of it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-households-in-are-stretched-thin-enough-that-i-can-t-side-with-on-this",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Households in {place} are stretched thin enough that I can't side with {president} on this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-money",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-jobs-are-scarce-in-and-this-is-the-first-answer-i-ve-heard-that-might-help",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Jobs are scarce in {place}, and this is the first answer I've heard that might help.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-plenty-of-people-in-are-looking-for-work-and-seems-to-know-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Plenty of people in {place} are looking for work, and {president} seems to know it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "president",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-work-is-hard-enough-to-find-in-and-i-don-t-want-this-to-cost-anyone-a-job",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Work is hard enough to find in {place}, and I don't want this to cost anyone a job.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-can-t-lose-any-more-jobs-so-i-m-glad-is-cautious",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{place} can't lose any more jobs, so I'm glad {president} is cautious.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-if-it-costs-a-single-job-i-can-t-be-for-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "If it costs {place} a single job, I can't be for it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-jobs-in-are-the-first-thing-i-d-protect-and-isn-t-doing-that-here",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Jobs in {place} are the first thing I'd protect, and {president} isn't doing that here.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "president",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-needs-the-work-and-is-shutting-a-door-on-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{place} needs the work, and {president} is shutting a door on it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-people-in-need-jobs-not-another-argument-and-i-can-t-back-on-this",
+      "move": "why",
+      "kind": "spoken",
+      "text": "People in {place} need jobs, not another argument, and I can't back {president} on this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-jobs",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-rent-is-eating-up-what-people-in-earn-and-this-might-finally-ease-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Rent is eating up what people in {place} earn, and this might finally ease it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-people-in-are-stretched-on-rent-and-is-at-least-talking-about-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "People in {place} are stretched on rent, and {president} is at least talking about it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "president",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-rent-is-already-too-high-in-and-i-d-hate-to-see-this-make-it-worse",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Rent is already too high in {place}, and I'd hate to see this make it worse.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-families-in-can-t-take-any-more-on-rent-so-i-m-glad-says-no",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Families in {place} can't take any more on rent, so I'm glad {president} says no.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-calm"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-rent-in-is-high-enough-as-it-is-and-this-won-t-fix-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Rent in {place} is high enough as it is, and this won't fix it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-everybody-in-is-stretched-on-rent-and-has-the-wrong-answer-for-them",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Everybody in {place} is stretched on rent, and {president} has the wrong answer for them.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "president",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-is-turning-down-the-one-thing-that-could-ease-rent-in",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{president} is turning down the one thing that could ease rent in {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-renters-in-have-waited-long-enough-and-isn-t-helping-them",
+      "move": "why",
+      "kind": "spoken",
+      "text": "Renters in {place} have waited long enough, and {president} isn't helping them.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-town-rent",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "victory-first-act-is-about-what-people-pay",
+        "tenants-press-for-rent-stabilization"
+      ]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-would-be-better-for-it-and-is-the-first-to-say-so",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{place} would be better for it, and {president} is the first to say so.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-with",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-d-back-it-for-even-if-someone-else-were-saying-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I'd back it for {place} even if someone else were saying it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "stand-with", "president-for"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-is-right-to-hold-off-on-that-for",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{president} is right to hold off on that for {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-d-rather-not-be-the-test-of-that-and-agrees",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I'd rather {place} not be the test of that, and {president} agrees.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-with",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-it-isn-t-right-for-whatever-says-about-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "It isn't right for {place}, whatever {president} says about it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-look-at-and-i-can-t-see-how-that-helps-it",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I look at {place} and I can't see how that helps it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "stand-against",
+            "president-for"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-deserves-better-than-is-offering-on-this",
+      "move": "why",
+      "kind": "spoken",
+      "text": "{place} deserves better than {president} is offering on this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-tender-hearted"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-look-at-and-i-can-t-see-why-would-stand-in-the-way",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I look at {place} and I can't see why {president} would stand in the way.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": [
+            "why-view",
+            "place",
+            "president",
+            "stand-against",
+            "president-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["verdict", "verdict-cold"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-curious"
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
       "key": "outline-talk.why-first.talk-address-point-stand-with-president-for-i-was-already-thinking-reason-for-before-president-got-to-said",
       "move": "why-first",
       "kind": "spoken",
