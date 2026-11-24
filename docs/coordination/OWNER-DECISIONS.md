@@ -16,7 +16,10 @@ The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
 - **Notes line by line:** "you need to take this line by line, make sure nothing falls through the cracks ... I'll say a bunch of stuff and you'll answer 7 out of 10."
 - **Automatic releases paused** (about 6:20 p.m.): "Yes, pause automatic releases. I don't even know why they're there." `release-package.yml` is disabled. The CTO turns it on and publishes once a non-builder replay passes every row of the sitting on the final head.
 - **Words stay out of the Coordinator's work** (about 6:20 p.m.): "Yes, keep words out of the coordinator's work."
-- **Asked on the Desk, not yet answered:** whether Jan 20 stays the inaugural with the Oval Office and America cutaways back, or becomes an Oval Office address; what "people on the top" means against the Nov 11 strip ruling; what "no assignments" means on Elections.
+- **Answered on the Desk** (about 7:18 p.m.):
+  - **Jan 20:** "A. Keep the inaugural on Jan 20, with the montage back." The speech is an inaugural, staged as one, with the Oct 28 cutaways (the Oval Office window, the Resolute desk, America along a route, key people named as the camera passes). The greeting's wording belongs to Words.
+  - **Where people stand in a talk:** "it was something like the speaker on the voice box and people at the top." This matches his Nov 16 words: "Maybe the person speaking should be on the actual card, and then maybe they go back to the top when they're not speaking." The speaker's bust sits on the talk box, everyone else stands in a row at the top of the screen, and a person comes down to the box to speak and goes back up after.
+  - **"No assignments" on Elections:** "i meant assignments as in random issues and stances with no reason why those are chosen. i dont want subtext or those subheading i HATE." A candidate shows only the stands they actually run on, chosen by their own record and what the office can do, with no subtext and no subheadings.
 
 ## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
 
