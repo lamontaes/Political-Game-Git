@@ -211,7 +211,7 @@
       "key": "outline-news.voice.news-address-said",
       "move": "voice",
       "kind": "written",
-      "text": "“{quote}” {surname} said.",
+      "text": "“{quote},” {surname} said.",
       "uses": [
         {
           "subject": "news-address",
@@ -229,7 +229,7 @@
       "key": "outline-news.voice.news-address-the-new-president-told-the-crowd",
       "move": "voice",
       "kind": "written",
-      "text": "“{quote}” the new president told the crowd.",
+      "text": "“{quote},” the new president told the crowd.",
       "uses": [
         {
           "subject": "news-address",
