@@ -2,8 +2,9 @@
   "id": "undialed-phone-after-the-last-returns",
   "kind": "detail",
   "summary": "The manager is holding the phone when the final returns come in and leaves the call to the candidate.",
-  "realLife": "owner, Nov 14: A manager can put the decision to concede in the candidate’s hands.",
+  "realLife": "In 2004, John Kerry waited until the next morning to concede. After his advisers checked the Ohio returns, he called George W. Bush himself.",
   "sources": [
+    "https://time.com/archive/6739900/bushs-triumph-2004-election-in-victorys-glow/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "The race-lost scene uses the contest result and the campaign manager.",
@@ -18,6 +19,12 @@
       "what": "The manager sets the phone down and looks up the winner's current number.",
       "pulledBy": "The number on the campaign sheet goes to an unattended office.",
       "writesBack": "The call waits for a verified contact."
+    },
+    {
+      "turn": "opposite",
+      "what": "The phone rings before the candidate has decided whether to dial. It is the other campaign checking how to reach them.",
+      "pulledBy": "Both headquarters have exchanged numbers and neither candidate has spoken.",
+      "writesBack": "The manager records a staff call and leaves the candidate’s decision open."
     }
   ]
 }

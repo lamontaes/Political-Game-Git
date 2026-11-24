@@ -2,8 +2,9 @@
   "id": "meet-a-party-worker-while-out-alone",
   "kind": "moment",
   "summary": "During an ordinary trip, someone introduces themselves as a member of the local party committee.",
-  "realLife": "owner, Nov 15: A chance encounter can give an unaffiliated resident a first personal connection to the party.",
+  "realLife": "George Dunne recalled arranging plants in a Chicago church when a visitor brought him a message from the ward committeeman. The ward needed someone to serve as precinct captain, and Dunne agreed to take the job.",
   "sources": [
+    "https://exhibits.library.uic.edu/remembering-richard-j-daley/media/RJDOH_01_dunne_george_20031216_transcript.pdf.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L167"
   ],
   "inGame": "needs: a chance encounter tied to the party worker’s actual committee role.",
@@ -20,6 +21,12 @@
       "what": "The party worker recognizes the member but leaves only a name before catching the bus.",
       "pulledBy": "The bus arrives during the introduction.",
       "writesBack": "The member knows whom they met without agreeing to a meeting."
+    },
+    {
+      "turn": "late",
+      "what": "At the next ward meeting, the florist recognizes the messenger and asks which blocks the vacant precinct covers.",
+      "pulledBy": "The resident has the meeting address from their first conversation and the post is still vacant.",
+      "writesBack": "The secretary gives the resident a precinct map and records their interest."
     }
   ]
 }

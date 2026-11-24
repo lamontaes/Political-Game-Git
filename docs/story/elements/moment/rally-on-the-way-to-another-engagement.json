@@ -2,8 +2,9 @@
   "id": "rally-on-the-way-to-another-engagement",
   "kind": "moment",
   "summary": "Two people on their way to meet for coffee find a rally taking place downtown.",
-  "realLife": "owner, Nov 15: A planned outing can bring the player into contact with a public event already underway.",
+  "realLife": "In Oakland in 2024, Ray Bobbitt was walking past a mayoral recall rally when a speaker called to him by name. His part in the event began on the sidewalk.",
   "sources": [
+    "https://sfist.com/2024/10/30/recall-sheng-thao-rally-devolves-into-chaos-when-passerby-gets-called-out-by-name-tries-to-grab-microphone/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L167"
   ],
   "inGame": "needs: join a planned outing to an existing public-action rally at the same place and time.",
@@ -18,6 +19,12 @@
       "what": "The two pause long enough to identify the speaker and then continue to coffee.",
       "pulledBy": "Their appointment leaves little time to stay.",
       "writesBack": "They can recall the speaker but did not hear the whole address."
+    },
+    {
+      "turn": "opposite",
+      "what": "One friend keeps the coffee date while the other stays at the curb to hear the speaker finish.",
+      "pulledBy": "They recognize the issue on the placards and have time to split up before the meeting.",
+      "writesBack": "Only the friend who stayed can later recall the speaker’s closing remarks."
     }
   ]
 }

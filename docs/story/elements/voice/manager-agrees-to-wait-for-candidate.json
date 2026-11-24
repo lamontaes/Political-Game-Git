@@ -2,8 +2,9 @@
   "id": "manager-agrees-to-wait-for-candidate",
   "kind": "voice",
   "summary": "When the candidate steps outside, the manager lets them know someone will be waiting on their return.",
-  "realLife": "owner, Nov 14: A manager’s reply can acknowledge the candidate’s need for a moment alone.",
+  "realLife": "After Kerry’s advisers reviewed Ohio’s count in 2004, manager Mary Beth Cahill phoned him at home. Kerry called her back with his decision before he spoke to Bush.",
   "sources": [
+    "https://time.com/archive/6739900/bushs-triumph-2004-election-in-victorys-glow/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
   ],
   "inGame": "The concession reply follows the player’s selected turn in the race-lost scene.",
@@ -18,6 +19,12 @@
       "what": "The manager leaves a trusted aide by the door and returns to the count room.",
       "pulledBy": "The election office is about to release an update.",
       "writesBack": "The candidate knows whom to find immediately on returning."
+    },
+    {
+      "turn": "opposite",
+      "what": "The candidate asks the manager to stay and practice the first sentence of the call together.",
+      "pulledBy": "The candidate has made a decision and wants company for the conversation.",
+      "writesBack": "The manager cancels the planned break and records the call only after the two candidates speak."
     }
   ]
 }
