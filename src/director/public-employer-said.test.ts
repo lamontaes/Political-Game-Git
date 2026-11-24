@@ -2,9 +2,10 @@
  * A public employer that owns its government's outside pay authority is said
  * by name, and only the outside market (work out of town) is not. Both carry
  * `outsideFlow` (opening-public-pay.ts gives the owner one), so the director
- * knows the market by its kind (`OUTSIDE_MARKET_KIND`). Before, a post
- * office's workers had no employer in any scene: the layoff at the Quemado
- * Post Office skipped with "no narration for layoff-terms can be worded".
+ * knows the market by its kind (`isOutsideMarket`, `OUTSIDE_MARKET_KIND`).
+ * Before, a post office's workers had no employer in any scene: the layoff at
+ * the Quemado Post Office skipped with "no narration for layoff-terms can be
+ * worded".
  * The place is drawn from all 56 (drawn-place-tests); a place whose opening
  * has no worker at a pay-authority owner is passed over by name.
  * GOLDEN_PATH_SEED=<seed> replays a run.
@@ -16,7 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
-import { employerWords } from "./words";
+import { employerWords, isOutsideMarket } from "./words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
@@ -32,8 +33,10 @@ it(`a public employer that owns its pay authority is said, and the outside marke
       placeKey: place.key,
     });
     const orgs = [...core.organizations.values()];
-    for (const market of orgs.filter((o) => o.kind === OUTSIDE_MARKET_KIND))
+    for (const market of orgs.filter((o) => o.kind === OUTSIDE_MARKET_KIND)) {
+      expect(isOutsideMarket(market), `${where}: ${market.id}`).toBe(true);
       expect(employerWords(market), `${where}: ${market.id}`).toBeNull();
+    }
     // A pay-authority owner someone works at: outsideFlow, not the market.
     const owners = new Set(
       orgs
@@ -48,6 +51,9 @@ it(`a public employer that owns its pay authority is said, and the outside marke
       continue;
     }
     const org = core.organizations.get(job.organizationId)!;
+    // The one rule every director read goes through (a scene's setting, a
+    // work reason for a view, a layoff in a speech, a workplace to talk about).
+    expect(isOutsideMarket(org), `${where}: ${org.id}`).toBe(false);
     const said = employerWords(org);
     expect(
       said,
