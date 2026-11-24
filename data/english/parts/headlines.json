@@ -1303,7 +1303,10 @@
         "move": "headline",
         "key": "arrival"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization-opened.subject-back-in-business",
@@ -1326,7 +1329,10 @@
         "move": "headline",
         "key": "arrival"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization-opened.subject-welcomes-customers-again",
@@ -1349,7 +1355,10 @@
         "move": "headline",
         "key": "arrival"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.law.law-now-applies-in-place",
@@ -2695,7 +2704,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.break-ins-fall-in-place",
@@ -2717,7 +2727,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.more-robberies-in-place",
@@ -3003,7 +3014,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.place-sees-more-burglaries",
@@ -3025,7 +3037,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.break-ins-drop-in-place",
@@ -3047,7 +3060,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.place-sees-fewer-burglaries",
@@ -3069,7 +3083,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["cluster-of-break-ins-links-the-lead-to-the-log"]
     },
     {
       "key": "headlines.conditions.robberies-rise-in-place",
@@ -4874,7 +4889,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization.opened.subject-opens-in-place",
@@ -4897,7 +4915,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization.opened.new-in-place-subject",
@@ -4920,7 +4941,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization.opened.subject-opens-its-doors",
@@ -4942,7 +4966,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization.opened.open-for-business-subject",
@@ -4964,7 +4991,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.organization.opened.subject-opens-for-business",
@@ -4986,7 +5016,10 @@
         "move": "headline",
         "key": "news-received"
       },
-      "elements": ["business-opens-story"]
+      "elements": [
+        "business-opens-story",
+        "opening-lede-on-the-place-and-month"
+      ]
     },
     {
       "key": "headlines.founded.name-opens-new-business",
@@ -6835,7 +6868,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.house-burglarized-in-place",
@@ -6857,7 +6891,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-property-crime-on-record",
@@ -6879,7 +6914,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-property-vandalized",
@@ -6901,7 +6937,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.vandalism-strikes-place",
@@ -6923,7 +6960,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-robbery-on-record",
@@ -6945,7 +6983,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-assault-on-record",
@@ -6967,7 +7006,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.break-in-reported-in-place",
@@ -6989,7 +7029,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-home-broken-into",
@@ -7011,7 +7052,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-vandalism-reported",
@@ -7033,7 +7075,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.vandals-hit-place",
@@ -7055,7 +7098,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.property-damaged-in-place",
@@ -7077,7 +7121,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.robbery-reported-in-place",
@@ -7099,7 +7144,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-robbery-reported",
@@ -7121,7 +7167,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.assault-reported-in-place",
@@ -7143,7 +7190,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.crime.place-assault-reported",
@@ -7165,7 +7213,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.graduation.place-seniors-finish-school",
@@ -7774,7 +7823,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.police-log.one-police-report-in-month",
@@ -7796,7 +7846,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.police-log.place-police-log-for-month",
@@ -7817,7 +7868,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["police-log-by-day-with-type-time-and-block"]
     },
     {
       "key": "headlines.honor.name-takes-place-spelling-bee",
