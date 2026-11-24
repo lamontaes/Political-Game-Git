@@ -30,5 +30,6 @@
       "pulledBy": "The adopted measure authorizes a pilot.",
       "writesBack": "The permit record carries the district boundary and review date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
