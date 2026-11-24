@@ -80,7 +80,12 @@
           "name": "close",
           "required": true,
           "camera": "close",
-          "shapes": ["send-off-then-blessing", "blessing-alone"]
+          "shapes": [
+            "send-off-then-blessing",
+            "blessing-alone",
+            "blessing-then-send-off",
+            "send-off-alone"
+          ]
         }
       ],
       "terse": [
@@ -116,6 +121,33 @@
             "personality-v1:facet-ambitious",
             "personality-v1:facet-competitive",
             "personality-v1:facet-cocky"
+          ]
+        },
+        {
+          "sections": ["story", "call", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-practical",
+            "personality-v1:facet-work-centered",
+            "personality-v1:facet-persistent"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "second", "call"],
+          "pull": [
+            "personality-v1:facet-nostalgic",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-sincere"
+          ]
+        },
+        {
+          "sections": ["story", "theme", "call", "second"],
+          "pull": [
+            "personality-v1:facet-zealous",
+            "personality-v1:facet-dramatic",
+            "personality-v1:facet-proud",
+            "personality-v1:facet-brazen"
           ]
         }
       ],
@@ -201,7 +233,12 @@
           "name": "close",
           "required": true,
           "camera": "close",
-          "shapes": ["send-off-then-blessing", "blessing-alone"]
+          "shapes": [
+            "send-off-then-blessing",
+            "blessing-alone",
+            "blessing-then-send-off",
+            "send-off-alone"
+          ]
         }
       ],
       "terse": [
@@ -237,6 +274,33 @@
             "personality-v1:facet-ambitious",
             "personality-v1:facet-competitive",
             "personality-v1:facet-cocky"
+          ]
+        },
+        {
+          "sections": ["story", "call", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-practical",
+            "personality-v1:facet-work-centered",
+            "personality-v1:facet-persistent"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "second", "call"],
+          "pull": [
+            "personality-v1:facet-nostalgic",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-sincere"
+          ]
+        },
+        {
+          "sections": ["story", "theme", "call", "second"],
+          "pull": [
+            "personality-v1:facet-zealous",
+            "personality-v1:facet-dramatic",
+            "personality-v1:facet-proud",
+            "personality-v1:facet-brazen"
           ]
         }
       ],
@@ -322,7 +386,12 @@
           "name": "close",
           "required": true,
           "camera": "close",
-          "shapes": ["send-off-then-blessing", "blessing-alone"]
+          "shapes": [
+            "send-off-then-blessing",
+            "blessing-alone",
+            "blessing-then-send-off",
+            "send-off-alone"
+          ]
         }
       ],
       "terse": [
@@ -358,6 +427,33 @@
             "personality-v1:facet-ambitious",
             "personality-v1:facet-competitive",
             "personality-v1:facet-cocky"
+          ]
+        },
+        {
+          "sections": ["story", "call", "theme", "second"],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-practical",
+            "personality-v1:facet-work-centered",
+            "personality-v1:facet-persistent"
+          ]
+        },
+        {
+          "sections": ["theme", "story", "second", "call"],
+          "pull": [
+            "personality-v1:facet-nostalgic",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-sincere"
+          ]
+        },
+        {
+          "sections": ["story", "theme", "call", "second"],
+          "pull": [
+            "personality-v1:facet-zealous",
+            "personality-v1:facet-dramatic",
+            "personality-v1:facet-proud",
+            "personality-v1:facet-brazen"
           ]
         }
       ],
@@ -779,6 +875,24 @@
         "personality-v1:facet-meticulous",
         "personality-v1:facet-practical",
         "personality-v1:facet-fair-minded"
+      ]
+    },
+    "send-off-alone": {
+      "moves": ["send-off"],
+      "pull": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-practical",
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-independent"
+      ]
+    },
+    "blessing-then-send-off": {
+      "moves": ["blessing", "send-off"],
+      "pull": [
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-zealous",
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-sincere"
       ]
     }
   },

@@ -10,6 +10,7 @@
  * momentKey, worldSeed), as `addressTelling` (src/director/address-telling.ts) builds it. With fewer than
  * 120 worlds, the worlds repeat with drawn traits, which overcounts slots a
  * world fact gates (the gate's own caution).
+ * Over 60 drawn lives: SIXES=10 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-drawn.jsonl
  * Run: KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-six.jsonl
  */
 import { readFileSync } from "node:fs";
@@ -24,7 +25,7 @@ import {
 
 const kind = process.env.KIND ?? "inaugural";
 const HOLD = Number(process.env.HOLD ?? (kind === "inaugural" ? 2 : 0));
-const SIXES = 20;
+const SIXES = Number(process.env.SIXES ?? 20);
 const SIX = 6;
 const rows: any[] = readFileSync(process.argv[2]!, "utf8")
   .trim()

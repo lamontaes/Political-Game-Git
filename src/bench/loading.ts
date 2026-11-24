@@ -3,7 +3,7 @@ import { lifeOf, openWholePast } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spoken, stateInSentence } from "../director/words";
 import type { GroundedEnglishFact } from "../english/grounded-english";
-import { tell } from "../english/outline-planner";
+import { tell, type TellingInput } from "../english/outline-planner";
 import type { CoreState, PersonId } from "../core2/types";
 import { governmentMap } from "./map";
 
@@ -25,12 +25,12 @@ const SECTION_YEAR: Readonly<Record<string, string>> = {
  * sentence shown at its record's year. Nothing is said that the records do
  * not hold.
  */
-function toldLife(
+export function loadingTelling(
   core: CoreState,
   playerId: string,
-): { year: number; text: string; recordId: string }[] {
+): TellingInput | null {
   const person = core.people.get(playerId);
-  if (!person) return [];
+  if (!person) return null;
   // The whole past is written before it is read, as the person card writes
   // it, so the story cites the records the card shows (writing it replaces
   // the records a partial past stood on).
@@ -108,7 +108,7 @@ function toldLife(
     if (home.withinName)
       put("state", stateInSentence(home.withinName), person.householdId);
   }
-  const told = tell({
+  return {
     kind: "loading-story",
     facts,
     momentKey: `loading:${playerId}`,
@@ -116,10 +116,22 @@ function toldLife(
     sourceRecordIds: [playerId as EntityId],
     knower: playerId as EntityId,
     traits: {},
-  });
+  };
+}
+
+/** Each sentence of the told loading story, at its record's year. */
+function toldLife(
+  core: CoreState,
+  playerId: string,
+): { year: number; text: string; recordId: string }[] {
+  const input = loadingTelling(core, playerId);
+  if (!input) return [];
+  const { facts } = input;
+  const told = tell(input);
   return (told?.sentences ?? []).map((row) => ({
     year: Number(
-      facts[SECTION_YEAR[row.section] ?? ""]?.text ?? yearOf(core.date),
+      facts[SECTION_YEAR[row.section] ?? ""]?.text ??
+        core.date.slice(0, core.date.indexOf("-")),
     ),
     text: row.text,
     // The sentence's own record (a birth, a school, a move), not the
