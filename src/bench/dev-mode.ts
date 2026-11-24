@@ -129,6 +129,7 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
+import { personWorkOf } from "../core2/person-work";
 import { CIRCUMSTANCES } from "../director/circumstance";
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
@@ -1690,10 +1691,12 @@ export class DevMode {
           const job = other?.jobId
             ? this.core.jobs.get(other.jobId)
             : undefined;
+          // A job, not an office's own seat: no one is laid off from an office they were elected to.
           return (
             other?.householdId !== player.householdId &&
             !!job &&
-            job.endsAt === undefined
+            job.endsAt === undefined &&
+            personWorkOf(this.core, id).job !== null
           );
         })
         .sort();
