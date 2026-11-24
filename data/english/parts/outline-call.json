@@ -6812,7 +6812,7 @@
       "elements": ["work-outlasts-the-term"]
     },
     {
-      "key": "outline-call.long-view.nothing-here-is-a-battle-won-in-a-day-and",
+      "key": "outline-call.long-view.nothing-here-is-a-battle-won-in-a-day-and-realm",
       "move": "long-view",
       "kind": "spoken",
       "text": "Nothing here is a battle won in a day, and {realm-name} has never changed any other way.",
@@ -7172,7 +7172,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.ask-anyone-in-nation-how-the-last-runspan-went-and",
+      "key": "outline-call.bridge.ask-anyone-in-nation-how-the-last-runspan-went-and-good",
       "move": "bridge",
       "kind": "spoken",
       "text": "Ask anyone in {nation} how the last {run-span} went, and you may hear something different than you did before.",
@@ -7232,7 +7232,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.none-of-that-stands-apart-from-the-disaster-that-struck",
+      "key": "outline-call.bridge.none-of-that-stands-apart-from-the-disaster-that-struck-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "None of that stands apart from the disaster that struck {realm-name} this year, so I have to begin there.",
@@ -7312,7 +7312,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.before-anything-else-i-have-to-speak-about-the-disaster",
+      "key": "outline-call.bridge.before-anything-else-i-have-to-speak-about-the-disaster-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "Before anything else, I have to speak about the disaster that people across {realm-name} are still living in.",
@@ -8410,7 +8410,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.once-you-see-that-you-start-to-see-the-next",
+      "key": "outline-call.bridge.once-you-see-that-you-start-to-see-the-next-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "Once you see that, you start to see the next problem across {realm-name}.",
@@ -8470,7 +8470,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.hard-as-that-one-is-it-does-not-stand-alone",
+      "key": "outline-call.bridge.hard-as-that-one-is-it-does-not-stand-alone-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "Hard as that one is, it does not stand alone in {realm-name}.",
@@ -8530,7 +8530,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.what-i-have-said-about-that-holds-for-another-issue",
+      "key": "outline-call.bridge.what-i-have-said-about-that-holds-for-another-issue-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "What I have said about that holds for another issue people in {realm-name} keep raising.",
@@ -8650,7 +8650,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.that-is-half-of-what-i-hear-from-people-in",
+      "key": "outline-call.bridge.that-is-half-of-what-i-hear-from-people-in-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "That is half of what I hear from people in {realm-name}.",
@@ -8710,7 +8710,7 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.the-other-half-is-harder-to-say-out-loud-in",
+      "key": "outline-call.bridge.the-other-half-is-harder-to-say-out-loud-in-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "The other half is harder to say out loud in {realm-name}.",
@@ -8830,7 +8830,7 @@
       "elements": ["turn-word-joins"]
     },
     {
-      "key": "outline-call.bridge.yet-none-of-this-gets-done-by-one-person-and",
+      "key": "outline-call.bridge.yet-none-of-this-gets-done-by-one-person-and-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "Yet none of this gets done by one person, and everyone in {realm-name} knows it.",
@@ -10003,7 +10003,7 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.bridge.setting-that-aside-for-a-moment-there-is-another-matter",
+      "key": "outline-call.bridge.setting-that-aside-for-a-moment-there-is-another-matter-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "Setting that aside for a moment, there is another matter I owe {realm-name} an answer on.",
@@ -10303,7 +10303,7 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of",
+      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of-realm",
       "move": "bridge",
       "kind": "spoken",
       "text": "That settled, there is a harder question in front of {realm-name}.",
