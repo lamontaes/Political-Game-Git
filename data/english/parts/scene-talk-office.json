@@ -3789,16 +3789,6 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
-          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -3825,16 +3815,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
           "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
         }
       ],
@@ -3889,16 +3869,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
           "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
         }
       ],
@@ -4238,7 +4208,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.the-part-about-my-last-job-i-can-list-what-i-did-but-i-don-t-know-how-that-reads-to-someone-who-wasn-t-there"
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
         },
         {
           "subject": "scene",
@@ -4298,7 +4268,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
-          "after": "scene-talk-office.follow-answer.the-part-about-my-last-job-i-can-list-what-i-did-but-i-don-t-know-how-that-reads-to-someone-who-wasn-t-there"
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
         },
         {
           "subject": "scene",
@@ -4358,7 +4328,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.ask-me-why-i-left-my-last-job-and-let-me-try-answering-that-s-the-part-i-d-like-to-practice"
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
         },
         {
           "subject": "scene",
@@ -4418,7 +4388,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
-          "after": "scene-talk-office.follow-answer.ask-me-why-i-left-my-last-job-and-let-me-try-answering-that-s-the-part-i-d-like-to-practice"
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
         },
         {
           "subject": "scene",
@@ -4598,7 +4568,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-to-use-for-proof-of-my-old-pay-i-want-to-have-the-right-thing-when-i-file"
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
         },
         {
           "subject": "scene",
@@ -4658,7 +4628,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency", "staffer"],
-          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-to-use-for-proof-of-my-old-pay-i-want-to-have-the-right-thing-when-i-file"
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
         },
         {
           "subject": "scene",
@@ -5078,7 +5048,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.the-part-about-my-last-job-i-can-list-what-i-did-but-i-don-t-know-how-that-reads-to-someone-who-wasn-t-there"
+          "after": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away"
         },
         {
           "subject": "scene",
@@ -5138,7 +5108,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.ask-me-why-i-left-my-last-job-and-let-me-try-answering-that-s-the-part-i-d-like-to-practice"
+          "after": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud"
         },
         {
           "subject": "scene",
@@ -5258,7 +5228,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.follow-answer.i-d-like-to-know-what-to-use-for-proof-of-my-old-pay-i-want-to-have-the-right-thing-when-i-file"
+          "after": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me"
         },
         {
           "subject": "scene",
@@ -8879,16 +8849,6 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
-          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -8902,10 +8862,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.follow-answer.ask-me-why-i-left-my-last-job-and-let-me-try-answering-that-s-the-part-i-d-like-to-practice",
+      "key": "scene-talk-office.follow-answer.what-do-i-say-if-they-ask-me-something-i-don-t-know-i-d-like-to-try-that-one-out-loud",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Ask me why I left my last job and let me try answering. That's the part I'd like to practice.",
+      "text": "What do I say if they ask me something I don't know? I'd like to try that one out loud.",
       "uses": [
         {
           "subject": "scene",
@@ -8914,7 +8874,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
+          "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
         }
       ],
@@ -8943,16 +8903,6 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
-          "after": "scene-talk-office.reply-ask.what-would-you-want-to-practice-with-someone-from-agency"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -8980,16 +8930,6 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
-          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -9003,10 +8943,10 @@
       "bearing": "steady"
     },
     {
-      "key": "scene-talk-office.follow-answer.the-part-about-my-last-job-i-can-list-what-i-did-but-i-don-t-know-how-that-reads-to-someone-who-wasn-t-there",
+      "key": "scene-talk-office.follow-answer.the-experience-section-i-want-to-know-what-someone-reading-it-for-the-first-time-would-take-away",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The part about my last job. I can list what I did, but I don't know how that reads to someone who wasn't there.",
+      "text": "The experience section. I want to know what someone reading it for the first time would take away.",
       "uses": [
         {
           "subject": "scene",
@@ -9015,7 +8955,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
+          "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
         }
       ],
@@ -9043,16 +8983,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
           "after": "scene-talk-office.reply-ask.what-should-the-person-at-agency-look-at-first-on-your-r-sum"
         }
       ],
@@ -9162,16 +9092,6 @@
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
-          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
         }
       ],
       "elements": ["layoff-orientation-with-rapid-response"],
@@ -9185,10 +9105,10 @@
       "bearing": "curious"
     },
     {
-      "key": "scene-talk-office.follow-answer.i-d-like-to-know-what-to-use-for-proof-of-my-old-pay-i-want-to-have-the-right-thing-when-i-file",
+      "key": "scene-talk-office.follow-answer.i-d-want-to-ask-what-counts-as-proof-of-pay-would-somebody-there-go-over-the-list-with-me",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd like to know what to use for proof of my old pay. I want to have the right thing when I file.",
+      "text": "I'd want to ask what counts as proof of pay. Would somebody there go over the list with me?",
       "uses": [
         {
           "subject": "scene",
@@ -9197,7 +9117,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
+          "requiresFacts": ["problem-work", "agency"],
           "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
         }
       ],
@@ -9225,16 +9145,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["problem-work", "agency"],
-          "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["problem-work", "agency", "since"],
           "after": "scene-talk-office.reply-ask.what-do-you-need-to-know-from-agency-before-you-file"
         }
       ],
