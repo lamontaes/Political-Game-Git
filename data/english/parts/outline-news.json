@@ -777,7 +777,8 @@
             "date",
             "joint-session",
             "about",
-            "president-against"
+            "president-against",
+            "about-one"
           ]
         }
       ],
@@ -801,7 +802,8 @@
             "date",
             "joint-session",
             "about",
-            "president-for"
+            "president-for",
+            "about-one"
           ]
         }
       ],
@@ -1839,7 +1841,8 @@
             "inaugural",
             "about",
             "president-for",
-            "law-in-force"
+            "law-in-force",
+            "about-one"
           ]
         }
       ],
@@ -2265,7 +2268,8 @@
             "about",
             "inaugural",
             "president-for",
-            "law-in-force"
+            "law-in-force",
+            "about-one"
           ]
         }
       ],
@@ -2550,7 +2554,13 @@
           "subject": "news-address-headline",
           "role": "headline",
           "tie": "record",
-          "requiresFacts": ["surname", "about", "inaugural", "president-for"]
+          "requiresFacts": [
+            "surname",
+            "about",
+            "inaugural",
+            "president-for",
+            "about-one"
+          ]
         }
       ],
       "origin": "authored",
@@ -2939,7 +2949,8 @@
             "surname",
             "about",
             "joint-session",
-            "president-against"
+            "president-against",
+            "about-one"
           ]
         }
       ],
@@ -2962,7 +2973,8 @@
             "surname",
             "about",
             "joint-session",
-            "president-for"
+            "president-for",
+            "about-one"
           ]
         }
       ],
