@@ -89975,6 +89975,344 @@
         "key": "endorse"
       },
       "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.after-session-hours-on-the-street-name-comes-to-the-door-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "After {session-hours} on the street, {name} comes to the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-session-hours-into-the-walk-when-name-answers-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You are {session-hours} into the walk when {name} answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-session-hours-into-your-walk-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} opens the door {session-hours} into your walk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-only-just-started-when-name-opens-the-door-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have only just started when {name} opens the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.barely-into-your-walk-you-find-name-at-the-door-ask-support",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Barely into your walk, you find {name} at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.after-session-hours-on-the-street-name-comes-to-the-door-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "After {session-hours} on the street, {name} comes to the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-session-hours-into-the-walk-when-name-answers-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You are {session-hours} into the walk when {name} answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-session-hours-into-your-walk-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} opens the door {session-hours} into your walk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-only-just-started-when-name-opens-the-door-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have only just started when {name} opens the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.barely-into-your-walk-you-find-name-at-the-door-ask-signature",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Barely into your walk, you find {name} at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.state-request.hello-i-m-self-i-m-running-for-office-in-place-can-i-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hello, I'm {self}. I'm running for {office} in {place}. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["self", "office", "place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": ["door-on-a-small-town-street"]
+    },
+    {
+      "key": "scene-talk.state-request.good-to-meet-you-i-m-self-running-for-office-have-i-got-your-support",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Good to meet you. I'm {self}, running for {office}. Have I got your support?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["self", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": ["door-on-a-small-town-street"]
+    },
+    {
+      "key": "scene-talk.state-request.hi-there-i-m-self-i-m-running-for-office-in-this-district-and-i-d-like-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hi there, I'm {self}. I'm running for {office} in this district, and I'd like your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["self", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      },
+      "elements": ["door-on-a-small-town-street"]
     }
   ]
 }
