@@ -873,15 +873,17 @@
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has an elected sheriff."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "State's attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has an elected state's attorney."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "clerk": {
         "title": "County auditor",
@@ -893,8 +895,9 @@
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has a county treasurer."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\".",
+        "termYears": 4
       },
       "assessor": {
         "elected": false,
@@ -906,8 +909,8 @@
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://ndlegis.gov/assembly/69-2025/regular/documents/25-1062-02000.pdf",
-        "note": "North Dakota Century Code 11-10-02: each county has a coroner."
+        "sourceUrl": "https://codes.findlaw.com/nd/title-11-counties/nd-cent-code-sect-11-10-02/",
+        "note": "NDCC 11-10-02: unless a county has adopted an optional form or \"redesignated offices as elective or appointive pursuant to chapter 11-10.2 or 11-10.3\", each county has \"One county treasurer.\" and \"One coroner.\", \"each county must have an elected state's attorney and an elected sheriff\", and the \"required officers must be chosen by the qualified electors\"; the \"recorder, county auditor, treasurer, sheriff, and state's attorney\" are chosen \"in 1966 and every four years thereafter\". The coroner's own section (11-19.1-03) was not read, so the county's term stands."
       }
     },
     "NE": {
@@ -1280,28 +1283,32 @@
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the sheriff is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "State's attorney",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the state's attorney is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "clerk": {
         "title": "County auditor",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the county auditor is elected and keeps the county's records."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the treasurer is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       },
       "assessor": {
         "elected": false,
@@ -1313,8 +1320,9 @@
       "coroner": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://law.justia.com/codes/south-dakota/2013/title-7/chapter-07",
-        "note": "SDCL chapter 7-7: the coroner is elected every fourth year."
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/7-7-1.1.html?all=true",
+        "note": "SDCL 7-7-1.1: \"Unless otherwise provided by county charter\", each county elects \"a sheriff, county auditor, and register of deeds\" and \"a treasurer, state's attorney, and coroner\"; \"The terms of all such officers shall be four years\". SDCL 7-7-1.4 lets a county board \"by resolution, appoint a coroner\"; which counties did so was not read.",
+        "termYears": 4
       }
     },
     "TN": {
