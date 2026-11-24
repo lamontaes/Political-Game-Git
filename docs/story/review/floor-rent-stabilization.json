@@ -6014,10 +6014,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-would-you-want-the-tenant-to-have-in-hand-presiding",
+    "key": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-paperwork-should-the-tenant-take-home-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "The owner says the cost clause has been dropped. What would you want the tenant to have in hand, {presiding}?",
+    "text": "The owner says the cost clause has been dropped. What paperwork should the tenant take home, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -6089,7 +6089,7 @@
           "issue",
           "speaks-for"
         ],
-        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-would-you-want-the-tenant-to-have-in-hand-presiding"
+        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-paperwork-should-the-tenant-take-home-presiding"
       }
     ],
     "bearing": "calm",
@@ -6123,7 +6123,7 @@
           "presiding",
           "speaks-for"
         ],
-        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-would-you-want-the-tenant-to-have-in-hand-presiding"
+        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-paperwork-should-the-tenant-take-home-presiding"
       }
     ],
     "bearing": "firm",
@@ -6157,7 +6157,7 @@
           "bill-name",
           "speaks-against"
         ],
-        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-would-you-want-the-tenant-to-have-in-hand-presiding"
+        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-paperwork-should-the-tenant-take-home-presiding"
       }
     ],
     "bearing": "guarded",
@@ -6191,7 +6191,7 @@
           "presiding",
           "speaks-against"
         ],
-        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-would-you-want-the-tenant-to-have-in-hand-presiding"
+        "after": "scene-talk.reply-ask.the-owner-says-the-cost-clause-has-been-dropped-what-paperwork-should-the-tenant-take-home-presiding"
       }
     ],
     "bearing": "calm",
