@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: dead-stops-fixer
+pr: #10321
 blocked-on:
 after:
 source: playtest Nov 23 sitting 1, row P46 (docs/coordination/playtest/2026-11-23-1.md)
