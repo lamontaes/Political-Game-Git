@@ -1993,7 +1993,7 @@ let speechState = null;
  * the last the total in the narrator's voice. An evening of donor calls and a
  * volunteer shift are this.
  */
-function playAsks({ asked: answers, summary, scene }) {
+function playAsks({ asked: answers, summary, scene, said = [] }) {
   // Someone with nothing worded to say is not drawn as an empty speech; the count after them
   // is the record's.
   const asked = answers.filter((answer) => answer.line);
@@ -2018,8 +2018,11 @@ function playAsks({ asked: answers, summary, scene }) {
       return;
     }
     setWho(null, null);
+    // Who said yes, then the campaign's count.
     fillTalk({
-      lines: [talkLine({ kind: "speech narration", text: summary })],
+      lines: [...said, summary].map((text) =>
+        talkLine({ kind: "speech narration", text }),
+      ),
       replies: [],
     });
   };
@@ -2236,6 +2239,7 @@ async function campaignParts() {
           asked: result.answers,
           summary: campaignResult,
           scene: result.scene,
+          said: result.answers.map((a) => a.said).filter(Boolean),
         });
         return;
       }
