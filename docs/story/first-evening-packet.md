@@ -25,13 +25,13 @@ This is the first evening as a new player meets it, in six drawn places: the thr
 
 The pre-grades are on branch story/first-evening-pregrade (round 3: 132 of 331 at 2846615, calibration 16 of 16).
 
-How it was made: branch `story/first-evening` at head 3fbc861, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
+How it was made: branch `story/first-evening` at head 2172488, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
 
 # First evening packet
 
 Answer by number: 2.3 means place 2, line 3.
 
-## Place 1: Meadow, Utah, seed aecea4, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 1: Meadow, Utah, seed aecea4, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -53,11 +53,11 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.8** Kind: policy; the President: Christine Simon
 
-**1.9** My fellow Americans. In November you chose me, and Vice President Samuel Ford with me, and today we both go to work. I didn't run to keep a chair warm. What I came to talk about is what families pay in taxes.
+**1.9** My fellow Americans. In November you chose me, and Vice President Samuel Ford with me, and today we both go to work. I want to talk about what families pay in taxes, because it's what I heard about most on the road.
 
-**1.10** Wages have beaten prices for four years, and you earned every bit of that.
+**1.10** For four years, the paycheck has gone a little further at the grocery store.
 
-**1.11** I've believed for a long time that the highest earners can afford to pay a higher top rate. So I'm going to ask Congress to raise the top income tax rate, and I'm going to keep asking. I'll be judged on taxes, and I should be.
+**1.11** If you want to know where I start, it's here: the highest earners can afford to pay a higher top rate. So I'm going to ask Congress to raise the top income tax rate, and I'm going to keep asking. I'll be judged on taxes, and I should be.
 
 **1.12** Show up for your town, whoever you voted for. The next four years belong to all of us.
 
@@ -109,7 +109,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.33** Chapter: Monday, January 20
 
-**1.34** The President wants a higher top income tax rate. The speech stayed on what families pay in taxes most of the time.
+**1.34** The President wants a higher top income tax rate. The speech stayed on what families pay in taxes most of the time. I'm with the President on taxes, for what that's worth.
 
 ### The news
 
@@ -143,7 +143,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.49** paragraph: The number for robberies was up as well.
 
-## Place 2: Chipley, Florida, seed 66265b, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 2: Chipley, Florida, seed 66265b, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -165,11 +165,11 @@ Answer by number: 2.3 means place 2, line 3.
 
 **2.8** Kind: policy; the President: Barbara Newton
 
-**2.9** My fellow Americans. The oath I just took is one sentence long. Keeping it for four years is the job. Most of what I have to say today is about how families are treated when they buy and borrow.
+**2.9** My fellow Americans. The oath I just took is one sentence long. Keeping it for four years is the job. You'll hear me talk about how families are treated when they buy and borrow until you're tired of it.
 
 **2.10** Run for something in your own town. The next four years need more of you than one office in Washington.
 
-**2.11** Paychecks have finally been outrunning prices these last four years.
+**2.11** For four years, the paycheck has gone a little further at the grocery store.
 
 **2.12** I'm against a cap on consumer loan interest, and I'll tell you why: a family with poor credit still needs somewhere to borrow. If I get fair lending wrong, you'll know it, and you should say so.
 
@@ -231,7 +231,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **2.38** Chapter: Monday, January 20
 
-**2.39** The President is against a cap on consumer loan interest. Most of it was about how families are treated when they buy and borrow. I agreed with more of it than I expected to, mostly on fair lending. I'll find out tomorrow what Chipley makes of it.
+**2.39** Everybody was home for Barbara Newton's first speech tonight, so we watched it together. The President is against a cap on consumer loan interest. I'm with the President on fair lending, for what that's worth. I'll find out tomorrow what Chipley makes of it.
 
 ### The news
 
@@ -269,7 +269,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **2.56** paragraph: Judy Marshall will lead the minority.
 
-## Place 3: Bethel, Maine, seed bd3806, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 3: Bethel, Maine, seed bd3806, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -291,13 +291,13 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.8** Kind: combative; the President: Jennifer Willis
 
-**3.9** Fellow citizens. A few minutes ago I swore the same oath Vice President Lisa McKenzie took just before me. Here's where I mean to start: what work pays.
+**3.9** Fellow citizens. A few minutes ago I swore the same oath Vice President Lisa McKenzie took just before me. The first thing on my desk is what work pays.
 
 **3.10** I'll need Vice President Lisa McKenzie, I'll need Congress, and most of all I'll need you.
 
-**3.11** Some of you are still cleaning up after the floods, and you deserve a government that shows up and stays. Washington has a short memory for places like yours. Mine will last four years.
+**3.11** For the families the floods hit, this past year has been about getting a roof back. Some of that rebuilding will take all four years, and I'll be here for all of it.
 
-**3.12** I've believed for a long time that a full day's work ought to pay enough to live on. I'll defend the higher federal minimum wage for as long as I hold this office. I'll be judged on pay, and I should be.
+**3.12** Ask anyone who's worked with me, and they'll tell you I think a full day's work ought to pay enough to live on. I'll defend the higher federal minimum wage for as long as I hold this office. I'll be judged on pay, and I should be.
 
 **3.13** Thank you.
 
@@ -333,7 +333,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.26** Chapter: Monday, January 20
 
-**3.27** The whole house sat down for Jennifer Willis's speech on the news tonight. The President means to keep a higher federal minimum wage. Most of it was about what work pays.
+**3.27** The whole house sat down for Jennifer Willis's speech on the news tonight. The President means to keep a higher federal minimum wage. Most of it was about what work pays. On pay, I think the President has it wrong.
 
 ### The news
 
@@ -369,7 +369,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.43** paragraph: Campaign contribution limit for governor races was signed into law on November 28, 2024.
 
-## Place 4: Whitmore Village, Hawaii, seed 2d2283, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 4: Whitmore Village, Hawaii, seed 2d2283, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -391,15 +391,15 @@ Answer by number: 2.3 means place 2, line 3.
 
 **4.8** Kind: hopeful; the President: Robert Fletcher
 
-**4.9** Thank you, everyone. Last November you hired me, and Vice President Shane Ramirez with me. I didn't run to keep a chair warm. What I came to talk about is the power we use and what it costs.
+**4.9** Thank you, everyone. Last November you hired me, and Vice President Shane Ramirez with me. The first thing on my desk is the power we use and what it costs.
 
-**4.10** For the families the storms hit, this past year has been about getting a roof back. The cameras have moved on. For the next four years, I won't.
+**4.10** Plenty of families are still waiting to get back home after the storms this past year. I'll go see it for myself before the month is out, and I'll keep going back for four years.
 
 **4.11** Here's what I believe: the power we make today shouldn't poison the air tomorrow. I'll defend limits on power plant carbon for as long as I hold this office. Nobody voted for me so I could stay quiet about energy.
 
 **4.12** If you think I'm wrong about limits on power plant carbon, tell me. Better to hear it from you than from a poll.
 
-**4.13** Thank you for trusting me with four years. Thank you, everybody.
+**4.13** I'll see you out there over the next four years. Thank you, everybody.
 
 ### Arrival
 
@@ -447,7 +447,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **4.33** Chapter: Monday, January 20
 
-**4.34** Everybody was home for Robert Fletcher's first speech tonight, so we watched it together. The President means to keep limits on power plant carbon. Most of it was about the power we use and what it costs. Whitmore Village will still be here in the morning, and so will I.
+**4.34** The whole house sat down for Robert Fletcher's speech on the news tonight. The President means to keep limits on power plant carbon. Most of it was about the power we use and what it costs. Whitmore Village will still be here in the morning, and so will I.
 
 ### The news
 
@@ -481,7 +481,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **4.49** paragraph: Council member Patricia Tran answered questions from the public on January 3, 2025.
 
-## Place 5: Roberts, Idaho, seed 3c42e6, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 5: Roberts, Idaho, seed 3c42e6, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -503,11 +503,11 @@ Answer by number: 2.3 means place 2, line 3.
 
 **5.8** Kind: combative; the President: Daniel Rush
 
-**5.9** Fellow citizens. Last November you hired me for four years. I didn't run to keep a chair warm. What I came to talk about is what work pays.
+**5.9** Fellow citizens. Last November you hired me for four years. I'm going to spend most of my time up here on what work pays.
 
-**5.10** There are people in Washington who want to raise the federal minimum wage. Not me. The states can set a wage that fits what living there costs.
+**5.10** The other side has a plan, and it's to raise the federal minimum wage. Not me. The states can set a wage that fits what living there costs.
 
-**5.11** Wages have beaten prices for four years, and you earned every bit of that.
+**5.11** More families can cover the rent and still put something away than could four years ago.
 
 **5.12** Show up for your town, whoever you voted for. The next four years belong to all of us.
 
@@ -547,7 +547,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **5.27** Chapter: Monday, January 20
 
-**5.28** Everybody was home for Daniel Rush's first speech tonight, so we watched it together. The President is against a higher federal minimum wage. I'll find out tomorrow what Roberts makes of it.
+**5.28** Everybody was home for Daniel Rush's first speech tonight, so we watched it together. The President came out against a higher federal minimum wage. On pay, I think the President has it right. I'll find out tomorrow what Roberts makes of it.
 
 ### The news
 
@@ -577,7 +577,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **5.41** paragraph: Ayanna Davidson started the business.
 
-## Place 6: Oakton, Virginia, seed d8e52e, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
+## Place 6: Oakton, Virginia, seed d8e52e, head 2172488ae8fe7d3b3f5bdd1750469824c8b9ed34
 
 ### Loading
 
@@ -599,13 +599,13 @@ Answer by number: 2.3 means place 2, line 3.
 
 **6.8** Kind: crisis; the President: Robert Sinclair
 
-**6.9** My fellow Americans. Last November you hired me, and Vice President Jason Davidson with me. Here's where I mean to start: what work pays.
+**6.9** My fellow Americans. Last November you hired me, and Vice President Jason Davidson with me. If you remember one thing from today, make it what work pays.
 
 **6.10** To the families still rebuilding after the floods: the government you pay for is going to show up. Show up for your town, whoever you voted for. The next four years belong to all of us.
 
 **6.11** The federal floor under pay has finally moved up. That's why I'll keep the higher federal minimum wage on the books as long as I'm here.
 
-**6.12** Thank you for trusting me with four years. Thank you, everybody.
+**6.12** We have four years. Let's not waste the first afternoon. Thank you, everybody.
 
 ### Arrival
 
@@ -637,7 +637,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **6.24** Chapter: Monday, January 20
 
-**6.25** The news ran Robert Sinclair's speech after supper, and nobody in the house changed the channel. The President came out for a higher federal minimum wage. Most of it was about what work pays.
+**6.25** The President means to keep a higher federal minimum wage. The speech stayed on what work pays most of the time. I'm with the President on pay, for what that's worth.
 
 ### The news
 
