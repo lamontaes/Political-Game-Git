@@ -1977,6 +1977,13 @@ body:not(.dev) .dev-only {
   flex: 0 1 auto;
   max-width: none;
 }
+/* Patch notes: a long list of builds beside a long page of notes. It takes the window's whole
+   height (owner, Nov 23, P1: "why are there 4 scroll wheel bars?" with free space under it), and
+   only the list's own box and the page scroll in it. */
+#game #sheet.options-sheet:has(.roster-screen.patch-notes) {
+  height: calc(var(--vh) - 2 * var(--gutter));
+}
+
 .option-setting {
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 2fr;
@@ -4197,6 +4204,11 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
+/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
+.roster-screen.patch-notes > .pick-list.roster {
+  max-height: none;
+  overflow: visible;
+}
 /* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
 .roster-screen.patch-notes .roster-page,
 .roster-screen.journal .roster-page {
@@ -4204,6 +4216,10 @@ details.entry[open] {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Patch notes hold the whole window: the page runs to the panel's foot. */
+.roster-screen.patch-notes .roster-page {
+  max-height: calc(var(--vh) - 172px);
 }
 .travel-left {
   min-height: 0;
@@ -4243,6 +4259,7 @@ details.entry[open] {
 }
 .travel-tile b {
   position: absolute;
+  z-index: 1;
   left: 10px;
   bottom: 8px;
   right: 10px;
@@ -4250,11 +4267,25 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
+   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
+}
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
+   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+#sheet-body.place-view .travel-screen {
+  width: 100%;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+}
+#sheet-body.place-view .travel-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+#sheet-body.place-view .travel-tile {
+  height: 84px;
 }
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,

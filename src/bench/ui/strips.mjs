@@ -372,6 +372,8 @@ export function patchNotesScreen({ builds, title }) {
   return rosterScreen({
     title,
     className: "patch-notes",
+    // The panel takes the whole window, so the list shows as many builds as the window holds.
+    maxRows: 20,
     groups: [
       {
         entries: builds.map((build, at) => ({
