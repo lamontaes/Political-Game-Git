@@ -348,9 +348,8 @@ $("talk").addEventListener(
 );
 
 /**
- * That night's news at home, as a toast top right: it fades by itself after
- * controls.opening.newsToastSeconds, goes at once on its close, and the story
- * stays in News either way.
+ * That night's news at home, as a toast top right: it stays until the player opens
+ * or closes it, and the story stays in News either way.
  */
 /** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
 const storyHeadline = (story) =>
@@ -390,7 +389,7 @@ function showNewsSurface(news) {
     openNewsReader(news);
   };
   $("news-surface-close").onclick = hideNewsToast;
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
+  showToast($("news-surface"));
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -734,7 +733,7 @@ async function renderJournalNote() {
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
-    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    showToast($("journal-note"));
     // A new line since the Journal was last open: a dot on its icon until it is read.
     if (shownJournalLine && openTab !== "journal")
       document
@@ -6819,11 +6818,17 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   openTab = tab;
   if (tab !== "news") newsShowing = null;
-  if (tab === "news") markNews(true);
-  if (tab === "journal")
+  if (tab === "news") {
+    markNews(true);
+    hideNewsToast();
+  }
+  if (tab === "journal") {
+    // Opening the Journal is reading the pop-up.
+    hideToast($("journal-note"));
     document
       .querySelector('#rings [data-tab="journal"]')
       ?.classList.remove("unread");
+  }
   show("tip", false);
   const group = groupOf(tab);
   const politics =

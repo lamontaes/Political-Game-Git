@@ -152,8 +152,7 @@
   },
   "opening": {
     "news": "News",
-    "closeNews": "Close the news",
-    "newsToastSeconds": 8
+    "closeNews": "Close the news"
   },
   "person": {
     "whoIs": "Who {lower} is",
