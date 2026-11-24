@@ -989,5 +989,965 @@
       "rehearse-floor-questions-at-home",
       "floor-reasons-are-facts-not-stories"
     ]
+  },
+  {
+    "key": "scene-talk.follow-answer.mine-i-think-we-ought-to-pass-bill-name-and-i-m-willing-to-say-why",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Mine. I think we ought to pass {bill-name}, and I'm willing to say why.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-can-answer-for-myself-i-came-to-the-floor-to-speak-for-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I can answer for myself. I came to the floor to speak for {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-re-hearing-my-objection-to-bill-name-other-members-can-give-you-their-own-reasons",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You're hearing my objection to {bill-name}. Other members can give you their own reasons.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.mine-if-you-re-asking-who-wants-the-chamber-to-turn-down-bill-name-count-me",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Mine. If you're asking who wants the chamber to turn down {bill-name}, count me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.if-the-member-will-yield-when-you-speak-about-issue-whose-view-are-we-hearing"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.tell-them-i-favor-bill-name-they-can-come-to-me-if-they-d-like-to-talk-it-over",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Tell them I favor {bill-name}. They can come to me if they'd like to talk it over.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.give-them-my-name-moving-ahead-with-bill-name-makes-sense-to-me",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Give them my name. Moving ahead with {bill-name} makes sense to me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-s-my-reservation-about-bill-name-people-back-home-have-every-right-to-see-it-differently",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "That's my reservation about {bill-name}. People back home have every right to see it differently.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.say-i-asked-the-board-to-turn-down-bill-name-that-s-my-own-judgment",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Say I asked the board to turn down {bill-name}. That's my own judgment.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.when-people-back-home-ask-about-issue-whose-view-should-i-tell-them-you-brought-to-the-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.take-mine-back-i-d-be-glad-to-explain-to-anybody-on-your-block-why-i-support-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Take mine back. I'd be glad to explain to anybody on your block why I support {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.tell-the-neighbors-where-i-stand-i-want-bill-name-to-pass",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Tell the neighbors where I stand. I want {bill-name} to pass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-say-i-spoke-against-bill-name-i-wouldn-t-want-the-neighborhood-to-think-you-made-that-argument",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can say I spoke against {bill-name}. I wouldn't want the neighborhood to think you made that argument.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-position-anybody-who-wants-to-ask-why-i-object-to-bill-name-can-ask-me-directly",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "My position. Anybody who wants to ask why I object to {bill-name} can ask me directly.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.whose-position-on-issue-should-i-take-back-to-the-neighborhood-after-this-meeting"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.for-myself-if-you-repeat-it-say-i-spoke-in-favor-of-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "For myself. If you repeat it, say I spoke in favor of {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-heard-my-reading-of-bill-name-i-think-we-ought-to-go-ahead-with-it",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You heard my reading of {bill-name}. I think we ought to go ahead with it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.just-me-i-don-t-think-bill-name-ought-to-pass-in-its-present-form",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Just me. I don't think {bill-name} ought to pass in its present form.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-put-it-this-way-when-you-repeat-it-i-spoke-against-bill-name-and-those-reasons-are-mine",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd put it this way when you repeat it. I spoke against {bill-name}, and those reasons are mine.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.i-d-like-to-get-this-straight-before-i-repeat-it-when-you-spoke-about-issue-who-were-you-speaking-for"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-judgment-is-that-the-chamber-should-pass-bill-name-i-ll-leave-the-other-members-to-give-theirs",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "My judgment is that the chamber should pass {bill-name}. I'll leave the other members to give theirs.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-reached-that-conclusion-myself-it-s-the-reason-i-rose-in-support-of-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I reached that conclusion myself. It's the reason I rose in support of {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-own-judgment-and-it-s-why-i-m-asking-the-chamber-to-reject-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "My own judgment, and it's why I'm asking the chamber to reject {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-have-an-objection-to-bill-name-i-leave-it-to-the-other-members-to-say-whether-they-share-it",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I have an objection to {bill-name}. I leave it to the other members to say whether they share it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.may-i-ask-the-member-whose-judgment-we-just-heard-on-issue"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.use-my-name-i-want-somebody-reading-this-later-to-know-who-stood-up-for-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Use my name. I want somebody reading this later to know who stood up for {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-attribute-the-argument-for-bill-name-to-me",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can attribute the argument for {bill-name} to me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.put-me-down-as-the-one-who-spoke-against-bill-name-that-s-what-i-want-the-record-to-show",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Put me down as the one who spoke against {bill-name}. That's what I want the record to show.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.name-me-i-ll-stand-by-what-i-said-about-turning-down-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Name me. I'll stand by what I said about turning down {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.suppose-someone-reads-this-debate-and-asks-me-who-took-that-position-on-issue-whom-should-i-name"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.send-them-over-to-me-i-d-rather-they-heard-straight-from-me-why-i-want-bill-name-to-pass",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Send them over to me. I'd rather they heard straight from me why I want {bill-name} to pass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-tell-them-i-was-for-bill-name-that-s-the-view-i-came-to-give",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can tell them I was for {bill-name}. That's the view I came to give.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.point-them-my-way-i-can-explain-what-troubles-me-about-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Point them my way. I can explain what troubles me about {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.say-it-was-me-if-they-want-to-know-why-i-spoke-against-bill-name-i-ll-stay-and-talk",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Say it was me. If they want to know why I spoke against {bill-name}, I'll stay and talk.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.if-somebody-stops-me-on-the-way-out-and-asks-who-spoke-for-that-view-on-issue-what-should-i-tell-them"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.my-side-i-want-us-to-go-ahead-with-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "My side. I want us to go ahead with {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-was-giving-my-own-reasons-for-backing-bill-name-anybody-else-on-the-board-can-come-at-it-differently",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I was giving my own reasons for backing {bill-name}. Anybody else on the board can come at it differently.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-for", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-was-my-case-against-bill-name-let-the-others-on-the-board-speak-for-themselves",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "That was my case against {bill-name}. Let the others on the board speak for themselves.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.just-my-own-i-think-we-d-be-making-a-mistake-by-passing-bill-name",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Just my own. I think we'd be making a mistake by passing {bill-name}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": ["reason-own-view", "speaks-against", "bill-name"],
+        "after": "scene-talk.reply-ask.can-i-check-one-thing-about-issue-before-we-move-on-whose-side-were-you-putting-to-us-just-now"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "rehearse-floor-questions-at-home",
+      "floor-states-the-position-in-the-first-sentences"
+    ]
   }
 ]
