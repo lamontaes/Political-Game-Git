@@ -4807,7 +4807,7 @@ select.release-pick {
    span rule shrank the row's type to 14 px beside its 17 px neighbors (owner, Nov 23, C7). */
 .vote-rows .open-row {
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--control-radius);
   transition:
     background 140ms,
     box-shadow 140ms;
