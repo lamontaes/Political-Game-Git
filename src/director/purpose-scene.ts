@@ -81,7 +81,7 @@ import {
   questionSaid,
 } from "../english/question-names";
 import { BRIBE_TYPES, bribeReads } from "./bribe-facts";
-import { floorDebateFacts } from "./floor-debate-facts";
+import { floorDebateFacts, floorDebateStillOpen } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
 import { voteAskFacts } from "./vote-ask-facts";
@@ -714,6 +714,16 @@ function composeBinding(
     billId && core.modules.has(LEGISLATURE_MODULE_ID)
       ? billOf(coreAPI(core as CoreState), billId)
       : undefined;
+  if (
+    type.purpose === "floor-debate" &&
+    record?.kind === "floor-debate" &&
+    named &&
+    !floorDebateStillOpen(named, said.chamber)
+  )
+    return {
+      kind: "skipped",
+      reason: "the bill is no longer before this chamber",
+    };
   const number = said.number ?? named?.number;
   if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.

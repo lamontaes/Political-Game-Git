@@ -11,7 +11,10 @@ import {
 import { enactLaw } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
-import { floorDebateFacts } from "../director/floor-debate-facts";
+import {
+  floorDebateFacts,
+  floorDebateStillOpen,
+} from "../director/floor-debate-facts";
 import type { Fact } from "../english/scene-talk-words";
 import { buildBenchWorld } from "./world";
 
@@ -149,3 +152,24 @@ it("grounds floor questions in the single provision the chamber would enact", ()
   holdEveryChamber(api, bill.id);
   expect(readWitnesses()).toEqual({});
 }, 120_000);
+
+it("keeps the next chamber open after the originating chamber has voted", () => {
+  const roll = {
+    chamber: "house",
+    yes: 3,
+    no: 2,
+    members: 5,
+    on: "2025-04-21",
+  };
+  const bill = {
+    status: "drafted" as const,
+    bodyOfficeId: "house",
+    chambersPassed: [roll],
+  };
+  expect(floorDebateStillOpen(bill, "house")).toBe(false);
+  expect(floorDebateStillOpen(bill, undefined)).toBe(false);
+  expect(floorDebateStillOpen(bill, "senate")).toBe(true);
+  expect(floorDebateStillOpen({ ...bill, status: "failed" }, "senate")).toBe(
+    false,
+  );
+});

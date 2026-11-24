@@ -15,6 +15,7 @@ import lineNames from "../core2/data/budgets/line-names.json" with { type: "json
 import {
   billJurisdiction,
   billOf,
+  type BillRow,
   committeeRecords,
   LEGISLATURE_MODULE_ID,
   memberPosition,
@@ -79,6 +80,19 @@ export function publicReason(
   return publicReasons(position, speaksFor, wroteIt)[P.zero] ?? "own-view";
 }
 
+/** A floor record can outlive the roll or the bill it was called for. */
+export function floorDebateStillOpen(
+  bill: Pick<BillRow, "status" | "bodyOfficeId" | "chambersPassed">,
+  chamber: string | undefined,
+): boolean {
+  return (
+    bill.status === "drafted" &&
+    !bill.chambersPassed?.some(
+      (roll) => roll.chamber === (chamber ?? bill.bodyOfficeId),
+    )
+  );
+}
+
 export function floorDebateFacts(
   core: Readonly<CoreState>,
   facts: Record<string, Fact>,
@@ -107,8 +121,7 @@ export function floorDebateFacts(
   // A speaker's position on a package does not establish a position on each
   // clause. For a single question, use the value the legislature would enact.
   if (
-    bill.status === "drafted" &&
-    !bill.chambersPassed?.some((roll) => roll.chamber === said.chamber) &&
+    floorDebateStillOpen(bill, said.chamber) &&
     bill.provisions.length === 1 &&
     section?.kind === "policy-question" &&
     section.question
