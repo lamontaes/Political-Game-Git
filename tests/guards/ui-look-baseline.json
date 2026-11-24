@@ -41,6 +41,9 @@
     },
     "politics > Budgets [sheet]": {
       "div.bsdepts.pager scrolls y": 1
+    },
+    "travel [sheet]": {
+      "div.travel-left scrolls y": 1
     }
   }
 }
