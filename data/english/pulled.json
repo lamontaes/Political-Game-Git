@@ -7,13 +7,13 @@
   },
   "waiting": {},
   "sample": {
-    "conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about": [
-      "alright-in-dialogue"
-    ],
-    "conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right": [
-      "alright-in-dialogue"
-    ],
     "scene-talk.close-accept.all-right-i-won-t-call-about-position-again": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.all-right-it-s-your-call-about-opponent-and-we-ll-back-it": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.all-right-we-ll-wait-on-opponent-until-you-re-ready": [
       "alright-in-dialogue"
     ],
     "scene-talk.follow-accept.all-right": ["alright-in-dialogue"],

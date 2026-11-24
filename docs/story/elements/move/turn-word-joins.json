@@ -25,5 +25,20 @@
     "state": 0.3,
     "inaugural": 0.16
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The planner orders pieces through `after`. needs: turn-word openers (But, Now, And so) written as pieces after the move before.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No turn words; points sit side by side.",
+      "pulledBy": "a blunt speaker",
+      "writesBack": "The speech reads as a list."
+    },
+    {
+      "turn": "partial",
+      "what": "One turn word at the stand.",
+      "pulledBy": "a speaker who contrasts (contrast move)",
+      "writesBack": "The stand reads as an answer to the trouble."
+    }
+  ]
 }

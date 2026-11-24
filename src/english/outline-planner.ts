@@ -542,6 +542,26 @@ export function tellFully(input: TellingInput): Told | null {
   return tellOnce(input, true);
 }
 
+/**
+ * The facts with the policies they cite (the CTO, Nov 24, 7140057819 on
+ * #9750: "Lines tagged with a policy fire when that policy is live in the
+ * player's world"): every fact citing a policy question's record
+ * (`question:<key>`) adds `policy:question:<key>`, the bill catalog's own id
+ * for that policy (src/core2/data/legislature/bill-catalog.json), so a piece
+ * can require the policy by name and plays only where the world has put it
+ * in the text.
+ */
+export function withPolicyFacts(
+  facts: TellingFacts,
+): Record<string, GroundedEnglishFact | undefined> {
+  const out: Record<string, GroundedEnglishFact | undefined> = { ...facts };
+  for (const fact of Object.values(facts))
+    for (const id of fact?.sourceRecordIds ?? [])
+      if (id.startsWith("question:"))
+        out[`policy:${id}`] ??= { text: "yes", sourceRecordIds: [id] };
+  return out;
+}
+
 /** One telling; `full` says every optional section and move that fits. */
 function tellOnce(input: TellingInput, full: boolean): Told | null {
   const row = outlineRow(input.kind);
@@ -554,14 +574,14 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
   // What the text has said so far, as facts a piece may need: `told-<section>`
   // once a section is said, so a line that names the stand again ("If you
   // think I'm wrong about ...") comes only after the stand.
-  const facts: Record<string, GroundedEnglishFact | undefined> = {
-    ...input.facts,
-  };
+  const facts: Record<string, GroundedEnglishFact | undefined> =
+    withPolicyFacts(input.facts);
   const known: TellingInput = { ...input, facts };
   const draw = `${input.worldSeed}:${input.momentKey}`;
   for (const section of sectionsInOrder(row, input.traits, `${draw}/order`)) {
     // A section on a further point reads that point's facts over the text's.
-    const own = section.point ? input.points?.[section.point - 1] : undefined;
+    const point = section.point ? input.points?.[section.point - 1] : undefined;
+    const own = point ? withPolicyFacts(point) : undefined;
     if (section.point && !own) continue;
     const here = own ? { ...facts, ...own } : facts;
     const knownHere: TellingInput = own ? { ...known, facts: here } : known;

@@ -13,5 +13,20 @@
   "weights": {
     "state": 0.08
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Section `story` with the macro-month records and the year's disaster row; mood-better, mood-hard and mood-mixed facts (src/director/speech-outline.ts) say how the year went.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The year is named as a good one.",
+      "pulledBy": "mood-better or run-good",
+      "writesBack": "The paper opens on the good year."
+    },
+    {
+      "turn": "neutral",
+      "what": "The year is called mixed.",
+      "pulledBy": "mood-mixed",
+      "writesBack": "The report says as much got better as worse."
+    }
+  ]
 }
