@@ -14,7 +14,7 @@
  * reporter who wrote it.
  */
 import { OUTCOME_MONTH_KIND } from "./outcome-news";
-import { townJobsPanel } from "./modules/world-panels";
+import { townLaborByPlace } from "./modules/world-panels";
 import {
   disasterPeople,
   nationalPeople,
@@ -953,7 +953,7 @@ export function runDesk(
     ) {
       const lost = Number(item.facts?.headsLost ?? 0);
       if (!(lost > 0)) return 0;
-      const before = townJobsPanel(api, ctx.townPlaceId).employed + lost;
+      const before = townJobsToday(api, ctx.townPlaceId) + lost;
       return (
         Math.min(1, lost / before) *
         (followers.length + ctx.countedFollowers(outlet))
@@ -1350,6 +1350,25 @@ export function runDesk(
     );
   }
   return out;
+}
+
+/**
+ * The jobs each town has today, counted once a day for the whole world: one
+ * pass over every job, not one for each outlet's weekly weighing of each
+ * closing (paired performance, Nov 23: the pass per weighing made a year
+ * 2.7 times slower).
+ */
+const laborToday = new WeakMap<
+  object,
+  { date: string; labor: ReturnType<typeof townLaborByPlace> }
+>();
+function townJobsToday(api: CoreAPI, placeId: string): number {
+  let held = laborToday.get(api.state);
+  if (!held || held.date !== api.state.date) {
+    held = { date: api.state.date, labor: townLaborByPlace(api) };
+    laborToday.set(api.state, held);
+  }
+  return held.labor.get(placeId)?.employed ?? 0;
 }
 
 /**

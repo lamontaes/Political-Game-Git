@@ -240,8 +240,10 @@ export function wasLargestEmployer(
   if (!(headsBefore > 0)) return false;
   const placeId = core.organizations.get(organizationId as EntityId)?.placeId;
   if (!placeId) return false;
-  for (const [otherId, book] of core.finance.businesses) {
-    if (otherId === organizationId || book.closedAt) continue;
+  // The place's own businesses, by the finance index, never every business.
+  for (const otherId of core.finance.businessesByPlace.get(placeId) ?? []) {
+    const book = core.finance.businesses.get(otherId);
+    if (otherId === organizationId || !book || book.closedAt) continue;
     const other = core.organizations.get(otherId as EntityId);
     if (other?.placeId !== placeId || other.outsideFlow) continue;
     let staff = countedHeadcountOf(core, otherId);
