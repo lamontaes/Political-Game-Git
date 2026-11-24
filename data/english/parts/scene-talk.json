@@ -91754,35 +91754,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-been-to-the-office-twice-already-and-is-back-with-a-question-about-wher",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} has been to the office twice already and is back with a question about where to start.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "volunteer-waits-for-a-field-assignment",
-        "volunteers-need-a-specific-ask"
-      ]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-waits-at-the-edge-of-the-room-while-the-others-get-their-lists-nobody-has-h",
       "move": "narrate-narrate",
       "kind": "written",
