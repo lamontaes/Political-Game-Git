@@ -142,7 +142,7 @@ describe("study committee stories", () => {
           -0.5,
           "against",
           sponsor,
-          /comes out against/,
+          /study group opposes/i,
           /gave the findings/,
         ],
         [
@@ -151,8 +151,8 @@ describe("study committee stories", () => {
           0.5,
           "for",
           others[0]!,
-          /now favors/,
-          /chaired the committee/,
+          /now backs/,
+          /was the committee chair/,
         ],
         [
           "held-for",
@@ -160,7 +160,7 @@ describe("study committee stories", () => {
           0.5,
           "for",
           sponsor,
-          /comes out for/,
+          /study group backs/i,
           /gave the findings/,
         ],
         [
@@ -169,8 +169,8 @@ describe("study committee stories", () => {
           -0.5,
           "against",
           others[0]!,
-          /turns against/,
-          /chaired the committee/,
+          /now opposes/,
+          /was the committee chair/,
         ],
       ] as const;
       for (const [
@@ -197,13 +197,19 @@ describe("study committee stories", () => {
         expect(told, `${where}: ${name} is not worded`).toBeTruthy();
         expect(told!.sourceRecordIds, `${where}: ${name}`).toContain(id);
         expect(told!.headline, `${where}: ${name}`).toMatch(headline);
+        expect(told!.lede, `${where}: ${name}`).toMatch(
+          direction === "for"
+            ? /recommended passing|urged passage/
+            : /recommending against passage|recommendation to reject/,
+        );
+        expect(told!.lede, `${where}: ${name}`).not.toMatch(
+          /most (?:of its )?members|majority/i,
+        );
         expect(told!.text, `${where}: ${name}`).toMatch(chair);
         expect(told!.text, `${where}: ${name}`).not.toMatch(DEVELOPER);
-        // "Now favors" and "turns against" print only after the lean changed sign.
+        // The headline says "now" only when the recorded lean changed sides.
         if (startedAt > 0 === finding > 0)
-          expect(told!.text, `${where}: ${name}`).not.toMatch(
-            /now favors|turns against/,
-          );
+          expect(told!.text, `${where}: ${name}`).not.toMatch(/\bnow\b/i);
         lines.push(`${name}: ${told!.text}`);
       }
       // A finding of exactly zero leans neither way and is not printed.
