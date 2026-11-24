@@ -1951,20 +1951,19 @@
     },
     "first-day-ropes": {
       "state": "ask",
-      "replies": ["answer", "ask", "tell", "confront"],
+      "replies": ["answer", "ask", "tell", "leave"],
       "follow": {
         "answer": ["accept", "warn"],
         "ask": ["answer"],
         "tell": ["accept"],
-        "confront": ["warn", "confront"],
+        "leave": ["accept"],
         "apologize": ["answer"],
         "thank": ["accept"],
         "promise": ["thank"]
       },
       "again": {
-        "warn": ["ask", "confront", "leave"],
-        "answer": ["thank", "confront", "leave"],
-        "confront": ["apologize", "confront", "leave"],
+        "warn": ["ask", "leave"],
+        "answer": ["thank", "leave"],
         "apologize": ["thank", "leave"],
         "promise": ["thank", "leave"]
       },
@@ -1986,11 +1985,11 @@
           }
         },
         {
-          "id": "wrong-foot",
-          "label": "Off on the wrong foot",
+          "id": "kept-to-yourself",
+          "label": "Kept to yourself",
           "keeps": "relationship-strained",
           "when": {
-            "reply": ["confront"]
+            "reply": ["leave"]
           }
         },
         {
@@ -3788,16 +3787,16 @@
     },
     "introduction": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "deflect"],
+      "replies": ["agree", "ask", "deflect", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
-        "deflect": ["press", "accept"]
+        "deflect": ["press", "accept"],
+        "decline": ["accept", "press"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "deflect"]
+        "press": ["agree", "decline", "leave"],
+        "answer": ["agree", "decline", "deflect"]
       },
       "endings": [
         {
@@ -3805,7 +3804,7 @@
           "label": "You said you would show them around",
           "keeps": "promise",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
