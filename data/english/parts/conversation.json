@@ -34075,6 +34075,211 @@
       ]
     },
     {
+      "key": "conversation.own-view-answer-agree.i-d-tell-the-same-thing-myself",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd tell {decider} the same thing myself.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.shouldn-t-touch-it-and-i-agree",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "{decider} shouldn't touch it, and I agree.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-say-the-same-thing-to-if-it-came-up",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd say the same thing to {decider}, if it came up.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-it-differently-because",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see it differently, because {reason-against}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "reason-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-ask-not-to-honestly",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd ask {decider} not to, honestly.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.should-think-twice-about-it-i-think",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "{decider} should think twice about it, I think.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-for", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-hope-gets-it-done-anyway",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I hope {decider} gets it done anyway.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-tell-to-go-ahead-honestly",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd tell {decider} to go ahead, honestly.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other", "side-against", "decider"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "mixed-politics-shortens-the-thanksgiving-dinner"
+      ]
+    },
+    {
+      "key": "conversation.own-view-answer-why.is-that-about-or-something-closer-to-home",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Is that about {place}, or something closer to home?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "conversation.own-view-answer-why.did-something-in-make-you-feel-that-way",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Did something in {place} make you feel that way?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
       "key": "conversation.own-view-take-core.agree-good-i-keep-thinking-reason-for",
       "move": "own-view-take-core",
       "kind": "spoken",
