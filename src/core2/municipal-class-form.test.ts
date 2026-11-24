@@ -29,6 +29,7 @@ interface Row {
   readonly staggered?: boolean;
   readonly atLarge?: boolean;
   readonly timing?: string;
+  readonly byParty?: boolean;
   readonly chief?: {
     readonly title: string;
     readonly directlyElected: boolean;
@@ -104,6 +105,7 @@ describe(`a town has the council its class has in its state's law (seed ${seed})
         expect(council!.staggered ?? true, where).toBe(row.staggered ?? true);
         expect(council!.estimate, where).toBe(row.termYears === undefined);
         expect(council!.source, where).toContain(row.url);
+        expect(council!.byParty, where).toBe(row.byParty);
         if (row.atLarge) {
           expect(council!.districted, where).toBe(false);
           expect(council!.method?.basis, where).toBe("class-law");
@@ -112,6 +114,8 @@ describe(`a town has the council its class has in its state's law (seed ${seed})
           expect(chief, where).toBeDefined();
           expect(chief!.title, where).toBe(row.chief.title);
           expect(chief!.elected, where).toBe(row.chief.directlyElected);
+          if (row.chief.directlyElected)
+            expect(chief!.byParty, where).toBe(row.byParty);
           if (row.chief.termYears !== undefined)
             expect(chief!.termYears, where).toBe(row.chief.termYears);
         }

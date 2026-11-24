@@ -42,6 +42,12 @@ export interface MunicipalClassForm {
    * statute does not say, and the method stays the national estimate.
    */
   readonly atLarge?: boolean;
+  /**
+   * Whether the class's officers are elected by party (nominated at a party
+   * primary); absent where the law read does not say, and the seats stay
+   * nonpartisan.
+   */
+  readonly byParty?: boolean;
   /** When the class votes, where its statute sets it; else its state's timing. */
   readonly timing?: MunicipalElectionTiming;
   /** Absent where the statute read does not say how the chief is chosen. */

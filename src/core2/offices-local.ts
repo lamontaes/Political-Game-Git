@@ -107,6 +107,12 @@ export interface OfficeInput {
    * N" board); absent or true where the seats take turns over the term.
    */
   readonly staggered?: boolean;
+  /**
+   * True where the law elects the office by party (a New Jersey borough's
+   * council and Mayor, nominated at the party primary): the seats are held
+   * by party. Absent where the office is nonpartisan or its law is unread.
+   */
+  readonly byParty?: boolean;
   /** The next regular election for a single-seat office, where read. */
   readonly nextElectionYear?: number;
   /** An office created after the opening exists from this day: no one holds it before (its first election fills it). */
@@ -248,6 +254,9 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       ...(body.seats.basis === "class-law" && form?.staggered === false
         ? { staggered: false }
         : {}),
+      ...(body.seats.basis === "class-law" && form?.byParty
+        ? { byParty: true }
+        : {}),
       elected: true,
       districted: (method?.wardSeats ?? 0) > 0,
       ...(method && method.wardSeats > 0
@@ -280,6 +289,11 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       title: chief.title.value,
       seats: 1,
       termYears: chief.termYears.value,
+      ...(chief.directlyElected.basis === "class-law" &&
+      chief.directlyElected.value &&
+      form?.byParty
+        ? { byParty: true }
+        : {}),
       elected: chief.directlyElected.value,
       districted: false,
       coversTown: true,
