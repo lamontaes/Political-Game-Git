@@ -1,0 +1,30 @@
+{
+  "id": "plat-approved-story",
+  "kind": "situation",
+  "summary": "A council approves a final plat for a subdivision and a short story says how many homes and what the approval needed.",
+  "realLife": "A one-minute story: the approval, the lots, an engineer's paraphrase, the approval condition.",
+  "sources": [
+    "Community Impact (San Antonio edition), 'Final plat for 55-lot single-family development approved in Fair Oaks Ranch', April 4, 2025: https://communityimpact.com/san-antonio/boerne-fair-oaks-ranch/government/2025/04/04/final-plat-for-55-lot-single-family-development-approved-in-fair-oaks-ranch",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "number", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9
+  },
+  "inGame": "`housing.completed` (units); needs: a plat approval record",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a plat denied",
+      "pulledBy": "a project that missed a requirement",
+      "writes": "the story says what was missing"
+    },
+    {
+      "name": "a plat approved with conditions",
+      "pulledBy": "a project with open items",
+      "writes": "the story lists what must be done"
+    }
+  ]
+}

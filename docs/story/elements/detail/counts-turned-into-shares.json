@@ -1,0 +1,30 @@
+{
+  "id": "counts-turned-into-shares",
+  "kind": "detail",
+  "summary": "One count is turned into a share so the number carries the point.",
+  "realLife": "A sector's yearly gain was given as most of the whole.",
+  "sources": [
+    "10News (ABC 10News, San Diego, City News Service copy), 'San Diego County sees unemployment leap percentage point to 4.9% in June': https://www.10news.com/news/local-news/san-diego-county-sees-unemployment-leap-percentage-point-to-4-9-in-june-071825",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["percent"],
+  "gates": [],
+  "weights": {
+    "conditions": 0.7
+  },
+  "inGame": "jobs-report rows; the town's jobs counted by employer",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "shares turned back into counts",
+      "pulledBy": "a small sector",
+      "writes": "the story gives the count of jobs"
+    },
+    {
+      "name": "no share",
+      "pulledBy": "a flat figure",
+      "writes": "the story states the number alone"
+    }
+  ]
+}
