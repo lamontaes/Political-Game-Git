@@ -6,21 +6,12 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "Energy authority is divided and reorganization is under consideration."
   ],
-  "weights": [
-    "Agencies issue overlapping guidance."
-  ],
+  "weights": ["Agencies issue overlapping guidance."],
   "usedBy": [],
   "inGame": "needs: which agencies hold or receive each energy responsibility.",
   "turns": [
@@ -36,5 +27,6 @@
       "pulledBy": "The enacted bill leaves specified powers elsewhere.",
       "writesBack": "The directory names both offices."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

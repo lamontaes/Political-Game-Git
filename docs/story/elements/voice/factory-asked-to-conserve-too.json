@@ -6,23 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{place}",
-    "{person}"
-  ],
-  "gates": [
-    "The proposal asks households and industry to change consumption."
-  ],
-  "weights": [
-    "A public hearing raises unequal burdens."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{place}", "{person}"],
+  "gates": ["The proposal asks households and industry to change consumption."],
+  "weights": ["A public hearing raises unequal burdens."],
   "usedBy": [],
   "inGame": "needs: the conservation obligations and exemptions by sector.",
   "turns": [
@@ -38,5 +25,6 @@
       "pulledBy": "A plant needs time to replace equipment.",
       "writesBack": "Its compliance schedule names the deadline."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,21 +6,12 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
   "gates": [
     "An executive has declined an invitation from political colleagues."
   ],
-  "weights": [
-    "The hosts expected a chance to speak privately."
-  ],
+  "weights": ["The hosts expected a chance to speak privately."],
   "usedBy": [],
   "inGame": "needs: the invitation, response and any alternate meeting.",
   "turns": [
@@ -36,5 +27,6 @@
       "pulledBy": "The hosts agree to a substitute.",
       "writesBack": "The deputy brings back the hosts' requests."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

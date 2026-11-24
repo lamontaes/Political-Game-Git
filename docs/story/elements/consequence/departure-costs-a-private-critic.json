@@ -6,18 +6,9 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A close adviser has left an executive team."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A close adviser has left an executive team."],
   "weights": [
     "Few remaining advisers have a long personal relationship with the executive."
   ],
@@ -36,5 +27,6 @@
       "pulledBy": "The departing adviser can still be reached informally.",
       "writesBack": "The executive records a private call."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

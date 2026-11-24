@@ -6,21 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A proposed fuel conversion would change environmental impacts."
-  ],
-  "weights": [
-    "The conversion requires a permit review."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A proposed fuel conversion would change environmental impacts."],
+  "weights": ["The conversion requires a permit review."],
   "usedBy": [],
   "inGame": "needs: the fuel conversion application and permit conditions.",
   "turns": [
@@ -36,5 +25,6 @@
       "pulledBy": "The full schedule exceeds a binding limit.",
       "writesBack": "The operating plan records the restriction."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

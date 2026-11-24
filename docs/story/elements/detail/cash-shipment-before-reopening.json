@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "An inspected bank is preparing to reopen."
-  ],
-  "weights": [
-    "Expected withdrawals exceed cash already on hand."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{place}"],
+  "gates": ["An inspected bank is preparing to reopen."],
+  "weights": ["Expected withdrawals exceed cash already on hand."],
   "usedBy": [],
   "inGame": "needs: bank clearance, cash on hand and shipment status.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "The delivery record shows a delay.",
       "writesBack": "The bank posts revised counter hours."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

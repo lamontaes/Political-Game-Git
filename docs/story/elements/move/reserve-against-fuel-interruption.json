@@ -6,21 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "An energy plan addresses an identified supply risk."
-  ],
-  "weights": [
-    "The area relies heavily on imported fuel."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["An energy plan addresses an identified supply risk."],
+  "weights": ["The area relies heavily on imported fuel."],
   "usedBy": [],
   "inGame": "needs: fuel reserve capacity, current inventory and import exposure.",
   "turns": [
@@ -36,5 +25,6 @@
       "pulledBy": "Only part of the capacity is ready.",
       "writesBack": "The inventory lists the first delivery."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A proposed cut affects a project in the legislator's district."
-  ],
-  "weights": [
-    "The project already has local commitments."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A proposed cut affects a project in the legislator's district."],
+  "weights": ["The project already has local commitments."],
   "usedBy": [],
   "inGame": "needs: the project's district, local commitments and appropriation.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "The committee retains the locally essential work.",
       "writesBack": "The revised appropriation identifies that work."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

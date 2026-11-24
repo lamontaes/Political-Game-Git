@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "The plan has a residential solar adoption goal."
-  ],
-  "weights": [
-    "More households are eligible to participate."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
+  "gates": ["The plan has a residential solar adoption goal."],
+  "weights": ["More households are eligible to participate."],
   "usedBy": [],
   "inGame": "needs: residential solar applications and installation dates.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "Available crews cannot complete the work yet.",
       "writesBack": "The report distinguishes approvals from installations."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A resident asks which authority can reopen a bank."
-  ],
-  "weights": [
-    "Different charter types operate in the same town."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
+  "gates": ["A resident asks which authority can reopen a bank."],
+  "weights": ["Different charter types operate in the same town."],
   "usedBy": [],
   "inGame": "needs: the bank charter and responsible licensing authority.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "Its examination finishes after the federal opening round.",
       "writesBack": "The state notice gives its own date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

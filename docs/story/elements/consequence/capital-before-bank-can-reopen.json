@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A review finds the bank requires reorganization."
-  ],
-  "weights": [
-    "The bank has few private investors ready to contribute."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{place}"],
+  "gates": ["A review finds the bank requires reorganization."],
+  "weights": ["The bank has few private investors ready to contribute."],
   "usedBy": [],
   "inGame": "needs: the capital requirement and committed investments.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "The plan requires matching investment.",
       "writesBack": "The balance remains an open financing need."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

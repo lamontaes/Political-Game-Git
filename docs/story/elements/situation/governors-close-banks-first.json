@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "State and federal emergency orders cover the same banks."
-  ],
-  "weights": [
-    "More states already have orders in effect."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
+  "gates": ["State and federal emergency orders cover the same banks."],
+  "weights": ["More states already have orders in effect."],
   "usedBy": [],
   "inGame": "needs: effective dates and scope of state and national closure orders.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "Its existing restrictions are narrower.",
       "writesBack": "The national order changes which transactions remain available."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -6,21 +6,12 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
   "gates": [
     "The executive team is choosing legislative contacts after an election."
   ],
-  "weights": [
-    "More of the office staff came from the campaign."
-  ],
+  "weights": ["More of the office staff came from the campaign."],
   "usedBy": [],
   "inGame": "needs: campaign relationships and each lawmaker's role in the proposal.",
   "turns": [
@@ -36,5 +27,6 @@
       "pulledBy": "The proposal needs support from competing blocs.",
       "writesBack": "The calendar includes both appointments."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

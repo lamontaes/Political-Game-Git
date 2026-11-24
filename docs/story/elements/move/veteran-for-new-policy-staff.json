@@ -6,21 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-oral-histories/james-schlesinger-oral-history"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A new policy team is preparing for committee negotiations."
-  ],
-  "weights": [
-    "Few staff members have dealt with the chair before."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A new policy team is preparing for committee negotiations."],
+  "weights": ["Few staff members have dealt with the chair before."],
   "usedBy": [],
   "inGame": "needs: negotiating assignments and prior working relationships.",
   "turns": [
@@ -36,5 +25,6 @@
       "pulledBy": "An existing commitment prevents a staff appointment.",
       "writesBack": "The team schedules a consultation."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

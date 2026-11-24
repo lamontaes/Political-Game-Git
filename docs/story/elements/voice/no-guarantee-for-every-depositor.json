@@ -6,22 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "Officials are explaining a rescue before all claims are settled."
-  ],
-  "weights": [
-    "Residents have asked for an individual guarantee."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
+  "gates": ["Officials are explaining a rescue before all claims are settled."],
+  "weights": ["Residents have asked for an individual guarantee."],
   "usedBy": [],
   "inGame": "needs: the account balance and applicable loss protection.",
   "turns": [
@@ -37,5 +25,6 @@
       "pulledBy": "Several deposits remain disputed.",
       "writesBack": "The claim record distinguishes verified funds."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

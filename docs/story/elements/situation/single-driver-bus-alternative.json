@@ -6,23 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "The plan addresses fuel used in commuting."
-  ],
-  "weights": [
-    "More commuters lack a usable transit route."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["The plan addresses fuel used in commuting."],
+  "weights": ["More commuters lack a usable transit route."],
   "usedBy": [],
   "inGame": "needs: shift times, commute routes and transit schedules.",
   "turns": [
@@ -38,5 +25,6 @@
       "pulledBy": "Service ends before later workers leave.",
       "writesBack": "The route review records the uncovered shift."
     }
-  ]
+  ],
+  "issues": ["budget:federal:transportation"]
 }

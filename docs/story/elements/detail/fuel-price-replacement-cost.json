@@ -6,21 +6,10 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "A price proposal is being weighed against future supply costs."
-  ],
-  "weights": [
-    "Replacement contracts cost more than current inventory."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A price proposal is being weighed against future supply costs."],
+  "weights": ["Replacement contracts cost more than current inventory."],
   "usedBy": [],
   "inGame": "needs: the replacement price and expiration of the supply contract.",
   "turns": [
@@ -36,5 +25,6 @@
       "pulledBy": "The current price holds until renewal.",
       "writesBack": "The projection shows the renewal date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

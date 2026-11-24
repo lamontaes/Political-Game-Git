@@ -6,22 +6,12 @@
   "sources": [
     "https://millercenter.org/the-presidency/presidential-speeches/march-12-1933-fireside-chat-1-banking-crisis"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
   "gates": [
     "Banks have different reopening dates and residents are asking why."
   ],
-  "weights": [
-    "Nearby branches reopen on different days."
-  ],
+  "weights": ["Nearby branches reopen on different days."],
   "usedBy": [],
   "inGame": "needs: the reopening schedule and inspection status of the bank.",
   "turns": [
@@ -37,5 +27,6 @@
       "pulledBy": "Inspectors have yet to finish.",
       "writesBack": "The notice gives the next update time."
     }
-  ]
+  ],
+  "issues": ["none"]
 }
