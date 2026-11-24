@@ -1,13 +1,14 @@
 /**
- * The President's inaugural, told through the one outline planner
- * (src/english/outline-planner.ts; the Story lead's brief, Nov 24, 2026). The
- * planner of record (`planSpeech`) still reads the world: the theme, the
- * President's stand and its reason, and the story the country has been
- * through. This file hands those facts to the outline row `inaugural`
- * (data/english/outlines.json), which says them in the shapes real
- * inaugurals take: a pledge, a call or an address run to the people far
- * more than an ask of Congress (research: 4 of 88 inaugural points end in
- * an ask of a body; docs/research/first-evening-2026-11-24.md).
+ * The addresses told through the one outline planner
+ * (src/english/outline-planner.ts; the Story lead's brief, Nov 24, 2026): the
+ * President's inaugural and State of the Union and a governor's State of the
+ * State. The planner of record (`planSpeech`) still reads the world: the
+ * theme, the speaker's stand and its reason, and the story the country or
+ * state has been through. This file hands those facts to the kind's outline
+ * row (data/english/outlines.json), which says them in the shapes real
+ * addresses take: a pledge, a call or an address run to the people far more
+ * than an ask of a body (research: 4 of 88 inaugural points end in an ask of
+ * a body; docs/research/first-evening-2026-11-24.md).
  */
 import speechOutlines from "./data/speech-outlines.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -20,7 +21,10 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { termLeft } from "./address-story";
 import type { CoreState, PersonState } from "../core2/types";
-import type { OpeningLevel } from "../english/english-opening-speech";
+import type {
+  OpeningLevel,
+  OpeningSpeechKind,
+} from "../english/english-opening-speech";
 import type { GroundedEnglishFact } from "../english/grounded-english";
 import {
   DISASTER_WORDS,
@@ -31,7 +35,13 @@ import {
 import { officeWords } from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import type { OpeningSentence } from "./opening-story";
-import { planSpeech, termOf, type SpeechPlan } from "./speech-outline";
+import {
+  outlineOf,
+  planSpeech,
+  termOf,
+  type OutlineSpeaker,
+  type SpeechPlan,
+} from "./speech-outline";
 
 type Facts = Record<string, GroundedEnglishFact>;
 
@@ -47,8 +57,9 @@ const fact = (text: string, ids: readonly string[]): GroundedEnglishFact => ({
 
 /**
  * Every fact the plan's blocks carry, the first block's value kept, and of
- * the points only the first: the inaugural argues one point, so its
- * question, belief and law all come from one block (the Story lead, Nov 24:
+ * the points only the first: an address's theme argues one point (its second
+ * section the plan's second), so its question, belief and law all come from
+ * one block (the Story lead, Nov 24:
  * a stand on sentencing said with a belief about immigrants).
  */
 function planFacts(plan: SpeechPlan): Facts {
@@ -67,44 +78,57 @@ function planFacts(plan: SpeechPlan): Facts {
   return all;
 }
 
+/** The kinds of address told through the outline planner: each has a row in data/english/outlines.json. */
+export type AddressTellingKind = Extract<
+  OpeningSpeechKind,
+  "inaugural" | "state-of-the-union" | "state-of-the-state"
+>;
+
 /**
- * The facts the inaugural's pieces read, from the plan and the President's
- * record: the oath taken today, the election last November, the theme said
- * as people say it, the disaster as people say it, and what the other side
- * of the President's stand wants.
+ * The facts an address's pieces read, from the plan and the speaker's
+ * record: the years left in the term, the theme said as people say it, the
+ * disaster as people say it, and what the other side of the speaker's stand
+ * wants. A national address adds the Vice President; the inaugural alone adds
+ * the oath taken today and the election last November.
  */
-export function inauguralFacts(
+export function addressFacts(
   core: CoreState,
-  president: PersonState,
-  official: OfficialRow,
+  kind: AddressTellingKind,
+  speaker: OutlineSpeaker,
   plan: SpeechPlan,
-  inaugurationId: string,
+  occasionId: string,
 ): Facts {
   const facts = planFacts(plan);
-  const ids = [official.id];
-  // The years left and the Vice President, from the offices and officials
-  // engines, where the plan's blocks did not carry them.
-  if (!facts["term-left"])
+  const { person, official } = speaker;
+  const ids = [official?.id ?? person.id];
+  // The years left, from the offices engine, where the plan's blocks did not
+  // carry them.
+  if (!facts["term-left"] && official)
     Object.assign(facts, termLeft(core, termOf(core, official.termId)));
-  if (!facts["vice-president"]) {
+  const national = outlineOf(kind).level === "federal";
+  // The Vice President, from the officials engine, where the plan's blocks
+  // did not carry them: a national address only.
+  if (national && !facts["vice-president"]) {
     const vice = officialsIn(coreAPI(core), "US:vice-president")[P.zero];
-    const person = vice ? core.people.get(vice.id) : undefined;
-    if (vice && person)
+    const vicePerson = vice ? core.people.get(vice.id) : undefined;
+    if (vice && vicePerson)
       facts["vice-president"] = fact(
-        [person.givenName, person.familyName].join(" "),
+        [vicePerson.givenName, vicePerson.familyName].join(" "),
         [vice.id],
       );
   }
-  facts["took-oath"] = fact("yes", [inaugurationId, official.id]);
-  const elected = (president.pastFacts ?? []).find(
-    (row) => row.kind === PRESIDENT_FACT.elected,
-  );
-  if (
-    elected &&
-    Number(elected.facts?.year) ===
-      Number(core.date.slice(P.zero, core.date.indexOf("-"))) - P.one
-  )
-    facts["elected-last-fall"] = fact("yes", [elected.id]);
+  if (kind === "inaugural" && official) {
+    facts["took-oath"] = fact("yes", [occasionId, official.id]);
+    const elected = (person.pastFacts ?? []).find(
+      (row) => row.kind === PRESIDENT_FACT.elected,
+    );
+    if (
+      elected &&
+      Number(elected.facts?.year) ===
+        Number(core.date.slice(P.zero, core.date.indexOf("-"))) - P.one
+    )
+      facts["elected-last-fall"] = fact("yes", [elected.id]);
+  }
   // The theme said is the argued point's own family, so the speech never
   // names one subject and argues another (a crisis address answers with a
   // question outside its theme).
@@ -119,13 +143,13 @@ export function inauguralFacts(
   if (disaster && said)
     facts["the-disaster"] = fact(said, disaster.sourceRecordIds);
   // The Vice President by office and name, as the said-as reader words an office.
-  const vp = facts["vice-president"];
+  const vp = national ? facts["vice-president"] : undefined;
   const vpId = vp?.sourceRecordIds[P.zero];
   const vpOffice = vpId
     ? officeWords(
         saidPersonOf(core, vpId, {
-          speakerId: president.id,
-          listenerId: president.id,
+          speakerId: person.id,
+          listenerId: person.id,
         }).officeKind,
       )
     : undefined;
@@ -222,39 +246,42 @@ function asOpening(
   };
 }
 
+/** What an address is told from: the outline input, the plan, its facts and its second point's. */
+export interface AddressTelling {
+  readonly input: TellingInput;
+  readonly plan: SpeechPlan;
+  readonly facts: Facts;
+  readonly second: { facts: Facts; question: string } | null;
+}
+
 /**
- * What the inaugural is told from: the outline input (its facts, its second
- * point, the President's traits), the plan, and the facts of each point.
- * The address and the sameness measure read the same input.
+ * What an address is told from, for a plan the planner of record made: the
+ * outline input (its facts, its second point, the speaker's traits), the
+ * plan, and the facts of each point. The address and the sameness measure
+ * read the same input.
  */
-export function inauguralTelling(
+export function tellingOfPlan(
   core: CoreState,
-  president: PersonState,
-  official: OfficialRow,
-  inaugurationId: string,
-): {
-  input: TellingInput;
-  plan: SpeechPlan;
-  facts: Facts;
-  second: { facts: Facts; question: string } | null;
-} {
-  const plan = planSpeech(core, "inaugural", {
-    person: president,
-    official,
-    jurisdiction: "US",
-    serviceStart: official.serviceStart,
-  });
-  const facts = inauguralFacts(core, president, official, plan, inaugurationId);
+  kind: AddressTellingKind,
+  speaker: OutlineSpeaker,
+  plan: SpeechPlan,
+  occasionId: string,
+): AddressTelling {
+  const { person, official } = speaker;
+  const facts = addressFacts(core, kind, speaker, plan, occasionId);
   const second = secondPoint(plan);
   return {
     input: {
-      kind: "inaugural",
+      kind,
       facts,
-      momentKey: `inaugural:${core.date}:${president.id}`,
+      momentKey: `${kind}:${core.date}:${person.id}`,
       worldSeed: core.seed,
-      sourceRecordIds: [official.id as EntityId, inaugurationId as EntityId],
-      knower: president.id as EntityId,
-      traits: president.traits,
+      sourceRecordIds: [
+        (official?.id ?? person.id) as EntityId,
+        occasionId as EntityId,
+      ],
+      knower: person.id as EntityId,
+      traits: person.traits,
       ...(second ? { points: [second.facts] } : {}),
     },
     plan,
@@ -263,30 +290,93 @@ export function inauguralTelling(
   };
 }
 
+/** What an address of a kind is told from, planned now by the planner of record. */
+export function addressTelling(
+  core: CoreState,
+  kind: AddressTellingKind,
+  speaker: OutlineSpeaker,
+  occasionId: string,
+): AddressTelling {
+  return tellingOfPlan(
+    core,
+    kind,
+    speaker,
+    planSpeech(core, kind, speaker),
+    occasionId,
+  );
+}
+
 /**
- * The inaugural as told: its sentences, and the plan whose theme, story and
+ * An address's sentences as told from its telling. Null when a required
+ * section cannot be said (its outline bank holds no piece for it yet).
+ */
+export function toldSentences(
+  telling: AddressTelling,
+): OpeningSentence[] | null {
+  const { input, plan, facts, second } = telling;
+  const told = tell(input);
+  if (!told) return null;
+  return told.sentences.map((row) =>
+    row.section === "second" && second
+      ? asOpening(row, { ...facts, ...second.facts }, second.question)
+      : asOpening(row, facts, plan.points[P.zero]?.question ?? null),
+  );
+}
+
+/**
+ * An address as told: its sentences, and the plan whose theme, story and
  * stand they say. Null when a required section cannot be said.
  */
+export function tellAddress(
+  core: CoreState,
+  kind: AddressTellingKind,
+  speaker: OutlineSpeaker,
+  occasionId: string,
+): { sentences: OpeningSentence[]; plan: SpeechPlan } | null {
+  const telling = addressTelling(core, kind, speaker, occasionId);
+  const sentences = toldSentences(telling);
+  return sentences ? { sentences, plan: telling.plan } : null;
+}
+
+/** The President as the planner of record hears them speak for the country. */
+export function presidentSpeaker(
+  president: PersonState,
+  official: OfficialRow,
+): OutlineSpeaker {
+  return {
+    person: president,
+    official,
+    jurisdiction: "US",
+    serviceStart: official.serviceStart,
+  };
+}
+
+/** What the inaugural is told from (the sameness gate's inputs read it). */
+export function inauguralTelling(
+  core: CoreState,
+  president: PersonState,
+  official: OfficialRow,
+  inaugurationId: string,
+): AddressTelling {
+  return addressTelling(
+    core,
+    "inaugural",
+    presidentSpeaker(president, official),
+    inaugurationId,
+  );
+}
+
+/** The inaugural as told; null when a required section cannot be said. */
 export function tellInaugural(
   core: CoreState,
   president: PersonState,
   official: OfficialRow,
   inaugurationId: string,
 ): { sentences: OpeningSentence[]; plan: SpeechPlan } | null {
-  const { input, plan, facts, second } = inauguralTelling(
+  return tellAddress(
     core,
-    president,
-    official,
+    "inaugural",
+    presidentSpeaker(president, official),
     inaugurationId,
   );
-  const told = tell(input);
-  if (!told) return null;
-  return {
-    sentences: told.sentences.map((row) =>
-      row.section === "second" && second
-        ? asOpening(row, { ...facts, ...second.facts }, second.question)
-        : asOpening(row, facts, plan.points[P.zero]?.question ?? null),
-    ),
-    plan,
-  };
 }
