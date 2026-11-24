@@ -625,31 +625,6 @@
       ]
     },
     {
-      "key": "outline-journal.born.in-i-was-born-in",
-      "move": "born",
-      "kind": "written",
-      "text": "In {moment-year}, I was born in {place}.",
-      "uses": [
-        {
-          "subject": "journal-chapter-open",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["place", "moment-year", "own-moment"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-charming"
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "elements": [
-        "opens-with-who-the-writer-is-and-where-they-live",
-        "a-turning-year-stated-in-the-life-story"
-      ]
-    },
-    {
       "key": "outline-journal.born.my-life-started-in-in",
       "move": "born",
       "kind": "written",
@@ -665,56 +640,6 @@
       "lean": [
         "personality-v1:facet-comforting",
         "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "elements": [
-        "opens-with-who-the-writer-is-and-where-they-live",
-        "a-turning-year-stated-in-the-life-story"
-      ]
-    },
-    {
-      "key": "outline-journal.born.the-records-have-me-born-in-in",
-      "move": "born",
-      "kind": "written",
-      "text": "The records have me born in {place} in {moment-year}.",
-      "uses": [
-        {
-          "subject": "journal-chapter-open",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["place", "moment-year", "own-moment"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-cynical",
-        "personality-v1:facet-comforting"
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "elements": [
-        "opens-with-who-the-writer-is-and-where-they-live",
-        "a-turning-year-stated-in-the-life-story"
-      ]
-    },
-    {
-      "key": "outline-journal.born.i-was-born-in-in-the-year",
-      "move": "born",
-      "kind": "written",
-      "text": "I was born in {place}, in the year {moment-year}.",
-      "uses": [
-        {
-          "subject": "journal-chapter-open",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["place", "moment-year", "own-moment"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-enterprising",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the Journal writer",
