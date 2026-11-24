@@ -551,14 +551,22 @@ export function tellFully(input: TellingInput): Told | null {
  * can require the policy by name and plays only where the world has put it
  * in the text.
  */
+const BUDGET_QUESTION = "question:budget-line:";
+
 export function withPolicyFacts(
   facts: TellingFacts,
 ): Record<string, GroundedEnglishFact | undefined> {
   const out: Record<string, GroundedEnglishFact | undefined> = { ...facts };
   for (const fact of Object.values(facts))
     for (const id of fact?.sourceRecordIds ?? [])
-      if (id.startsWith("question:"))
-        out[`policy:${id}`] ??= { text: "yes", sourceRecordIds: [id] };
+      if (id.startsWith("question:")) {
+        // A budget line is cited as its question (`question:budget-line:police`)
+        // and listed in the catalog as `budget:police`.
+        const line = id.startsWith(BUDGET_QUESTION)
+          ? `budget:${id.slice(BUDGET_QUESTION.length)}`
+          : id;
+        out[`policy:${line}`] ??= { text: "yes", sourceRecordIds: [id] };
+      }
   return out;
 }
 

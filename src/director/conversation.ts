@@ -129,6 +129,7 @@ import {
   NAMED_QUESTIONS,
   questionAbout,
   questionNumber,
+  questionPlainWords,
   questionSaid,
   questionSide,
   questionTo,
@@ -3961,6 +3962,16 @@ function pointSubject(
           : null) ?? pick.point.about,
       sourceRecordIds: said,
     },
+    // The question's plain words beside its name: what the side for it
+    // would do and each side's own reason, for a reaction said in feeling
+    // and plain words (the owner, Nov 24; questionPlainWords).
+    ...(pick.point.kind === "policy" && pick.point.question
+      ? Object.fromEntries(
+          Object.entries(questionPlainWords(pick.point.question))
+            .filter(([key]) => key !== "said" && key !== "to")
+            .map(([key, text]) => [key, { text, sourceRecordIds: said }]),
+        )
+      : {}),
     president: {
       text: personSlot(president.id, "subject"),
       sourceRecordIds: who,

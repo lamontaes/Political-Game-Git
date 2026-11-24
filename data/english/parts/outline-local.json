@@ -480,130 +480,6 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-stand-up-for-every-time-it-s-challenged",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll stand up for {law-name} every time it's challenged.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-devoted"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.pledge.anyone-who-wants-to-weaken-will-have-to-get-through-me-first",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Anyone who wants to weaken {law-name} will have to get through me first.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.pledge.i-ll-work-to-repeal",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll work to repeal {law-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.pledge.repealing-is-where-i-ll-start",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Repealing {law-name} is where I'll start.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
       "key": "outline-local.today.",
       "move": "today",
       "kind": "spoken",
@@ -684,121 +560,6 @@
       "lean": [
         "personality-v1:facet-informal",
         "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.stand.i-m-for-and-that-doesn-t-change",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm for {law-name}, and that doesn't change.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.stand.i-d-keep-just-as-it-is",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd keep {law-name} just as it is.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.stand.i-m-against-and-i-want-it-repealed",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'm against {law-name}, and I want it repealed.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"]
-    },
-    {
-      "key": "outline-local.stand.i-d-back-a-repeal-of-tomorrow",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd back a repeal of {law-name} tomorrow.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -1058,90 +819,6 @@
       "lean": [
         "personality-v1:facet-imaginative",
         "personality-v1:facet-excitable"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
-    },
-    {
-      "key": "outline-local.question.is-worth-keeping",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Is {law-name} worth keeping?",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
-    },
-    {
-      "key": "outline-local.question.have-we-gotten-right",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Have we gotten {law-name} right?",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
-    },
-    {
-      "key": "outline-local.question.does-still-want",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Does {realm-name} still want {law-name}?",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force", "realm-name"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "law-in-force", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-imaginative"
       ],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
@@ -1444,43 +1121,6 @@
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
-    },
-    {
-      "key": "outline-local.stand-reason.i-m-for-keeping",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I'm for keeping {law-name}. {belief-sentence}",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-for",
-            "law-in-force",
-            "belief-sentence"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-for",
-            "law-in-force",
-            "belief-sentence"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
       "origin": "authored",
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
@@ -2318,43 +1958,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["inaugural-point-opens-on-a-contrast"]
-    },
-    {
-      "key": "outline-local.stand-reason.i-d-repeal-and-here-s-why",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I'd repeal {law-name}, and here's why: {belief}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-reason-to-run-is-the-place-could-do-better"]
     },
     {
       "key": "outline-local.today.today",
@@ -4006,6 +3609,450 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.stand.families-in-shouldn-t-be-priced-out-of-their-own-homes-i-d-cap-how-muc",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "Families in {realm-name} shouldn't be priced out of their own homes. I'd cap how much rent can go up in a year.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:rent-stabilization"]
+    },
+    {
+      "key": "outline-local.stand.renters-in-should-know-what-next-year-s-rent-will-be-i-m-for-a-cap-on-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "Renters in {realm-name} should know what next year's rent will be. I'm for a cap on the yearly increase.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:rent-stabilization"]
+    },
+    {
+      "key": "outline-local.stand.a-cap-on-rents-sounds-kind-but-needs-more-homes-not-fewer-landlords-fi",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A cap on rents sounds kind, but {realm-name} needs more homes, not fewer landlords fixing them. I'm against it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:rent-stabilization"]
+    },
+    {
+      "key": "outline-local.stand.i-d-rather-build-new-homes-in-than-put-a-cap-on-rents",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'd rather build new homes in {realm-name} than put a cap on rents.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:housing-land-use.rent-stabilization",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:rent-stabilization"]
+    },
+    {
+      "key": "outline-local.stand.no-one-in-should-be-taxed-out-of-the-house-they-own-i-m-for-a-cap-on-h",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "No one in {realm-name} should be taxed out of the house they own. I'm for a cap on how fast property taxes can grow.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:cap-property-tax-growth"]
+    },
+    {
+      "key": "outline-local.stand.a-neighbor-on-a-fixed-income-shouldn-t-lose-a-home-in-to-a-tax-bill-i-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A neighbor on a fixed income shouldn't lose a home in {realm-name} to a tax bill. I'd cap the yearly increase.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:cap-property-tax-growth"]
+    },
+    {
+      "key": "outline-local.stand.a-cap-on-property-taxes-sounds-good-until-the-plows-and-the-schools-in",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A cap on property taxes sounds good until the plows and the schools in {realm-name} go short. I'm against it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:cap-property-tax-growth"]
+    },
+    {
+      "key": "outline-local.stand.i-won-t-cap-property-taxes-in-and-then-cut-the-services-people-count-o",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I won't cap property taxes in {realm-name} and then cut the services people count on.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:fiscal.cap-property-tax-growth",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:local-power:cap-property-tax-growth"]
+    },
+    {
+      "key": "outline-local.stand.a-full-day-s-work-in-should-pay-enough-to-live-on-i-m-for-raising-the-",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A full day's work in {realm-name} should pay enough to live on. I'm for raising the minimum wage.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:minimum-wage"]
+    },
+    {
+      "key": "outline-local.stand.people-in-work-full-time-and-still-need-a-second-job-i-d-raise-the-min",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "People in {realm-name} work full time and still need a second job. I'd raise the minimum wage.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-for",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:minimum-wage"]
+    },
+    {
+      "key": "outline-local.stand.a-higher-minimum-wage-hits-the-small-shops-in-first-i-m-against-it",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "A higher minimum wage hits the small shops in {realm-name} first. I'm against it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:minimum-wage"]
+    },
+    {
+      "key": "outline-local.stand.i-m-not-for-raising-the-minimum-wage-if-it-costs-the-corner-store-in-i",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm not for raising the minimum wage if it costs the corner store in {realm-name} its only part-timer.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": [
+            "stance-against",
+            "policy:question:us-policy-positions:labor-workforce.raise-minimum-wage",
+            "realm-name"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today", "contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-platform-as-a-topic-by-topic-list"],
+      "issues": ["law:minimum-wage"]
     }
   ]
 }
