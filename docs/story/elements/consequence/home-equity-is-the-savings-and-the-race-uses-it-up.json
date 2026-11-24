@@ -1,0 +1,44 @@
+{
+  "id": "home-equity-is-the-savings-and-the-race-uses-it-up",
+  "kind": "consequence",
+  "summary": "After a long run for governor, a family finds its savings spent, its debts heavy and its home as the only cushion left.",
+  "realLife": "A former lieutenant governor who ran for governor listed his family's debt, mostly a mortgage, and said the family home was effectively their savings. He said the race cost him income because he set aside work that could create conflicts, leaving little income and used-up savings. His wife, who had left an airline job, now worked as an administrative assistant, and he planned to go back to family law and estate work.",
+  "sources": [
+    "https://www.civilbeat.org/2014/11/living-hawaii-you-might-be-surprised-at-who-else-is-snagged-by-high-costs/"
+  ],
+  "fits": ["home", "news", "campaign"],
+  "slots": ["{the household}", "{the home}", "{the candidate}", "{the spouse}"],
+  "gates": [
+    "The household owns a home with a mortgage.",
+    "The candidate ran a long statewide or large race.",
+    "The household's savings were drawn down during the race."
+  ],
+  "weights": [
+    "Number of children in school or college.",
+    "Size of the mortgage against home value.",
+    "Whether the candidate gave up outside work during the race.",
+    "Whether the spouse has a steady wage."
+  ],
+  "inGame": "Household money, a home and its mortgage, a candidate's filing and campaign money, election results and the spouse's job could carry it; the candidate sidelining paid work needs a job-hours cut during campaign.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The household stays comfortable because the candidate kept clients and the spouse's pay covered the house.",
+      "pulledBy": "Steady outside work, no conflict-of-interest limits.",
+      "writesBack": "No savings change; no mention in the journal."
+    },
+    {
+      "turn": "late",
+      "what": "After the loss the family decides to sell the home and downsize to rebuild savings.",
+      "pulledBy": "Low savings, no pension, children's tuition due.",
+      "writesBack": "Household moves; home sold; mortgage ended."
+    },
+    {
+      "turn": "partial",
+      "what": "The candidate returns to private work within months and the savings recover slowly.",
+      "pulledBy": "A skilled profession, a ready client list.",
+      "writesBack": "Candidate job restored; savings rise slowly."
+    }
+  ]
+}

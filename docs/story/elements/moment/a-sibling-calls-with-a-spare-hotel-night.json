@@ -1,0 +1,42 @@
+{
+  "id": "a-sibling-calls-with-a-spare-hotel-night",
+  "kind": "moment",
+  "summary": "After an election rift, a brother's practical offer of a hotel room for his sister restarted their talks.",
+  "realLife": "A man who strongly backed a candidate skipped Thanksgiving, and his sister who opposed that candidate arrived late to Christmas to miss him. They resumed talking when he called to say he was going to the inauguration and had booked an extra hotel night she could use for a march. Traffic made her miss the march. She said it helped that he admitted his candidate had flaws, and the next Christmas she came and stayed off politics around him. Their mother thought nothing had really improved.",
+  "sources": [
+    "https://www.huffpost.com/entry/trump-anniversary-divided-family_us_5a62200fe4b01d91b25536be"
+  ],
+  "fits": ["home"],
+  "slots": ["{the sibling}", "{the other sibling}", "{the mother}"],
+  "gates": [
+    "The siblings have opposite stands and a quarrel on record.",
+    "One sibling skipped or avoided a family gathering."
+  ],
+  "weights": [
+    "Willingness to admit a flaw in one's own side.",
+    "Children who love the relative.",
+    "The mother's view of how bad it is."
+  ],
+  "inGame": "A quarrel record and a reconciliation scene fit; needs: a small-favor offer as the thing that reopens contact.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The offer is refused as a trick and the split hardens.",
+      "pulledBy": "Pride, recent insults.",
+      "writesBack": "Quarrel stays open."
+    },
+    {
+      "turn": "neutral",
+      "what": "They talk, nothing changes, and gatherings stay tense.",
+      "pulledBy": "Neither moves.",
+      "writesBack": "A small contact tie, no stand change."
+    },
+    {
+      "turn": "late",
+      "what": "The offer comes only after a year.",
+      "pulledBy": "Children's pressure.",
+      "writesBack": "Reconciliation scene late in the record."
+    }
+  ]
+}

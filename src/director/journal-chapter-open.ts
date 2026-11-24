@@ -47,7 +47,7 @@ export interface ChapterOpenHow {
 export function chapterOpenTelling(
   core: Readonly<CoreState>,
   personId: PersonId,
-  moment: { readonly causeId: string },
+  moment: { readonly causeId: string; readonly date: string },
   row: { readonly kindPrefix: string },
   facts: Readonly<
     Record<
@@ -74,6 +74,12 @@ export function chapterOpenTelling(
       sourceRecordIds: fact.sourceRecordIds as EntityId[],
     };
   told[`chapter-${move}`] = gate();
+  // The year the moment happened, from its own record (W3, Nov 24: a birth
+  // opener had only its place to say).
+  told["moment-year"] = {
+    text: moment.date.slice(0, moment.date.indexOf("-")),
+    sourceRecordIds: ids,
+  };
   told[how.own ? "own-moment" : "other-moment"] = gate();
   if (how.together) told["household-together"] = gate();
   if (how.young) told["young-then"] = gate();

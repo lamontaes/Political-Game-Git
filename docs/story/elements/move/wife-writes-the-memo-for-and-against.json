@@ -1,0 +1,42 @@
+{
+  "id": "wife-writes-the-memo-for-and-against",
+  "kind": "move",
+  "summary": "Asked to weigh whether to run, a spouse writes the case for and against and ends with a clear answer.",
+  "realLife": "In May 1964 Lyndon Johnson, dreading the fall election, asked Lady Bird to set out the case for and against running. She told him on the phone he must run, then wrote a memo that included a draft statement he would not seek the term. She listed the criticism of quitting and the risks of running and concluded that he should stay in. She also suggested a way to leave office later.",
+  "sources": [
+    "https://www.americanheritage.com/did-first-lady-advise-president-not-run-again"
+  ],
+  "fits": ["home", "journal", "office"],
+  "slots": ["{the spouse}", "{the player}"],
+  "gates": [
+    "The player is an officeholder deciding on re-election or a bigger race.",
+    "The spouse is a trusted counselor with a tie on record."
+  ],
+  "weights": [
+    "Spouse's judgment and education.",
+    "Player's doubt.",
+    "Tie strength."
+  ],
+  "inGame": "A spouse household member with advice, tied to a filing decision about to happen.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The spouse's memo says step aside, and the player has to argue for staying.",
+      "pulledBy": "Health or family cost.",
+      "writesBack": "A tension on the tie; filing likely postponed."
+    },
+    {
+      "turn": "neutral",
+      "what": "The spouse talks it through aloud without writing anything, and the player decides alone.",
+      "pulledBy": "Casual relationship.",
+      "writesBack": "No lasting record beyond a memory of the talk."
+    },
+    {
+      "turn": "late",
+      "what": "The advice is only read after the filing date.",
+      "pulledBy": "Missed deadline.",
+      "writesBack": "No filing; the player is out of the race."
+    }
+  ]
+}
