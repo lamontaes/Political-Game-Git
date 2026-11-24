@@ -4,6 +4,7 @@ import {
   partsOf,
   tell,
   tellFully,
+  withPolicyFacts,
   type TellingFacts,
 } from "./outline-planner";
 
@@ -61,6 +62,32 @@ const told = (traits: Record<string, number>, key = "moment") =>
   });
 
 describe("the outline planner", () => {
+  it("puts the policy a fact cites in the facts by its catalog id, so a line can require it", () => {
+    // The CTO, Nov 24 (7140057819 on #9750): a line tagged with a policy
+    // fires when that policy is live in the player's world.
+    const cited = withPolicyFacts({
+      about: {
+        text: "rent stabilization",
+        sourceRecordIds: ["person:mayor", "question:housing.rent-cap"],
+      },
+      place: { text: "Ashton", sourceRecordIds: ["place:ashton"] },
+      line: {
+        text: "the police",
+        sourceRecordIds: ["question:budget-line:police"],
+      },
+    });
+    // A budget line by the catalog's own id.
+    expect(cited["policy:budget:police"]?.sourceRecordIds).toEqual([
+      "question:budget-line:police",
+    ]);
+    expect(cited["policy:question:housing.rent-cap"]?.sourceRecordIds).toEqual([
+      "question:housing.rent-cap",
+    ]);
+    expect(
+      Object.keys(cited).filter((key) => key.startsWith("policy:")),
+    ).toEqual(["policy:question:housing.rent-cap", "policy:budget:police"]);
+  });
+
   it("lets a piece that leans on the sentence before it play only after the moves it names", () => {
     const parts = OUTLINE_BANK_PARTS;
     const leaning = /^(?:That|That's|It|It's|This|These|Those|So|And|Not me)\b/;

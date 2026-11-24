@@ -128,6 +128,8 @@ import { questionSubject } from "../english/policy-names";
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionNumber,
+  questionPlainWords,
   questionSaid,
   questionSide,
   questionTo,
@@ -3943,6 +3945,16 @@ function pointSubject(
   const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
+    // Whether the question's name is one thing or several, for a verb that
+    // agrees with {about}.
+    ...(pick.point.question
+      ? {
+          [`about-${questionNumber(pick.point.question)}`]: {
+            text: "yes",
+            sourceRecordIds: [`question:${pick.point.question}`],
+          },
+        }
+      : {}),
     said: {
       text:
         (pick.point.kind === "policy"
@@ -3950,6 +3962,16 @@ function pointSubject(
           : null) ?? pick.point.about,
       sourceRecordIds: said,
     },
+    // The question's plain words beside its name: what the side for it
+    // would do and each side's own reason, for a reaction said in feeling
+    // and plain words (the owner, Nov 24; questionPlainWords).
+    ...(pick.point.kind === "policy" && pick.point.question
+      ? Object.fromEntries(
+          Object.entries(questionPlainWords(pick.point.question))
+            .filter(([key]) => key !== "said" && key !== "to")
+            .map(([key, text]) => [key, { text, sourceRecordIds: said }]),
+        )
+      : {}),
     president: {
       text: personSlot(president.id, "subject"),
       sourceRecordIds: who,

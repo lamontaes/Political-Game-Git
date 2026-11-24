@@ -134,6 +134,28 @@ export function questionSaid(question: string): string | null {
   return NAMES[question]?.said ?? NAMES[question]?.about ?? null;
 }
 
+/**
+ * A policy question in the plain words people react with, never the
+ * record's own name (the owner, Nov 24, on "So the President wants a higher
+ * top income tax rate": "No person would say that"; the CTO, 7140453049 on
+ * #9750, pattern 2): its subject as said in talk (`said`), what the side
+ * for it would do (`to`), and each side's own reason (`reason-for`,
+ * `reason-against`). Facts for the talk and the Journal to say instead of
+ * `about`.
+ */
+export function questionPlainWords(
+  question: string,
+): Readonly<Record<string, string>> {
+  const row = NAMES[question];
+  if (!row) return {};
+  const out: Record<string, string> = {};
+  if (row.said) out.said = row.said;
+  if (row.to) out.to = row.to;
+  if (row.reasons?.for) out["reason-for"] = row.reasons.for;
+  if (row.reasons?.against) out["reason-against"] = row.reasons.against;
+  return out;
+}
+
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */
 export function questionAbout(question: string): string | null {
   return NAMES[question]?.about ?? null;
