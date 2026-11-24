@@ -700,9 +700,21 @@ $("journal-note-close").addEventListener("click", () =>
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
-  $("journal-line").textContent = line;
+  ).catch(() => null);
+  // A read that failed leaves the pop-up as it is: only a Journal that is really empty takes
+  // a waiting pop-up down (N16-24, "I didn't even get to see the journal stuff there").
+  if (!chapters) return;
+  const newest = chapters.at(-1)?.lines.at(-1);
+  const line = newest?.text ?? "";
+  // A line that follows another ("Two years after that, ...") is shown with the line it
+  // follows, from its own link record, so a pop-up never opens on "that" with nothing before
+  // it (owner, Nov 23, P20).
+  const lead = newest?.link?.earlierId
+    ? chapters
+        .flatMap((chapter) => chapter.lines)
+        .find((earlier) => earlier.id === newest.link.earlierId)
+    : undefined;
+  $("journal-line").textContent = lead?.text ? `${lead.text} ${line}` : line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
