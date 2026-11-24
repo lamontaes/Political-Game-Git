@@ -2857,6 +2857,7 @@ async function personCardNode(
     (c.colleagues ?? []).map((k) => ({
       name: k.name,
       relation: k.office,
+      titleAsWritten: true,
       onOpen: () => openOther({ personId: k.personId }),
     })),
   );
@@ -6046,15 +6047,34 @@ const sheets = {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
-      const runs = peopleSentence(
-        officers.flatMap((o) =>
-          o.members.map((m) => ({
-            name: m.name,
-            relation: o.title,
-            onOpen: open(m.cardId),
-          })),
-        ),
-      );
+      // Each government's officers are listed under that government's own name (a county's
+      // sheriff under the county, not under the town): the offices are grouped by the
+      // government their own record names, the chief's government first.
+      const governments = new Map();
+      for (const o of officers) {
+        const name = o.government ?? o.title ?? "";
+        governments.set(name, [...(governments.get(name) ?? []), o]);
+      }
+      const chiefGovernment = chief?.government ?? chief?.title ?? "";
+      const runs = [...governments.entries()]
+        .sort(
+          ([a], [b]) =>
+            Number(b === chiefGovernment) - Number(a === chiefGovernment),
+        )
+        .map(([name, offices]) => ({
+          name,
+          line: peopleSentence(
+            offices.flatMap((o) =>
+              o.members.map((m) => ({
+                name: m.name,
+                relation: o.title,
+                titleAsWritten: true,
+                onOpen: open(m.cardId),
+              })),
+            ),
+          ),
+        }))
+        .filter((group) => group.line);
       return {
         main: chief
           ? [
@@ -6092,19 +6112,17 @@ const sheets = {
               ),
             ]
           : [],
-        side: runs
+        side: runs.length
           ? [
               {
                 title: null,
-                nodes: [
+                nodes: runs.map((group, at) =>
                   stripSection(
-                    2,
-                    fill(labels.whoRuns, {
-                      name: chief?.government ?? chief?.title ?? "",
-                    }),
-                    runs,
+                    2 + at,
+                    fill(labels.whoRuns, { name: group.name }),
+                    group.line,
                   ),
-                ],
+                ),
               },
             ]
           : [],

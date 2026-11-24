@@ -181,7 +181,7 @@ export function nameLink(text, onOpen) {
   return node;
 }
 
-/** The people you're closest to as one line: each name opens its card, its relation in lower case after it. Null with nobody. */
+/** The people you're closest to as one line: each name opens its card, its relation after it (a family relation in lower case; an office title as written, `titleAsWritten`). Null with nobody. */
 export function peopleSentence(people) {
   if (!people.length) return null;
   const line = el("p", { className: "hispeople" });
@@ -192,7 +192,10 @@ export function peopleSentence(people) {
         ? nameLink(person.name, person.onOpen)
         : el("span", { className: "nm", textContent: person.name }),
     );
-    if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
+    if (person.relation)
+      line.append(
+        ` (${person.titleAsWritten ? person.relation : person.relation.toLowerCase()})`,
+      );
   });
   return line;
 }
