@@ -100,6 +100,19 @@ export function floorDebateFacts(
             >
           )[section.line]?.name.toLowerCase()
         : undefined;
+  // A speaker's position on a package does not establish a position on each
+  // clause. For a single question, use the value the legislature would enact.
+  if (
+    bill.provisions.length === 1 &&
+    section?.kind === "policy-question" &&
+    section.question
+  ) {
+    const direction = section.value > P.zero ? "enact" : "repeal";
+    facts[`proposes-${direction}:${section.question}`] = {
+      text: "yes",
+      sourceRecordIds: cited,
+    };
+  }
   if (about) facts.issue = { text: about, sourceRecordIds: cited };
   if (bill.sponsorId === speakerId)
     facts["speaker-wrote-it"] = { text: "yes", sourceRecordIds: cited };

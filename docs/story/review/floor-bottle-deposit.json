@@ -1,0 +1,598 @@
+[
+  {
+    "key": "scene-talk.reply-ask.say-the-bottles-come-back-and-the-recycler-can-t-find-a-buyer-what-does-the-deposit-buy-us-then",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Say the bottles come back and the recycler can't find a buyer. What does the deposit buy us then?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "issue"
+        ]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["warehouse-fills-while-textile-buyers-retreat"]
+  },
+  {
+    "key": "scene-talk.follow-answer.it-still-gives-people-a-reason-to-pick-up-the-empties-i-d-want-to-know-who-s-buying-the-plastic-too",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "It still gives people a reason to pick up the empties. I'd want to know who's buying the plastic, too.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.say-the-bottles-come-back-and-the-recycler-can-t-find-a-buyer-what-does-the-deposit-buy-us-then"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["warehouse-fills-while-textile-buyers-retreat"]
+  },
+  {
+    "key": "scene-talk.follow-answer.getting-a-bottle-off-the-roadside-is-worth-doing-selling-the-material-is-a-separate-job",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Getting a bottle off the roadside is worth doing. Selling the material is a separate job.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.say-the-bottles-come-back-and-the-recycler-can-t-find-a-buyer-what-does-the-deposit-buy-us-then"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["warehouse-fills-while-textile-buyers-retreat"]
+  },
+  {
+    "key": "scene-talk.follow-answer.we-could-fill-a-warehouse-with-bottles-nobody-wants-i-d-want-a-buyer-lined-up-before-asking-stores-to-take-them",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "We could fill a warehouse with bottles nobody wants. I'd want a buyer lined up before asking stores to take them.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.say-the-bottles-come-back-and-the-recycler-can-t-find-a-buyer-what-does-the-deposit-buy-us-then"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["warehouse-fills-while-textile-buyers-retreat"]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-s-my-concern-a-refund-gets-the-bottle-across-the-counter-i-d-want-to-know-who-takes-it-from-there",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "That's my concern. A refund gets the bottle across the counter. I'd want to know who takes it from there.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.say-the-bottles-come-back-and-the-recycler-can-t-find-a-buyer-what-does-the-deposit-buy-us-then"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["warehouse-fills-while-textile-buyers-retreat"]
+  },
+  {
+    "key": "scene-talk.reply-ask.where-would-you-put-the-empties-if-you-ran-a-grocery-with-no-spare-room",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Where would you put the empties if you ran a grocery with no spare room?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "issue"
+        ]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-whether-stores-could-share-a-return-site-i-want-the-deposit-and-a-cramped-shop-deserves-an-answer",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd ask whether stores could share a return site. I want the deposit, and a cramped shop deserves an answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-put-the-empties-if-you-ran-a-grocery-with-no-spare-room"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-bring-a-grocer-in-before-we-settle-the-collection-arrangements-we-can-start-with-the-floor-space-a-return-takes",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd bring a grocer in before we settle the collection arrangements. We can start with the floor space a return takes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-put-the-empties-if-you-ran-a-grocery-with-no-spare-room"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-have-to-give-up-room-i-use-for-something-else-that-s-a-cost-i-d-count-before-voting-yes",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd have to give up room I use for something else. That's a cost I'd count before voting yes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-put-the-empties-if-you-ran-a-grocery-with-no-spare-room"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-walk-the-stockroom-with-the-owner-until-i-knew-what-had-to-move-i-couldn-t-ask-for-that-space",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd walk the stockroom with the owner. Until I knew what had to move, I couldn't ask for that space.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.where-would-you-put-the-empties-if-you-ran-a-grocery-with-no-spare-room"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-raises-money-by-turning-in-bottles-if-we-vote-to-end-the-deposit",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "What should I tell a school club that raises money by turning in bottles if we vote to end the deposit?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "issue"
+        ]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-answer.tell-them-to-check-the-scrap-price-before-they-set-a-fundraising-goal-they-couldn-t-count-on-the-refund-anymore",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Tell them to check the scrap price before they set a fundraising goal. They couldn't count on the refund anymore.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-raises-money-by-turning-in-bottles-if-we-vote-to-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-answer.they-d-lose-the-deposit-income-i-favor-ending-it-but-i-wouldn-t-tell-those-students-their-cans-will-bring-the-same-money",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "They'd lose the deposit income. I favor ending it, but I wouldn't tell those students their cans will bring the same money.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-raises-money-by-turning-in-bottles-if-we-vote-to-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-tell-them-that-s-one-reason-i-m-voting-to-keep-it-they-know-what-a-bag-of-empties-will-bring",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd tell them that's one reason I'm voting to keep it. They know what a bag of empties will bring.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-raises-money-by-turning-in-bottles-if-we-vote-to-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-the-club-to-show-us-its-receipts-before-we-take-that-refund-away-i-d-like-the-room-to-see-what-it-pays-for",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd ask the club to show us its receipts. Before we take that refund away, I'd like the room to see what it pays for.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-raises-money-by-turning-in-bottles-if-we-vote-to-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-we-end-the-deposit-would-you-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If we end the deposit, would you give stores extra time to collect on refunds they've already paid?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "issue"
+        ]
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-want-a-settlement-date-in-the-text-a-store-that-s-already-paid-its-customers-deserves-time-to-file",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd want a settlement date in the text. A store that's already paid its customers deserves time to file.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-we-end-the-deposit-would-you-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-give-the-stores-a-chance-to-settle-up-the-last-day-to-bring-a-bottle-back-needn-t-be-the-last-day-to-submit-a-claim",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd give the stores a chance to settle up. The last day to bring a bottle back needn't be the last day to submit a claim.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-we-end-the-deposit-would-you-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-s-a-loose-end-i-want-settled-before-i-d-vote-to-repeal-paying-out-at-the-till-and-getting-reimbursed-take-different-amounts-of-time",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "That's a loose end I want settled before I'd vote to repeal. Paying out at the till and getting reimbursed take different amounts of time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-we-end-the-deposit-would-you-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-keep-the-deposit-until-we-can-tell-a-shopkeeper-how-to-collect-what-s-owed",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd keep the deposit until we can tell a shopkeeper how to collect what's owed.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against"
+        ],
+        "after": "scene-talk.reply-ask.if-we-end-the-deposit-would-you-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  }
+]
