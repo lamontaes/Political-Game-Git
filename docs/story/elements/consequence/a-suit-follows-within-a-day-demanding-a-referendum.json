@@ -1,0 +1,53 @@
+{
+  "id": "a-suit-follows-within-a-day-demanding-a-referendum",
+  "kind": "consequence",
+  "summary": "A resident sues less than a day after a bond vote, saying voters should have been asked.",
+  "realLife": "The morning after a council approved bonds for a new baseball stadium, a resident sued the mayor, members and two clerk staff. The suit said voters were owed a referendum and claimed breaches of the state constitution, the city charter and speech rights. City hall called it meritless and said it could cost residents millions. A league deadline made time short and the city said it would keep the project moving.",
+  "sources": [
+    "12 On Your Side (Richmond, Virginia), 'Lawsuit challenges Diamond District baseball stadium plan', May 10, 2024: https://www.12onyourside.com/2024/05/10/lawsuit-challenges-diamond-district-baseball-stadium-plan/?outputType=amp",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "name",
+    "surname",
+    "body",
+    "count",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.5,
+    "bond-vote": 0.6
+  },
+  "inGame": "the bond ordinance, a petition-for-referendum path, a court filing; needs: a lawsuit record and a referendum step",
+  "issues": [
+    "infrastructure"
+  ],
+  "turns": [
+    {
+      "name": "a suit the next morning",
+      "pulledBy": "a resident who wanted a referendum",
+      "writes": "a lawsuit against officials is filed and the project goes on while it is pending",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a petition instead of a suit",
+      "pulledBy": "enough neighbors to gather signatures",
+      "writes": "a referendum petition is filed and the action must pause if the signatures are valid",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no one challenges the vote",
+      "pulledBy": "a council that put the bonds on the ballot first",
+      "writes": "the bonds are sold on schedule and no filing appears",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,53 @@
+{
+  "id": "town-reverses-police-dissolution-vote-a-week-later",
+  "kind": "consequence",
+  "summary": "A town drops a plan to abolish its police department a week after voting for it, as recall petitions start.",
+  "realLife": "A town deep in debt from a wastewater plant voted to dissolve its police department to cut costs. A week later, after angry residents, recall petitions and a sheriff who said no handover was ready, it voted to fund police for the next year. Residents said the first vote was taken without comment on that motion. The vice mayor, who voted to dissolve after being fired from the department, faced an investigation.",
+  "sources": [
+    "Fox News (Purcellville, Virginia), 'Virginia town backs away from dissolving police department after citizen uproar', April 23, 2025: https://www.foxnews.com/us/virginia-town-backs-away-from-dissolving-police-department-after-citizen-uproar.amp",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "name",
+    "surname",
+    "body",
+    "count",
+    "date"
+  ],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.5,
+    "budget-vote": 0.5
+  },
+  "inGame": "the police budget line, the recall petitions, a conflict-of-interest finding; needs: a reversal vote and a recall petition record",
+  "issues": [
+    "budget:police"
+  ],
+  "turns": [
+    {
+      "name": "the reversal a week later",
+      "pulledBy": "a packed meeting and recall petitions",
+      "writes": "the police budget is restored and the earlier vote is undone",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the dissolution goes ahead with a long handover",
+      "pulledBy": "a sheriff who agrees to a timeline",
+      "writes": "police duties move to the sheriff after a set handover period",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the vote is delayed for a study",
+      "pulledBy": "members who want a plan before any cut",
+      "writes": "the vote is postponed and the police stay funded in the meantime",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
