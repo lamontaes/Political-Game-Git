@@ -1,6 +1,7 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
+import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
 import type { OrganizationInput } from "../core2/types";
 import { employerSaidAs } from "../english/said-as";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
@@ -157,13 +158,15 @@ export function organizationName(org: {
 /**
  * An employer as the one said-as reader says it, from its record: a
  * government's payroll as the government, a business by its name, and never
- * the outside market that stands in for work out of town (null).
+ * the outside market that stands in for work out of town (null). The market is
+ * known by its kind: a public employer that owns its government's outside pay
+ * authority (opening-public-pay.ts) carries `outsideFlow` too, and is said.
  */
 export function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
     name: businessNameSaid(org),
     kind: org.kind,
-    outside: !!org.outsideFlow,
+    outside: org.kind === OUTSIDE_MARKET_KIND,
     ...(org.classification ? { classification: org.classification } : {}),
     ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
   });
