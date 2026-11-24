@@ -10511,6 +10511,399 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-lives-on-less-than-anyone-else-in",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} lives on less than anyone else in town, and {anchor-first} makes every dollar do two jobs.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.in-anchortown-anchorname-gets-by-on-the-smallest-household-income",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} gets by on the smallest household income there is, and does not ask anyone to feel sorry for it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.ask-anchorname-of-anchortown-what-a-hard-year-looks-like",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Ask {anchor-name} of {anchor-town} what a hard year looks like, and {anchor-first} will start with the grocery bill and end with the rent.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-has-less-coming-in-than-anyone-around",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} has less coming in than anyone around, and {anchor-first} still shows up for the people who have less to give.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-of-anchortown-was-the-victim-of-a-crime-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} of {anchor-town} was the victim of a crime, and {anchor-first} still locks the door twice.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.in-anchortown-anchorname-has-had-a-crime-committed-against-them",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} has had a crime committed against them, and what {anchor-first} wants to know is whether anyone will answer for it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.ask-anchorname-in-anchortown-how-safe-it-feels-after-a",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Ask {anchor-name} in {anchor-town} how safe it feels after a crime, and {anchor-first} will tell you that feeling does not come back by itself.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-has-been-wronged-and-is-waiting-on",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} has been wronged and is waiting on a justice system that {anchor-first} is still trying to trust.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
