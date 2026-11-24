@@ -66,7 +66,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-observant"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -85,7 +85,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -104,7 +104,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-guarded"],
+      "lean": ["personality-v1:facet-intimacy-guarded"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -123,7 +123,7 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-ambitious",
+        "personality-v1:facet-enterprising",
         "personality-v1:facet-practical"
       ],
       "origin": "authored",
@@ -143,10 +143,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-calm"
-      ],
+      "lean": ["personality-v1:facet-sassy", "personality-v1:facet-tactful"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -165,7 +162,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-friendly"],
+      "lean": ["personality-v1:facet-generous"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -185,29 +182,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-affectionate",
-        "personality-v1:facet-nostalgic"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-the-whole-house-sat-down-for-s-speech-on-the-news-tonight",
-      "move": "watched",
-      "kind": "written",
-      "text": "The whole house sat down for {president-name}'s speech on the news tonight.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-affectionate",
-        "personality-v1:facet-friendly"
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-daydreaming"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -265,7 +241,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical"],
+      "lean": ["personality-v1:facet-work-centered"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -284,29 +260,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-friendly",
+        "personality-v1:facet-supportive",
         "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-the-news-ran-s-speech-after-supper-and-nobody-in-the-house-changed-the-channel",
-      "move": "watched",
-      "kind": "written",
-      "text": "The news ran {president-name}'s speech after supper, and nobody in the house changed the channel.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -326,8 +281,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-observant",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -348,7 +303,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -368,7 +323,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-independent"
+      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -387,7 +345,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -406,7 +367,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -426,8 +390,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-imaginative"
       ],
       "origin": "authored",
       "author": "the Story lead",
@@ -447,7 +411,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "lean": ["personality-v1:facet-cynical"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -488,7 +452,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-generous"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -507,32 +471,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-will-give-the-president-this-much-is-the-right-thing-to-push-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "I will give the President this much: {theme-short} is the right thing to push on.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-practical"
-      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -552,8 +491,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -574,8 +513,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-studious"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -597,7 +536,7 @@
       "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-argumentative",
-        "personality-v1:facet-blunt"
+        "personality-v1:facet-brazen"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -617,10 +556,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-guarded"
-      ],
+      "lean": ["personality-v1:facet-observant", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -639,7 +575,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-cynical", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -660,7 +596,7 @@
       "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-argumentative",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-sassy"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -680,7 +616,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-shy"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -700,8 +639,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-fair-minded"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-sincere"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -721,7 +660,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-guarded"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-defensive"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -740,7 +682,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -759,7 +704,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-brazen"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -780,7 +728,7 @@
       "after": ["watched", "said", "stance"],
       "lean": [
         "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -800,7 +748,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-independent"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -820,7 +771,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -840,7 +794,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -859,7 +816,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -878,7 +838,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-independent"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -897,7 +860,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -915,7 +881,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -935,7 +904,7 @@
       ],
       "lean": [
         "personality-v1:facet-friendly",
-        "personality-v1:facet-ambitious"
+        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -954,7 +923,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -973,7 +945,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -993,8 +968,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1014,7 +989,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1034,29 +1009,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-the-living-room-filled-up-for-and-the-whole-house-stayed-through-the-end",
-      "move": "watched",
-      "kind": "written",
-      "text": "The living room filled up for {president-name}, and the whole house stayed through the end.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-nurturing"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1075,10 +1029,7 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-calm",
-        "personality-v1:facet-affectionate"
-      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-comforting"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1096,7 +1047,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1114,7 +1068,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1133,7 +1090,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-cynical", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1152,10 +1109,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-observant", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1174,29 +1128,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-here-is-where-i-come-down-on-with-the-president",
-      "move": "mine",
-      "kind": "written",
-      "text": "Here is where I come down on {about}: with the President.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["about", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-brazen", "personality-v1:facet-excitable"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1216,30 +1148,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-i-wanted-to-be-unimpressed-and-then-came",
-      "move": "mine",
-      "kind": "written",
-      "text": "I wanted to be unimpressed, and then came {theme-short}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-sassy"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1259,10 +1169,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1281,7 +1188,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-observant"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1300,10 +1210,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-guarded"
-      ],
+      "lean": ["personality-v1:facet-observant", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1323,7 +1230,7 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-argumentative",
+        "personality-v1:facet-assertive",
         "personality-v1:facet-skeptical"
       ],
       "origin": "authored",
@@ -1344,7 +1251,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1364,8 +1274,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-skeptical"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-cynical"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1384,7 +1294,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-imaginative",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1403,8 +1316,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1425,7 +1338,7 @@
       ],
       "lean": [
         "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1444,7 +1357,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-humble"],
+      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1463,10 +1376,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1485,10 +1395,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-calm"
-      ],
+      "lean": ["personality-v1:facet-charming", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1507,10 +1414,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1530,8 +1434,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1551,7 +1455,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1569,31 +1476,7 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-nurturing",
-        "personality-v1:facet-affectionate"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-had-the-whole-house-for-the-length-of-the-speech",
-      "move": "watched",
-      "kind": "written",
-      "text": "{president-name} had the whole house for the length of the speech.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-friendly"
-      ],
+      "lean": ["personality-v1:facet-tender-hearted"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1612,29 +1495,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-on-the-tv-gave-the-first-speech-of-the-term-and-the-house-watched",
-      "move": "watched",
-      "kind": "written",
-      "text": "On the TV, {president-name} gave the first speech of the term, and the house watched.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1653,7 +1515,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-shy"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1672,8 +1537,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-blunt"
+        "personality-v1:facet-teasing",
+        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1692,7 +1557,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-defensive"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1711,7 +1579,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-assertive"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1730,7 +1601,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-observant", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1749,7 +1620,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-imaginative",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1769,8 +1643,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1790,7 +1664,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1809,28 +1686,9 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-agreeing-about-is-easy-the-hard-part-is-what-comes-after",
-      "move": "mine",
-      "kind": "written",
-      "text": "Agreeing about {theme-short} is easy; the hard part is what comes after.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-brazen"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1850,28 +1708,9 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-better-than-the-alternative-and-i-said-so-to-the-empty-room",
-      "move": "mine",
-      "kind": "written",
-      "text": "Better {theme-short} than the alternative, and I said so to the empty room.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-blunt"
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1891,7 +1730,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1911,8 +1750,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-skeptical"
+        "personality-v1:facet-hot-headed",
+        "personality-v1:facet-observant"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1933,8 +1772,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-skeptical"
+        "personality-v1:facet-observant",
+        "personality-v1:facet-cynical"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -1954,7 +1793,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-shy"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1973,10 +1815,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-analytical"
-      ],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -1996,8 +1835,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2017,7 +1856,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2038,8 +1880,8 @@
       ],
       "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2060,7 +1902,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-meticulous"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2080,7 +1922,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2100,10 +1945,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2122,7 +1964,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2141,7 +1986,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2160,8 +2005,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-imaginative"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2181,8 +2026,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-teasing",
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2201,7 +2046,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2219,10 +2067,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-guarded"
-      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2241,8 +2086,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2263,7 +2108,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2283,7 +2128,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2304,8 +2152,8 @@
       ],
       "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-observant",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2327,8 +2175,8 @@
       ],
       "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2349,7 +2197,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2370,8 +2218,8 @@
       ],
       "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2392,7 +2240,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-imaginative",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2412,10 +2263,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-blunt"
-      ],
+      "lean": ["personality-v1:facet-charming", "personality-v1:facet-brazen"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2434,28 +2282,9 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-no-changes-to-the-president-promised",
-      "move": "stance",
-      "kind": "written",
-      "text": "No changes to {about}, the President promised.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-calm",
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2475,28 +2304,9 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-defended-as-it-stands",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President defended {about} as it stands.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-contented"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2516,7 +2326,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-observant"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2536,8 +2346,8 @@
       ],
       "after": ["start", "watched", "said"],
       "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2557,10 +2367,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2579,7 +2386,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-observant"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2599,28 +2409,9 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-sassy"
       ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-setting-the-speech-aside-is-where-i-already-stood",
-      "move": "mine",
-      "kind": "written",
-      "text": "Setting the speech aside, {theme-short} is where I already stood.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2639,10 +2430,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-blunt"
-      ],
+      "lean": ["personality-v1:facet-mediating", "personality-v1:facet-brazen"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2661,10 +2449,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-teasing", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2684,30 +2469,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.mine.journal-evening-it-surprised-me-how-much-i-agreed-on",
-      "move": "mine",
-      "kind": "written",
-      "text": "It surprised me how much I agreed on {theme-short}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "mine",
-          "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
-        }
-      ],
-      "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-generous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2729,7 +2492,7 @@
       "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-guarded",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2749,7 +2512,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2770,7 +2536,7 @@
       "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-guarded",
-        "personality-v1:facet-skeptical"
+        "personality-v1:facet-observant"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2792,7 +2558,7 @@
       "after": ["said", "stance"],
       "lean": [
         "personality-v1:facet-argumentative",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2812,10 +2578,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2834,7 +2597,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-cynical", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2853,7 +2616,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-guarded"],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2872,7 +2635,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2892,8 +2658,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-humble"
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-self-conscious"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2914,8 +2680,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-mediating",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -2935,10 +2701,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-guarded"
-      ],
+      "lean": ["personality-v1:facet-teasing", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2957,7 +2720,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2976,7 +2742,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -2996,8 +2765,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-generous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3017,7 +2786,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3036,7 +2808,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-brazen", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3054,31 +2826,7 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-nurturing",
-        "personality-v1:facet-affectionate"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-was-the-only-thing-on-in-the-house-tonight",
-      "move": "watched",
-      "kind": "written",
-      "text": "{president-name} was the only thing on in the house tonight.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-tender-hearted"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3096,7 +2844,10 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3115,8 +2866,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-calm",
-        "personality-v1:facet-affectionate"
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-tender-hearted"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3135,10 +2886,7 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3156,7 +2904,10 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3174,7 +2925,7 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3192,10 +2943,7 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-excitable"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3213,7 +2961,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3232,8 +2983,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-studious",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3254,7 +3005,7 @@
       ],
       "lean": [
         "personality-v1:facet-friendly",
-        "personality-v1:facet-studious"
+        "personality-v1:facet-imaginative"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3273,7 +3024,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-observant", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3292,8 +3043,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-ambitious"
+        "personality-v1:facet-teasing",
+        "personality-v1:facet-enterprising"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3312,10 +3063,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-brazen", "personality-v1:facet-excitable"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3334,7 +3082,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3353,7 +3104,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-observant"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3372,10 +3126,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3396,7 +3147,7 @@
       "after": ["watched", "said", "stance"],
       "lean": [
         "personality-v1:facet-skeptical",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3416,7 +3167,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3435,10 +3189,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
+      "lean": ["personality-v1:facet-meticulous"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3457,10 +3208,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3480,8 +3228,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-studious",
+        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3501,7 +3249,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3520,7 +3271,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-brazen"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3539,7 +3293,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3559,8 +3313,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3582,7 +3336,7 @@
       "after": ["watched", "said", "stance"],
       "lean": [
         "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3602,7 +3356,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-guarded"],
+      "lean": [
+        "personality-v1:facet-imaginative",
+        "personality-v1:facet-defensive"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3621,7 +3378,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3640,7 +3397,7 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-humble"],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3659,7 +3416,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3679,8 +3439,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3700,7 +3460,10 @@
         }
       ],
       "after": ["watched", "said", "stance"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3720,8 +3483,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-observant",
+        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3742,8 +3505,8 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3763,8 +3526,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3785,7 +3548,7 @@
       ],
       "lean": [
         "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
+        "personality-v1:facet-charming"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3804,7 +3567,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-ambitious", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3822,7 +3588,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-nostalgic"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sensitive"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3840,7 +3606,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-studious"],
+      "lean": [
+        "personality-v1:facet-intimacy-guarded",
+        "personality-v1:facet-studious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3858,7 +3627,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3876,7 +3645,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-brazen"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3894,7 +3666,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3913,8 +3688,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3933,7 +3708,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-nostalgic"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sensitive"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3952,8 +3727,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
+        "personality-v1:facet-charming",
+        "personality-v1:facet-independent"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -3972,10 +3747,7 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-calm",
-        "personality-v1:facet-light-hearted"
-      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -3994,8 +3766,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-observant",
+        "personality-v1:facet-meticulous"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -4014,7 +3786,10 @@
           "requiresFacts": ["place"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4034,7 +3809,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4054,7 +3832,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4074,7 +3855,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-independent"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4094,7 +3878,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-studious"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-imaginative"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4114,7 +3898,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-brazen"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4134,30 +3921,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-no-one-doubted-where-the-president-stood-on-against",
-      "move": "stance",
-      "kind": "written",
-      "text": "No one doubted where the President stood on {about}: against.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4177,7 +3941,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4196,7 +3963,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-studious"],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-studious"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4217,7 +3984,7 @@
       "after": ["start", "watched", "said"],
       "lean": [
         "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
+        "personality-v1:facet-studious"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -4237,7 +4004,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-nurturing", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-nurturing", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4256,7 +4023,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4275,7 +4042,10 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4294,7 +4064,7 @@
         }
       ],
       "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-meticulous"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4313,7 +4083,10 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "lean": [
+        "personality-v1:facet-tactful",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4332,10 +4105,7 @@
           "excludesFacts": ["watched-many"]
         }
       ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-informal"
-      ],
+      "lean": ["personality-v1:facet-teasing", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4355,8 +4125,8 @@
         }
       ],
       "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-light-hearted"
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -4377,7 +4147,7 @@
       ],
       "lean": [
         "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
+        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -4396,49 +4166,7 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-came-into-the-house-through-the-tv-tonight-and-everyone-stopped-for-it",
-      "move": "watched",
-      "kind": "written",
-      "text": "{president-name} came into the house through the TV tonight, and everyone stopped for it.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-affectionate"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-all-of-us-were-in-the-room-when-spoke",
-      "move": "watched",
-      "kind": "written",
-      "text": "All of us were in the room when {president-name} spoke.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["watched-many", "president-name"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-nurturing"
-      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-generous"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4456,7 +4184,7 @@
           "requiresFacts": ["watched-many", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4474,7 +4202,7 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-brazen"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4492,7 +4220,7 @@
           "requiresFacts": ["alone", "president-name"]
         }
       ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4511,7 +4239,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-fair-minded", "personality-v1:facet-calm"],
+      "lean": ["personality-v1:facet-mediating", "personality-v1:facet-polite"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4530,7 +4258,10 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4549,10 +4280,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-humble"
-      ],
+      "lean": ["personality-v1:facet-charming", "personality-v1:facet-shy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4571,10 +4299,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-argumentative"
-      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-hot-headed"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4594,7 +4319,7 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious",
         "personality-v1:facet-skeptical"
       ],
       "origin": "authored",
@@ -4615,7 +4340,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4634,10 +4359,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-fair-minded"
-      ],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-tactful"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4656,10 +4378,7 @@
         }
       ],
       "after": ["said", "stance"],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
-      ],
+      "lean": ["personality-v1:facet-observant"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
@@ -4679,8 +4398,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-guarded"
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-defensive"
       ],
       "origin": "authored",
       "author": "the diary writer",
@@ -4701,8 +4420,8 @@
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-tactful"
       ],
       "origin": "authored",
       "author": "the diary writer",
