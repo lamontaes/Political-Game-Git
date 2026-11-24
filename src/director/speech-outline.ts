@@ -904,6 +904,8 @@ export interface OutlineSpeaker {
   readonly local?: {
     readonly level: PolicyLevel;
     readonly officeId: string;
+    /** The speaker's serving term, whose end says the years left; absent for a candidate. */
+    readonly termId?: string;
     readonly party: string | null;
     readonly questions: readonly string[];
     readonly realmName: string | null;
@@ -2013,7 +2015,9 @@ export function planSpeech(
 ): SpeechPlan {
   const row = outlineOf(kindKey);
   const kind = row.bank;
-  const told = hasOutline(kindKey);
+  // Told by the outline planner where its row is named by the kind's bank
+  // (`campaign` is told by the row `campaign-speech`).
+  const told = hasOutline(kind ?? kindKey);
   // A kind said at any level (a floor speech, a campaign speech) takes the
   // speaker's own level from their office row.
   const level = speaker.local?.level ?? row.level;

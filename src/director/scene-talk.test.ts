@@ -63,8 +63,6 @@ const CUT_PURPOSES = new Set<string>([
   "bill-held-chair",
   "hold-chair-sought",
   "new-baby",
-  "cause-invite",
-  "action-confront",
   "town-hall-question",
   "rally-word",
   "lobby-remembers",

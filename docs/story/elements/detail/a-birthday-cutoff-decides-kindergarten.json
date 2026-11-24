@@ -1,0 +1,31 @@
+{
+  "id": "a-birthday-cutoff-decides-kindergarten",
+  "kind": "detail",
+  "summary": "A date on the calendar decides who starts school this year: some states require the child to be five by a set autumn day.",
+  "realLife": "State footnotes set local cutoffs, such as five years old before October 15 in one state and five by September 30 in a district.",
+  "sources": [
+    "NCES, compulsory school attendance laws by state (table 5.1, 2017): https://nces.ed.gov/programs/statereform/tab5_1.asp"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-year"],
+  "gates": [],
+  "weights": {
+    "year": 0.3
+  },
+  "inGame": "needs: an entry cutoff date in the school module, so a start year can be told as the date that made it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A birthday just after the cutoff holds the child back a year, and they start with a younger class.",
+      "pulledBy": "the birth date against the school's date",
+      "writesBack": "school/started one year later, the oldest child in the class"
+    },
+    {
+      "turn": "partial",
+      "what": "A parent asks for an exception and the district grants or refuses it.",
+      "pulledBy": "the household's standing with the district",
+      "writesBack": "the record shows an early start or the refusal"
+    }
+  ]
+}

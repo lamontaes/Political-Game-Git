@@ -1,0 +1,32 @@
+{
+  "id": "stakes-follow-the-lede",
+  "kind": "move",
+  "summary": "The second paragraph says what changes for residents when the lede gave only the government's side.",
+  "realLife": "Where a lede had no stakes, they arrived in paragraph two; in some stories they never came.",
+  "sources": [
+    "Marion County Record (Kansas), county approves a $31.5 million budget with no objection: https://www.marionrecord.com/direct/no_objection_as_county_approves_31_5_million_budget_+5653budget+4e6f206f626a656374696f6e20617320636f756e747920617070726f766573202433312e35206d696c6c696f6e2062756467657420",
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "The Village Reporter (Wauseon, Ohio), council passes two ordinances on final reading: https://thevillagereporter.com/wauseon-city-council-council-passes-two-ordinances-on-final-reading/",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["place", "purpose"],
+  "gates": [],
+  "weights": {
+    "vote": 0.9,
+    "law": 0.8
+  },
+  "usedBy": ["news-roll-call", "law"],
+  "turns": [
+    {
+      "name": "stakes arrive in the lede",
+      "pulledBy": "a change that touches every household at once",
+      "writes": "the first sentence says what changes for residents"
+    },
+    {
+      "name": "stakes never arrive",
+      "pulledBy": "an item of procedure with no effect on residents",
+      "writes": "the story ends on the next step instead"
+    }
+  ]
+}

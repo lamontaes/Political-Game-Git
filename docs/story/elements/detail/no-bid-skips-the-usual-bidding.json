@@ -1,0 +1,30 @@
+{
+  "id": "no-bid-skips-the-usual-bidding",
+  "kind": "detail",
+  "summary": "The story says the usual bidding was skipped and who said so.",
+  "realLife": "Commissioners and residents called the process opaque and said the normal request for proposals was passed over.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["firm"],
+  "gates": [],
+  "weights": {
+    "exposed": 0.9
+  },
+  "inGame": "contracts engine award with a bid process; needs: a \"no-bid\" flag on an award",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "an emergency reason",
+      "pulledBy": "a disaster or urgent need",
+      "writes": "the story says why bidding was skipped"
+    },
+    {
+      "name": "a late bid",
+      "pulledBy": "a vendor who offered after the deadline",
+      "writes": "the story says it was refused"
+    }
+  ]
+}

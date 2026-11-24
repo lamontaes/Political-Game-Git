@@ -819,7 +819,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-when.it-goes-into-force-on-starts",
@@ -841,7 +842,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-when.people-will-live-under-it-from-starts",
@@ -863,7 +865,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.life-death.name-died-on-date",
@@ -1535,7 +1538,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "announce-result"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.budget.the-budget-sets-money-aside-for-purpose",
@@ -1556,7 +1560,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.organization-closed.subject-shut-down-in-year",
@@ -1577,7 +1582,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "news.law-took-effect.measure-went-into-force-on-date",
@@ -1600,7 +1606,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.measure-went-into-force-in-place-on-date",
@@ -1622,7 +1629,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.the-federal-measure-went-into-force-on-date",
@@ -1644,7 +1652,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-took-effect.measure-was-signed-into-law-on-date",
@@ -1666,7 +1675,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-began-to-apply-in-place-on-date",
@@ -1687,7 +1697,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.place-began-living-under-the-law-on-date",
@@ -1708,7 +1719,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-applies-in-place-from-date",
@@ -1729,7 +1741,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-went-into-force-on-date",
@@ -1750,7 +1763,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-gives-place-purpose",
@@ -1772,7 +1786,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-went-into-force-on-date-and-replaced-the",
@@ -1794,7 +1809,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-took-effect-in-place-on-date",
@@ -1815,7 +1831,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.place-has-been-under-the-law-since-date",
@@ -1836,7 +1853,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.in-place-the-law-has-been-the-rule-since-date",
@@ -1857,7 +1875,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-took-effect-on-date-in-place-and-the-rule-it-replace",
@@ -1879,7 +1898,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.place-put-the-law-into-effect-on-date",
@@ -1900,7 +1920,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.the-law-is-in-effect-in-place-as-of-date",
@@ -1921,7 +1942,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law.since-date-the-law-has-been-in-effect-in-place",
@@ -1942,51 +1964,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law.the-law-took-effect-in-place-on-date-ending-the-rule-it-repl",
-      "move": "law",
-      "kind": "written",
-      "text": "The {law} took effect in {place} on {date}, ending the rule it replaced.",
-      "uses": [
-        {
-          "move": "law",
-          "subject": "news",
-          "role": "law",
-          "choice": "lede",
-          "requiresFacts": ["ended"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law.the-law-replaced-the-old-rule-in-place-on-date",
-      "move": "law",
-      "kind": "written",
-      "text": "The {law} replaced the old rule in {place} on {date}.",
-      "uses": [
-        {
-          "move": "law",
-          "subject": "news",
-          "role": "law",
-          "choice": "lede",
-          "requiresFacts": ["ended"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-amount.the-measure-in-place-was-changed-on-date-from-from",
@@ -2118,7 +2097,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.designation-was-approved-count",
@@ -2140,7 +2120,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.members-passed-designation-by-count",
@@ -2162,7 +2143,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.designation-was-defeated-count",
@@ -2184,7 +2166,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.members-voted-down-the-law-count",
@@ -2206,7 +2189,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call.the-law-did-not-pass-count",
@@ -2228,7 +2212,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.committee.the-committee-committee-sent-designation-to-the-floor-count",
@@ -2686,7 +2671,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.place-will-spend-money-less-on-purpose",
@@ -2708,7 +2694,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.the-purpose-budget-in-place-was-raised-by-money",
@@ -2730,7 +2717,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-line.place-will-spend-money-more-on-purpose",
@@ -2752,7 +2740,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.place-will-put-money-toward-purpose-the-biggest-line-in",
@@ -2773,7 +2762,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.the-new-budget-for-place-gives-money-to-purpose",
@@ -2794,7 +2784,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.purpose-gets-money-in-the-budget-for-place",
@@ -2815,7 +2806,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.place-adopted-a-budget-with-money-for-purpose",
@@ -2836,7 +2828,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.jobs-report.area-reported-unemployment-of-percent-for-month",
@@ -4042,7 +4035,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.town-hall.name-met-residents-at-a-town-hall-on-date",
@@ -4063,7 +4057,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.town-hall.office-name-answered-questions-from-the-public-on-date",
@@ -4084,7 +4079,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "news.body-meeting.the-body-had-number-items-on-its-agenda-on-date",
@@ -5529,7 +5525,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "news.staff-cut.subject-cut-number-jobs",
@@ -5657,7 +5654,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.founded.name-began-a-business-in-place",
@@ -7005,7 +7003,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-rule.a-law-on-the-measure-began-on-date",
@@ -7026,7 +7025,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.budget-adopted.congress-passed-the-year-federal-budget",
@@ -7048,7 +7048,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-adopted.the-year-federal-budget-became-law",
@@ -7070,7 +7071,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.bail.a-judge-ordered-name-to-stay-in-jail-until-the",
@@ -7114,7 +7116,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.name-voted-in-favor-of-designation",
@@ -7136,7 +7139,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.office-name-voted-no-on-designation-the-law",
@@ -7158,7 +7162,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.member-vote.name-voted-against-designation",
@@ -7180,7 +7185,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.claim-check.we-compared-what-name-said-about-issue-with-the-public",
@@ -7243,7 +7249,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-purpose.it-is-about-purpose",
@@ -7264,7 +7271,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-bill.it-was-passed-as-designation",
@@ -7636,7 +7644,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-the-office-accepted-a-bribe",
@@ -7658,7 +7667,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-voted-on-a-public-contract-for",
@@ -7680,7 +7690,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-voted-on-a-public-contract-for-2",
@@ -7702,7 +7713,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.records-show-name-voted-on-a-contract-for-firm-for",
@@ -7724,7 +7736,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.name-has-again-voted-on-a-contract-for-firm-the",
@@ -7746,7 +7759,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.took-office.a-new-post-from-place-has-been-sworn-in",
@@ -8008,7 +8022,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-request.name-sent-congress-a-spending-plan-with-less-for-purpose",
@@ -8030,7 +8045,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-request.name-sent-congress-a-spending-plan-with-more-for-purpose",
@@ -8052,7 +8068,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.joint-address.name-gave-a-speech-to-both-houses-of-congress",
@@ -8794,7 +8811,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.roll-call-next.it-was-a-vote-of-the-body",
@@ -8816,7 +8834,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.introduced-sponsor.name-sponsored-it",
@@ -8882,7 +8901,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["benchmark-right-after-the-lede"]
     },
     {
       "key": "news.jobs-nation.nationwide-the-figure-was-nation",
@@ -8904,7 +8924,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["benchmark-right-after-the-lede"]
     },
     {
       "key": "news.rate-from.the-rate-before-was-from",
@@ -9476,7 +9497,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.meeting-bill.the-items-included-designation-about-purpose",
@@ -9498,7 +9520,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.profile-office.name-is-office",
@@ -10048,7 +10071,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.law-reach.it-reaches-everyone-in-place",
@@ -10070,7 +10094,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "news.death-place.name-was-a-resident-of-place",
@@ -10931,28 +10956,6 @@
       }
     },
     {
-      "key": "news.crime.property-in-place-was-vandalized-on-date",
-      "move": "crime",
-      "kind": "written",
-      "text": "Property in {place} was vandalized on {date}.",
-      "uses": [
-        {
-          "move": "crime",
-          "subject": "news",
-          "role": "crime",
-          "choice": "lede",
-          "requiresFacts": ["vandalism"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.crime.place-had-a-break-in-on-date-the-ordinal-this-month",
       "move": "crime",
       "kind": "written",
@@ -11545,7 +11548,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization-opened.subject-began-business-with-staff-on-staff",
@@ -11567,7 +11571,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.founded.name-started-a-business-in-industry",
@@ -11633,7 +11638,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-spending.the-budget-calls-for-spending-in-spending-and-revenue-in",
@@ -11655,7 +11661,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.budget-largest.purpose-is-the-biggest-item-at-money",
@@ -11677,7 +11684,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "news.council-vote.the-body-took-a-vote-on-date-count",
@@ -11699,7 +11707,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.council-vote.the-body-voted-count-on-date",
@@ -11721,7 +11730,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "news.vote-margin.it-passed-by-margin-votes",
@@ -11744,7 +11754,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story", "vote-margin-right-after-the-scene"]
     },
     {
       "key": "news.vote-margin.it-failed-by-short-by-votes",
@@ -11766,7 +11777,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story", "vote-margin-right-after-the-scene"]
     },
     {
       "key": "news.unfilled.nobody-filed-for-office-so-no-one-won",
@@ -13221,7 +13233,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.an-official-says-name-offered-a-bribe-and-the-records",
@@ -13243,7 +13256,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.exposed.the-records-say-name-the-office-offered-a-public-official",
@@ -13265,7 +13279,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "news.address-response.name-replied-to-the-address-from-opponent-and-objected-to",
@@ -16417,7 +16432,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-has-opened-in-place",
@@ -16439,7 +16455,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-opened-its-doors",
@@ -16460,7 +16477,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-is-open-for-business",
@@ -16481,7 +16499,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-started-taking-customers",
@@ -16502,7 +16521,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-opened-its-doors-in-place",
@@ -16524,7 +16544,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.place-has-a-new-business-subject",
@@ -16546,7 +16567,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.subject-set-up-shop-in-place",
@@ -16568,7 +16590,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.owner-opened-subject-in-place",
@@ -16590,7 +16613,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.organization.opened.a-new-business-subject-opened-in-place",
@@ -16612,7 +16636,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "news.honor.the-regional-bee-comes-soon",

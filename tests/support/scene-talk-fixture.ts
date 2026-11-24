@@ -76,6 +76,13 @@ const flags = [
   "no-cost",
   // A last day at a job (lastDayFacts) says the job was left.
   "work-day",
+  // A protest outside: purpose-scene's action facts (what it is over, that it
+  // is held outdoors, how many came, and that the host gave no answer yet).
+  "protest",
+  "outdoors",
+  "turnout-group",
+  "turnout-many",
+  "host-declined",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -144,6 +151,7 @@ export const facts: Record<string, Fact> = {
   signatures: fact("1,250"),
   due: fact("March 5"),
   said: fact("rent increases"),
+  issue: fact("a higher minimum wage"),
   // Asking someone to serve (purpose-scene's serve facts): the asked person's
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),
