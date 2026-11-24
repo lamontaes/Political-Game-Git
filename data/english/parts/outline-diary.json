@@ -1508,6 +1508,805 @@
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-dinner-conversation-gave-way-to-on-the-news-and-listened",
+      "move": "watched",
+      "kind": "written",
+      "text": "Dinner conversation gave way to {president-name} on the news, and {we} listened.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-came-on-at-the-end-of-the-evening-with-still-awake-to-see-it",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} came on at the end of the evening, with {we} still awake to see it.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-calm"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-why-did-stay-up-for-curiosity-mostly",
+      "move": "watched",
+      "kind": "written",
+      "text": "Why did {we} stay up for {president-name}? Curiosity, mostly.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-tonight-had-for-an-audience",
+      "move": "watched",
+      "kind": "written",
+      "text": "Tonight, {president-name} had {us} for an audience.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["us", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-the-tv-was-on-for-and-did-not-look-away",
+      "move": "watched",
+      "kind": "written",
+      "text": "The TV was on for {president-name}, and {we} did not look away.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-under-one-roof-everybody-took-in-together",
+      "move": "watched",
+      "kind": "written",
+      "text": "Under one roof, everybody took in {president-name} together.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-nurturing",
+        "personality-v1:facet-affectionate"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-had-the-whole-house-for-the-length-of-the-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} had the whole house for the length of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-no-one-here-missed-the-whole-household-watched",
+      "move": "watched",
+      "kind": "written",
+      "text": "No one here missed {president-name}; the whole household watched.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-on-the-tv-gave-the-first-speech-of-the-term-and-the-house-watched",
+      "move": "watched",
+      "kind": "written",
+      "text": "On the TV, {president-name} gave the first speech of the term, and the house watched.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-i-sat-through-on-my-own-because-that-is-how-the-evening-went",
+      "move": "watched",
+      "kind": "written",
+      "text": "I sat through {president-name} on my own, because that is how the evening went.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-had-an-audience-of-one-in-this-house-tonight-me",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} had an audience of one in this house tonight, me.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-i-listened-to-by-myself-and-took-it-in-quietly",
+      "move": "watched",
+      "kind": "written",
+      "text": "I listened to {president-name} by myself and took it in quietly.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-was-there-anything-in-the-speech-besides-not-that-i-noticed",
+      "move": "said",
+      "kind": "written",
+      "text": "Was there anything in the speech besides {theme-name}? Not that I noticed.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-the-point-of-the-speech-as-i-took-it-was",
+      "move": "said",
+      "kind": "written",
+      "text": "The point of the speech, as I took it, was {theme-name}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-is-what-the-speech-kept-returning-to",
+      "move": "said",
+      "kind": "written",
+      "text": "{theme-name} is what the speech kept returning to.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-studious", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-all-told-the-speech-was-a-long-case-about",
+      "move": "said",
+      "kind": "written",
+      "text": "All told, the speech was a long case about {theme-name}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.said.journal-evening-i-came-away-with-one-subject-from-the-speech",
+      "move": "said",
+      "kind": "written",
+      "text": "I came away with one subject from the speech: {theme-name}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-count-it-as-a-yes-from-me-on",
+      "move": "mine",
+      "kind": "written",
+      "text": "Count it as a yes from me on {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-agreeing-about-is-easy-the-hard-part-is-what-comes-after",
+      "move": "mine",
+      "kind": "written",
+      "text": "Agreeing about {theme-short} is easy; the hard part is what comes after.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-the-president-said-it-and-on-i-would-have-said-the-same",
+      "move": "mine",
+      "kind": "written",
+      "text": "The President said it, and on {about} I would have said the same.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-better-than-the-alternative-and-i-said-so-to-the-empty-room",
+      "move": "mine",
+      "kind": "written",
+      "text": "Better {theme-short} than the alternative, and I said so to the empty room.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-about-i-am-a-no-tonight-and-probably-tomorrow-too",
+      "move": "mine",
+      "kind": "written",
+      "text": "About {about}, I am a no, tonight and probably tomorrow too.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-skip-i-thought-the-moment-it-came-up",
+      "move": "mine",
+      "kind": "written",
+      "text": "Skip {about}, I thought, the moment it came up.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-the-speech-made-its-case-on-and-the-case-did-not-work-on-me",
+      "move": "mine",
+      "kind": "written",
+      "text": "The speech made its case on {theme-short}, and the case did not work on me.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-if-is-the-plan-count-me-among-the-doubters",
+      "move": "mine",
+      "kind": "written",
+      "text": "If {about} is the plan, count me among the doubters.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-is-the-answer-i-am-not-ready-to-say",
+      "move": "mine",
+      "kind": "written",
+      "text": "Is {about} the answer? I am not ready to say.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-unsure"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-good-points-on-a-couple-of-bad-ones-and-no-verdict-from-me-yet",
+      "move": "mine",
+      "kind": "written",
+      "text": "Good points on {theme-short}, a couple of bad ones, and no verdict from me yet.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["theme-short", "stand-unsure"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-on-i-am-where-i-was-before-the-speech-undecided",
+      "move": "mine",
+      "kind": "written",
+      "text": "On {about} I am where I was before the speech: undecided.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["about", "stand-unsure"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-bring-on-said-the-president",
+      "move": "stance",
+      "kind": "written",
+      "text": "Bring on {about}, said the President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-nothing-in-the-speech-said-yes-to",
+      "move": "stance",
+      "kind": "written",
+      "text": "Nothing in the speech said yes to {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-where-is-concerned-the-president-is-a-no",
+      "move": "stance",
+      "kind": "written",
+      "text": "Where {about} is concerned, the President is a no.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-count-the-president-among-those-who-want",
+      "move": "stance",
+      "kind": "written",
+      "text": "Count the President among those who want {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-stays-as-far-as-the-president-is-concerned",
+      "move": "stance",
+      "kind": "written",
+      "text": "{about} stays, as far as the President is concerned.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-said-has-to-go",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President said {about} has to go.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-what-makes-of-the-speech-is-tomorrow-s-question",
+      "move": "ahead",
+      "kind": "written",
+      "text": "What {place} makes of the speech is tomorrow's question.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-wakes-up-in-a-few-hours-and-so-do-i",
+      "move": "ahead",
+      "kind": "written",
+      "text": "{place} wakes up in a few hours, and so do I.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-one-night-then-back-out-into",
+      "move": "ahead",
+      "kind": "written",
+      "text": "One night, then back out into {place}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-what-i-hear-in-tomorrow-will-tell-me-more-than-the-speech-did",
+      "move": "ahead",
+      "kind": "written",
+      "text": "What I hear in {place} tomorrow will tell me more than the speech did.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-here-is-a-plan-wake-up-find-coffee-walk-around",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Here is a plan: wake up, find coffee, walk around {place}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24"
     }
   ]
 }
