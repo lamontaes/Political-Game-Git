@@ -4865,8 +4865,9 @@ select.release-pick {
   display: block;
   height: auto;
   /* Clear of the player's own card at the foot of the room (CTO, Nov 24: the
-     story ran under it). */
-  max-height: calc(var(--vh) - 2 * var(--gutter) - 150px);
+     story ran under it): a little shorter, and stood a little higher. */
+  max-height: calc(var(--vh) - 2 * var(--gutter) - 90px);
+  translate: 0 -46px;
   width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #person.dossier .heading {
