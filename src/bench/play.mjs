@@ -308,6 +308,13 @@ function drawTalkStrip() {
  * medium): the speaker's bust on a set over the room, with the station under
  * their name and Live over it. Anything else clears it.
  */
+/** The television set holds the corner's top right; the room's people stand just below it. */
+new ResizeObserver(() =>
+  $("game").style.setProperty(
+    "--tv-bottom",
+    `${Math.round($("tv").getBoundingClientRect().bottom)}px`,
+  ),
+).observe($("tv"));
 let tvRequest = 0;
 /** The glass of the television the shown picture paints, when it paints one. */
 let backdropScreen;

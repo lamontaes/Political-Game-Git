@@ -451,7 +451,6 @@ ol {
   --bust: min(100cqw, 100cqh);
   height: 100%;
 }
-#tv-screen .busts-glass,
 #tv-screen .busts-name {
   display: none;
 }
@@ -496,6 +495,9 @@ ol {
 }
 #game:has(#news-surface:not([hidden])) #here {
   right: calc(var(--gutter) + 340px + 16px);
+}
+#game:has(#tv:not([hidden])) #here {
+  top: calc(var(--tv-bottom, 190px) + 12px);
 }
 /* Whoever speaks leaves their place in the corner while the talk lasts. */
 #game:has(#talk:not([hidden])) #here .busts-person.in-talk {
