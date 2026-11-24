@@ -1,0 +1,29 @@
+{
+  "id": "first-job-taken-to-help-the-family",
+  "kind": "move",
+  "summary": "A first job is taken young, to help the family.",
+  "realLife": "The wife of the McIntyre pair started work at about fifteen to help her family.",
+  "sources": [
+    "St. Louis Fed, The Great Depression interview series, Raymond and Anna Marie McIntyre transcript: https://www.stlouisfed.org/the-great-depression/curriculum/interviews-mcintyre-8"
+  ],
+  "fits": ["journal"],
+  "slots": ["relation", "employer"],
+  "gates": [],
+  "inGame": "`job-started` with a `relation` slot and the household's income records.",
+  "turns": [
+    {
+      "turn": "The job is taken for the writer's own plans.",
+      "pulledBy": "no household pressure on the record",
+      "writesBack": "the line gives the job and says nothing of the family"
+    },
+    {
+      "turn": "The job is taken later.",
+      "pulledBy": "school record runs longer",
+      "writesBack": "the line says the job came after school"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}
