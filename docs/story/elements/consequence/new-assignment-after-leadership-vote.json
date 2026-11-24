@@ -11,5 +11,20 @@
   "slots": ["{member}", "{leader}", "{committee}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a member's leadership vote linked to a committee assignment decision.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member backs the winning leader and stays on the old committee.",
+      "pulledBy": "Every seat on the requested panel is filled.",
+      "writesBack": "The assignment roster keeps the member on the old panel."
+    },
+    {
+      "turn": "late",
+      "what": "The leader calls the member back when a panel vacancy opens.",
+      "pulledBy": "A member leaves the requested committee during the term.",
+      "writesBack": "The transfer takes effect midterm."
+    }
+  ]
 }

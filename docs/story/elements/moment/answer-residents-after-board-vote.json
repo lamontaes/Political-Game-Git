@@ -13,5 +13,20 @@
     "The board has held its decision meeting in the affected community."
   ],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a board decision followed by a public question session with named participants.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair leaves and residents send their questions to the clerk.",
+      "pulledBy": "The chair has to leave at adjournment.",
+      "writesBack": "The clerk logs the unanswered questions."
+    },
+    {
+      "turn": "late",
+      "what": "The chair returns after the written findings are available.",
+      "pulledBy": "Residents want to ask about a passage they have yet to see.",
+      "writesBack": "A later meeting takes up the published finding."
+    }
+  ]
 }

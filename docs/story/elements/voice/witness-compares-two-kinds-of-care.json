@@ -10,5 +10,20 @@
   "slots": ["{witness}", "{relative}", "{committee}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "committee-hearing records a witness's personal stake. needs: two family care histories linked to that witness.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The witness sticks to their own household's current case.",
+      "pulledBy": "The other relative has asked to keep their treatment private.",
+      "writesBack": "The testimony describes only the current case."
+    },
+    {
+      "turn": "partial",
+      "what": "The witness compares the two families' paperwork without describing either diagnosis.",
+      "pulledBy": "The hearing concerns access and the forms are the relevant evidence.",
+      "writesBack": "The committee hears a comparison limited to the application process."
+    }
+  ]
 }

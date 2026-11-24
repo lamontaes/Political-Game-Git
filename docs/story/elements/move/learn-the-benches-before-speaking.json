@@ -11,5 +11,20 @@
   "slots": ["{member}", "{mentor}", "{chamber}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a member's attendance and first recognized speech linked to the same term.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A new member takes the floor at the first sitting.",
+      "pulledBy": "The first day's bill directly affects the member's district.",
+      "writesBack": "The first speech falls on opening day."
+    },
+    {
+      "turn": "partial",
+      "what": "The member asks a veteran a question at the bench and lets the debate go on.",
+      "pulledBy": "The member wants the procedure explained before seeking recognition.",
+      "writesBack": "The veteran becomes a contact for floor questions."
+    }
+  ]
 }

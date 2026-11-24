@@ -10,5 +10,20 @@
   "slots": ["{member}", "{committee}", "{provision}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a committee vote of present linked to a later floor amendment and vote.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The holdout votes against reporting the bill.",
+      "pulledBy": "The sponsor refuses to reopen the disputed section before the floor vote.",
+      "writesBack": "The committee roll records opposition."
+    },
+    {
+      "turn": "late",
+      "what": "The holdout gives the sponsor a yes on the floor after the amendment passes.",
+      "pulledBy": "The adopted text now contains the requested change.",
+      "writesBack": "The floor roll records support after the earlier reservation."
+    }
+  ]
 }

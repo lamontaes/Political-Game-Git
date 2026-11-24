@@ -11,5 +11,20 @@
   "slots": ["{member}", "{colleague}", "{committee}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a committee seating assignment and a record of members challenging it.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A returning member brings another chair before the hearing opens.",
+      "pulledBy": "The member sees both new colleagues waiting for one place.",
+      "writesBack": "Both newcomers take seats at the table."
+    },
+    {
+      "turn": "partial",
+      "what": "One member takes the chair and asks the clerk to record that the other is present.",
+      "pulledBy": "The roll starts before another seat arrives.",
+      "writesBack": "The roll lists both members despite the seating."
+    }
+  ]
 }

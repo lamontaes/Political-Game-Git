@@ -11,5 +11,20 @@
   "slots": ["{district}", "{committee}", "{food_program}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a food assistance proposal linked to district household needs and available farm stocks.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member seeks a different assignment after failing to connect farm surpluses to district needs.",
+      "pulledBy": "No local distributor will take the available crops.",
+      "writesBack": "The district request goes back to constituent staff."
+    },
+    {
+      "turn": "partial",
+      "what": "A distributor agrees to take a shipment for just one neighborhood.",
+      "pulledBy": "It has storage at one site and nowhere else.",
+      "writesBack": "The delivery reaches only the households served there."
+    }
+  ]
 }

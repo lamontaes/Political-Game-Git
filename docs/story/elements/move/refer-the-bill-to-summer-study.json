@@ -10,5 +10,20 @@
   "slots": ["{chair}", "{sponsor}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "study-formed records the sponsor, members and charge. study-reported carries the eventual finding.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The sponsor declines the study and asks the chair to put the bill to a vote.",
+      "pulledBy": "The sponsor believes enough members are present to pass it.",
+      "writesBack": "The committee faces the original bill again."
+    },
+    {
+      "turn": "late",
+      "what": "The study reports after the deadline for action in this session.",
+      "pulledBy": "The reporting date falls after adjournment.",
+      "writesBack": "The finding is available when a sponsor files next session."
+    }
+  ]
 }

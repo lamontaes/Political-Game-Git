@@ -11,5 +11,20 @@
   "slots": ["{chamber}", "{member}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: successive Speaker ballots and an oath date for incoming members.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The clerk calls the members forward for the oath on opening day.",
+      "pulledBy": "A candidate wins the first leadership ballot.",
+      "writesBack": "Members begin their terms' floor business that day."
+    },
+    {
+      "turn": "partial",
+      "what": "The members elect a Speaker just before adjournment and return for the oath.",
+      "pulledBy": "The leadership ballot ends as the session breaks.",
+      "writesBack": "The Speaker election and group oath fall on different days."
+    }
+  ]
 }

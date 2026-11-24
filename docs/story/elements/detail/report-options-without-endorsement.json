@@ -10,5 +10,20 @@
   "slots": ["{committee}", "{report}", "{proposal}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "study-reported supplies a finding and member positions. needs: distinct draft bills and recorded endorsements for each.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The committee votes to endorse one draft as a body.",
+      "pulledBy": "A majority agrees on the text before the report is due.",
+      "writesBack": "The report identifies the endorsed draft."
+    },
+    {
+      "turn": "partial",
+      "what": "A member signs one proposal and asks to be left off the others.",
+      "pulledBy": "The drafts address separate questions on which the member has different positions.",
+      "writesBack": "The report credits the member only on the signed draft."
+    }
+  ]
 }

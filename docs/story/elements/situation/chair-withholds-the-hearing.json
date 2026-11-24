@@ -10,5 +10,20 @@
   "slots": ["{sponsor}", "{chair}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "hold-chair-sought reads bill-held-in-committee, the sponsor, the chair and the recorded reason. Agreeing sets a hearing and refusing preserves the hold.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair agrees to hear the bill when the sponsor asks in person.",
+      "pulledBy": "The sponsor's standing with the chair is strong enough to win agreement.",
+      "writesBack": "The bill gets a hearing."
+    },
+    {
+      "turn": "partial",
+      "what": "The sponsor asks once and lets the matter drop after hearing the chair's objection.",
+      "pulledBy": "The chair remains opposed and the sponsor accepts the answer.",
+      "writesBack": "The bill stays held."
+    }
+  ]
 }

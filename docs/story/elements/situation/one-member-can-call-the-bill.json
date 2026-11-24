@@ -11,5 +11,20 @@
   "slots": ["{leader}", "{bill}", "{chamber}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the floor rule naming the member or delegate who may call a particular bill.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The authorized member designates a colleague to call the bill.",
+      "pulledBy": "The rule permits a delegate and the member will miss the sitting.",
+      "writesBack": "The delegate can make the motion."
+    },
+    {
+      "turn": "late",
+      "what": "The authorized member waits until after a caucus meeting to make the motion.",
+      "pulledBy": "Members are still negotiating before the meeting.",
+      "writesBack": "The floor takes up the bill at a later sitting."
+    }
+  ]
 }

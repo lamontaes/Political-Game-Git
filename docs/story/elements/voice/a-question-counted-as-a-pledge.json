@@ -10,5 +10,20 @@
   "slots": ["{member}", "{leader}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: the whip's count and the member's own commitment stored separately from the final vote.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The whip reads the count back and the member corrects it before the vote.",
+      "pulledBy": "The member hears their name among the pledged votes.",
+      "writesBack": "The whip moves the member to undecided."
+    },
+    {
+      "turn": "late",
+      "what": "The member publicly disputes the count after the roll closes.",
+      "pulledBy": "Leadership attributed the lost vote to a private conversation.",
+      "writesBack": "The public dispute follows the recorded vote."
+    }
+  ]
 }

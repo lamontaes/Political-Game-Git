@@ -10,5 +10,20 @@
   "slots": ["{sponsor}", "{senate_partner}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: companion bill identifiers linked across chambers and a sponsor in each.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The other chamber's member declines to introduce a companion.",
+      "pulledBy": "The proposed text conflicts with a position the member has taken.",
+      "writesBack": "The first sponsor still has a bill in only one chamber."
+    },
+    {
+      "turn": "partial",
+      "what": "The second sponsor introduces a narrower companion.",
+      "pulledBy": "Only one section has enough support in the second chamber.",
+      "writesBack": "The companion texts differ at introduction."
+    }
+  ]
 }

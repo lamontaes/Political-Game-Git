@@ -11,5 +11,20 @@
   "slots": ["{sponsor}", "{colleague}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The cosponsor-ask scene records a colleague signing a bill. needs: a prior version and that colleague's vote on it.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A former opponent agrees to testify for the revision but declines a sponsor credit.",
+      "pulledBy": "The member supports the change while reserving judgment on another provision.",
+      "writesBack": "The hearing has a supportive witness without a new sponsor."
+    },
+    {
+      "turn": "late",
+      "what": "A former opponent signs after the promised amendment enters the bill.",
+      "pulledBy": "The disputed wording still stands at introduction.",
+      "writesBack": "The sponsorship record dates from the amendment."
+    }
+  ]
 }

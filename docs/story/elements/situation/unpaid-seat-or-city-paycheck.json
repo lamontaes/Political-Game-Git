@@ -11,5 +11,20 @@
   "slots": ["{member}", "{city}", "{job}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a paid city job offer and an unpaid council term with overlapping dates.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member declines the city job and stands for the unpaid term.",
+      "pulledBy": "Outside earnings cover the member's household and a council matter is unfinished.",
+      "writesBack": "The member files again and leaves the job open."
+    },
+    {
+      "turn": "late",
+      "what": "The member finishes the unpaid term before starting paid city work.",
+      "pulledBy": "The city can hold the position open until the term ends.",
+      "writesBack": "The two roles appear consecutively in the work record."
+    }
+  ]
 }
