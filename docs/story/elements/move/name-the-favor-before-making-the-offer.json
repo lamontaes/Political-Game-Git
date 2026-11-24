@@ -2,8 +2,9 @@
   "id": "name-the-favor-before-making-the-offer",
   "kind": "move",
   "summary": "A visitor identifies the official act they want before offering something in return.",
-  "realLife": "owner, Nov 15: An offer only makes sense once the player knows what the visitor wants done.",
+  "realLife": "Larry Pressler recalled that a visitor posing as a sheik’s representative wanted private immigration bills for his supposed clients. Pressler rejected the approach during the FBI’s Abscam operation.",
   "sources": [
+    "https://politifact.com/factchecks/2014/mar/04/larry-pressler/larry-pressler-recalls-role-rejecting-abscam-bribe/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L85"
   ],
   "inGame": "bribe-facts.ts supplies the wanted act; bribe-wanted-named.test.ts checks that it is named.",
@@ -18,6 +19,12 @@
       "what": "The official asks which decision the visitor means and the visitor withdraws the request.",
       "pulledBy": "The visitor will discuss the favor only in vague terms.",
       "writesBack": "The meeting ends without an agreement."
+    },
+    {
+      "turn": "partial",
+      "what": "The visitor names the bill but leaves before the member can establish whether anything was offered in exchange.",
+      "pulledBy": "The meeting notes identify the requested vote and contain no offer of payment.",
+      "writesBack": "The office records the request and the limits of what anyone in the room heard."
     }
   ]
 }

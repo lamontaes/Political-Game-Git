@@ -2,8 +2,9 @@
   "id": "sponsor-explains-the-bill-unprompted",
   "kind": "move",
   "summary": "A sponsor opens the conversation by explaining what the bill would do.",
-  "realLife": "owner, Nov 15: The player should hear the substance directly from the sponsor.",
+  "realLife": "When introducing the ADA Amendments Act in 2008, Tom Harkin explained to fellow senators why people Congress had meant to protect were losing cases over whether they qualified as disabled.",
   "sources": [
+    "https://www.congress.gov/110/crec/2008/07/31/154/129/CREC-2008-07-31-pt1-PgS7908.pdf",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L114"
   ],
   "inGame": "floor-debate-facts.ts reads the bill for the debate; only use provisions available in the played record.",
@@ -18,6 +19,12 @@
       "what": "The sponsor skips the introduction and explains the revised provision.",
       "pulledBy": "The colleague has read an earlier version and asks what changed.",
       "writesBack": "The conversation records the particular amendment discussed."
+    },
+    {
+      "turn": "late",
+      "what": "After the sponsor’s introduction, a colleague asks for the wording that would change the outcome in the example.",
+      "pulledBy": "The sponsor has described a case and the filed bill contains the relevant definition.",
+      "writesBack": "The sponsor’s office sends the marked passage and records the colleague’s question for committee."
     }
   ]
 }
