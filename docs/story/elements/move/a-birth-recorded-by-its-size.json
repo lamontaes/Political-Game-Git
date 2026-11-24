@@ -1,0 +1,29 @@
+{
+  "id": "a-birth-recorded-by-its-size",
+  "kind": "move",
+  "summary": "A birth is remembered by its size and by the paper printing it.",
+  "realLife": "A Minnesota man of eighty-one told of a son recorded as a record-size baby at birth, which the newspapers publicized.",
+  "sources": [
+    "University of Minnesota Morris, Jacob Schmitz interview, about 1977: https://digitalcommons.morris.umn.edu/kmrs/82"
+  ],
+  "fits": ["journal"],
+  "slots": ["named"],
+  "gates": [],
+  "inGame": "`event:person-birth` with `named`. `needs:` birth weight and length on the birth record, and a paper that prints births (the press desk).",
+  "turns": [
+    {
+      "turn": "A small baby.",
+      "pulledBy": "a premature birth on the health record",
+      "writesBack": "the line says the baby was small and how the family coped"
+    },
+    {
+      "turn": "An ordinary birth.",
+      "pulledBy": "no size recorded",
+      "writesBack": "the line gives the name and the day"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

@@ -1,0 +1,29 @@
+{
+  "id": "new-job-at-the-same-pay-after-a-layoff",
+  "kind": "move",
+  "summary": "After a layoff the next job is named with how its pay compares.",
+  "realLife": "The same man took a WPA labor foreman job at the same monthly pay.",
+  "sources": [
+    "Wikiversity, Federal Writers' Project life histories, Henry Garner (a student summary of the 1939 life history): https://en.wikiversity.org/wiki/Federal_Writers%27_Project_%E2%80%93_Life_Histories/2020/Spring/Section24/Henry_Garner"
+  ],
+  "fits": ["journal"],
+  "slots": ["employer", "wage"],
+  "gates": [],
+  "inGame": "`job-started:again` with `paid_more_than` and `paid_less_than` from the pay records.",
+  "turns": [
+    {
+      "turn": "The new pay is lower.",
+      "pulledBy": "the new wage below the old",
+      "writesBack": "the line says down from what"
+    },
+    {
+      "turn": "The new pay is higher.",
+      "pulledBy": "the new wage above the old",
+      "writesBack": "the line says up from what"
+    }
+  ],
+  "weights": {
+    "life": 0.6
+  },
+  "usedBy": []
+}

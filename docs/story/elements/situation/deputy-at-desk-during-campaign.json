@@ -1,0 +1,31 @@
+{
+  "id": "deputy-at-desk-during-campaign",
+  "kind": "situation",
+  "summary": "While the governor campaigns out of state, {person} handles the daily business back home.",
+  "realLife": "Gray Davis recalled running California’s government as chief of staff during Jerry Brown’s presidential bid.",
+  "sources": ["https://en.wikipedia.org/wiki/Gray_Davis"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A serving executive is away campaigning while office business is due."
+  ],
+  "weights": [
+    "More days away give greater weight to delegating routine decisions."
+  ],
+  "usedBy": [],
+  "inGame": "needs: delegated duties during executive travel.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor returns to decide the matter personally.",
+      "pulledBy": "The matter requires the governor's signature.",
+      "writesBack": "The travel calendar records the early return."
+    },
+    {
+      "turn": "partial",
+      "what": "The deputy handles daily work and sends one decision to the governor.",
+      "pulledBy": "The delegation excludes appointments.",
+      "writesBack": "The appointment remains on the governor's docket."
+    }
+  ]
+}
