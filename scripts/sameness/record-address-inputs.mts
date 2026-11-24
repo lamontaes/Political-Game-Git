@@ -49,8 +49,11 @@ const seeds = drawn
   : (process.env.SEEDS ?? "aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e").split(
       ",",
     );
+// DRAWN_DIR records elsewhere (a long run that should not touch the
+// repository until it ends); the inputs folder otherwise.
+const dir = process.env.DRAWN_DIR ?? "scripts/sameness/inputs";
 const file = (kind: string) =>
-  `scripts/sameness/inputs/${kind}-${drawn ? "drawn" : "six"}.jsonl`;
+  `${dir}/${kind}-${drawn ? "drawn" : "six"}.jsonl`;
 const out = {
   "state-of-the-union": file("state-of-the-union"),
   "state-of-the-state": file("state-of-the-state"),

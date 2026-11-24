@@ -4625,7 +4625,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.the-office-seat-is-vacant-after-name-died",
@@ -4647,7 +4648,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.name-gave-up-the-office-seat",
@@ -4669,7 +4671,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.no-one-holds-the-office-seat-for-now",
@@ -4690,7 +4693,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.appointed.by-picked-name-for-post",
@@ -6160,7 +6164,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.letter.name-of-place-wrote-the-paper-to-back-the-law",
@@ -6404,7 +6409,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-of-place-stopped-working-for-good-on-date",
@@ -6426,7 +6432,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-stopped-working-for-good-on-date",
@@ -6447,7 +6454,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-left-government-for-good-on-date",
@@ -6469,7 +6477,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.retirement.name-has-retired-after-years-years-in-the-service-of",
@@ -6491,7 +6500,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "news.anniversary.subject-first-opened-in-place-years-years-ago-this-week",
@@ -7593,7 +7603,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.a-post-from-place-left-office-leaving-the-seat-vacant",
@@ -7615,7 +7626,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy.a-post-from-place-is-out-of-office-and-the",
@@ -7637,7 +7649,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.exposed.the-records-say-name-accepted-a-bribe-in-office",
@@ -9668,7 +9681,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.a-replacement-will-be-picked-by-the-by",
@@ -9690,7 +9704,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.the-by-will-name-a-replacement-and-then-a-special",
@@ -9712,7 +9727,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.a-special-election-will-follow-once-the-by-names-a",
@@ -9734,7 +9750,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-fill.the-successor-moves-into-the-seat-under-the-rules",
@@ -9756,7 +9773,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.vacancy-election.the-special-election-will-be-held-when",
@@ -12000,7 +12018,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-student-from-place-took-first-in-this-year-s",
@@ -12023,7 +12042,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.name-took-the-regional-spelling-bee-and-moves-on-to",
@@ -12045,7 +12065,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-student-from-place-took-the-regional-spelling-bee-and",
@@ -12068,7 +12089,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.number-seniors-from-place-have-signed-with-division-i-teams",
@@ -12090,7 +12112,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.name-signed-with-a-division-i-team",
@@ -12112,7 +12135,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.honor.a-senior-from-place-signed-with-a-division-i-team",
@@ -12134,7 +12158,8 @@
       "tag": {
         "move": "announce-result",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "news.endorsement.subject-gave-name-its-endorsement-for-office",
@@ -12927,7 +12952,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.people-protested-issue-in-place-on-date",
@@ -12950,7 +12976,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.number-workers-in-place-stopped-work-on-date-over-issue",
@@ -12972,7 +12999,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.workers-in-place-stopped-work-on-date-over-issue",
@@ -12995,7 +13023,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.local-address.name-gave-the-yearly-state-address-to-lawmakers-on-date",
@@ -13215,7 +13244,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.number-people-showed-up-in-place-on-date-pleased-with",
@@ -13237,7 +13267,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.people-in-place-met-on-date-to-celebrate-how-area",
@@ -13259,7 +13290,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.place-residents-showed-up-on-date-pleased-with-area",
@@ -13281,7 +13313,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.exposed.the-records-say-name-offered-an-official-money-for-a",
@@ -13504,7 +13537,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.public-action.neighbors-from-place-who-protested-issue-are-now-a-standing",
@@ -13526,7 +13560,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "news.cabinet-nominated.by-chose-name-for-office-and-the-senate-will-vote",
@@ -13763,7 +13798,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.signed-next.the-body-may-still-override-the-veto",
@@ -14005,7 +14041,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "news.took-office-cause.before-died-in-office-on-vacated-and-the-seat-opened",

@@ -1,0 +1,30 @@
+{
+  "id": "not-on-the-agenda-as-a-checkable-hook",
+  "kind": "detail",
+  "summary": "The critic's hook is checkable: the appointment was not on the posted agenda.",
+  "realLife": "A resident said the appointment was not on the agenda and was the first public notice.",
+  "sources": [
+    "Patch (Gloucester Township, New Jersey), 'Council Member Who Won Primary, Resigned, Gets Replaced On Gloucester Twp. Election Ballot', Aug. 6, 2025: https://patch.com/new-jersey/gloucestertownship/newly-appointed-gloucester-twp-councilman-replaces-successor-who-won",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "vacancy": 0.8
+  },
+  "inGame": "`meetings-week` rows and the agenda; needs: an agenda as a record",
+  "turns": [
+    {
+      "name": "on the agenda",
+      "pulledBy": "a noticed vote",
+      "writes": "the story gives the notice date"
+    },
+    {
+      "name": "a closed session",
+      "pulledBy": "a vote after a private meeting",
+      "writes": "the story says it was in executive session"
+    }
+  ],
+  "usedBy": []
+}

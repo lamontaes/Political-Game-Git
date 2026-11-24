@@ -1099,7 +1099,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.body-marks-occasion",
@@ -1120,7 +1121,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.occasion-observed-in-place",
@@ -1141,7 +1143,8 @@
       "tag": {
         "move": "headline",
         "key": "honor"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.proposal.body-puts-forward-measure",
@@ -3997,7 +4000,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.name-out-of-office-seat",
@@ -4019,7 +4023,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.office-seat-empty",
@@ -4040,7 +4045,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.appointed.name-gets-post",
@@ -6016,7 +6022,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.place-post-resigns",
@@ -6038,7 +6045,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.vacancy.place-post-seat-empty",
@@ -6060,7 +6068,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["neutral-procedural-lede-dispute-late"]
     },
     {
       "key": "headlines.exposed.records-show-bribe-taken-by-name",
@@ -7440,7 +7449,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.retirement.name-done-after-years-years",
@@ -7462,7 +7472,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.retirement.name-retires-for-good",
@@ -7483,7 +7494,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.letter.name-writes-on-the-law",
@@ -7682,7 +7694,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["lede-packs-the-career-arc"]
     },
     {
       "key": "headlines.anniversary.subject-reaches-years-years",
@@ -7900,7 +7913,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-spelling-bee-has-a-winner",
@@ -7922,7 +7936,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.name-takes-regional-spelling-bee",
@@ -7944,7 +7959,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-student-takes-regional-bee",
@@ -7966,7 +7982,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.number-place-seniors-sign-with-division-i-teams",
@@ -7988,7 +8005,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.name-signs-with-division-i-team",
@@ -8010,7 +8028,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.honor.place-senior-signs-with-division-i-team",
@@ -8032,7 +8051,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["proclamation-and-family-surprise-in-one-paragraph"]
     },
     {
       "key": "headlines.endorsement.subject-endorses-name",
@@ -8185,7 +8205,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.protest-over-issue-reaches-place-officials",
@@ -8207,7 +8228,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.place-workers-stop-work-over-issue",
@@ -8229,7 +8251,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.work-stoppage-in-place-over-issue",
@@ -8251,7 +8274,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.local-address.name-delivers-state-s-yearly-address",
@@ -8361,7 +8385,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.place-residents-glad-about-area",
@@ -8383,7 +8408,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.crowd-in-place-is-pleased-about-area",
@@ -8405,7 +8431,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.exposed.records-show-name-offered-an-official-a-bribe",
@@ -8561,7 +8588,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.public-action.issue-crowd-in-place-becomes-a-group",
@@ -8583,7 +8611,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["crowd-count-lede-tied-to-a-clock"]
     },
     {
       "key": "headlines.cabinet-nominated.name-nominated-for-office",

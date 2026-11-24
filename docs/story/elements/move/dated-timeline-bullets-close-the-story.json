@@ -1,0 +1,31 @@
+{
+  "id": "dated-timeline-bullets-close-the-story",
+  "kind": "move",
+  "summary": "A dated bullet timeline is both the closer and the reader's checklist.",
+  "realLife": "The story ended on seven dated steps from applications to the vote and oath.",
+  "sources": [
+    "Community Impact (Richardson, Texas), 'Richardson opens applications for vacant City Council seat', July 23, 2026: https://communityimpact.com/richardson/government/richardson-opens-applications-for-vacant-city-council-seat/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "vacancy": 0.9,
+    "meetings": 0.8
+  },
+  "inGame": "`meetings-week` rows and the election calendar; needs: planned steps",
+  "turns": [
+    {
+      "name": "no timeline",
+      "pulledBy": "a quick appointment",
+      "writes": "the story ends on the vote"
+    },
+    {
+      "name": "a timeline that moves",
+      "pulledBy": "a number of applicants that changes it",
+      "writes": "the story says dates may change"
+    }
+  ],
+  "usedBy": []
+}

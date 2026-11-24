@@ -9,6 +9,7 @@
  * was about, where the player stands on it by their own recorded view, and a
  * close that looks ahead, the way a diary entry ends.
  */
+import { questionNumber } from "../english/question-names";
 import type { EntityId } from "../core2/kernel/brands";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -118,6 +119,11 @@ export function eveningTelling(
   const point = addressPoints(story).find((row) => row.kind === "policy");
   if (point) {
     facts.about = fact(point.about, [story.id, ...point.sourceRecordIds]);
+    // Whether the question's name is one thing or several, for a verb that
+    // agrees with {about} ("is overdue" / "are overdue").
+    facts[`about-${questionNumber(point.question)}`] = fact("yes", [
+      `question:${point.question}`,
+    ]);
     if (point.stance)
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
     // A law already in force is one the President keeps or undoes.
