@@ -6166,6 +6166,16 @@ const sheets = {
           })),
         ),
       );
+      const coming = stripSection(
+        3,
+        labels.comingUp,
+        comingList(
+          executive
+            .flatMap((o) => o.comingUp)
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .slice(0, 4),
+        ),
+      );
       return {
         main: chief
           ? [
@@ -6191,16 +6201,10 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              // With other officers to list on the right, what is coming up sits under the
+              // chief; with none, it takes the right half itself, so the page is not one
+              // narrow column with the other half empty (the CTO's Nov 24 catch).
+              ...(runs ? [coming] : []),
             ]
           : [],
         side: runs
@@ -6218,7 +6222,9 @@ const sheets = {
                 ],
               },
             ]
-          : [],
+          : chief
+            ? [{ title: null, nodes: [coming] }]
+            : [],
       };
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
