@@ -14,6 +14,7 @@
 // UI_LOOK_WRITE=1 rewrites the baseline from what the run saw (to shrink it after a fix;
 // never to grow it). Run with the bench up: npm run bench, then npm run ui-look.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
 import { fileWhenFilingOpens, startLife } from "./start-life.mjs";
@@ -24,6 +25,48 @@ const BASELINE = new URL(
   import.meta.url,
 );
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
+/**
+ * What the committed baseline lists that main's does not: the baseline only shrinks (owner, Nov 23).
+ * Nothing is listed while main has no baseline yet (the pull request that adds it). A pull request
+ * whose body carries a CTO line sets UI_LOOK_GROWTH_APPROVED=true in the workflow; no run grows it otherwise.
+ */
+function growth() {
+  let main;
+  try {
+    main = JSON.parse(
+      execFileSync(
+        "git",
+        [
+          "show",
+          `${process.env.UI_LOOK_BASE_REF ?? "origin/main"}:tests/guards/ui-look-baseline.json`,
+        ],
+        { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+      ),
+    );
+  } catch {
+    return [];
+  }
+  const mine = JSON.parse(readFileSync(BASELINE, "utf8"));
+  const added = [];
+  for (const kind of ["box", "scroll"])
+    for (const [menu, keys] of Object.entries(mine[kind] ?? {}))
+      for (const key of Object.keys(keys))
+        if (!(key in (main[kind]?.[menu] ?? {})))
+          added.push(`${kind} · ${menu} · ${key}`);
+  return added;
+}
+const refuseGrowth = () => {
+  const added = growth();
+  if (added.length && process.env.UI_LOOK_GROWTH_APPROVED !== "true") {
+    console.log(
+      `The baseline lists what main's does not:\n  ${added.join("\n  ")}`,
+    );
+    throw new Error(
+      "the baseline only shrinks: a new entry needs a CTO line in the pull request body (CTO line: ...)",
+    );
+  }
+};
+refuseGrowth();
 const write = ["1", "merge"].includes(process.env.UI_LOOK_WRITE);
 const shots = process.env.UI_LOOK_SHOTS;
 const browser = await chromium.launch({
@@ -250,6 +293,7 @@ if (write) {
       for (const [menu, keys] of Object.entries(source))
         out[kind][menu] = { ...out[kind][menu], ...keys };
   writeFileSync(BASELINE, `${JSON.stringify(out, null, 2)}\n`);
+  refuseGrowth();
   console.log(
     `baseline written: ${Object.values(seen.box).flatMap(Object.keys).length} box entries, ${Object.values(seen.scroll).flatMap(Object.keys).length} scroll entries`,
   );

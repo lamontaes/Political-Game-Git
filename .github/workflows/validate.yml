@@ -268,6 +268,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
+          # The baseline is compared with main's, so main's history is needed.
+          fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Use Node 22
@@ -296,6 +298,9 @@ jobs:
           exit 1
 
       - name: Open every menu at 1440x900
+        env:
+          # The baseline only shrinks; a pull request body with a "CTO line:" lets it grow.
+          UI_LOOK_GROWTH_APPROVED: ${{ contains(github.event.pull_request.body, 'CTO line:') }}
         run: npm run ui-look
 
   # Every test file and golden-path command must still load (npm run tests:load).
