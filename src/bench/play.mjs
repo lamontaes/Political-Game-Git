@@ -5582,10 +5582,28 @@ const sheets = {
         closeSheet();
         act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
       });
+      // A race the player cannot run for says so on a disabled button, never on a caption under
+      // the buttons (the CTO's send-back, Nov 24; the Nov 8 no-subtext rule), and then offers no
+      // Sim to a filing date that is not theirs. A race not yet open says it through its dates
+      // and its Sim button alone.
+      const refusedButton =
+        !mayFile &&
+        !race.mayAnnounce &&
+        !race.announced &&
+        !cannotFileWords &&
+        race.bar &&
+        race.bar !== "window-not-open" &&
+        labels.refusal[race.bar]
+          ? makeButton({
+              textContent: closedOfficeWords(race, labels),
+              disabled: true,
+            })
+          : null;
       const raceButtons = [
         ...(mayFile && !cannotFile ? [fileButton] : []),
         ...(race.mayAnnounce ? [announceButton] : []),
-        ...(opensLater ? [simButton] : []),
+        ...(refusedButton ? [refusedButton] : []),
+        ...(opensLater && !refusedButton ? [simButton] : []),
       ];
       return [
         rosterTitle(
@@ -5674,17 +5692,7 @@ const sheets = {
             ...(raceButtons.length ? [buttonRow(...raceButtons)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile &&
-                  !race.mayAnnounce &&
-                  !race.announced &&
-                  race.bar &&
-                  // A race not yet open to file for says so through its dates and its Sim
-                  // button, never a caption under the buttons (the CTO's 06:46Z catch; the
-                  // Nov 8 no-subtext rule).
-                  race.bar !== "window-not-open" &&
-                  labels.refusal[race.bar]
-                ? [prose(closedOfficeWords(race, labels), "record-empty")]
-                : []),
+              : []),
           ),
         ),
       ];
