@@ -1887,6 +1887,57 @@ const filing: Builder = (read, f) => {
 };
 
 /**
+ * A candidate who says they are running before filing opens: the same race and
+ * person the filing names, and the day filing opens, read from the
+ * announcement's own record.
+ */
+const announcement: Builder = (read, f) => {
+  const filer = f.filingId?.match(/:(person[^:]*(?::[^:]+)*)$/)?.[1];
+  const id = read.name(filer) ? filer : read.first();
+  return story(
+    "announcement",
+    {
+      ...read.who(id, "name", false),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
+      ...(f.electionDate
+        ? { when: read.fact(spokenDate(f.electionDate), f.contestId ?? "") }
+        : {}),
+      ...(f.filingOpens
+        ? { opens: read.fact(spokenDate(f.filingOpens), f.contestId ?? "") }
+        : {}),
+    },
+    ["name", "office"],
+    id,
+  );
+};
+
+/**
+ * A relative's access to someone serving a term in custody, earned by an
+ * official's referral: the record names the person in custody first and the
+ * relative second.
+ */
+const visitAccess: Builder = (read, f) => {
+  const [held, relative] = read.people;
+  return story(
+    "visit-access",
+    {
+      ...read.who(relative, "relative", false),
+      ...read.who(held, "name", false),
+      ...read.who(f.officialId, "official", false),
+    },
+    ["name", "relative"],
+    relative,
+  );
+};
+
+/**
  * The notice of election the town's clerk posts before an election day: the
  * place, the day and every office on that ballot, read from the contests the
  * record names (never a copy kept with the notice).
@@ -3878,6 +3929,9 @@ const schoolTests: Builder = (read) => {
       number: read.fact(count(math.students), math.id),
       math: read.fact(percent(math.value), math.id),
       reading: read.fact(percent(reading.value), reading.id),
+      // The lines say how many "passed": the news engine says a pass only
+      // when the story's record carries one, and a test result is that record.
+      passed: read.fact("yes", math.id, reading.id),
     },
     ["place", "math", "reading"],
   );
@@ -4239,6 +4293,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
+  "candidate-announced": announcement,
+  "justice.visiting-access": visitAccess,
   "election-notice": electionNotice,
   "election-result": electionResult,
   "primary-result": primary,
