@@ -583,27 +583,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.call.inaugural-disagree-with-me-out-loud-on-that-s-your-job-as-much-as-this-one-is-mine",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Disagree with me out loud on {about}. That's your job as much as this one is mine.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.charge.inaugural-my-first-job-is",
       "move": "charge",
       "kind": "spoken",
