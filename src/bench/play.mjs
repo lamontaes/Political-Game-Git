@@ -7190,6 +7190,9 @@ show("front-close", false);
 const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // A sheet opened over the title (Patch notes, Options, Saves) closes when a front panel
+  // opens, so New game never sits under it (owner, Nov 23, P2).
+  if (openTab !== undefined) closeSheet();
   // The close X is on every front panel but the title menu itself.
   show("front-close", name !== "front-main" && name !== null);
   // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
