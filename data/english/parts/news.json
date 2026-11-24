@@ -12872,7 +12872,7 @@
       "key": "news.study-reported.the-committee-on-designation-reported-on-date-that-most-members",
       "move": "study-reported",
       "kind": "written",
-      "text": "In its {date} report, the committee recommended passing {designation}.",
+      "text": "The committee finished its study of {designation} on {date}. Its report recommends passage.",
       "elements": ["report-options-without-endorsement"],
       "uses": [
         {
@@ -12941,7 +12941,7 @@
       "key": "news.study-reported.on-date-the-committee-on-designation-said-most-of-its-2",
       "move": "study-reported",
       "kind": "written",
-      "text": "The study of {designation} ended on {date} with a recommendation to reject the bill.",
+      "text": "The committee recommended rejecting {designation} in its final report on {date}.",
       "elements": ["report-options-without-endorsement"],
       "uses": [
         {

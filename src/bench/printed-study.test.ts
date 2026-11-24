@@ -199,8 +199,8 @@ describe("study committee stories", () => {
         expect(told!.headline, `${where}: ${name}`).toMatch(headline);
         expect(told!.lede, `${where}: ${name}`).toMatch(
           direction === "for"
-            ? /recommended passing|urged passage/
-            : /recommending against passage|recommendation to reject/,
+            ? /recommends passage|urged passage/
+            : /recommending against passage|recommended rejecting/,
         );
         expect(told!.lede, `${where}: ${name}`).not.toMatch(
           /most (?:of its )?members|majority/i,
