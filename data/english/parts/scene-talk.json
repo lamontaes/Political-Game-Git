@@ -73605,7 +73605,7 @@
       "key": "scene-talk.follow-answer.under-bill-a-rider-could-board-without-paying-a-fare-the-operator-would-still-need-money-to-run-the-service",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Under {bill}, a rider could board without paying a fare. The operator would still need money to run the service.",
+      "text": "Riders in {place} could board for free. Somebody would still have to pay to run the buses.",
       "elements": ["city-pays-agency-for-foregone-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73642,7 +73642,7 @@
       "key": "scene-talk.follow-answer.it-s-the-price-of-the-ride-we-re-changing-in-place-somebody-headed-to-class-could-get-on-without-buying-a-ticket",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's the price of the ride we're changing in {place}. Somebody headed to class could get on without buying a ticket.",
+      "text": "A student catching the bus to class in {place} wouldn't owe a fare.",
       "elements": ["student-counts-a-semester-of-fares"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73682,7 +73682,7 @@
       "key": "scene-talk.follow-answer.bill-would-take-the-fare-out-of-boarding-adding-another-bus-to-the-schedule-would-be-a-separate-decision",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} would take the fare out of boarding. Adding another bus to the schedule would be a separate decision.",
+      "text": "{bill} would make the ride free. Getting a bus there more often takes a schedule change.",
       "elements": ["free-route-ends-before-the-city-does"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73718,7 +73718,7 @@
       "key": "scene-talk.follow-answer.the-change-is-at-the-point-where-somebody-pays-to-ride-in-place-we-re-proposing-to-stop-charging-there",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The change is at the point where somebody pays to ride in {place}. We're proposing to stop charging there.",
+      "text": "No fare to collect when somebody boards in {place}.",
       "elements": ["operator-no-longer-argues-over-the-fare"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73755,7 +73755,7 @@
       "key": "scene-talk.follow-answer.somebody-in-place-who-pays-each-way-to-visit-family-could-make-that-trip-without-finding-the-fare-twice",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Somebody in {place} who pays each way to visit family could make that trip without finding the fare twice.",
+      "text": "Think of a visit across {place} to see your sister. Both ways, you'd keep the fare.",
       "elements": ["one-bus-to-visit-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73792,7 +73792,7 @@
       "key": "scene-talk.follow-answer.take-a-rider-in-place-who-still-needs-a-pass-for-the-rest-of-the-week-that-rider-s-monthly-bill-might-stay-exactly-the-same",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Take a rider in {place} who still needs a pass for the rest of the week. That rider's monthly bill might stay exactly the same.",
+      "text": "If you still need the same monthly pass to get around {place}, you might save nothing.",
       "elements": ["monthly-pass-still-needed"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73829,7 +73829,7 @@
       "key": "scene-talk.follow-answer.a-parent-in-place-who-pays-for-a-child-s-ride-to-school-could-keep-that-money-for-breakfast-instead",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "A parent in {place} who pays for a child's ride to school could keep that money for breakfast instead.",
+      "text": "A family in {place} that pays a bus fare to get a child to school could use that money for breakfast.",
       "elements": ["bus-money-becomes-breakfast-money"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73869,7 +73869,7 @@
       "key": "scene-talk.follow-answer.for-a-worker-in-place-it-depends-on-the-whole-trip-a-free-ride-on-one-service-doesn-t-pay-the-fare-on-a-connection-outside-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "For a worker in {place}, it depends on the whole trip. A free ride on one service doesn't pay the fare on a connection outside it.",
+      "text": "Does the worker change buses? A trip out of {place} could still have a paid leg.",
       "elements": ["paid-transfer-after-free-first-leg"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73909,7 +73909,7 @@
       "key": "scene-talk.follow-answer.bill-would-let-the-service-collect-fares-again-signing-wouldn-t-tell-a-rider-how-much-a-pass-will-cost",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} would let the service collect fares again. Signing wouldn't tell a rider how much a pass will cost.",
+      "text": "{bill} would bring back fares. There's no pass price in it.",
       "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73946,7 +73946,7 @@
       "key": "scene-talk.follow-answer.riders-in-place-could-be-charged-again-what-they-d-pay-for-a-day-s-travel-depends-on-the-fare-schedule",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Riders in {place} could be charged again. What they'd pay for a day's travel depends on the fare schedule.",
+      "text": "You could charge for the ride again in {place}. The fare schedule would tell us what a whole day costs.",
       "elements": ["fare-cap-follows-the-payment-device"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -73983,7 +73983,7 @@
       "key": "scene-talk.follow-answer.the-free-ride-is-what-bill-would-end-whether-a-driver-takes-cash-is-a-separate-question-for-the-people-running-the-service",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The free ride is what {bill} would end. Whether a driver takes cash is a separate question for the people running the service.",
+      "text": "Collecting fares again is the change in {bill}. It leaves open how people pay.",
       "elements": ["crumpled-bills-at-the-farebox"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -74023,7 +74023,7 @@
       "key": "scene-talk.follow-answer.it-would-bring-fares-back-in-place-i-can-t-give-you-a-first-collection-date-from-that-decision-alone",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It would bring fares back in {place}. I can't give you a first collection date from that decision alone.",
+      "text": "Bring fares back in {place}. For the first day you'd actually pay, I'd check the operator's notice.",
       "elements": ["sponsor-asks-while-bill-awaits-signature"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -74059,7 +74059,7 @@
       "key": "scene-talk.follow-answer.imagine-taking-the-kids-across-place-a-parent-could-have-fares-to-cover-for-the-family-again-depending-on-who-rides-free",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Imagine taking the kids across {place}. A parent could have fares to cover for the family again, depending on who rides free.",
+      "text": "Taking the kids across {place} could cost more. How much depends on which passengers need a ticket.",
       "elements": ["tell-the-driver-before-paying-for-the-family"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -74101,7 +74101,7 @@
       "key": "scene-talk.follow-answer.a-worker-in-place-who-needs-a-weekly-pass-would-have-to-allow-for-that-purchase-before-the-first-shift",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "A worker in {place} who needs a weekly pass would have to allow for that purchase before the first shift.",
+      "text": "Before a first shift in {place}, a worker might have to find the money for a pass.",
       "elements": ["pass-clock-starts-at-first-use"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -74141,7 +74141,7 @@
       "key": "scene-talk.follow-answer.someone-in-place-who-carries-cash-could-have-another-stop-to-make-before-boarding-if-fares-are-sold-off-the-bus",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Someone in {place} who carries cash could have another stop to make before boarding if fares are sold off the bus.",
+      "text": "If a bus in {place} won't take cash, buying a pass could mean another stop before work.",
       "elements": ["cash-rider-needs-a-place-to-buy-a-pass"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
@@ -74178,7 +74178,7 @@
       "key": "scene-talk.follow-answer.for-a-rider-in-place-who-qualifies-for-a-discount-being-able-to-prove-it-without-a-smartphone-could-make-a-real-difference-in-what-they-pay",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "For a rider in {place} who qualifies for a discount, being able to prove it without a smartphone could make a real difference in what they pay.",
+      "text": "Qualifying for a discount is one thing. Could a rider in {place} claim it without a phone?",
       "elements": ["same-program-two-enrollment-paths"],
       "issues": [
         "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
