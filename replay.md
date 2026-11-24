@@ -109,3 +109,16 @@ Grade words: pass / fail (no open PR claims it) / open, fix in #N (not merged) /
 | N16-53, N16-54, N8-P34, C17 | "A massive just hole right here"; "isn't the textured background I approved"; card doesn't look like the page I approved | #10337 (not merged) | Pillsbury ND, 830250bf | **open, fix in #10337 (not merged)** | replay-m2p9-1-card-first.png | President's card: blank block under Politics and on the right below the record. |
 | N8-C5, N8-P35, N8-P21, N8-C20, N8-C28, N8-P33, N16-34, N16-67 (street signs), N8-P1 | pop-ups during the address; chapter picture; File for it after filing; state income tax rate; bust vs name; child's look; job offer; blank street signs; title fade | main d679d71c | various | **pass** (N8-C5: no pop-ups until the opening ends; N8-P35: chapter picture seen in replay-m2misc-journal.png) / **not reached** (rest: needed filing day Jun 27, a state tax page, a long play or a before-and-after pair of title frames that this replay did not play) | replay-m2misc-journal.png | |
 | Words rows (Story's, not graded) | P5, P6, P7, P11, P17 (story text), P19, P20 (line), P34, P36, P39, P42, P43, P45, C13, C20 and the English-held carryover rows | n/a | n/a | **Story's** | n/a | Not graded. |
+
+## Re-grades after the Coordinator's reviews (06:56Z and 06:58Z)
+
+| Row | New grade | Why |
+| --- | --- | --- |
+| N16-44 | **open, fix in the Carryover screens call fix (not merged)**; was "pass" | `replay-m2dead-interview-1.png` (Bloomsbury NJ, 889339ca, main d679d71c): in the call itself the caller, Emily Rogers, stands as a bust in the player's living room. My earlier pass read only the "phone rings" notice. |
+| P41 | **fail, under check** | Porch with four people on Jan 21, no talk (`replay-m2trail-go-1.png`); the Player saw the talk on Jan 22. |
+| P1 | **fail, under check** | Counted by computed overflow-y auto or scroll with scrollHeight over clientHeight: `pager roster-pages` (8,422 in 538) and `roster-page strip-screen strips` (6,158 in 728), both overflow auto. |
+| N8-P41 | **open, fix in #10346 (not merged)** | Time a Week again after it lands. |
+| N16-27, C18 | **open, fix in #10309 plus the wanted line in #10316 (not merged)** | |
+| N16-49, N16-50, C19 | **open, waiting on art** (#10336, #10311) | |
+| N16-21 | **Story's (words)** | Quorum's "Here" text. |
+| Bills list scroller | **fail, with Box and scroll** | Overflow auto with the fourth bill cut off. |
