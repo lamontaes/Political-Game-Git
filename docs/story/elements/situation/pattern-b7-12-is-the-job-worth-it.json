@@ -2,12 +2,10 @@
   "id": "pattern-b7-12-is-the-job-worth-it",
   "kind": "situation",
   "summary": "Is the job worth it: The day after a crowd turns out against the town, {household member} asks whether the job is worth it.",
-  "realLife": "One life: A Flint council president resigned because her health had suffered from the council's climate; she said meetings brought severe anxiety, she held back the news so as not to disrupt the budget vote, and her top priority became caring for herself with her family behind her. Another: Young state legislators said the job strained family life: one said his wife was pushing him to step away and he was thinking of leaving at 38, and another asked why he should put his family at risk. Events had to be planned and people were met at restaurants instead of at home. Another: A congressman and a former mayor said office strains families, that most members feel they spend too little time at home, and that one mayor moved her children to another school after a controversial vote. Both said the strain can strengthen or damage a family and the rewards were real. Another: A Rutgers researcher said local and legislative seats are often part-time and low-paid but feel full-time, hard on parents of young children; a founder of a mothers' group said campaign funds for child care open the door for more mothers.",
+  "realLife": "One life: A Flint council president resigned because her health had suffered from the council's climate; she said meetings brought severe anxiety, she held back the news so as not to disrupt the budget vote, and her top priority became caring for herself with her family behind her. Another: A congressman and a former mayor said office strains families, that most members feel they spend too little time at home, and that one mayor moved her children to another school after a controversial vote. Both said the strain can strengthen or damage a family and the rewards were real.",
   "sources": [
     "https://www.eastvillagemagazine.org/?p=38277",
-    "https://futurecaucus.org/after-minnesota-shootings-young-lawmakers-ask-is-it-worth-it/",
-    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye",
-    "https://www.yahoo.com/news/articles/threat-political-violence-keeping-parents-143430653.html"
+    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
   ],
   "fits": ["journal", "news", "office"],
   "slots": ["household member", "the crowd", "the body"],
