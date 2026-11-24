@@ -19,17 +19,19 @@ source: owner, Nov 23, about 11:05 p.m. after playing v0.114.0 ("it doesnt look 
 checked:
 ---
 
-**What.** The first evening (the loading story, the Jan 20 address, the arrival, the first talk at home, the Journal's first page and the first news) reads as told text, not lists and stock frames (sitting 2026-11-23-1: P5, P6, P7, P8, P11, P19, P43, P45).
+**What.** The first evening (the loading story, the Jan 20 address, the arrival, the first talk at home, the Journal's first page and the first news) reads as told text, not lists and stock frames (sitting 2026-11-23-1: P5, P6, P7, P8, P11, P19, P43, P45). Seen: on a new game, from the loading card through the Journal and News on the evening of January 20.
 
-**Cause.** Design: every point of every address took one skeleton (`pointShapes` in `src/director/data/speech-outlines.json`: today, figure, ask), so every speech shared the frame he heard for a month; the Jan 20 opening played as a State of the Union because no inauguration was on record that day (fixed by #10330); the Journal had no row for the address the household watched, so the evening was never written; the loading card printed the person card's dated one-liners; a law that changed nothing printed as a story ("holds at", P45).
+**Cause.** Design: docs/design/words-composer.md (unit 3) and docs/research/first-evening-2026-11-24.md. Every point of every address took one skeleton (`pointShapes` in `src/director/data/speech-outlines.json`: today, figure, ask), so every speech shared the frame he heard for a month; the Jan 20 opening played as a State of the Union because no inauguration was on record that day (fixed by #10330); the Journal had no row for the address the household watched, so the evening was never written; the loading card printed the person card's dated one-liners; a law that changed nothing printed as a story ("holds at", P45).
 
 **Fix.** One outline planner (`src/english/outline-planner.ts`, rows in `data/english/outlines.json`, pieces in `data/english/parts/outline.json`): each section offers shapes counted from real speeches, news stories and diaries (`docs/research/first-evening-2026-11-24.md`), drawn per moment and weighted by the speaker's traits; a piece that leans on the sentence before it names what it may follow; a fact is said within its budget. The inaugural, the talk after it, the loading story, the Journal's evening and the address's news story go through it.
 
-**Time box.** One night (Nov 24).
+**Time box.** 8 hours (the night of Nov 24).
 
 **Rules.** No figures in speeches; replaced means deleted; his examples are concepts; real sources set shape and rhythm only (quotes of 15 words or fewer); words PRs never go to the merger desk; nothing merges until he passes it in a played game.
 
-**Done when.** The owner plays a new life in the installed game and says the first evening is right; before that, a pre-grader session that did not build it plays three drawn places and grades the evening as he would.
+**Done when.** A second session, on a new game in a drawn place, sees the address open with no guest list and no "Hold me to it", the evening's first narration name what is on the news, the housemate say the President's stand and their own, and the Journal's last chapter be the evening as one paragraph; a pre-grader session that did not build it grades the evening as the owner would in three drawn places; the owner plays a new life in the installed game and says the first evening is right.
+
+**Waits on.** Nothing.
 
 **Files.** src/english/outline-planner.ts, src/director/inaugural-telling.ts, src/director/journal-evening.ts, data/english/outlines.json, data/english/parts/outline.json, scripts/words/first-evening-packet.ts
 
