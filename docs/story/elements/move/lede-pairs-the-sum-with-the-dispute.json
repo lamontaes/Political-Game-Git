@@ -19,12 +19,16 @@
     {
       "name": "the dispute without a sum",
       "pulledBy": "a contract with no stated amount",
-      "writes": "the lede names the objection only"
+      "writes": "the lede names the objection only",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the sum without a dispute",
       "pulledBy": "a contract no one questioned",
-      "writes": "the lede names the amount and the vendor"
+      "writes": "the lede names the amount and the vendor",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

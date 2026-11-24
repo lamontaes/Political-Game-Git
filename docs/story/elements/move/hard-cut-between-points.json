@@ -24,5 +24,20 @@
   "weights": {
     "inaugural": 0.45
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The `joins` flag on a section in data/english/outlines.json: a section without it starts a new paragraph (a hard cut), one with it stays in the paragraph.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Every point is joined by a bridge word.",
+      "pulledBy": "a polite or meticulous speaker",
+      "writesBack": "The speech reads as one argument."
+    },
+    {
+      "turn": "neutral",
+      "what": "A cut between the story and the theme only.",
+      "pulledBy": "the default `joins` flags",
+      "writesBack": "The paragraph break marks the turn to the stand."
+    }
+  ]
 }

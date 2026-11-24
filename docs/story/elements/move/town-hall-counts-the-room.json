@@ -20,12 +20,16 @@
     {
       "name": "a crowd too large for the room",
       "pulledBy": "a hot issue",
-      "writes": "the line says people were turned away"
+      "writes": "the line says people were turned away",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "an empty room",
       "pulledBy": "a poor turnout",
-      "writes": "the line says how few came"
+      "writes": "the line says how few came",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
