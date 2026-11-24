@@ -25821,7 +25821,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "budget-cost"]
+          "requiresFacts": ["bill", "budget-cost"],
+          "excludesFacts": ["heard-cost"]
         },
         {
           "subject": "scene",
@@ -25830,7 +25831,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
+          "requiresFacts": ["bill", "no-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -25910,7 +25912,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "budget-cost"]
+          "requiresFacts": ["bill", "budget-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -25937,7 +25940,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["bill", "no-cost"]
+          "requiresFacts": ["bill", "no-cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -74203,6 +74207,730 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-extra-spending-in-bill-what-we-d-give-up-is-the-money-those-riders-pay-now",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "In {place} we'd give up fare income without putting any more spending in the bill.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "city-pays-agency-for-foregone-fares"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-haven-t-put-any-more-spending-in-bill-i-wouldn-t-count-every-pass-as-lost-income-either-some-people-still-need-one-for-another-ride",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Somebody in {place} who needs a pass for another bus may keep buying one, and the bill adds no spending.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "monthly-pass-still-needed"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-monthly-pass-still-needed"
+          ],
+          "excludesFacts": [
+            "heard-monthly-pass-still-needed"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-monthly-pass-still-needed"
+          ],
+          "excludesFacts": [
+            "heard-monthly-pass-still-needed"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-monthly-pass-still-needed"
+          ],
+          "excludesFacts": [
+            "heard-monthly-pass-still-needed"
+          ]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-new-spending-for-a-family-in-place-that-puts-the-fare-toward-breakfast-the-difference-shows-up-in-the-grocery-money",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "There's no new spending in the bill, and a parent in {place} could put that fare toward breakfast.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "bus-money-becomes-breakfast-money"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-bus-money-becomes-breakfast-money"
+          ],
+          "excludesFacts": [
+            "heard-bus-money-becomes-breakfast-money"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-bus-money-becomes-breakfast-money"
+          ],
+          "excludesFacts": [
+            "heard-bus-money-becomes-breakfast-money"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-bus-money-becomes-breakfast-money"
+          ],
+          "excludesFacts": [
+            "heard-bus-money-becomes-breakfast-money"
+          ]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.there-s-no-increase-on-the-spending-side-a-student-in-place-who-pays-each-way-to-class-would-still-feel-the-difference",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A student in {place} keeps the fare home from class, and the bill adds nothing to what we spend.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "student-counts-a-semester-of-fares"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-student-counts-a-semester-of-fares"
+          ],
+          "excludesFacts": [
+            "heard-student-counts-a-semester-of-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-student-counts-a-semester-of-fares"
+          ],
+          "excludesFacts": [
+            "heard-student-counts-a-semester-of-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-enact:us-policy-positions:transportation-infrastructure.fare-free-transit",
+            "place"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-student-counts-a-semester-of-fares"
+          ],
+          "excludesFacts": [
+            "heard-student-counts-a-semester-of-fares"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-d-collect-fares-again-you-ll-find-no-increase-in-spending-in-bill-and-i-can-t-tell-you-yet-what-the-fares-would-bring-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can show you what {bill} adds to spending, which is nothing. Fare receipts are harder to predict.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "city-pays-agency-for-foregone-fares"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-city-pays-agency-for-foregone-fares"
+          ],
+          "excludesFacts": [
+            "heard-city-pays-agency-for-foregone-fares"
+          ]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-doesn-t-add-spending-before-i-d-predict-what-we-d-collect-on-passes-i-d-want-to-know-how-long-a-pass-lasts",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing extra to spend under {bill}, and how much comes in depends partly on how long a pass lasts.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "pass-clock-starts-at-first-use"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-pass-clock-starts-at-first-use"
+          ],
+          "excludesFacts": [
+            "heard-pass-clock-starts-at-first-use"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-pass-clock-starts-at-first-use"
+          ],
+          "excludesFacts": [
+            "heard-pass-clock-starts-at-first-use"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-pass-clock-starts-at-first-use"
+          ],
+          "excludesFacts": [
+            "heard-pass-clock-starts-at-first-use"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-haven-t-asked-for-more-money-in-bill-if-we-need-a-place-to-sell-passes-for-cash-we-d-have-to-work-out-how-to-pay-for-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'd have to find money for a cash sales counter if we need one, because {bill} adds none.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "cash-rider-needs-a-place-to-buy-a-pass"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-offline-fare-payment"
+          ],
+          "excludesFacts": [
+            "heard-offline-fare-payment"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-offline-fare-payment"
+          ],
+          "excludesFacts": [
+            "heard-offline-fare-payment"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-offline-fare-payment"
+          ],
+          "excludesFacts": [
+            "heard-offline-fare-payment"
+          ]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-added-spending-in-bill-to-estimate-receipts-i-d-need-to-know-what-we-d-charge-a-family-riding-together",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "What a family pays to ride together affects what we'd collect under {bill}, which adds no spending.",
+      "elements": [
+        "treasurer-has-the-balance-but-no-current-price",
+        "companions-fares-and-one-persons-cap"
+      ],
+      "issues": [
+        "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-does-for-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-companions-fares-and-one-persons-cap"
+          ],
+          "excludesFacts": [
+            "heard-companions-fares-and-one-persons-cap"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-companions-fares-and-one-persons-cap"
+          ],
+          "excludesFacts": [
+            "heard-companions-fares-and-one-persons-cap"
+          ]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": [
+            "bill",
+            "no-cost",
+            "for",
+            "desk-repeal:us-policy-positions:transportation-infrastructure.fare-free-transit"
+          ],
+          "setsFacts": [
+            "heard-cost",
+            "heard-companions-fares-and-one-persons-cap"
+          ],
+          "excludesFacts": [
+            "heard-companions-fares-and-one-persons-cap"
+          ]
+        }
+      ],
+      "bearing": "steady",
       "origin": "authored",
       "author": "Codex writer A",
       "date": "2026-11-24",
