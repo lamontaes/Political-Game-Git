@@ -788,17 +788,33 @@ function playWorld(seed: string) {
           f.status === "on-ballot",
       ),
   );
-  const wantedToRun = decidedToRun.filter((d) => !diedOnBallot.includes(d));
+  // A decider who died before the clerk decided their filing never reached
+  // the ballot: the death withdraws it and refuses the decision
+  // (src/core2/modules/candidacy.ts, `endRunsOfTheDead`), as in Mokuleia,
+  // Hawaii, where the one challenger for board seat 0 filed and died while
+  // gathering signatures.
+  const diedBeforeBallot = decidedToRun.filter(
+    (d) =>
+      core.people.get(String(d.personId))?.alive === false &&
+      (d.filing as { status?: string } | undefined)?.status === "refused",
+  );
+  const wantedToRun = decidedToRun.filter(
+    (d) => !diedOnBallot.includes(d) && !diedBeforeBallot.includes(d),
+  );
   // A challenger who filed and lost a primary ran too: the primary marks the
   // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
   // Crosspointe, Virginia, where the one challenger lost the Democratic
-  // primary for attorney general to the incumbent.
+  // primary for attorney general to the incumbent. A filing a death withdrew
+  // is not a primary's.
   const primaryLosers = rowsOf(core, "core2-elections-v1", "filings").filter(
     (f) =>
       f.status === "withdrawn" &&
       heldIds.has(String(f.contestId)) &&
       !incumbentIds.has(String(f.personId)) &&
-      core.people.has(String(f.personId)),
+      core.people.has(String(f.personId)) &&
+      !diedBeforeBallot.some(
+        (d) => d.personId === f.personId && d.contestId === f.contestId,
+      ),
   );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
@@ -812,29 +828,33 @@ function playWorld(seed: string) {
           ? pass(
               `${diedOnBallot.length} named challengers reached the ballot and died before the end of the run in ${held.length} races (${String(diedOnBallot[0]!.id)})`,
             )
-          : !wantedToRun.length
+          : !wantedToRun.length && diedBeforeBallot.length
             ? unobserved(
-                `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+                `${diedBeforeBallot.length} adults other than the incumbent chose to run in the ${held.length} races decided and died before reaching the ballot (${String(diedBeforeBallot[0]!.id)})`,
               )
-            : fail(
-                `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot (${wantedToRun
-                  .slice(0, 3)
-                  .map((d) => {
-                    const f = filings.find(
-                      (r) =>
-                        r.personId === d.personId &&
-                        r.contestId === d.contestId,
-                    );
-                    const filing = (d.filing ?? {}) as {
-                      status?: string;
-                      unmet?: string[];
-                    };
-                    return `${String(d.id)} decided ${String(d.date)}, ${core.people.get(String(d.personId))?.alive === false ? "dead" : core.people.has(String(d.personId)) ? "living" : "counted"}, decision filing ${filing.status ?? "none"}${filing.unmet?.length ? ` (${filing.unmet.join(", ")})` : ""}, filing row ${f ? `${String(f.id)} ${String(f.status)}` : "none"}`;
-                  })
-                  .join(
-                    "; ",
-                  )}). Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-              );
+            : !wantedToRun.length
+              ? unobserved(
+                  `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+                )
+              : fail(
+                  `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot (${wantedToRun
+                    .slice(0, 3)
+                    .map((d) => {
+                      const f = filings.find(
+                        (r) =>
+                          r.personId === d.personId &&
+                          r.contestId === d.contestId,
+                      );
+                      const filing = (d.filing ?? {}) as {
+                        status?: string;
+                        unmet?: string[];
+                      };
+                      return `${String(d.id)} decided ${String(d.date)}, ${core.people.get(String(d.personId))?.alive === false ? "dead" : core.people.has(String(d.personId)) ? "living" : "counted"}, decision filing ${filing.status ?? "none"}${filing.unmet?.length ? ` (${filing.unmet.join(", ")})` : ""}, filing row ${f ? `${String(f.id)} ${String(f.status)}` : "none"}`;
+                    })
+                    .join(
+                      "; ",
+                    )}). Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+                );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(

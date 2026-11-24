@@ -18,7 +18,12 @@ import {
   localGoverningBodyName,
   localGoverningBodyRules,
 } from "./gov-rules/local-governing-body-rules";
-import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
+import {
+  localChiefExecutiveRules,
+  localViceMayorRules,
+} from "./gov-rules/local-chief-executive-rules";
+import type { VacancyRule } from "./offices-state";
+import islandAreas from "./data/reference/island-area-governments.json" with { type: "json" };
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
 import {
@@ -137,6 +142,12 @@ export interface OfficeInput {
    * chair, instead of asking a member. From the place's own county data.
    */
   readonly presidesOverBody?: boolean;
+  /**
+   * Who fills the seat when it falls vacant, where the government's own law
+   * says (a Guam village's, 5 GCA sec. 40110); absent, the state's municipal
+   * rule applies.
+   */
+  readonly vacancyRule?: VacancyRule;
   readonly source: string;
   readonly estimate: boolean;
 }
@@ -231,8 +242,12 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
     STATE_LEVEL_GOVERNMENTS.has(body.researchedGovernmentKey)
   )
     return [];
-  const method = body?.seats ? councilElectionMethod(unit) : null;
-  if (body?.seats)
+  // A government whose law gives it no council (a Guam village: a mayor
+  // alone) reads zero seats and seats none.
+  const seats = body?.seats?.value ? body.seats : null;
+  const method = seats ? councilElectionMethod(unit) : null;
+  const councilLaw = islandTerritory(unit)?.councilVacancy ?? null;
+  if (body && seats)
     offices.push({
       id: `office:${unit.id}:council`,
       level: "city",
@@ -241,7 +256,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       bodyName: municipalBodyName(unit),
       kind: "council",
       title: "Council member",
-      seats: body.seats.value,
+      seats: seats.value,
       termYears: body.termYears?.value ?? null,
       elected: true,
       districted: (method?.wardSeats ?? 0) > 0,
@@ -255,9 +270,23 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       source: body.researchedGovernmentKey
         ? `Municipal reading ${body.researchedGovernmentKey}`
         : "ICMA municipal form of government survey: the national typical council size and term",
-      estimate: body.seats.basis !== "read",
+      estimate: seats.basis !== "read",
+      // A territory's own law says who fills a council seat (CNMI Const.
+      // art. VI sec. 6(b): the Mayor appoints).
+      ...(councilLaw
+        ? {
+            vacancyRule: {
+              method: "appointment" as const,
+              appointedBy: councilLaw.appointedBy,
+              citation: councilLaw.citation,
+              estimate: false,
+            },
+          }
+        : {}),
     });
   const chief = localChiefExecutiveRules(unit);
+  const vice = chief ? localViceMayorRules(unit) : null;
+  const law = islandVacancyLaw(unit);
   if (chief)
     offices.push({
       id: `office:${unit.id}:mayor`,
@@ -275,8 +304,95 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
         ? `Municipal reading ${chief.researchedGovernmentKey}`
         : "ICMA municipal form of government survey: whether the typical town elects its mayor directly",
       estimate: chief.directlyElected.basis !== "read",
+      // The vice mayor takes a vacated mayor's seat where the law has one.
+      ...(law
+        ? {
+            vacancyRule:
+              vice && law.viceMayorSucceeds
+                ? {
+                    method: "successor" as const,
+                    successor: "vice-mayor",
+                    appointedBy: law.appointedBy,
+                    citation: law.citation,
+                    estimate: false,
+                  }
+                : law.method === "special-election"
+                  ? // stopgapId: SG-GOV-island-mayor-late-vacancy
+                    {
+                      method: "special-election" as const,
+                      citation: law.citation,
+                      estimate: false,
+                    }
+                  : {
+                      method: "appointment" as const,
+                      appointedBy: law.appointedBy,
+                      citation: law.citation,
+                      estimate: false,
+                    },
+          }
+        : {}),
+    });
+  // A second elected executive the government's reading names, elected
+  // apart from the mayor on the same calendar (5 GCA secs. 40101, 40103).
+  if (chief && vice)
+    offices.push({
+      id: `office:${unit.id}:vice-mayor`,
+      level: "city",
+      jurisdiction: unit.id,
+      governmentName: unit.name,
+      kind: "vice-mayor",
+      title: vice.title,
+      seats: 1,
+      termYears: vice.termYears,
+      elected: true,
+      districted: false,
+      coversTown: true,
+      source: `Municipal reading ${chief.researchedGovernmentKey}`,
+      estimate: false,
+      ...(law
+        ? {
+            vacancyRule: {
+              method: "appointment" as const,
+              appointedBy: law.appointedBy,
+              citation: law.citation,
+              estimate: false,
+            },
+          }
+        : {}),
     });
   return offices;
+}
+
+/** An Island Area government's own vacancy law, from its territory's row; null for every other town. */
+interface IslandVacancyLaw {
+  /** How a vacated Mayor's seat is filled: appointment unless the law calls a special election. */
+  readonly method?: "special-election";
+  readonly appointedBy?: string;
+  readonly viceMayorSucceeds: boolean;
+  readonly citation: string;
+}
+
+interface IslandTerritory {
+  readonly vacancy?: IslandVacancyLaw;
+  readonly councilVacancy?: {
+    readonly appointedBy: string;
+    readonly citation: string;
+  };
+}
+
+function islandTerritory(unit: GovernmentUnitIdentity): IslandTerritory | null {
+  if (!unit.id.startsWith("island:")) return null;
+  return (
+    (islandAreas.territories as Record<string, IslandTerritory | undefined>)[
+      unit.stateUsps
+    ] ?? null
+  );
+}
+
+function islandVacancyLaw(
+  unit: GovernmentUnitIdentity,
+): IslandVacancyLaw | null {
+  return islandTerritory(unit)?.vacancy ?? null;
 }
 
 function boardOffices(
