@@ -41279,30 +41279,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.please-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Please, no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.not-for-me",
       "move": "reply-decline",
       "kind": "spoken",
@@ -73427,14 +73403,6 @@
           "purpose": "homecoming",
           "key": "arrival",
           "requiresFacts": ["asker-back"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -84015,30 +83983,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.sorry-busy-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Sorry, busy now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
         "key": "favor-asked"
       }
     },

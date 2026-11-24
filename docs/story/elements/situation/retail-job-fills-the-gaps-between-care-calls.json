@@ -1,0 +1,30 @@
+{
+  "id": "retail-job-fills-the-gaps-between-care-calls",
+  "kind": "situation",
+  "summary": "An on-call aide takes another job because the number of paid visits changes from week to week.",
+  "realLife": "Adams told senators that his home-care hours varied with calls and that he also worked in retail to support himself and his brother.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{care_job}", "{second_job}"],
+  "gates": ["Both jobs and variable care hours are on the worker’s record."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: two job schedules and a record of variable hours.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The worker leaves retail.",
+      "pulledBy": "Steadier care hours bring enough income and the worker decides to leave.",
+      "writesBack": "One job ends."
+    },
+    {
+      "turn": "partial",
+      "what": "The worker turns down a care call.",
+      "pulledBy": "The retail shift overlaps the proposed visit.",
+      "writesBack": "The coordinator has an open call to fill."
+    }
+  ],
+  "issues": ["none"]
+}
