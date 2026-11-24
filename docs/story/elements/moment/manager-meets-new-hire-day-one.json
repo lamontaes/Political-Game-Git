@@ -1,0 +1,36 @@
+{
+  "id": "manager-meets-new-hire-day-one",
+  "kind": "moment",
+  "summary": "On the first morning the new hire sits down with their manager before meeting anyone else.",
+  "realLife": "In a study of new hires at one large firm, those who met their manager on day one reported feeling accepted by the team sooner. A first-week one-on-one with the manager was also tied to a wider network of contacts at work.",
+  "sources": [
+    "Portland State University scholarly record, Day 1 newcomer resources and adjustment study: https://pdxscholar.library.pdx.edu/busadmin_fac/198",
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "The new hire's job record (employer, position, workplace, pay, tenure) in the jobs module; the manager is the person whose job record is the supervisor at the same workplace, with a coworker tie to the player when the player is the new hire.",
+  "turns": [
+    {
+      "turn": "manager-is-away",
+      "summary": "The manager is out and the new hire waits until a coworker steps in.",
+      "pulledBy": ["a busy manager", "a coworker tie that helps"],
+      "writesBack": "The coworker tie gets closer, and the manager tie starts late."
+    },
+    {
+      "turn": "meeting-is-a-quick-hello",
+      "summary": "The manager only says a quick hello and hands the new hire off to HR.",
+      "pulledBy": ["a rushed manager", "a large employer"],
+      "writesBack": "The new hire feels unwelcome, and a mood dips."
+    },
+    {
+      "turn": "coworker-greets-first",
+      "summary": "A friendly coworker greets the new hire at the door before the manager arrives.",
+      "pulledBy": ["a warm coworker", "the new-coworker event"],
+      "writesBack": "A friendly tie forms before the manager tie."
+    }
+  ]
+}
