@@ -2195,7 +2195,7 @@ function weighClosedContest(
       filedOn: contest.filingDeadline,
       filedWith: rules.filedWith,
       platform,
-      platformWhy: standReasons(api, contest, platform),
+      platformWhy: standReasons(api, contest, platform, personId, party),
       party,
       status: "on-ballot",
     };

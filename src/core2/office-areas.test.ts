@@ -15,7 +15,12 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };
-import { contestStands, standReasons } from "./contest-positions";
+import {
+  contestPositions,
+  contestStands,
+  standReasons,
+} from "./contest-positions";
+import { platformFromViews } from "./modules/candidacy";
 import { gameStartDate } from "./game-start";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
@@ -23,6 +28,14 @@ import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 24;
+const RECORDS = [
+  "voted",
+  "office-record",
+  "circumstance",
+  "faith",
+  "degree",
+  "heard",
+];
 const KINDS = officeAreas.kinds as Record<
   string,
   { areas: string[]; budgetLines: string[] }
@@ -76,13 +89,32 @@ it(`a row office's stands are its own work, each with its reason (seed ${seed})`
         }
         expect(stand.reason, where).toBe(`office-work:${kind}`);
       }
-      const platform = stands.map((stand) => `${stand.position}=0.5`);
-      expect(standReasons(api, contest, platform)).toEqual(
-        stands.map((stand) => `${stand.position}=${stand.reason}`),
-      );
+    }
+    // What the town's adults would file under each row office: every stand
+    // they state has a reason from their own record, and the seat's.
+    let judged = 0;
+    const adults = [...world.core.people.values()]
+      .filter((p) => p.alive)
+      .slice(0, 40);
+    for (const contest of contests) {
+      const positions = contestPositions(api, contest);
+      for (const adult of adults) {
+        const platform = platformFromViews(api, adult.id, null, positions);
+        const why = standReasons(api, contest, platform, adult.id, null);
+        const where = `${place.name} (${place.key}, seed ${place.seed}) ${contest.officeId} ${adult.id}`;
+        expect(why.length, `${where}: a stand has no reason`).toBe(
+          platform.length,
+        );
+        for (const entry of why) {
+          const [record, seat] = entry.slice(entry.indexOf("=") + 1).split(";");
+          expect(RECORDS, where).toContain(record);
+          expect(seat, where).toMatch(/^(office-work:|body-decides:)/);
+          judged += 1;
+        }
+      }
     }
     process.stdout.write(
-      `office areas: ${place.name} (${place.key}, seed ${place.seed}), ${contests.length} row office contests; passed over: ${passedOver.join("; ") || "none"}\n`,
+      `office areas: ${place.name} (${place.key}, seed ${place.seed}), ${contests.length} row office contests, ${judged} stands each with a record reason; passed over: ${passedOver.join("; ") || "none"}\n`,
     );
     return;
   }

@@ -30,6 +30,7 @@ import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
+import { stanceReader } from "./campaign-stances";
 import type { OfficeLevel } from "./offices-local";
 import type { CoreAPI } from "./types";
 import localRecords from "./data/campaigns/local-question-records.json" with { type: "json" };
@@ -156,18 +157,28 @@ export function contestPositions(
   return contestStands(api, contest).map((stand) => stand.position);
 }
 
-/** The reason each stand of a platform ("question=position") was open to this seat, in the platform's order, as "question=reason". */
+/**
+ * The reason each stand of a platform ("question=position") stands, in the
+ * platform's order, as "question=<record>;<seat>": the record that gives the
+ * candidate their reason (`StanceReader.ground`: a vote, their position as an
+ * official, their own circumstances, faith or degree, or what reached them),
+ * then why the seat can act on it (`StandReason`).
+ */
 export function standReasons(
   api: CoreAPI,
   contest: { readonly officeId: string },
   platform: readonly string[],
+  personId: string,
+  party: string | null | undefined,
 ): string[] {
   const stands = new Map(
     contestStands(api, contest).map((s) => [s.position, s.reason]),
   );
+  const reader = stanceReader(api, personId, party);
   return platform.flatMap((entry) => {
     const question = entry.slice(0, entry.lastIndexOf("="));
-    const reason = stands.get(question);
-    return reason ? [`${question}=${reason}`] : [];
+    const seat = stands.get(question);
+    const record = reader.ground(question);
+    return seat && record ? [`${question}=${record};${seat}`] : [];
   });
 }
