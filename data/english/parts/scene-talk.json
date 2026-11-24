@@ -28077,37 +28077,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-picked-anyone-for-office-and-i-m-not-going-to-do-it-on-the-porch",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I haven't picked anyone for {office}, and I'm not going to do it on the porch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["office"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
       "key": "scene-talk.reply-decline.i-like-that-you-came-by-i-still-have-nothing-to-go-on-for-office",
       "move": "reply-decline",
       "kind": "spoken",
@@ -28608,36 +28577,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-still-undecided-on-office-and-i-d-rather-say-so-than-promise",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm still undecided on {office}, and I'd rather say so than promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["knocked-before", "office"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
         "key": "door"
       },
       "elements": [
@@ -30462,37 +30401,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.you-ll-remember-what-i-put-toward-your-campaign-bill-is-why-i-did",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You'll remember what I put toward your campaign. {bill} is why I did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["gift", "donor-bill"],
-          "excludesFacts": ["asked-before"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "a-gift-comes-with-a-call-about-a-bill",
-        "early-money-comes-from-people-you-know",
-        "first-time-candidate-leads-fundraising"
-      ]
-    },
-    {
       "key": "scene-talk.state-request.i-m-calling-about-bill-i-backed-you-and-i-d-like-to-know-where-you-stand-on-it",
       "move": "state-request",
       "kind": "spoken",
@@ -30510,37 +30418,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "a-gift-comes-with-a-call-about-a-bill",
-        "early-money-comes-from-people-you-know",
-        "first-time-candidate-leads-fundraising"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.money-didn-t-come-from-nowhere-i-need-you-to-look-hard-at-bill",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{money} didn't come from nowhere. I need you to look hard at {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["money", "donor-bill"],
-          "excludesFacts": ["asked-before"]
-        }
-      ],
-      "bearing": "firm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -30679,36 +30556,6 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "People at {employer} are watching {bill}. I'm calling for all of them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["employer", "donor-bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "a-gift-comes-with-a-call-about-a-bill",
-        "early-money-comes-from-people-you-know",
-        "first-time-candidate-leads-fundraising"
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.employer-made-a-case-for-bill-i-d-like-you-to-take-it-seriously",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{employer} made a case for {bill}. I'd like you to take it seriously.",
       "uses": [
         {
           "subject": "scene",
