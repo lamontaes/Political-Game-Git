@@ -26,5 +26,6 @@
       "pulledBy": "The member entered during the speech and can identify when they took their seat.",
       "writesBack": "The interview record limits the member’s first-hand account to the sentence they heard."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

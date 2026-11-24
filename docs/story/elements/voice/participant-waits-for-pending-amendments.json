@@ -26,5 +26,6 @@
       "pulledBy": "The payment amendment has passed and the calendar amendment is still pending.",
       "writesBack": "The sponsor’s tally marks support for the payment change and keeps the final vote undecided."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

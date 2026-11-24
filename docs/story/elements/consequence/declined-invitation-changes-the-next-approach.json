@@ -26,5 +26,6 @@
       "pulledBy": "The organizer remembers the travel constraint and has a vacant shift within walking distance.",
       "writesBack": "The roster lists one local shift and leaves the earlier traveling assignment declined."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

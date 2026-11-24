@@ -26,5 +26,6 @@
       "pulledBy": "The visitor confirms they never sent the form and has no receipt or case number.",
       "writesBack": "The caseworker gives the resident the filing address and records the visit as help with an application."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

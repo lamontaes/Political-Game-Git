@@ -26,5 +26,6 @@
       "pulledBy": "The sponsor has described a case and the filed bill contains the relevant definition.",
       "writesBack": "The sponsor’s office sends the marked passage and records the colleague’s question for committee."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

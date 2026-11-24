@@ -26,5 +26,6 @@
       "pulledBy": "The calendar places the aide in the room, and the committee can recall the witness.",
       "writesBack": "The clerk appends the aide’s new testimony and keeps the original answer in the transcript."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -26,5 +26,6 @@
       "pulledBy": "The roll call opened debate and the underlying law is still in force.",
       "writesBack": "The member’s reply gives the purpose of the vote and leaves the promised change open in the district record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

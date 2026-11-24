@@ -26,5 +26,6 @@
       "pulledBy": "The member missed the group ceremony and the chamber has recorded a separate swearing-in date.",
       "writesBack": "The announcement uses the member’s own oath date."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

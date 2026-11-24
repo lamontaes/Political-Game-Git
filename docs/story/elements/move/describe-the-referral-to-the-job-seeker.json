@@ -26,5 +26,6 @@
       "pulledBy": "The bank has acknowledged the résumé but no hiring office has contacted the applicant.",
       "writesBack": "The member explains who can call next, and the referral record keeps the interview date blank."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

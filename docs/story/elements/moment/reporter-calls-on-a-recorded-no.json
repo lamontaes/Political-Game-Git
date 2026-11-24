@@ -26,5 +26,6 @@
       "pulledBy": "The roll-call history shows two different votes, and the office has both versions of the text.",
       "writesBack": "The reporter’s follow-up records the member’s explanation beside the two votes."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

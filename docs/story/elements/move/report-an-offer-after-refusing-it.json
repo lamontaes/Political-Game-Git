@@ -26,5 +26,6 @@
       "pulledBy": "The member recalls the words and time, and a receptionist keeps a separate sign-in sheet.",
       "writesBack": "The investigator receives a dated account with the visitor unidentified and requests the reception log."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

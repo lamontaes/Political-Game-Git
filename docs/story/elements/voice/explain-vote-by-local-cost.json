@@ -26,5 +26,6 @@
       "pulledBy": "The example depends on itemized deductions and the resident used the standard deduction.",
       "writesBack": "The office corrects its reply to the resident and identifies which households its public example covers."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

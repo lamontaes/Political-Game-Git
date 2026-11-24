@@ -26,5 +26,6 @@
       "pulledBy": "The previous sitting ended during the interruption and the chair recognizes the speaker again.",
       "writesBack": "The floor account dates the resumed remarks to the new sitting."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

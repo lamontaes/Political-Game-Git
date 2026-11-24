@@ -26,5 +26,6 @@
       "pulledBy": "The household has the statement and its insurance policy, while the legislation is still pending.",
       "writesBack": "The family writes down the coverage question for the district office and keeps the existing bill amount on record."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

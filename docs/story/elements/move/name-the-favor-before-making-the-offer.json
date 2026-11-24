@@ -26,5 +26,6 @@
       "pulledBy": "The meeting notes identify the requested vote and contain no offer of payment.",
       "writesBack": "The office records the request and the limits of what anyone in the room heard."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

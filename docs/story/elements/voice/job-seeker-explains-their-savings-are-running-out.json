@@ -26,5 +26,6 @@
       "pulledBy": "The employer’s offer gives the first pay date, and the rent notice falls earlier.",
       "writesBack": "The caseworker closes the job-search request and asks whether the resident wants help with the gap in income."
     }
-  ]
+  ],
+  "issues": ["law:unemployment-insurance"]
 }
