@@ -5,10 +5,33 @@ Pre-grader, 2026-11-24. Branch `story/w-news` at `672df484`, every line authored
 - **Result:** 273 of 303 pass (90%); 0 fail; 30 not yet graded.
 - **Calibration:** C2 8/8, C3 8/8, D3 8/8, E2 8/8, G1 8/8, I1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the six-place packet at this head is not in yet; lines were read as written.
+- **Played:** the packet script at `d0bfadd4` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): {len(pl)} of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
+
+## As played
+
+- pass: `outline-news.headline.news-roll-call-headline-squeaks-through-the` → **1.41** Story: Mixed-Income Housing Ordinance squeaks through the Meadow Town Council (KTCS-TV)
+- pass: `outline-news.margin.news-roll-call-drew-no-opposition-at-all-in-the` → **3.30**   paragraph: The Oxford County Board of Commissioners voted 3 to 0 on January 1, 2025 to pass Budget Ordinance, which means the government's spending for the year. Budget Ordinance drew no opposition at all in the Oxford County Board of Commissioners.
+- pass: `outline-news.margin.news-roll-call-had-no-opponent-in-the` → **3.32**   paragraph: Meeting on January 1, 2025, the Oxford County Board of Commissioners approved Budget Ordinance, 3 to 0. Budget Ordinance had no opponent in the Oxford County Board of Commissioners.
+- pass: `outline-news.headline.news-roll-call-headline-goes-through-the` → **3.29** Story: Budget Ordinance goes through the Oxford County Board of Commissioners (Bethel Review)
+- pass: `outline-news.headline.news-roll-call-headline-kills` → **1.35** Story: Meadow Town Council kills Immigration Enforcement Partnership Ordinance (KTCS-TV)
+- pass: `outline-news.lede.news-roll-call-the-did-not-approve-on-the-vote-was` → **1.36**   paragraph: The Meadow Town Council did not approve Immigration Enforcement Partnership Ordinance on January 7, 2025; the vote was 1 to 4. Immigration Enforcement Partnership Ordinance had one vote in favor in the Meadow Town Council.
+- pass: `outline-news.lede.news-roll-call-meeting-on-date-the-body-approved-law-count` → **3.32**   paragraph: Meeting on January 1, 2025, the Oxford County Board of Commissioners approved Budget Ordinance, 3 to 0. Budget Ordinance had no opponent in the Oxford County Board of Commissioners.
+- pass: `outline-news.margin.news-roll-call-law-had-one-vote-in-favor-in-the-body` → **1.36**   paragraph: The Meadow Town Council did not approve Immigration Enforcement Partnership Ordinance on January 7, 2025; the vote was 1 to 4. Immigration Enforcement Partnership Ordinance had one vote in favor in the Meadow Town Council.
+- pass: `outline-news.lede.news-roll-call-at-its-meeting-on-date-the-body-approved-law-count` → **1.42**   paragraph: At its meeting on January 7, 2025, the Meadow Town Council approved Mixed-Income Housing Ordinance, 3 to 2. The result in the Meadow Town Council hung on a single member.
+- pass: `news.law.place-has-been-under-the-law-since-date` → **2.50**   paragraph: New York has been under the Anti-Discrimination Repeal Act since January 12, 2025.
+- pass: `news.law.place-put-the-law-into-effect-on-date` → **2.46**   paragraph: New York put the Anti-Discrimination Repeal Act into effect on January 12, 2025.
+- pass: `news.law.since-date-the-law-has-been-in-effect-in-place` → **4.37**   paragraph: Since January 17, 2025, the Clean Electricity Standard Repeal Act has been in effect in New York.
+- pass: `news.conditions.more-people-in-place-are-out-of-work-the-rate-is-percent-up-` → **6.35**   paragraph: More people in Oakton are out of work: the rate is 7.7%, up from 5.5%.
+- pass: `headlines.law.place-gets-law` → **1.1** Steps: Building the town / Writing everyone's past / Opening the economy / Starting the world / Seating the government / Opening the elections / Opening the budgets / Seating the legislature / Appointing the cabinet / Opening the press, courts and meetings / Writing the country's history / L
+- pass: `headlines.law.place-now-under-law` → **2.42** Story: New York now under Anti-Discrimination Repeal Act (Keystone News Network)
+- pass: `headlines.law.first-day-for-law-in-place` → **2.52** Story: First day for Anti-Discrimination Repeal Act in New York (Plain Speaking Show)
+- pass: `headlines.law.place-puts-law-into-effect` → **4.39** Story: New York puts Clean Electricity Standard Repeal Act into effect (The Lantern)
+- pass: `headlines.law.law-takes-effect` → **2.45** Story: Anti-Discrimination Repeal Act takes effect (The Crossroads)
+- pass: `headlines.conditions.place-unemployment-up-from-from-to-percent` → **6.34** Story: Oakton unemployment up from 5.5% to 7.7% (WMGO-TV)
+- pass: `headlines.organization.opened.open-for-business-subject` → **5.40** Story: Open for business: Davidson Manufacturing (Roberts Herald)
 
 ## Not yet graded
 
