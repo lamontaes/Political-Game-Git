@@ -1,0 +1,36 @@
+{
+  "id": "a-rival-offer-or-low-pay-makes-an-employer-lose-its-pick",
+  "kind": "consequence",
+  "summary": "Employers lose finalists mainly to a competing offer or pay below what the person expected.",
+  "realLife": "A staffing survey summarized by SHRM found candidates declined offers about a tenth of the time, mostly for a competing offer or pay and benefits below expectations.",
+  "sources": [
+    "Society for Human Resource Management, How to Prevent Rejected Job Offers: https://www.shrm.org/topics-tools/news/talent-acquisition/how-to-prevent-rejected-job-offers"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["law:minimum-wage"],
+  "inGame": "employer's open position stays unfilled after a decline; wages in the job row decide acceptance.",
+  "turns": [
+    {
+      "turn": "employer-raises-the-pay",
+      "summary": "The employer matches and the candidate accepts.",
+      "pulledBy": ["need to fill", "candidate in demand"],
+      "writesBack": "new job record; pay raised"
+    },
+    {
+      "turn": "employer-moves-to-the-next-candidate",
+      "summary": "The next in line is hired.",
+      "pulledBy": ["a second candidate ready"],
+      "writesBack": "new-coworker event"
+    },
+    {
+      "turn": "position-sits-empty",
+      "summary": "The job stays open for months.",
+      "pulledBy": ["thin local labor pool"],
+      "writesBack": "workload on staff; mood: strained"
+    }
+  ]
+}
