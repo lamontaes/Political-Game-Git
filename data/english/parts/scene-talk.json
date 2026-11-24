@@ -47395,10 +47395,85 @@
       "elements": ["pattern-b6-03-asked-along"]
     },
     {
-      "key": "scene-talk.narrate-narrate.name-did-not-sit-down-even-when-offered-a-chair",
+      "key": "scene-talk.state-confess.i-broke-my-word-i-d-rather-you-hear-why-from-me-than-from-anyone-in-place",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "I broke my word. I'd rather you hear why from me than from anyone in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.state-confess.i-let-you-down-and-i-owe-you-the-reason-before-place-makes-one-up",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "I let you down, and I owe you the reason before {place} makes one up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.state-confess.i-promised-you-something-and-then-broke-it-place-has-been-talking-so-you-ll-hear-it-from-me",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "I promised you something and then broke it. {place} has been talking, so you'll hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stood-at-the-edge-of-the-room-as-if-waiting-to-be-told-where-to-stand",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} did not sit down, even when offered a chair.",
+      "text": "{name} stood at the edge of the room, as if waiting to be told where to stand.",
       "uses": [
         {
           "subject": "scene",
@@ -47419,10 +47494,10 @@
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stood-by-the-door-with-both-hands-in-pockets-and-did-not-look-at-anyone",
+      "key": "scene-talk.narrate-narrate.name-took-one-long-breath-before-saying-the-first-word",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stood by the door with both hands in pockets, and did not look at anyone.",
+      "text": "{name} took one long breath before saying the first word.",
       "uses": [
         {
           "subject": "scene",
@@ -47441,6 +47516,131 @@
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.state-confront.i-waited-up-and-the-whole-street-in-place-went-quiet-around-me-where-were-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I waited up, and the whole street in {place} went quiet around me. Where were you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
+      "key": "scene-talk.state-confront.the-meeting-in-place-ended-hours-ago-where-were-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "The meeting in {place} ended hours ago. Where were you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
+      "key": "scene-talk.state-ask.is-the-job-worth-it-half-of-place-was-out-there-against-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Is the job worth it? Half of {place} was out there against you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-proud-of-you-but-is-it-worth-what-place-is-doing-to-us",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm proud of you, but is it worth what {place} is doing to us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
+    },
+    {
+      "key": "scene-talk.state-ask.i-saw-your-face-when-the-crowd-in-place-turned-out-is-it-getting-to-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I saw your face when the crowd in {place} turned out. Is it getting to you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
       "key": "scene-talk.state-ask.i-don-t-know-my-way-around-place-yet-where-should-i-put-my-things-and-who-runs-the-kitchen",
@@ -47468,80 +47668,6 @@
       "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
-      "key": "scene-talk.state-ask.i-d-like-to-pay-my-way-while-i-look-for-work-in-place-what-does-the-house-expect-from-me",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I'd like to pay my way while I look for work in {place}. What does the house expect from me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
-    },
-    {
-      "key": "scene-talk.state-ask.could-you-show-me-around-so-i-know-which-doors-are-whose-in-this-house-in-place",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Could you show me around, so I know which doors are whose in this house in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-was-up-before-you-were-and-the-kitchen-was-too-quiet",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} was up before you were, and the kitchen was too quiet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-sat-at-the-table-with-a-cold-cup-of-coffee-and-waited",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -47566,56 +47692,6 @@
       "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
     },
     {
-      "key": "scene-talk.state-confront.where-were-you-half-of-place-had-left-that-meeting-hours-before-you-walked-in",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Where were you? Half of {place} had left that meeting hours before you walked in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
-      "key": "scene-talk.state-confront.this-is-the-third-time-does-the-meeting-in-place-matter-more-than-home",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "This is the third time. Does the meeting in {place} matter more than home?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
       "key": "scene-talk.open-greet.everyone-in-place-has-an-opinion-about-us-i-d-rather-hear-yours",
       "move": "open-greet",
       "kind": "spoken",
@@ -47631,31 +47707,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.open-greet.place-is-small-enough-that-we-were-bound-to-meet-so-here-i-am",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{place} is small enough that we were bound to meet, so here I am.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "the home writer",
       "date": "2026-11-24",
@@ -47691,264 +47742,6 @@
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
-      "key": "scene-talk.state-request.whatever-place-thinks-happened-between-us-i-d-like-to-tell-you-what-i-think",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Whatever {place} thinks happened between us, I'd like to tell you what I think.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.state-request.we-used-to-sit-at-the-same-table-in-place-can-we-get-back-to-that",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We used to sit at the same table in {place}. Can we get back to that?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-first-i-didn-t-think-it-would-be-this-easy",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you, {first}. I didn't think it would be this easy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "agree"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.follow-accept.honesty-i-can-do-place-knows-i-ve-never-been-good-at-hiding-things",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Honesty I can do. {place} knows I've never been good at hiding things.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.follow-plea.please-first-i-can-t-keep-living-this-way",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please, {first}. I can't keep living this way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "refuse"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "plea",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-give-you-the-time-place-will-still-be-here-when-you-re-ready",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll give you the time. {place} will still be here when you're ready.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "refuse"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.follow-answer.i-just-want-us-to-sit-in-the-same-room-again-without-anyone-in-place-watching",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I just want us to sit in the same room again without anyone in {place} watching.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-first-this-means-more-than-i-can-say",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you, {first}. This means more than I can say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-place-is-big-enough-for-both-of-us",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "All right. I'll go, and I won't push. {place} is big enough for both of us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.close-press.think-about-it-you-know-where-i-live-in-place",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think about it. You know where I live in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ally-return",
-          "key": "routine",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
       "key": "scene-talk.open-greet.thank-you-for-letting-me-in-i-know-what-people-in-place-are-saying",
       "move": "open-greet",
       "kind": "spoken",
@@ -47969,82 +47762,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "greet",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.open-greet.i-m-not-going-to-pretend-the-whole-of-place-didn-t-see-what-i-did",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm not going to pretend the whole of {place} didn't see what I did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.state-confess.you-trusted-me-and-place-is-too-small-for-me-to-hide-from-that",
-      "move": "state-confess",
-      "kind": "spoken",
-      "text": "You trusted me, and {place} is too small for me to hide from that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confess",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.follow-answer.i-thought-i-could-fix-it-before-you-heard-about-it-in-place-i-was-wrong",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I thought I could fix it before you heard about it in {place}. I was wrong.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat",
-          "after": "ask"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
@@ -48076,32 +47793,6 @@
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-first-it-means-more-than-i-ll-say",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you for hearing me out, {first}. It means more than I'll say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat",
-          "after": "comfort"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
       "key": "scene-talk.close-accept.i-understand-i-ll-go-and-i-ll-stay-out-of-your-way-in-place",
       "move": "close-accept",
       "kind": "spoken",
@@ -48126,82 +47817,6 @@
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.close-press.think-about-it-i-m-not-going-anywhere-from-place",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think about it. I'm not going anywhere from {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "betrayal-explain",
-          "key": "threat",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
-    },
-    {
-      "key": "scene-talk.open-greet.hi-i-m-name-and-i-m-told-i-live-in-this-house-now",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Hi. I'm {name}, and I'm told I live in this house now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
-    },
-    {
-      "key": "scene-talk.open-greet.i-m-name-i-hope-the-house-has-room-for-one-more-from-outside-place",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm {name}. I hope the house has room for one more from outside {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
       "key": "scene-talk.follow-answer.a-while-i-think-there-s-nowhere-else-in-place-open-to-me",
@@ -48230,263 +47845,10 @@
       "elements": ["pattern-b6-02-the-new-face-in-the-room"]
     },
     {
-      "key": "scene-talk.follow-plea.please-i-have-nowhere-else-to-go-in-place",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. I have nowhere else to go in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival",
-          "after": "decline"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "plea",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
-    },
-    {
-      "key": "scene-talk.close-accept.i-understand-i-ll-look-for-somewhere-else-in-place",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "I understand. I'll look for somewhere else in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      },
-      "elements": ["pattern-b6-02-the-new-face-in-the-room"]
-    },
-    {
-      "key": "scene-talk.open-greet.i-stayed-up-for-you-it-s-a-long-way-across-place-and-back",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I stayed up for you. It's a long way across {place} and back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
-      "key": "scene-talk.follow-plea.please-just-tell-me-what-s-going-on-out-there-in-place",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please just tell me what's going on out there in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "plea",
-        "key": "threat"
-      },
-      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
-    },
-    {
-      "key": "scene-talk.open-greet.can-we-talk-about-what-happened-in-place-i-can-t-stop-thinking-about-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Can we talk about what happened in {place}? I can't stop thinking about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
-    },
-    {
-      "key": "scene-talk.state-ask.is-this-job-worth-it-with-people-shouting-at-you-in-the-streets-of-place",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Is this job worth it, with people shouting at you in the streets of {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
-    },
-    {
-      "key": "scene-talk.close-accept.all-right-we-ll-leave-it-for-now-with-place-calmer",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "All right. We'll leave it for now, with {place} calmer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
-    },
-    {
-      "key": "scene-talk.close-press.we-ll-talk-again-when-you-ve-had-time-once-place-settles",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "We'll talk again when you've had time, once {place} settles.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "threat"
-      },
-      "elements": ["pattern-b7-12-is-the-job-worth-it"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-came-by-the-house-with-a-folder-and-the-look-of-someone-who-had-already-rehearsed-the-pitch",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} came by the house with a folder and the look of someone who had already rehearsed the pitch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-had-rung-the-bell-twice-before-anyone-came-to-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
       "text": "{name} had rung the bell twice before anyone came to the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "narrate",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-waited-in-the-hall-hat-in-hand-until-the-household-came-to-see-who-it-was",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} waited in the hall, hat in hand, until the household came to see who it was.",
       "uses": [
         {
           "subject": "scene",
@@ -48552,56 +47914,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "greet",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.open-greet.i-won-t-take-much-of-your-time-i-m-name-and-i-have-a-question-for-you-about-place",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I won't take much of your time. I'm {name}, and I have a question for you about {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "greet",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.state-request.we-have-nobody-filed-for-the-open-seat-and-we-think-it-ought-to-be-you-will-you-run-for-place",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We have nobody filed for the open seat, and we think it ought to be you. Will you run for {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
         "key": "run-asked"
       },
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
@@ -48682,31 +47994,6 @@
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
-      "key": "scene-talk.state-request.the-seat-is-open-the-party-in-place-wants-you-on-the-ballot-and-i-m-here-to-ask-if-you-ll-say-yes",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The seat is open, the party in {place} wants you on the ballot, and I'm here to ask if you'll say yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
       "key": "scene-talk.reply-ask.what-would-the-party-do-for-me-in-place-if-i-said-yes",
       "move": "reply-ask",
       "kind": "spoken",
@@ -48753,56 +48040,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "ask",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-ask.why-me-and-why-now-here-in-place",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why me, and why now, here in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-ll-run-for-place-and-i-ll-give-it-everything",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. I'll run for {place}, and I'll give it everything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
         "key": "run-asked"
       },
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
@@ -48859,57 +48096,6 @@
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
-      "key": "scene-talk.reply-decline.i-m-honored-name-but-i-won-t-run-for-place",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm honored, {name}, but I won't run for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-decline.thank-you-for-asking-but-running-isn-t-for-me-not-in-place",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Thank you for asking, but running isn't for me, not in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
       "key": "scene-talk.reply-decline.not-me-name-ask-someone-else-in-place",
       "move": "reply-decline",
       "kind": "spoken",
@@ -48957,57 +48143,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "stall",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-stall.i-d-like-to-think-about-place-first-and-talk-to-the-people-i-live-with",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I'd like to think about {place} first, and talk to the people I live with.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "stall",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.follow-answer.the-party-in-place-would-back-you-with-a-name-on-the-ballot-and-volunteers-at-the-door",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The party in {place} would back you with a name on the ballot and volunteers at the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "ask"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
         "key": "run-asked"
       },
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
@@ -49091,58 +48226,6 @@
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
-      "key": "scene-talk.follow-thank.that-s-wonderful-i-ll-start-the-paperwork-for-place-today",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's wonderful. I'll start the paperwork for {place} today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "agree"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.follow-press.are-you-sure-the-seat-in-place-won-t-wait-long-for-somebody-else",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Are you sure? The seat in {place} won't wait long for somebody else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "decline"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
       "key": "scene-talk.follow-press.could-i-ask-you-to-think-about-it-once-more-place-needs-a-candidate",
       "move": "follow-press",
       "kind": "spoken",
@@ -49169,32 +48252,6 @@
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-i-ll-tell-the-party-you-weren-t-ready-and-we-ll-look-elsewhere-in-place",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand. I'll tell the party you weren't ready, and we'll look elsewhere in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "decline"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "accept",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
       "key": "scene-talk.follow-accept.take-the-time-you-need-but-the-filing-deadline-in-place-is-coming",
       "move": "follow-accept",
       "kind": "spoken",
@@ -49216,32 +48273,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "accept",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.follow-press.can-i-call-you-in-a-couple-of-days-about-place-we-have-to-move",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Can I call you in a couple of days about {place}? We have to move.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "stall"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "press",
         "key": "run-asked"
       },
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
@@ -49295,163 +48326,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "decline",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-think-it-over-i-ll-call-you-from-place-when-i-know",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me think it over. I'll call you from {place} when I know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-agree.you-ve-talked-me-into-it-i-ll-run-for-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've talked me into it. I'll run for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-thought-it-through-and-the-answer-for-place-stays-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've thought it through, and the answer for {place} stays no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.reply-leave.give-me-until-the-end-of-the-week-name",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Give me until the end of the week, {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "after": "press",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-first-i-ll-tell-the-party-in-place-the-good-news",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you, {first}. I'll tell the party in {place} the good news.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "thank",
-        "key": "run-asked"
-      },
-      "elements": ["pattern-a05-the-party-asks-you-to-run"]
-    },
-    {
-      "key": "scene-talk.close-promise.we-ll-be-with-you-the-whole-way-in-place-you-have-my-word",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "We'll be with you the whole way in {place}. You have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "ask-to-run",
-          "key": "run-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
         "key": "run-asked"
       },
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
