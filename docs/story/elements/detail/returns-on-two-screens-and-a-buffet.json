@@ -1,0 +1,31 @@
+{
+  "id": "returns-on-two-screens-and-a-buffet",
+  "kind": "detail",
+  "summary": "The family watches the count in the home sitting room with a buffet and two televisions while an adviser works elsewhere.",
+  "realLife": "On election night 2004 the president watched in his living quarters with his wife, daughters, parents and siblings. They ate from a buffet and watched split-screen returns on two televisions, while an adviser tracked numbers on a computer in another room.",
+  "sources": [
+    "https://www.upi.com/Archives/2004/11/02/Bush-watches-returns-with-family/8651099371600/"
+  ],
+  "fits": ["home", "news"],
+  "slots": ["{the count}", "{the family}", "{the adviser}"],
+  "gates": [
+    "An election result is pending for a seat the household cares about."
+  ],
+  "weights": ["Large extended family.", "An adviser tracking the count."],
+  "inGame": "election-day scene, household members and kin ties can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The count drags and the family drifts to bed.",
+      "pulledBy": "Slow count.",
+      "writesBack": "Journal line in the morning."
+    },
+    {
+      "turn": "opposite",
+      "what": "The candidate sits alone with the adviser.",
+      "pulledBy": "Tense race.",
+      "writesBack": "Spouse tie cools."
+    }
+  ]
+}

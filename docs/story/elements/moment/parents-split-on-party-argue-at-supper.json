@@ -1,0 +1,47 @@
+{
+  "id": "parents-split-on-party-argue-at-supper",
+  "kind": "moment",
+  "summary": "Two parents of different parties argue politics at supper, and the children learn it can be done without meanness.",
+  "realLife": "A speechwriter recalls a Republican father and liberal mother who argued about politics often at the dinner table. The talk stayed friendly rather than mean or personal. A daily paper at breakfast and weekend TV news fed it, and the boy even voted like his father in a class straw poll.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-oral-histories/cody-keenan-oral-history"
+  ],
+  "fits": ["home", "news"],
+  "slots": [
+    "{the household}",
+    "{the parent}",
+    "{the other parent}",
+    "{the news story}"
+  ],
+  "gates": [
+    "The household has two parents or partners with different party leanings.",
+    "A news story was read or aired that day."
+  ],
+  "weights": [
+    "Whether the pair's traits are agreeable or combative.",
+    "How many children are at the table.",
+    "Which parent read the paper."
+  ],
+  "inGame": "Households with partnerships, news stories read, and members' party leanings could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The argument turns bitter and a parent leaves the table.",
+      "pulledBy": "Combative traits, money worry, a child watching.",
+      "writesBack": "Lowers the tie between the partners and raises family strain."
+    },
+    {
+      "turn": "neutral",
+      "what": "They each read the paper and say nothing.",
+      "pulledBy": "Tired from work, late hours.",
+      "writesBack": "Nothing written but the story marked read at home."
+    },
+    {
+      "turn": "partial",
+      "what": "They agree on the facts and split on what to do.",
+      "pulledBy": "Shared trust in the same paper.",
+      "writesBack": "Child's leaning moves a little toward the parent who spoke last."
+    }
+  ]
+}
