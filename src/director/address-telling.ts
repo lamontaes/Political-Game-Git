@@ -48,6 +48,7 @@ type Facts = Record<string, GroundedEnglishFact>;
 const THEME = speechOutlines as unknown as {
   themeNames: Record<string, string>;
   themeShort: Record<string, string>;
+  nationWords: { nation: string; "nation-full": string };
 };
 
 const fact = (text: string, ids: readonly string[]): GroundedEnglishFact => ({
@@ -106,6 +107,11 @@ export function addressFacts(
   if (!facts["term-left"] && official)
     Object.assign(facts, termLeft(core, termOf(core, official.termId)));
   const national = outlineOf(kind).level === "federal";
+  // The country by name, for a blessing or a send-off: a national address only.
+  if (national) {
+    facts.nation = fact(THEME.nationWords.nation, ids);
+    facts["nation-full"] = fact(THEME.nationWords["nation-full"], ids);
+  }
   // The Vice President, from the officials engine, where the plan's blocks
   // did not carry them: a national address only.
   if (national && !facts["vice-president"]) {
