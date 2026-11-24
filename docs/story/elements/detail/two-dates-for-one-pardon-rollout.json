@@ -1,0 +1,42 @@
+{
+  "id": "two-dates-for-one-pardon-rollout",
+  "kind": "detail",
+  "summary": "{spokesperson} gives one expected date for the court docket and another for the background check.",
+  "realLife": "At the 2024 signing Maryland estimated roughly two weeks for court entries and roughly ten months for the separate criminal-record process.",
+  "sources": [
+    "https://governor.maryland.gov/news/press-releases/governor-moore-signs-nationally-historic-executive-order-pardoning-175000-maryland-cannabis#:~:text=approximately%2010%20months"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{spokesperson}"
+  ],
+  "gates": [
+    "Distinct record systems, implementation estimates and an effective order."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: distinct record systems, implementation estimates and an effective order.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The court confirms its update first.",
+      "what": "Identify which system now shows the pardon.",
+      "writesBack": "The office posts a dated update for that system."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A resident still sees the old result in the other system.",
+      "what": "Open a follow-up with its custodian.",
+      "writesBack": "The inquiry carries the affected system and expected update."
+    }
+  ]
+}

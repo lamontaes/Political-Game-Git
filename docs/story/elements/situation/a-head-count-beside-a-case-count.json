@@ -1,0 +1,41 @@
+{
+  "id": "a-head-count-beside-a-case-count",
+  "kind": "situation",
+  "summary": "{councilor} sets the administration's estimate beside the court's count of electronic cases.",
+  "realLife": "Councilor Terrence Kennedy questioned the reach of the Massachusetts pardon after the court reported a smaller number of adult cases in electronic records than the administration's estimate of people affected.",
+  "sources": [
+    "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=22%2C000%20adult%20cases"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{councilor}"
+  ],
+  "gates": [
+    "An extrapolation, a court extract and the unit each counts."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: an extrapolation, a court extract and the unit each counts.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The two counts use different units.",
+      "what": "Label both before publishing them.",
+      "writesBack": "The release distinguishes people estimated from cases located."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The same person appears on several dockets.",
+      "what": "Ask for a deduplicated count where the records allow it.",
+      "writesBack": "The estimate retains a note about unresolved matches."
+    }
+  ]
+}

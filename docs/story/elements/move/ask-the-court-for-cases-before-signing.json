@@ -1,0 +1,41 @@
+{
+  "id": "ask-the-court-for-cases-before-signing",
+  "kind": "move",
+  "summary": "{governor} asks the judiciary for a list of cases that meet the proposed order's terms.",
+  "realLife": "Moore requested electronic case lists from Maryland's courts and used them to identify the offenses he pardoned.",
+  "sources": [
+    "https://governor.maryland.gov/media/744/download#page=2"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{governor}"
+  ],
+  "gates": [
+    "A proposed category, custody of the dockets and a court response."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: a proposed category, custody of the dockets and a court response.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The judiciary supplies a candidate list.",
+      "what": "Have staff check its entries against the draft.",
+      "writesBack": "The approved list stays linked to the signed order."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The court has only partial electronic coverage.",
+      "what": "Identify the years staff could search.",
+      "writesBack": "The review records a gap instead of treating silence as ineligibility."
+    }
+  ]
+}

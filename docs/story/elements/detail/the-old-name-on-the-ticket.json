@@ -1,0 +1,41 @@
+{
+  "id": "the-old-name-on-the-ticket",
+  "kind": "detail",
+  "summary": "{applicant} remembers that the charge was filed under a different name.",
+  "realLife": "The Justice Department gave applicants a place to supply the name used at the time of the charge or conviction.",
+  "sources": [
+    "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=different%20name"
+  ],
+  "fits": [
+    "office",
+    "home",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{applicant}"
+  ],
+  "gates": [
+    "Applicant's current name, earlier name and an unmatched court record."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: applicant's current name, earlier name and an unmatched court record.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The earlier name resolves the match.",
+      "what": "Link the documents after checking the other identifiers.",
+      "writesBack": "The verification record retains the name used on the case."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Several cases have that name.",
+      "what": "Ask for the district or docket number.",
+      "writesBack": "The office leaves the possible matches distinct."
+    }
+  ]
+}

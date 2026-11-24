@@ -1,0 +1,42 @@
+{
+  "id": "the-kiosk-and-the-website-disagree",
+  "kind": "consequence",
+  "summary": "{resident} can see a pardoned case at the courthouse after it disappears from the public website.",
+  "realLife": "Maryland explained that its 2026 change removed pardoned possession cases from online Case Search while courthouse kiosks still displayed them.",
+  "sources": [
+    "https://governor.maryland.gov/performance/strategic-highlights/pardoning-cannabis-possession-convictions#:~:text=public%20kiosks"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{resident}"
+  ],
+  "gates": [
+    "Effective public-access rule and separate online and onsite views."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: effective public-access rule and separate online and onsite views.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The resident asks why the web search is blank.",
+      "what": "Explain the website's access rule.",
+      "writesBack": "The response identifies where a notation can still be checked."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The resident wants the public record removed altogether.",
+      "what": "Provide the court's expungement route.",
+      "writesBack": "The separate petition can be tracked without changing the pardon date."
+    }
+  ]
+}

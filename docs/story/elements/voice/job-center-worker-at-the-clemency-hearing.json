@@ -1,0 +1,42 @@
+{
+  "id": "job-center-worker-at-the-clemency-hearing",
+  "kind": "voice",
+  "summary": "{director} describes meeting both job seekers with records and employers at the same career center.",
+  "realLife": "A South Shore workforce official testified about how criminal records affected people using his publicly funded employment service.",
+  "sources": [
+    "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=publicly-funded%20workforce%20system"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "home",
+    "news",
+    "work-community"
+  ],
+  "slots": [
+    "{director}"
+  ],
+  "gates": [
+    "Career-center testimony about the effect of records on hiring."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: career-center testimony about the effect of records on hiring.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The council asks about the job application.",
+      "what": "Describe the barrier the witness has seen.",
+      "writesBack": "The hearing record names the employment issue."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "An employer asks whether the pardon guarantees a license.",
+      "what": "Refer the licensing question to the deciding body.",
+      "writesBack": "The follow-up records which restriction needs checking."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "the-clerk-work-behind-the-vote",
+  "kind": "situation",
+  "summary": "{councilor} asks who will pay clerks to identify cases and change the dockets.",
+  "realLife": "Kennedy raised the burden on Massachusetts clerk-magistrates and the possibility that the legislature might need to fund the work.",
+  "sources": [
+    "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=allocate%20some%20money"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{councilor}"
+  ],
+  "gates": [
+    "Office workload, planned updates and budget authority."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: office workload, planned updates and budget authority.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The court reports an unfunded burden.",
+      "what": "Request an estimate for the legislature.",
+      "writesBack": "The proposed appropriation has a stated purpose."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The office can absorb a paced schedule.",
+      "what": "Ask it to identify the first batch and reporting date.",
+      "writesBack": "The minutes record the schedule it actually offered."
+    }
+  ]
+}

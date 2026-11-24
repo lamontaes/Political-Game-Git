@@ -1,0 +1,41 @@
+{
+  "id": "a-letter-writers-pen-at-the-signing",
+  "kind": "detail",
+  "summary": "{governor} signs the order with a pen that families used to write to elected officials.",
+  "realLife": "Wes Moore signed Maryland's 2024 cannabis order with a pen that had circulated among relatives and friends campaigning for relief.",
+  "sources": [
+    "https://governor.maryland.gov/news/press-releases/governor-moore-signs-nationally-historic-executive-order-pardoning-175000-maryland-cannabis#:~:text=Pen%20to%20Right%20History"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{governor}"
+  ],
+  "gates": [
+    "A signing and an object with documented provenance."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "none"
+  ],
+  "inGame": "needs: a signing and an object with documented provenance.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "An organizer can identify a prior writer.",
+      "what": "Invite that writer to explain where the pen has been.",
+      "writesBack": "The event credits the writer and records the loan."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The lender asks for the pen back after the ceremony.",
+      "what": "Return it with a copy of the signed order.",
+      "writesBack": "The signing record shows who received the object."
+    }
+  ]
+}
