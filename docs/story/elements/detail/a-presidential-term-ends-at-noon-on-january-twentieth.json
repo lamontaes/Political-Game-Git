@@ -1,0 +1,31 @@
+{
+  "id": "a-presidential-term-ends-at-noon-on-january-twentieth",
+  "kind": "detail",
+  "summary": "A presidential term ends at noon on January 20, a date set by the 20th Amendment.",
+  "realLife": "The 20th Amendment, ratified in 1933, ends the terms of the President and Vice President at noon on January 20 and the terms of senators and representatives at noon on January 3.",
+  "sources": [
+    "National Archives, The Constitution: Amendments 11-27: https://www.archives.gov/founding-docs/amendments-11-27"
+  ],
+  "fits": ["loading"],
+  "slots": ["start-month", "start-year"],
+  "gates": [],
+  "weights": {
+    "year": 0.5
+  },
+  "inGame": "the century's presidency rows hold termStart and termEnd (read by presidencyParty in src/bench/loading.ts); the opening date is a January 20 in a presidential year.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Before the amendment the term ran until March 4, so a person born in those years lived through a longer wait for the new President.",
+      "pulledBy": "the date of the person's life against 1933",
+      "writesBack": "the loading story says the old date; needs: a March 4 term end in the century rows before 1937"
+    },
+    {
+      "turn": "neutral",
+      "what": "A birth or a move falls in the middle of a term and no handover is near.",
+      "pulledBy": "the date inside a term",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}
