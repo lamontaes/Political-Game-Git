@@ -1920,14 +1920,13 @@ export function createDirector(
         frontier !== undefined &&
         opened.date === frontier.date &&
         opened.minuteOfDay === frontier.minuteOfDay;
-      const lastMinute =
-        coreParam(core, "minutesPerHour") * coreParam(core, "hoursPerDay") -
-        one;
-      const at = !atPause
-        ? opened
-        : opened.minuteOfDay < lastMinute
-          ? { date: opened.date, minuteOfDay: opened.minuteOfDay + one }
-          : { date: addDays(makeIsoDate(opened.date), one), minuteOfDay: zero };
+      const at = atPause
+        ? openedAt(
+            core,
+            { date: opened.date, minuteOfDay: opened.minuteOfDay + one },
+            entry.bindings[zero]?.setting.kind,
+          )
+        : opened;
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,
