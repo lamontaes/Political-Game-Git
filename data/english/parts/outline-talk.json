@@ -567,25 +567,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-and-i-think-has-it-right",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "And I think {president} has it right.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"]
-        }
-      ],
-      "after": ["why-first"],
-      "lean": ["personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.verdict-after.talk-address-point-and-i-don-t-buy-it-not-from",
       "move": "verdict-after",
       "kind": "spoken",
@@ -599,7 +580,7 @@
         }
       ],
       "after": ["why-first"],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "lean": ["personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -1031,27 +1012,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-half-of-me-nods-along-with-and-half-of-me-doesn-t",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "Half of me nods along with {president-object}, and half of me doesn't.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-unsure"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict-cold.talk-address-point-i-m-not-buying-what-said-on",
       "move": "verdict-cold",
       "kind": "spoken",
@@ -1096,26 +1056,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.heard.talk-address-point-you-were-listening-when-got-to-weren-t-you",
-      "move": "heard",
-      "kind": "spoken",
-      "text": "You were listening when {president} got to {said}, weren't you?",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "heard",
-          "tie": "stand",
-          "requiresFacts": ["said", "president", "point-heard"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-curious", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.heard.talk-address-point-i-saw-you-look-up-when-mentioned",
       "move": "heard",
       "kind": "spoken",
@@ -1132,29 +1072,6 @@
       "lean": [
         "personality-v1:facet-analytical",
         "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.heard.talk-address-point-caught-your-ear-right",
-      "move": "heard",
-      "kind": "spoken",
-      "text": "{said} caught your ear, right?",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "heard",
-          "tie": "stand",
-          "requiresFacts": ["said", "point-heard"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
@@ -1182,26 +1099,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-cold.talk-address-point-is-where-loses-me",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "{said} is where {president} loses me.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": ["president", "said", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.why-first.talk-address-point-rent-in-was-on-my-mind-when-got-to",
       "move": "why-first",
       "kind": "spoken",
@@ -1222,50 +1119,6 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why-first.talk-address-point-work-is-thin-in-so-had-my-full-attention",
-      "move": "why-first",
-      "kind": "spoken",
-      "text": "Work is thin in {place}, so {said} had my full attention.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why-first",
-          "tie": "stand",
-          "requiresFacts": ["why-town-jobs", "place", "said"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-so-i-m-with",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "So I'm with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
@@ -1411,117 +1264,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-i-d-have-said-the-same-if-i-were-president-object",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'd have said the same, if I were {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-for-once-i-agree-with-president-object",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "For once, I agree with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-don-t-always-like-what-president-says-but-that-was-fair",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I don't always like what {president} says, but that was fair.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-fair-minded", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-you-won-t-hear-me-complain-about-president-object-on-that",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "You won't hear me complain about {president-object} on that.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-president-has-my-support-on-that-one",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "{president} has my support on that one.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict.talk-address-point-president-lost-me-on-said",
       "move": "verdict",
       "kind": "spoken",
@@ -1536,27 +1278,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-can-t-agree-with-president-object-on-that",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I can't agree with {president-object} on that.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -1585,26 +1306,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-where-president-won-me-over-was-said",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "Where {president} won me over was {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": ["president", "said", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
@@ -1648,27 +1349,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict-after.talk-address-point-hard-to-argue-with-president-object-after-that",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "Hard to argue with {president-object} after that.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict-after.talk-address-point-that-s-why-i-can-t-back-president-object-on-said",
       "move": "verdict-after",
       "kind": "spoken",
@@ -1687,165 +1367,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict-after.talk-address-point-president-hasn-t-settled-it-for-me-yet",
-      "move": "verdict-after",
-      "kind": "spoken",
-      "text": "{president} hasn't settled it for me yet.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-after",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-unsure"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-guarded",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["why-first"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-look-around-place-and-tell-me-it-s-wrong",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Look around {place} and tell me it's wrong.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-folks-in-place-would-back-it-i-think",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Folks in {place} would back it, I think.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-it-too",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Spend a day in {place} and you'd see it too.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-look-around-place-and-tell-me-it-s-right",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Look around {place} and tell me it's right.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-folks-in-place-wouldn-t-stand-for-it-i-think",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Folks in {place} wouldn't stand for it, I think.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-the-problem",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Spend a day in {place} and you'd see the problem.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
@@ -1870,123 +1391,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-credit-to-president-object-that-took-some-nerve",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "Credit to {president-object}: that took some nerve.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-ll-give-president-object-that-one-without-arguing",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'll give {president-object} that one without arguing.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-that-sounded-like-president-meant-it-and-i-m-with-president-object",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "That sounded like {president} meant it, and I'm with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-somebody-had-to-say-it-and-president-said-it-well",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "Somebody had to say it, and {president} said it well.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-what-president-wants-and-what-i-want-are-two-different-things",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "What {president} wants and what I want are two different things.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
@@ -2058,27 +1462,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.why.talk-address-point-that-s-how-it-looks-from-place-anyway",
-      "move": "why",
-      "kind": "spoken",
-      "text": "That's how it looks from {place}, anyway.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.why.talk-address-point-i-d-say-it-differently-if-i-lived-anywhere-but-place",
       "move": "why",
       "kind": "spoken",
@@ -2095,30 +1478,6 @@
       "lean": [
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-ask-around-place-you-ll-hear-it-too",
-      "move": "why",
-      "kind": "spoken",
-      "text": "Ask around {place}. You'll hear it too.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
@@ -2172,174 +1531,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "why", "verdict-after"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-if-president-keeps-talking-like-that-i-m-in",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "If {president} keeps talking like that, I'm in.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-excitable",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-m-relieved-president-said-it-honestly",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'm relieved {president} said it, honestly.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sensitive",
-        "personality-v1:facet-tender-hearted"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-put-me-down-as-agreeing-with-president-object",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "Put me down as agreeing with {president-object}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-if-you-ask-me-president-chose-the-right-fight",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "If you ask me, {president} chose the right fight.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-that-s-not-how-i-d-have-put-it-but-president-is-right",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "That's not how I'd have put it, but {president} is right.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-heard-president-out-and-it-doesn-t-change-my-mind",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I heard {president} out, and it doesn't change my mind.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-guarded"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-the-other-side-has-the-better-argument-and-president-knows-it",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "The other side has the better argument, and {president} knows it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
@@ -2449,48 +1640,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-no-i-disagree-with-president-object-there",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "No. I disagree with {president-object} there.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-d-say-president-has-that-wrong",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'd say {president} has that wrong.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict.talk-address-point-i-think-president-is-making-a-mistake-on-said",
       "move": "verdict",
       "kind": "spoken",
@@ -2536,30 +1685,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.verdict.talk-address-point-president-says-one-thing-and-i-believe-the-opposite",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "{president} says one thing, and I believe the opposite.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "outline-talk.verdict.talk-address-point-i-wish-president-saw-said-the-way-i-do",
       "move": "verdict",
       "kind": "spoken",
@@ -2576,99 +1701,6 @@
       "lean": [
         "personality-v1:facet-sincere",
         "personality-v1:facet-sensitive"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-m-not-convinced-by-president-object-at-all",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'm not convinced by {president-object} at all.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-president-made-the-case-and-i-m-still-not-buying-it",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "{president} made the case, and I'm still not buying it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-president-sounded-sure-and-i-still-say-no",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "{president} sounded sure, and I still say no.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-i-ll-give-president-object-credit-for-trying-but-i-disagree",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "I'll give {president-object} credit for trying, but I disagree.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president-object", "stand-against"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-fair-minded"
       ],
       "origin": "authored",
       "author": "the talk at home writer",
@@ -2712,27 +1744,6 @@
         }
       ],
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "outline-talk.verdict.talk-address-point-that-s-where-i-stand-too-and-i-m-glad-president-said-it",
-      "move": "verdict",
-      "kind": "spoken",
-      "text": "That's where I stand too, and I'm glad {president} said it.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict",
-          "tie": "stand",
-          "requiresFacts": ["president", "stand-with"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
@@ -2945,27 +1956,6 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["why-first"]
-    },
-    {
-      "key": "outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all",
-      "move": "why",
-      "kind": "spoken",
-      "text": "It's what I see out the window in {place}, that's all.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
-      "elements": ["parents-who-value-passing-on-politics-talk-weekly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "after": ["verdict", "verdict-cold"]
     },
     {
       "key": "outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we",
@@ -3562,6 +2552,762 @@
       ],
       "after": ["verdict", "why", "verdict-after"],
       "lean": ["personality-v1:facet-friendly", "personality-v1:facet-curious"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-good-for-president-object-about-time-somebody-said-it",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Good for {president-object}. About time somebody said it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-president-said-it-better-than-i-could-have",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} said it better than I could have.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-say-what-you-want-about-president-object-but-that-was-right",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "Say what you want about {president-object}, but that was right.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-blunt",
+        "personality-v1:facet-light-hearted"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-president-is-not-speaking-for-me-on-this",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} is not speaking for me on this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-that-s-not-what-place-needs-from-president-object",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "That's not what {place} needs from {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["place", "president-object", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-i-expected-better-from-president-object",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "I expected better from {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-sensitive",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict.talk-address-point-president-lost-me-there",
+      "move": "verdict",
+      "kind": "spoken",
+      "text": "{president} lost me there.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["lead", "heard"],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-d-back-president-object-on-that-any-day",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I'd back {president-object} on that any day.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president-object", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "{president} is right, and I don't say that often.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-president-said-what-i-was-already-thinking",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "{president} said what I was already thinking.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-with"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-president-can-t-talk-me-into-it",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "{president} can't talk me into it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-president-didn-t-say-anything-to-change-my-mind",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "{president} didn't say anything to change my mind.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["president", "stand-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-can-t-back-president-object-since-reason-against",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I can't back {president-object}, since {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-for",
+            "president-object",
+            "reason-against",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-can-t-back-president-object-since-reason-for",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I can't back {president-object}, since {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "president-against",
+            "president-object",
+            "reason-for",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-guarded"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-the-law-on-said-is-already-here-and-i-m-with-president-object-on-keeping-it",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "The law on {said} is already here, and I'm with {president-object} on keeping it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president-for",
+            "president-object",
+            "said",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-d-rather-see-the-law-on-said-changed-than-kept",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I'd rather see the law on {said} changed than kept.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president-for",
+            "said",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-the-law-on-said-is-already-here-and-i-d-be-glad-to-see-president-change-it",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "The law on {said} is already here, and I'd be glad to see {president} change it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president",
+            "president-against",
+            "said",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-d-leave-the-law-on-said-alone-whatever-president-says",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I'd leave the law on {said} alone, whatever {president} says.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president",
+            "president-against",
+            "said",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-president-wants-to-keep-the-law-on-said-and-so-do-i",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{president} wants to keep the law on {said}, and so do I.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president",
+            "president-for",
+            "said",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-d-change-the-law-on-said-if-i-could",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I'd change the law on {said} if I could.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president-for",
+            "said",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-i-d-happily-see-the-law-on-said-go-and-president-is-right-to-try",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "I'd happily see the law on {said} go, and {president} is right to try.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president",
+            "president-against",
+            "said",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-the-law-on-said-stays-as-far-as-i-m-concerned",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "The law on {said} stays, as far as I'm concerned.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-in-force",
+            "president-against",
+            "said",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-just-hope-decider-goes-along-with-president-object",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I just hope {decider} goes along with {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president-for",
+            "president-object",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-m-counting-on-decider-to-say-no-to-president-object",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I'm counting on {decider} to say no to {president-object}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president-for",
+            "president-object",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-hope-decider-lets-president-object-have-this-one",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I hope {decider} lets {president-object} have this one.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president-against",
+            "president-object",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-hope-decider-doesn-t-listen-to-president-on-this",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I hope {decider} doesn't listen to {president} on this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president",
+            "president-against",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"],
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-decider-should-do-what-president-asks",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{decider} should do what {president} asks.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president",
+            "president-for",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-decider-shouldn-t-give-president-object-this",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{decider} shouldn't give {president-object} this.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president-for",
+            "president-object",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-decider-ought-to-leave-this-alone-the-way-president-says",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{decider} ought to leave this alone, the way {president} says.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president",
+            "president-against",
+            "stand-with"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.verdict-cold.talk-address-point-decider-ought-to-do-the-opposite-of-what-president-wants",
+      "move": "verdict-cold",
+      "kind": "spoken",
+      "text": "{decider} ought to do the opposite of what {president} wants.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-cold",
+          "tie": "stand",
+          "requiresFacts": [
+            "decider",
+            "president",
+            "president-against",
+            "stand-against"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-practical"
+      ],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
