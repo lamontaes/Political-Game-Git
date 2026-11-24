@@ -26,6 +26,7 @@ import newsJson from "../../data/english/parts/news.json" with { type: "json" };
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import noticeJson from "../../data/english/parts/notice.json" with { type: "json" };
 import outlineJson from "../../data/english/parts/outline.json" with { type: "json" };
+import outlineLoadingJson from "../../data/english/parts/outline-loading.json" with { type: "json" };
 import outlineCallJson from "../../data/english/parts/outline-call.json" with { type: "json" };
 import outlineThemeJson from "../../data/english/parts/outline-theme.json" with { type: "json" };
 import outlineDiaryJson from "../../data/english/parts/outline-diary.json" with { type: "json" };
@@ -90,6 +91,10 @@ const BANKS: Record<
     slots?: Record<string, string>;
   },
   outline: outlineJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
+  "outline-loading": outlineLoadingJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },

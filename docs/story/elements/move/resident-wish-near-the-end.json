@@ -1,0 +1,30 @@
+{
+  "id": "resident-wish-near-the-end",
+  "kind": "move",
+  "summary": "Near the end a resident is named with what they want next, and a second resident idea is relayed.",
+  "realLife": "One resident was quoted wanting the next session on the south side; another suggestion was relayed unnamed.",
+  "sources": [
+    "WCBU Peoria Public Radio, 'Pekin residents question council members about roads, home rule and more', Nov. 6, 2025: https://www.wcbu.org/local-news/2025-11-06/pekin-residents-question-council-members-about-roads-home-rule-and-more",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "place"],
+  "gates": [],
+  "weights": {
+    "town-hall": 0.8
+  },
+  "inGame": "a filled-in resident (the two-level population: named when met); needs: residents at a public action",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no resident named",
+      "pulledBy": "a crowd that gave no names",
+      "writes": "the story relays the suggestion unnamed"
+    },
+    {
+      "name": "resident opposes",
+      "pulledBy": "a resident who opposes the plan",
+      "writes": "the story ends on their objection"
+    }
+  ]
+}

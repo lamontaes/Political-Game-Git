@@ -1,0 +1,44 @@
+{
+  "id": "pattern-c10-meeting-the-government-yours-shuns",
+  "kind": "situation",
+  "summary": "Meeting the government yours shuns: You could go and meet {adversary leader}, whom your own government shuns, to open trade or to carry a message home.",
+  "realLife": "One life: In 2004 the Louisiana governor went to Cuba to build trade and met Fidel Castro, a controversial trip at home. Another: As a new senator in 1985 he went to Nicaragua with Tom Harkin and met Daniel Ortega, and the trip was criticized. In 2013, as secretary of state, he met Iran's foreign minister, the first such meeting since 1979. Another: In 2007 he suggested that Nancy Pelosi's meeting with Syria's president might break the law against private diplomacy.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kathleen_Blanco",
+    "https://en.wikipedia.org/wiki/John_Kerry",
+    "https://en.wikipedia.org/wiki/Eric_Cantor"
+  ],
+  "fits": ["home", "journal", "news", "office", "work-community"],
+  "slots": ["adversary leader", "critic"],
+  "gates": [
+    "You hold an office.",
+    "{adversary leader} heads a government on record in conflict with yours."
+  ],
+  "weights": [
+    "What trade or relief is at stake.",
+    "How hostile your party is to the other side.",
+    "Traits that take risks."
+  ],
+  "pattern": "C10",
+  "choices": [
+    "go and meet them",
+    "send a deputy",
+    "meet only with others present",
+    "decline"
+  ],
+  "branches": [
+    {
+      "when": "you carry an offer home",
+      "then": "The executive calls it propaganda, and the vote you hoped to move goes the other way."
+    },
+    {
+      "when": "{critic} calls the trip illegal",
+      "then": "They say you broke the rule against private dealings with foreign governments, and it follows you."
+    },
+    {
+      "when": "years later you go as the executive's envoy",
+      "then": "It is the first such meeting in decades, and a leak about what you said starts calls for an inquiry."
+    }
+  ],
+  "usedBy": []
+}

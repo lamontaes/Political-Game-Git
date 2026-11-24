@@ -1,0 +1,43 @@
+{
+  "id": "pattern-c34-choose-a-running-mate",
+  "kind": "situation",
+  "summary": "Choose a running mate: You need a running mate, and the list is {rival}, who attacked you in the primary, {loyal ally}, who backed you early, and {safe pick}.",
+  "realLife": "One life: In 2004 he picked John Edwards, who had called him a Washington insider in the primary. A campaign adviser later wrote that Kerry wished he had not. Another: In 2016 he chose Mike Pence, who had backed Ted Cruz in the primary, over finalists including Chris Christie. Another: Passed over for the 2016 ticket, he said the bridge scandal was a factor. Trump named him to lead the transition, then replaced him.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/John_Kerry",
+    "https://en.wikipedia.org/wiki/Mike_Pence",
+    "https://en.wikipedia.org/wiki/Chris_Christie"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["rival", "loyal ally", "safe pick"],
+  "gates": [
+    "You are your party's nominee for an office that has a running mate."
+  ],
+  "weights": [
+    "What each brings in votes and money.",
+    "Your ties with each.",
+    "Scandals on each one's record."
+  ],
+  "pattern": "C34",
+  "choices": [
+    "pick {rival}",
+    "pick {loyal ally}",
+    "pick {safe pick}",
+    "let the party's leaders decide"
+  ],
+  "branches": [
+    {
+      "when": "you pick {rival}",
+      "then": "They campaign well. Years later you wish you had not, when their secret comes out (C22)."
+    },
+    {
+      "when": "you pass over {loyal ally}",
+      "then": "They say a scandal on their record cost them. You put them in charge of your transition and remove them later (C44)."
+    },
+    {
+      "when": "{safe pick} backed someone else in the primary",
+      "then": "They calm the party. Years later they are the one who must preside over your loss (C26)."
+    }
+  ],
+  "usedBy": []
+}

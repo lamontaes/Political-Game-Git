@@ -1,0 +1,32 @@
+{
+  "id": "pattern-b15-your-own-words-cut-up",
+  "kind": "situation",
+  "summary": "Your own words, cut up: {rival}'s side runs lines from {your writing}, cut from their context, every day.",
+  "realLife": "Running for California governor in 1934, he was hit with out-of-context quotes from his own novels run daily in the papers, and with newsreels of staged voter interviews; studio heads pressured employees to give to his opponent. He lost.",
+  "sources": [
+    "https://www.americanheritage.com/how-media-politics-was-born",
+    "https://en.wikipedia.org/wiki/1934_California_gubernatorial_election"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["your writing"],
+  "gates": ["Candidate.", "A body of writing or speeches on your record."],
+  "weights": ["How much you have written.", "How hostile the outlets are."],
+  "pattern": "B15",
+  "choices": [
+    "defend the work whole",
+    "say the words were a character's, not yours",
+    "publish the full text",
+    "ignore it"
+  ],
+  "branches": [
+    {
+      "when": "employers lean on their workers",
+      "then": "A big employer docks pay or presses staff to give to {rival}, and a worker tells you."
+    },
+    {
+      "when": "staged interviews",
+      "then": "Filmed voter interviews against you turn out to use actors, and exposing it is a press story."
+    }
+  ],
+  "usedBy": []
+}

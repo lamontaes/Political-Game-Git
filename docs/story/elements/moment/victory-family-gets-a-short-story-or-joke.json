@@ -1,0 +1,33 @@
+{
+  "id": "victory-family-gets-a-short-story-or-joke",
+  "kind": "moment",
+  "summary": "Family is thanked with one small, funny or tender detail instead of a list.",
+  "realLife": "Four winners turn the thanks to family into a joke or a small story: a daughter and a clean room, pets and impeachments, a household of ten, a sleep joke for staff.",
+  "sources": [
+    "Abigail Spanberger, Virginia governor, victory night, Nov 4, 2025: https://www.rev.com/transcripts/abigail-spanberger-victory-speech",
+    "Mikie Sherrill, New Jersey governor, victory night, Nov 4, 2025: https://awpc.cattcenter.iastate.edu/communication/victory-speech-nov-4-2025",
+    "Brandon Johnson, Chicago mayor, victory night, Apr 4, 2023: https://www.rev.com/transcripts/brandon-johnson-delivers-victory-speech-after-winning-the-chicago-mayoral-election-transcript",
+    "Zohran Mamdani, NYC mayor, victory night, Nov 4, 2025: https://www.rev.com/transcripts/mamdani-victory-speech",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["spouse", "children"],
+  "gates": ["won"],
+  "weights": {
+    "victory": 0.7
+  },
+  "usedBy": [],
+  "inGame": "people records (household, spouse, children, parents) the speaker already has; needs: a trait-led small fact about a family member that a line can name",
+  "turns": [
+    {
+      "way": "The family thanks is plain, with no joke or story.",
+      "pulledBy": "a guarded or formal speaker",
+      "writes": "a plain list of names"
+    },
+    {
+      "way": "The family is not named because the speaker lives alone.",
+      "pulledBy": "no household on the person record",
+      "writes": "the thanks go to friends and the team"
+    }
+  ]
+}

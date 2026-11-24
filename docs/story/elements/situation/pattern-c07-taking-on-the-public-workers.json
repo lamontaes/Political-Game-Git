@@ -1,0 +1,54 @@
+{
+  "id": "pattern-c07-taking-on-the-public-workers",
+  "kind": "situation",
+  "summary": "Taking on the public workers: You send {the body} a bill that cuts what public workers can bargain for, and {union} fills the building.",
+  "realLife": "One life: In 2011 the Wisconsin governor proposed sharp limits on public unions' bargaining, leaving out police and firefighters. Protesters filled the Capitol, all 14 Democratic senators went to Illinois to deny a quorum, and one Republican voted no. A recall followed. Another: In 2010 the New Jersey governor signed pension changes after promising police and firefighters none, and their unions sued. In 2011 he made a deal with Democratic leaders raising what workers paid and ending bargaining over health benefits.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)",
+    "https://en.wikipedia.org/wiki/2011_Wisconsin_protests",
+    "https://en.wikipedia.org/wiki/Chris_Christie"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["union", "holdout"],
+  "gates": [
+    "You hold an executive office.",
+    "A budget gap is on record.",
+    "The place's public workers bargain through unions."
+  ],
+  "weights": [
+    "How large the gap is.",
+    "How many public workers the place has.",
+    "Your party's share of the body.",
+    "Traits that dig in."
+  ],
+  "pattern": "C07",
+  "choices": [
+    "push it as written",
+    "leave out police and firefighters",
+    "take the unions' money offer and drop the bargaining limits",
+    "make a deal with the other party's leaders"
+  ],
+  "branches": [
+    {
+      "when": "the other party's members leave the place to block the vote",
+      "then": "Without them the body cannot take up spending, and the standoff runs for weeks (C05)."
+    },
+    {
+      "when": "{holdout} votes no",
+      "then": "Your first defection. The bill passes anyway, or fails by one."
+    },
+    {
+      "when": "you once promised these workers no change",
+      "then": "Their union sues and quotes your promise (C38)."
+    },
+    {
+      "when": "it passes",
+      "then": "A recall drive starts against you and the members who voted for it (C31)."
+    },
+    {
+      "when": "you make a deal with the other party's leaders",
+      "then": "They raise what workers pay and end bargaining over health plans, and their own base turns on them."
+    }
+  ],
+  "usedBy": []
+}

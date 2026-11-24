@@ -1,0 +1,30 @@
+{
+  "id": "kicker-says-who-was-absent",
+  "kind": "detail",
+  "summary": "The last paragraph says who was absent and why, and what kind of meeting it was in law.",
+  "realLife": "The story closed on the mayor pro tem sitting in for the mayor and the event counting as a special council meeting.",
+  "sources": [
+    "WCBU Peoria Public Radio, 'Pekin residents question council members about roads, home rule and more', Nov. 6, 2025: https://www.wcbu.org/local-news/2025-11-06/pekin-residents-question-council-members-about-roads-home-rule-and-more",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "meetings": 0.6
+  },
+  "inGame": "needs: attendance at a meeting; the seat-holders at the meeting from the offices table",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "everyone present",
+      "pulledBy": "a full attendance",
+      "writes": "no absence line"
+    },
+    {
+      "name": "the absent person answers later",
+      "pulledBy": "an official who missed it and later spoke",
+      "writes": "a later story carries their word"
+    }
+  ]
+}

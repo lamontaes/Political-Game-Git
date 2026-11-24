@@ -640,7 +640,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.organization-closed.subject-out-of-business",
@@ -661,7 +662,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.organization-closed.end-of-the-line-for-subject",
@@ -682,7 +684,8 @@
       "tag": {
         "move": "headline",
         "key": "loss"
-      }
+      },
+      "elements": ["business-closes-story"]
     },
     {
       "key": "headlines.grant.money-coming-to-place-for-purpose",
@@ -1299,7 +1302,8 @@
       "tag": {
         "move": "headline",
         "key": "arrival"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "headlines.organization-opened.subject-back-in-business",
@@ -1321,7 +1325,8 @@
       "tag": {
         "move": "headline",
         "key": "arrival"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "headlines.organization-opened.subject-welcomes-customers-again",
@@ -1343,7 +1348,8 @@
       "tag": {
         "move": "headline",
         "key": "arrival"
-      }
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "headlines.law.law-now-applies-in-place",
@@ -1364,7 +1370,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.law-starts",
@@ -1385,7 +1392,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.law-begins-in-place",
@@ -1406,7 +1414,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law.new-place-rules-on-purpose-begin",
@@ -1428,7 +1437,162 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-takes-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} takes effect in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-gets-law",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} gets {law}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-now-under-law",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} now under {law}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.first-day-for-law-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "First day for {law} in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-now-in-effect-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} now in effect in {place}",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.place-puts-law-into-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} puts {law} into effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
+    },
+    {
+      "key": "headlines.law.law-takes-effect",
+      "move": "law",
+      "kind": "written",
+      "text": "{law} takes effect",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "headline",
+          "role": "law",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law-amount.measure-in-place-comes-down-to-to",
@@ -1628,7 +1792,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.body-votes-yes-on-the-law",
@@ -1650,7 +1815,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.designation-defeated-count",
@@ -1672,7 +1838,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.body-votes-no-on-the-law",
@@ -1694,7 +1861,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.law-loses-in-body",
@@ -1716,7 +1884,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.committee.designation-moves-out-of-committee-committee",
@@ -2196,7 +2365,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.purpose-loses-money",
@@ -2218,7 +2388,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.place-puts-money-more-into-purpose",
@@ -2240,7 +2411,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-line.purpose-gains-money",
@@ -2262,7 +2434,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.place-passes-its-budget",
@@ -2283,7 +2456,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.place-budget-sets-money-for-purpose",
@@ -2304,7 +2478,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.jobs-report.area-jobless-rate-at-percent",
@@ -2677,6 +2852,490 @@
       }
     },
     {
+      "key": "headlines.conditions.jobless-rate-climbs-in-place-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Jobless rate climbs in {place}: {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-up-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment up to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-up-from-from-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment up from {from} to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.jobless-rate-drops-in-place-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Jobless rate drops in {place}: {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-down-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment down to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-unemployment-down-from-from-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} unemployment down from {from} to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.break-ins-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-burglaries",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more burglaries",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.break-ins-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-burglaries",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer burglaries",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.robberies-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-robberies",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more robberies",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.robberies-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-robberies",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer robberies",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.assaults-rise-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults rise in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-assaults",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more assaults",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.assaults-drop-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults drop in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-fewer-assaults",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees fewer assaults",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.vandalism-rises-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism rises in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-more-vandalism",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees more vandalism",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.vandalism-drops-in-place",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism drops in {place}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-sees-less-vandalism",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} sees less vandalism",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.rate.fed-raises-its-rate-to-percent",
       "move": "rate",
       "kind": "written",
@@ -2827,7 +3486,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "headlines.town-hall.number-come-to-town-hall-with-name",
@@ -2849,7 +3509,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["town-hall-story-from-the-event"]
     },
     {
       "key": "headlines.body-meeting.body-meets-with-number-items",
@@ -4194,27 +4855,6 @@
       }
     },
     {
-      "key": "headlines.owner-changed.subject-under-new-ownership",
-      "move": "owner-changed",
-      "kind": "written",
-      "text": "{subject} under new ownership",
-      "uses": [
-        {
-          "move": "owner-changed",
-          "subject": "headline",
-          "role": "owner-changed",
-          "choice": "headline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.organization-opened.subject-welcomes-first-customers",
       "move": "organization-opened",
       "kind": "written",
@@ -4233,7 +4873,120 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["business-opens-story"]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens in {place}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["business-opens-story"]
+    },
+    {
+      "key": "headlines.organization.opened.new-in-place-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "New in {place}: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["business-opens-story"]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-its-doors",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens its doors",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["business-opens-story"]
+    },
+    {
+      "key": "headlines.organization.opened.open-for-business-subject",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "Open for business: {subject}",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["business-opens-story"]
+    },
+    {
+      "key": "headlines.organization.opened.subject-opens-for-business",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opens for business",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "elements": ["business-opens-story"]
     },
     {
       "key": "headlines.founded.name-opens-new-business",
@@ -5026,7 +5779,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.law-rule.new-measure-rule-begins",
@@ -5047,7 +5801,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["law-takes-effect-story"]
     },
     {
       "key": "headlines.bail.name-jailed-until-trial",
@@ -5091,7 +5846,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.member-vote.name-votes-against-designation",
@@ -5113,7 +5869,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.claim-check.name-on-issue-the-record",
@@ -5285,7 +6042,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-and-a-bribe-the-records",
@@ -5307,7 +6065,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-voted-on-contract-for-firm-with-ties",
@@ -5329,7 +6088,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-voted-for-firm-contract",
@@ -5351,7 +6111,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-votes-for-firm-contract-once-more",
@@ -5373,7 +6134,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.ordinal-time-name-votes-on-firm-contract",
@@ -5395,7 +6157,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.took-office.place-swears-in-new-post",
@@ -5591,7 +6354,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-request.name-proposes-less-for-purpose",
@@ -5613,7 +6377,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.joint-address.name-speaks-to-congress",
@@ -5958,7 +6723,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.roll-call.law-approved-count",
@@ -5980,7 +6746,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["council-vote-story"]
     },
     {
       "key": "headlines.carry.name-will-sponsor-designation",
@@ -6197,6 +6964,204 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.break-in-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Break-in reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-home-broken-into",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} home broken into",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["burglary"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-vandalism-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} vandalism reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.vandals-hit-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Vandals hit {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.property-damaged-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Property damaged in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["vandalism"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.robbery-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Robbery reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-robbery-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} robbery reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["robbery"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.assault-reported-in-place",
+      "move": "crime",
+      "kind": "written",
+      "text": "Assault reported in {place}",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.crime.place-assault-reported",
+      "move": "crime",
+      "kind": "written",
+      "text": "{place} assault reported",
+      "uses": [
+        {
+          "move": "crime",
+          "subject": "headline",
+          "role": "crime",
+          "choice": "headline",
+          "requiresFacts": ["assault"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -7401,7 +8366,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.exposed.name-bribe-offer-shown-in-records",
@@ -7423,7 +8389,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["no-bid-contract-with-ties-story"]
     },
     {
       "key": "headlines.address-response.name-replies-to-opponent-s-address",
@@ -7766,7 +8733,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.budget-adopted.congress-adopts-spending-budget",
@@ -7788,7 +8756,8 @@
       "tag": {
         "move": "headline",
         "key": "news-received"
-      }
+      },
+      "elements": ["budget-hearing-story"]
     },
     {
       "key": "headlines.hearing.place-holds-budget-hearing",

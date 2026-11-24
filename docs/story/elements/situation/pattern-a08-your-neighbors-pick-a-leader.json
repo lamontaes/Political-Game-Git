@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a08-your-neighbors-pick-a-leader",
+  "kind": "situation",
+  "summary": "Your neighbors pick a leader: At {local group}'s meeting, {member} nominates you out loud to lead it.",
+  "realLife": "In 1832, about a year after moving to New Salem, Illinois, his neighbors elected him captain of their militia company. He lost his legislative race that year but carried New Salem almost to a man.",
+  "sources": ["https://www.nps.gov/liho/learn/historyculture/newsalem.htm"],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["local group", "member"],
+  "gates": [
+    "Not in office.",
+    "You belong to {local group} and its leader post is open."
+  ],
+  "weights": ["Your ties within the group.", "Traits other people follow."],
+  "pattern": "A08",
+  "choices": [
+    "accept",
+    "decline",
+    "accept only if someone you trust takes the second spot"
+  ],
+  "branches": [
+    {
+      "when": "the group must take a side",
+      "then": "Soon it has to back or oppose a ballot measure or a candidate, and as its leader you speak for it."
+    },
+    {
+      "when": "someone else is nominated too",
+      "then": "The vote is by hands, and the loser is someone you see every week."
+    },
+    {
+      "when": "only your own street backs you",
+      "then": "The tally shows where your support lives, which a later race reads."
+    }
+  ],
+  "usedBy": []
+}

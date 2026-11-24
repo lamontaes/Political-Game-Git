@@ -1,0 +1,30 @@
+{
+  "id": "evening-goes-on-as-usual-after-the-news",
+  "kind": "move",
+  "summary": "The evening goes on as usual after a public event: supper, music, a play, friends.",
+  "realLife": "On 29 May 1660 Pepys supped and listened to music after his day; when Parliament voted the King the excise he went to a play that evening.",
+  "sources": [
+    "Diary of Samuel Pepys, May 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/May",
+    "Diary of Samuel Pepys, November 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/November"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "The `watched` and `ahead` moves together: the day's ordinary parts around the address.",
+  "weights": {
+    "night": 0.4
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The evening is spoiled.",
+      "pulledBy": "bad news in the household that evening",
+      "writesBack": "the entry says what happened and who was told"
+    },
+    {
+      "turn": "The writer goes out.",
+      "pulledBy": "an invitation on the record",
+      "writesBack": "the entry names where and with whom"
+    }
+  ]
+}

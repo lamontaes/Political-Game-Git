@@ -3067,7 +3067,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathIllness.name-had-been-after-illness-before-the-end",
@@ -3093,7 +3094,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedFrom.i-came-here-from-moved-from",
@@ -3119,7 +3121,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.i-had-been-living-in-moved-from-before-that",
@@ -3145,7 +3148,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedFrom.we-came-from-moved-from",
@@ -3171,7 +3175,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-came-with-me",
@@ -3197,7 +3202,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.moved-with-moved-with-me",
@@ -3223,7 +3229,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-movedWith.i-brought-moved-with-along",
@@ -3249,7 +3256,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-my-first-child",
@@ -3275,7 +3283,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-our-first",
@@ -3301,7 +3310,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthFirst.firstborn-was-the-first-child-we-had",
@@ -3327,7 +3337,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.home-livelihood.other-works-as-job",
@@ -5095,7 +5106,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.at-age-years-old",
@@ -5121,7 +5133,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.at-the-age-of-age",
@@ -5147,7 +5160,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.back-when-i-was-age",
@@ -5173,7 +5187,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-decided.i-decided-to-run-for-office",
@@ -5303,7 +5318,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-was-part-of-what-came-after",
@@ -5329,7 +5345,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-showed-up-again-in-my-story",
@@ -5355,7 +5372,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-hook.name-was-in-my-life-again-after-that",
@@ -5381,7 +5399,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-turned-up-in-my-life-again-later",
@@ -5407,7 +5426,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-and-i-crossed-paths-again-after-that",
@@ -5433,7 +5453,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-revise.name-was-someone-i-met-again-afterward",
@@ -5459,7 +5480,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
     },
     {
       "key": "journal.memoir-remember.i-knew-name",
@@ -5589,7 +5611,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.name-is-office-now",
@@ -5615,7 +5638,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.name-went-on-to-serve-as-office",
@@ -5641,7 +5665,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.he-became-office",
@@ -5667,7 +5692,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-became.she-became-office",
@@ -5693,7 +5719,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
     },
     {
       "key": "journal.memoir-meantFriend.we-were-friends",
@@ -6031,7 +6058,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-at-the-time",
@@ -6057,7 +6085,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathAge.other-was-death-age-that-day",
@@ -6083,7 +6112,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-and-had-been-after-illness",
@@ -6109,7 +6139,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-had-been-after-illness-and-was-death-age",
@@ -6135,7 +6166,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-deathBoth.other-was-death-age-after-being-after-illness-for-a-time",
@@ -6161,7 +6193,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-schoolFor.i-had-been-there-for-school-for",
@@ -6187,7 +6220,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolFor.i-had-been-there-for-school-for-by-then",
@@ -6213,7 +6247,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolFor.that-ended-my-school-for-there",
@@ -6239,7 +6274,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-years-old-then",
@@ -6265,7 +6301,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-at-the-time",
@@ -6291,7 +6328,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-schoolAge.i-was-age-then-that-year",
@@ -6317,7 +6355,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-birthAge.name-arrived-when-i-was-age-then",
@@ -6343,7 +6382,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthAge.name-came-along-when-i-was-age-then",
@@ -6369,7 +6409,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-birthAge.age-then-was-my-age-when-name-arrived",
@@ -6395,7 +6436,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
     },
     {
       "key": "journal.memoir-movedAge.i-was-age-then-when-i-moved",
@@ -6421,7 +6463,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.i-was-age-then-years-old-at-the-move",
@@ -6447,7 +6493,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-movedAge.the-move-came-when-i-was-age-then",
@@ -6473,7 +6523,11 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
     },
     {
       "key": "journal.memoir-firstPay.employer-paid-me-wage-an-hour",
@@ -6499,7 +6553,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-firstPay.wage-an-hour-was-my-first-pay",
@@ -6525,7 +6580,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-firstPay.employer-started-me-at-wage-an-hour",
@@ -6551,7 +6607,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.employer-offered-wage-an-hour",
@@ -6577,7 +6634,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-the-pay-there",
@@ -6603,7 +6661,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-what-the-job-paid",
@@ -6629,7 +6688,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-more-than-the-paid-more-than-before",
@@ -6655,7 +6715,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againPay.wage-an-hour-was-less-than-the-paid-less-than-before",
@@ -6681,7 +6742,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-againFelt.span-had-gone-by-without-a-job",
@@ -6875,7 +6937,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-letGoPay.wage-an-hour-was-my-pay-at-employer",
@@ -6901,7 +6964,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-letGoPay.employer-was-paying-me-wage-an-hour",
@@ -6927,7 +6991,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.at-next-i-was-paid-wage-an-hour",
@@ -6953,7 +7018,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.the-job-at-next-paid-wage-an-hour",
@@ -6979,7 +7045,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.my-pay-at-next-was-wage-an-hour",
@@ -7005,7 +7072,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-up-from-paid-more-than",
@@ -7031,7 +7099,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-movedPay.next-paid-wage-an-hour-down-from-paid-less-than",
@@ -7057,7 +7126,8 @@
       "date": "2026-11-19",
       "tag": {
         "move": "tell"
-      }
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     },
     {
       "key": "journal.memoir-togetherFor.that-was-together-ago",
@@ -9078,6 +9148,1270 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.memoir-againWait.nothing-had-come-in-since",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "Nothing had come in since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.my-last-pay-came-from",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "My last pay came from {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againWait.i-had-not-been-paid-since",
+      "move": "memoir-againWait",
+      "kind": "spoken",
+      "text": "I had not been paid since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-againWait",
+          "subject": "memoir",
+          "role": "againWait",
+          "choice": "againWait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.nothing-replaced-right-away",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "Nothing replaced {lost_employer} right away.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.after-there-was-no-paycheck",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "After {lost_employer}, there was no paycheck.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-deathIllness.had-been-for-some-time-before-the-end",
+      "move": "memoir-deathIllness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness} for some time before the end.",
+      "uses": [
+        {
+          "move": "memoir-deathIllness",
+          "subject": "memoir",
+          "role": "deathIllness",
+          "choice": "deathIllness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+    },
+    {
+      "key": "journal.memoir-movedFrom.before-that-home-was",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "Before that, home was {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "journal.memoir-movedFrom.i-had-lived-in-until-then",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "I had lived in {moved_from} until then.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "journal.memoir-movedFrom.we-had-left-behind",
+      "move": "memoir-movedFrom",
+      "kind": "spoken",
+      "text": "We had left {moved_from} behind.",
+      "uses": [
+        {
+          "move": "memoir-movedFrom",
+          "subject": "memoir",
+          "role": "movedFrom",
+          "choice": "movedFrom",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "journal.memoir-movedWith.made-the-move-with-me",
+      "move": "memoir-movedWith",
+      "kind": "spoken",
+      "text": "{moved_with} made the move with me.",
+      "uses": [
+        {
+          "move": "memoir-movedWith",
+          "subject": "memoir",
+          "role": "movedWith",
+          "choice": "movedWith",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-move-told-by-its-reason-and-how-they-went"]
+    },
+    {
+      "key": "journal.memoir-birthFirst.our-first-child-was",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "Our first child was {firstborn}.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+    },
+    {
+      "key": "journal.memoir-birthFirst.came-first",
+      "move": "memoir-birthFirst",
+      "kind": "spoken",
+      "text": "{firstborn} came first.",
+      "uses": [
+        {
+          "move": "memoir-birthFirst",
+          "subject": "memoir",
+          "role": "birthFirst",
+          "choice": "birthFirst",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+    },
+    {
+      "key": "journal.memoir-whenAge.this-was-when-i-was",
+      "move": "memoir-whenAge",
+      "kind": "spoken",
+      "text": "This was when I was {age}.",
+      "uses": [
+        {
+          "move": "memoir-whenAge",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "whenAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "journal.memoir-whenAge.i-was-then",
+      "move": "memoir-whenAge",
+      "kind": "spoken",
+      "text": "I was {age} then.",
+      "uses": [
+        {
+          "move": "memoir-whenAge",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "whenAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-turning-year-stated-in-the-life-story"]
+    },
+    {
+      "key": "journal.memoir-decided.i-put-my-name-forward-for",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "I put my name forward for {office}.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-decided.i-chose-to-run-for",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "I chose to run for {office}.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-decided.i-made-up-my-mind-to-go-for",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "I made up my mind to go for {office}.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-would-run-into-again",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I would run into {name} again.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
+    },
+    {
+      "key": "journal.memoir-hook.turned-up-once-more-after-that",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "{name} turned up once more after that.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
+    },
+    {
+      "key": "journal.memoir-revise.i-met-again-some-time-afterward",
+      "move": "memoir-revise",
+      "kind": "spoken",
+      "text": "I met {name} again some time afterward.",
+      "uses": [
+        {
+          "move": "memoir-revise",
+          "subject": "memoir",
+          "role": "revise",
+          "choice": "revise",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "revise"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["a-view-of-the-same-person-turns-over-the-years"]
+    },
+    {
+      "key": "journal.memoir-remember.i-had-known-for-a-good-while",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I had known {name} for a good while.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.and-i-went-back-a-long-way",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} and I went back a long way.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.i-knew-from",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I knew {name} from {school}.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-became.rose-to",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "{name} rose to {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
+    },
+    {
+      "key": "journal.memoir-became.took-on-the-job-of",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "{name} took on the job of {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
+    },
+    {
+      "key": "journal.memoir-became.ended-up-as",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "{name} ended up as {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["local-offices-won-listed-with-their-pay"]
+    },
+    {
+      "key": "journal.memoir-meantFriend.we-were-close",
+      "move": "memoir-meantFriend",
+      "kind": "spoken",
+      "text": "We were close.",
+      "uses": [
+        {
+          "move": "memoir-meantFriend",
+          "subject": "memoir",
+          "role": "meantFriend",
+          "choice": "meantFriend",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantFriend"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-joinCause.because-of-this",
+      "move": "memoir-joinCause",
+      "kind": "spoken",
+      "text": "Because of this.",
+      "uses": [
+        {
+          "move": "memoir-joinCause",
+          "subject": "memoir",
+          "role": "joinCause",
+          "choice": "joinCause",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinCause"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-joinLater.down-the-road",
+      "move": "memoir-joinLater",
+      "kind": "spoken",
+      "text": "{span} down the road.",
+      "uses": [
+        {
+          "move": "memoir-joinLater",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "joinLater",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-joinLater.on",
+      "move": "memoir-joinLater",
+      "kind": "spoken",
+      "text": "{span} on.",
+      "uses": [
+        {
+          "move": "memoir-joinLater",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "joinLater",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-schoolAge.i-was-when-it-happened",
+      "move": "memoir-schoolAge",
+      "kind": "spoken",
+      "text": "I was {age_then} when it happened.",
+      "uses": [
+        {
+          "move": "memoir-schoolAge",
+          "subject": "memoir",
+          "role": "schoolAge",
+          "choice": "schoolAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["children-going-to-school-noted"]
+    },
+    {
+      "key": "journal.memoir-birthAge.was-born-when-i-was",
+      "move": "memoir-birthAge",
+      "kind": "spoken",
+      "text": "{name} was born when I was {age_then}.",
+      "uses": [
+        {
+          "move": "memoir-birthAge",
+          "subject": "memoir",
+          "role": "birthAge",
+          "choice": "birthAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
+    },
+    {
+      "key": "journal.memoir-movedAge.i-was-when-we-moved",
+      "move": "memoir-movedAge",
+      "kind": "spoken",
+      "text": "I was {age_then} when we moved.",
+      "uses": [
+        {
+          "move": "memoir-movedAge",
+          "subject": "memoir",
+          "role": "movedAge",
+          "choice": "movedAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "journal.memoir-movedAge.at-i-moved",
+      "move": "memoir-movedAge",
+      "kind": "spoken",
+      "text": "At {age_then}, I moved.",
+      "uses": [
+        {
+          "move": "memoir-movedAge",
+          "subject": "memoir",
+          "role": "movedAge",
+          "choice": "movedAge",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": [
+        "a-move-told-by-its-reason-and-how-they-went",
+        "a-turning-year-stated-in-the-life-story"
+      ]
+    },
+    {
+      "key": "journal.memoir-firstPay.my-first-job-paid-an-hour",
+      "move": "memoir-firstPay",
+      "kind": "spoken",
+      "text": "My first job paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-firstPay",
+          "subject": "memoir",
+          "role": "firstPay",
+          "choice": "firstPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-firstPay.i-started-at-on-an-hour",
+      "move": "memoir-firstPay",
+      "kind": "spoken",
+      "text": "I started at {employer} on {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-firstPay",
+          "subject": "memoir",
+          "role": "firstPay",
+          "choice": "firstPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-againPay.the-pay-at-was-an-hour",
+      "move": "memoir-againPay",
+      "kind": "spoken",
+      "text": "The pay at {employer} was {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-againPay",
+          "subject": "memoir",
+          "role": "againPay",
+          "choice": "againPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-againPay.i-would-make-an-hour-at",
+      "move": "memoir-againPay",
+      "kind": "spoken",
+      "text": "I would make {wage} an hour at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-againPay",
+          "subject": "memoir",
+          "role": "againPay",
+          "choice": "againPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-againFelt.i-went-without-a-job",
+      "move": "memoir-againFelt",
+      "kind": "spoken",
+      "text": "I went {span} without a job.",
+      "uses": [
+        {
+          "move": "memoir-againFelt",
+          "subject": "memoir",
+          "role": "againFelt",
+          "choice": "againFelt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-againFelt.i-was-out-of-work-for",
+      "move": "memoir-againFelt",
+      "kind": "spoken",
+      "text": "I was out of work for {span}.",
+      "uses": [
+        {
+          "move": "memoir-againFelt",
+          "subject": "memoir",
+          "role": "againFelt",
+          "choice": "againFelt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-letGoHeld.i-had-been-at-for",
+      "move": "memoir-letGoHeld",
+      "kind": "spoken",
+      "text": "I had been at {employer} for {held}.",
+      "uses": [
+        {
+          "move": "memoir-letGoHeld",
+          "subject": "memoir",
+          "role": "letGoHeld",
+          "choice": "letGoHeld",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-letGoHeld.my-run-at-lasted",
+      "move": "memoir-letGoHeld",
+      "kind": "spoken",
+      "text": "My run at {employer} lasted {held}.",
+      "uses": [
+        {
+          "move": "memoir-letGoHeld",
+          "subject": "memoir",
+          "role": "letGoHeld",
+          "choice": "letGoHeld",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-letGoPay.at-my-wage-was-an-hour",
+      "move": "memoir-letGoPay",
+      "kind": "spoken",
+      "text": "At {employer}, my wage was {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-letGoPay",
+          "subject": "memoir",
+          "role": "letGoPay",
+          "choice": "letGoPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-letGoPay.i-was-making-an-hour-at",
+      "move": "memoir-letGoPay",
+      "kind": "spoken",
+      "text": "I was making {wage} an hour at {employer}.",
+      "uses": [
+        {
+          "move": "memoir-letGoPay",
+          "subject": "memoir",
+          "role": "letGoPay",
+          "choice": "letGoPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-movedPay.i-would-earn-an-hour-at",
+      "move": "memoir-movedPay",
+      "kind": "spoken",
+      "text": "I would earn {wage} an hour at {next}.",
+      "uses": [
+        {
+          "move": "memoir-movedPay",
+          "subject": "memoir",
+          "role": "movedPay",
+          "choice": "movedPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-movedPay.the-wage-at-was-an-hour",
+      "move": "memoir-movedPay",
+      "kind": "spoken",
+      "text": "The wage at {next} was {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-movedPay",
+          "subject": "memoir",
+          "role": "movedPay",
+          "choice": "movedPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
+    },
+    {
+      "key": "journal.memoir-movedPay.i-went-to-and-was-paid-an-hour",
+      "move": "memoir-movedPay",
+      "kind": "spoken",
+      "text": "I went to {next} and was paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-movedPay",
+          "subject": "memoir",
+          "role": "movedPay",
+          "choice": "movedPay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Journal writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell"
+      },
+      "elements": ["money-and-prices-recorded-in-the-entry"]
     }
   ]
 }

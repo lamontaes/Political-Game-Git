@@ -1,0 +1,29 @@
+{
+  "id": "ordinary-day-follows-the-event",
+  "kind": "move",
+  "summary": "After a public event the entry goes on to the writer's ordinary day: church, a meal, accounts, a visit to family.",
+  "realLife": "On 1 January 1660 Pepys went to a sermon, dined at home, did his accounts and visited his father's house.",
+  "sources": [
+    "Diary of Samuel Pepys, January 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/January"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "The `ahead` move: what the writer does next in `place`.",
+  "weights": {
+    "night": 0.4
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The event cancels the day.",
+      "pulledBy": "a disruption on the day's record",
+      "writesBack": "the entry says what the writer did instead"
+    },
+    {
+      "turn": "The next day is not ordinary.",
+      "pulledBy": "a scheduled filing or hearing next day",
+      "writesBack": "the entry looks ahead to it"
+    }
+  ]
+}

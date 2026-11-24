@@ -580,6 +580,14 @@
           "choice": "close",
           "requiresFacts": ["realm-bare"],
           "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"],
+          "tie": "frame"
         }
       ],
       "voice": ["plain", "polished"],
@@ -630,6 +638,14 @@
           "choice": "close",
           "requiresFacts": ["party-holds-body", "body-word", "realm-bare"],
           "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-holds-body", "body-word", "realm-bare"],
+          "tie": "record"
         }
       ],
       "voice": ["plain", "polished"],
@@ -655,6 +671,14 @@
         {
           "move": "close",
           "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-lacks-body", "body-word", "realm-bare"],
+          "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["party-lacks-body", "body-word", "realm-bare"],
@@ -4203,6 +4227,22 @@
           "choice": "today",
           "requiresFacts": ["today"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today"],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -4240,6 +4280,22 @@
           "choice": "today",
           "requiresFacts": ["today-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-second"],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -4273,6 +4329,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
@@ -5231,6 +5303,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5335,6 +5423,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after", "belief-sentence"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after", "belief-sentence"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after", "belief-sentence"],
@@ -7236,6 +7340,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -7265,6 +7385,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
@@ -7302,6 +7438,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -7335,6 +7487,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-after"],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -7356,6 +7524,38 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-many",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-many",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7402,6 +7602,38 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-one",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-one",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -7424,6 +7656,21 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "office-title",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7468,6 +7715,21 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "office-title",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -7490,6 +7752,36 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7534,6 +7826,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -7567,6 +7889,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -7589,6 +7941,36 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "body-name",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7744,6 +8126,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -7781,6 +8193,36 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7840,6 +8282,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -7877,6 +8349,36 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -7936,6 +8438,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -7973,6 +8505,36 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8210,6 +8772,38 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -8232,6 +8826,38 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8344,6 +8970,38 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -8366,6 +9024,38 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8412,6 +9102,38 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -8434,6 +9156,38 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8494,6 +9248,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -8531,6 +9315,36 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8590,6 +9404,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -8627,6 +9471,36 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8686,6 +9560,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -8734,6 +9638,36 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -8768,6 +9702,38 @@
             "belief-folded"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -8790,6 +9756,38 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -8890,6 +9888,13 @@
         {
           "move": "salutation",
           "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
           "role": "salutation",
           "choice": "salutation",
           "tie": "frame"
@@ -10229,6 +11234,14 @@
           "choice": "close",
           "requiresFacts": ["first-after", "realm-bare"],
           "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -10254,6 +11267,14 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-after", "realm-bare"],
@@ -10284,6 +11305,15 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"],
+          "tie": "stand",
+          "onlyWhen": ["evening"]
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-reason", "realm-bare"],
@@ -10320,6 +11350,15 @@
           "requiresFacts": ["first-reason", "realm-bare"],
           "tie": "stand",
           "onlyWhen": ["evening"]
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"],
+          "tie": "stand",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "polished",
@@ -10345,6 +11384,14 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "realm-bare"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["theme-short", "realm-bare"],
@@ -10375,6 +11422,15 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"],
+          "tie": "frame",
+          "onlyWhen": ["evening"]
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["realm-bare"],
@@ -10411,6 +11467,15 @@
           "requiresFacts": ["realm-bare"],
           "tie": "frame",
           "onlyWhen": ["evening"]
+        },
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"],
+          "tie": "frame",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "polished",
@@ -10428,6 +11493,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-many",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-many",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -10470,6 +11563,34 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-one",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about-one",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -10492,6 +11613,19 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "office-title",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -10532,6 +11666,19 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "office-title",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -10554,6 +11701,32 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -10594,6 +11767,32 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -10625,6 +11824,32 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -10647,6 +11872,32 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "body-name",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -10690,6 +11941,14 @@
           "choice": "occasion",
           "requiresFacts": ["realm-bare", "theme-name"],
           "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-bare", "theme-name"],
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -10715,6 +11974,14 @@
         {
           "move": "occasion",
           "subject": "state-of-the-state",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": ["realm-name", "theme-name"],
@@ -10748,6 +12015,14 @@
           "choice": "occasion",
           "requiresFacts": ["realm-name", "theme-name"],
           "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -10773,6 +12048,14 @@
         {
           "move": "occasion",
           "subject": "state-of-the-state",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": ["realm-name", "theme-name"],
@@ -10806,6 +12089,14 @@
           "choice": "occasion",
           "requiresFacts": ["realm-name", "theme-name"],
           "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -10831,6 +12122,14 @@
         {
           "move": "occasion",
           "subject": "state-of-the-state",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "tie": "frame"
+        },
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
           "role": "occasion",
           "choice": "occasion",
           "requiresFacts": ["realm-name", "theme-name"],
@@ -10952,6 +12251,32 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -10987,6 +12312,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -11040,6 +12391,32 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -11075,6 +12452,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -11128,6 +12531,32 @@
             "law-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -11163,6 +12592,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -11372,6 +12827,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -11402,6 +12883,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11450,6 +12957,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -11480,6 +13013,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11520,6 +13079,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11571,6 +13158,34 @@
             "today-works-third"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11602,6 +13217,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11653,6 +13296,34 @@
             "today-works-second"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11684,6 +13355,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11735,6 +13434,34 @@
             "today-works-third"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-third"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11766,6 +13493,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11817,6 +13572,34 @@
             "today-works-second"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works-second"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11847,6 +13630,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11895,6 +13704,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-third",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11925,6 +13760,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -11973,6 +13834,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question-second",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -11998,6 +13885,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12031,6 +13934,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12056,6 +13975,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12089,6 +14024,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12114,6 +14065,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12147,6 +14114,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12172,6 +14155,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12205,6 +14204,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12230,6 +14245,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12263,6 +14294,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12288,6 +14335,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
@@ -12321,6 +14384,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-third"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12346,6 +14425,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12379,6 +14474,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12404,6 +14515,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12437,6 +14564,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12462,6 +14605,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12495,6 +14654,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -12520,6 +14695,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12553,6 +14744,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12578,6 +14785,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12611,6 +14834,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12640,6 +14879,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12665,6 +14920,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause-second"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
@@ -12699,6 +14970,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -12747,6 +15044,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12778,6 +15101,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -12829,6 +15180,34 @@
             "today-works"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12860,6 +15239,34 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -12911,6 +15318,34 @@
             "today-works"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-not-in-force",
+            "asks-question",
+            "today-works"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -12941,6 +15376,32 @@
         {
           "move": "question",
           "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
           "role": "question",
           "choice": "question",
           "requiresFacts": [
@@ -12989,6 +15450,32 @@
             "asks-question"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "campaign-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "question",
+          "subject": "floor-speech",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-for",
+            "law-not-in-force",
+            "asks-question"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13019,6 +15506,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13067,6 +15580,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -13097,6 +15636,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13145,6 +15710,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13175,6 +15766,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13223,6 +15840,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -13253,6 +15896,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13301,6 +15970,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -13331,6 +16026,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13379,6 +16100,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13409,6 +16156,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13457,6 +16230,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -13487,6 +16286,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13535,6 +16360,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -13565,6 +16416,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13613,6 +16490,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13643,6 +16546,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13691,6 +16620,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -13721,6 +16676,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13769,6 +16750,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -13799,6 +16806,32 @@
         {
           "move": "tie",
           "subject": "state-of-the-state",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
           "role": "tie",
           "choice": "tie",
           "requiresFacts": [
@@ -13847,6 +16880,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13886,6 +16945,32 @@
             "context-name"
           ],
           "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "campaign-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
+        },
+        {
+          "move": "tie",
+          "subject": "floor-speech",
+          "role": "tie",
+          "choice": "tie",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "figure-ties",
+            "context-name"
+          ],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -13903,6 +16988,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -13935,6 +17048,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-many",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -14041,6 +17182,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -14070,6 +17227,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
@@ -14107,6 +17280,22 @@
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
           "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["belief", "belief-leads"],
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -14140,6 +17329,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -14165,6 +17370,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
@@ -14198,6 +17419,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -14223,6 +17460,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
@@ -14256,6 +17509,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -14281,6 +17550,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
@@ -14314,6 +17599,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -14339,6 +17640,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
@@ -14372,6 +17689,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -14397,6 +17730,22 @@
         {
           "move": "today",
           "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
@@ -14430,6 +17779,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -14459,6 +17824,22 @@
           "choice": "today",
           "requiresFacts": ["today-clause"],
           "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "campaign-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
+        },
+        {
+          "move": "today",
+          "subject": "floor-speech",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": ["today-clause"],
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -14476,6 +17857,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -14518,6 +17927,34 @@
             "body-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -14550,6 +17987,34 @@
             "body-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -14572,6 +18037,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -14616,6 +18109,22 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -14646,6 +18155,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
@@ -14684,6 +18209,22 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -14714,6 +18255,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
@@ -14752,6 +18309,22 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -14782,6 +18355,22 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
@@ -15778,6 +19367,34 @@
             "body-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -15800,6 +19417,34 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-not-in-force",
+            "about",
+            "about-one",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -16295,6 +19940,32 @@
             "body-name"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "body-name"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -16312,6 +19983,32 @@
         {
           "move": "ask",
           "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "body-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -16469,6 +20166,32 @@
             "measure"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -16499,6 +20222,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -16547,6 +20296,32 @@
             "measure"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -16577,6 +20352,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -16625,6 +20426,32 @@
             "measure"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -16655,6 +20482,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -16703,6 +20556,32 @@
             "measure"
           ],
           "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -16733,6 +20612,32 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
@@ -17576,6 +21481,777 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.salutation.plain-campaign-speech-neighbors-across-thank-you-for-coming-out",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Neighbors across {realm-name}, thank you for coming out.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-campaign-speech-good-people-of-i-m-glad-you-re-here",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Good people of {realm-name}, I'm glad you're here.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-campaign-speech-friends-thanks-for-giving-me-a-few-minutes-in",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Friends, thanks for giving me a few minutes in {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-campaign-speech-everybody-here-in-thanks-for-stopping",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Everybody here in {realm-name}, thanks for stopping.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-campaign-speech-thank-you-all-for-being-here-tonight-in",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you all for being here tonight in {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "onlyWhen": ["evening"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-campaign-speech-fellow-residents-of-thank-you",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Fellow residents of {realm-name}, thank you.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "campaign-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-announcement-situation"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-i-want-to-be-your-and-i-want-to-talk-about",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I want to be your {office-title}, and I want to talk about {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-i-m-asking-to-make-me-its-and-i-ll-start-with",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I'm asking {realm-name} to make me its {office-title}, and I'll start with {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-the-reason-i-want-to-be-your-comes-down-to",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "The reason I want to be your {office-title} comes down to {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-if-you-re-deciding-who-should-be-your-here-s-what-matters-to",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "If you're deciding who should be your {office-title}, here's what matters to me: {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-let-me-be-plain-about-why-i-want-to-be-your",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "Let me be plain about why I want to be your {office-title}: {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.polished-campaign-speech-before-you-decide-on-your-hear-me-out-on",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "Before you decide on your {office-title}, hear me out on {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-what-brought-me-into-this-race-for-is",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "What brought me into this race for {office-title} is {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-i-ll-keep-this-short-i-want-to-be-your-and-it-s-about",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I'll keep this short, {realm-bare}: I want to be your {office-title}, and it's about {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare", "office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-opens-on-who-they-are-and-the-office-sought"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-if-you-make-me-your-thank-you",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If you make me your {office-title}, {first-after} Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["office-title", "first-after", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-give-me-the-chance-and-thank-you",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Give me the chance, and {first-after} Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["first-after", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.polished-campaign-speech-send-me-to-be-your-and-thanks",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Send me to be your {office-title}, and {first-after} Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["office-title", "first-after", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-my-reason-is-and-i-d-be-proud-to-have-your-vote",
+      "move": "close",
+      "kind": "spoken",
+      "text": "My reason is {first-reason}, and I'd be proud to have your vote, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "stand",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.polished-campaign-speech-it-comes-down-to-this-i-d-be-glad-to-earn-your-vote",
+      "move": "close",
+      "kind": "spoken",
+      "text": "It comes down to this: {first-reason}. I'd be glad to earn your vote, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "stand",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-thank-you-i-ll-keep-working-on-if-you-send-me",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {realm-bare}. I'll keep working on {theme-short} if you send me.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.plain-campaign-speech-thanks-for-listening-i-hope-to-earn-your-vote",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thanks for listening, {realm-bare}. I hope to earn your vote.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.polished-campaign-speech-please-vote-and-thank-you-for-hearing-me-out",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Please vote, {realm-bare}, and thank you for hearing me out.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.close.polished-campaign-speech-i-d-be-proud-to-speak-for-as-your",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I'd be proud to speak for {realm-name} as your {office-title}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "campaign-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "office-title"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-thank-you-for-the-floor",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{presiding}, thank you for the floor.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-i-rise-to-speak-on-this",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{presiding}, I rise to speak on this {measure}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "law",
+          "requiresFacts": ["presiding", "measure"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-colleagues-i-ll-be-brief",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{presiding}, colleagues, I'll be brief.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-floor-speech-thank-you-and-thank-you-colleagues",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you, {presiding}, and thank you, colleagues.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.polished-floor-speech-i-ask-for-a-minute-on-this",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "{presiding}, I ask for a minute on this {measure}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "law",
+          "requiresFacts": ["presiding", "measure"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.salutation.plain-floor-speech-colleagues-here-s-where-i-stand-on-this",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Colleagues, {presiding}, here's where I stand on this {measure}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "floor-speech",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "law",
+          "requiresFacts": ["presiding", "measure"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-opens-by-addressing-the-chair-and-naming-the-measure"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-i-ask-my-colleagues-to-vote-with-me-and-i-yield-the-floor",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I ask my colleagues to vote with me, {presiding}, and I yield the floor.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-i-ask-for-its-vote-and-i-yield",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I ask {body-name} for its vote, {presiding}, and I yield.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["presiding", "body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-colleagues-my-reason-is-i-yield",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Colleagues, my reason is {first-reason}. I yield, {presiding}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "stand",
+          "requiresFacts": ["first-reason", "presiding"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.polished-floor-speech-if-we-vote-this-way-i-yield",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we vote this way, {first-after} I yield, {presiding}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "law",
+          "requiresFacts": ["first-after", "presiding"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.polished-floor-speech-that-is-all-i-have-i-yield-the-floor-with-my-thanks",
+      "move": "close",
+      "kind": "spoken",
+      "text": "That is all I have, {presiding}. I yield the floor with my thanks.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["presiding"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
+    },
+    {
+      "key": "opening-speech.close.plain-floor-speech-whichever-way-it-goes-i-wanted-to-hear-this-before-the-vote",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Whichever way it goes, {presiding}, I wanted {body-name} to hear this before the vote.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "floor-speech",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame",
+          "requiresFacts": ["presiding", "body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["floor-ends-on-yield-or-thanks"]
     },
     {
       "key": "opening-speech.salutation.polished-members-of-the-legislature-and-the-residents-of-realm-name",

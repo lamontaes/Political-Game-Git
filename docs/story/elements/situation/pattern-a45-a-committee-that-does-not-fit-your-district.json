@@ -1,0 +1,38 @@
+{
+  "id": "pattern-a45-a-committee-that-does-not-fit-your-district",
+  "kind": "situation",
+  "summary": "A committee that does not fit your district: You were put on {the committee}, which has little to do with your district.",
+  "realLife": "In 1969 the Speaker put her on the Agriculture Committee, which made little sense for Brooklyn. Following a rabbi's idea to use surplus food for the hungry, she worked with Senator Bob Dole to expand food stamps and helped create WIC.",
+  "sources": ["https://en.wikipedia.org/wiki/Shirley_Chisholm"],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the committee", "community leader", "other-party member"],
+  "gates": [
+    "First term in a legislature.",
+    "{the committee}'s subject does not match your district's records."
+  ],
+  "weights": [
+    "How far the committee is from your district.",
+    "Ties with members of the other party."
+  ],
+  "pattern": "A45",
+  "choices": [
+    "ask the leader to move you",
+    "make the committee serve your district",
+    "keep quiet and wait"
+  ],
+  "branches": [
+    {
+      "when": "{other-party member} wants the same program",
+      "then": "Writing the bill together goes on both records."
+    },
+    {
+      "when": "you ask to move",
+      "then": "The leader says you can if you help in the next leadership vote."
+    },
+    {
+      "when": "{community leader}'s idea becomes the bill",
+      "then": "Whether you credit them in public changes their tie."
+    }
+  ],
+  "usedBy": []
+}

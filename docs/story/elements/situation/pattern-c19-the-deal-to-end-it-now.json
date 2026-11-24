@@ -1,0 +1,50 @@
+{
+  "id": "pattern-c19-the-deal-to-end-it-now",
+  "kind": "situation",
+  "summary": "The deal to end it now: {the crisis} is on you now, and {seller} offers to end it with a long deal at a high price.",
+  "realLife": "One life: In California's 2001 electricity crisis he declared an emergency and the state agreed to pay $43 billion for power over 20 years, deals critics called overpriced. He kept household rates capped. In 1999 he had signed a pension expansion after the retirement board said it would need no added state money. Another: He backed a deal giving Foxconn billions in subsidies to build a plant in Wisconsin, and lost re-election in 2018.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gray_Davis",
+    "https://en.wikipedia.org/wiki/2000%E2%80%932001_California_electricity_crisis",
+    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)"
+  ],
+  "fits": ["home", "journal", "news", "office"],
+  "slots": ["the crisis", "seller"],
+  "gates": [
+    "You hold an executive office.",
+    "{the crisis} is on record in your place.",
+    "{seller} has offered a deal on record."
+  ],
+  "weights": [
+    "How bad it is.",
+    "How large the deal is.",
+    "How many years it runs.",
+    "How close your next race is."
+  ],
+  "pattern": "C19",
+  "choices": [
+    "sign the long deal",
+    "cap prices and wait",
+    "let prices rise",
+    "open the books on the deal first"
+  ],
+  "branches": [
+    {
+      "when": "you sign long contracts",
+      "then": "Prices fall back within a year, and you are stuck paying the old price. Reporters sue to see the terms."
+    },
+    {
+      "when": "you keep prices capped",
+      "then": "Households are spared the bill for now, and the companies' squeeze gets worse."
+    },
+    {
+      "when": "a board says the new benefit costs nothing",
+      "then": "You sign it. When the markets fall it becomes a burden the budget carries for years."
+    },
+    {
+      "when": "you give a company billions to build",
+      "then": "The plant is your mark at the next race, and whether the jobs come is the record."
+    }
+  ],
+  "usedBy": []
+}
