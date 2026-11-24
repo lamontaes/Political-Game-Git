@@ -2,6 +2,7 @@ import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "./scene-talk";
 import { wordSceneMove, type BankPart } from "../english/scene-talk-words";
+import officeBank from "../../data/english/parts/scene-talk-office.json" with { type: "json" };
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
@@ -170,6 +171,69 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         replies.find((reply) => reply.line.move === "offer")?.line.text,
       ).toEqual(staffer ? expect.stringContaining(staffer) : undefined);
     }
+  });
+
+  it("keeps the worker's wage referral open for a decision after each intake question", () => {
+    const type = types.find((row) => row.key === "office-hours")!;
+    const requests = officeBank.parts.filter((part) =>
+      part.uses.some(
+        (use) =>
+          use.step === "state" && use.requiresFacts?.includes("problem-wage"),
+      ),
+    );
+    expect(requests.length).toBeGreaterThan(0);
+    const seen = new Set<string>();
+    for (let draw = 0; draw < 500 && seen.size < requests.length; draw++) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId, causeId: `wage-intake-${draw}` },
+        type,
+        {
+          name: fact("Pat Rivera"),
+          agency: fact("the labor standards office"),
+          "problem-wage": fact("yes"),
+          pay: fact("nine dollars"),
+          floor: fact("ten dollars"),
+          "respond-in": fact("seven days"),
+        },
+      );
+      expect(result.kind).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const request = requests.find((part) =>
+        result.talk.state.parts.includes(part.key),
+      );
+      if (!request) continue;
+      const question = result.talk.tree.replies.find(
+        (reply) => reply.line.move === "ask",
+      );
+      const next = question?.next;
+      const questionPart = officeBank.parts.find((part) =>
+        question?.line.parts.includes(part.key),
+      );
+      const answerPart = officeBank.parts.find((part) =>
+        next?.lines[0]?.parts.includes(part.key),
+      );
+      expect(questionPart?.uses.some((use) => use.after === request.key)).toBe(
+        true,
+      );
+      expect(
+        answerPart?.uses.some((use) => use.after === questionPart?.key),
+      ).toBe(true);
+      for (const move of ["promise", "decline"]) {
+        const decision = next?.replies.find(
+          (reply) => reply.line.move === move,
+        );
+        const part = officeBank.parts.find((row) =>
+          decision?.line.parts.includes(row.key),
+        );
+        expect(part?.uses.some((use) => use.after === answerPart?.key)).toBe(
+          true,
+        );
+      }
+      seen.add(request.key);
+    }
+    expect(seen.size).toBe(requests.length);
   });
 
   it("keeps the referral decision open after an unemployment paperwork question in an office without an aide", () => {
