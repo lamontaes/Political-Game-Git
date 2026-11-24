@@ -1205,11 +1205,23 @@ export function createDirector(
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
+        // The person's own job is sized by their own pay as well as the
+        // household's: a first job beside earning parents is a whole change
+        // for the one who took it, a small one for the house.
+        const daily = (id: string | undefined) => {
+          const job = id ? core.jobs.get(id) : undefined;
+          return job ? job.hourlyMinor * job.hoursDaily : zero;
+        };
+        const ownBase = Math.max(daily(priorJob), daily(nowJob));
+        const own =
+          memberId === book.personId && ownBase > zero
+            ? Math.abs(daily(nowJob) - daily(priorJob)) / ownBase
+            : zero;
         const made = change(
           named ? named.event.id : (priorJob ?? nowJob)!,
           kind,
           "money",
-          raw,
+          Math.max(raw, own),
           memberId === book.personId ? [] : [memberId],
           named && ledger.broadEvents.has(named.event.id)
             ? named.event.id
