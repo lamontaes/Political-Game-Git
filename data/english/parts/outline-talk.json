@@ -69,7 +69,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-has-that-one-right",
@@ -88,7 +89,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-it-s-about-time-somebody-tried-to",
@@ -111,7 +113,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-i-don-t-think-we-should-either",
@@ -131,7 +134,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-can-keep-that-one-i-don-t-want-it",
@@ -150,7 +154,11 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-think-we-should-and-is-wrong-to-fight-it",
@@ -178,7 +186,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-go-back-and-forth-on-that-one-whatever-says",
@@ -197,7 +209,11 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-don-t-know-yet-let-s-see-what-does-with-it",
@@ -219,7 +235,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-m-with-on",
@@ -237,7 +257,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-if-can-really-good-for",
@@ -265,7 +286,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-has-wrong",
@@ -286,34 +308,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.verdict-cold.talk-address-point-we-ought-to-whatever-says",
-      "move": "verdict-cold",
-      "kind": "spoken",
-      "text": "We ought to {to}, whatever {president} says.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "verdict-cold",
-          "tie": "stand",
-          "requiresFacts": [
-            "to",
-            "president",
-            "stand-against",
-            "president-against"
-          ],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on",
@@ -331,7 +330,11 @@
       "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-work-at-i-hear-that-part-differently",
@@ -351,7 +354,12 @@
       "lean": ["personality-v1:facet-work-centered"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-at-we-live-with-that-every-day",
@@ -371,7 +379,11 @@
       "lean": ["personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "a-parent-asks-your-view-to-know-you-not-to-win",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-since-let-me-go-i-listen-to-that-part",
@@ -390,7 +402,11 @@
       "lean": ["personality-v1:facet-sensitive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "laid-off-worker-stunned-and-distrustful",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-with-what-everything-costs-in-i-notice-that-part",
@@ -412,7 +428,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-too-many-people-in-need-work-to-let-that-go",
@@ -431,7 +451,8 @@
       "lean": ["personality-v1:facet-supportive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why.talk-address-point-rent-in-is-what-everybody-talks-about",
@@ -450,7 +471,11 @@
       "lean": ["personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-s-not-about-us-it-s-what-s-right-for",
@@ -472,7 +497,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-i-work-at-so-i-listened-when-got-to",
@@ -494,7 +520,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "a-parent-asks-your-view-to-know-you-not-to-win",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-since-let-me-go-i-listened-hard-when-got-to",
@@ -521,7 +551,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "laid-off-worker-stunned-and-distrustful",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-money-s-tight-here-so-i-listened-when-got-to",
@@ -542,7 +576,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-and-i-don-t-buy-it-not-from",
@@ -561,7 +599,11 @@
       "lean": ["personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-i-still-can-t-tell-if-means-it",
@@ -580,7 +622,11 @@
       "lean": ["personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-what-d-you-think",
@@ -598,7 +644,8 @@
       "lean": ["personality-v1:facet-curious", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.ask.talk-address-point-am-i-wrong",
@@ -619,7 +666,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "a-new-radio-gathers-the-family-for-the-address",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-where-are-you-on",
@@ -641,7 +692,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-finally-said-what-i-ve-been-thinking",
@@ -660,7 +712,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-that-s-the-wrong-call-and-ought-to-know-better",
@@ -682,7 +735,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-split-on-party-argue-at-supper",
+        "a-couple-argues-every-day-and-agrees-on-a-few-things"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-could-go-either-way-gets-the-last-word-anyway",
@@ -701,7 +758,11 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-d-want-to-hear-more-from-first",
@@ -723,7 +784,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-ask-me-about-again-in-a-month",
@@ -744,7 +809,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "parents-who-know-more-make-the-talk-count",
+        "a-daughter-lets-the-news-play-quietly"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-just-think-it-s-the-right-thing-for",
@@ -763,7 +832,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why.talk-address-point-prices-in-being-what-they-are-that-part-hit-home",
@@ -785,7 +855,11 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": [
+        "bus-money-becomes-breakfast-money",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-you",
@@ -803,7 +877,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-curious"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-i-d-hate-to-lose-said",
@@ -831,7 +906,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-that-law-never-did-any-favors",
@@ -855,7 +931,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-just-isn-t-right-for-the-way-i-see-it",
@@ -874,7 +951,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.why.talk-address-point-somebody-has-to-think-about-what-that-does-to",
@@ -896,27 +974,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-talk.lead.talk-address-point-notice-how-fast-got-to-said",
-      "move": "lead",
-      "kind": "spoken",
-      "text": "Notice how fast {president} got to {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "lead",
-          "tie": "stand",
-          "requiresFacts": ["said", "president", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-curious"],
-      "origin": "authored",
-      "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do-said",
@@ -1031,7 +1090,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.heard.talk-address-point-i-saw-you-look-up-when-mentioned",
@@ -1097,7 +1159,10 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-didn-t-win-me-over-though",
@@ -1324,7 +1389,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "a-cashier-says-we-deserve-a-fair-wage"
+      ]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-comes-down-to-what-i-see-in-place-every-day",
@@ -1369,7 +1437,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["verdict", "verdict-cold"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-what-did-you-make-of-said",
@@ -1724,7 +1795,10 @@
       "author": "the talk at home writer",
       "date": "2026-11-24",
       "after": ["lead", "heard"],
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": [
+        "pattern-a47-the-first-word-on-the-address",
+        "roommates-call-the-rent-ridiculous-and-blame-nobody"
+      ]
     },
     {
       "key": "outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it",
@@ -3561,7 +3635,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-that-isn-t-where-i-land-on-said",
@@ -3581,7 +3656,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-with-president-for-it-makes-sense-to-me-because-reason-for",
@@ -3604,7 +3680,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-with-president-against-it-makes-sense-to-me-because-reason-against",
@@ -3631,7 +3708,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-president-for-it-doesn-t-add-up-to-me-because-reason-against",
@@ -3651,7 +3729,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-president-against-it-doesn-t-add-up-to-me-because-reason-for",
@@ -3674,7 +3753,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.why.talk-address-point-why-view-place-you-can-see-why-people-in-place-feel-the-way-they-do",
@@ -4077,6 +4157,89 @@
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-sincere"
       ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-for-anyone-could-tell-president-believes-reason-for",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "Anyone could tell {president} believes {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president", "president-for", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-against-anyone-could-tell-president-believes-reason-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "Anyone could tell {president} believes {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president", "president-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-for-there-was-one-idea-under-the-whole-speech-that-reason-for",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "There was one idea under the whole speech, that {reason-for}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president-for", "reason-for"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.lead.talk-address-point-reason-against-there-was-one-idea-under-the-whole-speech-that-reason-against",
+      "move": "lead",
+      "kind": "spoken",
+      "text": "There was one idea under the whole speech, that {reason-against}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "lead",
+          "tie": "stand",
+          "requiresFacts": ["president-against", "reason-against"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",

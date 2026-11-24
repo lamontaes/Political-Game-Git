@@ -68,6 +68,7 @@ interface StoryData {
   readonly ownShare: Weight;
   readonly disasterDays: Weight;
   readonly disasterStatesMany: Weight;
+  readonly disasterStatesNamed: Weight;
   readonly howFacts: readonly string[];
   readonly rows: Readonly<Record<string, StoryRow>>;
 }
@@ -214,8 +215,29 @@ function disasterRun(
       "story-disaster": fact(last.incidentType.toLowerCase(), last.id),
     };
     const where = coreStateName(last.stateKey.replace(/^US-/, ""));
-    if (speaker.federal && where)
-      facts["disaster-where"] = fact(where, last.id);
+    if (where) facts["disaster-where"] = fact(where, last.id);
+    // The states the same kind of disaster struck this year, named (the
+    // owner, Nov 24, P26: "name the storms and places"), while they are few
+    // enough to name; and that each was a declared disaster, which is how
+    // federal help comes (the national events engine keeps declarations).
+    const kind = rows.filter((row) => row.incidentType === last.incidentType);
+    const named = [
+      ...new Set(
+        kind
+          .map((row) => coreStateName(row.stateKey.replace(/^US-/, "")))
+          .filter((name): name is string => !!name),
+      ),
+    ];
+    if (
+      speaker.federal &&
+      named.length > P.one &&
+      named.length <= STORIES.disasterStatesNamed.value
+    )
+      facts["disaster-states"] = fact(
+        new Intl.ListFormat("en-US", { type: "conjunction" }).format(named),
+        ...kind.map((row) => row.id),
+      );
+    facts["disaster-declared"] = fact("yes", last.id);
     if (speaker.federal && states.size >= STORIES.disasterStatesMany.value)
       facts["disaster-many"] = fact("yes", ...ids);
     return { facts, amount: recency(last.date) };

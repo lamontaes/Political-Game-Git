@@ -5,6 +5,7 @@
   "kinds": {
     "inaugural": {
       "surface": "dialogue",
+      "bridges": true,
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -33,6 +34,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -42,6 +44,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -55,6 +59,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -157,6 +163,7 @@
     },
     "state-of-the-union": {
       "surface": "dialogue",
+      "bridges": true,
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -185,6 +192,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -194,6 +202,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -207,6 +217,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -315,6 +327,7 @@
     },
     "state-of-the-state": {
       "surface": "dialogue",
+      "bridges": true,
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -344,6 +357,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -353,6 +367,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -366,6 +382,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -637,6 +655,7 @@
     },
     "town-address": {
       "surface": "dialogue",
+      "bridges": true,
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -675,6 +694,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -688,6 +708,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -790,6 +811,7 @@
     },
     "campaign-speech": {
       "surface": "dialogue",
+      "bridges": true,
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -828,6 +850,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -841,6 +864,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -1239,6 +1263,21 @@
     },
     "chapter-open-moved": {
       "moves": ["moved"]
+    },
+    "anchor-then-stand": {
+      "moves": ["anchor", "stand", "stand-reason?", "long-view?"]
+    },
+    "contrast-stand-reason": {
+      "moves": [
+        "contrast",
+        "stand",
+        "stand-reason?",
+        "acknowledge?",
+        "long-view?"
+      ]
+    },
+    "disaster-placed": {
+      "moves": ["disaster", "disaster-meaning?", "disaster-help?"]
     }
   },
   "weights": {

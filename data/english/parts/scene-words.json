@@ -9005,7 +9005,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
@@ -9023,7 +9024,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "scene-words.arrival-home-alone.it-s-the-news-is-running-s-speech-to-congress",
@@ -9042,7 +9044,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     }
   ]
 }
