@@ -263,15 +263,20 @@ function drawHere(scene, onClick) {
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
 let talkPersonId;
+// A call or a letter: the one who rings or writes is not in the room, so the strip
+// shows no one of theirs (owner, Nov 16, N16-44).
+let talkApart = false;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
   const inRoom = here.people.some((p) => p.personId === talkPersonId);
   const speaker =
-    talkPersonId && !inRoom && talkFace
+    talkPersonId && !inRoom && !talkApart && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
   const others = here.people.filter((p) => p.personId !== talkPersonId);
-  const speaking = here.people.filter((p) => p.personId === talkPersonId);
+  const speaking = talkApart
+    ? []
+    : here.people.filter((p) => p.personId === talkPersonId);
   // The speaker is always among those shown; the rest keep the room's order.
   const shown = [...speaker, ...speaking, ...others]
     .slice(0, TALK_STRIP_PEOPLE)
@@ -1564,14 +1569,16 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
-async function setWho(personId, name) {
+async function setWho(personId, name, apart = false) {
   talkPersonId = personId;
+  talkApart = apart;
   $("talk-name").textContent = name ?? "";
   talkFace = undefined;
   show("talk-who", Boolean(name));
   drawTalkStrip();
   // Someone in the room is already on the strip; anyone else stands there by their card's face.
-  if (!personId || here.people.some((p) => p.personId === personId)) return;
+  if (!personId || apart || here.people.some((p) => p.personId === personId))
+    return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
   ).catch(() => undefined);
@@ -2692,7 +2699,7 @@ async function showStory(momentId) {
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
 function playExchange(story) {
   const { talk } = story;
-  setWho(talk.askerId, story.names[talk.askerId]);
+  setWho(talk.askerId, story.names[talk.askerId], story.apart);
   const said = [...talk.opening];
   const shown = () =>
     transcript(
@@ -5583,10 +5590,28 @@ const sheets = {
         closeSheet();
         act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
       });
+      // A race the player cannot run for says so on a disabled button, never on a caption under
+      // the buttons (the CTO's send-back, Nov 24; the Nov 8 no-subtext rule), and then offers no
+      // Sim to a filing date that is not theirs. A race not yet open says it through its dates
+      // and its Sim button alone.
+      const refusedButton =
+        !mayFile &&
+        !race.mayAnnounce &&
+        !race.announced &&
+        !cannotFileWords &&
+        race.bar &&
+        race.bar !== "window-not-open" &&
+        labels.refusal[race.bar]
+          ? makeButton({
+              textContent: closedOfficeWords(race, labels),
+              disabled: true,
+            })
+          : null;
       const raceButtons = [
         ...(mayFile && !cannotFile ? [fileButton] : []),
         ...(race.mayAnnounce ? [announceButton] : []),
-        ...(opensLater ? [simButton] : []),
+        ...(refusedButton ? [refusedButton] : []),
+        ...(opensLater && !refusedButton ? [simButton] : []),
       ];
       return [
         rosterTitle(
@@ -5675,13 +5700,7 @@ const sheets = {
             ...(raceButtons.length ? [buttonRow(...raceButtons)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile &&
-                  !race.mayAnnounce &&
-                  !race.announced &&
-                  race.bar &&
-                  labels.refusal[race.bar]
-                ? [prose(closedOfficeWords(race, labels), "record-empty")]
-                : []),
+              : []),
           ),
         ),
       ];
@@ -6899,7 +6918,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news", "watch", "bills"].includes(tab) &&
+    !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );

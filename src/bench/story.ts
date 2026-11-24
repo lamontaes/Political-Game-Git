@@ -254,6 +254,8 @@ export function storyScene(
         }
       : null;
   const backdrop = backdropFor(core, pictured, minuteOfDay, personId);
+  const apart =
+    scene.setting.kind === "phone" || scene.setting.kind === "letter";
   // The address as the montage stages it (cutaways on a sentence when the
   // address has too few parts for every cutaway).
   const staged = scene.speech?.montage
@@ -270,12 +272,13 @@ export function storyScene(
     // A call or a letter is between two people who are not in one room: the
     // one who rings or writes is heard or read, never staged standing beside
     // the player (owner, Nov 16, N16-44). They stay in `names` for their lines.
+    // `apart` tells the talk box too, which would otherwise stand the caller on
+    // its strip by their card's face.
+    apart,
     people: peopleHere(
       core,
       backdrop.file,
-      scene.setting.kind === "phone" || scene.setting.kind === "letter"
-        ? cast.filter((row) => row.id === personId)
-        : cast,
+      apart ? cast.filter((row) => row.id === personId) : cast,
     ).people,
     // One narrator: a scene with a purpose opens on its own narration, the
     // same voice that speaks between its lines; the situation's paragraph is
