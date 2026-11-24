@@ -18,12 +18,16 @@
     {
       "name": "someone was hurt",
       "pulledBy": "a burglary with an assault",
-      "writes": "the story leads with the injury"
+      "writes": "the story leads with the injury",
+      "requiresFacts": ["burglary", "assault"],
+      "excludesFacts": []
     },
     {
       "name": "no comparison",
       "pulledBy": "a quiet week",
-      "writes": "the story says nobody was hurt and moves on"
+      "writes": "the story says nobody was hurt and moves on",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

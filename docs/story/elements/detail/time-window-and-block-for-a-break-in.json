@@ -18,12 +18,16 @@
     {
       "name": "exact time",
       "pulledBy": "a crime seen as it happened",
-      "writes": "the story gives the hour"
+      "writes": "the story gives the hour",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no window",
       "pulledBy": "a crime found days later",
-      "writes": "the story says when it was found"
+      "writes": "the story says when it was found",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

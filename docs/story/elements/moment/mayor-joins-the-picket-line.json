@@ -33,7 +33,5 @@
       "writesBack": "strikers' trust in the official falls"
     }
   ],
-  "issues": [
-    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
-  ]
+  "issues": ["law:local-power:public-sector-collective-bargaining"]
 }

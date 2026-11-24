@@ -1,0 +1,46 @@
+{
+  "id": "the-children-were-brought-out-for-every-campaign",
+  "kind": "voice",
+  "summary": "A daughter recalls growing up inside her father's repeated campaigns, put in brochures and made to keep up an image.",
+  "realLife": "A writer recalling her father's political career said the family campaigned through seven elections over fourteen years. The children were in brochures, brought out for events and waved from the House floor. The attention was flattering at first, then embarrassing, then annoying, and she resented having a reputation to uphold at all times. Her mother played the supporting political wife and her sister was sick after each defeat.",
+  "sources": ["https://www.hcn.org/issues/41-18/my-fathers-political-career/"],
+  "fits": ["home", "journal", "campaign"],
+  "slots": [
+    "{the child}",
+    "{the candidate}",
+    "{the spouse}",
+    "{the household}"
+  ],
+  "gates": [
+    "The candidate has children at home during campaigns.",
+    "The candidate has run in more than one race."
+  ],
+  "weights": [
+    "Children's ages.",
+    "How public the family has been made.",
+    "How many campaigns have passed.",
+    "How small the town is."
+  ],
+  "inGame": "Household members, kin ties, election results and a child at home could carry it; a child's feeling about being on display needs a privacy-cost reading on the child.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The children enjoy the attention and ask to join the next race.",
+      "pulledBy": "Outgoing children, wins.",
+      "writesBack": "Child becomes a volunteer; tie to candidate warms."
+    },
+    {
+      "turn": "late",
+      "what": "After the last loss a child refuses to appear at events again.",
+      "pulledBy": "Repeated losses, teen years.",
+      "writesBack": "Child's volunteer status ended; a note of strain with the parent."
+    },
+    {
+      "turn": "partial",
+      "what": "The candidate keeps the children out of the brochures but not the town talk.",
+      "pulledBy": "A candidate who guards the children's privacy.",
+      "writesBack": "Children's visibility low; no tie change."
+    }
+  ]
+}
