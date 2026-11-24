@@ -1,0 +1,34 @@
+{
+  "id": "count-of-past-suits-signals-the-next",
+  "kind": "detail",
+  "summary": "The story counts earlier lawsuits to say how likely the next one is.",
+  "realLife": "A story on a federal order said more than thirty suits were already filed.",
+  "sources": [
+    "Michigan Public (NPR copy), 'Rideshare union rights, social media limits and other state laws taking effect Jan. 1', Jan. 1, 2026: https://www.michiganpublic.org/2026-01-01/rideshare-union-rights-social-media-limits-and-other-state-laws-taking-effect-jan-1",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number"],
+  "gates": [],
+  "weights": {
+    "law": 0.5
+  },
+  "inGame": "needs: lawsuits as records (courts come after early access)",
+  "turns": [
+    {
+      "name": "no suits",
+      "pulledBy": "a law nobody challenged",
+      "writes": "the item says it faces no challenge",
+      "requiresFacts": ["nobody"],
+      "excludesFacts": []
+    },
+    {
+      "name": "a suit filed",
+      "pulledBy": "a challenge filed on the day",
+      "writes": "the item says a court will hear it",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,34 @@
+{
+  "id": "crowd-count-lede-tied-to-a-clock",
+  "kind": "move",
+  "summary": "The lede is a hard crowd count tied to a clock: how many came and how soon the deadline falls.",
+  "realLife": "A protest story opened on over a hundred and fifty people in a church three days before a comment deadline.",
+  "sources": [
+    "Patch (South Brunswick, New Jersey), 'Protestors Rally Against South Brunswick Data Center' (page title: 'At Packed Church, Protestors Turn Up Pressure On South Brunswick Data Center'), Nov. 8, 2026: https://patch.com/new-jersey/southbrunswick/packed-church-protestors-turn-pressure-south-brunswick-data-center",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["number", "place", "date"],
+  "gates": [],
+  "weights": {
+    "public-action": 1.0
+  },
+  "inGame": "the `public-action` news kind (place, date, size, question) and the strike, protest and rally records of the public-action module; needs: a deadline the protest is about",
+  "turns": [
+    {
+      "name": "a small turnout",
+      "pulledBy": "a poor night",
+      "writes": "the lede says how few came",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "lede on the decision",
+      "pulledBy": "an official ruling soon",
+      "writes": "the lede names who decides and when",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

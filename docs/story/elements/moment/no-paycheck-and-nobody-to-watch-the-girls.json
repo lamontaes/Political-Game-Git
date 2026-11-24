@@ -1,0 +1,49 @@
+{
+  "id": "no-paycheck-and-nobody-to-watch-the-girls",
+  "kind": "moment",
+  "summary": "A mayoral candidate takes unpaid time off from her bank job and finds she cannot pay for childcare to campaign.",
+  "realLife": "A Salt Lake City mayoral candidate took time off from her full-time banking job to knock on doors, which left her without a paycheck and made childcare for her two youngest daughters hard to cover. After Utah changed its law to let campaign money pay for childcare, she spent about fifteen hundred dollars over two months on care. She made the general election and lost.",
+  "sources": [
+    "https://www.pbs.org/newshour/politics/child-care-poses-roadblock-for-candidates-vying-for-2020-elections"
+  ],
+  "fits": ["home", "campaign", "work-community"],
+  "slots": [
+    "{the candidate}",
+    "{the job}",
+    "{the children}",
+    "{the childcare}"
+  ],
+  "gates": [
+    "The candidate has young children at home.",
+    "The candidate's job is full time and was set aside for the campaign.",
+    "The candidate has filed for office."
+  ],
+  "weights": [
+    "Whether the law allows campaign money for childcare.",
+    "Whether relatives are near.",
+    "How long the unpaid gap is.",
+    "Whether the other parent works."
+  ],
+  "inGame": "A young child at home, jobs and pay, a candidate filing and campaign money could carry it; campaign money paying for childcare needs a campaign spending category that the law can allow or bar.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A grandmother takes the girls most days and no childcare is bought.",
+      "pulledBy": "A relative nearby and willing.",
+      "writesBack": "Kin tie strengthened; no money spent."
+    },
+    {
+      "turn": "partial",
+      "what": "The law bars campaign funds for care, so the candidate pays out of household savings.",
+      "pulledBy": "A ban on the expense, a savings buffer.",
+      "writesBack": "Household savings drop by the cost of care."
+    },
+    {
+      "turn": "late",
+      "what": "The candidate quits the race mid-campaign when the unpaid gap and care costs pile up.",
+      "pulledBy": "Empty savings, no relative to help.",
+      "writesBack": "Filing withdrawn; job resumed."
+    }
+  ]
+}

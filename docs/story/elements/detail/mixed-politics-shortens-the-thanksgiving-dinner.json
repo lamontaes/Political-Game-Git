@@ -1,0 +1,41 @@
+{
+  "id": "mixed-politics-shortens-the-thanksgiving-dinner",
+  "kind": "detail",
+  "summary": "A study found family dinners with mixed politics ended much sooner than those with matching politics.",
+  "realLife": "A 2018 study in Science found that families with mixed politics spent 20 to 50 minutes less at the Thanksgiving table than matched groups. The effect was about three times stronger in areas with heavy political advertising. Partisans of one side left earlier, and the other side was more likely to skip the gathering entirely.",
+  "sources": [
+    "https://www.scientificamerican.com/article/thanksgiving-dinner-can-end-sooner-if-guests-pass-the-gravy-across-a-partisan-divide/"
+  ],
+  "fits": ["home", "news"],
+  "slots": ["{the household}", "{the holiday dinner}", "{the guests}"],
+  "gates": [
+    "Guests at the dinner differ in stands.",
+    "A campaign season with ads is running."
+  ],
+  "weights": [
+    "Political ad volume where they live.",
+    "Mix of stands among guests."
+  ],
+  "inGame": "Needs: a gathering with arrival and leave times; stands and kin ties exist.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The dinner runs long because they enjoy the debate.",
+      "pulledBy": "A shared trait for argument.",
+      "writesBack": "A warm quarrel note."
+    },
+    {
+      "turn": "neutral",
+      "what": "The dinner is the usual length.",
+      "pulledBy": "Low ad pressure.",
+      "writesBack": "None."
+    },
+    {
+      "turn": "partial",
+      "what": "The guests stay but split into separate tables.",
+      "pulledBy": "Mixed stands.",
+      "writesBack": "Small tie dips."
+    }
+  ]
+}
