@@ -904,7 +904,34 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-against"],
+          "requiresFacts": ["about", "president-against", "about-one"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-where-are-concerned-the-president-is-a-no-many",
+      "move": "stance",
+      "kind": "written",
+      "text": "Where {about} are concerned, the President is a no.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "about-many"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -931,7 +958,40 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
+          "requiresFacts": [
+            "about",
+            "president-against",
+            "law-in-force",
+            "about-one"
+          ]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-said-have-to-go-many",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President said {about} have to go.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": [
+            "about",
+            "president-against",
+            "law-in-force",
+            "about-many"
+          ]
         }
       ],
       "after": ["start", "watched", "said"],
@@ -1032,7 +1092,34 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-for"],
+          "requiresFacts": ["about", "president-for", "about-one"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-according-to-the-president-are-overdue-many",
+      "move": "stance",
+      "kind": "written",
+      "text": "According to the President, {about} are overdue.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "about-many"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1133,7 +1220,12 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
+          "requiresFacts": [
+            "about",
+            "president-against",
+            "law-in-force",
+            "about-one"
+          ]
         }
       ],
       "after": ["start", "watched", "said"],
@@ -1617,7 +1709,31 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-for"],
+          "requiresFacts": ["about", "president-for", "about-one"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-imaginative"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-are-things-the-president-believes-in-many",
+      "move": "stance",
+      "kind": "written",
+      "text": "{about} are things the President believes in.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "about-many"],
           "excludesFacts": ["law-in-force"]
         }
       ],
@@ -1721,7 +1837,12 @@
           "subject": "journal-evening",
           "role": "stance",
           "tie": "record",
-          "requiresFacts": ["about", "president-against", "law-in-force"]
+          "requiresFacts": [
+            "about",
+            "president-against",
+            "law-in-force",
+            "about-one"
+          ]
         }
       ],
       "after": ["start", "watched", "said"],
