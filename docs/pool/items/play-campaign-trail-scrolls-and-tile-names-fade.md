@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10351
 blocked-on:
 source: owner sitting 2026-11-23-1, C14
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-24T06:48:08.238Z
 ---
 
 **What.** The CTO's catch C14 on the owner's Nov 23 playthrough: the campaign tiles share one office picture for Volunteers, Endorsements, Poll and Mail, their names are faint on bright pictures, and the panel scrolls ("none of these scrollers, especially when there's ample dead space in these menus"). Fifteen tiles in three columns run past the panel, so the last group ("Speak") is cut off and the tile list scrolls inside its box. Seen: the campaign trail at 1440x900 shows every tile with its group, with no scrollbar, and each name reads on its picture.

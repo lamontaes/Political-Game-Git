@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n8-p12
-pr:
+pr: #10317
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N8-P12)
+merged-at: 2026-11-24T06:47:14.660Z
 ---
 
 **What.** The owner, Nov 8: News and Day glow when the game loads, for no reason. Carried as N8-P12.
