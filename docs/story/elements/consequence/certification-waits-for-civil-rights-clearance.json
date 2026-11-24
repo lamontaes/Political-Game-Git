@@ -1,0 +1,26 @@
+{
+  "id": "certification-waits-for-civil-rights-clearance",
+  "kind": "consequence",
+  "summary": "A hospital’s application for a new payment program waits until another office clears its admissions practices.",
+  "realLife": "Federal health officials made Title VI compliance a condition of hospital certification for Medicare.",
+  "sources": [
+    "https://www.gao.gov/assets/b-164031%284%29-096498.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{hospital}",
+    "{program}",
+    "{review_office}"
+  ],
+  "gates": [
+    "The program ties participation to civil rights compliance."
+  ],
+  "weights": [],
+  "usedBy": []
+}

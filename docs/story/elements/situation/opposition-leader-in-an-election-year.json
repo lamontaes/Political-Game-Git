@@ -1,0 +1,25 @@
+{
+  "id": "opposition-leader-in-an-election-year",
+  "kind": "situation",
+  "summary": "A party leader must decide whether to deliver a legislative victory to a president facing reelection from the other party.",
+  "realLife": "Dirksen weighed Republican divisions and his party’s civil rights history while Johnson sought passage in 1964.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{party_leader}",
+    "{president}",
+    "{bill}"
+  ],
+  "gates": [
+    "The president needs opposition votes during a presidential campaign."
+  ],
+  "weights": [],
+  "usedBy": []
+}

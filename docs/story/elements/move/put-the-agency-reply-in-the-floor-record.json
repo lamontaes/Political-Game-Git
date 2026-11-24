@@ -1,0 +1,26 @@
+{
+  "id": "put-the-agency-reply-in-the-floor-record",
+  "kind": "move",
+  "summary": "A member brings an agency’s written answer into floor proceedings so others can read its reasoning.",
+  "realLife": "The House record of July 26, 1966, printed the federal reply to Fountain about hospital compliance and Medicare.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GPO-CRECB-1966-pt13/pdf/GPO-CRECB-1966-pt13-4.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{member}",
+    "{agency}",
+    "{letter}"
+  ],
+  "gates": [
+    "The agency has answered the member in writing."
+  ],
+  "weights": [],
+  "usedBy": []
+}

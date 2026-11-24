@@ -1,0 +1,26 @@
+{
+  "id": "plan-transport-if-a-hospital-refuses",
+  "kind": "move",
+  "summary": "Officials arrange a fallback destination for patients if their local hospital cannot enter the new program.",
+  "realLife": "Federal health officials prepared to transport Medicare patients to federal facilities if hospitals held out against desegregation.",
+  "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10937164/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{agency}",
+    "{patient}",
+    "{facility}"
+  ],
+  "gates": [
+    "Local facilities may miss the participation deadline."
+  ],
+  "weights": [],
+  "usedBy": []
+}

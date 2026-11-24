@@ -1,0 +1,25 @@
+{
+  "id": "clear-the-calendar-before-long-debate",
+  "kind": "move",
+  "summary": "Members finish work on other bills before one debate can occupy the floor for weeks.",
+  "realLife": "Mansfield got tax and farm legislation through before bringing up civil rights.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{leader}",
+    "{pending_bill}",
+    "{other_bill}"
+  ],
+  "gates": [
+    "Several bills are awaiting floor time."
+  ],
+  "weights": [],
+  "usedBy": []
+}

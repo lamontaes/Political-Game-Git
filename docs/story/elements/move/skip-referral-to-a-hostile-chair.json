@@ -1,0 +1,25 @@
+{
+  "id": "skip-referral-to-a-hostile-chair",
+  "kind": "move",
+  "summary": "A leader puts a bill directly on the calendar when referral would leave it with a hostile chair.",
+  "realLife": "Mansfield bypassed Eastland’s Judiciary Committee to get the House civil rights bill before the Senate.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{leader}",
+    "{committee}",
+    "{bill}"
+  ],
+  "gates": [
+    "The chamber permits direct placement on its calendar."
+  ],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,25 @@
+{
+  "id": "amendments-land-at-caucus-lunch",
+  "kind": "moment",
+  "summary": "A leader brings draft amendments to lunch and hears objections from both wings of the party.",
+  "realLife": "Dirksen brought forty amendments to a Republican luncheon. Conservatives distrusted the negotiations and liberals feared losing protections.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{party_leader}",
+    "{caucus}",
+    "{bill}"
+  ],
+  "gates": [
+    "The caucus is meeting on a negotiated draft."
+  ],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,25 @@
+{
+  "id": "ally-wants-a-committee-record",
+  "kind": "voice",
+  "summary": "A supporter asks for a committee report so future readers can tell what lawmakers meant.",
+  "realLife": "Wayne Morse backed civil rights and sought referral to document the Senate’s intent. His motion lost.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{member}",
+    "{committee}",
+    "{bill}"
+  ],
+  "gates": [
+    "A bill has reached the floor without committee review."
+  ],
+  "weights": [],
+  "usedBy": []
+}

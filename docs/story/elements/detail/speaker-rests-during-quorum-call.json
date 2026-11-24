@@ -1,0 +1,25 @@
+{
+  "id": "speaker-rests-during-quorum-call",
+  "kind": "detail",
+  "summary": "The member who has been standing at the lectern finally sits while the clerk calls names.",
+  "realLife": "Senate filibuster speakers used quorum calls for rest under rules requiring them to stand while speaking.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{member}",
+    "{clerk}",
+    "{chamber}"
+  ],
+  "gates": [
+    "A speaking filibuster is underway and a quorum call has begun."
+  ],
+  "weights": [],
+  "usedBy": []
+}

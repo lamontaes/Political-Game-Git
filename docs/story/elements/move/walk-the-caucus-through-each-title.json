@@ -1,0 +1,25 @@
+{
+  "id": "walk-the-caucus-through-each-title",
+  "kind": "move",
+  "summary": "A leader opens the revised text and answers colleagues’ objections one section at a time.",
+  "realLife": "Dirksen reviewed the compromise title by title with Republicans before the substitute reached the floor.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{leader}",
+    "{caucus}",
+    "{bill_title}"
+  ],
+  "gates": [
+    "The caucus has the revised text."
+  ],
+  "weights": [],
+  "usedBy": []
+}

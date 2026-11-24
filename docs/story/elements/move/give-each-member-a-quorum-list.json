@@ -1,0 +1,25 @@
+{
+  "id": "give-each-member-a-quorum-list",
+  "kind": "move",
+  "summary": "A member has a short list of colleagues to bring to the chamber when the clerk calls the roll.",
+  "realLife": "Humphrey and Kuchel divided responsibility for getting supporters to quorum calls.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{member}",
+    "{colleague}",
+    "{chamber}"
+  ],
+  "gates": [
+    "Supporters must be present to establish a quorum."
+  ],
+  "weights": [],
+  "usedBy": []
+}

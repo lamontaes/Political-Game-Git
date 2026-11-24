@@ -1,0 +1,26 @@
+{
+  "id": "hospital-leaders-hear-the-condition-in-person",
+  "kind": "moment",
+  "summary": "Hospital leaders hear directly from the president what they must change to receive federal payments.",
+  "realLife": "Johnson called hospital leaders to the White House and backed the Medicare desegregation condition.",
+  "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10937164/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": [
+    "{president}",
+    "{hospital_leader}",
+    "{program}"
+  ],
+  "gates": [
+    "Hospital participation is in doubt before the program opens."
+  ],
+  "weights": [],
+  "usedBy": []
+}

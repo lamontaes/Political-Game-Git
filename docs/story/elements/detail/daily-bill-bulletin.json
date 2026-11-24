@@ -1,0 +1,25 @@
+{
+  "id": "daily-bill-bulletin",
+  "kind": "detail",
+  "summary": "A fresh bulletin on a colleague’s desk explains one part of the bill on the floor.",
+  "realLife": "The Senate floor managers issued daily newsletters explaining the civil rights measure.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{floor_manager}",
+    "{bill}",
+    "{office}"
+  ],
+  "gates": [
+    "Floor debate extends across multiple days."
+  ],
+  "weights": [],
+  "usedBy": []
+}
