@@ -25,6 +25,7 @@ import type { GroundedEnglishFact } from "../english/grounded-english";
 import {
   DISASTER_WORDS,
   tell,
+  type TellingInput,
   type ToldSentence,
 } from "../english/outline-planner";
 import { officeWords } from "../english/said-as";
@@ -222,6 +223,47 @@ function asOpening(
 }
 
 /**
+ * What the inaugural is told from: the outline input (its facts, its second
+ * point, the President's traits), the plan, and the facts of each point.
+ * The address and the sameness measure read the same input.
+ */
+export function inauguralTelling(
+  core: CoreState,
+  president: PersonState,
+  official: OfficialRow,
+  inaugurationId: string,
+): {
+  input: TellingInput;
+  plan: SpeechPlan;
+  facts: Facts;
+  second: { facts: Facts; question: string } | null;
+} {
+  const plan = planSpeech(core, "inaugural", {
+    person: president,
+    official,
+    jurisdiction: "US",
+    serviceStart: official.serviceStart,
+  });
+  const facts = inauguralFacts(core, president, official, plan, inaugurationId);
+  const second = secondPoint(plan);
+  return {
+    input: {
+      kind: "inaugural",
+      facts,
+      momentKey: `inaugural:${core.date}:${president.id}`,
+      worldSeed: core.seed,
+      sourceRecordIds: [official.id as EntityId, inaugurationId as EntityId],
+      knower: president.id as EntityId,
+      traits: president.traits,
+      ...(second ? { points: [second.facts] } : {}),
+    },
+    plan,
+    facts,
+    second,
+  };
+}
+
+/**
  * The inaugural as told: its sentences, and the plan whose theme, story and
  * stand they say. Null when a required section cannot be said.
  */
@@ -231,24 +273,13 @@ export function tellInaugural(
   official: OfficialRow,
   inaugurationId: string,
 ): { sentences: OpeningSentence[]; plan: SpeechPlan } | null {
-  const plan = planSpeech(core, "inaugural", {
-    person: president,
+  const { input, plan, facts, second } = inauguralTelling(
+    core,
+    president,
     official,
-    jurisdiction: "US",
-    serviceStart: official.serviceStart,
-  });
-  const facts = inauguralFacts(core, president, official, plan, inaugurationId);
-  const second = secondPoint(plan);
-  const told = tell({
-    kind: "inaugural",
-    facts,
-    momentKey: `inaugural:${core.date}:${president.id}`,
-    worldSeed: core.seed,
-    sourceRecordIds: [official.id as EntityId, inaugurationId as EntityId],
-    knower: president.id as EntityId,
-    traits: president.traits,
-    ...(second ? { points: [second.facts] } : {}),
-  });
+    inaugurationId,
+  );
+  const told = tell(input);
   if (!told) return null;
   return {
     sentences: told.sentences.map((row) =>
