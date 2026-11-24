@@ -110,6 +110,9 @@ export function eveningChapter(
     facts.about = fact(point.about, [story.id, ...point.sourceRecordIds]);
     if (point.stance)
       facts[`president-${point.stance}`] = fact("yes", point.sourceRecordIds);
+    // A law already in force is one the President keeps or undoes.
+    if (point.inForce)
+      facts["law-in-force"] = fact("yes", point.sourceRecordIds);
     // The entry says where the player stands only where they said it at
     // the table (the talk's record of the reply; pre-grade, Nov 24: the
     // diary said the opposite of the reply the player chose). A side

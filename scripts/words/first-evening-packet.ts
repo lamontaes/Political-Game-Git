@@ -126,7 +126,10 @@ for (const seed of seeds) {
       director,
       presentIds: room as any,
       minuteOfDay: minute,
-      ...(staged ? { occasionId: staged.momentId } : {}),
+      // Opened as the bench opens a housemate's talk from a click: with no
+      // occasion, so the packet shows the evening a player gets (Week speed's
+      // walk and the Dead stops tracer, Nov 24: the address moment passed
+      // here made the packet's talk better than the game's).
     });
     if (!talk.lines.length) continue;
     any = true;

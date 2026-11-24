@@ -3353,7 +3353,7 @@
           "requiresFacts": ["about", "president-against"]
         }
       ],
-      "after": ["watched", "said"],
+      "after": ["start", "watched", "said"],
       "lean": ["personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
@@ -3372,7 +3372,7 @@
           "requiresFacts": ["about", "president-for"]
         }
       ],
-      "after": ["watched", "said"],
+      "after": ["start", "watched", "said"],
       "lean": ["personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
@@ -4447,6 +4447,169 @@
       "lean": [
         "personality-v1:facet-tender-hearted",
         "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-everybody-was-home-for-s-first-speech-tonight-so-we-watched-it-together",
+      "move": "watched",
+      "kind": "written",
+      "text": "Everybody was home for {president-name}'s first speech tonight, so we watched it together.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.watched.journal-evening-the-news-ran-s-speech-after-supper-and-nobody-in-the-house-changed-the-channel",
+      "move": "watched",
+      "kind": "written",
+      "text": "The news ran {president-name}'s speech after supper, and nobody in the house changed the channel.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.ahead.journal-evening-i-ll-find-out-tomorrow-what-makes-of-it",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I'll find out tomorrow what {place} makes of it.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-wants",
+      "move": "said",
+      "kind": "written",
+      "text": "The President wants {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-is-against",
+      "move": "said",
+      "kind": "written",
+      "text": "The President is against {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-means-to-keep",
+      "move": "said",
+      "kind": "written",
+      "text": "The President means to keep {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-president-wants-to-get-rid-of",
+      "move": "said",
+      "kind": "written",
+      "text": "The President wants to get rid of {about}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["about", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline.said.journal-evening-the-speech-stayed-on-most-of-the-time",
+      "move": "said",
+      "kind": "written",
+      "text": "The speech stayed on {theme-name} most of the time.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name"]
+        }
+      ],
+      "after": ["watched", "said"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-studious"
       ],
       "origin": "authored",
       "author": "the Story lead",

@@ -2160,23 +2160,38 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
-  // A first chapter titled by the town only for want of a birthplace is the
-  // time before the town once a later chapter is titled by it (pre-grade,
-  // Nov 24: "Whitmore Village, Hawaii" twice, the second opening on the move
-  // there).
+  // A first chapter titled by the town only for want of a birthplace, where
+  // a later chapter is titled by the town too, is titled by where that
+  // stretch was lived: the place the move into town came from (pre-grade
+  // and the CTO, Nov 24: "Whitmore Village, Hawaii" twice, then "Before
+  // Whitmore Village, Hawaii", "a chapter name no person would write").
+  // With no such place on record, the two chapters are one.
   const roots = chapters[zero];
-  if (
-    roots &&
-    rootsTitledBy &&
-    chapters.some((row) => row !== roots && row.title === roots.title)
-  ) {
-    const before = render(
-      { part: "first-title" },
-      { before: rootsTitledBy },
-      `${roots.key}:title`,
-      rootsTitledBy.sourceRecordIds,
-    );
-    if (before) roots.title = before.text;
+  const twin =
+    roots && rootsTitledBy
+      ? chapters.find((row) => row !== roots && row.title === roots.title)
+      : undefined;
+  if (roots && twin) {
+    const movedIn = preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId,
+    }).find((entry) => placeLabel(String(entry.facts.fromPlaceId ?? "")));
+    const from = movedIn ? placeLabel(String(movedIn.facts.fromPlaceId)) : null;
+    const title =
+      movedIn && from
+        ? render(
+            { part: "first-title" },
+            { place: { text: from, sourceRecordIds: [movedIn.id] } },
+            `${roots.key}:title`,
+            [movedIn.id],
+          )
+        : null;
+    if (title) roots.title = title.text;
+    else {
+      twin.lines.unshift(...roots.lines);
+      twin.from = roots.from;
+      roots.lines.length = zero;
+    }
   }
   // The opening evening, told as one diary entry (journal-evening.ts).
   const evening = eveningChapter(core, director, personId, through);
