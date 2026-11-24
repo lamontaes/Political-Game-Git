@@ -26,6 +26,7 @@ import type { JournalChapter } from "./journal";
 import type { Director } from "./ledger";
 import { addressPoints, type AddressPoint } from "./opening-facts";
 import { spoken } from "./words";
+import { themeNameBy } from "./theme-words";
 
 /** The most housemates a diary entry names one by one before it says "the whole house". */
 const WATCHERS_NAMED = JOURNAL_EVENING.watchersNamed;
@@ -33,7 +34,6 @@ const WATCHERS_NAMED = JOURNAL_EVENING.watchersNamed;
 const SELF = JOURNAL_EVENING.self;
 
 const THEME = speechOutlines as unknown as {
-  themeNames: Record<string, string>;
   themeShort: Record<string, string>;
   themeShortPlural: { themes: readonly string[] };
 };
@@ -107,8 +107,9 @@ export function eveningTelling(
   } else facts.alone = fact("yes", [story.id, personId]);
   // The theme of the point the speech argued, as the address said it.
   const family = story.points[P.zero]?.family ?? story.theme;
-  if (family && THEME.themeNames[family]) {
-    facts["theme-name"] = fact(THEME.themeNames[family]!);
+  const themeName = family ? themeNameBy(me.traits, family) : null;
+  if (family && themeName) {
+    facts["theme-name"] = fact(themeName);
     if (THEME.themeShort[family]) {
       facts["theme-short"] = fact(THEME.themeShort[family]!);
       // A plural short name ("hard times") takes a plural verb.
