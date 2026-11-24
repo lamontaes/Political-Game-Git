@@ -1,0 +1,17 @@
+{
+  "id": "what-a-year-it-has-been",
+  "kind": "moment",
+  "summary": "A governor opens on the year just past.",
+  "realLife": "Arizona's governor opened on what a year it has been.",
+  "sources": [
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["the-disaster", "run-span"],
+  "gates": [],
+  "weights": {
+    "state": 0.08
+  },
+  "usedBy": []
+}
