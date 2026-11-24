@@ -773,6 +773,152 @@
       ]
     },
     {
+      "key": "outline-journal.born.born-on-a-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born on a {born-weekday}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-sincere"]
+    },
+    {
+      "key": "outline-journal.born.born-in-month-next-after",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born in {born-month}, the next one after {older-sibling}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-month", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-friendly"]
+    },
+    {
+      "key": "outline-journal.born.older-sibling-on-the-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "{older-sibling} was already there on the {born-weekday} I was born.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday", "older-sibling"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-observant",
+        "personality-v1:facet-supportive"
+      ]
+    },
+    {
+      "key": "outline-journal.born.birthday-is-in-month",
+      "move": "born",
+      "kind": "written",
+      "text": "My birthday is in {born-month}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-month"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": ["personality-v1:facet-contented", "personality-v1:facet-shy"]
+    },
+    {
+      "key": "outline-journal.born.oldest-born-weekday-month",
+      "move": "born",
+      "kind": "written",
+      "text": "I was born on a {born-weekday} in {born-month}, the oldest of the children.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": [
+            "own-moment",
+            "born-weekday",
+            "born-month",
+            "first-born"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-meticulous"
+      ]
+    },
+    {
+      "key": "outline-journal.born.only-child-born-weekday",
+      "move": "born",
+      "kind": "written",
+      "text": "I was the only child, born on a {born-weekday}.",
+      "uses": [
+        {
+          "subject": "journal-chapter-open",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["own-moment", "born-weekday", "only-child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-24",
+      "elements": [
+        "a-life-starts-among-the-brothers-and-sisters-already-there",
+        "birth-is-a-form-the-state-keeps"
+      ],
+      "lean": [
+        "personality-v1:facet-independent",
+        "personality-v1:facet-skeptical"
+      ]
+    },
+    {
       "key": "outline-journal.moved.i-moved-to-in",
       "move": "moved",
       "kind": "written",
