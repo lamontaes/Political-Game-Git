@@ -1039,8 +1039,9 @@
       "sheriff": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the sheriff an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "District attorney general",
@@ -1054,22 +1055,25 @@
       "clerk": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the county clerk an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "treasurer": {
         "title": "Trustee",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the trustee an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\" That the trustee is the county treasurer is from CTAS, https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form.",
+        "termYears": 4
       },
       "assessor": {
         "title": "Assessor of property",
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://www.ctas.tennessee.edu/eli/article-vii-section-1-elected-officials-and-governmental-form",
-        "note": "Article VII, section 1 makes the assessor of property an elected county officer."
+        "sourceUrl": "https://codes.findlaw.com/tn/tennessee-constitution/tn-const-art-vii-sect-1/",
+        "note": "Tenn. Const. art. VII, sec. 1: \"The qualified voters of each county shall elect for terms of four years a legislative body, a county executive, a Sheriff, a Trustee, a Register, a County Clerk and an Assessor of Property.\"",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
@@ -1084,34 +1088,39 @@
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution requires an elected county sheriff (Article V, section 23)."
+        "note": "The constitution requires an elected county sheriff (Article V, section 23). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. V, 23\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "prosecutor": {
         "title": "District attorney",
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution provides county attorneys and district attorneys (Article V, sections 20 and 21); a district attorney serves a district.",
-        "scope": "judicial-district"
+        "note": "The constitution provides county attorneys and district attorneys (Article V, sections 20 and 21); a district attorney serves a district. Term from the Secretary of State's list of offices (District Attorney, \"4 years\", \"TX Const. Art. V, 21, 30\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "scope": "judicial-district",
+        "termYears": 4
       },
       "clerk": {
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution requires an elected county clerk (Article V, section 20)."
+        "note": "The constitution requires an elected county clerk (Article V, section 20). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. V, 20\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "treasurer": {
         "elected": true,
         "basis": "read",
-        "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "The constitution has the legislature provide for an elected county treasurer (Article XVI)."
+        "sourceUrl": "https://law.justia.com/constitution/texas/sections/cn001600-004400.html",
+        "note": "Tex. Const. art. XVI, sec. 44(a): the Legislature shall \"provide for the election by the qualified voters of each county in this State, of a County Treasurer\", who holds office \"for four years\". Sec. 44(b): the office \"does not exist in those counties in which the office has been abolished pursuant to constitutional amendment\"; which counties was not read.",
+        "termYears": 4
       },
       "assessor": {
         "title": "Tax assessor-collector",
         "elected": true,
         "basis": "read",
         "sourceUrl": "https://texaspolitics.utexas.edu/archive/html/cons/features/0500_01/slide2.html",
-        "note": "A tax assessor is elected in each county (Article VIII, section 14)."
+        "note": "A tax assessor is elected in each county (Article VIII, section 14). Term from the Secretary of State's list of offices (\"4 years\", \"TX Const. Art. VIII, 14\"), https://www.sos.texas.gov/elections/candidates/guide/2026/qualifications2026.shtml.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
@@ -1165,14 +1174,48 @@
     },
     "VA": {
       "prosecutor": {
-        "title": "Commonwealth's attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "title": "Attorney for the Commonwealth",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
       },
       "coroner": {
         "elected": false,
         "basis": "estimated",
         "sourceUrl": null,
         "note": "General knowledge, not yet read: a statewide or appointed medical examiner handles death investigation here."
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue.",
+        "termYears": 4
+      },
+      "assessor": {
+        "title": "Commissioner of the revenue",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"There shall be elected by the qualified voters of each county and city a treasurer, a sheriff, an attorney for the Commonwealth, a clerk... and a commissioner of revenue\", \"for the term of four years, except that the clerk shall hold office for eight years\". Va. Code 24.2-217 (https://law.lis.virginia.gov/vacode/24.2-217) lets a county that \"has adopted an optional form of government which provides that the office be abolished or a county's charter\" go without the sheriff, attorney for the Commonwealth, treasurer or commissioner of the revenue. That the commissioner of the revenue holds the county's assessor role is an inference; the pages read do not say \"assessor\".",
+        "termYears": 4
+      },
+      "clerk": {
+        "title": "Clerk of the circuit court",
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.lis.virginia.gov/constitution/article7/section4/",
+        "note": "Va. Const. art. VII, sec. 4: \"a clerk, who shall be clerk of the court in the office of which deeds are recorded\"; \"the clerk shall hold office for eight years\". Va. Code 24.2-217: \"The qualified voters of the several counties shall elect a clerk of the circuit court of the county\".",
+        "termYears": 8
       }
     },
     "VT": {
