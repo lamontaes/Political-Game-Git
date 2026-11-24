@@ -9903,5 +9903,4289 @@
     "origin": "authored",
     "author": "Codex writer B",
     "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-vote-for-bill-the-last-time-a-driver-takes-those-bags-away-the-grocer-ought-to-get-that-corner-back-for-good",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd vote for {bill}. The last time a driver takes those bags away, the grocer ought to get that corner back for good.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.consider-a-grocer-who-stores-returns-in-the-stockroom-i-d-give-the-owner-that-space-back-that-s-a-reason-to-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-does-a-grocer-do-with-another-sack-of-empties-when-the-truck-is-late-presiding-something-else-has-to-come-off-the-stockroom-floor-that-s-why-i-m-voting-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.give-me-a-choice-between-a-shelf-for-tomorrow-s-bread-and-a-shelf-for-yesterday-s-bottles-and-i-ll-take-the-bread-that-s-my-reason-for-supporting-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-backing-bill-name-for-a-pretty-ordinary-reason-a-delivery-driver-ought-to-be-able-to-get-a-hand-truck-through-the-back-door-without-the-clerk-having-to-shift-a-stack-of-sticky-bottles-first"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.anybody-who-s-unloaded-a-delivery-knows-you-need-somewhere-to-set-the-cases-down-even-empty-bottles-take-up-that-space-i-d-rather-pass-bill-and-leave-the-stockroom-to-the-grocer"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.look-behind-the-register-presiding-there-s-room-to-serve-a-customer-or-there-s-room-for-sacks-waiting-to-go-back-in-a-little-store-you-may-have-to-choose-i-d-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-i-d-count-a-clear-path-from-the-loading-door-to-the-shelves-as-a-good-result-for-bill",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you. I'd count a clear path from the loading door to the shelves as a good result for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-d-vote-for-bill-the-last-time-a-driver-takes-those-bags-away-the-grocer-ought-to-get-that-corner-back-for-good"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-floor-space-settles-it-for-me-presiding-when-the-store-fills-up-the-owner-can-t-order-a-bigger-back-room",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The floor space settles it for me, {presiding}. When the store fills up, the owner can't order a bigger back room.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.consider-a-grocer-who-stores-returns-in-the-stockroom-i-d-give-the-owner-that-space-back-that-s-a-reason-to-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-does-a-grocer-do-with-another-sack-of-empties-when-the-truck-is-late-presiding-something-else-has-to-come-off-the-stockroom-floor-that-s-why-i-m-voting-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.give-me-a-choice-between-a-shelf-for-tomorrow-s-bread-and-a-shelf-for-yesterday-s-bottles-and-i-ll-take-the-bread-that-s-my-reason-for-supporting-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-backing-bill-name-for-a-pretty-ordinary-reason-a-delivery-driver-ought-to-be-able-to-get-a-hand-truck-through-the-back-door-without-the-clerk-having-to-shift-a-stack-of-sticky-bottles-first"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.anybody-who-s-unloaded-a-delivery-knows-you-need-somewhere-to-set-the-cases-down-even-empty-bottles-take-up-that-space-i-d-rather-pass-bill-and-leave-the-stockroom-to-the-grocer"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.look-behind-the-register-presiding-there-s-room-to-serve-a-customer-or-there-s-room-for-sacks-waiting-to-go-back-in-a-little-store-you-may-have-to-choose-i-d-end-the-deposit"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-appreciate-that-presiding-a-small-shop-has-to-make-the-deliveries-and-the-returns-fit-through-the-same-door",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I appreciate that, {presiding}. A small shop has to make the deliveries and the returns fit through the same door.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.the-floor-space-settles-it-for-me-presiding-when-the-store-fills-up-the-owner-can-t-order-a-bigger-back-room"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-m-voting-against-bill-give-the-distributors-a-common-pickup-day-and-see-how-much-room-the-shop-gets-back",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'm voting against {bill}. Give the distributors a common pickup day and see how much room the shop gets back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.consider-a-grocer-who-stores-returns-in-the-stockroom-i-d-give-the-owner-that-space-back-that-s-a-reason-to-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.what-does-a-grocer-do-with-another-sack-of-empties-when-the-truck-is-late-presiding-something-else-has-to-come-off-the-stockroom-floor-that-s-why-i-m-voting-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.give-me-a-choice-between-a-shelf-for-tomorrow-s-bread-and-a-shelf-for-yesterday-s-bottles-and-i-ll-take-the-bread-that-s-my-reason-for-supporting-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-backing-bill-name-for-a-pretty-ordinary-reason-a-delivery-driver-ought-to-be-able-to-get-a-hand-truck-through-the-back-door-without-the-clerk-having-to-shift-a-stack-of-sticky-bottles-first"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.anybody-who-s-unloaded-a-delivery-knows-you-need-somewhere-to-set-the-cases-down-even-empty-bottles-take-up-that-space-i-d-rather-pass-bill-and-leave-the-stockroom-to-the-grocer"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.look-behind-the-register-presiding-there-s-room-to-serve-a-customer-or-there-s-room-for-sacks-waiting-to-go-back-in-a-little-store-you-may-have-to-choose-i-d-end-the-deposit"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "price-the-space-behind-the-return-counter",
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.would-you-keep-the-refund-even-in-a-town-where-no-distributor-will-take-another-one-s-empties-that-s-where-i-d-still-want-bill",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would you keep the refund even in a town where no distributor will take another one's empties? That's where I'd still want {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.i-m-voting-against-bill-give-the-distributors-a-common-pickup-day-and-see-how-much-room-the-shop-gets-back"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "price-the-space-behind-the-return-counter",
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-heard-the-point-about-room-presiding-i-d-pay-for-more-frequent-pickups-before-i-d-ask-shoppers-to-give-up-the-refund",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I heard the point about room, {presiding}. I'd pay for more frequent pickups before I'd ask shoppers to give up the refund.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.consider-a-grocer-who-stores-returns-in-the-stockroom-i-d-give-the-owner-that-space-back-that-s-a-reason-to-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-does-a-grocer-do-with-another-sack-of-empties-when-the-truck-is-late-presiding-something-else-has-to-come-off-the-stockroom-floor-that-s-why-i-m-voting-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.give-me-a-choice-between-a-shelf-for-tomorrow-s-bread-and-a-shelf-for-yesterday-s-bottles-and-i-ll-take-the-bread-that-s-my-reason-for-supporting-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-backing-bill-name-for-a-pretty-ordinary-reason-a-delivery-driver-ought-to-be-able-to-get-a-hand-truck-through-the-back-door-without-the-clerk-having-to-shift-a-stack-of-sticky-bottles-first"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.anybody-who-s-unloaded-a-delivery-knows-you-need-somewhere-to-set-the-cases-down-even-empty-bottles-take-up-that-space-i-d-rather-pass-bill-and-leave-the-stockroom-to-the-grocer"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.look-behind-the-register-presiding-there-s-room-to-serve-a-customer-or-there-s-room-for-sacks-waiting-to-go-back-in-a-little-store-you-may-have-to-choose-i-d-end-the-deposit"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "price-the-space-behind-the-return-counter",
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.who-should-cover-that-extra-run-presiding-an-empty-truck-going-back-past-the-store-is-one-thing-sending-somebody-out-again-is-another",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Who should cover that extra run, {presiding}? An empty truck going back past the store is one thing. Sending somebody out again is another.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-heard-the-point-about-room-presiding-i-d-pay-for-more-frequent-pickups-before-i-d-ask-shoppers-to-give-up-the-refund"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "price-the-space-behind-the-return-counter",
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-support-bill-if-the-grocer-can-close-out-the-last-refund-the-same-way-a-customer-can-i-don-t-want-the-store-chasing-a-distributor-for-months",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll support {bill} if the grocer can close out the last refund the same way a customer can. I don't want the store chasing a distributor for months.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-thank.that-s-fair-i-ll-ask-the-committee-to-put-the-dealer-s-filing-date-in-bill-where-a-grocer-can-find-it",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "That's fair. I'll ask the committee to put the dealer's filing date in {bill} where a grocer can find it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-ll-support-bill-if-the-grocer-can-close-out-the-last-refund-the-same-way-a-customer-can-i-don-t-want-the-store-chasing-a-distributor-for-months"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-agree.a-separate-deadline-for-the-dealer-makes-sense-presiding-the-shop-can-hardly-file-its-last-claim-while-the-last-customer-is-still-at-the-counter",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "A separate deadline for the dealer makes sense, {presiding}. The shop can hardly file its last claim while the last customer is still at the counter.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-presiding-the-dealer-should-have-a-chance-to-count-what-s-in-the-bags-and-compare-it-with-what-went-out-of-the-till",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you, {presiding}. The dealer should have a chance to count what's in the bags and compare it with what went out of the till.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.a-separate-deadline-for-the-dealer-makes-sense-presiding-the-shop-can-hardly-file-its-last-claim-while-the-last-customer-is-still-at-the-counter"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.a-final-claim-worries-me-for-a-different-reason-if-a-small-shop-has-to-advance-the-last-refunds-with-no-clear-way-to-collect-i-m-voting-against-bill",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "A final claim worries me for a different reason. If a small shop has to advance the last refunds with no clear way to collect, I'm voting against {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-press.would-a-filing-period-written-into-bill-answer-that-concern-a-grocer-could-point-to-a-date-instead-of-waiting-on-a-promise",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would a filing period written into {bill} answer that concern? A grocer could point to a date instead of waiting on a promise.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.a-final-claim-worries-me-for-a-different-reason-if-a-small-shop-has-to-advance-the-last-refunds-with-no-clear-way-to-collect-i-m-voting-against-bill"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-keep-the-refund-presiding-settling-up-with-dealers-is-something-we-can-fix-while-customers-still-get-their-money-back",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'd keep the refund, {presiding}. Settling up with dealers is something we can fix while customers still get their money back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-press.would-you-back-an-end-to-new-deposits-if-old-claims-were-paid-in-full-presiding-or-do-you-want-to-keep-the-charge-on-the-next-bottle-too",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would you back an end to new deposits if old claims were paid in full, {presiding}, or do you want to keep the charge on the next bottle too?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-d-keep-the-refund-presiding-settling-up-with-dealers-is-something-we-can-fix-while-customers-still-get-their-money-back"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-shopper-paid-on-the-way-out-give-them-time-to-get-it-back-on-the-way-in-and-i-ll-support-bill",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The shopper paid on the way out. Give them time to get it back on the way in and I'll support {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.we-can-end-the-deposit-and-still-give-people-time-to-bring-back-the-bottles-they-paid-it-on-i-ll-vote-for-repeal-and-press-for-a-last-return-date-people-can-plan-around"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-refund-is-part-of-what-a-shopper-pays-for-let-people-empty-the-bottles-they-bought-while-the-deposit-was-still-on-them-presiding-and-i-ll-gladly-help-close-the-books-on-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.picture-somebody-buying-a-case-the-evening-before-repeal-under-bill-i-d-give-that-family-time-to-drink-it-before-they-have-to-bring-the-bottles-back-i-m-ready-to-end-the-deposit-on-those-terms"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.who-has-a-bag-of-empties-by-the-back-door-right-now-people-kept-those-bottles-because-we-told-them-they-d-get-their-money-back-i-ll-support-bill-name-and-a-return-period-that-keeps-our-word"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.we-promised-a-refund-when-those-bottles-went-across-the-scanner-i-intend-to-vote-for-bill-and-i-intend-to-give-anybody-who-took-us-at-our-word-a-last-chance-to-collect"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.if-you-knew-the-refund-was-ending-you-d-bring-the-bottles-back-what-if-you-only-buy-groceries-every-other-week-that-s-the-shopper-i-want-us-to-leave-time-for-when-we-pass-bill-name"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.follow-thank.that-s-the-bargain-i-d-want-in-bill-somebody-who-shops-once-a-month-ought-to-have-a-fair-shot-at-making-the-trip",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "That's the bargain I'd want in {bill}. Somebody who shops once a month ought to have a fair shot at making the trip.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.the-shopper-paid-on-the-way-out-give-them-time-to-get-it-back-on-the-way-in-and-i-ll-support-bill"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-for-repeal-presiding-but-if-a-bottle-is-still-unopened-on-somebody-s-pantry-shelf-our-notice-has-to-reach-them-before-the-money-runs-out",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm for repeal, {presiding}. But if a bottle is still unopened on somebody's pantry shelf, our notice has to reach them before the money runs out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.we-can-end-the-deposit-and-still-give-people-time-to-bring-back-the-bottles-they-paid-it-on-i-ll-vote-for-repeal-and-press-for-a-last-return-date-people-can-plan-around"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-refund-is-part-of-what-a-shopper-pays-for-let-people-empty-the-bottles-they-bought-while-the-deposit-was-still-on-them-presiding-and-i-ll-gladly-help-close-the-books-on-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.picture-somebody-buying-a-case-the-evening-before-repeal-under-bill-i-d-give-that-family-time-to-drink-it-before-they-have-to-bring-the-bottles-back-i-m-ready-to-end-the-deposit-on-those-terms"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.who-has-a-bag-of-empties-by-the-back-door-right-now-people-kept-those-bottles-because-we-told-them-they-d-get-their-money-back-i-ll-support-bill-name-and-a-return-period-that-keeps-our-word"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.we-promised-a-refund-when-those-bottles-went-across-the-scanner-i-intend-to-vote-for-bill-and-i-intend-to-give-anybody-who-took-us-at-our-word-a-last-chance-to-collect"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.if-you-knew-the-refund-was-ending-you-d-bring-the-bottles-back-what-if-you-only-buy-groceries-every-other-week-that-s-the-shopper-i-want-us-to-leave-time-for-when-we-pass-bill-name"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-presiding-i-d-start-the-return-period-when-the-public-notice-goes-up-we-shouldn-t-use-it-all-up-getting-signs-printed",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you, {presiding}. I'd start the return period when the public notice goes up. We shouldn't use it all up getting signs printed.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.i-m-for-repeal-presiding-but-if-a-bottle-is-still-unopened-on-somebody-s-pantry-shelf-our-notice-has-to-reach-them-before-the-money-runs-out"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-m-against-bill-a-last-day-is-still-a-last-day-and-somebody-who-misses-it-is-out-the-money-they-paid",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'm against {bill}. A last day is still a last day, and somebody who misses it is out the money they paid.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.we-can-end-the-deposit-and-still-give-people-time-to-bring-back-the-bottles-they-paid-it-on-i-ll-vote-for-repeal-and-press-for-a-last-return-date-people-can-plan-around"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-refund-is-part-of-what-a-shopper-pays-for-let-people-empty-the-bottles-they-bought-while-the-deposit-was-still-on-them-presiding-and-i-ll-gladly-help-close-the-books-on-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.picture-somebody-buying-a-case-the-evening-before-repeal-under-bill-i-d-give-that-family-time-to-drink-it-before-they-have-to-bring-the-bottles-back-i-m-ready-to-end-the-deposit-on-those-terms"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.who-has-a-bag-of-empties-by-the-back-door-right-now-people-kept-those-bottles-because-we-told-them-they-d-get-their-money-back-i-ll-support-bill-name-and-a-return-period-that-keeps-our-word"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.we-promised-a-refund-when-those-bottles-went-across-the-scanner-i-intend-to-vote-for-bill-and-i-intend-to-give-anybody-who-took-us-at-our-word-a-last-chance-to-collect"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.if-you-knew-the-refund-was-ending-you-d-bring-the-bottles-back-what-if-you-only-buy-groceries-every-other-week-that-s-the-shopper-i-want-us-to-leave-time-for-when-we-pass-bill-name"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.follow-press.how-long-would-you-leave-the-claim-open-under-bill-i-d-hear-an-argument-for-giving-the-shopper-more-time",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "How long would you leave the claim open under {bill}? I'd hear an argument for giving the shopper more time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.i-m-against-bill-a-last-day-is-still-a-last-day-and-somebody-who-misses-it-is-out-the-money-they-paid"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.what-about-people-who-put-the-empties-aside-until-they-have-a-ride-i-d-keep-the-deposit-presiding-the-last-trip-isn-t-equally-easy-for-everybody",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "What about people who put the empties aside until they have a ride? I'd keep the deposit, {presiding}. The last trip isn't equally easy for everybody.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.we-can-end-the-deposit-and-still-give-people-time-to-bring-back-the-bottles-they-paid-it-on-i-ll-vote-for-repeal-and-press-for-a-last-return-date-people-can-plan-around"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-refund-is-part-of-what-a-shopper-pays-for-let-people-empty-the-bottles-they-bought-while-the-deposit-was-still-on-them-presiding-and-i-ll-gladly-help-close-the-books-on-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.picture-somebody-buying-a-case-the-evening-before-repeal-under-bill-i-d-give-that-family-time-to-drink-it-before-they-have-to-bring-the-bottles-back-i-m-ready-to-end-the-deposit-on-those-terms"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.who-has-a-bag-of-empties-by-the-back-door-right-now-people-kept-those-bottles-because-we-told-them-they-d-get-their-money-back-i-ll-support-bill-name-and-a-return-period-that-keeps-our-word"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.we-promised-a-refund-when-those-bottles-went-across-the-scanner-i-intend-to-vote-for-bill-and-i-intend-to-give-anybody-who-took-us-at-our-word-a-last-chance-to-collect"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.if-you-knew-the-refund-was-ending-you-d-bring-the-bottles-back-what-if-you-only-buy-groceries-every-other-week-that-s-the-shopper-i-want-us-to-leave-time-for-when-we-pass-bill-name"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.follow-press.suppose-a-shop-took-old-returns-until-its-regular-customers-had-another-chance-to-come-in-presiding-would-that-meet-your-concern",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Suppose a shop took old returns until its regular customers had another chance to come in, {presiding}. Would that meet your concern?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.what-about-people-who-put-the-empties-aside-until-they-have-a-ride-i-d-keep-the-deposit-presiding-the-last-trip-isn-t-equally-easy-for-everybody"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["old-empties-get-a-final-return-window"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-for-bill-put-the-address-of-the-nearest-place-that-takes-glass-in-the-store-window-while-people-are-still-bringing-bottles-back",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm for {bill}. Put the address of the nearest place that takes glass in the store window while people are still bringing bottles back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-repeal-a-family-with-a-box-of-glass-will-still-have-to-figure-out-where-to-take-it-i-d-like-the-collection-arrangements-in-people-s-hands-before-the-refunds-end"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-vote-to-end-the-refund-presiding-glass-still-has-to-go-somewhere-try-carrying-a-week-s-worth-home-again-after-finding-out-the-grocery-has-stopped-taking-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.set-a-box-of-bottles-on-the-kitchen-floor-now-tell-somebody-who-walks-to-the-store-what-to-do-with-it-when-bill-passes-i-favor-repeal-and-i-want-to-be-able-to-give-that-person-directions"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.of-course-i-ll-vote-for-bill-name-but-if-the-grocery-quits-taking-glass-on-monday-where-do-i-carry-it-on-tuesday-a-town-ought-to-have-an-answer-before-its-counter-closes"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.keep-a-place-for-the-glass-that-s-my-request-to-the-members-voting-with-me-on-bill-folks-who-hauled-their-bottles-back-to-the-store-yesterday-will-still-have-bottles-to-carry-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somebody-who-s-been-wheeling-empties-to-the-corner-market-in-a-shopping-cart-needs-a-place-within-reach-i-d-pass-bill-name-provided-we-do-the-work-of-showing-people-where-their-glass-can-go"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-before-we-pass-bill-i-d-like-somebody-to-take-those-directions-from-the-store-and-check-that-the-gate-s-open-when-they-get-there",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you. Before we pass {bill}, I'd like somebody to take those directions from the store and check that the gate's open when they get there.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-m-for-bill-put-the-address-of-the-nearest-place-that-takes-glass-in-the-store-window-while-people-are-still-bringing-bottles-back"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.reply-agree.if-the-county-can-take-the-glass-i-d-let-the-shop-out-of-the-refund-business-the-store-and-the-county-both-need-to-post-the-hours-presiding",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "If the county can take the glass, I'd let the shop out of the refund business. The store and the county both need to post the hours, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-repeal-a-family-with-a-box-of-glass-will-still-have-to-figure-out-where-to-take-it-i-d-like-the-collection-arrangements-in-people-s-hands-before-the-refunds-end"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-vote-to-end-the-refund-presiding-glass-still-has-to-go-somewhere-try-carrying-a-week-s-worth-home-again-after-finding-out-the-grocery-has-stopped-taking-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.set-a-box-of-bottles-on-the-kitchen-floor-now-tell-somebody-who-walks-to-the-store-what-to-do-with-it-when-bill-passes-i-favor-repeal-and-i-want-to-be-able-to-give-that-person-directions"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.of-course-i-ll-vote-for-bill-name-but-if-the-grocery-quits-taking-glass-on-monday-where-do-i-carry-it-on-tuesday-a-town-ought-to-have-an-answer-before-its-counter-closes"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.keep-a-place-for-the-glass-that-s-my-request-to-the-members-voting-with-me-on-bill-folks-who-hauled-their-bottles-back-to-the-store-yesterday-will-still-have-bottles-to-carry-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.somebody-who-s-been-wheeling-empties-to-the-corner-market-in-a-shopping-cart-needs-a-place-within-reach-i-d-pass-bill-name-provided-we-do-the-work-of-showing-people-where-their-glass-can-go"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-add-whether-the-site-takes-bottles-from-households-presiding-it-s-a-long-walk-back-with-a-box-they-won-t-accept",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd add whether the site takes bottles from households, {presiding}. It's a long walk back with a box they won't accept.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.if-the-county-can-take-the-glass-i-d-let-the-shop-out-of-the-refund-business-the-store-and-the-county-both-need-to-post-the-hours-presiding"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.a-place-to-drop-off-glass-doesn-t-pay-anybody-back-i-oppose-bill-even-if-the-county-takes-glass-right-next-door",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "A place to drop off glass doesn't pay anybody back. I oppose {bill} even if the county takes glass right next door.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-repeal-a-family-with-a-box-of-glass-will-still-have-to-figure-out-where-to-take-it-i-d-like-the-collection-arrangements-in-people-s-hands-before-the-refunds-end"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-vote-to-end-the-refund-presiding-glass-still-has-to-go-somewhere-try-carrying-a-week-s-worth-home-again-after-finding-out-the-grocery-has-stopped-taking-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.set-a-box-of-bottles-on-the-kitchen-floor-now-tell-somebody-who-walks-to-the-store-what-to-do-with-it-when-bill-passes-i-favor-repeal-and-i-want-to-be-able-to-give-that-person-directions"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.of-course-i-ll-vote-for-bill-name-but-if-the-grocery-quits-taking-glass-on-monday-where-do-i-carry-it-on-tuesday-a-town-ought-to-have-an-answer-before-its-counter-closes"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.keep-a-place-for-the-glass-that-s-my-request-to-the-members-voting-with-me-on-bill-folks-who-hauled-their-bottles-back-to-the-store-yesterday-will-still-have-bottles-to-carry-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.somebody-who-s-been-wheeling-empties-to-the-corner-market-in-a-shopping-cart-needs-a-place-within-reach-i-d-pass-bill-name-provided-we-do-the-work-of-showing-people-where-their-glass-can-go"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.follow-press.so-even-with-an-easy-trip-you-d-keep-the-refund-itself-that-s-a-different-objection-to-bill-and-it-s-worth-hearing",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "So even with an easy trip, you'd keep the refund itself? That's a different objection to {bill}, and it's worth hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.a-place-to-drop-off-glass-doesn-t-pay-anybody-back-i-oppose-bill-even-if-the-county-takes-glass-right-next-door"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-can-t-vote-with-the-sponsor-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I can't vote with the sponsor, {presiding}. Somebody who walks to the grocery may have no ride out to the county yard with a box of glass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-repeal-a-family-with-a-box-of-glass-will-still-have-to-figure-out-where-to-take-it-i-d-like-the-collection-arrangements-in-people-s-hands-before-the-refunds-end"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-vote-to-end-the-refund-presiding-glass-still-has-to-go-somewhere-try-carrying-a-week-s-worth-home-again-after-finding-out-the-grocery-has-stopped-taking-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.set-a-box-of-bottles-on-the-kitchen-floor-now-tell-somebody-who-walks-to-the-store-what-to-do-with-it-when-bill-passes-i-favor-repeal-and-i-want-to-be-able-to-give-that-person-directions"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.of-course-i-ll-vote-for-bill-name-but-if-the-grocery-quits-taking-glass-on-monday-where-do-i-carry-it-on-tuesday-a-town-ought-to-have-an-answer-before-its-counter-closes"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.keep-a-place-for-the-glass-that-s-my-request-to-the-members-voting-with-me-on-bill-folks-who-hauled-their-bottles-back-to-the-store-yesterday-will-still-have-bottles-to-carry-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.somebody-who-s-been-wheeling-empties-to-the-corner-market-in-a-shopping-cart-needs-a-place-within-reach-i-d-pass-bill-name-provided-we-do-the-work-of-showing-people-where-their-glass-can-go"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.follow-press.if-the-county-took-glass-where-people-already-shop-presiding-would-you-still-want-the-grocer-to-pay-a-refund",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "If the county took glass where people already shop, {presiding}, would you still want the grocer to pay a refund?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-can-t-vote-with-the-sponsor-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["county-dropoff-survives-deposit-repeal"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-with-the-sponsor-on-bill-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm with the sponsor on {bill}. A shopper deserves to know which bottles the clerk will take before hauling a bag down to the store.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-clerk-shouldn-t-have-to-referee-an-argument-over-two-bottles-that-look-alike-i-support-repeal-presiding-let-s-give-the-people-who-paid-deposits-on-those-bottles-time-to-find-out-what-s-changing"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.same-size-bottle-same-shelf-different-answer-at-the-register-i-m-voting-for-bill-because-i-d-like-to-see-that-argument-end-the-shopper-deserves-to-hear-about-the-change-before-making-a-trip-back"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-bill-name-i-can-see-why-a-shopper-would-be-sore-about-saving-a-bag-of-bottles-and-finding-out-at-the-counter-that-some-of-them-never-carried-a-deposit-let-s-at-least-give-people-fair-warning"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-shopper-saves-an-empty-bottle-in-good-faith-and-gets-a-lesson-in-beverage-labels-at-the-register-i-can-vote-to-end-that-presiding-give-the-shopper-plenty-of-notice-about-what-the-store-will-still-redeem"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.go-ahead-and-pass-bill-before-the-return-counter-closes-could-we-give-the-clerk-something-to-point-to-when-the-customer-says-the-bottle-in-this-hand-looks-just-like-the-one-you-took-from-the-other"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-bottles-one-refund"]
+  },
+  {
+    "key": "scene-talk.follow-thank.yes-i-d-have-the-store-post-the-last-date-and-pictures-of-what-still-qualifies-while-we-re-putting-bill-into-effect",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Yes. I'd have the store post the last date and pictures of what still qualifies while we're putting {bill} into effect.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-m-with-the-sponsor-on-bill-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-bottles-one-refund"]
+  },
+  {
+    "key": "scene-talk.reply-agree.no-clerk-should-have-to-break-the-news-halfway-through-a-bag-of-empties-i-d-end-the-deposit-and-tell-people-first-presiding",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "No clerk should have to break the news halfway through a bag of empties. I'd end the deposit and tell people first, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-clerk-shouldn-t-have-to-referee-an-argument-over-two-bottles-that-look-alike-i-support-repeal-presiding-let-s-give-the-people-who-paid-deposits-on-those-bottles-time-to-find-out-what-s-changing"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.same-size-bottle-same-shelf-different-answer-at-the-register-i-m-voting-for-bill-because-i-d-like-to-see-that-argument-end-the-shopper-deserves-to-hear-about-the-change-before-making-a-trip-back"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-bill-name-i-can-see-why-a-shopper-would-be-sore-about-saving-a-bag-of-bottles-and-finding-out-at-the-counter-that-some-of-them-never-carried-a-deposit-let-s-at-least-give-people-fair-warning"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-shopper-saves-an-empty-bottle-in-good-faith-and-gets-a-lesson-in-beverage-labels-at-the-register-i-can-vote-to-end-that-presiding-give-the-shopper-plenty-of-notice-about-what-the-store-will-still-redeem"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.go-ahead-and-pass-bill-before-the-return-counter-closes-could-we-give-the-clerk-something-to-point-to-when-the-customer-says-the-bottle-in-this-hand-looks-just-like-the-one-you-took-from-the-other"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-bottles-one-refund"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-presiding-a-sign-on-the-way-out-reaches-somebody-buying-a-drink-as-well-as-somebody-bringing-one-back",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you, {presiding}. A sign on the way out reaches somebody buying a drink as well as somebody bringing one back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.no-clerk-should-have-to-break-the-news-halfway-through-a-bag-of-empties-i-d-end-the-deposit-and-tell-people-first-presiding"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["two-bottles-one-refund"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.the-trouble-is-that-two-bottles-look-alike-give-the-clerk-a-clear-label-to-show-the-customer-and-keep-the-refund-i-m-against-bill",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "The trouble is that two bottles look alike. Give the clerk a clear label to show the customer and keep the refund. I'm against {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-clerk-shouldn-t-have-to-referee-an-argument-over-two-bottles-that-look-alike-i-support-repeal-presiding-let-s-give-the-people-who-paid-deposits-on-those-bottles-time-to-find-out-what-s-changing"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.same-size-bottle-same-shelf-different-answer-at-the-register-i-m-voting-for-bill-because-i-d-like-to-see-that-argument-end-the-shopper-deserves-to-hear-about-the-change-before-making-a-trip-back"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-bill-name-i-can-see-why-a-shopper-would-be-sore-about-saving-a-bag-of-bottles-and-finding-out-at-the-counter-that-some-of-them-never-carried-a-deposit-let-s-at-least-give-people-fair-warning"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-shopper-saves-an-empty-bottle-in-good-faith-and-gets-a-lesson-in-beverage-labels-at-the-register-i-can-vote-to-end-that-presiding-give-the-shopper-plenty-of-notice-about-what-the-store-will-still-redeem"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.go-ahead-and-pass-bill-before-the-return-counter-closes-could-we-give-the-clerk-something-to-point-to-when-the-customer-says-the-bottle-in-this-hand-looks-just-like-the-one-you-took-from-the-other"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.would-that-label-help-somebody-with-older-bottles-already-at-home-that-s-the-shopper-i-want-bill-to-account-for",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would that label help somebody with older bottles already at home? That's the shopper I want {bill} to account for.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.the-trouble-is-that-two-bottles-look-alike-give-the-clerk-a-clear-label-to-show-the-customer-and-keep-the-refund-i-m-against-bill"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-vote-to-keep-it-presiding-people-who-saved-the-right-containers-shouldn-t-lose-a-refund-because-some-other-bottle-looks-just-like-theirs",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'd vote to keep it, {presiding}. People who saved the right containers shouldn't lose a refund because some other bottle looks just like theirs.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-be-glad-to-see-the-end-of-the-argument-at-the-counter-over-which-bottle-qualifies-i-support-ending-the-deposit-give-customers-fair-notice-about-the-empties-they-already-have"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-clerk-shouldn-t-have-to-referee-an-argument-over-two-bottles-that-look-alike-i-support-repeal-presiding-let-s-give-the-people-who-paid-deposits-on-those-bottles-time-to-find-out-what-s-changing"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.same-size-bottle-same-shelf-different-answer-at-the-register-i-m-voting-for-bill-because-i-d-like-to-see-that-argument-end-the-shopper-deserves-to-hear-about-the-change-before-making-a-trip-back"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-for-bill-name-i-can-see-why-a-shopper-would-be-sore-about-saving-a-bag-of-bottles-and-finding-out-at-the-counter-that-some-of-them-never-carried-a-deposit-let-s-at-least-give-people-fair-warning"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-shopper-saves-an-empty-bottle-in-good-faith-and-gets-a-lesson-in-beverage-labels-at-the-register-i-can-vote-to-end-that-presiding-give-the-shopper-plenty-of-notice-about-what-the-store-will-still-redeem"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.go-ahead-and-pass-bill-before-the-return-counter-closes-could-we-give-the-clerk-something-to-point-to-when-the-customer-says-the-bottle-in-this-hand-looks-just-like-the-one-you-took-from-the-other"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.during-the-changeover-i-d-have-the-clerk-honor-the-qualifying-bottles-presiding-would-you-still-charge-the-deposit-on-the-next-case-sold",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "During the changeover I'd have the clerk honor the qualifying bottles, {presiding}. Would you still charge the deposit on the next case sold?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-d-vote-to-keep-it-presiding-people-who-saved-the-right-containers-shouldn-t-lose-a-refund-because-some-other-bottle-looks-just-like-theirs"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund",
+      "cashier-checks-beverage-type-before-brand"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-back-bill-anybody-who-s-next-in-line-should-be-able-to-buy-lunch-while-the-last-customer-s-cans-are-being-counted",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll back {bill}. Anybody who's next in line should be able to buy lunch while the last customer's cans are being counted.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.for-the-clerk-alone-at-the-register-a-bag-of-empties-is-a-job-to-do-while-the-lunch-line-waits-that-s-the-person-i-ve-got-in-mind-in-voting-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.think-about-a-store-with-a-single-till-presiding-while-the-clerk-is-counting-a-sack-of-empties-the-milk-is-sitting-on-the-belt-and-nobody-can-pay-for-it-that-s-my-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.who-covers-the-register-while-the-clerk-sorts-the-bottles-at-a-little-grocery-the-answer-might-be-nobody-i-ll-vote-for-bill-to-get-that-clerk-back-to-the-counter"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-support-bill-name-on-the-small-store-alone-a-bag-of-returns-arrives-just-as-the-lunch-rush-starts-which-customer-is-the-only-clerk-supposed-to-keep-waiting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.behind-a-small-counter-counting-returns-means-putting-the-next-sale-on-hold-i-favor-bill-name-because-that-clerk-only-has-one-pair-of-hands"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.imagine-getting-to-the-till-with-a-sandwich-and-your-bus-pulling-up-outside-the-clerk-would-love-to-take-your-money-but-there-s-still-a-sack-of-cans-to-count-give-that-store-a-break-presiding-i-ll-vote-for-repeal"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-with-bill-i-d-let-the-clerk-finish-the-sale-and-give-the-people-still-holding-empties-clear-instructions-on-where-to-take-them",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you. With {bill} I'd let the clerk finish the sale and give the people still holding empties clear instructions on where to take them.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-ll-back-bill-anybody-who-s-next-in-line-should-be-able-to-buy-lunch-while-the-last-customer-s-cans-are-being-counted"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-smallest-store-has-the-hardest-time-sparing-a-clerk-i-d-end-the-refund-presiding-and-give-the-store-time-to-tell-its-customers",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The smallest store has the hardest time sparing a clerk. I'd end the refund, {presiding}, and give the store time to tell its customers.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.for-the-clerk-alone-at-the-register-a-bag-of-empties-is-a-job-to-do-while-the-lunch-line-waits-that-s-the-person-i-ve-got-in-mind-in-voting-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.think-about-a-store-with-a-single-till-presiding-while-the-clerk-is-counting-a-sack-of-empties-the-milk-is-sitting-on-the-belt-and-nobody-can-pay-for-it-that-s-my-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.who-covers-the-register-while-the-clerk-sorts-the-bottles-at-a-little-grocery-the-answer-might-be-nobody-i-ll-vote-for-bill-to-get-that-clerk-back-to-the-counter"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-support-bill-name-on-the-small-store-alone-a-bag-of-returns-arrives-just-as-the-lunch-rush-starts-which-customer-is-the-only-clerk-supposed-to-keep-waiting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.behind-a-small-counter-counting-returns-means-putting-the-next-sale-on-hold-i-favor-bill-name-because-that-clerk-only-has-one-pair-of-hands"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.imagine-getting-to-the-till-with-a-sandwich-and-your-bus-pulling-up-outside-the-clerk-would-love-to-take-your-money-but-there-s-still-a-sack-of-cans-to-count-give-that-store-a-break-presiding-i-ll-vote-for-repeal"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-agree-on-the-notice-presiding-the-person-alone-at-the-register-will-be-the-one-hearing-from-people-who-missed-it",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I agree on the notice, {presiding}. The person alone at the register will be the one hearing from people who missed it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.the-smallest-store-has-the-hardest-time-sparing-a-clerk-i-d-end-the-refund-presiding-and-give-the-store-time-to-tell-its-customers"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-wouldn-t-pass-bill-over-a-lunch-line-let-a-small-shop-limit-how-many-containers-it-takes-from-one-customer-at-a-time",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I wouldn't pass {bill} over a lunch line. Let a small shop limit how many containers it takes from one customer at a time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.for-the-clerk-alone-at-the-register-a-bag-of-empties-is-a-job-to-do-while-the-lunch-line-waits-that-s-the-person-i-ve-got-in-mind-in-voting-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.think-about-a-store-with-a-single-till-presiding-while-the-clerk-is-counting-a-sack-of-empties-the-milk-is-sitting-on-the-belt-and-nobody-can-pay-for-it-that-s-my-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.who-covers-the-register-while-the-clerk-sorts-the-bottles-at-a-little-grocery-the-answer-might-be-nobody-i-ll-vote-for-bill-to-get-that-clerk-back-to-the-counter"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-d-support-bill-name-on-the-small-store-alone-a-bag-of-returns-arrives-just-as-the-lunch-rush-starts-which-customer-is-the-only-clerk-supposed-to-keep-waiting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.behind-a-small-counter-counting-returns-means-putting-the-next-sale-on-hold-i-favor-bill-name-because-that-clerk-only-has-one-pair-of-hands"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.imagine-getting-to-the-till-with-a-sandwich-and-your-bus-pulling-up-outside-the-clerk-would-love-to-take-your-money-but-there-s-still-a-sack-of-cans-to-count-give-that-store-a-break-presiding-i-ll-vote-for-repeal"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties",
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.what-limit-would-still-make-the-trip-worth-a-shopper-s-while-before-we-vote-on-bill-i-d-like-an-answer-for-the-person-carrying-the-bag-too",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "What limit would still make the trip worth a shopper's while? Before we vote on {bill}, I'd like an answer for the person carrying the bag too.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.i-wouldn-t-pass-bill-over-a-lunch-line-let-a-small-shop-limit-how-many-containers-it-takes-from-one-customer-at-a-time"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties",
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.the-clerk-s-time-costs-money-i-d-pay-the-shop-for-the-work-and-keep-the-deposit-presiding",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "The clerk's time costs money. I'd pay the shop for the work and keep the deposit, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.for-the-clerk-alone-at-the-register-a-bag-of-empties-is-a-job-to-do-while-the-lunch-line-waits-that-s-the-person-i-ve-got-in-mind-in-voting-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.think-about-a-store-with-a-single-till-presiding-while-the-clerk-is-counting-a-sack-of-empties-the-milk-is-sitting-on-the-belt-and-nobody-can-pay-for-it-that-s-my-vote-for-repeal"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.who-covers-the-register-while-the-clerk-sorts-the-bottles-at-a-little-grocery-the-answer-might-be-nobody-i-ll-vote-for-bill-to-get-that-clerk-back-to-the-counter"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-support-bill-name-on-the-small-store-alone-a-bag-of-returns-arrives-just-as-the-lunch-rush-starts-which-customer-is-the-only-clerk-supposed-to-keep-waiting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.behind-a-small-counter-counting-returns-means-putting-the-next-sale-on-hold-i-favor-bill-name-because-that-clerk-only-has-one-pair-of-hands"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.imagine-getting-to-the-till-with-a-sandwich-and-your-bus-pulling-up-outside-the-clerk-would-love-to-take-your-money-but-there-s-still-a-sack-of-cans-to-count-give-that-store-a-break-presiding-i-ll-vote-for-repeal"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties",
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.would-a-handling-payment-buy-the-store-enough-help-at-lunchtime-presiding-i-d-have-the-shop-price-a-shift-before-we-count-on-it",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would a handling payment buy the store enough help at lunchtime, {presiding}? I'd have the shop price a shift before we count on it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.the-clerk-s-time-costs-money-i-d-pay-the-shop-for-the-work-and-keep-the-deposit-presiding"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties",
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-voting-for-bill-taking-back-another-bottle-doesn-t-do-much-good-if-the-last-load-of-plastic-has-nowhere-to-go",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm voting for {bill}. Taking back another bottle doesn't do much good if the last load of plastic has nowhere to go.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-refund-brings-back-the-plastic-it-can-t-guarantee-a-buyer-for-what-piles-up-at-the-recycling-plant-on-balance-i-d-end-the-deposit-and-i-d-still-want-to-know-who-s-buying-the-material"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.will-somebody-buy-the-next-bale-presiding-paying-to-get-bottles-back-can-fill-a-shed-with-plastic-before-there-s-a-buyer-ready-to-use-it-that-s-why-i-can-vote-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-refund-gets-a-bottle-as-far-as-the-plant-a-buyer-may-need-clean-flakes-and-all-the-plant-has-to-sell-is-a-bale-on-that-account-i-m-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.line-up-a-customer-for-the-plastic-and-we-ve-done-something-for-recycling-stack-the-bales-in-a-warehouse-and-we-ve-found-a-place-to-keep-them-i-m-supporting-bill-name-because-a-refund-alone-can-t-close-that-sale"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bale-of-plastic-can-sit-under-a-roof-for-months-until-somebody-orders-it-have-we-really-found-a-use-for-it-i-m-voting-for-bill-name-because-collecting-the-bottles-only-gets-us-partway-there"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-plant-can-take-another-truckload-presiding-can-it-sell-what-came-in-on-the-last-one-that-s-the-question-the-deposit-leaves-open-for-me-and-it-s-why-i-ll-vote-to-end-it"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-if-a-buyer-will-take-a-shipment-i-d-like-to-know-in-what-form-we-ll-still-need-that-answer-if-bill-passes",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you. If a buyer will take a shipment, I'd like to know in what form. We'll still need that answer if {bill} passes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-m-voting-for-bill-taking-back-another-bottle-doesn-t-do-much-good-if-the-last-load-of-plastic-has-nowhere-to-go"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-agree-presiding-a-warehouse-full-of-bales-won-t-pay-the-plant-s-workers-somebody-has-to-want-that-plastic",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I agree, {presiding}. A warehouse full of bales won't pay the plant's workers. Somebody has to want that plastic.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-refund-brings-back-the-plastic-it-can-t-guarantee-a-buyer-for-what-piles-up-at-the-recycling-plant-on-balance-i-d-end-the-deposit-and-i-d-still-want-to-know-who-s-buying-the-material"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.will-somebody-buy-the-next-bale-presiding-paying-to-get-bottles-back-can-fill-a-shed-with-plastic-before-there-s-a-buyer-ready-to-use-it-that-s-why-i-can-vote-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-refund-gets-a-bottle-as-far-as-the-plant-a-buyer-may-need-clean-flakes-and-all-the-plant-has-to-sell-is-a-bale-on-that-account-i-m-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.line-up-a-customer-for-the-plastic-and-we-ve-done-something-for-recycling-stack-the-bales-in-a-warehouse-and-we-ve-found-a-place-to-keep-them-i-m-supporting-bill-name-because-a-refund-alone-can-t-close-that-sale"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-bale-of-plastic-can-sit-under-a-roof-for-months-until-somebody-orders-it-have-we-really-found-a-use-for-it-i-m-voting-for-bill-name-because-collecting-the-bottles-only-gets-us-partway-there"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-plant-can-take-another-truckload-presiding-can-it-sell-what-came-in-on-the-last-one-that-s-the-question-the-deposit-leaves-open-for-me-and-it-s-why-i-ll-vote-to-end-it"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-thank.yes-presiding-a-real-order-tells-the-plant-whether-it-s-worth-running-another-load-through-the-grinder",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Yes, {presiding}. A real order tells the plant whether it's worth running another load through the grinder.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.i-agree-presiding-a-warehouse-full-of-bales-won-t-pay-the-plant-s-workers-somebody-has-to-want-that-plastic"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.if-the-buyer-wants-clean-plastic-a-refund-could-help-bring-it-in-sorted-i-d-try-that-before-voting-for-bill",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "If the buyer wants clean plastic, a refund could help bring it in sorted. I'd try that before voting for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-refund-brings-back-the-plastic-it-can-t-guarantee-a-buyer-for-what-piles-up-at-the-recycling-plant-on-balance-i-d-end-the-deposit-and-i-d-still-want-to-know-who-s-buying-the-material"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.will-somebody-buy-the-next-bale-presiding-paying-to-get-bottles-back-can-fill-a-shed-with-plastic-before-there-s-a-buyer-ready-to-use-it-that-s-why-i-can-vote-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-refund-gets-a-bottle-as-far-as-the-plant-a-buyer-may-need-clean-flakes-and-all-the-plant-has-to-sell-is-a-bale-on-that-account-i-m-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.line-up-a-customer-for-the-plastic-and-we-ve-done-something-for-recycling-stack-the-bales-in-a-warehouse-and-we-ve-found-a-place-to-keep-them-i-m-supporting-bill-name-because-a-refund-alone-can-t-close-that-sale"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-bale-of-plastic-can-sit-under-a-roof-for-months-until-somebody-orders-it-have-we-really-found-a-use-for-it-i-m-voting-for-bill-name-because-collecting-the-bottles-only-gets-us-partway-there"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.the-plant-can-take-another-truckload-presiding-can-it-sell-what-came-in-on-the-last-one-that-s-the-question-the-deposit-leaves-open-for-me-and-it-s-why-i-ll-vote-to-end-it"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.which-buyer-would-take-it-on-those-terms-if-we-set-bill-aside-and-keep-the-refund-the-plant-still-needs-somebody-willing-to-pay-for-that-plastic",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Which buyer would take it on those terms? If we set {bill} aside and keep the refund, the plant still needs somebody willing to pay for that plastic.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.if-the-buyer-wants-clean-plastic-a-refund-could-help-bring-it-in-sorted-i-d-try-that-before-voting-for-bill"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-keep-collecting-the-bottles-while-the-plant-looks-for-customers-presiding-stop-now-and-the-material-won-t-be-there-when-a-buyer-calls",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'd keep collecting the bottles while the plant looks for customers, {presiding}. Stop now and the material won't be there when a buyer calls.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-refund-brings-back-the-plastic-it-can-t-guarantee-a-buyer-for-what-piles-up-at-the-recycling-plant-on-balance-i-d-end-the-deposit-and-i-d-still-want-to-know-who-s-buying-the-material"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.will-somebody-buy-the-next-bale-presiding-paying-to-get-bottles-back-can-fill-a-shed-with-plastic-before-there-s-a-buyer-ready-to-use-it-that-s-why-i-can-vote-to-end-the-deposit"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-refund-gets-a-bottle-as-far-as-the-plant-a-buyer-may-need-clean-flakes-and-all-the-plant-has-to-sell-is-a-bale-on-that-account-i-m-for-bill"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.line-up-a-customer-for-the-plastic-and-we-ve-done-something-for-recycling-stack-the-bales-in-a-warehouse-and-we-ve-found-a-place-to-keep-them-i-m-supporting-bill-name-because-a-refund-alone-can-t-close-that-sale"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-bale-of-plastic-can-sit-under-a-roof-for-months-until-somebody-orders-it-have-we-really-found-a-use-for-it-i-m-voting-for-bill-name-because-collecting-the-bottles-only-gets-us-partway-there"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.the-plant-can-take-another-truckload-presiding-can-it-sell-what-came-in-on-the-last-one-that-s-the-question-the-deposit-leaves-open-for-me-and-it-s-why-i-ll-vote-to-end-it"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-press.how-long-should-the-plant-keep-taking-loads-without-an-order-presiding-i-d-like-to-know-who-carries-that-cost",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "How long should the plant keep taking loads without an order, {presiding}? I'd like to know who carries that cost.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-d-keep-collecting-the-bottles-while-the-plant-looks-for-customers-presiding-stop-now-and-the-material-won-t-be-there-when-a-buyer-calls"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "warehouse-fills-while-textile-buyers-retreat",
+      "buyer-orders-flakes-instead-of-bales"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-vote-for-bill-tell-the-club-to-get-a-price-on-the-cans-before-anybody-promises-what-they-ll-take-off-the-cost-of-the-trip",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll vote for {bill}. Tell the club to get a price on the cans before anybody promises what they'll take off the cost of the trip.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-school-club-can-count-a-refund-before-it-books-a-bus-presiding-scrap-is-worth-what-a-buyer-will-pay-that-day-which-may-be-less-i-m-voting-for-repeal-and-i-think-the-kids-deserve-to-know-that-before-they-set-the-fare"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-ll-vote-for-bill-would-i-tell-a-club-to-keep-collecting-cans-on-the-promise-that-the-scrap-will-pay-for-the-same-trip-i-wouldn-t-they-could-come-up-short"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-club-treasurer-s-shoes-the-cans-are-in-a-garage-the-bus-company-wants-a-deposit-and-the-scrap-price-could-leave-you-short-i-support-bill-name-but-i-d-tell-the-club-that-before-it-reserves-the-bus"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.leave-the-trip-money-out-of-the-club-budget-until-somebody-gets-a-scrap-price-that-s-what-i-d-tell-a-student-if-we-pass-bill-i-favor-repeal-but-i-d-hate-to-see-a-kid-promise-the-class-a-trip-on-the-old-refund"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.today-a-student-can-pick-up-an-empty-can-and-know-what-it-s-worth-at-the-counter-after-repeal-it-might-fetch-less-at-the-yard-the-trip-still-costs-the-club-the-same-presiding-i-ll-vote-yes-and-give-them-fair-warning"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-appreciate-that-i-d-ask-the-committee-to-give-clubs-notice-of-bill-while-they-still-have-time-to-change-what-they-charge",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I appreciate that. I'd ask the committee to give clubs notice of {bill} while they still have time to change what they charge.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-agree.i-ll-vote-for-bill-tell-the-club-to-get-a-price-on-the-cans-before-anybody-promises-what-they-ll-take-off-the-cost-of-the-trip"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-students-ought-to-hear-this-before-they-book-the-bus-presiding-i-d-support-repeal-and-give-them-time-to-cash-in-what-they-ve-collected",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The students ought to hear this before they book the bus, {presiding}. I'd support repeal and give them time to cash in what they've collected.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-school-club-can-count-a-refund-before-it-books-a-bus-presiding-scrap-is-worth-what-a-buyer-will-pay-that-day-which-may-be-less-i-m-voting-for-repeal-and-i-think-the-kids-deserve-to-know-that-before-they-set-the-fare"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-ll-vote-for-bill-would-i-tell-a-club-to-keep-collecting-cans-on-the-promise-that-the-scrap-will-pay-for-the-same-trip-i-wouldn-t-they-could-come-up-short"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-club-treasurer-s-shoes-the-cans-are-in-a-garage-the-bus-company-wants-a-deposit-and-the-scrap-price-could-leave-you-short-i-support-bill-name-but-i-d-tell-the-club-that-before-it-reserves-the-bus"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.leave-the-trip-money-out-of-the-club-budget-until-somebody-gets-a-scrap-price-that-s-what-i-d-tell-a-student-if-we-pass-bill-i-favor-repeal-but-i-d-hate-to-see-a-kid-promise-the-class-a-trip-on-the-old-refund"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.today-a-student-can-pick-up-an-empty-can-and-know-what-it-s-worth-at-the-counter-after-repeal-it-might-fetch-less-at-the-yard-the-trip-still-costs-the-club-the-same-presiding-i-ll-vote-yes-and-give-them-fair-warning"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-presiding-a-last-return-day-they-can-put-on-the-school-calendar-would-give-the-club-a-chance-to-get-the-bags-to-the-store",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thank you, {presiding}. A last return day they can put on the school calendar would give the club a chance to get the bags to the store.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-agree.the-students-ought-to-hear-this-before-they-book-the-bus-presiding-i-d-support-repeal-and-give-them-time-to-cash-in-what-they-ve-collected"
+      }
+    ],
+    "bearing": "glad",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-can-t-back-bill-a-club-can-plan-around-the-refund-it-can-t-book-a-trip-on-a-price-the-scrap-yard-might-offer-next-spring",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I can't back {bill}. A club can plan around the refund. It can't book a trip on a price the scrap yard might offer next spring.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.a-school-club-can-count-a-refund-before-it-books-a-bus-presiding-scrap-is-worth-what-a-buyer-will-pay-that-day-which-may-be-less-i-m-voting-for-repeal-and-i-think-the-kids-deserve-to-know-that-before-they-set-the-fare"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-ll-vote-for-bill-would-i-tell-a-club-to-keep-collecting-cans-on-the-promise-that-the-scrap-will-pay-for-the-same-trip-i-wouldn-t-they-could-come-up-short"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-club-treasurer-s-shoes-the-cans-are-in-a-garage-the-bus-company-wants-a-deposit-and-the-scrap-price-could-leave-you-short-i-support-bill-name-but-i-d-tell-the-club-that-before-it-reserves-the-bus"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.leave-the-trip-money-out-of-the-club-budget-until-somebody-gets-a-scrap-price-that-s-what-i-d-tell-a-student-if-we-pass-bill-i-favor-repeal-but-i-d-hate-to-see-a-kid-promise-the-class-a-trip-on-the-old-refund"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.today-a-student-can-pick-up-an-empty-can-and-know-what-it-s-worth-at-the-counter-after-repeal-it-might-fetch-less-at-the-yard-the-trip-still-costs-the-club-the-same-presiding-i-ll-vote-yes-and-give-them-fair-warning"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-press.would-you-still-oppose-bill-if-the-club-could-turn-in-this-year-s-collection-first-i-d-like-to-know-whether-it-s-this-trip-or-the-one-after-it-you-re-worried-about",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Would you still oppose {bill} if the club could turn in this year's collection first? I'd like to know whether it's this trip or the one after it you're worried about.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-disagree.i-can-t-back-bill-a-club-can-plan-around-the-refund-it-can-t-book-a-trip-on-a-price-the-scrap-yard-might-offer-next-spring"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-keep-the-deposit-presiding-a-club-just-getting-started-ought-to-have-the-same-chance-to-raise-money-as-the-students-who-have-cans-saved-already",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I'd keep the deposit, {presiding}. A club just getting started ought to have the same chance to raise money as the students who have cans saved already.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-school-club-can-count-a-refund-before-it-books-a-bus-presiding-scrap-is-worth-what-a-buyer-will-pay-that-day-which-may-be-less-i-m-voting-for-repeal-and-i-think-the-kids-deserve-to-know-that-before-they-set-the-fare"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-ll-vote-for-bill-would-i-tell-a-club-to-keep-collecting-cans-on-the-promise-that-the-scrap-will-pay-for-the-same-trip-i-wouldn-t-they-could-come-up-short"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.put-yourself-in-the-club-treasurer-s-shoes-the-cans-are-in-a-garage-the-bus-company-wants-a-deposit-and-the-scrap-price-could-leave-you-short-i-support-bill-name-but-i-d-tell-the-club-that-before-it-reserves-the-bus"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.leave-the-trip-money-out-of-the-club-budget-until-somebody-gets-a-scrap-price-that-s-what-i-d-tell-a-student-if-we-pass-bill-i-favor-repeal-but-i-d-hate-to-see-a-kid-promise-the-class-a-trip-on-the-old-refund"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.today-a-student-can-pick-up-an-empty-can-and-know-what-it-s-worth-at-the-counter-after-repeal-it-might-fetch-less-at-the-yard-the-trip-still-costs-the-club-the-same-presiding-i-ll-vote-yes-and-give-them-fair-warning"
+      }
+    ],
+    "bearing": "braced",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-press.then-your-concern-is-next-year-s-students-as-well-as-this-year-s-bags-presiding-what-would-a-club-need-in-place-before-it-could-give-up-the-refund",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Then your concern is next year's students as well as this year's bags, {presiding}. What would a club need in place before it could give up the refund?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-disagree.i-d-keep-the-deposit-presiding-a-club-just-getting-started-ought-to-have-the-same-chance-to-raise-money-as-the-students-who-have-cans-saved-already"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "press",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
   }
 ]
