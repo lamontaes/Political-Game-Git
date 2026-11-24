@@ -1,0 +1,31 @@
+{
+  "id": "about-fifty-million-students-attend-public-school",
+  "kind": "detail",
+  "summary": "About 49.6 million students attend public elementary and secondary schools.",
+  "realLife": "In fall 2022, about 49.6 million students were enrolled in U.S. public elementary and secondary schools.",
+  "sources": [
+    "NCES, Fast Facts: Back-to-school statistics: https://nces.ed.gov/fastfacts/display.asp?id=372"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-place"],
+  "gates": [],
+  "weights": {
+    "school-place": 0.5
+  },
+  "inGame": "the schools-of jurisdiction rows (the school engine's enrollment).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A small school with a few dozen students.",
+      "pulledBy": "the school row's enrollment",
+      "writesBack": "a small school at the start"
+    },
+    {
+      "turn": "neutral",
+      "what": "A large district where the school is one of many.",
+      "pulledBy": "the district row",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}
