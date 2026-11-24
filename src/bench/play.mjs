@@ -226,7 +226,7 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-/** A named person on a strip opens their card. */
+/** A click on anyone on a strip opens their card (P9), through the one showPerson. */
 const openCard = (person) => showPerson({ personId: person.personId });
 /** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
 const TALK_STRIP_PEOPLE = 4;
