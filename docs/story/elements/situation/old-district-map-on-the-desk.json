@@ -1,0 +1,32 @@
+{
+  "id": "old-district-map-on-the-desk",
+  "kind": "situation",
+  "summary": "A resident's current district differs from the map {clerk} must use to trace the original paving selection.",
+  "realLife": "Oakland used the district lines in force on the last day of 2021 to identify council selections in its March memo.",
+  "sources": [
+    "https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/paving-plan/memo-5yp-council-discretion.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: selection date, old and current district boundaries and responsible offices.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: selection date, old and current district boundaries and responsible offices.",
+      "what": "Route an extension request to the current office with the original selection attached.",
+      "writesBack": "Selection history and constituent notice."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: selection date, old and current district boundaries and responsible offices.",
+      "what": "Send the deferral to the current representative and preserve the original office in the history.",
+      "writesBack": "Selection history and constituent notice."
+    }
+  ]
+}

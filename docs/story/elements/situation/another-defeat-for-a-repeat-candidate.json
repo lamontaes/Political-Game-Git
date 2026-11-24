@@ -27,5 +27,6 @@
       "pulledBy": "The unofficial count shows a loss and the elections board still has ballots to review.",
       "writesBack": "The campaign adds a defeat to the history only after certification."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -1,0 +1,31 @@
+{
+  "id": "surge-revision-before-the-order",
+  "kind": "moment",
+  "summary": "A forecaster brings {person} a revised surge projection while the evacuation decision is still open.",
+  "realLife": "Bloomberg ordered Zone A to evacuate after the National Weather Service revised its surge forecast.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=10"
+  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": [
+    "The projection changed and the authorized official has the affected zone before them."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the projection changed and the authorized official has the affected zone before them.",
+  "turns": [
+    {
+      "turn": "the-official-issues-an-order",
+      "pulledBy": "The official issues an order.",
+      "what": "Record the time and zone on the public notice.",
+      "writesBack": "The evacuation notice records its scope and effective time."
+    },
+    {
+      "turn": "the-official-requests-clarification",
+      "pulledBy": "The official requests clarification.",
+      "what": "Keep the projection and the outstanding decision distinct in the briefing.",
+      "writesBack": "The forecast is updated while the order remains undecided."
+    }
+  ]
+}

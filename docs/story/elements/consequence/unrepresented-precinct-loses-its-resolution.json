@@ -1,0 +1,30 @@
+{
+  "id": "unrepresented-precinct-loses-its-resolution",
+  "kind": "consequence",
+  "summary": "A resolution dies at the county meeting because nobody from the precinct is there to bring it up.",
+  "realLife": "A report from Washington County tied the absence of the third precinct’s delegates to its party-loyalty resolution never reaching the convention.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=11"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{precinct}", "{resolution}"],
+  "gates": ["The resolution requires someone eligible to introduce it."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a precinct resolution, its authorized mover and actual attendance.",
+  "turns": [
+    {
+      "turn": "alternate-arrives",
+      "what": "The chair hears the motion.",
+      "pulledBy": "An alternate arrives before resolutions close.",
+      "writesBack": "The minutes carry a disposition for the precinct’s proposal."
+    },
+    {
+      "turn": "another-precinct-moves",
+      "what": "Its delegate presents it at the next eligible meeting.",
+      "pulledBy": "Another precinct adopts the same proposal afterward.",
+      "writesBack": "The record credits the precinct that actually moved it."
+    }
+  ]
+}

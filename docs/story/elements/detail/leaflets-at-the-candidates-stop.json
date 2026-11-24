@@ -25,5 +25,6 @@
       "pulledBy": "The room is smaller than the original booking.",
       "writesBack": "The stock count records the boxes still at headquarters."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

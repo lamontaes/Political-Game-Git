@@ -1,0 +1,32 @@
+{
+  "id": "park-fence-locates-the-requested-right-of-way",
+  "kind": "detail",
+  "summary": "{resident} brings a picture and uses a park fence to identify the strip of land they want the city to give up.",
+  "realLife": "In Sulphur, an applicant showed a picture of the block he wanted abandoned, and a member checked which side of the fence he meant.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{resident}"],
+  "gates": [
+    "A public right-of-way request and a picture or marked map showing its limits."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a public right-of-way request and a picture or marked map showing its limits.",
+  "turns": [
+    {
+      "turn": "located",
+      "pulledBy": "The photo and map identify the same strip.",
+      "what": "Mark the limits on the application.",
+      "writesBack": "Attach the clarified location.."
+    },
+    {
+      "turn": "survey-needed",
+      "pulledBy": "The fence leaves the boundary ambiguous.",
+      "what": "Request a marked survey or parcel map.",
+      "writesBack": "Keep the boundary unresolved.."
+    }
+  ]
+}

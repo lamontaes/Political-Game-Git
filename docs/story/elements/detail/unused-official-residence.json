@@ -25,5 +25,6 @@
       "pulledBy": "The family keeps its existing home.",
       "writesBack": "The property calendar records public functions without residential occupancy."
     }
-  ]
+  ],
+  "issues": ["budget:administration"]
 }

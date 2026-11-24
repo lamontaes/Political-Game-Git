@@ -1,0 +1,30 @@
+{
+  "id": "second-flood-does-not-reset-design-clock",
+  "kind": "consequence",
+  "summary": "A second flood brings inspectors back to a closed branch while the building study continues.",
+  "realLife": "After more water entered the South End building, the library reported working with Boston's water and sewer agency on the source and said the capital planning process would continue.",
+  "sources": [
+    "https://www.bpl.org/news/update-on-the-south-end-branch-closure/"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{branch}", "{agency}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: second incident report and current design schedule.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Inspectors clear the survey team to enter.",
+      "what": "The architect keeps the booked visit.",
+      "writesBack": "The project calendar keeps its original survey date."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The affected room remains closed to the survey team.",
+      "what": "The architect measures the accessible rooms first.",
+      "writesBack": "The survey lists the measurements still missing."
+    }
+  ]
+}

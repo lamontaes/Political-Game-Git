@@ -1,0 +1,32 @@
+{
+  "id": "bond-runs-out-before-last-street",
+  "kind": "consequence",
+  "summary": "The final year on {director}'s street calendar extends beyond the projected life of the bond money.",
+  "realLife": "Oakland estimated its infrastructure bond balance could run out before the bond term ended and said a replacement was needed for much of the mileage.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{director}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: bond balance, spending forecast and street list by year.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: bond balance, spending forecast and street list by year.",
+      "what": "Move a later package into the funded column once replacement money is available.",
+      "writesBack": "Funding year and bond source by package."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: bond balance, spending forecast and street list by year.",
+      "what": "Show the council where the cash runs out and which later packages lose their funding date.",
+      "writesBack": "Funding year and bond source by package."
+    }
+  ]
+}

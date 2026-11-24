@@ -1,0 +1,33 @@
+{
+  "id": "tie-the-disclosure-order-to-the-employers-own-claim",
+  "kind": "move",
+  "summary": "A labor board directs {employer} to substantiate the financial claim it used in bargaining.",
+  "realLife": "The Truitt order required evidence supporting the company's stated inability to pay. The Court sustained the Board's finding on the circumstances before it.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep351/usrep351149/usrep351149.pdf#page=3",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep351/usrep351149/usrep351149.pdf#page=4"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{employer}"],
+  "gates": [
+    "The case record identifies the financial assertion, refusal and scope of order."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: financial assertion, refusal and scope of order.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The parties can return to the wage proposal.",
+      "pulledBy": "The employer provides reasonable substantiation",
+      "writesBack": "Documents produced under the order."
+    },
+    {
+      "turn": "another-way",
+      "what": "The union identifies what remains unsupported.",
+      "pulledBy": "The response omits the disputed cost",
+      "writesBack": "Specific outstanding request."
+    }
+  ]
+}

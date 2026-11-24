@@ -1,0 +1,31 @@
+{
+  "id": "recorded-hotline-answer-during-storm",
+  "kind": "situation",
+  "summary": "A caller in {place} gets the news they need before a city operator picks up.",
+  "realLife": "New York City's automated 311 service answered many Sandy inquiries even as the wait for operators grew.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The recorded service is operating and its message covers the subject of the call."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the recorded service is operating and its message covers the subject of the call.",
+  "turns": [
+    {
+      "turn": "the-recording-answers-the-caller-s-question",
+      "pulledBy": "The recording answers the caller's question.",
+      "what": "The caller can hang up with the instruction.",
+      "writesBack": "The inquiry ends at the recorded message."
+    },
+    {
+      "turn": "the-recording-omits-the-caller-s-neighborhood",
+      "pulledBy": "The recording omits the caller's neighborhood.",
+      "what": "The caller stays on the line for local information.",
+      "writesBack": "The local inquiry remains in the operator queue."
+    }
+  ]
+}

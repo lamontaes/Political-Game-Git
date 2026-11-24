@@ -1,0 +1,43 @@
+{
+  "id": "mayor-and-councilor-judge-the-same-settlement-differently",
+  "kind": "voice",
+  "summary": "A mayor calls a settlement a surrender while a councilor says the city got off well.",
+  "realLife": "A council voted unanimously to settle a church's religious-freedom suit over parking an RV on its land, against the mayor's advice. The mayor, in a race for another term, said the case should have gone to trial and that the settlement would make enforcement harder. A councilor running for his job said losing in court could have cost far more. The church's lawyer called it a win. The city paid a small sum and the lawyers' fees.",
+  "sources": [
+    "Yahoo News (Pueblo, Colorado), 'Pueblo City Council votes against mayor, approves settlement with church over RV code', September 27, 2023: https://www.yahoo.com/news/pueblo-city-council-votes-against-214756284.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "law"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.5,
+    "settlement-vote": 0.6
+  },
+  "inGame": "the settlement record, the insurance deductible, the enforcement rule; needs: an executive who is on record against a settlement the body passes",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "the mayor calls it a surrender",
+      "pulledBy": "a mayor who wanted a trial and faces voters",
+      "writes": "the story quotes the objection and the mayor's stance is recorded as against",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a councilor says the city got off well",
+      "pulledBy": "a councilor who weighs the cost of losing",
+      "writes": "the story quotes the councilor and the cost comparison is cited",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the other side calls it a win",
+      "pulledBy": "the party that sued and settled",
+      "writes": "the story quotes the lawyer for the church and the case is closed",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

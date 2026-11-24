@@ -1,0 +1,33 @@
+{
+  "id": "the-fee-dispute-can-stay-in-state-court",
+  "kind": "consequence",
+  "summary": "Workers in {state} can pursue a challenge to an executed fee clause in state court under the applicable state prohibition.",
+  "realLife": "After reargument in Schermerhorn, the Supreme Court held that the Florida courts had jurisdiction to enforce the state prohibition against the executed agency-shop agreement.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep375/usrep375096/usrep375096.pdf#page=1",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep375/usrep375096/usrep375096.pdf#page=2"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{state}"],
+  "gates": [
+    "The case record identifies the executed private-sector agreement, applicable state prohibition and jurisdiction ruling."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:labor-workforce.right-to-work"],
+  "inGame": "needs: executed private-sector agreement, applicable state prohibition and jurisdiction ruling.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The state court can hear the challenge within the ruling's scope.",
+      "pulledBy": "The dispute concerns the signed clause",
+      "writesBack": "State docket and disputed clause."
+    },
+    {
+      "turn": "another-way",
+      "what": "The parties check jurisdiction for that different posture.",
+      "pulledBy": "Only a bargaining proposal exists",
+      "writesBack": "Proposal status and forum determination."
+    }
+  ]
+}

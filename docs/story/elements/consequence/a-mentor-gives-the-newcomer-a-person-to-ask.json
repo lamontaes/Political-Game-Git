@@ -1,0 +1,36 @@
+{
+  "id": "a-mentor-gives-the-newcomer-a-person-to-ask",
+  "kind": "consequence",
+  "summary": "A newcomer paired with an adviser has one person to ask, which helps the newcomer learn and stay.",
+  "realLife": "Gallup advised that giving each new hire a mentor or adviser provides a go-to person for questions, supporting learning, growth and retention.",
+  "sources": [
+    "Gallup, Create an exceptional onboarding journey for new employees: https://www.gallup.com/workplace/353096/create-exceptional-onboarding-journey-new-employees.aspx"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "coworker tie flagged as mentor on the job record; closeness grows with questions asked.",
+  "turns": [
+    {
+      "turn": "mentor-and-newcomer-click",
+      "summary": "They meet often and the tie closes.",
+      "pulledBy": ["shared interest", "mentor has time"],
+      "writesBack": "coworker tie closer; mood: supported"
+    },
+    {
+      "turn": "mentor-is-too-busy",
+      "summary": "Questions go unanswered and the newcomer asks others.",
+      "pulledBy": ["busy mentor"],
+      "writesBack": "mentor tie thin; other coworker ties form"
+    },
+    {
+      "turn": "newcomer-outgrows-the-mentor",
+      "summary": "The newcomer later passes the mentor in skill.",
+      "pulledBy": ["quick learner"],
+      "writesBack": "tie changes to peers"
+    }
+  ]
+}

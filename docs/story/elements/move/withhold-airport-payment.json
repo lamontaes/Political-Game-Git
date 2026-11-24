@@ -30,5 +30,6 @@
       "pulledBy": "The contract separates the items under review.",
       "writesBack": "The invoice shows the paid balance and the amount held."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -1,0 +1,34 @@
+{
+  "id": "welfare-bill-signed-with-a-list-of-what-the-signer-still-wants-changed",
+  "kind": "consequence",
+  "summary": "After an address pushes both parties toward a compromise, the bill is signed and the signer lists the parts he will still try to fix.",
+  "realLife": "Clinton's January 23, 1996 State of the Union asked Congress for a bipartisan welfare bill with work requirements, time limits and child care. On August 22, 1996 he signed the Personal Responsibility and Work Opportunity Reconciliation Act and said he would seek changes on food stamp cuts, immigrant benefits and contingency funds.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-10",
+    "https://www.presidency.ucsb.edu/documents/statement-signing-the-personal-responsibility-and-work-opportunity-reconciliation-act-1996",
+    "Read the address and the signing statement."
+  ],
+  "fits": ["speeches", "news"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:health-human-services.work-requirement-for-assistance"
+  ],
+  "inGame": "The law engine's signing record and a follow-up promise row, with the list of fixes as promises to the legislature.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The president vetoes the bill again and the issue carries into the campaign.",
+      "pulledBy": "low willingness to compromise",
+      "writesBack": "The bill record shows a veto and the issue appears in the next race."
+    },
+    {
+      "turn": "partial",
+      "what": "The president signs and says nothing about changes.",
+      "pulledBy": "a fast election-year calendar",
+      "writesBack": "The signing record shows no list of later fixes."
+    }
+  ]
+}

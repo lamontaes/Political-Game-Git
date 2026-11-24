@@ -1,0 +1,32 @@
+{
+  "id": "bin-outside-the-stall",
+  "kind": "detail",
+  "summary": "A parent at {place} has to carry used hygiene waste out of the restroom to find a bin.",
+  "realLife": "A Seattle park visitor described that problem, and auditors found outdoor bins but no indoor bin in most restrooms they visited.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A resident account and a facility inspection locating its bins."],
+  "weights": [
+    "A family visit or a long walk to the outdoor bin makes the placement more visible."
+  ],
+  "usedBy": [],
+  "inGame": "needs: bin location, inspection note, visitor request and assigned collection route.",
+  "turns": [
+    {
+      "turn": "trial",
+      "what": "The manager approves a trial inside the facility.",
+      "pulledBy": "The crew can add a bin to its collection route.",
+      "writesBack": "Add the pickup to the route sheet."
+    },
+    {
+      "turn": "pending",
+      "what": "The manager asks for a collection plan first.",
+      "pulledBy": "The proposed pickup has no assigned crew.",
+      "writesBack": "Keep the service request open."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

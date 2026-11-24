@@ -31,5 +31,6 @@
       "pulledBy": ["board wants order"],
       "writesBack": "anger over limits becomes its own issue"
     }
-  ]
+  ],
+  "issues": ["budget:schools"]
 }

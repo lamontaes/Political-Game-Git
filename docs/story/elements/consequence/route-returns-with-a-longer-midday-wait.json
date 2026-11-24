@@ -1,0 +1,32 @@
+{
+  "id": "route-returns-with-a-longer-midday-wait",
+  "kind": "consequence",
+  "summary": "{person} tests a restored bus against a transfer instead of counting the route as restored in full.",
+  "realLife": "Milwaukee’s summer Route 28 schedule offered midday buses every forty minutes and peak buses every thirty minutes on weekdays.",
+  "sources": [
+    "https://www.ridemcts.com/who-we-are/news/mcts-summer-service-changes-start-june-7"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A restored service runs at different intervals across the day."],
+  "weights": [
+    "A tightly timed connection makes the difference between peak and midday service matter."
+  ],
+  "usedBy": [],
+  "inGame": "needs: time of travel, headways by time of day and connection departure.",
+  "turns": [
+    {
+      "turn": "connected",
+      "what": "The planner verifies the return trip separately.",
+      "pulledBy": "The midday bus makes the connection.",
+      "writesBack": "Save the usable pair of trips."
+    },
+    {
+      "turn": "missed",
+      "what": "The rider asks which trip must move to restore it.",
+      "pulledBy": "The slower interval breaks the connection.",
+      "writesBack": "Register the transfer problem against the timetable."
+    }
+  ],
+  "issues": ["none"]
+}

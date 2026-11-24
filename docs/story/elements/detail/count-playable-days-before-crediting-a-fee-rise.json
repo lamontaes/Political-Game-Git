@@ -1,0 +1,32 @@
+{
+  "id": "count-playable-days-before-crediting-a-fee-rise",
+  "kind": "detail",
+  "summary": "{member} checks how many days the course could open before attributing a change in receipts to its prices.",
+  "realLife": "Portland's golf operator reported two extra playable days that November compared with the previous year, alongside stronger revenue and better course conditions.",
+  "sources": [
+    "https://www.portland.gov/parks/sports/documents/golf-advisory-committee-meeting-minutes-december-2025/download#page=2"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: monthly receipts, playable days and the fee change date.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "Receipts rise in a month with more days open.",
+      "what": "The member asks for receipts per playable day.",
+      "writesBack": "The report keeps both comparisons."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "Prices fall in a month with fewer playable days.",
+      "what": "The director compares bookings on days the course actually opened.",
+      "writesBack": "The review records the weather limitation."
+    }
+  ]
+}

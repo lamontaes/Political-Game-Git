@@ -28,11 +28,37 @@
 import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
+import { LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
+import { stanceReader } from "./campaign-stances";
 import type { OfficeLevel } from "./offices-local";
 import type { CoreAPI } from "./types";
 import localRecords from "./data/campaigns/local-question-records.json" with { type: "json" };
+import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };
+import lineAreas from "./data/campaigns/budget-line-areas.json" with { type: "json" };
+
+/** The question families a local budget line is about (budget-line-areas.json); a line not listed is set by every body that votes a budget. */
+const LINE_AREAS = lineAreas.lines as Readonly<
+  Record<string, readonly string[]>
+>;
+
+/** Row offices' own work: the policy areas and budget lines they can act on (office-areas.json). A kind not here runs on what its government may decide. */
+const OFFICE_WORK = officeAreas.kinds as Readonly<
+  Record<
+    string,
+    {
+      readonly areas: readonly string[];
+      readonly budgetLines: readonly string[];
+    }
+  >
+>;
+
+/** A question's policy family: the part of its key before the dot ("us-policy-positions:justice-public-safety.end-cash-bail" is "justice-public-safety"). */
+function areaOf(question: string): string {
+  const key = question.slice(question.indexOf(":") + 1);
+  return key.slice(0, key.indexOf("."));
+}
 
 const NEEDS = localRecords.needs as Readonly<
   Record<string, { readonly spending?: string; readonly revenue?: string }>
@@ -75,26 +101,109 @@ function budgetPositions(api: CoreAPI, level: OfficeLevel): readonly string[] {
     .filter((position) => questionAxis(position) !== 0);
 }
 
-/** The questions this contest's office belongs to a government that may decide, in the order the platform questions are kept, then a local government's own budget lines. */
-export function contestPositions(
+/** A stand's reason on a filing: the office's own work, or its government's decision (the question's level may decide it) or budget. Shown as the `platformWhy` row beside `platform`. */
+export type StandReason = `office-work:${string}` | `body-decides:${string}`;
+
+/**
+ * The stands this contest's office can run on, each with why it is one: a row
+ * office (office-areas.json) only the policy areas and budget lines of its
+ * own work; any other seat (a body that votes the budget and makes the
+ * ordinances, a chief executive) the questions its government may decide in
+ * the order the platform questions are kept, then a local government's own
+ * budget lines. Every question is checked against the same law the bodies
+ * file by (`levelMayDecide`) and, for a local seat, the place's records.
+ */
+export function contestStands(
   api: CoreAPI,
   contest: { readonly officeId: string },
-): readonly string[] {
+): readonly { readonly position: string; readonly reason: StandReason }[] {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(contest.officeId) as unknown as { level: OfficeLevel } | undefined;
+    .get(contest.officeId) as unknown as
+    { level: OfficeLevel; kind: string } | undefined;
   if (!office) throw new Error(`No office record ${contest.officeId}`);
   const local =
     office.level === "federal" || office.level === "state"
       ? null
       : latestLocalBudget(api, office.level);
-  return [
-    ...PLATFORM_QUESTIONS.filter(
-      (question) =>
-        levelMayDecide(api, office.level, question) &&
-        (local === null || placeHolds(local, question)),
-    ),
-    ...budgetPositions(api, office.level),
-  ];
+  const work = OFFICE_WORK[office.kind];
+  // stopgapId: SG-GOV-office-areas-estimated (a row office's areas and lines are estimated from every state's county code)
+  if (work) api.stopgap("SG-GOV-office-areas-estimated");
+  const questions = PLATFORM_QUESTIONS.filter(
+    (question) =>
+      (!work || work.areas.includes(areaOf(question))) &&
+      levelMayDecide(api, office.level, question) &&
+      (local === null || placeHolds(local, question)),
+  ).map((position) => ({
+    position,
+    reason: (work
+      ? `office-work:${office.kind}`
+      : `body-decides:${office.level}`) as StandReason,
+  }));
+  // The families of question this government's state law lets it decide.
+  const mayAreas = new Set(
+    PLATFORM_QUESTIONS.filter((question) =>
+      levelMayDecide(api, office.level, question),
+    ).map(areaOf),
+  );
+  const lines = budgetPositions(api, office.level)
+    .filter((position) => {
+      const line = position.slice("budget-line:".length);
+      if (work) return work.budgetLines.includes(line);
+      // A body that votes the budget sets a line only where its state's law
+      // lets it decide something in the line's family.
+      const areas = LINE_AREAS[line];
+      return !areas || areas.some((area) => mayAreas.has(area));
+    })
+    .map((position) => ({
+      position,
+      reason: (work
+        ? `office-work:${office.kind}`
+        : `body-decides:${office.level}`) as StandReason,
+    }));
+  return [...questions, ...lines];
+}
+
+/** The questions this contest's office can run on (`contestStands`, without the reasons). */
+export function contestPositions(
+  api: CoreAPI,
+  contest: { readonly officeId: string },
+): readonly string[] {
+  return contestStands(api, contest).map((stand) => stand.position);
+}
+
+/**
+ * The reason each stand of a platform ("question=position") stands, in the
+ * platform's order, as "question=<record>;<seat>": the record that gives the
+ * candidate their reason (`StanceReader.ground`: a vote, their position as an
+ * official, their own circumstances, faith or degree, or what reached them),
+ * then why the seat can act on it (`StandReason`).
+ */
+export function standReasons(
+  api: CoreAPI,
+  contest: { readonly officeId: string },
+  platform: readonly string[],
+  personId: string,
+  party: string | null | undefined,
+): string[] {
+  // A filing that states no stand has no reason to keep, and a world that
+  // files without its laws or offices (a small test world) has no seat to
+  // read one from.
+  if (
+    !platform.length ||
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return [];
+  const stands = new Map(
+    contestStands(api, contest).map((s) => [s.position, s.reason]),
+  );
+  const reader = stanceReader(api, personId, party);
+  return platform.flatMap((entry) => {
+    const question = entry.slice(0, entry.lastIndexOf("="));
+    const seat = stands.get(question);
+    const record = reader.ground(question);
+    return seat && record ? [`${question}=${record};${seat}`] : [];
+  });
 }

@@ -227,26 +227,32 @@ window.addEventListener("resize", clearDock);
 
 /** A click on anyone on a strip opens their card (P9), through the one showPerson. */
 const openCard = (person) => showPerson({ personId: person.personId });
-/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
-const TALK_STRIP_PEOPLE = 4;
 /** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
 let here = { people: [], more: 0 };
+/** What a click on a person in the room does when nobody talks: a way into a talk. */
+let hereClick;
 /**
- * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
- * painting, and the people in it are a strip of busts. `scene` is anything
- * with `people` and `more` (a scene, a visit, a story beat); none clears it.
- * `onClick` makes each person with something to say a way into a talk.
+ * Who is here, small and packed in the top-right corner of the screen (ui/bust-strip.mjs;
+ * owner, Nov 16: "the people in the top tight like c", mock C, and Nov 24: "they're
+ * supposed to be at the top right"): a room is its painting, and the people in it
+ * are a few busts in the corner. `scene` is anything with `people` and `more` (a
+ * scene, a visit, a story beat); none clears it. `onClick` makes each person with
+ * something to say a way into a talk, until a talk is open: then a click opens a card.
  */
 function drawHere(scene, onClick) {
   here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
+  hereClick = onClick;
   $("here").replaceChildren(
     ...(here.people.length
       ? [
           bustStrip({
             people: here.people,
             more: here.more,
-            words: controls.here,
-            onClick,
+            words: { more: controls.here.more },
+            onClick: onClick
+              ? (person) =>
+                  $("talk").hidden ? hereClick?.(person) : openCard(person)
+              : undefined,
             onCard: openCard,
           }),
         ]
@@ -255,9 +261,10 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The same people on top of the talk box while a talk is open, whoever speaks
- * lit and a little larger. A speaker who is not in the room (a caller, someone
- * a scene brings in) stands first, by the face their card gave.
+ * The speaker of a talk: their bust on the talk box. The rest of the room stay in
+ * the corner (the speaker's own place there is empty while the talk lasts). A
+ * speaker who is not in the room (a caller, someone a scene brings in) stands on
+ * the box by the face their card gave.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
@@ -272,30 +279,25 @@ function drawTalkStrip() {
     talkPersonId && !inRoom && !talkApart && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
-  const others = here.people.filter((p) => p.personId !== talkPersonId);
   const speaking = talkApart
     ? []
     : here.people.filter((p) => p.personId === talkPersonId);
-  // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others]
-    .slice(0, TALK_STRIP_PEOPLE)
-    .sort(
-      (a, b) =>
-        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
-        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
+  // Whoever speaks leaves their place in the corner while the talk lasts (play.css).
+  for (const cell of $("here").querySelectorAll(".busts-person"))
+    cell.classList.toggle(
+      "in-talk",
+      !talkApart && cell.dataset.person === (talkPersonId ?? "-"),
     );
-  $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [
-          bustStrip({
-            people: shown,
-            // Nobody on the strip speaks while the narrator does: all stand small.
-            speakingId: talkPersonId ?? null,
-            onCard: openCard,
-          }),
-        ]
-      : []),
-  );
+  const onBox = [...speaker, ...speaking];
+  if (!onBox.length) return $("talk-strip").replaceChildren();
+  const node = bustStrip({
+    people: onBox,
+    speakingId: talkPersonId,
+    // Anyone named in a talk opens their card, whoever they are to you.
+    onCard: openCard,
+  });
+  node.classList.add("talk-speaker");
+  $("talk-strip").replaceChildren(node);
 }
 
 /**
@@ -303,6 +305,13 @@ function drawTalkStrip() {
  * medium): the speaker's bust on a set over the room, with the station under
  * their name and Live over it. Anything else clears it.
  */
+/** The television set holds the corner's top right; the room's people stand just below it. */
+new ResizeObserver(() =>
+  $("game").style.setProperty(
+    "--tv-bottom",
+    `${Math.round($("tv").getBoundingClientRect().bottom)}px`,
+  ),
+).observe($("tv"));
 let tvRequest = 0;
 /** The glass of the television the shown picture paints, when it paints one. */
 let backdropScreen;
@@ -6167,6 +6176,15 @@ const sheets = {
           })),
         ),
       );
+      // What is coming up sits under the chief, and only when something is scheduled (no filler
+      // line for an empty calendar; the CTO, Nov 24).
+      const comingItems = executive
+        .flatMap((o) => o.comingUp)
+        .sort((x, y) => x.date.localeCompare(y.date))
+        .slice(0, 4);
+      const coming = comingItems.length
+        ? [stripSection(3, labels.comingUp, comingList(comingItems))]
+        : [];
       return {
         main: chief
           ? [
@@ -6192,16 +6210,7 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              ...coming,
             ]
           : [],
         side: runs
@@ -6274,7 +6283,15 @@ const sheets = {
         : (offered[0] ?? "legislative");
       const redraw = async () => {
         const node = await screen();
-        if (openTab === "government") $("sheet-body").replaceChildren(node);
+        if (openTab === "government") {
+          $("sheet-body").replaceChildren(node);
+          // A government page with only its main column (a town with only a mayor) is as wide
+          // as what it holds; one with a side column takes the window.
+          $("sheet").classList.toggle(
+            "fits",
+            node.classList.contains("single"),
+          );
+        }
       };
       const levels = tabBar({
         attr: "level",
@@ -6944,7 +6961,9 @@ async function openSheet(tab) {
     "fits",
     !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
+      !$("sheet-body").querySelector(
+        ".screen-grid, .split-screen:not(.single.government-screen)",
+      ),
   );
   // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
   $("sheet").classList.toggle("hugs", tab === "bills");

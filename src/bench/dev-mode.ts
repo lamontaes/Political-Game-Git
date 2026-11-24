@@ -1655,9 +1655,12 @@ export class DevMode {
       // The cause is a record an engine writes on its own schedule: run the world until one names the
       // player, and the director stages the scene from it the ordinary way.
       if (!player) throw new Error("There is no player to run the world for.");
+      // A cause from circumstance is a record naming someone else (a new
+      // coworker's job): the director's moment for the player stops the run too.
       const ran = this.runUntil({
         kind: scene.causeRecords[0],
         person: player.id,
+        scene: scene.key,
         cap: input.cap ?? 366,
       });
       return {
@@ -2113,15 +2116,22 @@ export class DevMode {
       return offered ? key : undefined;
     };
     if (!this.watch.length) this.snapshot();
-    while (this.core.date < target) {
-      const month = this.core.date.slice(0, 7);
-      const next = addDays(makeIsoDate(this.core.date), 1);
-      advanceCore(this.core, next, this.pending.size ? { controller } : {});
-      for (const row of this.applied.splice(0))
-        this.mark("decision", [row.personId], { ...row });
-      for (const row of this.dropped.splice(0))
-        this.mark("decision-not-offered", [row.personId], { ...row });
-      if (this.core.date.slice(0, 7) !== month) this.snapshot();
+    // The player's story goes on while the world has the clock: their scenes
+    // from circumstance stage as on their own clock.
+    this.director?.runningFor(playerId as PersonId | undefined);
+    try {
+      while (this.core.date < target) {
+        const month = this.core.date.slice(0, 7);
+        const next = addDays(makeIsoDate(this.core.date), 1);
+        advanceCore(this.core, next, this.pending.size ? { controller } : {});
+        for (const row of this.applied.splice(0))
+          this.mark("decision", [row.personId], { ...row });
+        for (const row of this.dropped.splice(0))
+          this.mark("decision-not-offered", [row.personId], { ...row });
+        if (this.core.date.slice(0, 7) !== month) this.snapshot();
+      }
+    } finally {
+      this.director?.runningFor(undefined);
     }
     return {
       from,

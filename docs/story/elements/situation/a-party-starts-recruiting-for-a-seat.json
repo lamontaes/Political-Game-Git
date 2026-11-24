@@ -1,0 +1,29 @@
+{
+  "id": "a-party-starts-recruiting-for-a-seat",
+  "kind": "situation",
+  "summary": "A party's local group opens recruiting for a particular seat.",
+  "realLife": "Burlington Progressives began recruiting for a council seat in May.",
+  "sources": [
+    "WAMC, Burlington Progressives begin candidate recruitment for a council seat: https://www.wamc.org/new-england-news/2021-05-20/burlington-progressives-begin-candidate-recruitment-for-ward-3-seat"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["party", "office"],
+  "gates": [],
+  "weights": {
+    "party-recruit": 0.8
+  },
+  "inGame": "party-asked record; the contest record; needs: a recruiting period before filing",
+  "turns": [
+    {
+      "turn": "The party recruits a member already in office",
+      "pull": "a seated ally",
+      "writes": "writes a move-up scene"
+    },
+    {
+      "turn": "The party finds no one",
+      "pull": "a thin base",
+      "writes": "writes a no-candidate note"
+    }
+  ],
+  "usedBy": ["party-recruit"]
+}

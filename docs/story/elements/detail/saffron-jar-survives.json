@@ -1,0 +1,30 @@
+{
+  "id": "saffron-jar-survives",
+  "kind": "detail",
+  "summary": "The jar from {place} goes into storage empty.",
+  "realLife": "The White House sent the jar from Narendra Modi's saffron gift to the Archives and handled the spice under Secret Service rules for perishables.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A food gift in a durable container."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a food gift in a durable container.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The archivist opens the jar",
+      "what": "Identify what it once held",
+      "writesBack": "The catalog preserves the missing contents"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The delegation asks about the spice",
+      "what": "Explain the food policy",
+      "writesBack": "The thank-you distinguishes jar from saffron"
+    }
+  ]
+}

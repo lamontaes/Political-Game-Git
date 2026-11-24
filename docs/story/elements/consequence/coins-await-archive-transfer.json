@@ -1,0 +1,30 @@
+{
+  "id": "coins-await-archive-transfer",
+  "kind": "consequence",
+  "summary": "The coins at {place} have a destination and still need a receipt.",
+  "realLife": "The White House listed the Picasso commemorative coins from Spain's prime minister as awaiting transfer to the Archives.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["An announced transfer awaiting completion."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an announced transfer awaiting completion.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A curator asks to exhibit the coins",
+      "what": "Flag the pending transfer",
+      "writesBack": "The opening date stays provisional"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The receipt arrives",
+      "what": "File it beside the original entry",
+      "writesBack": "The curator can confirm custody"
+    }
+  ]
+}

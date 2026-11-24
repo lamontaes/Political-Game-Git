@@ -29,5 +29,6 @@
       "pulledBy": "Storage space is limited until another site opens.",
       "writesBack": "The order separates immediate delivery from the reserved quantity."
     }
-  ]
+  ],
+  "issues": ["budget:naturalResources"]
 }

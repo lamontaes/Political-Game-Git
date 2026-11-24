@@ -1,0 +1,30 @@
+{
+  "id": "committee-vote-totals-on-the-blackboard",
+  "kind": "detail",
+  "summary": "People in the room can check the committee election totals on the board while they wait for a published result.",
+  "realLife": "Harrington saw Hinds County’s committee election totals put on a blackboard and heard the chair direct people to the newspaper for the results.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=5"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{tally}", "{committee}"],
+  "gates": ["A local tally is displayed while results are being compiled."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a local tally, its displayed version and the publication deadline.",
+  "turns": [
+    {
+      "turn": "delegate-challenges-total",
+      "what": "The teller checks the sheet before erasing it.",
+      "pulledBy": "A delegate disputes the chalked figure.",
+      "writesBack": "The revised total carries the delegate’s correction."
+    },
+    {
+      "turn": "last-returns-miss-press",
+      "what": "The reporter prints the returns that have been counted.",
+      "pulledBy": "The next edition goes to press before counting ends.",
+      "writesBack": "The last returns remain unpublished until the follow-up."
+    }
+  ]
+}

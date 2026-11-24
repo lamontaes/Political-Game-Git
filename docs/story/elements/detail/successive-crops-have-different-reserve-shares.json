@@ -1,0 +1,30 @@
+{
+  "id": "successive-crops-have-different-reserve-shares",
+  "kind": "detail",
+  "summary": "The packing sheet at {place} needs a different reserve percentage for the new crop year.",
+  "realLife": "California handlers reserved 47 percent of the 2002\u201303 raisin crop and 30 percent in the following season.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["The record identifies the two dated crop orders."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: two dated crop orders.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Recalculate the new delivery under its own order.",
+      "pulledBy": "The new order sets a different rate.",
+      "writesBack": "Crop year and corrected reserve weight."
+    },
+    {
+      "turn": "another-way",
+      "what": "Correct a sheet that carried forward the old percentage.",
+      "pulledBy": "An earlier rate was used by mistake.",
+      "writesBack": "Crop year and corrected reserve weight."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "council-funds-plate-readers-but-holds-their-use",
+  "kind": "consequence",
+  "summary": "A council pays for plate readers but makes police write the data rules first.",
+  "realLife": "A council unanimously set aside half a million dollars for readers at the town's entrances, and told police and the city attorney to return with who may see the data before any purchase, while the chief cited car break-ins and a neighboring town's drop in property crime.",
+  "sources": [
+    "KTVU FOX 2 (Alameda, California), 'City of Alameda approves funding controversial license plate readers but holds off on their use', Feb 8, 2018: https://www.ktvu.com/news/city-of-alameda-approves-funding-controversial-license-plate-readers-but-holds-off-on-their-use",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["law", "count", "percent", "place"],
+  "gates": [],
+  "weights": {
+    "crime": 0.5
+  },
+  "inGame": "a budget line for equipment and a policy hold on its use; needs: a conditional spend on a budget line",
+  "issues": ["budget:police"],
+  "turns": [
+    {
+      "name": "the money is approved but locked",
+      "pulledBy": "a council that wants a policy first",
+      "writes": "the budget line is reserved and not spent",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the policy comes back and the cameras go up",
+      "pulledBy": "a finished data-use policy",
+      "writes": "the readers are bought and the story says so",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the policy stalls",
+      "pulledBy": "a council that never takes it up again",
+      "writes": "the reserved money sits unused",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "critics win the first round",
+      "pulledBy": "privacy objections that grow",
+      "writes": "the council trims the plan",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

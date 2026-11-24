@@ -1,0 +1,31 @@
+{
+  "id": "resident-questions-recycling-charge",
+  "kind": "voice",
+  "summary": "At a public meeting a resident wants to know whether the price on the hauler’s bill can change.",
+  "realLife": "Delaware officials fielded pricing concerns during the rollout and reported that some residents obtained lower prices after contacting haulers.",
+  "sources": [
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=21",
+    "https://legis.delaware.gov/BillDetail?legislationId=19844"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{resident}", "{hauler}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: hauler invoice and documented price decision.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A resident asks the hauler to distinguish its service price from deposits paid at a store.",
+      "pulledBy": "Both a hauler invoice and a store deposit appear in the household’s expenses.",
+      "writesBack": "The household can identify which charge it may redeem."
+    },
+    {
+      "turn": "opposite",
+      "what": "After the refund ends, the hauler can still review its service price separately from the statewide beverage fee.",
+      "pulledBy": "The replacement fee is set by law but the service price can be reviewed.",
+      "writesBack": "Any price adjustment appears on the hauler’s bill."
+    }
+  ]
+}

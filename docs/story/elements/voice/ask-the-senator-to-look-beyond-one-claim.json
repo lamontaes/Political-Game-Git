@@ -1,0 +1,32 @@
+{
+  "id": "ask-the-senator-to-look-beyond-one-claim",
+  "kind": "voice",
+  "summary": "A homeowner asks a visiting senator to take up an insurance problem affecting other households.",
+  "realLife": "Schwartz told a Senate field hearing that she wanted help for other people who had lost homes as well as for herself.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/4d545952-caed-cd7f-0c3d-5329bd8d5ef3/Testimony_Schwartz%2011.13.25.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{homeowner}", "{member}", "{claim}"],
+  "gates": [
+    "A claimant has expressly asked the member to consider other households."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the claimant’s request to pursue a wider policy concern.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The office seeks testimony from other claimants.",
+      "pulledBy": "Other households consent to sharing their experiences.",
+      "writesBack": "The member has separately sourced cases to compare."
+    },
+    {
+      "turn": "partial",
+      "what": "The office opens the witness’s case first.",
+      "pulledBy": "Other claimants have yet to authorize contact.",
+      "writesBack": "The named claim proceeds on its own."
+    }
+  ],
+  "issues": ["none"]
+}

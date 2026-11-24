@@ -1,0 +1,30 @@
+{
+  "id": "repeal-campaign-reaches-senate-hearing-record",
+  "kind": "moment",
+  "summary": "A later legislative hearing puts a witness’s comparison of campaign spending in a city repeal election on the record.",
+  "realLife": "Written testimony in a U.S. Senate hearing described Columbia's voter repeal and attributed substantially greater campaign spending to grocery and beverage interests.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-107shrg83716/pdf/CHRG-107shrg83716.pdf"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{witness}", "{election}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: certified result and attributed spending evidence.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A reporter asks who produced the spending estimate.",
+      "pulledBy": "The witness relies on an advocacy estimate.",
+      "writesBack": "The account names the source of the comparison."
+    },
+    {
+      "turn": "opposite",
+      "what": "An editor checks the filings before running the comparison.",
+      "pulledBy": "The clerk obtains campaign filings.",
+      "writesBack": "The reporter can check the spending claim separately from the certified result."
+    }
+  ]
+}

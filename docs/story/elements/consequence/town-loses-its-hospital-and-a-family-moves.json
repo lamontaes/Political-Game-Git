@@ -1,0 +1,45 @@
+{
+  "id": "town-loses-its-hospital-and-a-family-moves",
+  "kind": "consequence",
+  "summary": "When a small town's only hospital closed, a family with a sick husband finally moved away to reach care.",
+  "realLife": "A rural Alabama hospital closed in 2024, leaving the town without a hospital, obstetrician or pediatrician. A pastor's family made long trips for specialist care, and fuel, hotels and copays slowly ate their income until they moved. A grandchild on another state's Medicaid was turned away locally and the family paid about $1,500 for what proved a cold. Nearby hospitals shifted to a limited emergency form, and older parishioners still drive far for appointments.",
+  "sources": [
+    "https://www.courthousenews.com/home-or-health-rural-hospital-closures-force-families-to-choose/ (Courthouse News report on Thomasville, Alabama families after the hospital closed)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the place}", "{the hospital}"],
+  "gates": [
+    "the town's hospital closed or lost services",
+    "the nearest care is a long drive",
+    "the household has a member who needs regular care"
+  ],
+  "weights": [
+    "distance to care",
+    "the household's savings",
+    "whether the household owns or rents",
+    "insurance type"
+  ],
+  "inGame": "budget:healthAndHospitals and law:fee-level:hospitals read by the place's health record; a household's travel cost and move decision read the nearest-facility record; needs: closure of a facility as a record other engines read",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "they move away",
+      "what": "The household leaves the town to be near care and the congregation or neighbors lose them.",
+      "pulledBy": "long repeat trips draining income",
+      "writesBack": "household residence; place population"
+    },
+    {
+      "turn": "they stay and travel",
+      "what": "The household cannot afford to move, drives for care and puts off visits until it is serious.",
+      "pulledBy": "low savings and a house they own",
+      "writesBack": "household travel costs; care visits"
+    },
+    {
+      "turn": "the hospital reopens in a limited form",
+      "what": "Emergency care returns without overnight beds, and the family still travels for specialists.",
+      "pulledBy": "a rural emergency designation",
+      "writesBack": "place facility record"
+    }
+  ],
+  "issues": ["budget:healthAndHospitals", "law:fee-level:hospitals"]
+}

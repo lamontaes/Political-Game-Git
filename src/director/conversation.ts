@@ -199,6 +199,7 @@ import {
   organizationName,
   businessNameSaid,
   employerWords,
+  isOutsideMarket,
   properName,
   spoken,
   spokenDate,
@@ -1274,6 +1275,11 @@ function victimizationSubjects(
       kind: "victimization",
       aboutId: moment.causeId,
       stage: type,
+      // The speaker's own moment of this crime is the record the subject
+      // rests on: the crime record itself is kept in the log only for those
+      // the player's circle names (retainLog), so a victim outside it has the
+      // moment in their book and no log row to tie the subject to.
+      tie: { kind: "record" as const, recordIds: [moment.causeId] },
       facts: {
         victimized: { text: "", sourceRecordIds: [moment.causeId] },
         when: {
@@ -6960,7 +6966,7 @@ function lieClaims(
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
       // The market's stand-in for work out of town is no employer to claim.
-      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
+      .filter((org) => org && org.id !== own.value && !isOutsideMarket(org));
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),

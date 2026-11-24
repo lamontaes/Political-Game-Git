@@ -1,0 +1,36 @@
+{
+  "id": "the-laid-off-fathers-children-earn-less-as-adults",
+  "kind": "consequence",
+  "summary": "The children of a father who lost his job in a layoff earn less as adults, mostly the children of low-income families.",
+  "realLife": "A study of about 60,000 Canadian father and child pairs found children of displaced fathers earned about 9 percent less a year and used unemployment insurance and social assistance more often.",
+  "sources": [
+    "NBER working paper w11587, The Intergenerational Effect of Worker Displacement: https://www.nber.org/papers/w11587"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "household income after the job-ended event; the child's school record and later job record carry the effect. needs: long-run child outcome tracking beyond the played years.",
+  "turns": [
+    {
+      "turn": "child-leaves-school-early-to-work",
+      "summary": "The child quits school to add pay.",
+      "pulledBy": ["low household income", "trait: dutiful"],
+      "writesBack": "school record ends early; sibling tie closer"
+    },
+    {
+      "turn": "child-gets-a-scholarship",
+      "summary": "A teacher steers the child to aid and the child goes on.",
+      "pulledBy": ["a teacher tie", "good grades"],
+      "writesBack": "school record continues; tie to teacher closer"
+    },
+    {
+      "turn": "family-moves-to-a-cheaper-town",
+      "summary": "The family moves and the child changes schools.",
+      "pulledBy": ["no savings", "relative in another town"],
+      "writesBack": "school record changes; old friend ties drift"
+    }
+  ]
+}

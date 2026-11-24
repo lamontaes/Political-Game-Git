@@ -1,0 +1,30 @@
+{
+  "id": "wrapping-cloths-count-too",
+  "kind": "detail",
+  "summary": "The wrapping cloths from {place} have their own mention in the inventory.",
+  "realLife": "The White House recorded two cloths along with boxed goblets from the Tokyo Metropolitan Police and reported the gift transferred to the Archives.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2023-02-24/pdf/2023-03806.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["Reusable wrapping recorded as part of a diplomatic gift."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: reusable wrapping recorded as part of a diplomatic gift.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A packer sets the wrapping aside",
+      "what": "Check it against the manifest",
+      "writesBack": "The cloths travel with the goblets"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A researcher asks how the gift arrived",
+      "what": "Consult the original inventory",
+      "writesBack": "The description includes the wrapping"
+    }
+  ]
+}

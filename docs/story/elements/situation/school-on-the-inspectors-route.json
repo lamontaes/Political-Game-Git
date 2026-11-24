@@ -1,0 +1,32 @@
+{
+  "id": "school-on-the-inspectors-route",
+  "kind": "situation",
+  "summary": "The school beside {place} changes what the sidewalk inspector enters for pedestrian traffic.",
+  "realLife": "New York's rating instructions used nearby destinations such as schools and subway stations to assess foot traffic.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "Inspection sheet with location criteria and a verified nearby destination."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: inspection sheet with location criteria and a verified nearby destination.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The damaged route serves the school entrance.",
+      "what": "Identify the entrance on the sketch.",
+      "writesBack": "Record the traffic factor.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The mapped school is on another block.",
+      "what": "Check the actual walking route.",
+      "writesBack": "Revise the location note.."
+    }
+  ]
+}

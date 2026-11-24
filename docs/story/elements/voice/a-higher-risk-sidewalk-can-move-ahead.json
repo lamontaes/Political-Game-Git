@@ -1,0 +1,30 @@
+{
+  "id": "a-higher-risk-sidewalk-can-move-ahead",
+  "kind": "voice",
+  "summary": "{director} explains why a newer sidewalk complaint might be repaired ahead of an older one.",
+  "realLife": "Parks declined to guarantee a repair date because newly reported severe damage could take priority under limited funding.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=25"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{director}"],
+  "gates": ["Ranked repair list, age of requests and available repair funds."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:parks"],
+  "inGame": "needs: ranked repair list, age of requests and available repair funds.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The newer site has the higher recorded risk.",
+      "what": "Show both ratings at the hearing.",
+      "writesBack": "Document the priority decision.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The older site's condition has changed.",
+      "what": "Seek a new assessment.",
+      "writesBack": "Keep the current order pending review.."
+    }
+  ]
+}
