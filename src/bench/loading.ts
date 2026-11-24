@@ -9,6 +9,7 @@ import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
+import { countSaid } from "../english/count-words";
 import { centuryOf, historyMode } from "../core2/electorate-century";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
@@ -162,6 +163,28 @@ export function loadingTelling(
         "yes",
         governor.id,
       );
+  }
+  // The household at the opening, from its record: how many live in it (said
+  // in words, or that the player lives alone) and the year it moved into the
+  // place, when the record has the day.
+  const household = core.households.get(person.householdId);
+  if (household) {
+    const living = household.memberIds.filter(
+      (id) => core.people.get(id)?.alive !== false,
+    );
+    if (living.length <= 1) put("lives-alone", "yes", household.id);
+    else {
+      const others = living.length - 1;
+      put("household-others", countSaid(others), household.id);
+      put(
+        others === 1 ? "one-other-in-household" : "several-in-household",
+        "yes",
+        household.id,
+      );
+      put("lives-with-others", "yes", household.id);
+    }
+    if (household.since && household.since < core.date)
+      put("lived-here-since", yearOf(household.since), household.id);
   }
   const home = corePlaceByJurisdictionId(person.placeId as never);
   put("start-year", yearOf(core.date), person.householdId);
