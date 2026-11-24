@@ -3514,7 +3514,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-that-isn-t-where-i-land-on-said",
@@ -3534,7 +3535,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-with-president-for-it-makes-sense-to-me-because-reason-for",
@@ -3557,7 +3559,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-with-president-against-it-makes-sense-to-me-because-reason-against",
@@ -3584,7 +3587,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-president-for-it-doesn-t-add-up-to-me-because-reason-against",
@@ -3604,7 +3608,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-stand-against-president-against-it-doesn-t-add-up-to-me-because-reason-for",
@@ -3627,7 +3632,8 @@
       "origin": "authored",
       "author": "the talk at home writer",
       "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
+      "elements": ["pattern-a47-the-first-word-on-the-address"],
+      "after": ["lead", "heard"]
     },
     {
       "key": "outline-talk.why.talk-address-point-why-view-place-you-can-see-why-people-in-place-feel-the-way-they-do",
@@ -4036,10 +4042,10 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-reason-for-it-was-clear-president-believes-reason-for",
+      "key": "outline-talk.lead.talk-address-point-reason-for-anyone-could-tell-president-believes-reason-for",
       "move": "lead",
       "kind": "spoken",
-      "text": "It was clear {president} believes {reason-for}.",
+      "text": "Anyone could tell {president} believes {reason-for}.",
       "uses": [
         {
           "subject": "talk-address-point",
@@ -4059,10 +4065,10 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "outline-talk.lead.talk-address-point-reason-against-it-was-clear-president-believes-reason-against",
+      "key": "outline-talk.lead.talk-address-point-reason-against-anyone-could-tell-president-believes-reason-against",
       "move": "lead",
       "kind": "spoken",
-      "text": "It was clear {president} believes {reason-against}.",
+      "text": "Anyone could tell {president} believes {reason-against}.",
       "uses": [
         {
           "subject": "talk-address-point",
