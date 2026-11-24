@@ -172,6 +172,43 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     }
   });
 
+  it("keeps the referral decision open after an unemployment paperwork question in an office without an aide", () => {
+    const type = types.find((row) => row.key === "office-hours")!;
+    for (let draw = 0; draw < 100; draw++) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        {
+          askerId,
+          askedId,
+          causeId: `paperwork-visit-${draw}`,
+        },
+        type,
+        {
+          name: fact("Pat Rivera"),
+          agency: fact("the workforce office"),
+          "problem-work": fact("yes"),
+          "money-left": fact("almost gone"),
+        },
+      );
+      if (result.kind !== "composed") continue;
+      const question = result.talk.tree.replies.find(
+        (reply) => reply.line.move === "ask",
+      );
+      if (!question?.next?.lines[0]?.text.includes("what paperwork")) continue;
+      const choices = question.next.replies;
+      expect(
+        choices.find((reply) => reply.line.move === "promise")?.line.text,
+      ).toContain("ready when you file");
+      expect(
+        choices.find((reply) => reply.line.move === "decline")?.line.text,
+      ).toContain("what to bring when you file");
+      expect(choices.some((reply) => reply.line.move === "offer")).toBe(false);
+      return;
+    }
+    throw new Error("No paperwork visit was composed.");
+  });
+
   // The player asks a colleague for their vote the evening before the roll
   // (vote-sought): the narrator sets it from the player's side, never as the
   // colleague coming to the player's door, and a player asking several
