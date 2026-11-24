@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pt-board-canvass-session
-pr:
+pr: 10576
 blocked-on:
 source: The owner's grading page, Nov 24 (docs/coordination/grading/2026-11-24-page-1-verbatim.md and 2026-11-24-page-1-rows.md on claude/cto-playtest-nov23, rows P45 to P52, order 6); the CTO's 20:39Z line on #9750 (7143874990), routed by the Coordinator to Board mock (lane 8)
 claimed-at: 2026-11-24T20:55:00.000Z
