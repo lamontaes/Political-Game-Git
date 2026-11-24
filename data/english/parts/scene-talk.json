@@ -74215,7 +74215,7 @@
       "key": "scene-talk.follow-answer.no-extra-spending-in-bill-what-we-d-give-up-is-the-money-those-riders-pay-now",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "No extra spending in {bill}. What we'd give up is the money those riders pay now.",
+      "text": "With {bill} we'd give up fare income without adding a dollar of spending.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "city-pays-agency-for-foregone-fares"
@@ -74304,7 +74304,7 @@
       "key": "scene-talk.follow-answer.i-haven-t-put-any-more-spending-in-bill-i-wouldn-t-count-every-pass-as-lost-income-either-some-people-still-need-one-for-another-ride",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I haven't put any more spending in {bill}. I wouldn't count every pass as lost income, either. Some people still need one for another ride.",
+      "text": "{bill} adds no spending, and somebody who still needs a pass for another bus may keep buying one.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "monthly-pass-still-needed"
@@ -74393,7 +74393,7 @@
       "key": "scene-talk.follow-answer.no-new-spending-for-a-family-in-place-that-puts-the-fare-toward-breakfast-the-difference-shows-up-in-the-grocery-money",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "No new spending. For a family in {place} that puts the fare toward breakfast, the difference shows up in the grocery money.",
+      "text": "There's no new spending in the bill, and a parent in {place} could put that fare toward breakfast.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "bus-money-becomes-breakfast-money"
@@ -74485,7 +74485,7 @@
       "key": "scene-talk.follow-answer.there-s-no-increase-on-the-spending-side-a-student-in-place-who-pays-each-way-to-class-would-still-feel-the-difference",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There's no increase on the spending side. A student in {place} who pays each way to class would still feel the difference.",
+      "text": "A student in {place} keeps the fare home from class, and the bill adds nothing to what we spend.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "student-counts-a-semester-of-fares"
@@ -74577,7 +74577,7 @@
       "key": "scene-talk.follow-answer.we-d-collect-fares-again-you-ll-find-no-increase-in-spending-in-bill-and-i-can-t-tell-you-yet-what-the-fares-would-bring-in",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "We'd collect fares again. You'll find no increase in spending in {bill}, and I can't tell you yet what the fares would bring in.",
+      "text": "I can show you what {bill} adds to spending, which is nothing. Fare receipts are harder to predict.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "city-pays-agency-for-foregone-fares"
@@ -74666,7 +74666,7 @@
       "key": "scene-talk.follow-answer.bill-doesn-t-add-spending-before-i-d-predict-what-we-d-collect-on-passes-i-d-want-to-know-how-long-a-pass-lasts",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{bill} doesn't add spending. Before I'd predict what we'd collect on passes, I'd want to know how long a pass lasts.",
+      "text": "Nothing extra to spend under {bill}, and how much comes in depends partly on how long a pass lasts.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "pass-clock-starts-at-first-use"
@@ -74755,7 +74755,7 @@
       "key": "scene-talk.follow-answer.i-haven-t-asked-for-more-money-in-bill-if-we-need-a-place-to-sell-passes-for-cash-we-d-have-to-work-out-how-to-pay-for-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I haven't asked for more money in {bill}. If we need a place to sell passes for cash, we'd have to work out how to pay for it.",
+      "text": "We'd have to find money for a cash sales counter if we need one, because {bill} adds none.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "cash-rider-needs-a-place-to-buy-a-pass"
@@ -74844,7 +74844,7 @@
       "key": "scene-talk.follow-answer.no-added-spending-in-bill-to-estimate-receipts-i-d-need-to-know-what-we-d-charge-a-family-riding-together",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "No added spending in {bill}. To estimate receipts I'd need to know what we'd charge a family riding together.",
+      "text": "What a family pays to ride together affects what we'd collect under {bill}, which adds no spending.",
       "elements": [
         "treasurer-has-the-balance-but-no-current-price",
         "companions-fares-and-one-persons-cap"
