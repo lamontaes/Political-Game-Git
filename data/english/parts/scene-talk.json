@@ -39839,6 +39839,2462 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-sat-with-the-count-in-front-of-them-and-did-not-turn-the-television-back-on",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sat with the count in front of them and did not turn the television back on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-been-the-first-to-call-after-the-count-came-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had been the first to call after the count came in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-you-don-t-want-to-talk-about-the-count-in-place-can-i-sit-with-you-anyway",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know you don't want to talk about the count in {place}. Can I sit with you anyway?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ve-been-thinking-about-you-all-day-and-about-what-the-race-took-out-of-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I've been thinking about you all day, and about what the race took out of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-m-sorry-about-the-count-you-gave-it-everything-you-had-in-place",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry about the count. You gave it everything you had in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.whatever-the-count-says-i-m-proud-of-what-you-tried-in-place",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Whatever the count says, I'm proud of what you tried in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.it-hurts-to-lose-i-m-here-and-so-is-the-whole-house-in-place",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "It hurts to lose. I'm here, and so is the whole house in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-name-i-needed-to-hear-that-more-than-i-d-say",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, {name}. I needed to hear that more than I'd say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-helps-place-is-a-lot-quieter-than-i-expected",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That helps. {place} is a lot quieter than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.it-wasn-t-supposed-to-go-like-this-name-somebody-let-me-down",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "It wasn't supposed to go like this, {name}. Somebody let me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-gave-up-a-lot-for-this-name-and-look-where-it-got-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I gave up a lot for this, {name}, and look where it got me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-talk-about-it-yet-name-ask-me-again-when-place-has-moved-on",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't talk about it yet, {name}. Ask me again when {place} has moved on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-go-over-the-count-again-name",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not go over the count again, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-it-up-to-you-name-for-everything-the-race-took",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make it up to you, {name}, for everything the race took.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-a-little-time-name-and-i-ll-be-back-to-myself",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me a little time, {name}, and I'll be back to myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-don-t-have-to-thank-me-first-i-just-wanted-you-to-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You don't have to thank me, {first}. I just wanted you to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "thank",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-can-be-angry-i-d-be-angry-too-here-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You can be angry. I'd be angry too, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-don-t-think-anyone-let-you-down-i-think-it-was-close-and-it-hurt-here-in-place",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I don't think anyone let you down. I think it was close, and it hurt, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "blame",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-don-t-shut-me-out-first-we-re-still-a-team",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please don't shut me out, {first}. We're still a team.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "deflect",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-you-need-from-the-house-in-place-right-now",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do you need from the house in {place} right now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "promise",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-all-i-wanted-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all I wanted, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "promise",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-ll-tell-you-when-i-know-name",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell you when I know, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.mostly-i-m-tired-name-and-a-little-relieved",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Mostly I'm tired, {name}. And a little relieved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-lean-on-you-name-i-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll lean on you, {name}. I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "comfort",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-re-right-name-i-m-angry-and-i-don-t-know-who-at",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You're right, {name}. I'm angry, and I don't know who at.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-saying-that-name-about-place",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for saying that, {name}, about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "disagree",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.fine-here-s-what-i-need-name-a-quiet-week",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Fine. Here's what I need, {name}: a quiet week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "plea",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-need-time-name-and-i-need-you-to-give-it-to-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I need time, {name}, and I need you to give it to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-letting-me-in-first-we-ll-get-through-place-together",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for letting me in, {first}. We'll get through {place} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "resolved",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-leave-you-be-i-m-around-if-the-house-in-place-gets-too-quiet",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll leave you be. I'm around if the house in {place} gets too quiet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-when-you-re-ready-to-talk-about-place-again",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me when you're ready to talk about {place} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stood-at-the-edge-of-things-for-a-moment-not-sure-of-the-welcome",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stood at the edge of things for a moment, not sure of the welcome.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-wasn-t-sure-you-d-see-me-i-m-glad-you-did-here-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wasn't sure you'd see me. I'm glad you did, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-been-a-long-time-i-came-back-to-place-partly-for-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's been a long time. I came back to {place} partly for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-to-make-things-right-between-us-can-we-start-over-in-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to make things right between us. Can we start over in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-was-wrong-about-what-happened-will-you-let-me-say-so-here-in-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I was wrong about what happened. Will you let me say so, here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-we-put-it-behind-us-the-way-we-would-have-if-i-d-stayed-in-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can we put it behind us, the way we would have if I'd stayed in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ve-missed-you-name-more-than-i-let-on",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I've missed you, {name}, more than I let on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-name-let-s-start-over",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right, {name}. Let's start over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-try-name-but-i-need-you-to-be-honest-about-what-happened",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll try, {name}, but I need you to be honest about what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.we-can-start-over-if-we-can-both-stop-litigating-it-in-place",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "We can start over if we can both stop litigating it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-name-not-yet-and-not-like-this",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't, {name}. Not yet, and not like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-hurt-too-much-name-i-m-not-ready-to-pretend-it-didn-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It hurt too much, {name}. I'm not ready to pretend it didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-now-name-what-changed-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why now, {name}? What changed for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-from-me-name-if-i-say-yes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want from me, {name}, if I say yes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-didn-t-think-you-d-say-yes",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I didn't think you'd say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-be-honest-and-so-will-you-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'll be honest, and so will you, in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-tell-you-everything-but-i-need-you-to-listen-first-here-in-place",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll tell you everything, but I need you to listen first, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-first-i-came-back-to-place-for-this",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, {first}. I came back to {place} for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "plea",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-ll-give-you-the-time-you-need-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll give you the time you need in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-got-tired-of-being-angry-and-i-miss-what-we-had-in-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I got tired of being angry, and I miss what we had in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-big-i-just-want-us-to-be-able-to-sit-in-a-room-in-place-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing big. I just want us to be able to sit in a room in {place} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-yes-name-let-s-try",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then yes, {name}. Let's try.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-try-but-we-go-slowly-name",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll try, but we go slowly, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.that-s-not-enough-name-i-m-sorry",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "That's not enough, {name}. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-name-i-ll-find-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think, {name}. I'll find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-if-it-matters-this-much-name-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. If it matters this much, {name}, yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "plea"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.maybe-name-if-we-go-step-by-step",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Maybe, {name}, if we go step by step.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "plea"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-still-can-t-name-please-don-t-ask-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I still can't, {name}. Please don't ask again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "plea"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-slowly-name-but-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. Slowly, {name}, but yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-not-on-those-terms-name",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. Not on those terms, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-this-means-more-than-i-can-say-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. This means more than I can say, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-in-place",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. I'll go, and I won't push in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-i-ll-be-around-place-when-you-decide",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. I'll be around {place} when you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-had-come-over-with-the-look-of-someone-who-had-practiced-the-first-sentence",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} had come over with the look of someone who had practiced the first sentence.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-did-not-sit-down-even-when-offered-a-chair",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} did not sit down, even when offered a chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-owe-you-an-explanation-and-i-didn-t-want-to-give-it-over-the-phone-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I owe you an explanation, and I didn't want to give it over the phone in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-letting-me-in-i-know-what-i-did-around-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for letting me in. I know what I did around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confess.i-broke-my-word-to-you-i-m-not-going-to-pretend-i-didn-t-here-in-place",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "I broke my word to you. I'm not going to pretend I didn't, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confess.i-told-you-i-d-be-there-and-i-wasn-t-i-want-to-tell-you-why-in-place",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "I told you I'd be there, and I wasn't. I want to tell you why, in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confess.you-trusted-me-and-i-let-you-down-place-is-a-small-place-and-i-knew-it",
+      "move": "state-confess",
+      "kind": "spoken",
+      "text": "You trusted me, and I let you down. {place} is a small place, and I knew it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confess",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-name-just-tell-me-why",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why, {name}? Just tell me why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-was-so-important-that-you-broke-your-word-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What was so important that you broke your word, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-knew-what-it-meant-to-me-name-and-you-did-it-anyway",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You knew what it meant to me, {name}, and you did it anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-dress-it-up-name-you-broke-your-word",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't dress it up, {name}. You broke your word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-angry-name-but-i-can-see-this-is-hard-for-you",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm angry, {name}, but I can see this is hard for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.sit-down-name-whatever-it-was-we-can-talk-about-it",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Sit down, {name}. Whatever it was, we can talk about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-right-now-name-please-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this right now, {name}. Please go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-space-from-you-name-and-from-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some space from you, {name}, and from {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-was-scared-and-i-took-the-easy-road-that-s-all-of-it-here-in-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I was scared, and I took the easy road. That's all of it, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-thought-i-could-fix-it-before-you-found-out-i-was-wrong-in-place-of-all-places",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I thought I could fix it before you found out. I was wrong, in {place} of all places.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.you-re-right-first-i-knew-and-i-did-it-anyway-i-m-sorry",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "You're right, {first}. I knew, and I did it anyway. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.it-wasn-t-only-my-doing-think-about-how-things-stood-in-place",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "It wasn't only my doing. Think about how things stood in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-first-it-means-more-than-i-ll-say",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {first}. It means more than I'll say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.thank-you-for-telling-me-name-that-took-nerve",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Thank you for telling me, {name}. That took nerve.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-enough-name-you-were-scared-so-was-i",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not enough, {name}. You were scared? So was I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "answer"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-hear-the-rest-name-if-you-tell-me-everything-about-place",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll hear the rest, {name}, if you tell me everything about {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-think-name-i-ll-find-you-when-i-m-ready",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to think, {name}. I'll find you when I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-can-hear-that-you-mean-it-name",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I can hear that you mean it, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.then-show-me-name-fix-it-and-we-ll-see",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Then show me, {name}. Fix it, and we'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-ready-to-forgive-you-name-give-me-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not ready to forgive you, {name}. Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-put-this-on-place-name-it-was-yours",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't put this on {place}, {name}. It was yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-talking-about-it-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done talking about it, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-i-won-t-forget-that-you-listened",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I won't forget that you listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-i-ll-go-and-i-ll-be-around-place-if-you-want-me",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll go, and I'll be around {place} if you want me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-i-m-not-going-anywhere-from-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. I'm not going anywhere from {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "betrayal-explain",
+          "key": "threat",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-did-not-want-to-be-the-one-to-bring-it-up-but-did",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} did not want to be the one to bring it up, but did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-got-something-in-the-mail-from-opponent-and-i-thought-you-should-know",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I got something in the mail from {opponent}, and I thought you should know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.before-you-hear-it-elsewhere-opponent-s-people-have-been-writing-about-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before you hear it elsewhere: {opponent}'s people have been writing about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-came-in-with-a-bag-over-one-shoulder-and-stopped-in-the-hall",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -39956,10 +42412,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-name-i-hope-the-house-in-place-has-room-for-one-more",
+      "key": "scene-talk.open-greet.i-m-name-i-hope-the-house-has-room-for-one-more",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm {name}. I hope the house in {place} has room for one more.",
+      "text": "I'm {name}. I hope the house has room for one more.",
       "uses": [
         {
           "subject": "scene",
@@ -40576,10 +43032,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.then-stay-name-we-ll-make-it-work-in-place",
+      "key": "scene-talk.reply-agree.then-stay-name-we-ll-make-it-work",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Then stay, {name}. We'll make it work in {place}.",
+      "text": "Then stay, {name}. We'll make it work.",
       "uses": [
         {
           "subject": "scene",
