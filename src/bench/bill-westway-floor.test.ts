@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { floorDebateFacts } from "../director/floor-debate-facts";
+import { fitting, type Fact } from "../english/scene-talk-words";
 import { gameStartDate } from "../core2/game-start";
 import { townSeats } from "../core2/modules/offices";
 import { stateFloorHolds } from "../core2/office-day-state";
@@ -41,6 +43,35 @@ describe("a Texas House member is held for their own floor vote (Westway, seed m
             .table("choices")
             .get(`${bill}|${rep}`),
         ).toBeUndefined();
+        const debateRecord = core.durableLog.get(debate!)!;
+        const facts: Record<string, Fact> = {};
+        floorDebateFacts(
+          core,
+          facts,
+          debateRecord.facts!,
+          debate!,
+          debateRecord.facts!.forId!,
+        );
+        expect(facts.presiding?.text).toBe("Speaker");
+        expect(facts.presiding?.sourceRecordIds).toContain(
+          debateRecord.facts!.chamber,
+        );
+        for (const move of ["ask", "disagree"]) {
+          const replies = fitting(
+            {
+              purpose: "floor-debate",
+              key: "honor",
+              step: "reply",
+              role: "asked",
+              move,
+            },
+            facts,
+          );
+          expect(replies.length).toBeGreaterThan(0);
+          expect(
+            replies.some((part) => part.text.includes("councilmember")),
+          ).toBe(false);
+        }
         floorDecide(core, bill, "no");
         const chosen = api
           .moduleState("core2-legislature-v1")
