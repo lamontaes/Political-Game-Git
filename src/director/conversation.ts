@@ -5614,14 +5614,15 @@ function ownViewComesUp(
   row: Pick<Subject, "weight" | "news">,
 ): boolean {
   const question = row.news?.question;
-  // Right after an address point, the listener's own view on that very point
-  // is the first related subject (CTO, Nov 19 10:48Z on #9750).
-  const afterPoint = subjectKindOf(conversation.topics[zero] ?? "") === POINT;
+  // Not on a question an address point of this talk already made: right after
+  // the point they have given their side, and raising it again restates a
+  // stand a turn later and asks the player the same thing twice (Story lead,
+  // Nov 24, on #9750: the first evening's trapped replies).
   return (
     !!(row.weight ?? zero) &&
     !!question &&
     (conversation.questions ?? []).includes(question) &&
-    (afterPoint || !(conversation.pointed ?? []).includes(question))
+    !(conversation.pointed ?? []).includes(question)
   );
 }
 
