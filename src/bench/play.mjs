@@ -91,7 +91,6 @@ import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billFigures } from "./ui/bill-figures.mjs";
-import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -4673,8 +4672,9 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
-    // "Since last year ... up by ..." from the record's own change, and its history as a line
-    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    // "Since last year ... up by ..." from the record's own change, set beside last year's
+    // figure (Nation's budgetView: changeMinor, changePct); never computed here. No little
+    // chart (owner, Nov 5: data, never charts).
     const pctFormat = new Intl.NumberFormat("en-US", {
       style: "percent",
       maximumFractionDigits: 1,
@@ -4695,10 +4695,6 @@ const sheets = {
                   : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
               );
       return [typedRow(words.sinceLastYear, how)];
-    };
-    const history = (record, size) => {
-      const line = trendLine(record?.history, size);
-      return line ? [line] : [];
     };
     // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
@@ -4767,7 +4763,6 @@ const sheets = {
                     ),
                     ...lastYear(lastOf(prior?.spending, opened.line)),
                     ...sinceLast(opened),
-                    ...history(opened),
                     ...(opened.askedMinor !== undefined
                       ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                       : []),
@@ -4783,11 +4778,9 @@ const sheets = {
               typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
               ...lastYear(prior?.revenueMinor),
               ...sinceLast(latest.totals?.revenue, { short: true }),
-              ...history(latest.totals?.revenue, { height: 36 }),
               typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
               ...lastYear(prior?.spendingMinor),
               ...sinceLast(latest.totals?.spending, { short: true }),
-              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
